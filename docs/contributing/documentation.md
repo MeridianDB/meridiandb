@@ -127,8 +127,11 @@ those inputs does not rebuild the site. Pull requests and other branches do not
 publish. **Actions → Publish documentation → Run workflow** on `main` remains
 available for a manual rebuild without a new source change.
 
-The build job reads the existing Pages configuration, installs the locked
-dependencies, builds with `zensical build --strict --clean` and uploads `site/`.
+The build job reads the existing Pages configuration and combines `https://` with
+its host and base path for `DOCS_SITE_URL`. This preserves the configured domain
+and project path while keeping canonical and sitemap URLs on HTTPS, even if Pages
+origin metadata reports HTTP. It installs the locked dependencies, builds with
+`zensical build --strict --clean` and uploads `site/`.
 The deployment job requires that build to succeed and holds Pages write and
 identity-token permissions. The separate **Documentation checks** workflow runs
 in parallel; publication is gated by its own strict production build, not by the

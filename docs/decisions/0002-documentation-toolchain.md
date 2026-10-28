@@ -66,6 +66,12 @@ adds filtered pushes to `main` while preserving its strict build, deployment
 permissions and manual rebuild option. Earlier progress receipts describe the
 then-current manual policy; this update supersedes that policy.
 
+The first automatic deployment passed, but its live HTML exposed HTTP canonical
+URLs on the HTTPS site. Construct the production URL with explicit HTTPS and the
+Pages host/base-path outputs, preserving the configured domain and project path.
+A successful workflow alone is insufficient publication evidence; check live
+metadata as well as content.
+
 ## Evidence checked on 2026-10-28
 
 - [Zensical migration and classic theme](https://zensical.org/docs/compatibility/mkdocs/migration/)
@@ -75,3 +81,4 @@ then-current manual policy; this update supersedes that policy.
 - [Cloudflare static HTML hosting](https://developers.cloudflare.com/pages/framework-guides/deploy-anything/)
 - [GitHub Pages custom build/deploy workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 - [GitHub Actions branch and path filters](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)
+- [Pinned configure-pages host and base-path outputs](https://github.com/actions/configure-pages/blob/45bfe0192ca1faeb007ade9deae92b16b8254a0d/action.yml)

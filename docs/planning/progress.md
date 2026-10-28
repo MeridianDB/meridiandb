@@ -128,6 +128,28 @@ and live-content verification are reported in the task handoff after pushing.
 
 **Next recommendation:** MDB-0003 — establish the Java and Maven build foundation.
 
+## 2026-10-28 — HTTPS publication URL repair
+
+**Finding:** automatic publication was activated in commit `b598b22`. Both
+Documentation checks and the first push-triggered
+[Publish documentation run](https://github.com/MeridianDB/meridiandb/actions/runs/40739465632)
+succeeded, and new content was live. A subsequent live metadata check found
+`http://meridiandb.org/...` canonical URLs despite successful HTTPS serving.
+
+**Repair:** construct `DOCS_SITE_URL` from explicit HTTPS plus the pinned
+configure-pages action's verified `host` and `base_path` outputs. Preserve the
+configured host/project path, reconcile agent/website guidance and ADR 0002, and
+retain live URL/sitemap checks as completion evidence. This is follow-through on
+the same automatic-publication request; the engine queue remains unchanged.
+
+**Validation:** four URL-construction cases cover HTTP/HTTPS origin metadata for
+custom-domain and project-path layouts. Strict builds and generated URL/link
+checks pass for both layouts with HTTPS canonical/sitemap URLs on all 14 content
+pages. The repair's automatic deployment and live metadata checks are reported in
+the final handoff. No repository domain setting or DNS change is needed.
+
+**Next recommendation:** MDB-0003 — establish the Java and Maven build foundation.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

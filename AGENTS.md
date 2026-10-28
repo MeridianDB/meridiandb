@@ -123,9 +123,9 @@ so a new session can work correctly without relying on earlier conversations.
   Add `hreflang` alternates only with actual translated or regional content.
 - The docs-checks workflow validates only. The docs-publish workflow builds and
   publishes documentation changes pushed to `main`; it also retains manual dispatch
-  from `main` for a rebuild. Derive the URL from Pages metadata and publish only after
-  its strict build succeeds. GitHub Pages is the initial host; changing the generator
-  and changing the host are separate decisions. Cloudflare deployments remain
+  from `main` for a rebuild. Build the HTTPS URL from Pages host/base-path metadata
+  and publish only after its strict build succeeds. GitHub Pages is the initial
+  host; changing the generator and changing the host are separate decisions. Cloudflare deployments remain
   owner-performed; automatic GitHub Pages publication does not change that policy.
 - Keep `.venv/`, `.cache/`, `site/`, Python caches and `.local-qa/` untracked.
   Store durable review evidence in tracked documentation when it adds lasting value.
