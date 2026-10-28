@@ -96,6 +96,9 @@ so a new session can work correctly without relying on earlier conversations.
   and explicit evidence-before-truncation repair. Reserve same-JVM ownership before
   opening another same-file channel; distinguish file force from directory-entry
   durability. Preserve incomplete/corrupt evidence and test changed I/O boundaries.
+  In journal tests, inspect raw file bytes after closing the owning adapter; use
+  replay/counters while open. A second read handle can be blocked by Windows locks
+  and its close can release the owning JVM's POSIX locks.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

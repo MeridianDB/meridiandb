@@ -180,13 +180,15 @@ class LocalJournalTest {
                 assertEquals(original.length, repair.originalSize());
                 assertArrayEquals(suffix, Files.readAllBytes(repair.evidence()));
                 assertFalse(repair.evidence().equals(path));
-                assertArrayEquals(valid, Files.readAllBytes(path));
+                assertEquals(valid.length, journal.appendedBytes());
                 assertEquals(1, journal.appendedSequence());
                 assertEquals(1, journal.forcedSequence());
                 assertEquals(valid.length, journal.forcedBytes());
                 journal.append(SECOND);
                 assertEquals(List.of(FIRST, SECOND), replay(journal));
             }
+            // Inspect through a second handle only after releasing the journal's lock.
+            assertArrayEquals(concat(valid, frame), Files.readAllBytes(path));
             try (var journal = LocalJournal.open(path)) {
                 assertEquals(Optional.empty(), journal.repair());
                 assertEquals(List.of(FIRST, SECOND), replay(journal));

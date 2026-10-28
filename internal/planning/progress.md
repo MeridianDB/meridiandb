@@ -602,6 +602,30 @@ segments, manifests, compaction, rotation, object backend or performance claim i
 implemented. MDB-0007 — implement versioned immutable segments and manifests,
 including explicit namespace publication and referenced journal-prefix rules.
 
+## 2026-10-28 MDB-0016 — Windows verification repair
+
+Initial completion `bdf86a039b1d2c01941500a70397c770d1a731ef` reached remote `main`.
+Linux Java/example checks, both documentation URL layouts and Pages deployment
+succeeded. Windows passed the process/codec/engine checks but failed one local
+repair test because that test opened a second raw read handle while the journal
+held its exclusive lock. The Windows log reports the byte-range lock violation
+at `LocalJournalTest.explicitRepairPreservesEveryCandidateByteBeforeTruncating`.
+This was an invalid test access pattern, not a failed repair operation. Closing
+such a second handle also risks releasing the original OS lock on POSIX systems.
+
+Keep the owning instance's replay/counter assertions while open. Move exact raw
+byte inspection after close and compare the entire retained prefix plus appended
+frame, preserving the original evidence/prefix assertions. Persist this testing
+rule in AGENTS. No production behavior, codec format, dependencies or public page
+content changes. Current-step Maven metadata research remains applicable; all pins
+are unchanged. The focused local suite passes 35 cases after the correction;
+repeat Linux/Windows verification in CI and report actual results before advancing.
+
+The repair commit retains `Step-ID: MDB-0016` and `Step-Result: completed`, with
+`Repairs-Commit: bdf86a0`. Queue source state and MDB-0007's ready dependency remain
+unchanged; finish this attributable delivery repair before starting it. The prior
+successful Pages deployment still serves identical public documentation.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
