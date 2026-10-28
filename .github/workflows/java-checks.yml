@@ -14,6 +14,7 @@ on:
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
+      - 'docs/architecture/immutable-segment-format.md'
       - 'docs/development/local-journal.md'
       - '.github/workflows/java-checks.yml'
   push:
@@ -30,6 +31,7 @@ on:
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
+      - 'docs/architecture/immutable-segment-format.md'
       - 'docs/development/local-journal.md'
       - '.github/workflows/java-checks.yml'
 
@@ -68,6 +70,8 @@ jobs:
       - name: Verify with the pinned Maven Wrapper
         run: ${{ matrix.command }}
       - name: Run the embedded Java example
-        run: |
-          java --class-path target/classes examples/EmbeddedExample.java
-          java --class-path target/classes examples/LocalJournalExample.java
+        run: java --class-path target/classes examples/EmbeddedExample.java
+      - name: Run the local journal example
+        run: java --class-path target/classes examples/LocalJournalExample.java
+      - name: Run the immutable segment example
+        run: java --class-path target/classes examples/SegmentCodecExample.java

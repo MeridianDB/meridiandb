@@ -18,6 +18,7 @@ permanent commitment.
 | [0006: In-memory engine](0006-in-memory-engine.md) | Implemented; experimental | Immutable interval snapshots, serialized publication, pinned views and explicit close behavior |
 | [0007: Journal format](0007-journal-format.md) | Pure codec implemented | Versioned bounded framing, exact identity, checksums and strict incomplete/corrupt input handling |
 | [0008: Local journal](0008-local-journal.md) | Implemented; experimental | Exclusive local writer, append/force cutoffs, bounded replay and explicit evidence-preserving tail repair |
+| [0009: Immutable history segments](0009-immutable-segment-format.md) | Pure codec implemented | Exact transaction ranges, bounded immutable objects, integrity footer and full-object identifiers |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

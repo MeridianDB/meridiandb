@@ -177,7 +177,8 @@ Current Java verification command, using the tracked Maven Wrapper and JDK 25:
 
 This runs temporal type/boundary checks, canonical histories against both reference
 and embedded engine, seeded dense-state comparisons, focused engine
-lifecycle/concurrency, journal codec and local I/O/process checks. Journal force
+lifecycle/concurrency, journal codec, local I/O/process and immutable segment codec
+checks. Journal force
 and process-restart evidence do not establish durable engine recovery or portable
 namespace/power-loss guarantees.
 Follow the [reference guide](../../docs/development/reference-model.md) and

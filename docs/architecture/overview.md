@@ -6,14 +6,15 @@ description: Explore MeridianDB's memory engine, journal codec, researched immut
 
 MeridianDB has an experimental memory-only embedded engine. Its API remains
 unstable; the transaction journal codec has an experimental format, while an
-immutable query-segment format remains unselected. This page describes the
-working direction and the questions the storage prototype still needs to resolve.
+immutable history-segment codec preserves exact transactions. Query-optimized
+layouts remain open. This page describes the working direction and the questions
+the storage prototype still needs to resolve.
 
 ## Start with Java and JVM embedding
 
-Java is the default for the initial engine and correctness reference model. The
-maintainer's familiarity with Java supports code review, debugging and long-term
-maintenance, and it fits the initial assumption of in-process JVM embedding.
+Java is the default for the initial engine and correctness reference model. It
+supports direct JVM embedding, static checking and one build/debugging environment
+for the temporal model and storage prototype.
 The [Java/Maven foundation](../development/build.md) now uses Java 25, a pinned
 Maven Wrapper and immutable experimental temporal types. The
 [test-only reference model](../development/reference-model.md) executes canonical
@@ -47,8 +48,10 @@ Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
 does not select the others. Local files and S3-compatible object storage are
 research targets. The [transaction journal codec](journal-format.md) and
-[local file adapter](../development/local-journal.md) are implemented; object
-storage and immutable query segments remain planned.
+[local file adapter](../development/local-journal.md) are implemented. The
+[immutable history-segment codec](immutable-segment-format.md) adds complete-object
+validation and content identity; local segment files, manifests, object storage
+and optimized query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 
@@ -74,8 +77,8 @@ whose answers change after a retroactive correction.
 ## Development direction
 
 The [technical roadmap](../roadmap.md) progresses from the implemented memory
-engine and local journal to immutable segments, durable engine recovery
-and workload measurements. The initial engine serializes writes within one JVM;
+engine, local journal and immutable history codec to local segment files,
+manifest publication, durable engine recovery and workload measurements. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 
 ## Establish correctness before optimizing

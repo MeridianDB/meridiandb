@@ -78,7 +78,10 @@ needs its own contract and compatibility decision.
 The [journal format and codec](journal-format.md) implement bounded, complete
 transaction frames. The [local adapter](../development/local-journal.md) adds append/force,
 writer exclusion, sequential recovery and explicit evidence-preserving tail repair.
-Immutable segments and manifests will provide a durable checkpoint for engine recovery.
+The [immutable history codec](immutable-segment-format.md) preserves original
+transaction ranges with complete-object integrity and expected content identifiers.
+Local immutable files and manifests must still establish a durable checkpoint for
+engine recovery.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

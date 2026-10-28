@@ -32,7 +32,10 @@ A [pure journal codec](architecture/journal-format.md) now validates versioned
 transaction frames. [Comparable-system research](architecture/storage-research.md)
 guides storage choices. The separate [local journal](development/local-journal.md)
 now adds exclusive writer access, append/force, bounded replay and explicit tail
-repair. Durable engine integration and layout experiments remain planned.
+repair. The [immutable history codec](architecture/immutable-segment-format.md)
+preserves exact transaction ranges and verifies complete object identifiers.
+Local segment files, manifests, durable engine integration and layout experiments
+remain planned.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

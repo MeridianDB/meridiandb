@@ -626,6 +626,101 @@ The repair commit retains `Step-ID: MDB-0016` and `Step-Result: completed`, with
 unchanged; finish this attributable delivery repair before starting it. The prior
 successful Pages deployment still serves identical public documentation.
 
+## 2026-10-28 MDB-0018 — Immutable segment format and codec
+
+**Decomposition and outcome:** retain MDB-0007's original segment/manifest outcome
+and criteria; expand it into three required children: MDB-0018 pure history format
+and codec, MDB-0019 local immutable segment I/O/lifetimes, and MDB-0020 manifest
+consistency/publication. Each inherits MDB-0006; I/O depends on the format and
+manifest publication follows I/O. MDB-0008 continues to depend on the entire
+parent. Complete only MDB-0018 in this invocation; MDB-0007 remains expanded.
+
+Implement `ImmutableSegment`, `SegmentId`, typed `SegmentFormatException` and pure
+`SegmentCodec`. Preserve a nonempty internally contiguous range beginning at any
+positive sequence, exact lineage, original request/operation identity and valid-time
+bounds. The immutable list gives a simple ordered scan baseline. No flattening,
+compaction, query-index selection or global cross-segment uniqueness is implied.
+
+The v1 envelope reuses exact journal lineage headers and transaction frames,
+adding first/last/count/body length, header CRC32C and a SHA-256 integrity footer
+over header+body. The external ID separately hashes the entire image including
+that footer. Strict decoding verifies complete bytes, nested formats and history
+before exposing a value; no partial prefix or incomplete-tail repair exists for
+finalized segments. An independently expected ID must match. Byte/count/nested
+limits are checked before allocations from them. The 32 MiB budget bounds encoding,
+not total heap; decoded operations/identities and temporary buffers add memory.
+
+Factor `JournalCodec.encodedRecordBytes` from its existing size validation so
+aggregate segment preflight allocates neither each frame body nor the whole image
+before rejecting excess. Existing encoding bytes, framing limits and decoder
+behavior remain unchanged; the 29 journal codec checks pass.
+
+**Primary research:** fresh October 28 reads of all twelve Central metadata sources
+and official Maven/plugin, JUnit and Jackson compatibility information confirm
+existing stable pins unchanged. Preview Maven/plugin 4.x entries remain unselected.
+There is no new dependency; JDK SHA-256/CRC32C supply integrity/identity. The POM's
+description now includes the codec. Current artifact coordinates/latest-versus-
+selected versions and sources remain in the public build guide.
+
+Lucene CodecUtil/SegmentInfos, Quickwit split/checkpoint publication and XTDB
+finalized-file/log alignment sources informed the separation of complete-object
+integrity, expected identity and checkpoint publication. ADR 0009 dates these
+facts and distinguishes MeridianDB's SHA-256 representation choice from another
+product's algorithms. Manifest publication and namespace durability remain future
+work; neither bytes nor a digest establish an acknowledged durable database.
+
+**Validation:** `./mvnw -B -ntp verify` passes 165 JUnit invocations with zero
+failures, errors or skips: 27 independent segment cases plus the previous 138
+codec/local-I/O/process/temporal/reference/engine cases. The new suite fixes a
+158-byte independently constructed golden image, footer and full-object ID;
+checks every truncation and single-byte mutation; re-signs malformed nested
+versions/fields/checksums; checks identity/order/range/count/history mismatches,
+exact Unicode/lone surrogates, finite/infinite distinctions and numeric extremes;
+round-trips 65,536 actual records and rejects the next; checks declared size
+boundaries and aggregate encode preflight using shared near-limit transactions;
+and verifies input/output/list ownership and external ID binding.
+
+The first focused run exposed classification disagreement for complete-envelope
+missing/trailing frame bytes. Classify those structural failures as CORRUPT,
+consistent with partial nested items inside a complete object. Sequence/request/
+range failures retain INVALID_HISTORY. All 27 cases and full verification then
+pass. Independent production and public-spec/ADR review found no remaining
+material issue. Contract fixture answers, seeds and prior storage behavior are
+unchanged; this is representation evidence, not durable engine conformance.
+
+All three Java examples run: memory temporal queries/retry, local journal
+append/force/reopen, and exact segment round-trip with expected full-object ID.
+CI runs each as an independent step on Linux/Windows, and Java checks trigger for
+the new format contract. The local JAR contains 52 Java25 production classes,
+including compiler-generated support, with no bundled test reference, fixtures,
+seeds, JUnit or Jackson. SHA-256 is
+`6556be7eec49a0065e258d351d1ce9e60d23eb902035c75754b79f4dee8e69f2`.
+
+**Documentation and handoff:** update README, agent rules, public home/architecture,
+research, development/reference/engine guides, decision index and technical roadmap
+with pure segment codec versus planned local files/manifests. Remove inherited
+personal-language rationale from the affected architecture page. Publish the
+exact byte specification and ADR with portable Markdown; private decomposition,
+receipts and execution state stay under `internal/`. Checked builds pass for both
+custom-domain and project-path URLs, with 24 public content pages and complete
+source/metadata/link/search/sitemap QA. Local HTTP/browser inspection covers the
+new page, layout/tables/code, navigation and search. Theme/assets are unchanged.
+Queue IDs, references, parent children and dependency cycles plus repository links
+and staged scope are checked before commit. Scratch outputs remain ignored under
+`.local-qa/mdb-0018/`.
+
+**Prerequisite and delivery:** `490f8abc97b68f4d3f3dc1c13f751197d802dbd0` was
+verified on remote `main` with Java Linux/Windows/example success. Its initial
+implementation `bdf86a039b1d2c01941500a70397c770d1a731ef` supplied the unchanged
+successful documentation checks/Pages publication. This step's completion commit
+uses `Step-ID: MDB-0018` and `Step-Result: completed`; Git supplies SHA and remote
+ancestry. The final handoff reports actual push, CI, automatic Pages and live
+content/search/sitemap evidence. No library artifact is uploaded or released.
+
+**Next recommendation at this checkpoint:** MDB-0019 — implement local immutable
+segment I/O, exact expected-ID verification and explicit reader lifetimes. Keep
+MDB-0007 expanded until this child, MDB-0020 and original parent criteria pass.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

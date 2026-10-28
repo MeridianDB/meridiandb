@@ -13,7 +13,10 @@ the canonical contract histories and seeded checks alongside the
 [embedded in-memory engine](embedded-engine.md) in `org.meridiandb.engine`.
 The engine is experimental and memory-only. The journal codec and
 [local file adapter](local-journal.md) in `org.meridiandb.storage.journal` provide
-bounded append, force and replay independently of that engine. No library is published.
+bounded append, force and replay independently of that engine. The pure
+[immutable history codec](../architecture/immutable-segment-format.md) adds exact
+segment bytes and content identity; local segment publication is not implemented.
+No library is published.
 
 ## Build and verify
 
@@ -58,8 +61,8 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 138 test invocations include 29 journal codec checks, 38 local
-journal I/O/process checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
+The current 165 test invocations include 27 immutable segment codec checks,
+29 journal codec checks, 38 local journal I/O/process checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
 engine lifecycle/concurrency checks. Each implementation executes 84 exact fixture
@@ -141,7 +144,9 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for the local journal work on October 28; the selected versions remain unchanged.
+for the immutable segment work on October 28; the selected versions remain
+unchanged. The segment codec uses standard JDK SHA-256 and CRC32C with no new
+dependency.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |

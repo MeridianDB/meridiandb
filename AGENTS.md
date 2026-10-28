@@ -13,7 +13,9 @@ so a new session can work correctly without relying on earlier conversations.
   [Java build guide](docs/development/build.md), [engine guide](docs/development/embedded-engine.md)
   and use `./mvnw -B verify`. The journal codec and
   [local adapter](docs/development/local-journal.md) implement append/force,
-  exclusive ownership and sequential replay; durable engine integration remains planned.
+  exclusive ownership and sequential replay. The [immutable history segment codec](docs/architecture/immutable-segment-format.md)
+  validates exact transaction ranges and whole-object identity; local segment I/O,
+  manifests and durable engine integration remain planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -99,6 +101,12 @@ so a new session can work correctly without relying on earlier conversations.
   In journal tests, inspect raw file bytes after closing the owning adapter; use
   replay/counters while open. A second read handle can be blocked by Windows locks
   and its close can release the owning JVM's POSIX locks.
+- Follow the [immutable segment specification](docs/architecture/immutable-segment-format.md):
+  preserve original temporal history and identity, validate the complete object,
+  distinguish the integrity footer from the full-object content ID, and reject all
+  incomplete/corrupt objects without returning a prefix. Enforce nested and aggregate
+  limits before allocating. Local readers/manifests must later bind expected IDs,
+  lineage, ranges and the included journal prefix; codec success is not publication.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

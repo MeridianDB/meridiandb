@@ -12,23 +12,21 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: **none**. MDB-0016's local journal source outcome is complete.
-- The adapter has exclusive cooperating writer access, separate appended/forced
-  cutoffs, bounded sequential recovery and explicit evidence-preserving tail repair.
-  Maven verification passes 138 tests, including 38 local I/O/process checks.
-- MDB-0006 is **done**: both required children and the original journal criteria
-  pass within the documented local filesystem assumptions. Directory-entry
-  persistence and power-loss behavior are not inferred from file force or process
-  exit tests. The embedded engine remains memory-only.
-- **MDB-0007 is ready** after verifying MDB-0016's completion on remote `main` and
+- Active executable item: **none**. MDB-0018's source acceptance is complete.
+- The immutable history codec preserves exact original transaction ranges, rejects
+  incomplete/corrupt whole objects and validates separate footer/full-object hashes.
+  Maven verification passes 165 tests, including 27 independent segment cases.
+- MDB-0007 remains **expanded** with required MDB-0018 done, MDB-0019 ready and
+  MDB-0020 queued. Original parent criteria and MDB-0008's dependency remain intact.
+- **MDB-0019 is ready** after verifying MDB-0018's completion on remote `main` and
   Java Linux/Windows/examples, documentation checks and automatic Pages publication.
-  Resolve attributable delivery failures before advancing.
-- MDB-0017 completion `81724d6` was verified on remote `main` with all relevant
-  workflows successful before this step. Use the [progress history](progress.md)
-  and completion trailers for exact source/delivery evidence.
-- Next, define immutable segment/manifest publication and its platform-specific
-  namespace assumptions. Durable engine integration and acknowledgement recovery
-  remain MDB-0008.
+  Resolve attributable delivery failures before claiming the next child.
+- MDB-0018 supplies byte-array types/codec only; no local immutable files, reader
+  lifetimes, manifests, checkpoint durability or engine persistence is implemented.
+- MDB-0016 completion/repair `bdf86a0` / `490f8ab` were verified on remote `main`
+  before selection. The repair's Java Linux/Windows/examples passed; its predecessor's
+  unchanged public documentation checks and Pages publication passed.
+- Use the [progress history](progress.md) and completion trailers for exact evidence.
 
 ## Ordered work
 
@@ -43,7 +41,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0015](roadmap.md#mdb-0015-journal-format-and-codec) | Specify and implement the bounded journal format and codec | MDB-0006 | done | MDB-0005 |
 | [MDB-0017](roadmap.md#mdb-0017-public-documentation-quality) | Establish and apply public documentation QA | — | done | MDB-0015 |
 | [MDB-0016](roadmap.md#mdb-0016-local-journal-io-and-recovery) | Implement local journal append, sync, ownership and recovery | MDB-0006 | done | MDB-0005, MDB-0015, MDB-0017 |
-| [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | ready | MDB-0006 |
+| [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | expanded | MDB-0006 |
+| [MDB-0018](roadmap.md#mdb-0018-immutable-segment-format-and-codec) | Specify and implement immutable history segment format and codec | MDB-0007 | done | MDB-0006 |
+| [MDB-0019](roadmap.md#mdb-0019-local-immutable-segment-io) | Implement local immutable segment I/O and reader lifetimes | MDB-0007 | ready | MDB-0006, MDB-0018 |
+| [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | queued | MDB-0006, MDB-0019 |
 | [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | queued | MDB-0007 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |

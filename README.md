@@ -13,7 +13,9 @@ embedded engine, immutable temporal types, an independent test reference and a
 runnable embedding example. The engine implements the initial numeric temporal
 contract and remains nonpersistent. A separate local journal supports append,
 force, exclusive writer access and bounded replay; it is not yet integrated with
-the engine. There is no published library or stable API.
+the engine. An immutable history-segment codec preserves exact transaction ranges
+in bounded, checksummed byte images. Local segment files and manifest publication
+remain planned. There is no published library or stable API.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -69,7 +71,8 @@ MergeTree-like organization is a candidate storage technique. These choices are
 related but separate. Snapshot history also remains distinct from bitemporal
 history. The [transaction journal format](docs/architecture/journal-format.md) now
 has a tested codec and [local file adapter](docs/development/local-journal.md);
-an immutable query-segment format remains unselected. The
+a [history-segment codec](docs/architecture/immutable-segment-format.md) now reuses
+those exact transaction frames. Query-optimized layouts remain open. The
 [storage research](docs/architecture/storage-research.md) compares XTDB, Kafka,
 RocksDB, Lucene/Elasticsearch, Quickwit and ClickHouse, keeping durable append,
 index publication and query visibility distinct.
@@ -84,7 +87,8 @@ without committing to a public API.
 ## Development roadmap
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
-local journal, followed by immutable segments, durable engine recovery,
+local journal and history-segment codec, followed by local immutable files,
+manifest publication, durable engine recovery,
 temporal query operators, history-preserving compaction, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
@@ -103,8 +107,9 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 138 JUnit test invocations: 71 temporal/engine checks, 29 journal codec
-checks and 38 local journal I/O/process checks. Coverage includes all 84 contract expectations against
+This runs 165 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+38 local journal I/O/process and 27 immutable segment codec checks. Coverage
+includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
 evidence and separate-process writer exclusion/recovery.

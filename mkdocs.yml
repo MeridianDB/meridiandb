@@ -56,6 +56,7 @@ nav:
       - Temporal contract: architecture/temporal-contract.md
       - Immutable storage research: architecture/storage-research.md
       - Journal format: architecture/journal-format.md
+      - Immutable segment format: architecture/immutable-segment-format.md
       - Decision records: decisions/index.md
       - Language strategy: decisions/0001-language-strategy.md
       - Documentation toolchain: decisions/0002-documentation-toolchain.md
@@ -65,6 +66,7 @@ nav:
       - In-memory engine: decisions/0006-in-memory-engine.md
       - Journal format decision: decisions/0007-journal-format.md
       - Local journal decision: decisions/0008-local-journal.md
+      - Immutable segment decision: decisions/0009-immutable-segment-format.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

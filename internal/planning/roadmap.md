@@ -216,6 +216,58 @@ unsupported files are detected, publication failures do not expose an invalid
 manifest, and immutable data ownership/lifetimes are explicit. Preserve a simple
 scan path usable as a correctness baseline.
 
+**Required children:** MDB-0018 establishes exact immutable history bytes and
+identifiers; MDB-0019 implements local file I/O and read lifetimes; MDB-0020 adds
+manifest consistency and atomic/durable publication under explicit local platform
+assumptions. Keep the parent expanded until all children and original integration
+criteria pass. A pure codec is not a durable checkpoint.
+
+## MDB-0018 Immutable segment format and codec
+
+**Outcome:** choose a minimal versioned history-segment representation in an ADR.
+Preserve lineage and original ordered transaction frames, contiguous first/last
+sequences and request identity; retain a simple scan baseline without flattening
+away valid/system history. Implement immutable Java types, bounded pure encoding
+and strict whole-object decoding, checksums and verified content identifiers.
+
+**Complete when:** exact records/intervals/identities round-trip, independent golden
+bytes fix the format, all truncated or corrupted objects fail closed without a
+partial prefix, unsupported versions/history/resource violations are rejected,
+expected-ID mismatches are detected and input/output ownership is explicit.
+No local file publication, manifest, durable engine or performance claim is supplied.
+
+**Produced artifacts:** [segment format](../../docs/architecture/immutable-segment-format.md),
+[ADR 0009](../../docs/decisions/0009-immutable-segment-format.md), immutable segment/ID
+values, bounded pure `SegmentCodec`, independent golden/corruption/history/resource
+checks and a runnable byte-codec example. Ownership is heap-based; local file and
+manifest publication remain required children.
+
+## MDB-0019 Local immutable segment I/O
+
+**Outcome:** write and reopen versioned immutable segment files using MDB-0018,
+with bounded I/O, exact expected identifier validation and explicit reader/owner
+lifetimes. Preserve a simple sequential scan path and retain referenced objects;
+never modify a published segment in place.
+
+**Complete when:** file readers recover exact records and intervals, short/failed
+I/O and malformed/missing/changed objects are checked, identifiers bind complete
+contents and close/error behavior is tested. State local filesystem and namespace
+assumptions. Manifest publication remains MDB-0020.
+
+## MDB-0020 Checkpoint manifest and publication
+
+**Outcome:** define a versioned manifest naming a consistent immutable segment set,
+lineage and exact included journal prefix. Implement local atomic/durable
+publication with explicit namespace assumptions and failure handling. Preserve
+older readers/referenced segments; retain journal history until an explicit
+recovery/retention policy permits reclamation.
+
+**Complete when:** reopened manifests resolve only complete verified objects,
+identity/range/prefix consistency is checked, publication failures expose only
+permitted complete generations, sync and namespace boundaries have focused failure
+checks, and ownership/lifetimes are explicit. Complete all MDB-0007 criteria before
+closing it; durable engine acknowledgement/recovery remains MDB-0008.
+
 ## MDB-0008 Durable engine and recovery
 
 **Outcome:** integrate the journal, segments and manifests with the embedded engine.

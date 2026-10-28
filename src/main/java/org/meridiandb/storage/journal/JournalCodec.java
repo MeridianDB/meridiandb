@@ -60,10 +60,11 @@ public final class JournalCodec {
         return database;
     }
 
-    public static byte[] encodeRecord(JournalRecord record) {
+    /** Validate limits and compute exact frame bytes before allocating output. */
+    public static int encodedRecordBytes(JournalRecord record) {
         Objects.requireNonNull(record, "record");
         var request = record.transaction();
-        int count = operationCount(request.operations().size());
+        operationCount(request.operations().size());
         long size = Long.BYTES + stringSize(request.requestId().value()) + Integer.BYTES;
         for (var operation : request.operations()) {
             var interval = operation.interval();
@@ -75,7 +76,13 @@ public final class JournalCodec {
                 throw failure(JournalFormatException.Code.LIMIT_EXCEEDED, "Transaction payload exceeds journal v1 limit");
             }
         }
-        int payloadBytes = Math.toIntExact(size);
+        return PREFIX_BYTES + Math.toIntExact(size) + Integer.BYTES;
+    }
+
+    public static byte[] encodeRecord(JournalRecord record) {
+        int payloadBytes = encodedRecordBytes(record) - PREFIX_BYTES - Integer.BYTES;
+        var request = record.transaction();
+        int count = request.operations().size();
         var output = ByteBuffer.allocate(PREFIX_BYTES + payloadBytes + Integer.BYTES);
         output.putInt(RECORD_MAGIC).putInt(VERSION).putInt(payloadBytes);
         output.putInt(checksum(output, 0, 12));
