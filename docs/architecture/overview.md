@@ -15,11 +15,11 @@ maintainer's familiarity with Java supports code review, debugging and long-term
 maintenance, and it fits the initial assumption of in-process JVM embedding.
 Maven is the chosen Java build tool. The JDK baseline and Maven Wrapper will be
 established with the first Java implementation; the documentation site has a
-separate npm build.
+separate Python build.
 
 Other languages remain options for bounded experiments or concrete integration
 needs. They are not promised modules or current dependencies. The
-[language strategy](/decisions/0001-language-strategy) records the alternatives
+[language strategy](../decisions/0001-language-strategy.md) records the alternatives
 and conditions for revisiting this decision.
 
 ## Separate the decisions
@@ -31,7 +31,7 @@ and conditions for revisiting this decision.
 | Physical layout and indexes | How are those facts organized for efficient access? |
 | Persistence backend | Which reads, writes and publication guarantees are available? |
 
-The [temporal data examples](/concepts/temporal-data) are a starting point for
+The [temporal data examples](../concepts/temporal-data.md) are a starting point for
 the first layer. A physical optimization must preserve those answers, including
 after recovery and compaction.
 

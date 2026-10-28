@@ -24,7 +24,13 @@ hs_err_pid*
 replay_pid*
 
 # Documentation tooling and generated site
-node_modules/
-docs/.vitepress/cache/
-docs/.vitepress/dist/
+.venv/
+.cache/
+site/
+__pycache__/
+*.py[cod]
 .local-qa/
+
+# Local output left by the historical documentation scaffold
+node_modules/
+docs/.vitepress/

@@ -71,5 +71,5 @@ contract promises.
 
 The next specification work is to define partial corrections, retractions,
 overlaps, duplicate requests and transaction visibility through worked examples.
-See the [architecture overview](/architecture/overview) for the proposed route
+See the [architecture overview](../architecture/overview.md) for the proposed route
 from these semantics to a durable implementation.

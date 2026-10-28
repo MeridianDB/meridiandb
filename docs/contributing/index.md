@@ -9,9 +9,9 @@ not implemented, and there is no engine artifact or stable API to integrate with
 Contributions are most useful when they turn an open design question into a small,
 reviewable result with explicit evidence.
 
-Start with the [architecture overview](/architecture/overview),
-[temporal examples](/concepts/temporal-data) and
-[language decision](/decisions/0001-language-strategy). Repository contributors
+Start with the [architecture overview](../architecture/overview.md),
+[temporal examples](../concepts/temporal-data.md) and
+[language decision](../decisions/0001-language-strategy.md). Repository contributors
 and coding agents should also read `AGENTS.md` at the repository root.
 
 ## Useful contributions now
@@ -32,35 +32,39 @@ language decision.
 
 ## Run the documentation locally
 
-Use Node.js 24 for the documentation tooling. Run each command from the
-repository root. Install the locked dependencies first:
+Use Python 3.13 (recorded in `.python-version`) and run commands from the repository
+root. Create an isolated environment and install the hash-checked dependencies:
 
 ```bash
-npm ci
+python3 -m venv .venv
 ```
 
-Start the development server and open the local URL it prints:
-
 ```bash
-npm run docs:dev
+.venv/bin/python -m pip install --require-hashes -r requirements-docs.txt
 ```
 
-Build the documentation before submitting a change:
+Start the local preview with automatic rebuilding:
 
 ```bash
-npm run docs:build
+.venv/bin/zensical serve --dev-addr 127.0.0.1:8000
 ```
 
-Preview that production build locally:
+Build the static site and fail on reported documentation issues:
 
 ```bash
-npm run docs:preview
+.venv/bin/zensical build --strict
+```
+
+Preview the generated `site/` directory separately:
+
+```bash
+.venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory site
 ```
 
 These commands operate on the documentation site. Maven is selected for the Java
 engine; its wrapper, JDK baseline and commands will arrive with executable engine
-code. See [documentation and publishing](/contributing/documentation) for the
-dependency choices and manual publication procedure.
+code. See [documentation and publishing](documentation.md) for dependency choices,
+portability and the manual publication procedure.
 
 ## Keep evidence and checks focused
 

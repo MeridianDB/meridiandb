@@ -10,10 +10,11 @@ permanent commitment.
 
 | Record | Status | Scope |
 | --- | --- | --- |
-| [0001: Language strategy](./0001-language-strategy.md) | Initial working decision | Java as the initial default; conditions for considering other languages |
+| [0001: Language strategy](0001-language-strategy.md) | Initial working decision | Java as the initial default; conditions for considering other languages |
+| [0002: Documentation toolchain](0002-documentation-toolchain.md) | Working decision | Zensical, MkDocs configuration, initial hosting and portability |
 
 The current project has no stable engine API or storage format. Read the
-[architecture overview](/architecture/overview) for the open design questions.
+[architecture overview](../architecture/overview.md) for the open design questions.
 
 When a material decision changes, update its current status and retain the dated
 reasoning. Keep the README, agent rules and affected public pages consistent with

@@ -1,162 +1,164 @@
 ---
-description: Build and preview MeridianDB documentation, maintain metadata and diagrams, and prepare GitHub Pages publication with the custom domain.
+description: Build and preview MeridianDB documentation with Zensical and MkDocs configuration, maintain portable sources, and prepare GitHub Pages publication.
 ---
 
 # Documentation and publishing
 
-The website is built from Markdown in `docs/` using VitePress. The intended
-canonical address is `https://meridiandb.org`. This page documents the source
-setup and publication procedure; it is not a receipt confirming a live deployment.
+The website uses **Zensical** with **MkDocs configuration** in `mkdocs.yml` and the
+Material-style **classic theme**. Public source lives in `docs/`. The intended
+canonical address is `https://meridiandb.org/`; this guide describes preparation,
+not a receipt confirming a live deployment.
 
 ## Local workflow
 
-Use Node.js 24, as recorded in `.node-version`, and run commands from the repository
-root. The Java engine will use Maven; these npm commands are for documentation.
+Use Python 3.13 (recorded in `.python-version`) and run commands from the repository
+root. Create an isolated environment and install the hash-checked dependencies:
 
 ```bash
-npm ci
+python3 -m venv .venv
 ```
 
 ```bash
-npm run docs:dev
+.venv/bin/python -m pip install --require-hashes -r requirements-docs.txt
 ```
 
-Before submitting a website change, build and inspect the generated site:
+Start the local preview with automatic rebuilding:
 
 ```bash
-npm run docs:build
+.venv/bin/zensical serve --dev-addr 127.0.0.1:8000
 ```
+
+Build the static site and fail on reported documentation issues:
 
 ```bash
-npm run docs:preview
+.venv/bin/zensical build --strict
 ```
 
-Both servers bind to the local loopback address. Open the URL printed by the
-command. VitePress checks unresolved Markdown page links during the build; also
-inspect changed pages, heading links, navigation, search and mobile layout.
+Preview the generated `site/` directory separately:
 
-The generated site is `docs/.vitepress/dist/`. It, the cache, `node_modules/` and
-temporary `.local-qa/` evidence are ignored by Git. Commit source and the lockfile.
+```bash
+.venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory site
+```
 
-## Tooling choices
+Open the local URL printed by the server. Stop it with Ctrl+C. On Windows, use the
+corresponding `.venv\Scripts\` executables. Java and Maven are independent of the
+Python documentation environment; contributors do not need Node.js or npm.
 
-VitePress is pinned to stable **1.6.4**. Its [version 1 documentation](https://vuejs.github.io/vitepress/v1/)
-is the reference for this configuration; the main VitePress website also documents
-the version 2 prerelease line.
+Inspect affected pages, navigation, search, code blocks, tables and both themes,
+including a narrow mobile viewport. Strict builds check source links and anchors;
+check the generated canonical URLs and sitemap when routing changes. Generated
+`site/`, `.cache/`, `.venv/` and temporary `.local-qa/` evidence are ignored by Git.
 
-The npm override selects **Vite 6.4.5** beneath VitePress. VitePress 1.6.4 declares
-Vite 5, whose dependency tree reports development-server advisories. The patched
-Vite 6 line also brings a newer esbuild. This is a project compatibility override
-outside VitePress's declared Vite range, not an upstream support claim. See the
-[Vite advisory](https://github.com/advisories/GHSA-587h-7wmj-h5pm) and
-[esbuild advisory](https://github.com/evanw/esbuild/security/advisories/GHSA-67mh-4wv8-2f99).
+## Dependency and compatibility policy
 
-When updating these versions, inspect the dependency tree and advisories, rebuild
-both base paths, and check development, preview, navigation and local search.
-Keep `package-lock.json` synchronized; do not silently switch to the prerelease.
+The runtime is pinned in `requirements-docs.in`; `requirements-docs.txt` records
+resolved versions and package hashes for installation. Python 3.13 is the tested
+baseline. To change dependencies, update the input and regenerate the lock with
+[uv](https://docs.astral.sh/uv/pip/compile/), then install and validate it:
 
-## Search metadata and canonical URLs
+```bash
+uv pip compile --universal --python-version 3.13 --generate-hashes requirements-docs.in --output-file requirements-docs.txt
+```
 
-`docs/` is the source directory. Search engines see the published HTML URLs;
-the directory name itself does not give the website special ranking treatment.
-GitHub source pages can be discovered separately. Arbitrary Markdown front matter
-does not control the HTML head of GitHub's source viewer.
+The runtime is Zensical, not the MkDocs command-line program. Retain `mkdocs.yml`
+and ordinary Markdown to keep the authoring structure familiar. A fallback MkDocs
+build would also need its own pinned MkDocs and Material packages and verification;
+it is not installed or tested by this configuration.
 
-Give each page a useful, specific `description` in front matter. The page heading
-supplies its title unless an explicit `title` is needed. The site configuration
-generates one absolute, self-referencing `rel="canonical"` link per content page,
-using the publication origin, base path and clean route. It also generates the
-sitemap from the same URL policy. For example, `docs/concepts/temporal-data.md`
-becomes `https://meridiandb.org/concepts/temporal-data` on the custom domain.
-Canonical metadata also updates during client-side navigation. Keep this policy
-central rather than repeating `canonical` fields or domain names in every page.
+Review supported settings and plugin behavior before adopting an extension.
+Zensical does not execute arbitrary MkDocs plugins or hooks. The current site uses
+built-in search and no custom plugin. See the
+[toolchain decision](../decisions/0002-documentation-toolchain.md) for lifecycle,
+compatibility and future versioning considerations.
 
-Use `rel="alternate"` with `hreflang` when actual translated or regional versions
-exist and link those versions reciprocally. No such versions currently exist.
-An `alternative` front matter key has no built-in SEO meaning; metadata only works
-when a renderer consumes it. A GitHub edit/source link does not need an alternate
-annotation for SEO.
+## Portable authoring and metadata
 
-MkDocs supplies canonical links through `site_url`; VitePress supplies static HTML
-and allows equivalent metadata through configuration. Choose between them for
-maintainability and authoring needs, rather than assuming a generator guarantees
-better rankings. Canonicals communicate a preference; search engines ultimately
-choose what to index. After publication, verify the live canonical URLs, sitemap,
-HTTPS and redirects, then submit the sitemap in Google Search Console.
+Use ordinary Markdown headings, lists, tables, fenced code and image links. Add a
+specific `description` to each page, and `title` when needed. Use source-relative
+links ending in `.md`, so the source is browsable on GitHub and the generator can
+validate and rewrite links. Keep layout, navigation and theme settings in
+`mkdocs.yml`; avoid Vue components, Hugo shortcodes and theme-specific content
+markup unless a concrete requirement justifies the migration cost.
 
-References: [Google canonical guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls),
-[localized versions](https://developers.google.com/search/docs/specialty/international/localized-versions),
-[MkDocs site URL](https://www.mkdocs.org/user-guide/configuration/#site_url),
-and [VitePress static rendering](https://vuejs.github.io/vitepress/v1/guide/what-is-vitepress).
+The site-level `site_url` supplies absolute canonical URLs and sitemap URLs.
+For example, `docs/concepts/temporal-data.md` becomes
+`https://meridiandb.org/concepts/temporal-data/`. Keep the origin and base path
+consistent. A `canonical` or `alternative` field alone does not control GitHub's
+source-page HTML. `docs/` itself has no special SEO treatment. Add `hreflang`
+alternate links only for actual translated or regional content.
 
-## Authoring and diagrams
+After publication, verify the live URLs, HTTPS, redirects and sitemap, then submit
+the sitemap in Google Search Console. Google treats canonical annotations as a
+preference, not an indexing guarantee. See
+[Google's canonical guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls).
 
-Add public pages under `docs/` and add their navigation entries in
-`docs/.vitepress/config.mts`. Keep the current experimental status accurate.
-The root README introduces the repository; `AGENTS.md` contains working rules.
+## Architecture diagrams
 
-Architecture pages may use **Mermaid** or **PlantUML** when a diagram explains a
-relationship more clearly than prose or a table. Keep the editable source in Git:
-Mermaid in a Markdown block or `.mmd` file, and PlantUML in a `.puml` file. External
-diagram sources should live under `docs/diagrams/mermaid/` or
-`docs/diagrams/plantuml/` when those directories are introduced.
+Mermaid and PlantUML remain options for useful diagrams. Preserve editable `.mmd`
+or `.puml` sources under `docs/diagrams/mermaid/` or `docs/diagrams/plantuml/` when
+introduced. Prefer SVG output with useful image descriptions in Markdown for
+portability across documentation generators.
 
-The current scaffold has no diagram renderer. Introduce the first diagram together
-with a pinned local renderer and its build integration. For generated SVGs, run
-rendering before VitePress in the shared `docs:build` command so local builds and
-both Actions workflows use the same process. Generate assets under
-`docs/public/diagrams/`, ignore that generated directory, fail on rendering errors,
-and inspect labels, accessibility text, mobile sizing and both color themes. This
-keeps the source editable and publishing independent of a remote rendering service.
+There is currently no diagram renderer. Add the first actual diagram together with
+a pinned local renderer and one shared build command that renders before
+`zensical build --strict`. Both Actions workflows must use that same command.
+Generate SVGs under `docs/assets/diagrams/`, ignore that generated directory, fail
+on rendering errors, and inspect labels, mobile sizing and both themes.
 
-## Automated checks and manual publication
+## Initial hosting and publication
+
+GitHub Pages is the initial host because source, review and publication already
+live on GitHub. Open-source status does not require this host. The generated
+`site/` directory can also be served by Cloudflare Pages; that change would not
+require Hugo. A later Hugo migration would be a separate generator change and
+would need URL, link, navigation, asset and metadata checks.
 
 **Documentation checks** runs on affected pull requests and pushes to `main`.
-It builds with `/` and `/meridiandb/` as base paths using a read-only repository
-token. It neither needs GitHub Pages configured nor publishes a site.
+It installs the locked dependencies and builds both custom-domain and GitHub
+project-path variants with read-only repository permissions. It does not publish.
 
-**Publish documentation** runs only when a maintainer manually dispatches it on
-`main`. Its build job reads the existing Pages configuration, installs locked
-dependencies and uploads only the generated site. A separate deployment job has
-the Pages write and identity-token permissions. GitHub Actions definitions are
-in `.github/workflows/`; referenced actions are pinned to release commit hashes.
+**Publish documentation** runs only on manual dispatch from `main`. The build job
+reads the existing Pages configuration, builds the site and uploads `site/`.
+A separate deployment job holds Pages write and identity-token permissions.
+The workflow definitions live in `.github/workflows/` and pin action releases by
+commit hash. They have been prepared locally; an Actions run verifies CI itself.
 
-The publication build derives the base path and origin from Pages metadata. This
-supports the custom domain at `/` and the default project URL at `/meridiandb/`.
-Local development defaults to `/`. To exercise the project path locally:
+`DOCS_SITE_URL` can override the production URL for another host or base path.
+Exercise the default GitHub project path locally with:
 
 ```bash
-DOCS_BASE_PATH=/meridiandb/ DOCS_SITE_ORIGIN=https://meridiandb.github.io npm run docs:build
+DOCS_SITE_URL=https://meridiandb.github.io/meridiandb/ .venv/bin/zensical build --strict --clean
 ```
 
 ```bash
-DOCS_BASE_PATH=/meridiandb/ npm run docs:preview
+DOCS_SITE_URL=https://meridiandb.github.io/meridiandb/ .venv/bin/zensical serve --dev-addr 127.0.0.1:8000
 ```
 
-Rebuild without those environment variables to return to the custom-domain/local
-layout. The build uses the configured origin and base path for canonicals and the sitemap.
+Rebuild without that variable to return to the custom-domain layout. Use `--clean`
+when changing configuration/base paths or diagnosing stale generated output.
 
 ## One-time GitHub Pages and domain setup
 
 Before the first publication, the repository owner must:
 
-1. Push the reviewed source and workflows to GitHub under the usual source handoff.
+1. Push the reviewed source and workflows to GitHub.
 2. In the MeridianDB organization's Pages settings, verify `meridiandb.org` with
-   the DNS TXT record GitHub supplies. Keep that verification record.
+   the supplied DNS TXT record and retain that record.
 3. In this repository's **Settings → Pages**, select **GitHub Actions** as the
    publishing source and set the custom domain to `meridiandb.org`.
-4. Configure the apex and `www` DNS records according to GitHub's current guide.
+4. Configure apex and `www` DNS records using GitHub's current instructions. DNS
+   can remain managed in Cloudflare; hosting and DNS are separate decisions.
    Set the custom domain in GitHub before pointing DNS at Pages.
-5. Enable **Enforce HTTPS** when GitHub has provisioned the certificate. Configure
-   the `github-pages` environment to permit deployments from `main`.
-6. Run **Actions → Publish documentation → Run workflow**, selecting `main`.
-   Inspect the deployment result and check the public site before recording it
-   as published.
+5. Enable **Enforce HTTPS** when the certificate is ready. Configure the
+   `github-pages` environment to permit deployments from `main`.
+6. Run **Actions → Publish documentation → Run workflow** on `main`, inspect the
+   deployment result and verify the public site before recording it as published.
 
-A local build or commit is not publication. The Actions-based deployment uses
-the custom domain configured in GitHub; a `CNAME` file in this source tree is not
-required and does not configure that setting.
+A local build or commit is not publication. The Actions deployment uses the custom
+domain configured in GitHub; no source `CNAME` file is needed for that setting.
+Cloudflare deployments remain owner-performed under the owner's standing policy.
 
-References: [custom Actions workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages),
-[domain verification](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages),
-and [custom domain and DNS setup](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+References: [Zensical migration](https://zensical.org/docs/compatibility/mkdocs/migration/),
+[custom Actions workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages),
+[domain and DNS setup](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site),
+and [Cloudflare static hosting](https://developers.cloudflare.com/pages/framework-guides/deploy-anything/).

@@ -1,0 +1,61 @@
+site_name: MeridianDB
+site_description: Exploring an embeddable temporal storage engine. Concepts, architecture and research decisions.
+site_url: !ENV [DOCS_SITE_URL, 'https://meridiandb.org/']
+repo_name: MeridianDB/meridiandb
+repo_url: https://github.com/MeridianDB/meridiandb
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+copyright: Open source under the Apache License 2.0. Experimental project.
+
+theme:
+  name: material
+  variant: classic
+  language: en
+  logo: assets/favicon.svg
+  favicon: assets/favicon.svg
+  font: false
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - content.action.edit
+    - search.highlight
+
+plugins:
+  - search
+
+markdown_extensions:
+  - tables
+  - fenced_code
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Concepts:
+      - Temporal data: concepts/temporal-data.md
+  - Design:
+      - Architecture: architecture/overview.md
+      - Decision records: decisions/index.md
+      - Language strategy: decisions/0001-language-strategy.md
+      - Documentation toolchain: decisions/0002-documentation-toolchain.md
+  - Contributing:
+      - Working on MeridianDB: contributing/index.md
+      - Documentation and publishing: contributing/documentation.md

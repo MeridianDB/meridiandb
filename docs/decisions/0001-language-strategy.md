@@ -27,8 +27,8 @@ Use Java for the initial engine and simple reference model. Keep the initial
 runtime and tooling focused on one implementation language. Maven is the Java
 build tool, following the owner's October 28, 2026 preference and existing
 fluency. Establish the JDK baseline and Maven Wrapper with the first Java
-implementation. The VitePress website has a separate npm build; it does not add
-a language or runtime dependency to the engine.
+implementation. The documentation website has a separate Python build; it does not
+add a language or runtime dependency to the engine.
 
 The reference model should use a simpler, independently reasoned algorithm than
 the optimized implementation. It need not use a different language. Correctness

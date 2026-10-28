@@ -99,41 +99,46 @@ and test instructions will be added with the first engine implementation.
 
 ## Documentation website
 
-The VitePress website lives in `docs/`; its intended public address is
-`https://meridiandb.org`. Publication and domain configuration are separate from
-this local source setup. Use Node.js 24 (recorded in `.node-version`) and run these
-commands from the repository root.
+The website uses Zensical with MkDocs configuration in `mkdocs.yml` and the
+Material-style classic theme. Content lives in `docs/`; the intended public
+address is `https://meridiandb.org/`. Use Python 3.13 (recorded in `.python-version`)
+and run these commands from the repository root.
 
-Install the locked documentation dependencies:
-
-```bash
-npm ci
-```
-
-Start the local development server:
+Create the isolated documentation environment:
 
 ```bash
-npm run docs:dev
+python3 -m venv .venv
 ```
 
-Build the static site, including VitePress's dead-link checks:
+Install the locked dependencies:
 
 ```bash
-npm run docs:build
+.venv/bin/python -m pip install --require-hashes -r requirements-docs.txt
 ```
 
-Preview the generated site:
+Start the local preview:
 
 ```bash
-npm run docs:preview
+.venv/bin/zensical serve --dev-addr 127.0.0.1:8000
 ```
 
-The documentation uses npm independently of the future Maven engine build.
-Pull requests and pushes to `main` run documentation checks; publication requires
-manually running the **Publish documentation** workflow on `main` after GitHub
-Pages and the domain have been configured. See the
-[documentation and publishing guide](docs/contributing/documentation.md) for
-dependency choices, local checks and the one-time hosting setup.
+Build the static site with strict checks:
+
+```bash
+.venv/bin/zensical build --strict
+```
+
+The generated site is `site/`. Python documentation tooling is independent of the
+future Maven engine build. Content uses ordinary Markdown and source-relative
+links to help preserve portability to other generators, including Hugo.
+
+GitHub Pages is the initial hosting target. Pull requests and pushes to `main`
+run checks; publication requires manually running **Publish documentation** after
+Pages and the domain have been configured. Cloudflare can also host the static
+output if hosting needs change. See the
+[documentation and publishing guide](docs/contributing/documentation.md) and
+[toolchain decision](docs/decisions/0002-documentation-toolchain.md) for setup,
+compatibility, metadata and future versioning.
 
 ## License
 
