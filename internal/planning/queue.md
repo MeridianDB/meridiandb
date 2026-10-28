@@ -12,26 +12,21 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: **none**. MDB-0021's source acceptance is complete.
-- The manifest codec verifies bounded complete declarations and expected manifest
-  identity. Whole-set verification resolves supplied segments in order, binds
-  IDs/lengths/lineage/ranges, rejects cross-segment request reuse and reconstructs
-  exact journal-prefix byte length/SHA-256 without a whole-prefix buffer.
-- Maven verification passes 246 tests, including 45 new manifest codec/consistency
-  cases. All five examples pass locally. Public builds pass for custom-domain and
-  project-path URLs, with 28 public pages and navigable/searchable manifest content.
-- MDB-0020 remains **expanded** with required MDB-0021 done and **MDB-0022 ready**.
-  MDB-0007 remains expanded; original criteria and MDB-0008's dependency stay intact.
-- Before claiming MDB-0022, verify this completion on remote `main`, Java Linux/
-  Windows/five examples, documentation checks and automatic Pages publication.
-  Resolve attributable delivery failures first.
-- MDB-0019 completion `9c5ae4b3d065495edb7a5b6a411382921981f08a` was verified on
-  remote main before selection with Java, docs and Pages success and the prior
-  26-page live content/search/sitemap handoff.
-- Supplied-object consistency is not actual stored-journal verification, generation
-  selection, file/namespace force evidence or reclamation permission. MDB-0022
-  supplies those local publication boundaries; engine recovery remains MDB-0008.
-- Use the [progress history](progress.md) and completion trailers for exact evidence.
+- No executable item is active. MDB-0022's source acceptance criteria pass; its
+  completion also closes MDB-0020 and MDB-0007 after all required children and
+  original integration criteria pass.
+- Next source-ready item: **MDB-0008 — Integrate durable commits, reopen and recovery**.
+  Confirm MDB-0022's completion reached remote main and inspect Java/documentation
+  CI and automatic Pages publication before claiming it. Refine this broad item
+  into bounded children when needed; preserve its full recovery/acknowledgement criteria.
+- MDB-0022 implements actual owner-journal prefix verification, immutable generation
+  publication/reopen, capability gating and uncertain outcomes. All 304 local tests
+  and six examples pass; both URL-layout documentation builds pass with 30 pages.
+  This is no engine-acknowledgement or power-loss conformance result.
+- Prior completion `8317ea8b06273d3d3cb12ea079f7400a8d27bf92` is verified on remote
+  main with Java Linux/Windows/five examples, documentation checks and Pages success.
+- Use the [progress history](progress.md) and completion trailers for exact evidence;
+  Git and workflow runs supply actual delivery/publication state.
 
 ## Ordered work
 
@@ -46,13 +41,13 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0015](roadmap.md#mdb-0015-journal-format-and-codec) | Specify and implement the bounded journal format and codec | MDB-0006 | done | MDB-0005 |
 | [MDB-0017](roadmap.md#mdb-0017-public-documentation-quality) | Establish and apply public documentation QA | — | done | MDB-0015 |
 | [MDB-0016](roadmap.md#mdb-0016-local-journal-io-and-recovery) | Implement local journal append, sync, ownership and recovery | MDB-0006 | done | MDB-0005, MDB-0015, MDB-0017 |
-| [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | expanded | MDB-0006 |
+| [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | done | MDB-0006 |
 | [MDB-0018](roadmap.md#mdb-0018-immutable-segment-format-and-codec) | Specify and implement immutable history segment format and codec | MDB-0007 | done | MDB-0006 |
 | [MDB-0019](roadmap.md#mdb-0019-local-immutable-segment-io) | Implement local immutable segment I/O and reader lifetimes | MDB-0007 | done | MDB-0006, MDB-0018 |
-| [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | expanded | MDB-0006, MDB-0019 |
+| [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | done | MDB-0006, MDB-0019 |
 | [MDB-0021](roadmap.md#mdb-0021-manifest-format-and-checkpoint-consistency) | Implement manifest format and checkpoint consistency | MDB-0020 | done | MDB-0006, MDB-0019 |
-| [MDB-0022](roadmap.md#mdb-0022-local-checkpoint-publication) | Implement local checkpoint publication and reopen | MDB-0020 | ready | MDB-0006, MDB-0019, MDB-0021 |
-| [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | queued | MDB-0007 |
+| [MDB-0022](roadmap.md#mdb-0022-local-checkpoint-publication) | Implement local checkpoint publication and reopen | MDB-0020 | done | MDB-0006, MDB-0019, MDB-0021 |
+| [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | ready | MDB-0007 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |

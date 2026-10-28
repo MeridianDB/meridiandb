@@ -30,6 +30,19 @@ public final class LocalJournal implements AutoCloseable {
     /** The exact discarded suffix is preserved in a new sibling file before truncation. */
     public record TailRepair(Path evidence, long startOffset, long originalSize) { }
 
+    /** Exact owned-file bytes through a validated commit; not a force or publication receipt. */
+    public record Prefix(long sequence, long byteLength, String sha256) {
+        public Prefix {
+            if (sequence < 0 || byteLength < 22) {
+                throw new IllegalArgumentException("Invalid journal prefix sequence or byte length");
+            }
+            Objects.requireNonNull(sha256, "sha256");
+            if (!sha256.matches("[0-9a-f]{64}")) {
+                throw new IllegalArgumentException("Prefix SHA-256 requires 64 lowercase hex digits");
+            }
+        }
+    }
+
     public static final class IncompleteTailException extends IOException {
         private static final long serialVersionUID = 1L;
         private final long validBytes;
@@ -149,6 +162,8 @@ public final class LocalJournal implements AutoCloseable {
 
     public DatabaseId databaseId() { return databaseId; }
     public Optional<TailRepair> repair() { return Optional.ofNullable(repair); }
+    /** Canonical owned path when backed by the local filesystem, absent for an injected file seam. */
+    public Optional<Path> path() { return file instanceof NioFile nio ? Optional.of(nio.path) : Optional.empty(); }
     public synchronized long appendedSequence() { return appendedSequence; }
     public synchronized long forcedSequence() { return forcedSequence; }
     public synchronized long appendedBytes() { return appendedBytes; }
@@ -218,6 +233,26 @@ public final class LocalJournal implements AutoCloseable {
             throw failure;
         } finally {
             replaying = false;
+        }
+    }
+
+    /**
+     * Validate and hash actual bytes through a complete appended sequence, using the owned handle.
+     * The zero prefix includes only the lineage header. Later records need not be read or validated.
+     */
+    public synchronized Prefix prefix(long throughSequence) throws IOException {
+        usable();
+        if (throughSequence < 0 || throughSequence > appendedSequence) {
+            throw new IllegalArgumentException("Prefix requires an existing appended sequence");
+        }
+        try {
+            unchangedSize();
+            var prefix = JournalRecovery.prefix(file, databaseId, throughSequence);
+            unchangedSize();
+            return prefix;
+        } catch (IOException | JournalFormatException failure) {
+            failed = true;
+            throw failure;
         }
     }
 

@@ -53,9 +53,11 @@ research targets. The [transaction journal codec](journal-format.md) and
 validation and content identity. Its [local adapter](../development/local-segments.md)
 creates new files and verifies expected IDs before returning heap-owned readers.
 The [manifest codec and verifier](checkpoint-manifest-format.md) bind complete
-referenced history to an exact reconstructed journal prefix. Actual stored-journal
-verification, checkpoint publication, object storage and optimized query layouts
-remain planned.
+referenced history to an exact reconstructed journal prefix. The
+[local checkpoint store](../development/local-checkpoints.md) verifies the actual
+owned journal bytes and publishes immutable generations with ordered file/directory
+forces and atomic rename. Durable engine integration, object storage and optimized
+query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 
@@ -81,7 +83,7 @@ whose answers change after a retroactive correction.
 ## Development direction
 
 The [technical roadmap](../roadmap.md) progresses from the implemented memory
-engine, local journal, immutable files and manifest consistency to local publication,
+engine, local journal, immutable files and local checkpoint publication to
 durable engine recovery and workload measurements. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 

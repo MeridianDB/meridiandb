@@ -18,8 +18,9 @@ so a new session can work correctly without relying on earlier conversations.
   [local segment adapter](docs/development/local-segments.md) provides create-only
   writes and verified heap readers. The [manifest codec and verifier](docs/architecture/checkpoint-manifest-format.md)
   check supplied segment history against a reconstructed journal-prefix binding;
-  actual stored-journal verification, local publication and durable engine
-  integration remain planned.
+  the [local checkpoint store](docs/development/local-checkpoints.md) verifies the
+  actual owned-journal prefix and publishes immutable generations under explicit
+  filesystem capabilities. Durable engine integration remains planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -129,6 +130,19 @@ so a new session can work correctly without relying on earlier conversations.
   retaining the journal header and exact original frames; account for the growing
   request-ID set. No consistency result is a force/publication receipt or permits
   reclamation. Local publication must verify stored bytes and namespace guarantees.
+- Follow the [local checkpoint protocol](docs/development/local-checkpoints.md):
+  require an existing trusted stable durably named directory, probe directory
+  open/force before creating files, and reserve capacity before publication effects.
+  Select the highest uniquely named generation and fail closed on damaged newest
+  state; pending candidates remain unselected evidence. Verify actual prefix bytes
+  through the journal owner; reject objects aliasing the journal/store lock and a
+  lock aliasing the journal before opening another same-file channel. Force journal, segments and dependency names,
+  then force/close a create-only candidate, atomically rename it and force the
+  directory. Mark uncertainty before attempting rename, poison after storage
+  failure and reopen to establish selected state. Preserve all old objects/readers;
+  publication and reader close grant no reclamation or engine-acknowledgement claim.
+  Test unsupported capability before mutation, same-file lock preservation,
+  before/after-rename faults, capacity limits and exact process reopen.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

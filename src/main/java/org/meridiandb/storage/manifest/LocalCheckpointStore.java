@@ -1,0 +1,458 @@
+// SPDX-License-Identifier: Apache-2.0
+package org.meridiandb.storage.manifest;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.HexFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.regex.Pattern;
+import org.meridiandb.storage.journal.LocalJournal;
+import org.meridiandb.storage.segment.ImmutableSegment;
+import org.meridiandb.storage.segment.SegmentCodec;
+import org.meridiandb.storage.segment.SegmentId;
+import org.meridiandb.temporal.DatabaseId;
+
+/**
+ * Exclusive local checkpoint publisher in an existing trusted, stable, durably named directory.
+ * All dependencies share that directory. Atomic rename and directory force are required, without
+ * fallback. This protocol does not integrate engine acknowledgement or reclaim any history.
+ */
+public final class LocalCheckpointStore implements AutoCloseable {
+    public static final int MAX_DIRECTORY_ENTRIES = 16_384;
+    public static final int MAX_GENERATIONS = 1024;
+    private static final String JOURNAL = "transactions.journal";
+    private static final String LOCK = ".meridiandb-checkpoints.lock";
+    private static final Pattern GENERATION = Pattern.compile("checkpoint-([0-9]{19})-([0-9a-f]{64})\\.manifest");
+
+    public static final class DirectorySyncUnsupportedException extends IOException {
+        private static final long serialVersionUID = 1L;
+        DirectorySyncUnsupportedException(Throwable cause) {
+            super("Directory open/force is unavailable; checkpoint publication requires this capability", cause);
+        }
+    }
+
+    public static final class UncertainPublicationException extends IOException {
+        private static final long serialVersionUID = 1L;
+        UncertainPublicationException(Throwable cause) {
+            super("Atomic publication was attempted; close and reopen to establish the selected generation", cause);
+        }
+    }
+
+    @FunctionalInterface
+    interface DirectoryProbe {
+        void force(FileChannel directory) throws IOException;
+    }
+
+    interface Namespace extends AutoCloseable {
+        Path directory();
+        List<String> entries() throws IOException;
+        byte[] read(String name, int maxBytes) throws IOException;
+        void writeNew(String name, byte[] image) throws IOException;
+        void forceFile(String name) throws IOException;
+        void atomicMove(String from, String to) throws IOException;
+        void forceDirectory() throws IOException;
+        @Override void close() throws IOException;
+    }
+
+    interface JournalAccess {
+        DatabaseId databaseId();
+        LocalJournal.Prefix prefix(long sequence) throws IOException;
+        void force() throws IOException;
+    }
+
+    interface FileAccess extends AutoCloseable {
+        int read(ByteBuffer target, long offset) throws IOException;
+        int write(ByteBuffer source, long offset) throws IOException;
+        long size() throws IOException;
+        void force() throws IOException;
+        @Override void close() throws IOException;
+    }
+
+    private record Generation(String name, long number, ManifestId id) { }
+    private final Namespace namespace;
+    private boolean failed;
+    private boolean closed;
+    private boolean resourcesClosed;
+    private boolean operating;
+
+    LocalCheckpointStore(Namespace namespace) {
+        this.namespace = Objects.requireNonNull(namespace, "namespace");
+    }
+
+    /** Capability is probed before any lock or candidate file is created. */
+    public static LocalCheckpointStore open(Path directory) throws IOException {
+        return open(directory, channel -> channel.force(true));
+    }
+
+    static LocalCheckpointStore open(Path directory, DirectoryProbe probe) throws IOException {
+        return new LocalCheckpointStore(NioNamespace.acquire(directory, Objects.requireNonNull(probe, "probe")));
+    }
+
+    public synchronized Path journalPath() throws IOException {
+        usable();
+        return namespace.directory().resolve(JOURNAL);
+    }
+
+    /** Create a new content-addressed segment; an existing candidate is never replaced or repaired. */
+    public synchronized SegmentId writeSegment(ImmutableSegment segment) throws IOException {
+        usable();
+        byte[] image = SegmentCodec.encode(segment);
+        var id = new SegmentId(HexFormat.of().formatHex(ManifestCodec.sha256().digest(image)));
+        operating = true;
+        try {
+            requireCapacity(false);
+            namespace.writeNew(segmentName(id), image);
+            return id;
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    public synchronized ManifestId publish(CheckpointManifest manifest, LocalJournal journal) throws IOException {
+        usable();
+        return publish(manifest, access(journal));
+    }
+
+    synchronized ManifestId publish(CheckpointManifest manifest, JournalAccess journal) throws IOException {
+        usable();
+        Objects.requireNonNull(journal, "journal");
+        byte[] image = ManifestCodec.encode(manifest); // Validate caller metadata before storage work.
+        var id = ManifestCodec.decode(image).id();
+        operating = true;
+        boolean moving = false;
+        try {
+            var previous = loadLatest(journal);
+            long generation = previous.map(value -> value.manifest().generation()).orElse(0L);
+            if (generation == Long.MAX_VALUE || manifest.generation() != generation + 1
+                    || (previous.isPresent() && manifest.journalPrefix().sequence()
+                        < previous.orElseThrow().manifest().journalPrefix().sequence())) {
+                throw new IllegalArgumentException("Publication requires the next generation and a nondecreasing cutoff");
+            }
+            requireCapacity(true);
+            verify(manifest, journal);
+            journal.force(); // Through the owning journal, never a second same-file channel.
+            for (var reference : manifest.segments()) {
+                namespace.forceFile(segmentName(reference.id()));
+            }
+            namespace.forceDirectory(); // Persist all dependency names, including the journal name.
+            String pending = "pending-" + manifest.generation() + "-" + UUID.randomUUID() + ".manifest";
+            namespace.writeNew(pending, image); // Full write, force and successful close before rename.
+            String selected = generationName(manifest.generation(), id);
+            moving = true; // A move may take effect and then throw: never infer rollback from an exception.
+            namespace.atomicMove(pending, selected);
+            namespace.forceDirectory();
+            return id;
+        } catch (IOException | RuntimeException failure) {
+            failed = true;
+            if (moving) { throw new UncertainPublicationException(failure); }
+            throw failure;
+        } catch (Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    public synchronized Optional<LocalCheckpointReader> readLatest(LocalJournal journal) throws IOException {
+        usable();
+        return readLatest(access(journal));
+    }
+
+    synchronized Optional<LocalCheckpointReader> readLatest(JournalAccess journal) throws IOException {
+        usable();
+        Objects.requireNonNull(journal, "journal");
+        operating = true;
+        try {
+            return loadLatest(journal).map(decoded -> new LocalCheckpointReader(namespace.directory(), decoded));
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal) throws IOException {
+        List<String> entries = namespace.entries();
+        if (entries.size() > MAX_DIRECTORY_ENTRIES) { throw new IOException("Checkpoint directory entry limit exceeded"); }
+        Generation latest = null;
+        var seen = new HashSet<Long>();
+        for (String name : entries) {
+            if (!name.startsWith("checkpoint-")) { continue; }
+            var match = GENERATION.matcher(name);
+            if (!match.matches()) { throw new IOException("Malformed selected checkpoint name: " + name); }
+            final long number;
+            try { number = Long.parseLong(match.group(1)); }
+            catch (NumberFormatException invalid) { throw new IOException("Invalid checkpoint generation", invalid); }
+            if (number <= 0 || !seen.add(number)) { throw new IOException("Invalid or repeated checkpoint generation"); }
+            if (seen.size() > MAX_GENERATIONS) { throw new IOException("Retained checkpoint generation limit exceeded"); }
+            var generation = new Generation(name, number, new ManifestId(match.group(2)));
+            if (latest == null || number > latest.number()) { latest = generation; }
+        }
+        if (latest == null) { return Optional.empty(); }
+        var decoded = ManifestCodec.decode(namespace.read(latest.name(), ManifestCodec.MAX_MANIFEST_BYTES), latest.id());
+        if (decoded.manifest().generation() != latest.number()) { throw new IOException("Filename generation differs from manifest"); }
+        verify(decoded.manifest(), journal); // Fail on damaged newest state; never silently fall back.
+        return Optional.of(decoded);
+    }
+
+    private void requireCapacity(boolean newGeneration) throws IOException {
+        var entries = namespace.entries();
+        if (entries.size() >= MAX_DIRECTORY_ENTRIES) { throw new IOException("No capacity for another checkpoint object"); }
+        if (newGeneration && entries.stream().filter(name -> name.startsWith("checkpoint-")).count() >= MAX_GENERATIONS) {
+            throw new IOException("No capacity for another retained generation");
+        }
+    }
+
+    private void verify(CheckpointManifest manifest, JournalAccess journal) throws IOException {
+        if (!manifest.databaseId().equals(journal.databaseId())) { throw new IOException("Checkpoint and journal lineage differ"); }
+        CheckpointVerifier.verify(manifest, id -> namespace.read(segmentName(id), SegmentCodec.MAX_SEGMENT_BYTES));
+        var actual = journal.prefix(manifest.journalPrefix().sequence());
+        var expected = manifest.journalPrefix();
+        if (actual.sequence() != expected.sequence() || actual.byteLength() != expected.byteLength()
+                || !actual.sha256().equals(expected.sha256())) {
+            throw new IOException("Stored journal prefix differs from checkpoint history");
+        }
+    }
+
+    private JournalAccess access(LocalJournal journal) throws IOException {
+        Objects.requireNonNull(journal, "journal");
+        if (!journal.path().orElseThrow(() -> new IOException("A real owned local journal is required"))
+                .equals(namespace.directory().resolve(JOURNAL))) {
+            throw new IOException("Journal must occupy this store's transactions.journal path");
+        }
+        return new JournalAccess() {
+            @Override public DatabaseId databaseId() { return journal.databaseId(); }
+            @Override public LocalJournal.Prefix prefix(long sequence) throws IOException { return journal.prefix(sequence); }
+            @Override public void force() throws IOException { journal.force(); }
+        };
+    }
+
+    static String segmentName(SegmentId id) { return Objects.requireNonNull(id, "id").value() + ".segment"; }
+    static String generationName(long generation, ManifestId id) {
+        return String.format(Locale.ROOT, "checkpoint-%019d-%s.manifest", generation, id.value());
+    }
+
+    @Override public synchronized void close() throws IOException {
+        if (operating) { throw new IOException("Cannot close store inside a storage callback"); }
+        closed = true;
+        if (!resourcesClosed) {
+            namespace.close();
+            resourcesClosed = true;
+        }
+    }
+
+    private void usable() throws IOException {
+        if (closed || failed || operating) {
+            throw new IOException(closed ? "Checkpoint store is closed" : failed
+                    ? "Checkpoint store failed; close and reopen before retry" : "Reentrant checkpoint operation");
+        }
+    }
+
+    static byte[] read(FileAccess file, int maxBytes) throws IOException {
+        try (file) {
+            long size = file.size();
+            if (size < 0 || size > maxBytes) { throw new IOException("Checkpoint object exceeds read bounds"); }
+            var buffer = ByteBuffer.allocate((int) size);
+            long offset = 0;
+            int zeros = 0;
+            while (buffer.hasRemaining()) {
+                int count = file.read(buffer, offset);
+                if (count < 0) { throw new EOFException("Checkpoint object shrank during read"); }
+                if (count == 0 && ++zeros >= 16) { throw new IOException("Checkpoint object read made no progress"); }
+                if (count > 0) { offset += count; zeros = 0; }
+            }
+            var probe = ByteBuffer.allocate(1);
+            zeros = 0;
+            int count;
+            do {
+                count = file.read(probe, size);
+                if (count == 0 && ++zeros >= 16) { throw new IOException("Checkpoint EOF read made no progress"); }
+            } while (count == 0);
+            if (count > 0 || file.size() != size) { throw new IOException("Checkpoint object size changed"); }
+            return buffer.array();
+        }
+    }
+
+    static void write(FileAccess file, byte[] image) throws IOException {
+        try (file) {
+            if (file.size() != 0) { throw new IOException("New checkpoint object must be empty"); }
+            var buffer = ByteBuffer.wrap(image);
+            long offset = 0;
+            int zeros = 0;
+            while (buffer.hasRemaining()) {
+                int count = file.write(buffer, offset);
+                if (count < 0 || (count == 0 && ++zeros >= 16)) { throw new IOException("Checkpoint write made no progress"); }
+                if (count > 0) { offset += count; zeros = 0; }
+            }
+            if (file.size() != image.length) { throw new IOException("Checkpoint object size changed during write"); }
+            file.force();
+        }
+    }
+
+    private static final class NioFile implements FileAccess {
+        private final FileChannel channel;
+        NioFile(FileChannel channel) { this.channel = channel; }
+        @Override public int read(ByteBuffer target, long offset) throws IOException { return channel.read(target, offset); }
+        @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
+        @Override public long size() throws IOException { return channel.size(); }
+        @Override public void force() throws IOException { channel.force(true); }
+        @Override public void close() throws IOException { channel.close(); }
+    }
+
+    private static final class NioNamespace implements Namespace {
+        private static final Set<Path> OWNED = new HashSet<>();
+        private final Path directory;
+        private final Path lockPath;
+        private final FileChannel directoryChannel;
+        private final FileChannel lockChannel;
+        private final FileLock lock;
+
+        private NioNamespace(Path directory, Path lockPath, FileChannel directoryChannel, FileChannel lockChannel, FileLock lock) {
+            this.directory = directory;
+            this.lockPath = lockPath;
+            this.directoryChannel = directoryChannel;
+            this.lockChannel = lockChannel;
+            this.lock = lock;
+        }
+
+        static NioNamespace acquire(Path requested, DirectoryProbe probe) throws IOException {
+            Objects.requireNonNull(requested, "directory");
+            if (!Files.isDirectory(requested, LinkOption.NOFOLLOW_LINKS)) { throw new IOException("Store requires an existing nonsymlink directory"); }
+            Path directory = requested.toRealPath();
+            FileChannel dir = null;
+            try {
+                dir = FileChannel.open(directory, StandardOpenOption.READ);
+                probe.force(dir); // Required probe before lock-file creation or any other mutation.
+            } catch (IOException | UnsupportedOperationException unavailable) {
+                if (dir != null) {
+                    try { dir.close(); } catch (IOException closeFailure) { unavailable.addSuppressed(closeFailure); }
+                }
+                throw new DirectorySyncUnsupportedException(unavailable);
+            } catch (RuntimeException | Error failure) {
+                if (dir != null) {
+                    try { dir.close(); } catch (IOException closeFailure) { failure.addSuppressed(closeFailure); }
+                }
+                throw failure;
+            }
+            Path lockPath = directory.resolve(LOCK);
+            FileChannel channel = null;
+            boolean reserved = false;
+            try {
+                var existing = listNames(directory);
+                if (!Files.exists(lockPath, LinkOption.NOFOLLOW_LINKS) && existing.size() >= MAX_DIRECTORY_ENTRIES) {
+                    throw new IOException("No directory capacity for checkpoint ownership file");
+                }
+                synchronized (OWNED) {
+                    for (Path active : OWNED) {
+                        if (active.equals(lockPath) || (Files.exists(lockPath) && Files.isSameFile(active, lockPath))) {
+                            throw new IOException("Checkpoint store is already owned in this JVM");
+                        }
+                    }
+                    OWNED.add(lockPath);
+                    reserved = true;
+                }
+                if (Files.exists(lockPath, LinkOption.NOFOLLOW_LINKS) && !Files.isRegularFile(lockPath, LinkOption.NOFOLLOW_LINKS)) {
+                    throw new IOException("Checkpoint lock must be a regular file");
+                }
+                Path journalPath = directory.resolve(JOURNAL);
+                if (Files.exists(lockPath, LinkOption.NOFOLLOW_LINKS) && Files.exists(journalPath, LinkOption.NOFOLLOW_LINKS)
+                        && Files.isSameFile(lockPath, journalPath)) {
+                    throw new IOException("Checkpoint lock must not alias the journal");
+                }
+                channel = FileChannel.open(lockPath, StandardOpenOption.CREATE, StandardOpenOption.READ,
+                        StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS);
+                if (!Files.isRegularFile(lockPath, LinkOption.NOFOLLOW_LINKS)) { throw new IOException("Checkpoint lock path changed"); }
+                FileLock lock;
+                try { lock = channel.tryLock(); }
+                catch (OverlappingFileLockException overlap) { throw new IOException("Checkpoint store lock overlaps", overlap); }
+                if (lock == null) { throw new IOException("Checkpoint store is locked by another process"); }
+                return new NioNamespace(directory, lockPath, dir, channel, lock);
+            } catch (IOException | RuntimeException | Error failure) {
+                if (channel != null) {
+                    try { channel.close(); } catch (IOException closeFailure) { failure.addSuppressed(closeFailure); }
+                }
+                try { dir.close(); } catch (IOException closeFailure) { failure.addSuppressed(closeFailure); }
+                if (reserved && (channel == null || !channel.isOpen())) {
+                    synchronized (OWNED) { OWNED.remove(lockPath); }
+                }
+                throw failure;
+            }
+        }
+
+        @Override public Path directory() { return directory; }
+        @Override public List<String> entries() throws IOException { return listNames(directory); }
+        private static List<String> listNames(Path directory) throws IOException {
+            var names = new ArrayList<String>();
+            try (var stream = Files.newDirectoryStream(directory)) {
+                for (var entry : stream) {
+                    if (names.size() == MAX_DIRECTORY_ENTRIES) { throw new IOException("Checkpoint directory entry limit exceeded"); }
+                    names.add(entry.getFileName().toString());
+                }
+            }
+            return names;
+        }
+        @Override public byte[] read(String name, int maxBytes) throws IOException {
+            Path path = regular(name);
+            return LocalCheckpointStore.read(new NioFile(FileChannel.open(path, StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS)), maxBytes);
+        }
+        @Override public void writeNew(String name, byte[] image) throws IOException {
+            LocalCheckpointStore.write(new NioFile(FileChannel.open(directory.resolve(name), StandardOpenOption.CREATE_NEW,
+                    StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS)), image);
+        }
+        @Override public void forceFile(String name) throws IOException {
+            Path path = regular(name);
+            try (var channel = FileChannel.open(path, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS)) { channel.force(true); }
+        }
+        private Path regular(String name) throws IOException {
+            Path path = directory.resolve(name);
+            if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) { throw new IOException("Checkpoint object must be a regular file: " + name); }
+            Path journal = directory.resolve(JOURNAL);
+            if (Files.isSameFile(path, lockPath) || (Files.exists(journal, LinkOption.NOFOLLOW_LINKS) && Files.isSameFile(path, journal))) {
+                throw new IOException("Checkpoint objects must not alias an owned journal or lock file");
+            }
+            return path;
+        }
+        @Override public void atomicMove(String from, String to) throws IOException {
+            Path destination = directory.resolve(to);
+            if (Files.exists(destination, LinkOption.NOFOLLOW_LINKS)) { throw new FileAlreadyExistsException(destination.toString()); }
+            // Exclusive cooperating ownership and stable paths protect the precondition. No fallback.
+            Files.move(directory.resolve(from), destination, StandardCopyOption.ATOMIC_MOVE);
+        }
+        @Override public void forceDirectory() throws IOException { directoryChannel.force(true); }
+        @Override public void close() throws IOException {
+            IOException failure = null;
+            try { if (lock.isValid()) { lock.release(); } } catch (IOException releaseFailure) { failure = releaseFailure; }
+            try { lockChannel.close(); } catch (IOException closeFailure) {
+                if (failure == null) { failure = closeFailure; } else { failure.addSuppressed(closeFailure); }
+            } finally {
+                if (!lockChannel.isOpen()) { synchronized (OWNED) { OWNED.remove(lockPath); } }
+            }
+            try { directoryChannel.close(); } catch (IOException closeFailure) {
+                if (failure == null) { failure = closeFailure; } else { failure.addSuppressed(closeFailure); }
+            }
+            if (failure != null) { throw failure; }
+        }
+    }
+}

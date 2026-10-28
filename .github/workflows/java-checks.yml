@@ -18,6 +18,7 @@ on:
       - 'docs/architecture/checkpoint-manifest-format.md'
       - 'docs/development/local-journal.md'
       - 'docs/development/local-segments.md'
+      - 'docs/development/local-checkpoints.md'
       - '.github/workflows/java-checks.yml'
   push:
     branches: [main]
@@ -37,6 +38,7 @@ on:
       - 'docs/architecture/checkpoint-manifest-format.md'
       - 'docs/development/local-journal.md'
       - 'docs/development/local-segments.md'
+      - 'docs/development/local-checkpoints.md'
       - '.github/workflows/java-checks.yml'
 
 permissions:
@@ -83,3 +85,5 @@ jobs:
         run: java --class-path target/classes examples/LocalSegmentExample.java
       - name: Run the manifest consistency example
         run: java --class-path target/classes examples/ManifestExample.java
+      - name: Run the local checkpoint example
+        run: java --class-path target/classes examples/LocalCheckpointExample.java

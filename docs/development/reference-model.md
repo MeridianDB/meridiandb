@@ -113,11 +113,12 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **246 JUnit test invocations**: 45
+The current default suite has **304 JUnit test invocations**: 39
+[local checkpoint publication checks](local-checkpoints.md), 45
 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md), 36
 [local segment I/O/lifetime checks](local-segments.md), 27
 [immutable segment codec checks](../architecture/immutable-segment-format.md),
-29 journal codec checks, 38 [local journal I/O/process checks](local-journal.md)
+29 journal codec checks, 57 [local journal I/O/process/prefix checks](local-journal.md)
 and 71 temporal/engine checks comprising 18 interval boundary checks, eight type checks, ten reference/decoding checks, five history tests per
 implementation, 16 shared seed tests and nine engine lifecycle/concurrency tests.
 History steps and generated transactions are assertions inside those tests, not

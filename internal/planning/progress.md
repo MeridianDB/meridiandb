@@ -906,6 +906,82 @@ including actual stored-journal-prefix verification, writer/generation ownership
 file and namespace force, atomic selection and failure/lifetime checks. Preserve
 all original MDB-0020/MDB-0007 criteria before closing either parent.
 
+## 2026-10-28 — MDB-0022 Local checkpoint publication and reopen
+
+**Outcome:** complete MDB-0022 and the original MDB-0020/MDB-0007 integration
+criteria. Add `LocalCheckpointStore`, `LocalCheckpointReader`, actual owner-channel
+`LocalJournal.prefix` and a sixth runnable example. Publish immutable generation
+names rather than a mutable head pointer: select the highest unique generation,
+verify complete manifest/dependencies and actual journal bytes, then force journal,
+segments and dependency names, force/close a create-only pending manifest, atomically
+rename and force the directory before success. No non-atomic fallback. Capability
+probing precedes store-file mutation; exact next generation, monotonic cutoff and
+capacity checks precede publication effects. Keep pending evidence, old generations,
+segments and journal history. Read-only metadata/heap readers have explicit lifetimes.
+
+**Research and review:** freshly check all twelve Maven Central metadata sources and
+official Maven/plugin/JUnit/Jackson compatibility on October 28; existing stable
+pins remain latest compatible selections. POM changes only its description. JDK
+file/channel/digest primitives add no dependency. Refresh JDK force/move/lock,
+Linux directory fsync and Lucene SegmentInfos/Directory primary evidence; ADR 0012
+distinguishes these facts from MeridianDB's selection/protocol choices. Independent
+review found and resolved capacity reservation before pending creation and two
+same-file lock hazards: reject segment/manifest aliases of the owned journal or
+store lock before reading/forcing, and reject a preexisting lock name hard-linked
+to the journal before opening its channel. Separate-process tests verify owner
+locks survive both rejected paths. Final code review reports no other concrete
+finding; independent public-documentation review reports no actionable finding.
+
+**Validation:** the initial focused compilation exposed a conditional `assertThrows`
+generic-type mismatch; explicit exact-type branches fixed the test without weakening
+its assertions. Nineteen prefix cases pass; the next integrated run passes 57 cases.
+After the additional lock-acquisition regression, final `./mvnw -B -ntp verify`
+passes **304 tests, zero failures/errors/skips**, preserving all previous 246 cases:
+19 new owner-prefix and 39 publication/process cases (34 store, five process).
+Coverage includes exact raw prefix hashes and earlier/genesis cutoffs without a
+second handle or force; corrupt/short/stalled/changed input and prefix bounds;
+strict highest-generation selection, no fallback/adoption, actual prefix and complete
+dependency mismatches; before/after-rename failures, final directory-force uncertainty,
+poison/reopen, capacity boundaries, close/reentrant operations and reader/child
+lifetimes. Deterministic capability failure leaves directory contents unchanged.
+Real process checks cover competing owners, rejected same-JVM acquisitions,
+hard-link alias rejection and `Runtime.halt` immediately after successful publication
+followed by exact reopen. Canonical fixtures and the seed corpus remain unchanged.
+
+All six examples pass individually. The checkpoint example publishes generation one
+through transaction two and reopens exact history. Local Darwin arm64 provider
+accepts directory-channel force and atomic rename; all real-file tests run without
+skips. Unsupported providers explicitly fail the initial directory gate; Linux and
+Windows CI report their actual capability-dependent outcomes. This is no power-loss,
+remote-filesystem, performance or durable-engine conformance claim. The local JAR
+has 81 Java25 production classes with no bundled oracle, fixtures, seeds, JUnit or
+Jackson; SHA-256 `6afe8a234b6346cbcde99a3371b1319361ec24571dd80d3a012720021e92ac29`.
+An initial scratch artifact-name scan matched the legitimate `SegmentReference`
+class; the corrected package/path audit passes. No artifact is uploaded or released.
+
+**Documentation and handoff:** add the local checkpoint guide and ADR 0012; reconcile
+README, home/architecture/research/roadmap, build/reference/engine/journal/segment/
+manifest guides, current ADR statuses, decision index, navigation, CI and agent rules.
+Keep execution history under `internal/`. Both apex and GitHub project-path shared
+builds pass source, rendered HTML, links, search and sitemap checks with **30 public
+pages**. Local HTTP/browser QA verifies navigation, the filename table and search:
+`UncertainPublicationException` returns the guide's failures section. Theme/assets
+are unchanged; there is no new dark/narrow-viewport claim. Check unique queue IDs,
+references/cycles, completed-parent criteria, local links and staged task scope.
+Scratch logs and reports remain ignored under `.local-qa/mdb-0022/`.
+
+**Prerequisite and delivery:** prior completion
+`8317ea8b06273d3d3cb12ea079f7400a8d27bf92` is verified on remote main with Java
+Linux/Windows/five examples, documentation checks and automatic Pages success.
+This completion uses `Step-ID: MDB-0022` and `Step-Result: completed`; Git supplies
+its SHA/remote ancestry. The final handoff reports actual push, CI, Pages and live
+content/search/sitemap checks. No Cloudflare or other infrastructure deployment.
+
+**Next recommendation:** MDB-0008 — durable engine commits, reopen and recovery.
+Refine its broad scope into bounded children while preserving acknowledged-commit,
+uncertain-outcome, retry identity and temporal/reference recovery acceptance criteria.
+The embedded engine remains memory-only until that integration is verified.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

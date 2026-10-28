@@ -70,6 +70,7 @@ nav:
       - Immutable segment decision: decisions/0009-immutable-segment-format.md
       - Local segment decision: decisions/0010-local-segment-io.md
       - Manifest decision: decisions/0011-checkpoint-manifest-format.md
+      - Local checkpoint decision: decisions/0012-local-checkpoint-publication.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -78,4 +79,5 @@ nav:
       - Embedded engine: development/embedded-engine.md
       - Local journal: development/local-journal.md
       - Local immutable segments: development/local-segments.md
+      - Local checkpoints: development/local-checkpoints.md
       - Documentation and publishing: contributing/documentation.md

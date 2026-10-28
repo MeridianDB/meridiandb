@@ -20,7 +20,8 @@ permanent commitment.
 | [0008: Local journal](0008-local-journal.md) | Implemented; experimental | Exclusive local writer, append/force cutoffs, bounded replay and explicit evidence-preserving tail repair |
 | [0009: Immutable history segments](0009-immutable-segment-format.md) | Pure codec implemented | Exact transaction ranges, bounded immutable objects, integrity footer and full-object identifiers |
 | [0010: Local immutable segment I/O](0010-local-segment-io.md) | Implemented; experimental | Create-only local files, bounded expected-ID verification and heap-owned reader lifetimes |
-| [0011: Checkpoint manifest representation](0011-checkpoint-manifest-format.md) | Codec and consistency verifier implemented; local publication planned | Bounded generation metadata, complete segment references and reconstructed journal-prefix binding |
+| [0011: Checkpoint manifest representation](0011-checkpoint-manifest-format.md) | Codec and consistency verifier implemented | Bounded generation metadata, complete segment references and reconstructed journal-prefix binding |
+| [0012: Local checkpoint publication](0012-local-checkpoint-publication.md) | Implemented; experimental | Actual owner-journal verification, immutable generation selection, ordered forces and atomic rename |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

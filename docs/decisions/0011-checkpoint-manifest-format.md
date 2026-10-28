@@ -6,7 +6,7 @@ description: Bind complete immutable transaction history to generation metadata 
 # ADR 0011: Checkpoint manifest representation
 
 - **Date:** October 28, 2026
-- **Status:** format, codec and referenced-object verification implemented; local publication planned
+- **Status:** Format, codec and referenced-object verification implemented; local publication implemented separately in ADR 0012
 - **Scope:** Immutable checkpoint declarations and complete history consistency
 
 ## Context
@@ -87,8 +87,8 @@ larger than one segment. Incremental digest reconstruction avoids that allocatio
 while the duplicate-ID set still grows with history. The source itself must bound
 its retrieval and ownership; verification cannot limit arbitrary resolver behavior.
 
-Selecting immutable generation files versus a separate head pointer remains a
-local publication decision. Neither approach eliminates writer exclusion, actual
-journal verification, atomic visibility or directory durability requirements.
+[ADR 0012](0012-local-checkpoint-publication.md) selects immutable generation files
+for local publication. The protocol separately implements writer exclusion, actual
+journal verification, atomic visibility and directory synchronization.
 The [format specification](../architecture/checkpoint-manifest-format.md) owns
 bytes, Java usage, limits, failures and the precise verification claim.

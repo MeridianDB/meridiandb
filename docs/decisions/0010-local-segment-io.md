@@ -40,7 +40,8 @@ protocol permits reclamation. This adapter itself has no deletion operation.
 
 This adapter supplies no manifest selection, directory sync, engine integration
 or throughput claim. The separate [manifest representation](0011-checkpoint-manifest-format.md)
-now defines complete-set consistency before local publication.
+defines complete-set consistency; [ADR 0012](0012-local-checkpoint-publication.md)
+implements local publication separately.
 The existing 32 MiB byte limit does not bound decoded or aggregate heap memory.
 
 ## Primary evidence and design inference
@@ -71,12 +72,13 @@ additional lifetime, mutation and resource contracts. They are unnecessary for t
 current bounded scan baseline. Heap readers cost image allocation plus decoded
 objects during open and retain decoded history while callers hold references.
 
-Writing a temporary file and renaming it is a possible future publication mechanism.
+The separate [checkpoint publisher](0012-local-checkpoint-publication.md) writes
+a pending manifest and renames it under exclusive ownership.
 Java's `ATOMIC_MOVE` ignores other move options and leaves replacement of an
 existing target implementation-specific. It cannot alone promise atomic
 no-overwrite behavior. [Files.move](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html#move(java.nio.file.Path,java.nio.file.Path,java.nio.file.CopyOption...)).
-Define the actual manifest namespace protocol and platform capability checks
-separately rather than infer them from a completed data file.
+That protocol defines namespace ordering and platform capability checks
+separately from completion of a data file.
 
 `NOFOLLOW_LINKS` protects the final component at open; ancestor resolution remains
 under the stable trusted-directory assumption. A stronger hostile-path contract

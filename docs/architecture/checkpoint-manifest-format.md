@@ -14,8 +14,9 @@ The types, pure codec and referenced-object verifier are implemented in
 Decoding verifies manifest bytes and declarations. `CheckpointVerifier` separately
 loads and verifies every referenced segment and reconstructs the declared prefix.
 Neither operation checks an actual stored journal file, selects a generation or
-publishes a durable checkpoint. The [local publication protocol](../roadmap.md#local-storage-and-recovery)
-and durable engine remain planned. [ADR 0011](../decisions/0011-checkpoint-manifest-format.md)
+publishes a durable checkpoint. The separate [local publication protocol](../development/local-checkpoints.md)
+implements actual owner-journal verification and generation selection. Durable
+engine integration remains planned. [ADR 0011](../decisions/0011-checkpoint-manifest-format.md)
 records the representation decision.
 
 ## Generation, history and references
@@ -139,10 +140,10 @@ passes. Source calls made before a failure are not rolled back, and no transacti
 consumer receives a partially accepted history.
 
 This establishes that supplied immutable objects reconstruct the declared prefix.
-A future local protocol must also compare the **actual stored journal prefix**,
-establish its force boundary, force referenced objects, select a manifest atomically
-and make the namespace durable under explicit platform assumptions. Verification
-supplies none of those receipts or reclamation permission.
+The separate [local checkpoint store](../development/local-checkpoints.md) compares
+the **actual stored journal prefix**, forces the owner journal and referenced
+objects, then atomically selects a manifest with explicit directory synchronization.
+The pure verifier supplies none of those receipts or reclamation permission.
 
 ## Ownership, example and independent fixture
 

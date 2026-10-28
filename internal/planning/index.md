@@ -178,9 +178,11 @@ Current Java verification command, using the tracked Maven Wrapper and JDK 25:
 This runs temporal type/boundary checks, canonical histories against both reference
 and embedded engine, seeded dense-state comparisons, focused engine
 lifecycle/concurrency, journal codec, local journal I/O/process, immutable segment
-codec, local segment I/O/lifetime and manifest codec/consistency checks. Journal force
-and process-restart evidence do not establish durable engine recovery or portable
-namespace/power-loss guarantees.
+codec, local segment I/O/lifetime, manifest codec/consistency, actual owner-journal
+prefix and local checkpoint publication checks. Include before/after-rename faults,
+unsupported capability before mutation, capacity reservation, same-file lock
+preservation and exact process reopen. File/directory force and process-restart
+evidence do not establish durable engine recovery or universal power-loss guarantees.
 Follow the [reference guide](../../docs/development/reference-model.md) and
 [engine guide](../../docs/development/embedded-engine.md) for coverage, reproduction and
 example execution, and the [build guide](../../docs/development/build.md)

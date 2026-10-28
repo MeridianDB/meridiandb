@@ -37,8 +37,10 @@ preserves exact transaction ranges and verifies complete object identifiers.
 The [local segment adapter](development/local-segments.md) adds create-only file
 writes and bounded reopen with immutable heap-reader lifetimes. The
 [manifest codec and verifier](architecture/checkpoint-manifest-format.md) check
-referenced history against an exact reconstructed journal prefix. Stored-journal
-verification, checkpoint publication, durable engine integration and layout
+referenced history against an exact reconstructed journal prefix. The
+[local checkpoint store](development/local-checkpoints.md) verifies the actual
+owned journal prefix, publishes immutable generations and reopens complete history
+under explicit filesystem requirements. Durable engine integration and layout
 experiments remain planned.
 SQL, replication and integrations remain open design questions.
 

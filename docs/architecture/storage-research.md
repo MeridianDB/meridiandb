@@ -39,7 +39,7 @@ answers a temporal database is permitted to discard.
 | Complete appended prefix | Bytes contain complete, validated transaction frames | Implemented by codec and local sequential writer |
 | Forced journal prefix | Local storage has completed the declared force protocol | Explicit local file force; namespace durability remains separate |
 | Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory; durable integration is planned |
-| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Planned with immutable segments and recovery |
+| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Local generation publication implemented with explicit filesystem requirements; engine integration planned |
 
 For the initial durable engine, the intended order is: prepare and validate a
 transaction, append its frame, complete the force boundary, publish its immutable
@@ -81,13 +81,15 @@ writer exclusion, sequential recovery and explicit evidence-preserving tail repa
 The [immutable history codec](immutable-segment-format.md) preserves original
 transaction ranges with complete-object integrity and expected content identifiers.
 The [local segment adapter](../development/local-segments.md) supplies create-only
-file force and fully verified heap readers. Manifest and namespace publication
-must still establish a durable checkpoint for engine recovery. The
-[manifest codec and verifier](checkpoint-manifest-format.md) now validate a supplied
-segment set and reconstruct its exact journal-prefix binding. Actual stored-journal
-verification and checkpoint publication remain separate. The adapter's
-[decision record](../decisions/0010-local-segment-io.md) separates those boundaries
-using current JDK and Lucene filesystem evidence.
+file force and fully verified heap readers. The
+[manifest codec and verifier](checkpoint-manifest-format.md) validate a supplied
+segment set and reconstruct its exact journal-prefix binding. The separate
+[local checkpoint store](../development/local-checkpoints.md) compares that binding
+with the actual owner journal, forces dependencies, then atomically selects and
+synchronizes an immutable generation. [ADR 0012](../decisions/0012-local-checkpoint-publication.md)
+refreshes JDK and Lucene filesystem evidence and explains generation selection,
+capability gating and uncertain publication. Engine acknowledgement and recovery
+remain separate integration work.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

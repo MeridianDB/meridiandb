@@ -97,12 +97,13 @@ alternatives. No backend or multi-process writer coordination exists here.
 
 ## Verification and limits
 
-`./mvnw -B verify` currently runs **246 JUnit test invocations**, including the
+`./mvnw -B verify` currently runs **304 JUnit test invocations**, including the
 71 temporal/engine checks below, 29 [journal codec checks](../architecture/journal-format.md),
-38 [local journal I/O/process checks](local-journal.md),
+57 [local journal I/O/process/prefix checks](local-journal.md),
 27 [immutable segment codec checks](../architecture/immutable-segment-format.md),
-36 [local segment I/O/lifetime checks](local-segments.md) and
-45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md):
+36 [local segment I/O/lifetime checks](local-segments.md),
+45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md) and
+39 [local checkpoint publication checks](local-checkpoints.md):
 
 - The unchanged five canonical histories supply 84 expected steps for each of
   reference and engine, including invalid inputs and extreme coordinates.

@@ -7,8 +7,8 @@ description: See MeridianDB's implemented memory engine and journal codec, the p
 
 MeridianDB's initial target is an embedded, single-node Java temporal engine.
 The memory engine, local journal, immutable history files and manifest consistency
-checks establish a correctness baseline. Manifest publication, durable engine recovery and performance
-evaluation remain planned.
+checks and local checkpoint publication establish a correctness baseline. Durable
+engine recovery and performance evaluation remain planned.
 There is no release date or stable API commitment.
 
 ## Available today
@@ -23,6 +23,7 @@ There is no release date or stable API commitment.
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |
 | [Local immutable files](development/local-segments.md) | Create-only file writes, bounded expected-ID verification and explicit heap-reader lifetimes |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
+| [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 The engine retains state only in memory. The journal codec validates byte
@@ -40,9 +41,12 @@ The local segment adapter writes new files, forces and closes them before
 returning an ID, and validates whole objects before returning immutable heap
 readers. It preserves failed candidates and never overwrites a segment. The manifest
 codec describes a consistent segment set; its verifier checks every supplied object
-and reconstructs the exact journal-prefix byte count and hash. Local publication
-must still verify the actual stored journal prefix, establish force boundaries and
-select a complete generation atomically with explicit namespace durability.
+and reconstructs the exact journal-prefix byte count and hash. The local checkpoint
+store verifies the actual journal through its owner, forces dependencies and their
+directory entries, then selects a complete generation by atomic rename and a final
+directory force. Unsupported directory capabilities fail before store files are
+created. Failed publication retains evidence and requires reopen; an attempted
+rename can have an uncertain outcome. Old generations and segments remain retained.
 Durable engine integration must recover acknowledged transactions and request
 identities, preserve historical answers, and handle a
 lost acknowledgement without duplicate effects. Crash/restart tests must cover

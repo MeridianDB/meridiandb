@@ -7,8 +7,8 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
 types, the test reference, memory-only engine, local journal and immutable segment
-I/O and manifest consistency are implemented; local publication, durable integration and later outcomes
-remain planned. The
+I/O, manifest consistency and local checkpoint publication are implemented; durable
+engine integration and later outcomes remain planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
@@ -33,8 +33,8 @@ These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
 with reference support in tests under the [build foundation](../../docs/development/build.md).
 The journal and immutable segment codecs have local file adapters. Manifest
-metadata and referenced-object consistency are implemented; local publication,
-durable integration and measured experiments remain planned.
+metadata, referenced-object consistency and local generation publication are
+implemented; durable integration and measured experiments remain planned.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 
@@ -224,6 +224,11 @@ manifest consistency and atomic/durable publication under explicit local platfor
 assumptions. Keep the parent expanded until all children and original integration
 criteria pass. A pure codec is not a durable checkpoint.
 
+**Integration complete:** MDB-0022 closes this parent after all required children:
+exact immutable history reopen, complete invalid-object rejection, verified actual
+journal binding, exclusive publication, ordered namespace forces, uncertain-failure
+handling and retained reader/object lifetimes. See its artifacts and the dated receipt.
+
 ## MDB-0018 Immutable segment format and codec
 
 **Outcome:** choose a minimal versioned history-segment representation in an ADR.
@@ -284,6 +289,11 @@ and namespace/platform failure boundaries. Keep this parent and MDB-0007 expande
 until both children and all original criteria pass. This separates malformed or
 inconsistent object graphs from filesystem publication without reducing scope.
 
+**Integration complete:** both children pass. The local store verifies stored bytes,
+publishes immutable generations and reopens the complete selected graph under
+explicit capabilities. MDB-0022 supplies the original publication/reopen and
+reader-lifetime evidence; MDB-0007 also closes. Engine recovery remains MDB-0008.
+
 ## MDB-0021 Manifest format and checkpoint consistency
 
 **Outcome:** implement immutable manifest metadata, generation identity distinct
@@ -304,7 +314,7 @@ No actual journal-file check, namespace publication or durability receipt is cla
 `CheckpointManifest`/`ManifestId`, bounded `ManifestCodec`, incremental
 `CheckpointVerifier`, independent codec/whole-set tests and `examples/ManifestExample.java`.
 Metadata, complete supplied-object validation and actual stored-journal/publication
-receipts remain distinct. MDB-0020 and MDB-0007 stay expanded.
+receipts remain distinct. Local publication is now supplied by MDB-0022.
 
 ## MDB-0022 Local checkpoint publication
 
@@ -320,6 +330,17 @@ publication-boundary and reader-lifetime checks. Record supported platforms and
 fail unsupported capabilities explicitly. Keep engine acknowledgement/recovery in
 MDB-0008; retain journal and referenced objects until explicit retention permits
 reclamation.
+
+**Produced artifacts:** [local checkpoint guide](../../docs/development/local-checkpoints.md),
+[ADR 0012](../../docs/decisions/0012-local-checkpoint-publication.md),
+`LocalCheckpointStore`, `LocalCheckpointReader`, owner-channel `LocalJournal.prefix`,
+39 publication/process and 19 prefix tests, plus `examples/LocalCheckpointExample.java`.
+Highest immutable generation selection avoids a mutable head pointer. Namespace
+capability is probed before mutation; all dependencies share the durably named
+root. Publication retains pending evidence, old generations and all history.
+Darwin arm64 local tests exercise actual directory force, atomic rename and process
+reopen; Linux/Windows CI separately reports capability-dependent cases. No power-loss
+or durable-engine result is inferred. All original MDB-0020/MDB-0007 criteria pass.
 
 ## MDB-0008 Durable engine and recovery
 

@@ -113,6 +113,23 @@ headers fail closed without repair or resynchronization. Failed repaired open
 returns no usable journal. Successful repaired open reports the newly forced
 retained prefix.
 
+## Verify an owned journal prefix
+
+`prefix(throughSequence)` reads and validates the exact header and transaction
+frames through an already appended sequence, returning immutable `Prefix` metadata:
+sequence, byte length and lowercase SHA-256. Sequence zero binds only the lineage
+header. Earlier cutoffs stop before later frames. It hashes stored bytes through
+the owner's channel, without re-encoding records, opening a second handle or
+forcing data. Appended/forced counters remain unchanged. Invalid cutoffs are
+rejected before I/O; I/O, corruption and observed size changes poison the journal.
+Validation keeps a request-ID set for the prefix and bounded per-frame buffers.
+
+`path()` exposes the canonical real-file path for cooperating adapters; injected
+storage has no path. The [local checkpoint store](local-checkpoints.md) requires
+this owner at its designated journal path and compares the actual prefix with
+complete immutable history before publication. Prefix metadata alone is not a
+force or publication receipt.
+
 ## Local filesystem assumptions
 
 Use a regular file with working local locks and force semantics. A canonical-path
@@ -130,7 +147,10 @@ It does not establish durable creation of the journal or evidence file's directo
 entry. The containing namespace must already be durably established through a
 platform-specific protocol before relying on it after power loss. There is no
 portable parent-directory sync implementation here, so create/repair alone does
-not promise power-loss-safe namespace publication.
+not promise power-loss-safe namespace publication. The separate
+[checkpoint store](local-checkpoints.md) adds ordered dependency and generation
+directory forces where supported; its containing directory must already be
+durably named. Tail-repair evidence has its own creation boundary.
 
 Tests cover short/failed I/O, force cutoffs, repair ordering, corruption and actual
 separate-JVM lock exclusion and abrupt process exit after force. Local macOS APFS

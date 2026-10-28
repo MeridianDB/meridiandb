@@ -18,7 +18,10 @@ in bounded, checksummed byte images. The [local segment adapter](docs/developmen
 adds create-only file writes and verified heap readers. A separate
 [manifest codec and verifier](docs/architecture/checkpoint-manifest-format.md)
 check a complete segment set against its reconstructed journal-prefix binding.
-Stored-journal verification and local checkpoint publication remain planned. There is no published library or stable API.
+[Local checkpoint publication](docs/development/local-checkpoints.md) now verifies the actual
+owned journal prefix and selects immutable generations through ordered forces and
+atomic rename on supported filesystems. Durable engine integration remains planned.
+There is no published library or stable API.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -90,8 +93,8 @@ without committing to a public API.
 ## Development roadmap
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
-local journal, immutable segment files and manifest consistency checks, followed
-by local checkpoint publication, durable engine recovery,
+local journal, immutable segment files and local checkpoint publication, followed
+by durable engine recovery,
 temporal query operators, history-preserving compaction, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
@@ -110,9 +113,9 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 246 JUnit test invocations: 71 temporal/engine, 29 journal codec,
-38 local journal I/O/process, 27 immutable segment codec and 36 local segment
-I/O/lifetime checks, plus 45 manifest codec/consistency checks. Coverage
+This runs 304 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
+I/O/lifetime, 45 manifest codec/consistency and 39 local checkpoint publication checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -134,7 +137,8 @@ then confirms an identical retry returns commit `2`. The
 [engine guide](docs/development/embedded-engine.md) explains the experimental API,
 read-view lifetimes and memory limits. Closing or crashing loses the database.
 The separate [local journal example](docs/development/local-journal.md) exercises
-append/force and exact reopen without making the memory engine persistent.
+append/force and exact reopen. The [local checkpoint example](docs/development/local-checkpoints.md#readers-and-example)
+adds verified generation publication and reopen; the memory engine remains nonpersistent.
 
 ## Working in this repository
 

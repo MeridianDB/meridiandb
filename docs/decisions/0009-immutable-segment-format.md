@@ -6,7 +6,7 @@ description: Record MeridianDB's bounded immutable history-segment representatio
 # ADR 0009: Immutable transaction-history segments
 
 - **Date:** October 28, 2026
-- **Status:** format/codec implemented; [local adapter](0010-local-segment-io.md) implemented separately; [manifest consistency](0011-checkpoint-manifest-format.md) implemented; local publication planned
+- **Status:** format/codec implemented; [local adapter](0010-local-segment-io.md) implemented separately; [manifest consistency](0011-checkpoint-manifest-format.md) implemented; [local publication](0012-local-checkpoint-publication.md) implemented separately
 - **Scope:** Immutable history representation and validation
 
 ## Context
@@ -77,8 +77,8 @@ repeated framing and string overhead. A checksum and content address cannot
 establish durable creation of a file or permission to reclaim its journal source.
 The [manifest representation](0011-checkpoint-manifest-format.md) binds verified
 segment IDs, lengths, lineage, ordered ranges and a reconstructed journal prefix.
-Actual stored-journal verification and atomic/namespace durability still require
-the local publication protocol.
+The separate [local publication protocol](0012-local-checkpoint-publication.md)
+adds actual stored-journal verification and atomic selection with directory synchronization.
 
 The [format specification](../architecture/immutable-segment-format.md) owns bytes,
 limits, failures and ownership. Passing codec tests does not establish file I/O,
