@@ -234,10 +234,12 @@ successful transaction expects `status: committed`, its `commit`, and `replayed`
 a request lookup omits `replayed`. Expected scan bounds use the same integer/null
 notation as writes.
 
-MDB-0003 will introduce the Maven/JDK foundation and one executable check from
-this specification. MDB-0004 will implement the temporal types and independent
-Java reference model, run the complete fixtures, add boundary/range validation
-and seeded histories, and preserve failing seeds. MDB-0005 will check an actual
+MDB-0003 establishes the [Java/Maven foundation](../development/build.md) and an
+experimental valid-time interval primitive with 18 boundary test invocations from
+this specification. It does not execute the complete histories. MDB-0004 reuses
+that primitive, completes temporal types and implements the independent Java
+reference model with full fixture replay, additional validation and seeded histories.
+Preserve failing seeds. MDB-0005 will check an actual
 in-memory engine against them. Concurrent visibility and durable crash guarantees
 also need implementation tests in their respective steps; sequential fixture
 replay alone cannot establish them.

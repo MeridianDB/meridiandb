@@ -60,7 +60,8 @@ February 1 belongs to the second interval, so adjacent intervals do not both
 claim that boundary. Dates here abbreviate midnight UTC. The
 [contract](../architecture/temporal-contract.md) defines microsecond coordinates,
 unbounded endpoints, overlap ordering and query results. It remains an
-unimplemented specification, not a storage schema or stable API.
+working specification, with interval boundary tests implemented; the full engine,
+storage schema and stable API remain unimplemented.
 
 ## Events and snapshots answer different questions
 

@@ -5,7 +5,8 @@ description: Contribute to MeridianDB’s temporal semantics, reference model an
 # Contributing
 
 MeridianDB is an early documentation and research project. The storage engine is
-not implemented, and there is no engine artifact or stable API to integrate with.
+not implemented. The Java/Maven foundation builds a tested interval primitive;
+there is no published engine artifact or stable API to integrate with.
 Contributions are most useful when they turn an open design question into a small,
 reviewable result with explicit evidence.
 
@@ -41,6 +42,18 @@ instruction. End by recommending the next eligible item. Documentation changes
 on `main` publish through the automatic GitHub Pages workflow; library publication
 remains a separate action.
 
+## Build and test Java
+
+Use JDK 25 and the tracked wrapper from the repository root:
+
+```bash
+./mvnw -B verify
+```
+
+Windows uses `.\mvnw.cmd -B verify`. Follow the [Java/Maven guide](../development/build.md)
+for bootstrap tools, current artifact research, exact version pins and test scope.
+Research latest artifact versions for every Maven change under that procedure.
+
 ## Run the documentation locally
 
 Use Python 3.13 (recorded in `.python-version`) and run commands from the repository
@@ -72,9 +85,8 @@ Preview the generated `site/` directory separately:
 .venv/bin/python -m http.server 8000 --bind 127.0.0.1 --directory site
 ```
 
-These commands operate on the documentation site. Maven is selected for the Java
-engine; its wrapper, JDK baseline and commands will arrive with executable engine
-code. See [documentation and publishing](documentation.md) for dependency choices,
+These commands operate on the documentation site; Java verification uses the
+independent Maven Wrapper command above. See [documentation and publishing](documentation.md) for dependency choices,
 portability, automatic publication and optional manual rebuilds.
 
 ## Keep evidence and checks focused

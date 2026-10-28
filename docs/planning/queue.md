@@ -12,18 +12,18 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: none; **MDB-0002** source acceptance is complete.
-- The temporal contract and exact fixtures are specified; no Java engine exists.
-- Next eligible item: **MDB-0003**, Java and Maven build foundation. Before claiming
-  it, verify the MDB-0002 completion commit reached remote `main` and its relevant
-  CI passed, following the workflow's delivery check.
-- MDB-0001 completion `c0df725` was verified on remote `main` with successful
-  Documentation checks before MDB-0002 began.
-- First website publication was confirmed on October 28, 2026 at
-  [meridiandb.org](https://meridiandb.org/). The owner subsequently authorized
-  automatic publication for documentation changes pushed to `main`; follow the
-  [website guide](../contributing/documentation.md#initial-hosting-and-publication)
-  and verify the actual deployment outcome. The engine queue position is unchanged.
+- Active executable item: none; **MDB-0003** source acceptance is complete.
+- The Java 25/Maven build and interval primitive pass 18 boundary invocations.
+  The full reference model and database engine remain unimplemented.
+- Next eligible item: **MDB-0004**, temporal types and the reference model. Before
+  claiming it, verify the MDB-0003 completion commit on remote `main`, Java/docs CI
+  and automatically triggered website publication under the workflow.
+- MDB-0002 completion `ecd07c9` was verified on remote `main`. Before MDB-0003 began,
+  latest delivery `f28155e` had successful docs checks and Pages publication.
+- For each Maven change, follow current-artifact research in the
+  [build guide](../development/build.md#research-maven-versions-for-every-maven-change).
+- Documentation changes pushed to `main` publish automatically under the
+  [website guide](../contributing/documentation.md#initial-hosting-and-publication).
 
 ## Ordered work
 
@@ -31,8 +31,8 @@ children before implementation rather than treating a whole milestone as one pat
 | --- | --- | --- | --- | --- |
 | [MDB-0001](roadmap.md#mdb-0001-planning-workflow) | Establish the plan and iteration workflow | — | done | — |
 | [MDB-0002](roadmap.md#mdb-0002-temporal-contract) | Define the initial temporal contract and workloads | — | done | MDB-0001 |
-| [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | ready | MDB-0002 |
-| [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | queued | MDB-0003 |
+| [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | done | MDB-0002 |
+| [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | ready | MDB-0003 |
 | [MDB-0005](roadmap.md#mdb-0005-embedded-in-memory-engine) | Build an embedded in-memory engine | — | queued | MDB-0004 |
 | [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | queued | MDB-0005 |
 | [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | queued | MDB-0006 |

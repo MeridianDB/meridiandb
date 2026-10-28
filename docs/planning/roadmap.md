@@ -27,7 +27,9 @@ initial engine independent of a mandatory application server or service framewor
 | Experiments | Reproducible workloads and evidence for layout/index decisions |
 
 These are responsibilities, not directories already implemented or a frozen public
-API. Read the [architecture overview](../architecture/overview.md) and
+API. The first artifact and temporal package now exist under the
+[build foundation](../development/build.md); the remaining areas are planned.
+Read the [architecture overview](../architecture/overview.md) and
 [language strategy](../decisions/0001-language-strategy.md) before changing them.
 
 ## MDB-0001 Planning workflow
@@ -81,13 +83,19 @@ JDK, CI is configured to run the same verification, README/contributor commands 
 accurate and the toolchain decision records versions and rationale. Publish no
 library artifact as part of this foundation step.
 
+**Build artifacts:** [Java/Maven guide](../development/build.md) and
+[ADR 0004](../decisions/0004-java-build-foundation.md). The foundation introduces a
+small interval primitive for meaningful boundary checks; MDB-0004 reuses it.
+Research current Maven artifact versions under the build guide on every Maven change.
+
 References: [Maven's project model](https://maven.apache.org/what-is-maven.html) and
 [Wrapper setup and checksums](https://maven.apache.org/wrapper/).
 
 ## MDB-0004 Temporal types and reference model
 
-**Outcome:** implement the selected command, query, interval and commit-position
-types plus a straightforward reference interpreter for the contract. Keep the
+**Outcome:** reuse the interval primitive from MDB-0003, complete the selected
+command, query, interval and commit-position types, and implement a straightforward
+reference interpreter for the contract. Keep the
 oracle in test support or a separate test artifact when needed. Build reusable
 history fixtures and exact expected answers without borrowing future optimized
 storage/index algorithms.

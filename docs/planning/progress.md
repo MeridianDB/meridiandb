@@ -150,6 +150,66 @@ the final handoff. No repository domain setting or DNS change is needed.
 
 **Next recommendation:** MDB-0003 — establish the Java and Maven build foundation.
 
+## 2026-10-28 MDB-0003 — Java and Maven foundation
+
+**Outcome:** introduce the single experimental artifact
+`org.meridiandb:meridiandb-core:0.1.0-SNAPSHOT`, standard Java source/test layouts,
+Java 25 compiler baseline, Apache-generated Maven Wrapper, pinned plugins and
+JUnit Jupiter, ignored local build output and Linux/Windows read-only verification
+CI. The first production primitive is `ValidTimeInterval`, with explicit unbounded
+bounds and no endpoint arithmetic. No engine or library release is introduced.
+
+**Decisions and owner direction:** [ADR 0004](../decisions/0004-java-build-foundation.md)
+records the JDK, one-artifact structure and independent docs build. The owner requires
+research of latest Maven dependency artifact versions for every Maven change;
+root agent rules and the [build guide](../development/build.md) now own that procedure.
+Research on October 28 selected Maven 3.10.0, Wrapper 3.3.4, JUnit 6.1.3 and the
+latest stable compatible versions of every pinned lifecycle plugin. The guide
+records exact coordinates, current stable versus metadata prerelease entries and
+primary-source links. Maven 4 RC/plugin betas were researched and deliberately
+not selected. Install/deploy versions are managed but neither goal runs in verify.
+
+**Prerequisite delivery:** MDB-0002 completion `ecd07c9` was verified on remote
+`main`. Latest delivery `f28155e` had successful Documentation checks and Pages
+publication before this item was claimed.
+
+**Validation:** `./mvnw -B verify` succeeds on macOS arm64 with Oracle JDK 25.0.2
+and pinned Maven 3.10.0: 18 tests, zero failures/errors/skips. Salary fixture
+coordinates agree with the Java boundary inputs. A clean index/source checkout
+without `.git` or generated output, in a path containing spaces, passes the same
+command and produces a byte-identical JAR (SHA-256
+`8481ce322984a9294c0174446021ca9d0810a9a39c92db879188c47713a2af7b`).
+The artifact contains only the production primitive and metadata, with Java 25
+bytecode and no bundled JUnit/runtime library.
+
+The Maven archive matches Apache's published SHA-512; its derived SHA-256 is pinned
+in wrapper properties. A fresh wrapper cache rejects a deliberately incorrect
+SHA-256 before Maven starts. Static checks reconcile all nine POM dependency/plugin
+pins with researched stable versions, the JDK file/compiler release, wrapper
+properties and both CI launcher commands. Actions are pinned and repository
+permissions are read-only. Actual Linux/Windows CI outcomes are reported after push.
+
+Strict Zensical builds and generated URL/link checks pass for both supported
+hosting paths with 16 content pages. Local preview checks cover the new guide/ADR,
+updated setup pages and navigation/search. Current-policy callers and the queue
+are reconciled, Git whitespace/staged-scope checks pass, and scratch logs/builds
+stay in ignored `.local-qa/mdb-0003/`. Windows execution and Pages publication are
+verified through their actual workflow results in the final handoff.
+
+**Scope and next work:** this is one cohesive build-foundation step; no new/split
+IDs were required. Its interval primitive supplies meaningful executable checks
+and will be reused by MDB-0004. The 84-expectation history suite, additional temporal
+types, reference interpreter and seeded histories remain next; these 18 primitive
+checks are not engine/concurrency/durability evidence.
+
+**Delivery evidence:** the completion commit carries `Step-ID: MDB-0003` and
+`Step-Result: completed`; resolve its SHA and remote ancestry through Git. The final
+handoff reports actual push, Java/docs CI and automatic Pages publication state.
+No Java library is uploaded or released.
+
+**Next recommendation at this checkpoint:** MDB-0004 — implement temporal types
+and the independent reference model, reusing the interval primitive and history fixtures.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

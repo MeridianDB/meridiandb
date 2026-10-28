@@ -34,3 +34,6 @@ __pycache__/
 # Local output left by the historical documentation scaffold
 node_modules/
 docs/.vitepress/
+
+# Maven build output
+/target/

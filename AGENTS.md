@@ -8,9 +8,10 @@ so a new session can work correctly without relying on earlier conversations.
 - Read `README.md`, the decision records relevant to the task, and any more specific
   `AGENTS.md` before editing. Inspect Git status and preserve unrelated changes.
 - Keep changes scoped to MeridianDB and the requested task.
-- The repository has a Zensical documentation site using MkDocs configuration;
-  the Java engine is not yet implemented. Use Python 3.13, `.venv/` and the pinned
-  documentation requirements. Discover actual tooling before engine commands.
+- The repository has a Java 25/Maven foundation with an experimental interval
+  primitive; the database engine and full reference model are not implemented.
+  Follow the [Java build guide](docs/development/build.md) and use `./mvnw -B verify`.
+  The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
   implementation choices do not need another approval.
@@ -48,10 +49,16 @@ so a new session can work correctly without relying on earlier conversations.
 - Keep the initial engine usable without a mandatory service framework, cloud SDK,
   language wrapper or native runtime dependency. Put integrations behind narrow
   boundaries when they are actually needed.
-- Maven is the chosen Java build tool, per the owner's October 28, 2026 direction.
-  Establish the JDK baseline, Maven Wrapper and dependency versions with the first
-  Java implementation. Keep the Python documentation build independent. Introduce
-  preview features or native code only with a documented need and verification.
+- Follow the [Java build decision](docs/decisions/0004-java-build-foundation.md):
+  use Java 25, one initial Maven artifact, the checksum-pinned Wrapper and exact
+  plugin/dependency versions. Keep the Python documentation build independent.
+  Introduce preview features or native code only with a documented need and verification.
+- Owner instruction, October 28, 2026: always research latest dependency artifact
+  versions for Maven work. Follow the [version research procedure](docs/development/build.md#research-maven-versions-for-every-maven-change)
+  on each Maven change, using current Central metadata and official compatibility
+  evidence. Record date, coordinates, latest stable/selected versions and any reason
+  for a different choice. Pin exact versions after researching; a cached build or
+  prerelease metadata entry is not evidence of the latest stable compatible release.
 - Separate temporal semantics, logical query operations, physical layout and
   backend capabilities. Delay public syntax and broad integration commitments
   while using explicit queries to evaluate storage decisions.
@@ -97,7 +104,8 @@ so a new session can work correctly without relying on earlier conversations.
   `.venv/bin/zensical build --strict`. Inspect affected pages through a local
   static server or `.venv/bin/zensical serve --dev-addr 127.0.0.1:8000`; include
   navigation/search when touched. Run commands from the repository root and check
-  links, terminology and diffs without claiming engine tests were run.
+  links, terminology and diffs. Report primitive/unit tests separately from full
+  reference-model, engine, concurrency and durability verification.
 - Parallelize independent research or review when useful; assign clear ownership
   and serialize overlapping edits and Git operations.
 
@@ -125,8 +133,9 @@ so a new session can work correctly without relying on earlier conversations.
   publishes documentation changes pushed to `main`; it also retains manual dispatch
   from `main` for a rebuild. Build the HTTPS URL from Pages host/base-path metadata
   and publish only after its strict build succeeds. GitHub Pages is the initial
-  host; changing the generator and changing the host are separate decisions. Cloudflare deployments remain
-  owner-performed; automatic GitHub Pages publication does not change that policy.
+  host; changing the generator and changing the host are separate decisions.
+  Cloudflare deployments remain owner-performed; automatic GitHub Pages publication
+  does not change that policy.
 - Keep `.venv/`, `.cache/`, `site/`, Python caches and `.local-qa/` untracked.
   Store durable review evidence in tracked documentation when it adds lasting value.
 - Mermaid and PlantUML are permitted for useful diagrams. Preserve editable

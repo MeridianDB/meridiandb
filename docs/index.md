@@ -9,7 +9,7 @@ Explore data through two dimensions of time.
 
 MeridianDB is an experimental storage engine for preserving when facts apply and
 when the database learned about them. Java and in-process JVM embedding are the
-initial working direction, with Maven selected for the future Java build.
+working direction, with a Java 25/Maven build foundation now available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
 [Explore the architecture](architecture/overview.md) ·
@@ -22,8 +22,9 @@ direction; there is no runnable database, published library or stable API yet.
 
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.
-The next foundation is the Java/Maven build, followed by a simple reference model.
-Persistent storage, recovery and layout experiments follow. SQL, replication and
+The [Java/Maven foundation](development/build.md) now builds a small tested interval
+primitive. A simple reference model comes next; persistent storage, recovery and
+layout experiments follow. SQL, replication and
 integrations remain open design questions.
 
 ## Why keep both times?

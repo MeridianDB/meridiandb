@@ -8,7 +8,8 @@ both when a fact applies in the domain and when the database recorded that knowl
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
 The [initial temporal contract](docs/architecture/temporal-contract.md) and exact
-workload fixtures are defined. There is no engine, published library, stable API
+workload fixtures are defined. The Java 25/Maven foundation now builds a tested
+valid-time interval primitive. There is no engine, published library, stable API
 or runnable database example yet. The capabilities below describe the intended
 direction, not implemented engine features.
 
@@ -48,8 +49,10 @@ adoption should serve an identified engineering need.
 
 See the [language decision](docs/decisions/0001-language-strategy.md) for alternatives,
 tradeoffs, evidence and conditions for revisiting this default. **Maven is the
-chosen Java build tool**, reflecting the maintainer's experience. The JDK baseline
-and Maven Wrapper will be established with the first Java implementation.
+chosen Java build tool**, reflecting the maintainer's experience. The initial
+[build foundation](docs/development/build.md) uses Java 25 and a checksum-pinned
+Maven Wrapper. Maven artifact versions are researched from current primary sources
+before selection and then pinned; see the dated evidence in the build guide.
 
 ## Research direction
 
@@ -95,15 +98,34 @@ To start an iteration, ask: **Continue the implementation queue for one bounded
 step.** Preparing the plan does not automatically start engine implementation.
 Source pushes run applicable checks; documentation changes pushed to `main` also
 publish the website automatically after its strict build succeeds. Library releases
-remain separate actions. The Maven Wrapper and actual Java verification command
-will be introduced by the queued build-foundation step.
+remain separate actions. The build foundation is available; the next implementation
+outcome is the temporal types and independent reference model.
+
+## Build the Java foundation
+
+Use JDK 25 and run from the repository root; Maven is downloaded by the wrapper:
+
+```bash
+./mvnw -B verify
+```
+
+On Windows PowerShell:
+
+```powershell
+.\mvnw.cmd -B verify
+```
+
+This runs 18 temporal interval boundary checks and creates the local experimental
+`target/meridiandb-core-0.1.0-SNAPSHOT.jar`. It does not yet run a database or the
+complete history fixtures. See the [Java/Maven guide](docs/development/build.md)
+for setup, version research, wrapper verification and Linux/Windows CI.
 
 ## Working in this repository
 
 Read [AGENTS.md](AGENTS.md) for agent working agreements and documentation upkeep.
 Architectural rationale lives in [decision records](docs/decisions/index.md).
-Keep the README's implemented status accurate as the project develops. Java build
-and test instructions will be added with the first engine implementation.
+Keep the README's implemented status accurate as the project develops. Use the
+Java command above and run the separate documentation checks for public docs changes.
 
 ## Documentation website
 
@@ -137,7 +159,7 @@ Build the static site with strict checks:
 ```
 
 The generated site is `site/`. Python documentation tooling is independent of the
-future Maven engine build. Content uses ordinary Markdown and source-relative
+Maven Java build. Content uses ordinary Markdown and source-relative
 links to help preserve portability to other generators, including Hugo.
 
 GitHub Pages is the initial hosting target. Affected pull requests and pushes to

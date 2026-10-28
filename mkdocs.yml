@@ -58,6 +58,7 @@ nav:
       - Language strategy: decisions/0001-language-strategy.md
       - Documentation toolchain: decisions/0002-documentation-toolchain.md
       - Temporal semantics: decisions/0003-initial-temporal-semantics.md
+      - Java build foundation: decisions/0004-java-build-foundation.md
   - Implementation:
       - Agent workflow: planning/index.md
       - Live queue: planning/queue.md
@@ -65,4 +66,5 @@ nav:
       - Progress history: planning/progress.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
+      - Java and Maven: development/build.md
       - Documentation and publishing: contributing/documentation.md

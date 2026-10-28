@@ -26,9 +26,9 @@ Java, that the most concise language is best, or that Java guarantees adoption.
 Use Java for the initial engine and simple reference model. Keep the initial
 runtime and tooling focused on one implementation language. Maven is the Java
 build tool, following the owner's October 28, 2026 preference and existing
-fluency. Establish the JDK baseline and Maven Wrapper with the first Java
-implementation. The documentation website has a separate Python build; it does not
-add a language or runtime dependency to the engine.
+fluency. The [build foundation](0004-java-build-foundation.md) now establishes
+Java 25 and the checksum-pinned Maven Wrapper. The documentation website has a
+separate Python build; it does not add a language or runtime dependency to the engine.
 
 The reference model should use a simpler, independently reasoned algorithm than
 the optimized implementation. It need not use a different language. Correctness

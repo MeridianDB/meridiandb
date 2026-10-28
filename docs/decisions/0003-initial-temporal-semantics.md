@@ -6,7 +6,7 @@ description: "Record the rationale for MeridianDB's first temporal contract: who
 # ADR 0003: Initial temporal semantics
 
 - **Date:** October 28, 2026
-- **Status:** working decision for the first prototype; unimplemented
+- **Status:** working decision; interval primitive implemented, full engine planned
 - **Scope:** MDB-0002, with Java implementation following in the queue
 
 ## Context

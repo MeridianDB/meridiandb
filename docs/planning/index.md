@@ -169,15 +169,17 @@ Current documentation command, from the repository root:
 .venv/bin/zensical build --strict
 ```
 
-MDB-0003 will introduce the Maven Wrapper and make this engine command real:
+Current Java verification command, using the tracked Maven Wrapper and JDK 25:
 
 ```bash
 ./mvnw -B verify
 ```
 
-Until then, there is no Java build or engine test suite to run. Later cards must
-name their relevant unit, integration, crash/recovery or benchmark checks. Keep
-benchmark claims tied to measured semantics, durability and workload conditions.
+This currently runs the interval primitive's boundary checks, not the full
+reference fixtures or engine tests. Follow the [build guide](../development/build.md)
+for the owner's mandatory current-artifact research before each Maven change.
+Later cards must name their relevant unit, integration, crash/recovery or benchmark
+checks. Keep benchmark claims tied to measured semantics, durability and workloads.
 
 ## Reusable start prompt
 

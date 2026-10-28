@@ -1,0 +1,59 @@
+name: Java checks
+
+on:
+  pull_request:
+    paths:
+      - 'pom.xml'
+      - '.mvn/**'
+      - 'mvnw'
+      - 'mvnw.cmd'
+      - '.java-version'
+      - '.gitattributes'
+      - 'src/**'
+      - '.github/workflows/java-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'pom.xml'
+      - '.mvn/**'
+      - 'mvnw'
+      - 'mvnw.cmd'
+      - '.java-version'
+      - '.gitattributes'
+      - 'src/**'
+      - '.github/workflows/java-checks.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: java-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            command: ./mvnw -B verify
+          - os: windows-latest
+            command: .\mvnw.cmd -B verify
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version-file: .java-version
+          check-latest: true
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Verify with the pinned Maven Wrapper
+        run: ${{ matrix.command }}

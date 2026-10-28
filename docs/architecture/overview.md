@@ -13,9 +13,10 @@ the questions an initial prototype needs to resolve.
 Java is the default for the initial engine and correctness reference model. The
 maintainer's familiarity with Java supports code review, debugging and long-term
 maintenance, and it fits the initial assumption of in-process JVM embedding.
-Maven is the chosen Java build tool. The JDK baseline and Maven Wrapper will be
-established with the first Java implementation; the documentation site has a
-separate Python build.
+The [Java/Maven foundation](../development/build.md) now uses Java 25, a pinned
+Maven Wrapper and an experimental interval primitive with boundary tests. The
+full reference model and database engine remain planned; the documentation site
+has a separate Python build.
 
 Other languages remain options for bounded experiments or concrete integration
 needs. They are not promised modules or current dependencies. The
