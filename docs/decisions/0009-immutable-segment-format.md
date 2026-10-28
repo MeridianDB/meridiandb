@@ -6,7 +6,7 @@ description: Record MeridianDB's bounded immutable history-segment representatio
 # ADR 0009: Immutable transaction-history segments
 
 - **Date:** October 28, 2026
-- **Status:** pure format/codec implemented; local files and manifests planned
+- **Status:** format/codec implemented; [local adapter](0010-local-segment-io.md) implemented separately; manifests planned
 - **Scope:** Immutable history representation and validation
 
 ## Context
@@ -39,8 +39,10 @@ nested fields to journal v1 limits. Preflight frame and aggregate sizes before
 allocating the output. These are prototype resource limits, not throughput results.
 
 The initial API uses bounded byte arrays and immutable decoded lists; no file
-handle or mapped memory escapes. Local file creation, reader lifetimes, namespace
-publication, manifests and durable engine integration remain separate boundaries.
+handle or mapped memory escapes. The [local adapter](0010-local-segment-io.md)
+adds file creation and reader lifetimes.
+Namespace publication, manifests and durable engine integration remain separate
+boundaries.
 
 ## Comparable design evidence
 
@@ -77,5 +79,6 @@ A later manifest must bind verified segment IDs, lengths, lineage, ordered range
 and an included journal prefix, with explicit atomic/namespace durability rules.
 
 The [format specification](../architecture/immutable-segment-format.md) owns bytes,
-limits, failures and ownership. Passing codec tests does not complete immutable-file
-I/O, checkpoint publication or durable engine recovery.
+limits, failures and ownership. Passing codec tests does not establish file I/O,
+checkpoint publication or durable engine recovery; those boundaries require
+separate implementations and evidence.

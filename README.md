@@ -14,8 +14,9 @@ runnable embedding example. The engine implements the initial numeric temporal
 contract and remains nonpersistent. A separate local journal supports append,
 force, exclusive writer access and bounded replay; it is not yet integrated with
 the engine. An immutable history-segment codec preserves exact transaction ranges
-in bounded, checksummed byte images. Local segment files and manifest publication
-remain planned. There is no published library or stable API.
+in bounded, checksummed byte images. The [local segment adapter](docs/development/local-segments.md)
+adds create-only file writes and verified heap readers. Manifest publication
+remains planned. There is no published library or stable API.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -87,8 +88,8 @@ without committing to a public API.
 ## Development roadmap
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
-local journal and history-segment codec, followed by local immutable files,
-manifest publication, durable engine recovery,
+local journal and immutable segment files, followed by manifest publication,
+durable engine recovery,
 temporal query operators, history-preserving compaction, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
@@ -107,8 +108,9 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 165 JUnit test invocations: 71 temporal/engine, 29 journal codec,
-38 local journal I/O/process and 27 immutable segment codec checks. Coverage
+This runs 201 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+38 local journal I/O/process, 27 immutable segment codec and 36 local segment
+I/O/lifetime checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair

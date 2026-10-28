@@ -19,6 +19,7 @@ permanent commitment.
 | [0007: Journal format](0007-journal-format.md) | Pure codec implemented | Versioned bounded framing, exact identity, checksums and strict incomplete/corrupt input handling |
 | [0008: Local journal](0008-local-journal.md) | Implemented; experimental | Exclusive local writer, append/force cutoffs, bounded replay and explicit evidence-preserving tail repair |
 | [0009: Immutable history segments](0009-immutable-segment-format.md) | Pure codec implemented | Exact transaction ranges, bounded immutable objects, integrity footer and full-object identifiers |
+| [0010: Local immutable segment I/O](0010-local-segment-io.md) | Implemented; experimental | Create-only local files, bounded expected-ID verification and heap-owned reader lifetimes |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

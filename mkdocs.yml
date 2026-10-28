@@ -67,6 +67,7 @@ nav:
       - Journal format decision: decisions/0007-journal-format.md
       - Local journal decision: decisions/0008-local-journal.md
       - Immutable segment decision: decisions/0009-immutable-segment-format.md
+      - Local segment decision: decisions/0010-local-segment-io.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -74,4 +75,5 @@ nav:
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
       - Local journal: development/local-journal.md
+      - Local immutable segments: development/local-segments.md
       - Documentation and publishing: contributing/documentation.md

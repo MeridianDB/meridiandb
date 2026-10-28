@@ -50,8 +50,9 @@ does not select the others. Local files and S3-compatible object storage are
 research targets. The [transaction journal codec](journal-format.md) and
 [local file adapter](../development/local-journal.md) are implemented. The
 [immutable history-segment codec](immutable-segment-format.md) adds complete-object
-validation and content identity; local segment files, manifests, object storage
-and optimized query layouts remain planned.
+validation and content identity. Its [local adapter](../development/local-segments.md)
+creates new files and verifies expected IDs before returning heap-owned readers.
+Manifests, object storage and optimized query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 
@@ -77,8 +78,8 @@ whose answers change after a retroactive correction.
 ## Development direction
 
 The [technical roadmap](../roadmap.md) progresses from the implemented memory
-engine, local journal and immutable history codec to local segment files,
-manifest publication, durable engine recovery and workload measurements. The initial engine serializes writes within one JVM;
+engine, local journal and immutable segment files to manifest publication,
+durable engine recovery and workload measurements. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 
 ## Establish correctness before optimizing

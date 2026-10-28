@@ -16,6 +16,7 @@ on:
       - 'docs/architecture/journal-format.md'
       - 'docs/architecture/immutable-segment-format.md'
       - 'docs/development/local-journal.md'
+      - 'docs/development/local-segments.md'
       - '.github/workflows/java-checks.yml'
   push:
     branches: [main]
@@ -33,6 +34,7 @@ on:
       - 'docs/architecture/journal-format.md'
       - 'docs/architecture/immutable-segment-format.md'
       - 'docs/development/local-journal.md'
+      - 'docs/development/local-segments.md'
       - '.github/workflows/java-checks.yml'
 
 permissions:
@@ -75,3 +77,5 @@ jobs:
         run: java --class-path target/classes examples/LocalJournalExample.java
       - name: Run the immutable segment example
         run: java --class-path target/classes examples/SegmentCodecExample.java
+      - name: Run the local immutable segment example
+        run: java --class-path target/classes examples/LocalSegmentExample.java

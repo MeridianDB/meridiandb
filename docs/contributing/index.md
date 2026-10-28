@@ -6,8 +6,8 @@ description: Contribute to MeridianDB’s temporal semantics, reference model an
 
 MeridianDB is an early implementation and research project. Its Java/Maven build
 contains an experimental memory-only embedded engine, immutable temporal types
-and a separate test reference. There is no durable storage, published engine
-artifact or stable API yet.
+and a separate test reference. Independent journal and segment adapters support
+local file I/O, but there is no durable engine, published artifact or stable API yet.
 Contributions are most useful when they turn an open design question into a small,
 reviewable result with explicit evidence.
 
@@ -57,7 +57,9 @@ seeded histories and focused reproduction commands. Follow the
 understand close semantics, concurrency checks and memory-only limits. Storage
 work also follows the [journal specification](../architecture/journal-format.md)
 and [comparable-system research](../architecture/storage-research.md), with focused
-codec versus filesystem/recovery evidence kept separate.
+codec versus filesystem/recovery evidence kept separate. The
+[local immutable segment guide](../development/local-segments.md) documents
+create-only objects, expected IDs and heap-reader lifetimes.
 
 ## Run the documentation locally
 

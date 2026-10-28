@@ -34,8 +34,9 @@ guides storage choices. The separate [local journal](development/local-journal.m
 now adds exclusive writer access, append/force, bounded replay and explicit tail
 repair. The [immutable history codec](architecture/immutable-segment-format.md)
 preserves exact transaction ranges and verifies complete object identifiers.
-Local segment files, manifests, durable engine integration and layout experiments
-remain planned.
+The [local segment adapter](development/local-segments.md) adds create-only file
+writes and bounded reopen with immutable heap-reader lifetimes. Manifests, durable
+engine integration and layout experiments remain planned.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

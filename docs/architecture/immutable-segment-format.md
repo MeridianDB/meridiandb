@@ -10,8 +10,9 @@ of original transactions. The representation preserves lineage, request identity
 operation order and valid-time bounds. It is a correctness baseline for future
 storage layouts, not a current-state snapshot or an optimized query index.
 
-**Status:** types and byte-array encoding/decoding are implemented. Local segment
-files, reader lifetimes, manifests and checkpoint publication remain planned.
+**Status:** types and byte-array encoding/decoding are implemented. The separate
+[local adapter](../development/local-segments.md) implements create-only files and
+verified heap readers. Manifests and checkpoint publication remain planned.
 The engine remains memory-only; valid segment bytes do not establish persistence,
 query visibility or permission to discard journal history.
 [ADR 0009](../decisions/0009-immutable-segment-format.md) records the rationale.
@@ -123,8 +124,9 @@ The segment defensively copies its list and retains immutable transactions. Each
 encode returns a new caller-owned byte array. Decode does not mutate or retain the
 input array; the caller must not change it concurrently while validation runs.
 Returned values are ordinary immutable heap objects, with no file handle to close.
-This API materializes an entire bounded image and its decoded records. Streaming
-file readers and their ownership/lifetimes require the later local I/O adapter.
+This API materializes an entire bounded image and its decoded records. Local
+file access remains a separate concern; the [local adapter](../development/local-segments.md)
+uses the same bounded materialization with explicit reader close semantics.
 
 Run the complete example after verification:
 
@@ -157,7 +159,8 @@ count, aggregate size preflight and input/output ownership.
 ./mvnw -B -Dtest=SegmentCodecTest test
 ```
 
-These checks establish representation and integrity. Local immutable-file creation,
-reader lifetimes, atomic/durable manifest publication and engine reopen still need
-their own implementations and failure tests. The [roadmap](../roadmap.md) describes
+These checks establish representation and integrity. Local immutable-file creation
+and reader lifetimes have separate [adapter checks](../development/local-segments.md).
+Atomic/durable manifest publication and engine reopen still need their own
+implementations and failure tests. The [roadmap](../roadmap.md) describes
 those capabilities without treating a codec as a completed checkpoint.

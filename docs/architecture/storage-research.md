@@ -80,8 +80,11 @@ transaction frames. The [local adapter](../development/local-journal.md) adds ap
 writer exclusion, sequential recovery and explicit evidence-preserving tail repair.
 The [immutable history codec](immutable-segment-format.md) preserves original
 transaction ranges with complete-object integrity and expected content identifiers.
-Local immutable files and manifests must still establish a durable checkpoint for
-engine recovery.
+The [local segment adapter](../development/local-segments.md) supplies create-only
+file force and fully verified heap readers. Manifest and namespace publication
+must still establish a durable checkpoint for engine recovery. The adapter's
+[decision record](../decisions/0010-local-segment-io.md) separates those boundaries
+using current JDK and Lucene filesystem evidence.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

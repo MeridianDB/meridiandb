@@ -6,8 +6,9 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 # Java and Maven implementation roadmap
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
-types, the test reference, memory-only engine and pure journal codec are implemented;
-local storage I/O, durable integration and later outcomes remain planned. The
+types, the test reference, memory-only engine, local journal and immutable segment
+I/O are implemented; manifest publication, durable integration and later outcomes
+remain planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
@@ -31,8 +32,8 @@ initial engine independent of a mandatory application server or service framewor
 These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
 with reference support in tests under the [build foundation](../../docs/development/build.md).
-A pure journal codec now exists; local storage I/O, durable integration and measured
-experiments remain planned.
+The journal and immutable segment codecs have local file adapters; manifest
+publication, durable integration and measured experiments remain planned.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 
@@ -253,6 +254,13 @@ never modify a published segment in place.
 I/O and malformed/missing/changed objects are checked, identifiers bind complete
 contents and close/error behavior is tested. State local filesystem and namespace
 assumptions. Manifest publication remains MDB-0020.
+
+**Produced artifacts:** [local segment guide](../../docs/development/local-segments.md),
+[ADR 0010](../../docs/decisions/0010-local-segment-io.md), `LocalSegmentFile`,
+heap-owned `LocalSegmentReader`, real-file and injected-I/O checks, and
+`examples/LocalSegmentExample.java`. Creation never overwrites candidates; open
+binds an independently expected ID and closes the channel before exposing values.
+Namespace durability, manifests and durable engine integration remain separate.
 
 ## MDB-0020 Checkpoint manifest and publication
 

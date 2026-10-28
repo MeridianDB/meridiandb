@@ -14,8 +14,10 @@ so a new session can work correctly without relying on earlier conversations.
   and use `./mvnw -B verify`. The journal codec and
   [local adapter](docs/development/local-journal.md) implement append/force,
   exclusive ownership and sequential replay. The [immutable history segment codec](docs/architecture/immutable-segment-format.md)
-  validates exact transaction ranges and whole-object identity; local segment I/O,
-  manifests and durable engine integration remain planned.
+  validates exact transaction ranges and whole-object identity. The
+  [local segment adapter](docs/development/local-segments.md) provides create-only
+  writes and verified heap readers; manifests and durable engine integration
+  remain planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -105,8 +107,17 @@ so a new session can work correctly without relying on earlier conversations.
   preserve original temporal history and identity, validate the complete object,
   distinguish the integrity footer from the full-object content ID, and reject all
   incomplete/corrupt objects without returning a prefix. Enforce nested and aggregate
-  limits before allocating. Local readers/manifests must later bind expected IDs,
-  lineage, ranges and the included journal prefix; codec success is not publication.
+  limits before allocating. Local readers bind expected IDs; manifests must bind
+  lineage, ranges and the included journal prefix. Codec success is not publication.
+- Follow the [local segment contract](docs/development/local-segments.md): encode
+  before creating a path, use create-only/no-follow writes, force and close before
+  returning success, and retain failed candidates. Require an independent expected
+  ID and complete bounded validation before returning a reader. Reject non-regular
+  input before a read-only open so pipes cannot block acquisition. Keep paths in a
+  trusted stable directory; no-follow on a final component does not freeze parents.
+  Readers own heap snapshots with no open channel; close releases their reference
+  but preserves already returned immutable values. File creation/force and reader
+  close do not select a manifest or authorize reclamation.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

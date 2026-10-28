@@ -15,7 +15,9 @@ The engine is experimental and memory-only. The journal codec and
 [local file adapter](local-journal.md) in `org.meridiandb.storage.journal` provide
 bounded append, force and replay independently of that engine. The pure
 [immutable history codec](../architecture/immutable-segment-format.md) adds exact
-segment bytes and content identity; local segment publication is not implemented.
+segment bytes and content identity. The [local segment adapter](local-segments.md)
+adds create-only file writes and verified heap readers; manifest publication is
+not implemented.
 No library is published.
 
 ## Build and verify
@@ -61,8 +63,9 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 165 test invocations include 27 immutable segment codec checks,
-29 journal codec checks, 38 local journal I/O/process checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
+The current 201 test invocations include 36 [local segment I/O/lifetime checks](local-segments.md),
+27 immutable segment codec checks, 29 journal codec checks, 38 local journal
+I/O/process checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
 engine lifecycle/concurrency checks. Each implementation executes 84 exact fixture
@@ -144,9 +147,9 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for the immutable segment work on October 28; the selected versions remain
-unchanged. The segment codec uses standard JDK SHA-256 and CRC32C with no new
-dependency.
+for the local immutable-file work on October 28; the selected versions remain
+unchanged. The segment codec and adapter use standard JDK SHA-256, CRC32C and file
+I/O with no new dependency.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |
@@ -205,8 +208,9 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run the
-embedding example; changes under `examples/` trigger these checks.
+artifact is uploaded or released by this workflow. Both platforms also run four
+examples: embedded queries, local journal, pure segment codec and local immutable
+files. Changes under `examples/` trigger these checks.
 
 Documentation checks and automatic Pages publication retain their own workflows.
 For website setup and verification, follow the

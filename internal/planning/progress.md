@@ -721,6 +721,94 @@ content/search/sitemap evidence. No library artifact is uploaded or released.
 segment I/O, exact expected-ID verification and explicit reader lifetimes. Keep
 MDB-0007 expanded until this child, MDB-0020 and original parent criteria pass.
 
+## 2026-10-28 MDB-0019 — Local immutable segment I/O and reader lifetimes
+
+**Outcome:** complete only MDB-0019, preserving MDB-0007's original acceptance
+criteria and expanded state. Implement `LocalSegmentFile` and `LocalSegmentReader`
+using the exact v1 codec. The caller selects a new filename in an existing trusted,
+stable local directory. Encode/preflight before opening; CREATE_NEW/no-follow
+writes complete with bounded zero-progress handling, size validation, file force
+and successful close before returning the full-image ID. Never overwrite, truncate
+or delete a candidate; failed/uncertain bytes remain for inspection.
+
+Require an independent expected ID before input open. Reject non-regular inputs
+before a read-only open, use no-follow on the actual open and recheck regular-file
+status with cleanup. Bound size before image allocation, complete short reads,
+probe EOF/recheck size, then validate the complete encoding and expected full-object
+ID. No reader escapes a failed decode or close. Preserve primary exceptions and
+suppressed close errors. The narrow package-private positional I/O seam exercises
+these same paths with deterministic failures.
+
+Readers hold immutable heap history with no open file/mapping. Synchronized
+accessors reject use after idempotent close clears their reference. Previously
+returned values remain valid; independent readers have independent lifetimes and
+later on-disk changes cannot alter their snapshots. No deletion or retention
+permission is inferred. Limits bound bytes, not decoded/aggregate heap.
+
+**Research and review:** all twelve Maven Central metadata sources and official
+Maven/plugin, JUnit and Jackson compatibility sources were freshly rechecked on
+October 28. Selected stable versions remain unchanged; Maven/plugin 4.x preview
+entries remain unselected. POM changes only its description; no new dependency or
+plugin is introduced. JDK25 Files/FileChannel/NOFOLLOW_LINKS semantics, Lucene
+Directory file-sync/metadata-sync separation and Quickwit split/checkpoint
+publication informed ADR 0010. CREATE_NEW is atomic name creation, not whole-image
+publication. File force does not establish portable directory durability.
+ATOMIC_MOVE alone cannot promise no-overwrite replacement behavior. Final-component
+no-follow does not freeze ancestors; the supported boundary is a trusted stable
+directory, not hostile-path race protection. Independent production and public
+copy/ADR/caller reviews found no remaining actionable defects.
+
+**Validation:** focused `./mvnw -B -ntp -Dtest=LocalSegmentFileTest test` passes
+36 tests. The initial compilation caught an explicit-close-inside-resource warning
+under `-Werror`; keep the intentional close/lifetime assertion and use explicit
+finally cleanup for that reader. No behavior assertion was weakened. Full
+`./mvnw -B -ntp verify` passes 201 tests with zero failures, errors or skips:
+36 new local segment cases plus the previous 165 temporal/reference/engine,
+journal codec/local-I/O/process and segment codec cases. The new suite covers
+exact Unicode/lone-surrogate lineage/request/operation history, raw bytes and full
+ID versus footer; existing complete/empty/failed candidates; encode failure before
+path creation; missing/non-regular/symlink input; incomplete/corrupt/suffixed files;
+wrong expected ID; oversized sparse files before reading; post-open disk changes;
+independent readers, close/access and retained immutable values; short/transient-
+zero/stalled/failed reads/writes; EOF probe, growth/shrink/size changes; force and
+close failures, suppression and close-before-return ordering. The symlink case may
+skip only when a platform cannot create it; it ran locally. No power-loss or
+durable-engine conformance claim follows. Canonical fixtures and persisted seed
+corpus remain unchanged.
+
+All four examples run successfully: embedded queries/retry, local journal
+append/force/reopen, pure segment codec, and the new local segment create/reopen
+with retained records after reader close. CI runs each as a separate step on both
+Linux and Windows and triggers for the local segment guide. The local JAR has
+56 Java25 production classes, no bundled oracle/fixtures/seeds/JUnit/Jackson, and
+SHA-256 `511582fb02e25754fb69ef653b5235cfb669d7b766220a9f7f357e2b9a7c12ca`.
+This is local artifact evidence, not a fresh reproducibility or performance test.
+
+**Documentation and handoff:** add the local segment guide and ADR 0010 with
+portable Markdown, source-relative links, public descriptions and navigation.
+Reconcile README, home, architecture, research, roadmap, build/reference/engine
+and contribution guides, format/ADR0009, decision index and agent rules. Public
+copy describes behavior and limits; execution state remains under `internal/`.
+Checked builds pass for both `https://meridiandb.org/` and the GitHub project path,
+with 26 intended public pages and complete source/HTML/link/search/sitemap QA.
+Local HTTP/browser preview verifies guide/code/navigation/search and discovers
+the guide and new ADR through “heap snapshot”. Theme/assets are unchanged; no
+new dark/mobile visual assertion is made. Check repository links, queue unique
+IDs/references/acyclic dependencies and staged scope before commit. Scratch logs
+and live QA receipts stay ignored under `.local-qa/mdb-0019/`.
+
+**Prerequisite and delivery:** prerequisite completion
+`5715c5eaf0fae828e4dc0bb1cc7bd97381f810c2` is on remote main with successful Java
+Linux/Windows/examples, documentation checks and Pages publication. This completion
+uses `Step-ID: MDB-0019` and `Step-Result: completed`; Git supplies its SHA and remote
+ancestry. Final handoff reports actual push, CI, automatic Pages and live public
+content/search/sitemap evidence. No artifact upload, release or other deployment.
+
+**Next recommendation:** MDB-0020 — checkpoint manifest consistency and local
+publication, including exact journal prefix, referenced IDs/ranges/lineage and
+explicit namespace/platform durability. Keep MDB-0007 expanded until this child
+and every original parent criterion pass. No new step or ID is added here.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
