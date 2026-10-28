@@ -12,16 +12,17 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: none; **MDB-0003** source acceptance is complete.
-- The Java 25/Maven build and interval primitive pass 18 boundary invocations.
-  The full reference model and database engine remain unimplemented.
-- Next eligible item: **MDB-0004**, temporal types and the reference model. Before
-  claiming it, verify the MDB-0003 completion commit on remote `main`, Java/docs CI
-  and automatically triggered website publication under the workflow.
-- MDB-0002 completion `ecd07c9` was verified on remote `main`. Before MDB-0003 began,
-  latest delivery `f28155e` had successful docs checks and Pages publication.
-- For each Maven change, follow current-artifact research in the
-  [build guide](../development/build.md#research-maven-versions-for-every-maven-change).
+- Active executable item: **none**. Next source-ready item: **MDB-0005**.
+- MDB-0004 source acceptance is complete: immutable temporal types, test-only
+  reference interpreter, all 84 canonical expectations and 16 seeded histories
+  checked against independent dense snapshots. See the [reference guide](../development/reference-model.md)
+  and [progress receipt](progress.md).
+- Before claiming MDB-0005, resolve the MDB-0004 completion commit by its trailers,
+  confirm it reached remote `main`, and inspect Java Linux/Windows checks,
+  documentation checks and automatic Pages publication. Resume delivery first if
+  any attributable failure remains; source readiness does not prove remote delivery.
+- MDB-0005 adds the actual embedded in-memory engine, with lifecycle and atomic
+  visibility checks. Refine its roadmap card into bounded children if needed.
 - Documentation changes pushed to `main` publish automatically under the
   [website guide](../contributing/documentation.md#initial-hosting-and-publication).
 
@@ -32,8 +33,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0001](roadmap.md#mdb-0001-planning-workflow) | Establish the plan and iteration workflow | — | done | — |
 | [MDB-0002](roadmap.md#mdb-0002-temporal-contract) | Define the initial temporal contract and workloads | — | done | MDB-0001 |
 | [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | done | MDB-0002 |
-| [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | ready | MDB-0003 |
-| [MDB-0005](roadmap.md#mdb-0005-embedded-in-memory-engine) | Build an embedded in-memory engine | — | queued | MDB-0004 |
+| [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | done | MDB-0003 |
+| [MDB-0005](roadmap.md#mdb-0005-embedded-in-memory-engine) | Build an embedded in-memory engine | — | ready | MDB-0004 |
 | [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | queued | MDB-0005 |
 | [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | queued | MDB-0006 |
 | [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | queued | MDB-0007 |

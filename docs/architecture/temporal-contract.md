@@ -9,8 +9,9 @@ description: MeridianDB's initial bitemporal specification defines interval repl
 October 28, 2026. No Java engine implements it yet. The
 [decision record](../decisions/0003-initial-temporal-semantics.md) explains the
 choices and alternatives. The [JSON histories](fixtures/temporal-contract-v0.json)
-provide exact expectations for later Java tests; their notation is a test format,
-not a public API, query language or persistence format.
+provide 84 exact expectations now executed by the
+[test-only Java reference model](../development/reference-model.md). Their notation
+is a test format, not a public API, query language or persistence format.
 
 ## Scope and values
 
@@ -234,12 +235,11 @@ successful transaction expects `status: committed`, its `commit`, and `replayed`
 a request lookup omits `replayed`. Expected scan bounds use the same integer/null
 notation as writes.
 
-MDB-0003 establishes the [Java/Maven foundation](../development/build.md) and an
-experimental valid-time interval primitive with 18 boundary test invocations from
-this specification. It does not execute the complete histories. MDB-0004 reuses
-that primitive, completes temporal types and implements the independent Java
-reference model with full fixture replay, additional validation and seeded histories.
-Preserve failing seeds. MDB-0005 will check an actual
-in-memory engine against them. Concurrent visibility and durable crash guarantees
+The [Java/Maven foundation](../development/build.md) now includes immutable temporal
+types and the [test-only reference model](../development/reference-model.md).
+MDB-0004 executes all five histories and 84 expectations, with boundary/validation
+checks and 16 seeded histories compared against independent dense snapshots.
+Preserve failing seeds. MDB-0005 will check an actual in-memory engine against
+these expectations. Concurrent visibility and durable crash guarantees
 also need implementation tests in their respective steps; sequential fixture
 replay alone cannot establish them.

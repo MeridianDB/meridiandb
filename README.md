@@ -8,8 +8,9 @@ both when a fact applies in the domain and when the database recorded that knowl
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
 The [initial temporal contract](docs/architecture/temporal-contract.md) and exact
-workload fixtures are defined. The Java 25/Maven foundation now builds a tested
-valid-time interval primitive. There is no engine, published library, stable API
+workload fixtures are defined. The Java 25/Maven foundation now builds immutable
+temporal types and a test-only reference model that executes those histories.
+There is no engine, published library, stable API
 or runnable database example yet. The capabilities below describe the intended
 direction, not implemented engine features.
 
@@ -98,8 +99,8 @@ To start an iteration, ask: **Continue the implementation queue for one bounded
 step.** Preparing the plan does not automatically start engine implementation.
 Source pushes run applicable checks; documentation changes pushed to `main` also
 publish the website automatically after its strict build succeeds. Library releases
-remain separate actions. The build foundation is available; the next implementation
-outcome is the temporal types and independent reference model.
+remain separate actions. Temporal types and the independent reference model are
+available; the next implementation outcome is an embedded in-memory engine.
 
 ## Build the Java foundation
 
@@ -115,10 +116,13 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 18 temporal interval boundary checks and creates the local experimental
-`target/meridiandb-core-0.1.0-SNAPSHOT.jar`. It does not yet run a database or the
-complete history fixtures. See the [Java/Maven guide](docs/development/build.md)
-for setup, version research, wrapper verification and Linux/Windows CI.
+This runs 57 JUnit test invocations, including five histories with 84 exact
+contract expectations and 16 seeded histories with 512 new commits. It creates
+the local experimental `target/meridiandb-core-0.1.0-SNAPSHOT.jar`, containing the
+immutable temporal types. The [reference model](docs/development/reference-model.md)
+and fixture parser remain test-only. See the [Java/Maven guide](docs/development/build.md)
+for setup, version research, wrapper verification and Linux/Windows CI. There is
+no runnable database yet; concurrency and durability remain future engine checks.
 
 ## Working in this repository
 

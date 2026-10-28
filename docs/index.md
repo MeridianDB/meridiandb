@@ -22,10 +22,11 @@ direction; there is no runnable database, published library or stable API yet.
 
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.
-The [Java/Maven foundation](development/build.md) now builds a small tested interval
-primitive. A simple reference model comes next; persistent storage, recovery and
-layout experiments follow. SQL, replication and
-integrations remain open design questions.
+The [Java/Maven foundation](development/build.md) builds immutable temporal types.
+A [test-only reference model](development/reference-model.md) passes all 84 canonical
+expectations and independently checked seeded histories. The embedded in-memory
+engine comes next; persistent storage, recovery and layout experiments follow.
+SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?
 

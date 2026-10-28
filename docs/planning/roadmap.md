@@ -105,11 +105,18 @@ covered, and seeded generated histories can be checked against independently
 reasoned properties and fixtures. Preserve failing seeds. Language/API names remain
 experimental; avoid promising broad public query syntax.
 
+**Produced artifacts:** [reference guide](../development/reference-model.md),
+[ADR 0005](../decisions/0005-reference-model.md), immutable `.temporal` types,
+test-only interpreter, canonical fixture replay and persisted seed corpus. See
+[progress history](progress.md) for exact verification counts and delivery evidence.
+
 ## MDB-0005 Embedded in-memory engine
 
 **Outcome:** expose a small in-process Java entry point with explicit transaction,
 read-view and close semantics. Implement an initial engine separate from the test
 oracle, using simple algorithms before introducing physical optimizations.
+Reuse the immutable temporal types and canonical expectations; keep the reference
+interpreter in test support and choose an independently reasoned engine algorithm.
 
 **Complete when:** consumers can insert, correct, retract and query through the
 experimental Java API; atomic commit visibility, stable historical/read views,

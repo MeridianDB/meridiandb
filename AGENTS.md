@@ -8,9 +8,10 @@ so a new session can work correctly without relying on earlier conversations.
 - Read `README.md`, the decision records relevant to the task, and any more specific
   `AGENTS.md` before editing. Inspect Git status and preserve unrelated changes.
 - Keep changes scoped to MeridianDB and the requested task.
-- The repository has a Java 25/Maven foundation with an experimental interval
-  primitive; the database engine and full reference model are not implemented.
-  Follow the [Java build guide](docs/development/build.md) and use `./mvnw -B verify`.
+- The repository has Java 25/Maven immutable temporal types and a test-only
+  reference model with canonical histories and seeded checks. The database engine
+  is not implemented. Follow the [Java build guide](docs/development/build.md)
+  and use `./mvnw -B verify`.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -86,8 +87,10 @@ so a new session can work correctly without relying on earlier conversations.
 
 ## Verification and experiments
 
-- Keep a simple reference model independent of the optimized algorithms. Sharing
-  the implementation language is acceptable; duplicating the same algorithm and
+- Keep the [reference model](docs/development/reference-model.md) in test support,
+  independent of production engine algorithms. Replay the canonical fixture source
+  through Maven test resources; preserve independent dense-state checks and failing
+  seeds. Sharing immutable types is acceptable; duplicating the same algorithm and
   assumptions does not provide an independent correctness check.
 - For behavioral changes, run focused tests of observable results. Temporal and
   storage work needs boundary cases and, as relevant, randomized histories,

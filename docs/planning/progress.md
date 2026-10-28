@@ -210,6 +210,74 @@ No Java library is uploaded or released.
 **Next recommendation at this checkpoint:** MDB-0004 — implement temporal types
 and the independent reference model, reusing the interval primitive and history fixtures.
 
+## 2026-10-28 MDB-0004 — Temporal types and reference model
+
+**Outcome:** add immutable experimental entity/request/database identities, ordered
+transactions, writes, logical queries/results, commit positions, cutoffs and
+acknowledgements under `org.meridiandb.temporal`, reusing the interval primitive.
+Implement a sequential test-only `ReferenceModel` with backwards history lookup,
+arbitrary-precision scan boundary partitioning, exact aggregates and committed
+request identity. No production engine is introduced.
+
+**Independent evidence:** execute the unchanged canonical fixture source through
+Maven test resources: five histories, 84 exact step expectations. A strict test
+adapter validates the complete request before applying it and rejects coercion,
+missing bounds and out-of-range numbers. A separate forward dense-state model
+checks 16 persisted seeds, each with 32 new transactions (512 new commits total),
+plus retries and conflicting ID reuse. It checks point/scan/aggregate answers,
+head stability and every saved historical prefix without using history search,
+boundary partitioning or the production interval membership helper. No failing
+semantic seed was found; future defects retain seeds and minimized reproductions.
+
+**Decisions and research:** [ADR 0005](../decisions/0005-reference-model.md) keeps
+the oracle and fixture parser in test support while sharing only immutable logical
+types with the future engine. All existing Maven pins were researched again on
+October 28 and remain the latest stable compatible selections. Jackson
+`tools.jackson.core:jackson-databind:3.2.4` is the researched current stable test
+parser. The [build guide](../development/build.md) records coordinates, Central
+metadata and official project evidence. No production runtime dependency was added.
+
+**Prerequisite delivery:** MDB-0003 completion `e15961f` was verified on remote
+`main`, with successful Java Linux/Windows checks, Documentation checks and
+[Pages publication](https://github.com/MeridianDB/meridiandb/actions/runs/40744870880)
+before this item was selected.
+
+**Validation:** `./mvnw -B -ntp verify` passes on macOS arm64, Oracle JDK 25.0.2,
+Maven 3.10.0: 57 JUnit test invocations, zero failures/errors/skips. These comprise
+18 interval checks, eight type checks, ten reference/decoding checks, five history
+tests and 16 seed tests. A fresh source snapshot without Git or generated output
+passes the same suite, loads the canonical fixture and seed resources, and produces
+a byte-identical JAR (SHA-256
+`2803f469a885cd63f47cb59f87e0716c4e3368f6856a4516956e5df5018b07a5`).
+The JAR contains 23 Java 25 temporal classes and metadata, with no test support,
+fixtures, seeds, JUnit or Jackson bundled. Static checks reconcile all ten POM
+artifact pins, two test scopes and zero runtime dependencies against the research.
+
+Java CI now also runs for canonical fixture/contract edits. Linux/Windows launcher
+commands, read-only permissions and pinned actions pass static checks. Independent
+read-only code review found no actionable semantic defects. Strict Zensical builds
+and generated canonical/sitemap, link, fragment, asset and metadata checks pass for
+both supported hosting paths with 18 content pages. Local HTTP previews verify the
+new guide/ADR, setup and planning pages, navigation and search. Current-status
+callers are reconciled; the earlier build decision/receipts retain their historical
+scope. Queue IDs/dependencies, Git whitespace and staged scope are checked before
+commit. Ignored scratch evidence stays under `.local-qa/mdb-0004/`.
+
+**Scope and limits:** one cohesive reference-model outcome; no split or new queue
+IDs were required. The seed grid is bounded, and the oracle is sequential, holds
+all history in memory and has no resource lifecycle. Passing these checks does
+not establish engine concurrency, atomic publication, crash recovery, durability
+or performance. Those require the actual engine and later storage steps.
+
+**Delivery evidence:** the completion commit carries `Step-ID: MDB-0004` and
+`Step-Result: completed`; Git resolves its SHA and remote ancestry. The final
+handoff reports actual push, Java/docs CI, automatic Pages publication and live
+content checks. No library artifact is uploaded or released.
+
+**Next recommendation at this checkpoint:** MDB-0005 — build the embedded
+in-memory engine, independently of the test oracle, with explicit read views,
+transaction publication, lifecycle checks and one runnable embedding example.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -10,6 +10,8 @@ on:
       - '.java-version'
       - '.gitattributes'
       - 'src/**'
+      - 'docs/architecture/fixtures/**'
+      - 'docs/architecture/temporal-contract.md'
       - '.github/workflows/java-checks.yml'
   push:
     branches: [main]
@@ -21,6 +23,8 @@ on:
       - '.java-version'
       - '.gitattributes'
       - 'src/**'
+      - 'docs/architecture/fixtures/**'
+      - 'docs/architecture/temporal-contract.md'
       - '.github/workflows/java-checks.yml'
 
 permissions:

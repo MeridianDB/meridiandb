@@ -81,3 +81,11 @@ isolation, concurrency, recovery or durability.
 Revisit the JDK baseline for a concrete consumer requirement; add modules, plugins
 or dependencies only for a demonstrated need. A future library release needs
 namespace, compatibility, packaging and publication work under its own authority.
+
+## MDB-0004 follow-through — October 28, 2026
+
+The scope above records the original build step. MDB-0004 subsequently added
+immutable temporal types and a test-only reference model, with Jackson as a second
+test dependency for canonical JSON fixtures. Production still has no external
+runtime dependencies. [ADR 0005](0005-reference-model.md) records that decision;
+the [build guide](../development/build.md) owns current test scope and artifact pins.

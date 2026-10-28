@@ -31,9 +31,28 @@
       <version>6.1.3</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>tools.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>3.2.4</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>docs/architecture/fixtures</directory>
+        <targetPath>contracts</targetPath>
+        <includes>
+          <include>temporal-contract-v0.json</include>
+        </includes>
+        <filtering>false</filtering>
+      </testResource>
+    </testResources>
     <pluginManagement>
       <plugins>
         <plugin>

@@ -6,8 +6,8 @@ description: "Record the rationale for MeridianDB's first temporal contract: who
 # ADR 0003: Initial temporal semantics
 
 - **Date:** October 28, 2026
-- **Status:** working decision; interval primitive implemented, full engine planned
-- **Scope:** MDB-0002, with Java implementation following in the queue
+- **Status:** working decision; temporal types and test reference implemented, engine planned
+- **Scope:** MDB-0002 semantics, exercised by MDB-0004 reference checks
 
 ## Context
 
@@ -78,9 +78,10 @@ a separately documented revision and tests.
 
 The reference model and actual engine must agree on the same observable results
 while using independently reasoned algorithms. Existing conceptual examples,
-README and agent guidance now point to this specification. Sequential fixtures
-provide test cases, not evidence of implemented concurrent visibility, durability
-or crash recovery.
+README and agent guidance point to this specification. The
+[implemented reference model](../development/reference-model.md) now executes the
+sequential fixtures; their success does not establish concurrent visibility,
+durability or crash recovery in a database engine.
 
 Revisit this decision with a concrete need for richer values, another time domain
 or precision, intentional conflict handling, calendar-time queries, history/ID

@@ -6,10 +6,12 @@ description: Build MeridianDB's Java 25 foundation with its checksum-pinned Mave
 # Java and Maven development
 
 The repository contains one experimental Java artifact,
-`org.meridiandb:meridiandb-core:0.1.0-SNAPSHOT`. It currently implements
-`org.meridiandb.temporal.ValidTimeInterval`, with contract-derived boundary tests.
-There is no database engine, transaction/query implementation or published library
-yet. The full reference model follows in [MDB-0004](../planning/roadmap.md#mdb-0004-temporal-types-and-reference-model).
+`org.meridiandb:meridiandb-core:0.1.0-SNAPSHOT`. It contains immutable experimental
+command, query, interval, result and commit-position types in
+`org.meridiandb.temporal`. A [test-only reference model](reference-model.md) executes
+the canonical contract histories and seeded checks. There is no database engine
+or published library yet; the embedded engine follows in
+[MDB-0005](../planning/roadmap.md#mdb-0005-embedded-in-memory-engine).
 
 ## Build and verify
 
@@ -39,7 +41,7 @@ shell, `unzip` and either `sha256sum` or `shasum`; it can download through `curl
 Verification compiles production/test code, runs JUnit Jupiter and produces the
 local `target/meridiandb-core-0.1.0-SNAPSHOT.jar`. Reports are under
 `target/surefire-reports/`. `target/` is ignored. The artifact has no external
-runtime dependencies; JUnit is test-only. The command does not install a library
+runtime dependencies; JUnit and Jackson are test-only. The command does not install a library
 into a remote repository or publish a release.
 
 To remove stale output before verifying:
@@ -54,12 +56,13 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 18 test invocations check half-open membership, rejected empty/reversed
-ranges and both extreme finite time coordinates. Inputs/expected boundary answers
-come from the [temporal contract](../architecture/temporal-contract.md). They do
-not execute the full 84-expectation history fixtures or establish engine,
-transaction, concurrent-reader or durability correctness. MDB-0004 adds the full
-reference interpreter and fixture replay.
+The current 57 test invocations include 18 interval boundary checks, eight type
+validation checks, ten reference/fixture-decoding checks, five canonical histories
+with 84 exact expectations, and 16 seeded histories with 32 new commits each.
+The [reference guide](reference-model.md) explains their independent expectations,
+reproduction commands and limits. These checks establish sequential reference
+behavior; concurrent-reader, engine lifecycle and durability checks belong to the
+actual engine steps.
 
 ## Project conventions
 
@@ -73,8 +76,12 @@ and `-Werror`; preview features are not enabled.
 Start with one JAR and introduce another module only for an actual deliverable.
 The group/artifact coordinates are project conventions, not a Maven Central
 publication or verified-namespace claim. No release repository is configured.
-The initial record and its nullable unbounded endpoints are experimental Java
-syntax; the logical contract remains authoritative as the type set develops.
+The records and their nullable unbounded endpoints are experimental Java syntax;
+the logical contract remains authoritative as the type set develops. Maven loads
+`docs/architecture/fixtures/temporal-contract-v0.json` as a test resource under
+`contracts/`; keep that source authoritative rather than copying its expectations.
+The seed corpus is `src/test/resources/reference-seeds.txt`. Test code/resources
+and their JSON parser stay outside the production JAR.
 
 Pin build/test plugins in the POM, including the default clean/verify lifecycle
 and managed install/deploy/wrapper goals. Install/deploy versions are managed for
@@ -114,7 +121,12 @@ wrapper properties own executable configuration. Apache's
 Maven 4 is preview. The [plugin catalog](https://maven.apache.org/plugins/index.html)
 confirms the stable Maven 3 plugin lines. The
 [JUnit guide](https://docs.junit.org/6.1.3/overview.html) identifies JUnit 6.1.3 and
-its Java 17 minimum, compatible with this Java 25 baseline.
+its Java 17 minimum, compatible with this Java 25 baseline. MDB-0004 rechecked
+all existing pins on the same date and added Jackson 3.2.4 for test fixture decoding.
+The [Jackson project](https://github.com/FasterXML/jackson-databind) documents the
+3.x `tools.jackson` packages; its Java 17 baseline fits Java 25. Jackson's tree
+model lets the fixture adapter reject non-integral or out-of-range values before
+constructing a transaction.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |
@@ -129,6 +141,7 @@ its Java 17 minimum, compatible with this Java 25 baseline.
 | `org.apache.maven.plugins:maven-install-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-install-plugin/maven-metadata.xml) |
 | `org.apache.maven.plugins:maven-deploy-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/maven-metadata.xml) |
 | `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.1.3 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
+| `tools.jackson.core:jackson-databind` | 3.2.4 | 3.2.4 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
 
 All selected entries are the latest stable releases found. Newer metadata entries
 in the Maven/plugin 4.x series are RC/beta releases, so they are not selected for
@@ -170,7 +183,9 @@ repository permissions and credentials removed after checkout. Linux runs
 `./mvnw -B verify`; Windows runs `.\mvnw.cmd -B verify`. Both select Temurin from
 `.java-version`, checking for the latest patch in that Java line. Action versions
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
-by POM content. No Java artifact is uploaded or released by this workflow.
+by POM content. Changes to the temporal contract or canonical fixture directory
+also trigger Java checks, since they affect executable expectations. No Java
+artifact is uploaded or released by this workflow.
 
 Documentation checks and automatic Pages publication retain their own workflows.
 For website setup and verification, follow the

@@ -14,9 +14,10 @@ Java is the default for the initial engine and correctness reference model. The
 maintainer's familiarity with Java supports code review, debugging and long-term
 maintenance, and it fits the initial assumption of in-process JVM embedding.
 The [Java/Maven foundation](../development/build.md) now uses Java 25, a pinned
-Maven Wrapper and an experimental interval primitive with boundary tests. The
-full reference model and database engine remain planned; the documentation site
-has a separate Python build.
+Maven Wrapper and immutable experimental temporal types. The
+[test-only reference model](../development/reference-model.md) executes canonical
+histories and seeded comparisons. The database engine remains planned; the
+documentation site has a separate Python build.
 
 Other languages remain options for bounded experiments or concrete integration
 needs. They are not promised modules or current dependencies. The
@@ -62,8 +63,9 @@ contract and later queue admission.
 
 1. Use the specified [temporal contract](temporal-contract.md) and fixtures for
    interval boundaries, correction rules, transaction ordering and exact results.
-2. Build a straightforward in-memory Java reference model. Check randomized
-   histories against independent expectations as well as worked examples.
+2. Use the implemented sequential Java reference model, checked against exact
+   histories and independent dense snapshots, to verify the next engine. Keep
+   production algorithms separate from this test oracle.
 3. Add one durable implementation with a stated writer model and crash/restart
    tests. Make acknowledgement and recovery behavior observable.
 4. Exercise its persistence contract with local storage and an object-store

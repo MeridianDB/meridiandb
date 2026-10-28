@@ -59,9 +59,10 @@ unbounded correction produces:
 February 1 belongs to the second interval, so adjacent intervals do not both
 claim that boundary. Dates here abbreviate midnight UTC. The
 [contract](../architecture/temporal-contract.md) defines microsecond coordinates,
-unbounded endpoints, overlap ordering and query results. It remains an
-working specification, with interval boundary tests implemented; the full engine,
-storage schema and stable API remain unimplemented.
+unbounded endpoints, overlap ordering and query results. It remains a working
+specification, now exercised by a [test-only reference model](../development/reference-model.md)
+and boundary checks. The full engine, storage schema and stable API remain
+unimplemented.
 
 ## Events and snapshots answer different questions
 
