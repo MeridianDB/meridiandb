@@ -6,7 +6,7 @@ description: Record MeridianDB's bounded immutable history-segment representatio
 # ADR 0009: Immutable transaction-history segments
 
 - **Date:** October 28, 2026
-- **Status:** format/codec implemented; [local adapter](0010-local-segment-io.md) implemented separately; manifests planned
+- **Status:** format/codec implemented; [local adapter](0010-local-segment-io.md) implemented separately; [manifest consistency](0011-checkpoint-manifest-format.md) implemented; local publication planned
 - **Scope:** Immutable history representation and validation
 
 ## Context
@@ -41,8 +41,8 @@ allocating the output. These are prototype resource limits, not throughput resul
 The initial API uses bounded byte arrays and immutable decoded lists; no file
 handle or mapped memory escapes. The [local adapter](0010-local-segment-io.md)
 adds file creation and reader lifetimes.
-Namespace publication, manifests and durable engine integration remain separate
-boundaries.
+[Manifest consistency](0011-checkpoint-manifest-format.md), namespace publication
+and durable engine integration remain separate boundaries.
 
 ## Comparable design evidence
 
@@ -75,8 +75,10 @@ own layout and workload evidence.
 Reusing exact journal frames supplies a transparent baseline while accepting
 repeated framing and string overhead. A checksum and content address cannot
 establish durable creation of a file or permission to reclaim its journal source.
-A later manifest must bind verified segment IDs, lengths, lineage, ordered ranges
-and an included journal prefix, with explicit atomic/namespace durability rules.
+The [manifest representation](0011-checkpoint-manifest-format.md) binds verified
+segment IDs, lengths, lineage, ordered ranges and a reconstructed journal prefix.
+Actual stored-journal verification and atomic/namespace durability still require
+the local publication protocol.
 
 The [format specification](../architecture/immutable-segment-format.md) owns bytes,
 limits, failures and ownership. Passing codec tests does not establish file I/O,

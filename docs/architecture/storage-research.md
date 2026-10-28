@@ -82,7 +82,10 @@ The [immutable history codec](immutable-segment-format.md) preserves original
 transaction ranges with complete-object integrity and expected content identifiers.
 The [local segment adapter](../development/local-segments.md) supplies create-only
 file force and fully verified heap readers. Manifest and namespace publication
-must still establish a durable checkpoint for engine recovery. The adapter's
+must still establish a durable checkpoint for engine recovery. The
+[manifest codec and verifier](checkpoint-manifest-format.md) now validate a supplied
+segment set and reconstruct its exact journal-prefix binding. Actual stored-journal
+verification and checkpoint publication remain separate. The adapter's
 [decision record](../decisions/0010-local-segment-io.md) separates those boundaries
 using current JDK and Lucene filesystem evidence.
 

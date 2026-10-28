@@ -12,7 +12,9 @@ storage layouts, not a current-state snapshot or an optimized query index.
 
 **Status:** types and byte-array encoding/decoding are implemented. The separate
 [local adapter](../development/local-segments.md) implements create-only files and
-verified heap readers. Manifests and checkpoint publication remain planned.
+verified heap readers. The [manifest codec and verifier](checkpoint-manifest-format.md)
+check full-history coverage and the reconstructed journal-prefix binding; local
+checkpoint publication remains planned.
 The engine remains memory-only; valid segment bytes do not establish persistence,
 query visibility or permission to discard journal history.
 [ADR 0009](../decisions/0009-immutable-segment-format.md) records the rationale.
@@ -31,9 +33,10 @@ Finite minimum/maximum bounds remain distinct from unbounded endpoints, and exac
 UTF-16 identities, including lone surrogates, retain their original spelling.
 The [temporal contract](temporal-contract.md) still owns logical behavior.
 
-Uniqueness and ordering here apply to one segment. A later manifest must validate
-lineage, ordered range coverage, cross-segment request identity and its exact
-included journal prefix. The empty genesis state needs no history segment.
+Uniqueness and ordering here apply to one segment. The
+[checkpoint verifier](checkpoint-manifest-format.md) validates lineage, ordered
+range coverage, cross-segment request identity and the exact reconstructed
+journal-prefix binding. The empty genesis state needs no history segment.
 
 ## Version 1 layout
 

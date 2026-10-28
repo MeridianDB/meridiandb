@@ -15,6 +15,7 @@ on:
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
       - 'docs/architecture/immutable-segment-format.md'
+      - 'docs/architecture/checkpoint-manifest-format.md'
       - 'docs/development/local-journal.md'
       - 'docs/development/local-segments.md'
       - '.github/workflows/java-checks.yml'
@@ -33,6 +34,7 @@ on:
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
       - 'docs/architecture/immutable-segment-format.md'
+      - 'docs/architecture/checkpoint-manifest-format.md'
       - 'docs/development/local-journal.md'
       - 'docs/development/local-segments.md'
       - '.github/workflows/java-checks.yml'
@@ -79,3 +81,5 @@ jobs:
         run: java --class-path target/classes examples/SegmentCodecExample.java
       - name: Run the local immutable segment example
         run: java --class-path target/classes examples/LocalSegmentExample.java
+      - name: Run the manifest consistency example
+        run: java --class-path target/classes examples/ManifestExample.java

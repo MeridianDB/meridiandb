@@ -12,24 +12,25 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: **none**. MDB-0019's source acceptance is complete.
-- Local segment I/O creates new files without overwrite, completes writes, forces
-  and closes before returning an ID. Reopen validates bounded complete bytes and
-  an independently expected ID before exposing a heap-owned reader.
-- Maven verification passes 201 tests, including 36 local segment I/O/lifetime
-  cases. All four examples pass locally. Public builds pass for custom-domain and
-  project-path URLs; the new guide and decision are navigable and searchable.
-- MDB-0007 remains **expanded** with required MDB-0018 and MDB-0019 done and
-  **MDB-0020 ready**. Original parent criteria and MDB-0008's dependency remain intact.
-- Before claiming MDB-0020, verify this completion commit on remote `main`, Java
-  Linux/Windows/examples, documentation checks and automatic Pages publication.
+- Active executable item: **none**. MDB-0021's source acceptance is complete.
+- The manifest codec verifies bounded complete declarations and expected manifest
+  identity. Whole-set verification resolves supplied segments in order, binds
+  IDs/lengths/lineage/ranges, rejects cross-segment request reuse and reconstructs
+  exact journal-prefix byte length/SHA-256 without a whole-prefix buffer.
+- Maven verification passes 246 tests, including 45 new manifest codec/consistency
+  cases. All five examples pass locally. Public builds pass for custom-domain and
+  project-path URLs, with 28 public pages and navigable/searchable manifest content.
+- MDB-0020 remains **expanded** with required MDB-0021 done and **MDB-0022 ready**.
+  MDB-0007 remains expanded; original criteria and MDB-0008's dependency stay intact.
+- Before claiming MDB-0022, verify this completion on remote `main`, Java Linux/
+  Windows/five examples, documentation checks and automatic Pages publication.
   Resolve attributable delivery failures first.
-- MDB-0018 completion `5715c5eaf0fae828e4dc0bb1cc7bd97381f810c2` was verified on
-  remote `main` before selection, with Java, docs and Pages success and the prior
-  24-page live content/search/sitemap handoff.
-- Manifest selection, directory namespace durability, reclamation and durable
-  engine integration remain planned. File force and reader close establish none
-  of those boundaries.
+- MDB-0019 completion `9c5ae4b3d065495edb7a5b6a411382921981f08a` was verified on
+  remote main before selection with Java, docs and Pages success and the prior
+  26-page live content/search/sitemap handoff.
+- Supplied-object consistency is not actual stored-journal verification, generation
+  selection, file/namespace force evidence or reclamation permission. MDB-0022
+  supplies those local publication boundaries; engine recovery remains MDB-0008.
 - Use the [progress history](progress.md) and completion trailers for exact evidence.
 
 ## Ordered work
@@ -48,7 +49,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | expanded | MDB-0006 |
 | [MDB-0018](roadmap.md#mdb-0018-immutable-segment-format-and-codec) | Specify and implement immutable history segment format and codec | MDB-0007 | done | MDB-0006 |
 | [MDB-0019](roadmap.md#mdb-0019-local-immutable-segment-io) | Implement local immutable segment I/O and reader lifetimes | MDB-0007 | done | MDB-0006, MDB-0018 |
-| [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | ready | MDB-0006, MDB-0019 |
+| [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | expanded | MDB-0006, MDB-0019 |
+| [MDB-0021](roadmap.md#mdb-0021-manifest-format-and-checkpoint-consistency) | Implement manifest format and checkpoint consistency | MDB-0020 | done | MDB-0006, MDB-0019 |
+| [MDB-0022](roadmap.md#mdb-0022-local-checkpoint-publication) | Implement local checkpoint publication and reopen | MDB-0020 | ready | MDB-0006, MDB-0019, MDB-0021 |
 | [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | queued | MDB-0007 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |

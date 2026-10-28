@@ -16,8 +16,10 @@ so a new session can work correctly without relying on earlier conversations.
   exclusive ownership and sequential replay. The [immutable history segment codec](docs/architecture/immutable-segment-format.md)
   validates exact transaction ranges and whole-object identity. The
   [local segment adapter](docs/development/local-segments.md) provides create-only
-  writes and verified heap readers; manifests and durable engine integration
-  remain planned.
+  writes and verified heap readers. The [manifest codec and verifier](docs/architecture/checkpoint-manifest-format.md)
+  check supplied segment history against a reconstructed journal-prefix binding;
+  actual stored-journal verification, local publication and durable engine
+  integration remain planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -107,8 +109,9 @@ so a new session can work correctly without relying on earlier conversations.
   preserve original temporal history and identity, validate the complete object,
   distinguish the integrity footer from the full-object content ID, and reject all
   incomplete/corrupt objects without returning a prefix. Enforce nested and aggregate
-  limits before allocating. Local readers bind expected IDs; manifests must bind
-  lineage, ranges and the included journal prefix. Codec success is not publication.
+  limits before allocating. Local readers bind expected IDs; manifest verification
+  binds lineage, ranges and the reconstructed journal prefix. Codec success is not
+  publication.
 - Follow the [local segment contract](docs/development/local-segments.md): encode
   before creating a path, use create-only/no-follow writes, force and close before
   returning success, and retain failed candidates. Require an independent expected
@@ -118,6 +121,14 @@ so a new session can work correctly without relying on earlier conversations.
   Readers own heap snapshots with no open channel; close releases their reference
   but preserves already returned immutable values. File creation/force and reader
   close do not select a manifest or authorize reclamation.
+- Follow the [manifest contract](docs/architecture/checkpoint-manifest-format.md):
+  distinguish physical generation from temporal cutoff; require complete ordered
+  coverage, exact IDs/lengths/lineage/ranges and cross-segment request uniqueness.
+  Separate bounded metadata decoding from complete dependency verification and
+  actual stored-journal verification. Reconstruct prefix length/hash incrementally,
+  retaining the journal header and exact original frames; account for the growing
+  request-ID set. No consistency result is a force/publication receipt or permits
+  reclamation. Local publication must verify stored bytes and namespace guarantees.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

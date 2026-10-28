@@ -809,6 +809,103 @@ publication, including exact journal prefix, referenced IDs/ranges/lineage and
 explicit namespace/platform durability. Keep MDB-0007 expanded until this child
 and every original parent criterion pass. No new step or ID is added here.
 
+## 2026-10-28 MDB-0021 — Manifest format and checkpoint consistency
+
+**Decomposition and outcome:** preserve MDB-0020's original outcome/criteria and
+expand it into two required children, MDB-0021 pure representation/consistency and
+MDB-0022 actual local publication/reopen. Each inherits MDB-0006 and MDB-0019;
+publication also depends on this child. MDB-0020 and MDB-0007 remain expanded;
+MDB-0008 retains its dependency on the whole MDB-0007 milestone. No parent is
+closed by this format result and no local manifest generation is selected here.
+
+Implement immutable `CheckpointManifest`, nested prefix/reference values,
+`ManifestId`, typed `ManifestFormatException`, `ManifestCodec` and
+`CheckpointVerifier`. Keep positive physical generation distinct from temporal
+sequence. Require unique segment IDs covering exactly the full `1..cutoff` range;
+empty genesis binds the lineage header with no segments. Preserve exact segment
+IDs, encoded lengths, ranges and a journal-prefix sequence/byte length/SHA-256.
+
+The v1 manifest reuses the exact journal lineage header, adds generation/prefix/
+count fields and header CRC32C, stores fixed 56-byte references, appends SHA-256
+of header+references, and separately hashes the complete image including that
+footer for ManifestId. Decode exactly one bounded complete object with no partial
+result; enforce 1 MiB, 4,096 refs, existing per-segment size/count limits and a
+conservative derived long prefix-byte bound. Constructors enforce immutable list,
+coverage and identity shape; the codec enforces representation/resource limits.
+
+Whole-set verification resolves one complete image at a time, verifies exact
+length/ID/lineage/range, rejects request-ID reuse across segment boundaries, and
+hashes the exact reconstructed journal header/original frames incrementally.
+Compare final byte length and prefix SHA-256. Retain the global request-ID set;
+state that heap/throughput and resolver resource use are not bounded by byte limits.
+Missing/consistency failures are manifest errors, corrupt/mismatched dependencies
+propagate segment errors, and checked source I/O errors propagate unchanged.
+The supplied graph and reconstructed prefix are verified; an actual journal source,
+force receipt, namespace publication and reclamation permission are not supplied.
+
+**Primary research and review:** freshly recheck all twelve Central metadata
+sources and official Maven/plugin, JUnit and Jackson compatibility on October 28.
+Existing stable pins remain latest compatible selections; Maven/plugin 4.x preview
+entries remain unselected. POM changes only its description. Standard JDK SHA-256,
+CRC32C and collection/buffer primitives add no dependency. Refresh Lucene
+SegmentInfos/Directory, Quickwit checkpoint publication and XTDB finalized/log
+alignment evidence. ADR 0011 distinguishes those primary facts from MeridianDB's
+field/hash/format choices. Future publication still needs explicit writer ownership,
+actual stored-prefix verification, atomic visibility and namespace/platform evidence.
+Independent design/production review found no actionable defect. Public review
+requested explicit stable manifest-input ownership and updated suite totals; both
+are reconciled in source Javadoc, public specification and all current callers.
+
+**Validation:** focused `./mvnw -B -ntp -Dtest=ManifestCodecTest,CheckpointVerifierTest test`
+passes 45 cases on its first run: 25 codec and 20 whole-set cases. Full
+`./mvnw -B -ntp verify` passes 246 tests with zero failures, errors or skips,
+preserving the previous 201 temporal/reference/engine/journal/segment cases.
+Independent literal nonempty/genesis goldens are 192/136 bytes, with separate
+prefix/footer/full-object hashes. Check every truncated prefix (328 cases across
+the two fixtures) and every byte mutation in the nonempty golden, re-signed nested
+versions/framing/fields, gaps/overlaps/reordering/duplicate refs, actual 4,096-ref
+round-trip and the next count, lineage/prefix/per-object/whole-image bounds,
+overflow/generation extremes and input/output/list ownership. Whole-set tests use
+an independent journal-prefix writer, exact Unicode/lone surrogates, operation
+order, no-ops, finite/unbounded bounds, complete golden dependency, sequential
+resolution, missing/changed/wrong-lineage/range/length objects, identical/conflicting
+cross-segment request reuse, wrong prefix length/hash, genesis, no source calls for
+invalid metadata and unchanged propagation/stopping after I/O/segment failures.
+Canonical temporal fixtures and seed corpus remain unchanged. This is no stored-
+journal, filesystem publication, power-loss or durable-engine conformance result.
+
+All five Java examples pass, including the new in-memory two-segment manifest:
+generation 7 covers prefix sequence 2, independently of temporal commit numbering.
+CI runs each example as an independent Linux/Windows step and triggers on the
+manifest specification. The local JAR has 67 Java25 production classes with no
+bundled oracle/fixtures/seeds/JUnit/Jackson. SHA-256 is
+`2b229e7a985629fc198d315e694c3969025ffa8cb4e82378a49054ca746d1c84`.
+This is local artifact evidence, not a fresh reproducibility or performance test.
+
+**Documentation and source handoff:** add the public manifest specification and
+ADR 0011; reconcile README, home/architecture/research/technical roadmap,
+build/reference/engine guides, existing segment spec/ADRs/adapter guide, decision
+index, navigation, CI and agent rules. Public copy contains behavior/technical
+evidence; task decomposition and receipts stay under `internal/`. Both checked
+URL-layout builds pass with 28 public pages and source/HTML/link/search/sitemap QA.
+Local HTTP/browser preview verifies the page, layout table, navigation and search;
+“reconstructed prefix” returns the manifest fixture section and affected public
+callers. Theme/assets are unchanged; no new dark/mobile claim is made. Validate
+queue IDs, parent/dependency references/cycles and repository links; inspect staged
+scope before commit. Scratch outputs remain ignored under `.local-qa/mdb-0021/`.
+
+**Prerequisite and delivery:** `9c5ae4b3d065495edb7a5b6a411382921981f08a` is on
+remote main with Java Linux/Windows/four examples, documentation checks and Pages
+success. This completion uses `Step-ID: MDB-0021` and `Step-Result: completed`;
+Git supplies SHA/remote ancestry. The final handoff reports actual push, CI,
+automatic Pages and live content/search/sitemap verification. No library artifact
+is uploaded or released, and no other infrastructure is deployed.
+
+**Next recommendation:** MDB-0022 — local checkpoint publication and reopen,
+including actual stored-journal-prefix verification, writer/generation ownership,
+file and namespace force, atomic selection and failure/lifetime checks. Preserve
+all original MDB-0020/MDB-0007 criteria before closing either parent.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

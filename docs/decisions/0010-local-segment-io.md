@@ -38,7 +38,9 @@ returned remain valid. No file handle, memory mapping or cleanup callback escape
 Keep every referenced object and journal source until a future explicit retention
 protocol permits reclamation. This adapter itself has no deletion operation.
 
-No manifest, directory sync, engine integration or throughput claim is implied.
+This adapter supplies no manifest selection, directory sync, engine integration
+or throughput claim. The separate [manifest representation](0011-checkpoint-manifest-format.md)
+now defines complete-set consistency before local publication.
 The existing 32 MiB byte limit does not bound decoded or aggregate heap memory.
 
 ## Primary evidence and design inference

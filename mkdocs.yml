@@ -57,6 +57,7 @@ nav:
       - Immutable storage research: architecture/storage-research.md
       - Journal format: architecture/journal-format.md
       - Immutable segment format: architecture/immutable-segment-format.md
+      - Checkpoint manifest format: architecture/checkpoint-manifest-format.md
       - Decision records: decisions/index.md
       - Language strategy: decisions/0001-language-strategy.md
       - Documentation toolchain: decisions/0002-documentation-toolchain.md
@@ -68,6 +69,7 @@ nav:
       - Local journal decision: decisions/0008-local-journal.md
       - Immutable segment decision: decisions/0009-immutable-segment-format.md
       - Local segment decision: decisions/0010-local-segment-io.md
+      - Manifest decision: decisions/0011-checkpoint-manifest-format.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

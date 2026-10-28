@@ -7,7 +7,7 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
 types, the test reference, memory-only engine, local journal and immutable segment
-I/O are implemented; manifest publication, durable integration and later outcomes
+I/O and manifest consistency are implemented; local publication, durable integration and later outcomes
 remain planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
@@ -32,8 +32,9 @@ initial engine independent of a mandatory application server or service framewor
 These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
 with reference support in tests under the [build foundation](../../docs/development/build.md).
-The journal and immutable segment codecs have local file adapters; manifest
-publication, durable integration and measured experiments remain planned.
+The journal and immutable segment codecs have local file adapters. Manifest
+metadata and referenced-object consistency are implemented; local publication,
+durable integration and measured experiments remain planned.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 
@@ -275,6 +276,50 @@ identity/range/prefix consistency is checked, publication failures expose only
 permitted complete generations, sync and namespace boundaries have focused failure
 checks, and ownership/lifetimes are explicit. Complete all MDB-0007 criteria before
 closing it; durable engine acknowledgement/recovery remains MDB-0008.
+
+**Required children:** MDB-0021 defines bounded manifest bytes and verifies the
+referenced immutable history against its exact journal-prefix binding. MDB-0022
+implements actual journal-prefix verification, local selection/publication, reopen
+and namespace/platform failure boundaries. Keep this parent and MDB-0007 expanded
+until both children and all original criteria pass. This separates malformed or
+inconsistent object graphs from filesystem publication without reducing scope.
+
+## MDB-0021 Manifest format and checkpoint consistency
+
+**Outcome:** implement immutable manifest metadata, generation identity distinct
+from temporal cutoff, exact segment IDs/lengths/ordered ranges and an included
+journal-prefix sequence/byte count/SHA-256. Specify bounded versioned bytes with
+complete integrity and expected manifest identity. Verify loaded segment contents,
+lineage/range/length, global request identity and reconstructed exact journal-prefix
+bytes/hash before accepting a consistent object graph.
+
+**Complete when:** independent golden bytes, round-trip/ownership and malformed,
+truncated, unsupported, bounded-resource and identifier cases pass. Whole-set checks
+cover empty genesis, gaps/overlaps, missing/changed/wrong-lineage objects, cross-
+segment identity reuse and prefix mismatches. Return no partial successful graph.
+No actual journal-file check, namespace publication or durability receipt is claimed.
+
+**Produced artifacts:** [manifest specification](../../docs/architecture/checkpoint-manifest-format.md),
+[ADR 0011](../../docs/decisions/0011-checkpoint-manifest-format.md), immutable
+`CheckpointManifest`/`ManifestId`, bounded `ManifestCodec`, incremental
+`CheckpointVerifier`, independent codec/whole-set tests and `examples/ManifestExample.java`.
+Metadata, complete supplied-object validation and actual stored-journal/publication
+receipts remain distinct. MDB-0020 and MDB-0007 stay expanded.
+
+## MDB-0022 Local checkpoint publication
+
+**Outcome:** use the verified manifest/object contract with a local publication
+protocol. Verify the actual included journal prefix and referenced files, enforce
+writer ownership and generation selection, and distinguish file force, namespace
+sync, atomic visibility and uncertain outcomes. Reopen only permitted complete
+verified generations and preserve old readers/objects and diagnostic candidates.
+
+**Complete when:** MDB-0020's original publication/reopen/platform criteria and
+MDB-0007's original integration criteria pass with focused short/failed I/O,
+publication-boundary and reader-lifetime checks. Record supported platforms and
+fail unsupported capabilities explicitly. Keep engine acknowledgement/recovery in
+MDB-0008; retain journal and referenced objects until explicit retention permits
+reclamation.
 
 ## MDB-0008 Durable engine and recovery
 

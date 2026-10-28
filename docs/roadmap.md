@@ -6,8 +6,8 @@ description: See MeridianDB's implemented memory engine and journal codec, the p
 # Development roadmap
 
 MeridianDB's initial target is an embedded, single-node Java temporal engine.
-The memory engine, local journal and immutable history files establish a
-correctness baseline. Manifest publication, durable engine recovery and performance
+The memory engine, local journal, immutable history files and manifest consistency
+checks establish a correctness baseline. Manifest publication, durable engine recovery and performance
 evaluation remain planned.
 There is no release date or stable API commitment.
 
@@ -22,6 +22,7 @@ There is no release date or stable API commitment.
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |
 | [Local immutable files](development/local-segments.md) | Create-only file writes, bounded expected-ID verification and explicit heap-reader lifetimes |
+| [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 The engine retains state only in memory. The journal codec validates byte
@@ -37,9 +38,13 @@ the adapter does not provide a portable namespace publication protocol.
 
 The local segment adapter writes new files, forces and closes them before
 returning an ID, and validates whole objects before returning immutable heap
-readers. It preserves failed candidates and never overwrites a segment. A manifest
-will describe a consistent segment set and the exact journal prefix it includes.
-Durable engine integration must recover acknowledged transactions and request identities, preserve historical answers, and handle a
+readers. It preserves failed candidates and never overwrites a segment. The manifest
+codec describes a consistent segment set; its verifier checks every supplied object
+and reconstructs the exact journal-prefix byte count and hash. Local publication
+must still verify the actual stored journal prefix, establish force boundaries and
+select a complete generation atomically with explicit namespace durability.
+Durable engine integration must recover acknowledged transactions and request
+identities, preserve historical answers, and handle a
 lost acknowledgement without duplicate effects. Crash/restart tests must cover
 each publication boundary before durability is claimed.
 

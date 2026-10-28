@@ -44,7 +44,8 @@ than a historical data view. This interpreter is sequential and keeps its whole
 history in memory; it is neither thread-safe nor intended for large workloads.
 
 The production JAR contains immutable types, the memory-only engine, local
-journal adapter, immutable history codec and local segment adapter. The oracle, fixtures, seeds,
+journal adapter, immutable history codec, local segment adapter and manifest
+codec/verifier. The oracle, fixtures, seeds,
 JUnit and Jackson remain test-only. [ADR 0005](../decisions/0005-reference-model.md)
 records the separation and algorithm choices.
 
@@ -112,7 +113,8 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **201 JUnit test invocations**: 36
+The current default suite has **246 JUnit test invocations**: 45
+[manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md), 36
 [local segment I/O/lifetime checks](local-segments.md), 27
 [immutable segment codec checks](../architecture/immutable-segment-format.md),
 29 journal codec checks, 38 [local journal I/O/process checks](local-journal.md)

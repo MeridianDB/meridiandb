@@ -102,7 +102,9 @@ not coordinate uncooperative writers, renames or deletion.
 
 Creation of the name is atomic with `CREATE_NEW`; creation of the complete bytes
 is not. Another opener can encounter a candidate still being written and fail
-complete validation. A future manifest must name only completed verified objects.
+complete validation. The [manifest codec and verifier](../architecture/checkpoint-manifest-format.md)
+check referenced objects and their reconstructed journal-prefix binding. Future
+local publication must select only completed verified objects.
 Successful file force also does not establish portable persistence of the new
 parent-directory entry. There is no directory sync, atomic checkpoint publication
 or power-loss-tested engine recovery here. [ADR 0010](../decisions/0010-local-segment-io.md)
