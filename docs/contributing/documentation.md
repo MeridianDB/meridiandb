@@ -139,20 +139,44 @@ when changing configuration/base paths or diagnosing stale generated output.
 
 ## One-time GitHub Pages and domain setup
 
+Owner direction, October 28, 2026: publish at the apex `meridiandb.org` only;
+`www` is outside this setup. DNS was managed by GoDaddy nameservers when checked
+on that date. Use the authoritative DNS provider if this changes later.
+
 Before the first publication, the repository owner must:
 
-1. Push the reviewed source and workflows to GitHub.
-2. In the MeridianDB organization's Pages settings, verify `meridiandb.org` with
-   the supplied DNS TXT record and retain that record.
+1. Ensure the reviewed source and workflows are on GitHub's `main` branch.
+2. In the MeridianDB organization's **Settings → Pages**, add `meridiandb.org`
+   under verified domains. Add the generated TXT challenge at the DNS provider,
+   return to GitHub and verify it. Copy the exact challenge name and value from
+   GitHub, and retain the TXT record after verification.
 3. In this repository's **Settings → Pages**, select **GitHub Actions** as the
-   publishing source and set the custom domain to `meridiandb.org`.
-4. Configure apex and `www` DNS records using GitHub's current instructions. DNS
-   can remain managed in Cloudflare; hosting and DNS are separate decisions.
-   Set the custom domain in GitHub before pointing DNS at Pages.
-5. Enable **Enforce HTTPS** when the certificate is ready. Configure the
-   `github-pages` environment to permit deployments from `main`.
-6. Run **Actions → Publish documentation → Run workflow** on `main`, inspect the
-   deployment result and verify the public site before recording it as published.
+   publishing source and save `meridiandb.org` as the custom domain. Set this
+   before pointing the apex DNS records at GitHub Pages.
+4. At the DNS provider, replace the existing apex A records with the four below.
+   For GoDaddy, open **Domain Portfolio → meridiandb.org → DNS**, use `@` as the
+   Name and 1 hour as TTL. Remove an existing `www` alias for the apex-only setup;
+   preserve unrelated email, verification and service records. Nameservers can
+   stay at GoDaddy.
+5. Configure the `github-pages` environment to allow `main`, then run
+   **Actions → Publish documentation → Run workflow** on `main`. Inspect both
+   build and deploy jobs.
+6. When GitHub's certificate is ready, enable **Enforce HTTPS** in repository
+   Pages settings. Verify the public site and its sitemap before recording the
+   site as published. DNS propagation and certificate issuance may finish after
+   the workflow, so a pending certificate need not prevent the first dispatch.
+
+Apex A records checked against GitHub's documentation on October 28, 2026:
+
+| Type | Name | Value | TTL |
+| --- | --- | --- | --- |
+| A | `@` | `185.199.108.153` | 1 hour |
+| A | `@` | `185.199.109.153` | 1 hour |
+| A | `@` | `185.199.110.153` | 1 hour |
+| A | `@` | `185.199.111.153` | 1 hour |
+
+Recheck the linked GitHub DNS instructions before a later hosting change. No
+`www` CNAME, apex CNAME or URL-forwarding service is needed for this setup.
 
 A local build or commit is not publication. The Actions deployment uses the custom
 domain configured in GitHub; no source `CNAME` file is needed for that setting.
