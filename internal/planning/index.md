@@ -37,7 +37,7 @@ The owner's standing source-push authorization applies to this queue and its
 planning setup. Documentation changes pushed to `main` also invoke the configured
 GitHub Pages publication workflow under the owner's October 28, 2026 automatic
 publication instruction. Follow the
-[website guide](../contributing/documentation.md#initial-hosting-and-publication)
+[website guide](../site-operations.md#initial-hosting-and-publication)
 and report its actual deployment outcome. Release tags, Maven Central uploads,
 GitHub Releases, manual Pages dispatches, Cloudflare deployments and purchases
 remain separately scoped actions.
@@ -166,7 +166,7 @@ action. Never report that step complete or start its dependent while work remain
 Current documentation command, from the repository root:
 
 ```bash
-.venv/bin/zensical build --strict
+.venv/bin/python scripts/build_docs.py
 ```
 
 Current Java verification command, using the tracked Maven Wrapper and JDK 25:
@@ -178,9 +178,9 @@ Current Java verification command, using the tracked Maven Wrapper and JDK 25:
 This runs temporal type/boundary checks, canonical histories against both reference
 and embedded engine, seeded dense-state comparisons, focused engine
 lifecycle/concurrency checks and pure journal codec checks. It does not establish durability or crash recovery.
-Follow the [reference guide](../development/reference-model.md) and
-[engine guide](../development/embedded-engine.md) for coverage, reproduction and
-example execution, and the [build guide](../development/build.md)
+Follow the [reference guide](../../docs/development/reference-model.md) and
+[engine guide](../../docs/development/embedded-engine.md) for coverage, reproduction and
+example execution, and the [build guide](../../docs/development/build.md)
 for the owner's mandatory current-artifact research before each Maven change.
 Later cards must name their relevant unit, integration, crash/recovery or benchmark
 checks. Keep benchmark claims tied to measured semantics, durability and workloads.
@@ -188,7 +188,7 @@ checks. Keep benchmark claims tied to measured semantics, durability and workloa
 ## Reusable start prompt
 
 ```text
-Read AGENTS.md and docs/planning/index.md in this repository. Continue the
+Read AGENTS.md and internal/planning/index.md in this repository. Continue the
 implementation queue for one bounded step. Reconcile Git and the live queue,
 resume unfinished work or select the first eligible item, and split it if needed.
 Implement and verify the outcome, update project documentation, queue and progress,

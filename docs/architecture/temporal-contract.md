@@ -107,7 +107,7 @@ implementation must recover every acknowledged commit and its request identity,
 and make the durable commit recoverable before publishing it to readers. Recovery
 may additionally expose complete committed requests whose acknowledgement was
 lost. Recovery must never expose part of a transaction. Exact persistence steps
-and crash tests belong to the journal/recovery queue items; no durability is
+and crash tests belong to the journal and recovery implementation; no durability is
 implemented by this specification.
 
 ## Read views and logical queries
@@ -213,7 +213,7 @@ invalid query/cutoff rejection, duplicate-ID conflict, and the finite time-coord
 limits beside explicit infinity. They are deliberately small correctness workloads,
 with no throughput or scale claims.
 
-## Fixture format and implementation handoff
+## Fixture format and conformance
 
 [Download the JSON histories](fixtures/temporal-contract-v0.json). Each history has
 a unique ID and ordered `steps`, replayed against a fresh database. Each step has
@@ -238,11 +238,10 @@ notation as writes.
 
 The [Java/Maven foundation](../development/build.md) now includes immutable temporal
 types and the [test-only reference model](../development/reference-model.md).
-MDB-0004 executes all five histories and 84 expectations, with boundary/validation
-checks and 16 seeded histories compared against independent dense snapshots.
-MDB-0005 checks the actual in-memory engine against the same expectations and
-seeds, with additional pinned-view, serialized-writer, cross-entity atomic
-publication and lifecycle checks. Preserve failing seeds. Sequential fixture
+Both reference and engine execute all five histories and 84 expectations, with
+boundary/validation checks and 16 seeded histories compared against independent
+dense snapshots. The engine has additional pinned-view, serialized-writer,
+cross-entity atomic publication and lifecycle checks. Preserve failing seeds. Sequential fixture
 replay alone cannot establish concurrency guarantees; the focused tests supply
 bounded evidence for the memory implementation. Durable crash guarantees still
 require implementation tests in the journal/recovery steps.

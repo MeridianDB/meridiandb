@@ -29,12 +29,12 @@ initial engine independent of a mandatory application server or service framewor
 | Experiments | Reproducible workloads and evidence for layout/index decisions |
 
 These responsibilities do not freeze module boundaries or a public API. The
-single artifact contains temporal types and the [memory-only engine](../development/embedded-engine.md),
-with reference support in tests under the [build foundation](../development/build.md).
+single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
+with reference support in tests under the [build foundation](../../docs/development/build.md).
 A pure journal codec now exists; local storage I/O, durable integration and measured
 experiments remain planned.
-Read the [architecture overview](../architecture/overview.md) and
-[language strategy](../decisions/0001-language-strategy.md) before changing them.
+Read the [architecture overview](../../docs/architecture/overview.md) and
+[language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 
 ## MDB-0001 Planning workflow
 
@@ -65,9 +65,9 @@ Include current-state, as-of entity, interval and correction-sensitive aggregati
 workloads. Each has explicit inputs and expected outputs suitable for later tests.
 No executable Java implementation is required for this specification step.
 
-**Specification artifacts:** [temporal contract](../architecture/temporal-contract.md),
-[exact histories](../architecture/fixtures/temporal-contract-v0.json) and
-[ADR 0003](../decisions/0003-initial-temporal-semantics.md). Reuse these fixtures in
+**Specification artifacts:** [temporal contract](../../docs/architecture/temporal-contract.md),
+[exact histories](../../docs/architecture/fixtures/temporal-contract-v0.json) and
+[ADR 0003](../../docs/decisions/0003-initial-temporal-semantics.md). Reuse these fixtures in
 the reference/engine checks rather than maintaining conflicting copies.
 
 ## MDB-0003 Java and Maven foundation
@@ -87,8 +87,8 @@ JDK, CI is configured to run the same verification, README/contributor commands 
 accurate and the toolchain decision records versions and rationale. Publish no
 library artifact as part of this foundation step.
 
-**Build artifacts:** [Java/Maven guide](../development/build.md) and
-[ADR 0004](../decisions/0004-java-build-foundation.md). The foundation introduces a
+**Build artifacts:** [Java/Maven guide](../../docs/development/build.md) and
+[ADR 0004](../../docs/decisions/0004-java-build-foundation.md). The foundation introduces a
 small interval primitive for meaningful boundary checks; MDB-0004 reuses it.
 Research current Maven artifact versions under the build guide on every Maven change.
 
@@ -109,8 +109,8 @@ covered, and seeded generated histories can be checked against independently
 reasoned properties and fixtures. Preserve failing seeds. Language/API names remain
 experimental; avoid promising broad public query syntax.
 
-**Produced artifacts:** [reference guide](../development/reference-model.md),
-[ADR 0005](../decisions/0005-reference-model.md), immutable `.temporal` types,
+**Produced artifacts:** [reference guide](../../docs/development/reference-model.md),
+[ADR 0005](../../docs/decisions/0005-reference-model.md), immutable `.temporal` types,
 test-only interpreter, canonical fixture replay and persisted seed corpus. See
 [progress history](progress.md) for exact verification counts and delivery evidence.
 
@@ -128,8 +128,8 @@ serialized writer behavior, retries and lifecycle failures match the contract.
 Compare observed results with the reference fixtures and seeded histories. Include
 one runnable embedding example; state that this implementation is memory-only.
 
-**Produced artifacts:** [engine guide](../development/embedded-engine.md),
-[ADR 0006](../decisions/0006-in-memory-engine.md), `org.meridiandb.engine`, canonical
+**Produced artifacts:** [engine guide](../../docs/development/embedded-engine.md),
+[ADR 0006](../../docs/decisions/0006-in-memory-engine.md), `org.meridiandb.engine`, canonical
 and seeded comparisons, lifecycle/concurrency tests and `examples/EmbeddedExample.java`.
 See [progress history](progress.md) for verification and delivery evidence.
 
@@ -166,10 +166,22 @@ and duplicate request identity rules are checked; size, lossless identity and
 boundary checks pass.
 No local append/fsync or durable-engine guarantee is claimed by this child.
 
-**Produced artifacts:** [storage research](../architecture/storage-research.md),
-[journal specification](../architecture/journal-format.md),
-[ADR 0007](../decisions/0007-journal-format.md), `org.meridiandb.storage.journal`
+**Produced artifacts:** [storage research](../../docs/architecture/storage-research.md),
+[journal specification](../../docs/architecture/journal-format.md),
+[ADR 0007](../../docs/decisions/0007-journal-format.md), `org.meridiandb.storage.journal`
 and independent codec fixtures/corruption checks.
+
+## MDB-0017 Public documentation quality
+
+**Outcome:** correct the public narrative, move execution queues/receipts and site
+administration outside the published source tree, retain a reader-facing technical
+roadmap, and make public documentation QA a durable agent rule and CI build gate.
+
+**Complete when:** published pages contain no chat/owner/agent/task-status narrative;
+repository workflow/history remains available outside `docs/`; navigation, search,
+sitemap and generated artifacts contain only public material; source/rendered QA
+has meaningful passing/failing fixtures and runs in both documentation workflows;
+current instructions, links and publication evidence are reconciled.
 
 ## MDB-0016 Local journal I/O and recovery
 
@@ -282,6 +294,6 @@ explicit, and release/versioned-documentation tasks are prepared for owner revie
 Queue any concrete missing prerequisite. Creating tags and publishing to Maven
 Central or GitHub Releases require their own applicable authorization. Ordinary
 documentation changes publish automatically under the
-[website workflow](../contributing/documentation.md#initial-hosting-and-publication);
+[website workflow](../site-operations.md#initial-hosting-and-publication);
 release-versioned documentation needs its own prepared policy and implementation.
 This milestone does not promise production readiness.

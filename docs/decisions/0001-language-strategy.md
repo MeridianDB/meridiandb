@@ -11,23 +11,20 @@ description: Why MeridianDB starts with Java and Maven, how Clojure, Scala, Rust
 
 ## Context
 
-The maintainer knows Java better than other languages, is willing to learn while
-developing, and is considering Clojure, Scala, Rust and Go. The project is still
-investigating temporal semantics and storage design. Its initial deployment
-assumption is an engine embedded in a JVM application; that assumption must be
-confirmed before treating the public API or deployment model as stable.
+The initial deployment target is an engine embedded in a JVM application. Java
+provides direct host integration, static checking and established diagnostic
+tooling. A single implementation language also keeps the first correctness model
+and storage prototype within one build and debugging environment.
 
-Java familiarity is an advantage in reviewing AI-generated code and diagnosing
-storage failures. It is not a claim that AI models necessarily generate better
-Java, that the most concise language is best, or that Java guarantees adoption.
+The deployment boundary remains experimental. Native in-process embedding and
+remote service access are different requirements and may lead to different choices.
 
 ## Working decision
 
 Use Java for the initial engine and simple reference model. Keep the initial
 runtime and tooling focused on one implementation language. Maven is the Java
-build tool, following the owner's October 28, 2026 preference and existing
-fluency. The [build foundation](0004-java-build-foundation.md) now establishes
-Java 25 and the checksum-pinned Maven Wrapper. The documentation website has a
+build tool, providing the standard JVM build and dependency workflow. The
+[build foundation](0004-java-build-foundation.md) establishes Java 25 and the checksum-pinned Maven Wrapper. The documentation website has a
 separate Python build; it does not add a language or runtime dependency to the engine.
 
 The reference model should use a simpler, independently reasoned algorithm than
@@ -45,23 +42,18 @@ create placeholder modules for every possible language now.
 
 | Option | Reasons to consider it | Main tradeoff for this project |
 | --- | --- | --- |
-| Java | Maintainer fluency, direct JVM embedding, static checking and established diagnostic tooling | Object allocation, GC, off-heap lifetimes and layout still need deliberate engineering and measurement |
-| Clojure | Expressive immutable data transformations, interactive exploration and a potentially concise temporal model | Learning and reviewing unfamiliar production code while also inventing database semantics; fewer lines alone do not establish maintainability or performance |
+| Java | Direct JVM embedding, static checking and established diagnostic tooling | Object allocation, GC, off-heap lifetimes and layout still need deliberate engineering and measurement |
+| Clojure | Expressive immutable data transformations, interactive exploration and a potentially concise temporal model | Another language and its tooling to maintain; fewer lines alone do not establish maintainability or performance |
 | Scala | Strong types and functional modeling within the JVM | Another language and toolchain to maintain without a demonstrated need in the initial engine |
-| Rust | Native embedding, explicit resource control and components where runtime footprint is a primary constraint | New expertise and, when combined with Java, native ownership, ABI, packaging and debugging responsibilities |
+| Rust | Native embedding, explicit resource control and components where runtime footprint is a primary constraint | When combined with Java, native ownership, ABI, packaging and debugging responsibilities |
 | Go | A Go embedding target, independently deployed service or useful operational tool | A second language/runtime and an integration boundary; it does not automatically improve a JVM engine's internals |
 
 Clojure can require less source code for particular transformations or models.
 The useful comparison is total effort to implement, test, explain, debug and
 change the same behavior. Immutable in-memory collections do not by themselves
 provide durable history or a correct commit protocol. A small comparative
-experiment is welcome when it answers a defined question or serves an explicit
-learning objective; a production dependency needs a separate engineering case.
-
-Java's ecosystem is a plausible distribution advantage for a JVM library, but
-attention and adoption depend on solving a useful problem, good documentation,
-credible correctness and measured results. Language choice alone is not product
-differentiation.
+experiment can compare the same temporal behavior and maintenance task before
+introducing another production language.
 
 ## What the existing projects demonstrate
 
@@ -111,5 +103,5 @@ current implementation evidence, not the language composition of every release.
 
 A change to this decision should record the requirement or experiment, evidence,
 alternatives and migration consequences. Update the current decision and its
-README/agent-rule references together, preserving the dated rationale. There is
+related documentation together, preserving the dated rationale. There is
 no permanent ban on another language and no automatic obligation to adopt one.

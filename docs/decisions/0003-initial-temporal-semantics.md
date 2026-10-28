@@ -7,7 +7,7 @@ description: "Record the rationale for MeridianDB's first temporal contract: who
 
 - **Date:** October 28, 2026
 - **Status:** working decision; implemented by reference and memory-only engine
-- **Scope:** MDB-0002 semantics, exercised by MDB-0004/MDB-0005 checks
+- **Scope:** Temporal semantics, exercised by reference and memory-engine checks
 
 ## Context
 
@@ -77,8 +77,7 @@ a separately documented revision and tests.
 ## Consequences and reconsideration
 
 The reference model and actual engine must agree on the same observable results
-while using independently reasoned algorithms. Existing conceptual examples,
-README and agent guidance point to this specification. The
+while using independently reasoned algorithms. The
 [implemented reference model](../development/reference-model.md) now executes the
 sequential fixtures alongside the memory-only engine. The
 [engine checks](../development/embedded-engine.md) additionally exercise visibility
@@ -90,4 +89,4 @@ or precision, intentional conflict handling, calendar-time queries, history/ID
 expiry, optimistic preconditions or multiple writers. Record compatibility and
 fixture changes explicitly; do not change semantics as a side effect of storage
 optimization. Java/Maven direction, JDK choice, physical formats and backend
-capabilities remain governed by their own decisions and queue items.
+capabilities remain separate architectural decisions.

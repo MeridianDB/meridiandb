@@ -7,14 +7,13 @@ description: Explain MeridianDB's Java 25 baseline, stable Maven 3 toolchain, on
 
 - **Date:** October 28, 2026
 - **Status:** adopted for the initial experimental Java artifact
-- **Scope:** MDB-0003; local build and verification, without library publication
+- **Scope:** Local Java build and verification
 
 ## Context
 
-Java and Maven were already selected. The temporal contract and history fixtures
-are specified. A clean checkout now needs a small executable build before the
-full reference model is implemented. The owner additionally requires research of
-latest Maven dependency artifact versions on every Maven change.
+The initial engine needs a reproducible build, a defined JDK baseline and
+executable verification of the temporal contract. Build dependencies must have
+explicit stable versions and an auditable update procedure.
 
 ## Decision
 
@@ -31,11 +30,9 @@ JUnit Jupiter and Surefire. The
 research and the update procedure. Do not rely on metadata's prerelease `latest`
 entry or old locally installed Maven as the version decision.
 
-Implement only one small temporal primitive in this step: half-open valid-time
-membership and interval validation, including explicit unbounded endpoints and
-finite coordinate limits. Its tests provide meaningful Java/Maven verification
-without adding a JSON parser or prematurely implementing the history interpreter.
-MDB-0004 reuses this primitive and completes temporal types and reference replay.
+The initial build included half-open valid-time membership and interval validation,
+covering explicit unbounded endpoints and finite coordinate limits. The same build
+now verifies the additional temporal types, reference interpreter and engine.
 
 Run the same wrapper verification on Linux and Windows CI using read-only repository
 permissions. Use Java 25 Temurin in CI, resolving current patches within that line;
@@ -59,10 +56,10 @@ metadata alongside their stable Maven 3 lines. Research both availability and
 compatibility, then pin exact stable choices. The initial dated versions and
 primary evidence are in the build guide, avoiding another live version table here.
 
-**One artifact and one test dependency.** There is one deliverable and no reason
-for a multi-module build, service framework, dependency injection framework or
-native engine dependency. A test-only JUnit aggregate provides the parameterized
-boundary checks. The actual engine and reference model remain separate later work.
+**One artifact with test-only dependencies.** There is one deliverable and no
+current need for a multi-module build, service framework or native engine
+dependency. JUnit provides tests and Jackson decodes canonical fixtures; neither
+is a production runtime dependency.
 
 **Generated wrapper and platform checks.** Tracked launchers make a globally
 installed Maven unnecessary. Verified checksums protect a fresh distribution
@@ -72,20 +69,18 @@ release and compatibility information when the build changes.
 
 ## Consequences
 
-Build setup and dependency research become durable agent instructions. Current
-README, contributor, architecture and planning guidance now link real commands.
-The local JAR contains an experimental primitive, not a runnable database. The
-18 boundary invocations do not establish the full temporal contract, transaction
-isolation, concurrency, recovery or durability.
+The wrapper and pinned configuration provide one verification command for local
+development and CI. Current engine and codec checks extend the original interval
+boundary suite. Production has no external runtime dependency; this remains an
+experimental artifact without a library release or stable API.
 
 Revisit the JDK baseline for a concrete consumer requirement; add modules, plugins
 or dependencies only for a demonstrated need. A future library release needs
-namespace, compatibility, packaging and publication work under its own authority.
+namespace, compatibility, packaging and publication work.
 
-## MDB-0004 follow-through — October 28, 2026
+## Related implementation decisions
 
-The scope above records the original build step. MDB-0004 subsequently added
-immutable temporal types and a test-only reference model, with Jackson as a second
-test dependency for canonical JSON fixtures. Production still has no external
-runtime dependencies. [ADR 0005](0005-reference-model.md) records that decision;
-the [build guide](../development/build.md) owns current test scope and artifact pins.
+[ADR 0005](0005-reference-model.md) records the test reference and canonical
+fixtures. [ADR 0006](0006-in-memory-engine.md) records the separate memory engine.
+The [build guide](../development/build.md) owns current commands, test scope and
+artifact versions.

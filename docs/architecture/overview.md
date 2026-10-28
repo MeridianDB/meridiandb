@@ -51,15 +51,15 @@ local file I/O, object storage and immutable query segments remain planned.
 
 ## Learn from immutable ingestion and search systems
 
-The owner requested comparable designs be considered for storage work. The
+Comparable systems provide useful design evidence for temporal storage. The
 [dated source comparison](storage-research.md) covers XTDB's ordered transaction
 log, Kafka/RocksDB framing, Lucene/Elasticsearch publication and durability,
 Quickwit checkpoints and ClickHouse batching. Adopt the separation of durable
 append, immutable checkpoint and query-visible cutoff; adapt mechanisms to the
 existing bitemporal contract rather than inheriting another product's semantics.
 
-MDB-0015 implements bounded versioned journal frames and strict byte validation.
-MDB-0016 adds local ownership, append/sync and recovery. The engine stays memory-only
+The journal codec implements bounded versioned frames and strict byte validation.
+Local writer exclusion, append/sync and recovery are planned. The engine stays memory-only
 until journal/segment integration and crash tests establish durable behavior.
 Group commit, bounded queues and avoiding tiny immutable parts are future throughput
 considerations; there are no MeridianDB performance results yet.
@@ -69,14 +69,12 @@ logical queries can guide experiments before a public interface is stabilized:
 current-state lookups, historical entity lookups, interval scans and aggregates
 whose answers change after a retroactive correction.
 
-## Follow the implementation plan
+## Development direction
 
-The [Java/Maven roadmap](../planning/roadmap.md) turns these layers into initial
-work packages. The [live queue](../planning/queue.md) owns execution order and
-state; the [agent workflow](../planning/index.md) defines expansion, verification,
-documentation and commit/push handoffs. An invocation completes one bounded item.
-The first prototype uses a single writer; broader concurrency needs an explicit
-contract and later queue admission.
+The [technical roadmap](../roadmap.md) progresses from the implemented memory
+engine and journal codec to local storage, durable recovery, immutable segments
+and workload measurements. The initial engine serializes writes within one JVM;
+multi-process and distributed writing require additional coordination contracts.
 
 ## Establish correctness before optimizing
 

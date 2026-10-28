@@ -5,7 +5,7 @@ description: Specify MeridianDB's experimental bounded journal v1 framing, exact
 
 # Journal format and local storage contract
 
-**Status:** MDB-0015 implements a pure Java v1 codec in
+**Status:** a pure Java v1 codec is implemented in
 `org.meridiandb.storage.journal`. There is no journal file writer or durable engine
 yet. This experimental format is not a compatibility promise. The
 [storage research](storage-research.md) explains the comparable designs;
@@ -13,9 +13,9 @@ yet. This experimental format is not a compatibility promise. The
 
 ## Minimum local capabilities
 
-The next child, MDB-0016, must demonstrate the following capabilities on a stated
-local filesystem. They are requirements for that implementation, not guarantees
-supplied by the current byte codec:
+A local file implementation must demonstrate the following capabilities on a
+stated filesystem. These requirements are not guarantees supplied by the current
+byte codec:
 
 | Capability | Required behavior |
 | --- | --- |
@@ -29,10 +29,10 @@ supplied by the current byte codec:
 Java's [FileChannel contract](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/FileChannel.html)
 provides positional/sequential I/O, locks and force operations. Its force guarantee
 is specified for local devices, with metadata behavior dependent on the OS; it is
-not a generic object-store guarantee. MDB-0016 must document file creation and
-directory-entry persistence assumptions. A process-restart test is not proof of
+not a generic object-store guarantee. A local backend must document file creation
+and directory-entry persistence assumptions. A process-restart test is not proof of
 power-loss behavior on every device/filesystem. Object storage needs its own
-capability/publication protocol in MDB-0011.
+capability and publication protocol.
 
 ## Version 1 byte layout
 
@@ -153,5 +153,5 @@ operation order, numeric extremes and buffer-state behavior. Run it from the roo
 The ordinary `./mvnw -B verify` also retains engine/reference conformance and
 concurrency checks. Codec tests establish representation and byte-prefix behavior.
 Short/failed writes, force completion, writer fencing, crash recovery and journal
-retention are separate acceptance evidence in MDB-0016 and later steps. The
-in-memory engine remains memory-only until the durable integration is implemented.
+retention require tests of the local backend and durable engine. The in-memory
+engine remains memory-only until durable integration is implemented.

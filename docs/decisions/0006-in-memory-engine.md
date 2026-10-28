@@ -7,14 +7,14 @@ description: Record MeridianDB's immutable interval snapshots, serialized writer
 
 - **Date:** October 28, 2026
 - **Status:** implemented; experimental Java API
-- **Scope:** MDB-0005; in-process execution without persistence or library publication
+- **Scope:** In-process execution without persistence
 
 ## Context
 
-The reference interpreter executes whole transaction history backwards. The next
-step needs a small real embedding interface with resource lifetimes and observable
-commit publication, using an independently reasoned representation. Durable layout,
-journal and recovery remain later queue outcomes.
+The reference interpreter executes whole transaction history backwards. An
+embedded engine needs explicit resource lifetimes and observable commit
+publication, using an independently reasoned representation. Durable layout,
+journal and recovery remain planned capabilities.
 
 ## Decision
 

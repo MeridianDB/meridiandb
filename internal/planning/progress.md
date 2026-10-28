@@ -10,7 +10,7 @@ selection comes from the [live queue](queue.md). Follow the
 [workflow](index.md#completion-and-git-evidence) for completion-commit and push
 proof; a receipt does not invent its own containing commit SHA. Publication notes
 in earlier receipts describe their then-current policy; current procedure comes
-from the [website guide](../contributing/documentation.md#initial-hosting-and-publication).
+from the [website guide](../site-operations.md#initial-hosting-and-publication).
 
 ## 2026-10-28 MDB-0001 — Planning workflow
 
@@ -51,9 +51,9 @@ and workloads. This is historical context; later sessions select from the live q
 
 ## 2026-10-28 MDB-0002 — Initial temporal contract
 
-**Outcome:** adopt the [initial temporal contract](../architecture/temporal-contract.md)
-and [ADR 0003](../decisions/0003-initial-temporal-semantics.md), with
-[five JSON histories](../architecture/fixtures/temporal-contract-v0.json) containing
+**Outcome:** adopt the [initial temporal contract](../../docs/architecture/temporal-contract.md)
+and [ADR 0003](../../docs/decisions/0003-initial-temporal-semantics.md), with
+[five JSON histories](../../docs/architecture/fixtures/temporal-contract-v0.json) containing
 84 exact expectations. Reconcile README, agent rules, conceptual/architecture and
 contributor guidance, decision index, roadmap and site navigation.
 
@@ -159,10 +159,10 @@ JUnit Jupiter, ignored local build output and Linux/Windows read-only verificati
 CI. The first production primitive is `ValidTimeInterval`, with explicit unbounded
 bounds and no endpoint arithmetic. No engine or library release is introduced.
 
-**Decisions and owner direction:** [ADR 0004](../decisions/0004-java-build-foundation.md)
+**Decisions and owner direction:** [ADR 0004](../../docs/decisions/0004-java-build-foundation.md)
 records the JDK, one-artifact structure and independent docs build. The owner requires
 research of latest Maven dependency artifact versions for every Maven change;
-root agent rules and the [build guide](../development/build.md) now own that procedure.
+root agent rules and the [build guide](../../docs/development/build.md) now own that procedure.
 Research on October 28 selected Maven 3.10.0, Wrapper 3.3.4, JUnit 6.1.3 and the
 latest stable compatible versions of every pinned lifecycle plugin. The guide
 records exact coordinates, current stable versus metadata prerelease entries and
@@ -229,12 +229,12 @@ head stability and every saved historical prefix without using history search,
 boundary partitioning or the production interval membership helper. No failing
 semantic seed was found; future defects retain seeds and minimized reproductions.
 
-**Decisions and research:** [ADR 0005](../decisions/0005-reference-model.md) keeps
+**Decisions and research:** [ADR 0005](../../docs/decisions/0005-reference-model.md) keeps
 the oracle and fixture parser in test support while sharing only immutable logical
 types with the future engine. All existing Maven pins were researched again on
 October 28 and remain the latest stable compatible selections. Jackson
 `tools.jackson.core:jackson-databind:3.2.4` is the researched current stable test
-parser. The [build guide](../development/build.md) records coordinates, Central
+parser. The [build guide](../../docs/development/build.md) records coordinates, Central
 metadata and official project evidence. No production runtime dependency was added.
 
 **Prerequisite delivery:** MDB-0003 completion `e15961f` was verified on remote
@@ -295,8 +295,8 @@ precision. A small test-only facade runs the same canonical notation against eac
 it captures named views as positions and reopens their cutoff for queries. Direct
 engine tests separately hold actual view objects across writes and concurrent
 reads. Neither production code nor the packaged artifact uses the test oracle.
-[ADR 0006](../decisions/0006-in-memory-engine.md) records publication and lifecycle
-choices; the [engine guide](../development/embedded-engine.md) owns API behavior,
+[ADR 0006](../../docs/decisions/0006-in-memory-engine.md) records publication and lifecycle
+choices; the [engine guide](../../docs/development/embedded-engine.md) owns API behavior,
 example execution and limitations.
 
 **Verification:** `./mvnw -B -ntp verify` passes with 71 JUnit invocations and zero
@@ -332,7 +332,7 @@ before selection. Fresh October 28 Central metadata research checked all twelve
 existing artifact coordinates; official Maven/JUnit/Jackson documentation confirms
 the retained stable choices and compatibility. All ten POM pins still match the
 researched stable releases; POM, canonical fixture answers and persisted seed corpus
-are unchanged. The [build guide](../development/build.md) records the refreshed
+are unchanged. The [build guide](../../docs/development/build.md) records the refreshed
 check; no new dependency or execution plugin is needed.
 
 **Documentation and planning:** strict Zensical builds and generated canonical,
@@ -372,7 +372,7 @@ remains expanded; the next child is source-ready, not implemented.
 
 **Owner direction and research:** the owner asked for best practices from similar
 immutable append-only, high-throughput realtime-search databases. The
-[dated primary-source comparison](../architecture/storage-research.md) covers XTDB,
+[dated primary-source comparison](../../docs/architecture/storage-research.md) covers XTDB,
 Kafka 4.4, RocksDB, Lucene/Elasticsearch, Quickwit 0.9 and ClickHouse. It distinguishes
 observed mechanisms from MeridianDB design inference. The selected approach keeps
 durable append, immutable checkpoint publication and searchable cutoff separate;
@@ -389,8 +389,8 @@ units, including lone surrogates; finite bounds retain distinct tags from infini
 Size/count bounds precede allocation. Scans require sequences contiguous from 1
 and unique request IDs, reporting only a valid prefix for incomplete candidates.
 Corruption/unsupported/malformed input fails closed without resynchronization or
-repair. [ADR 0007](../decisions/0007-journal-format.md) explains the choices and
-[journal specification](../architecture/journal-format.md) owns bytes/limits and
+repair. [ADR 0007](../../docs/decisions/0007-journal-format.md) explains the choices and
+[journal specification](../../docs/architecture/journal-format.md) owns bytes/limits and
 the next local capability contract.
 
 **Validation:** `./mvnw -B -ntp verify` passes on macOS arm64, Oracle JDK 25.0.2 and
@@ -443,6 +443,71 @@ content checks. No Java library is uploaded or released.
 **Next recommendation at this checkpoint:** MDB-0016 — implement the local
 append/force and exclusive writer protocol with short/failed-I/O injection,
 bounded sequential recovery and explicit evidence-preserving tail repair.
+
+## 2026-10-28 MDB-0017 — Public documentation quality
+
+**Owner correction and outcome:** public documentation must explain the system,
+not narrate owner requests, this conversation or agent execution. Insert MDB-0017
+as a prerequisite of MDB-0016 and complete this bounded correction first. The
+local journal implementation has not begun; MDB-0006 remains expanded with both
+original children and downstream dependencies intact.
+
+**Public editorial changes:** audit README and all public Markdown. Replace
+conversational attribution, personal language-choice discussion, task IDs and
+execution-status narration with direct technical explanations. Retain technical
+reasoning, alternatives, dated primary evidence and actual implementation limits.
+Refresh research, architecture, journal/temporal specifications, development and
+contributor guides and ADRs. Correct the fixture's stale descriptive `status` to
+reflect its use by the reference model and memory engine; its histories, inputs
+and expected answers are unchanged after excluding that field.
+
+Move the four implementation workflow/queue/roadmap/progress records from
+`docs/planning/` to `internal/planning/`, preserving IDs, original acceptance
+criteria and dated history. Retain site administration/DNS procedures in
+`internal/site-operations.md`. These are repository records outside the public
+build input. Add `docs/roadmap.md` with implemented capabilities, planned storage
+work and correctness/performance requirements, without live execution state.
+Reconcile AGENTS, navigation, public links and internal callers after relocation.
+
+**Persistent QA:** establish `internal/documentation-quality.md` as the editorial
+and publication standard and bind it from root agent rules. Add the shared
+`scripts/build_docs.py` command with source and rendered checks. Both documentation
+workflows run QA fixtures and this same build before validation or site upload.
+The checker verifies public source/nav coverage, one H1, useful unique descriptions,
+clear internal-narrative markers, local-path/internal-route leaks, exact rendered
+page/canonical/description sets, local links/anchors/assets, public search coverage
+and valid search routes/anchors, plus exact sitemap coverage. Automated checks
+remain guardrails alongside full-page editorial review.
+
+**Verification:** 41 positive/negative documentation QA tests pass. Checked strict
+builds pass for `https://meridiandb.org/` and
+`https://meridiandb.github.io/meridiandb/`, each with 20 public content pages and no
+planning/operations routes in HTML, search or sitemap. Local HTTP/browser inspection
+covers the corrected research article, roadmap layout/navigation and working
+search results; removed planning routes return 404. No theme/assets changed; no
+new mobile or dark-mode result is claimed. All 106 local links in the eight
+repository/internal guides resolve, including anchors. Queue validation confirms
+17 unique IDs, valid parent/dependency references, no cycles, preserved MDB-0006
+criteria and MDB-0016 as the next ready item.
+
+Independent review found and resolved remaining README language-choice process
+copy, a stale fixture status and insufficient search-index structural/coverage QA.
+The focused `ReferenceFixtureTest,EngineFixtureTest` Maven run passes all 10 history
+invocations after the descriptive JSON edit. No Java implementation, POM, artifact
+pin or fixture expectation changed, and this is not a new full engine/durability
+verification. Git whitespace and staged scope are checked before commit. Scratch
+outputs stay ignored under `.local-qa/mdb-0017/`.
+
+**Prerequisite and delivery evidence:** MDB-0015 completion
+`f9fd25d6f40a4fea5797a220f5220d79d1b5c803` was verified on remote `main` with all
+relevant workflows successful before this correction. The completion commit uses
+`Step-ID: MDB-0017` and `Step-Result: completed`; Git supplies its SHA and remote
+ancestry. The final handoff reports actual push, CI, automatic Pages publication
+and live content/search/sitemap checks. No library release or infrastructure
+change is part of this correction.
+
+**Next recommendation at this checkpoint:** MDB-0016 — implement local journal
+append/sync, exclusive writer ownership and bounded evidence-preserving recovery.
 
 ## Receipt template
 

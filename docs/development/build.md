@@ -107,14 +107,12 @@ compiler patch/vendor emits identical bytes.
 
 ## Research Maven versions for every Maven change
 
-**Owner instruction, October 28, 2026:** always research latest dependency artifact
-versions for Maven work. At each Maven implementation/build/dependency change,
-check the current versions of the affected build's pinned artifacts, including
-Maven, wrapper components, lifecycle/test plugins and direct dependencies. Use
-Maven Central metadata and official project release/compatibility documentation.
-Record the check date, exact coordinates, latest stable release found, selected
-version and any compatibility/security reason for choosing another version.
-Refresh the dated evidence below or link a new durable research receipt.
+For Maven implementation, build or dependency changes, check the current versions
+of the affected pinned artifacts: Maven, wrapper components, lifecycle/test plugins
+and direct dependencies. Use Maven Central metadata and official project release
+and compatibility documentation. Record the date, coordinates, latest stable
+release, selected version and any compatibility/security reason for a difference.
+The dated table below records the current selection.
 
 Research before selecting versions; do not substitute a remembered version or a
 passing cached build. Metadata `latest` and `release` can point to prereleases:
@@ -135,18 +133,12 @@ wrapper properties own executable configuration. Apache's
 Maven 4 is preview. The [plugin catalog](https://maven.apache.org/plugins/index.html)
 confirms the stable Maven 3 plugin lines. The
 [JUnit guide](https://docs.junit.org/6.1.3/overview.html) identifies JUnit 6.1.3 and
-its Java 17 minimum, compatible with this Java 25 baseline. MDB-0004 rechecked
-all existing pins on the same date and added Jackson 3.2.4 for test fixture decoding.
-The [Jackson project](https://github.com/FasterXML/jackson-databind) documents the
-3.x `tools.jackson` packages; its Java 17 baseline fits Java 25. Jackson's tree
-model lets the fixture adapter reject non-integral or out-of-range values before
-constructing a transaction. MDB-0005 independently refreshed all twelve metadata
-sources on October 28 and rechecked official Maven/JUnit/Jackson compatibility;
-all selected stable versions remain unchanged. MDB-0015 refreshed those twelve
-metadata sources again and rechecked official Maven/JUnit compatibility; the
-selected stable choices remain unchanged. The codec uses JDK CRC32C and byte
-buffers, adding no dependency. The POM description now reflects the memory engine
-and journal codec.
+its Java 17 minimum, compatible with this Java 25 baseline. Jackson 3.2.4 decodes
+canonical test fixtures. The [Jackson project](https://github.com/FasterXML/jackson-databind)
+documents its 3.x `tools.jackson` packages and Java 17 baseline. Its tree model lets
+the adapter reject non-integral or out-of-range values before constructing a
+transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
+dependency. All selected versions in the table were checked on the date above.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |

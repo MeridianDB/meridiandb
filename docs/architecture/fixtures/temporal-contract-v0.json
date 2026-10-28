@@ -1,7 +1,7 @@
 {
   "format": "meridiandb-temporal-contract-v0",
   "timeUnit": "integer microseconds since Unix epoch",
-  "status": "specification; no implemented engine yet",
+  "status": "experimental contract; exercised by the reference model and memory-only engine",
   "histories": [
     {
       "id": "salary",

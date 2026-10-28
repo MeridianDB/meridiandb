@@ -21,9 +21,9 @@ so a new session can work correctly without relying on earlier conversations.
 
 ## Iterative implementation queue
 
-- Follow the [implementation workflow](docs/planning/index.md),
-  [live queue](docs/planning/queue.md) and selected
-  [roadmap card](docs/planning/roadmap.md). A start/continue request executes one
+- Follow the [implementation workflow](internal/planning/index.md),
+  [live queue](internal/planning/queue.md) and selected
+  [roadmap card](internal/planning/roadmap.md). A start/continue request executes one
   bounded item, resuming unfinished work first. Planning-only requests prepare the
   plan without automatically starting the next engine step.
 - Owner instruction, October 28, 2026: each completed queue step includes relevant
@@ -37,7 +37,7 @@ so a new session can work correctly without relying on earlier conversations.
   evidence. Reconcile dependencies and the next eligible item before handoff.
 - Documentation changes pushed to `main` invoke automatic GitHub Pages publication
   under the owner's October 28, 2026 instruction. Follow the
-  [website guide](docs/contributing/documentation.md#initial-hosting-and-publication)
+  [website guide](internal/site-operations.md#initial-hosting-and-publication)
   and report actual checks/deployment state. Release tags, library artifact uploads,
   other infrastructure changes and purchases retain their separate authorization.
 
@@ -119,7 +119,7 @@ so a new session can work correctly without relying on earlier conversations.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run
-  `.venv/bin/zensical build --strict`. Inspect affected pages through a local
+  `.venv/bin/python scripts/build_docs.py`. Inspect affected pages through a local
   static server or `.venv/bin/zensical serve --dev-addr 127.0.0.1:8000`; include
   navigation/search when touched. Run commands from the repository root and check
   links, terminology and diffs. Report primitive/unit tests separately from full
@@ -127,10 +127,26 @@ so a new session can work correctly without relying on earlier conversations.
 - Parallelize independent research or review when useful; assign clear ownership
   and serialize overlapping edits and Git operations.
 
+## Public documentation quality
+
+- Owner correction, October 28, 2026: public copy explains the system and technical
+  evidence; it does not narrate this chat, owner requests, agent instructions,
+  authorization or execution task state. Follow the
+  [public documentation quality standard](internal/documentation-quality.md).
+- Keep queues, progress receipts, delivery authority and site administration under
+  `internal/`, outside the website's `docs_dir`. Use the public technical roadmap
+  for capabilities, not task IDs or live workflow state. Audit the full affected
+  page and current callers, not just a reported sentence.
+- Run `.venv/bin/python scripts/build_docs.py` for public documentation changes.
+  This checks source and rendered content as well as strict generation. CI and
+  publication use the same command. Check generated search/sitemap and live content
+  after routing/publication changes; a raw generator success is insufficient.
+
 ## Documentation website
 
 - Follow the [toolchain decision](docs/decisions/0002-documentation-toolchain.md)
-  and [website guide](docs/contributing/documentation.md). Use Zensical with
+  and [website guide](docs/contributing/documentation.md), with administrative
+  details in [site operations](internal/site-operations.md). Use Zensical with
   `mkdocs.yml` and the classic theme. Pin dependency changes in
   `requirements-docs.in` and regenerate the hash-checked `requirements-docs.txt`.
 - Keep public content in `docs/`, configuration in root `mkdocs.yml` and assets in

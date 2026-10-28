@@ -35,23 +35,18 @@ finance and FIX are examples rather than boundaries on the engine's purpose.
 
 ## Language direction
 
-**Java is the default for the initial engine and reference implementation.** The
-maintainer knows Java best, which helps with reviewing generated code, diagnosing
-failures and maintaining the system. It also fits the intended embedded JVM use.
-These are stronger reasons than assumptions about AI training data, code length
-or how much attention a language will attract.
+**Java is the default for the initial engine and reference implementation.** It
+matches the initial JVM embedding target and provides static checking, standard
+diagnostic tooling and one build environment for production and reference code.
 
-Clojure and Scala remain useful candidates for experiments and future idiomatic
-JVM integrations. Rust remains an option for a narrowly bounded native component
-when measurements justify the integration cost, or for the whole engine if
-non-JVM embedding becomes a firm requirement. Go remains an option if a Go
-embedding target or separate service becomes important. None is currently a
-dependency or a promised module. Learning another language is welcome; production
-adoption should serve an identified engineering need.
+Clojure and Scala remain candidates for idiomatic JVM integrations. Rust may be
+useful for a measured native bottleneck or a non-JVM embedding requirement; Go may
+serve a Go integration or separate service. None is a current dependency or
+promised module. These choices depend on concrete deployment and workload needs.
 
 See the [language decision](docs/decisions/0001-language-strategy.md) for alternatives,
 tradeoffs, evidence and conditions for revisiting this default. **Maven is the
-chosen Java build tool**, reflecting the maintainer's experience. The initial
+chosen Java build tool** for the initial artifact. The initial
 [build foundation](docs/development/build.md) uses Java 25 and a checksum-pinned
 Maven Wrapper. Maven artifact versions are researched from current primary sources
 before selection and then pinned; see the dated evidence in the build guide.
@@ -84,29 +79,13 @@ lookups, interval scans and correction-sensitive aggregations have specified
 [expected results](docs/architecture/temporal-contract.md#worked-history-and-workload-expectations),
 without committing to a public API.
 
-## Implementation plan and agent queue
+## Development roadmap
 
-The first target is an embedded, single-node Java engine built with Maven. Its
-[implementation roadmap](docs/planning/roadmap.md) progresses through temporal
-semantics, a reproducible build and reference model, in-memory embedding, durable
-local storage/recovery, query operators, compaction, object storage, workload
-measurements and a prototype release candidate.
-
-The [live queue](docs/planning/queue.md) owns current order, dependencies and state.
-An agent can expand a broad item into bounded substeps or insert a discovered
-prerequisite while preserving stable IDs and completion criteria. The
-[iteration workflow](docs/planning/index.md) carries one selected item through
-implementation, focused checks, documentation/planning updates, a commit and push
-to `origin/main`, then a recommendation for the next step. Dated evidence lives in
-[progress history](docs/planning/progress.md).
-
-To start an iteration, ask: **Continue the implementation queue for one bounded
-step.** Preparing the plan does not automatically start engine implementation.
-Source pushes run applicable checks; documentation changes pushed to `main` also
-publish the website automatically after its strict build succeeds. Library releases
-remain separate actions. The local-storage milestone is split into required
-journal format/codec and file I/O/recovery children. The codec is available; the
-next implementation outcome is local append, sync, writer ownership and recovery.
+The [technical roadmap](docs/roadmap.md) describes the current memory engine and
+journal codec, followed by local file I/O, immutable segments, durable recovery,
+temporal query operators, history-preserving compaction, object storage and
+reproducible workload measurements. The initial target is an embedded, single-node
+Java engine built with Maven.
 
 ## Build the Java foundation
 
@@ -145,10 +124,10 @@ read-view lifetimes and memory limits. Closing or crashing loses the database.
 
 ## Working in this repository
 
-Read [AGENTS.md](AGENTS.md) for agent working agreements and documentation upkeep.
+See [Contributing](docs/contributing/index.md) for focused changes and validation.
 Architectural rationale lives in [decision records](docs/decisions/index.md).
-Keep the README's implemented status accurate as the project develops. Use the
-Java command above and run the separate documentation checks for public docs changes.
+Use the Java command above and the separate documentation checks for public docs
+changes.
 
 ## Documentation website
 
@@ -178,7 +157,7 @@ Start the local preview:
 Build the static site with strict checks:
 
 ```bash
-.venv/bin/zensical build --strict
+.venv/bin/python scripts/build_docs.py
 ```
 
 The generated site is `site/`. Python documentation tooling is independent of the

@@ -7,21 +7,19 @@ description: Record MeridianDB's versioned journal framing, exact identity encod
 
 - **Date:** October 28, 2026
 - **Status:** pure codec implemented; local I/O and durable engine integration planned
-- **Scope:** MDB-0015, the first required child of MDB-0006
+- **Scope:** Journal representation and validation
 
 ## Context
 
 The memory engine has explicit transaction publication and historical views but
-loses all state on close. The owner asked for approaches used by immutable,
-append-only ingestion and realtime-search systems. The
-[dated primary-source comparison](../architecture/storage-research.md) supports
-separate journal durability, index publication and query-visible cutoffs, with
-batching and bounded downstream work.
+loses state on close. A local journal needs an exact byte representation before
+filesystem failure handling can be verified. The
+[primary-source comparison](../architecture/storage-research.md) informs the
+separation of journal durability, index publication and query-visible cutoffs.
 
-MDB-0006 needs both byte-format correctness and filesystem failure handling.
-Split it into MDB-0015 for format/codec and MDB-0016 for append, force, ownership
-and recovery. Preserve the parent's acceptance criteria and downstream dependency;
-completing this child alone does not supply a usable durable journal.
+Byte-format correctness and filesystem failure behavior are tested separately.
+The codec defines complete transaction frames; a local backend must then establish
+append, force, writer exclusion and recovery behavior.
 
 ## Decision
 
@@ -67,8 +65,9 @@ transaction frames and independent golden-byte/corruption tests. Evaluate anothe
 format version when measured limitations justify it.
 
 The codec adds no FileChannel writer, sync result, writer lock or durable engine.
-MDB-0016 must test those boundaries with short/failed I/O and explicit tail repair;
-MDB-0008 must test acknowledged replay and uncertain outcomes through engine reopen.
+A local backend must test those boundaries with short/failed I/O and explicit tail
+repair. Durable engine integration must test acknowledged replay and uncertain
+outcomes through reopen.
 Future manifests name the included journal prefix before any retention decision.
 Historical temporal answers and retry identity remain governed by the original
 contract rather than a search engine's merge policy.

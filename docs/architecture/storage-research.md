@@ -5,11 +5,13 @@ description: Compare primary-source designs from XTDB, Kafka, RocksDB, Lucene, E
 
 # Immutable storage and realtime search lessons
 
-**Checked October 28, 2026.** The owner asked that MeridianDB consider comparable
-immutable, append-only systems used for high-throughput ingestion and realtime
-search. These are design inputs, not dependencies or performance evidence for
-MeridianDB. The implications below are our engineering judgments; the linked
-sources describe each project's own guarantees.
+Immutable, append-only systems offer useful approaches to ordered ingestion,
+recovery and realtime search. This comparison examines how those approaches apply
+to MeridianDB's temporal storage design.
+
+**Sources checked October 28, 2026.** The linked documentation describes each
+system's guarantees. The MeridianDB implications are design judgments; they do not
+establish dependencies or performance results.
 
 ## What the comparable systems teach
 
@@ -34,10 +36,10 @@ answers a temporal database is permitted to discard.
 | Boundary | Meaning in MeridianDB's design | Current implementation |
 | --- | --- | --- |
 | Logical commit position | Total order of complete transactions within one lineage | Implemented by the memory engine; encoded by the journal codec |
-| Complete appended prefix | Bytes contain complete, validated transaction frames | Pure byte-image validation exists; local append is MDB-0016 |
-| Forced journal prefix | Local storage has completed the declared force protocol | Planned in MDB-0016; not established by the codec |
-| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory; durable integration is MDB-0008 |
-| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Planned in MDB-0007/MDB-0008 |
+| Complete appended prefix | Bytes contain complete, validated transaction frames | Pure byte-image validation exists; local append is planned |
+| Forced journal prefix | Local storage has completed the declared force protocol | Planned; not established by the codec |
+| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory; durable integration is planned |
+| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Planned with immutable segments and recovery |
 
 For the initial durable engine, the intended order is: prepare and validate a
 transaction, append its frame, complete the force boundary, publish its immutable
@@ -71,13 +73,13 @@ needs its own contract and compatibility decision.
   and merge backlog separately. The map-copying memory prototype is a correctness
   baseline, not the intended high-throughput layout.
 
-## How this changes the queue
+## Application to MeridianDB
 
-[MDB-0006](../planning/roadmap.md#mdb-0006-local-storage-and-journal) is expanded
-into two required children. MDB-0015 implements the
-[journal format and pure codec](journal-format.md); MDB-0016 implements the local
-file protocol and fault-injected recovery. The parent remains open until both and
-its original criteria pass. Immutable segments/manifests remain MDB-0007; durable
-engine integration remains MDB-0008. Compression, block fragmentation, memory
-mapping, persistent collections and specialized indexes remain experiments driven
-by measured limitations rather than inherited choices.
+The [journal format and codec](journal-format.md) implement bounded, complete
+transaction frames. Local append, sync, writer exclusion and fault-injected
+recovery are the next storage capabilities. Immutable segments and manifests will
+then provide a durable checkpoint for engine recovery.
+
+Compression, block fragmentation, memory mapping, persistent collections and
+specialized indexes remain experiments driven by measured limitations. See the
+[technical roadmap](../roadmap.md) for the current capabilities and planned work.

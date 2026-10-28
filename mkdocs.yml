@@ -64,11 +64,7 @@ nav:
       - Reference model: decisions/0005-reference-model.md
       - In-memory engine: decisions/0006-in-memory-engine.md
       - Journal format decision: decisions/0007-journal-format.md
-  - Implementation:
-      - Agent workflow: planning/index.md
-      - Live queue: planning/queue.md
-      - Java and Maven roadmap: planning/roadmap.md
-      - Progress history: planning/progress.md
+  - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
       - Java and Maven: development/build.md

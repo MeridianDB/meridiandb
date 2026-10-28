@@ -7,7 +7,7 @@ description: Record MeridianDB's immutable temporal types, test-only sequential 
 
 - **Date:** October 28, 2026
 - **Status:** implemented in test support
-- **Scope:** MDB-0004; logical types and sequential conformance, without an engine
+- **Scope:** Logical types and sequential conformance testing
 
 ## Context
 
@@ -60,16 +60,10 @@ provides strict scalar inspection without a production runtime dependency.
 Canonical expectations stay in one source; CI now runs Java checks when that
 fixture directory or its contract changes.
 
-The passing sequential checks establish an oracle, not an implemented database.
-The next engine must demonstrate its own atomic visibility, immutable read views,
-serialized writes, retries and resource lifecycle. Durable storage and recovery
-remain separate queue outcomes. Revisit the type/API shape with concrete consumers,
-recording semantic changes in the contract and fixtures together.
-
-## MDB-0005 follow-through — October 28, 2026
-
-The next step added a separate interval-state engine and compares it with this
-oracle and the independent dense-state checks. The reference interpreter remains
-test-only. [ADR 0006](0006-in-memory-engine.md) records atomic publication and
-lifecycle choices; the [engine guide](../development/embedded-engine.md) owns
-current usage and implementation limits.
+The reference interpreter is a sequential test oracle. The
+[separate interval-state engine](0006-in-memory-engine.md) compares its observable
+answers with this oracle and independent dense snapshots, with additional tests
+for atomic visibility, serialized writes and resource lifetimes. The interpreter
+remains test-only. Durable storage and recovery require their own implementation
+and tests. Changes to logical type semantics must update the contract and fixtures
+together.

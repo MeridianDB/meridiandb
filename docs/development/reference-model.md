@@ -5,7 +5,7 @@ description: Run MeridianDB's sequential Java reference model against exact temp
 
 # Reference model and conformance checks
 
-MDB-0004 implements immutable temporal types and a sequential reference interpreter
+The project provides immutable temporal types and a sequential reference interpreter
 for the [initial temporal contract](../architecture/temporal-contract.md). It is a
 test oracle for the separate [embedded engine](embedded-engine.md). The oracle
 itself has no engine lifecycle, reader concurrency, persistence or recovery

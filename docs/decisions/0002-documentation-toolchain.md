@@ -6,7 +6,7 @@ description: Use Zensical with MkDocs configuration and the classic theme, publi
 # 0002: Use Zensical with MkDocs configuration and portable Markdown
 
 - Date: 2026-10-28
-- Status: Working decision following the owner's documentation preference
+- Status: Adopted documentation toolchain
 - Scope: Documentation source, build, hosting and future migration
 
 ## Decision
@@ -15,18 +15,16 @@ Use Zensical with `mkdocs.yml` and its `classic` theme variant. Pin the runtime 
 resolved Python dependencies. Keep public content in `docs/` as Markdown with
 simple YAML metadata and source-relative links. The Java engine uses Maven.
 
-Use GitHub Pages as the initial publication target. Under the owner's October 28,
-2026 update, documentation input changes pushed to `main` automatically build and
-publish through Actions; retain manual dispatch from `main` for optional rebuilds.
-The [website guide](../contributing/documentation.md#initial-hosting-and-publication)
-owns the input filters and publication checks. The generator and hosting provider
-are independent choices: the same static output can be hosted elsewhere.
-Cloudflare remains an option; no hosting migration is currently requested.
+Use GitHub Pages as the initial publication target. Changes to documentation inputs
+on `main` build and publish through GitHub Actions after documentation QA succeeds.
+The generator and hosting provider are independent choices: the same static output
+can be hosted elsewhere. The [documentation guide](../contributing/documentation.md)
+describes the contributor workflow.
 
 ## Rationale and limits
 
-The owner prefers MkDocs-style authoring and may later adopt Hugo. Zensical reads
-`mkdocs.yml` and offers a Material-style classic theme. It provides a successor
+MkDocs-style configuration supports a declarative documentation workflow.
+Zensical reads `mkdocs.yml` and offers a Material-style classic theme. It provides a successor
 path as Material for MkDocs approaches its announced May 5, 2027 end of life.
 
 Compatibility is selective. Arbitrary MkDocs plugins and hooks do not run in
@@ -56,21 +54,12 @@ machinery before the first engine release.
 
 ## Historical choice
 
-Commit `bb3431d` introduced the initial VitePress scaffold. This decision replaces
-that toolchain before publication. Its source remains in Git history. The earlier
-Java/Maven decision remains current.
+The initial VitePress scaffold was replaced before publication. The Java/Maven
+build remains independent of the Python documentation toolchain.
 
-The initial Pages workflow required manual publication. After the site went live,
-the owner requested automatic publication on October 28, 2026. The current workflow
-adds filtered pushes to `main` while preserving its strict build, deployment
-permissions and manual rebuild option. Earlier progress receipts describe the
-then-current manual policy; this update supersedes that policy.
-
-The first automatic deployment passed, but its live HTML exposed HTTP canonical
-URLs on the HTTPS site. Construct the production URL with explicit HTTPS and the
-Pages host/base-path outputs, preserving the configured domain and project path.
-A successful workflow alone is insufficient publication evidence; check live
-metadata as well as content.
+Canonical and sitemap URLs use explicit HTTPS with the configured host and base
+path. Both custom-domain and project-path layouts are checked. Publication checks
+cover live content and metadata as well as successful builds.
 
 ## Evidence checked on 2026-10-28
 

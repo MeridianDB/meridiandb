@@ -13,8 +13,7 @@ reviewable result with explicit evidence.
 
 Start with the [architecture overview](../architecture/overview.md),
 [temporal contract and fixtures](../architecture/temporal-contract.md) and
-[language decision](../decisions/0001-language-strategy.md). Repository contributors
-and coding agents should also read `AGENTS.md` at the repository root.
+[language decision](../decisions/0001-language-strategy.md).
 
 ## Useful contributions now
 
@@ -34,16 +33,12 @@ will be checked. Java is the current engine default. A different language or
 dependency should answer a concrete engineering question under the existing
 language decision.
 
-## Work through the implementation queue
+## Propose a focused change
 
-Follow the [agent workflow](../planning/index.md) and
-[live queue](../planning/queue.md) for implementation iterations. Refine a broad
-work package into bounded children when needed. Each completed step updates
-relevant project documentation, queue state and progress evidence, then commits
-and pushes task-owned changes to `origin/main` under the owner's standing
-instruction. End by recommending the next eligible item. Documentation changes
-on `main` publish through the automatic GitHub Pages workflow; library publication
-remains a separate action.
+Use the [roadmap](../roadmap.md) to understand the current implementation and
+planned capabilities. Describe the problem, observable behavior and validation in
+a contribution. Update affected examples and documentation alongside code, and
+include reproducible evidence for semantic or performance claims.
 
 ## Build and test Java
 
@@ -86,7 +81,7 @@ Start the local preview with automatic rebuilding:
 Build the static site and fail on reported documentation issues:
 
 ```bash
-.venv/bin/zensical build --strict
+.venv/bin/python scripts/build_docs.py
 ```
 
 Preview the generated `site/` directory separately:

@@ -22,5 +22,5 @@ The current project has no stable engine API or storage-format compatibility pro
 [architecture overview](../architecture/overview.md) for the open design questions.
 
 When a material decision changes, update its current status and retain the dated
-reasoning. Keep the README, agent rules and affected public pages consistent with
+reasoning. Keep the README and related technical pages consistent with
 the decision rather than copying detailed policy into each page.

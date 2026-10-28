@@ -130,7 +130,6 @@ history and request maps on new commits and retains changed interval lists, so
 memory use and write cost grow with history. It has no reclamation, index,
 backpressure, crash recovery or benchmark claim. Sequence overflow is guarded;
 practical memory capacity is reached long before the numeric sequence limit.
-[MDB-0006](../planning/roadmap.md#mdb-0006-local-storage-and-journal) is expanded into
-the implemented pure codec (MDB-0015) and local append/sync/recovery next (MDB-0016).
-The codec does not make this engine durable; later integration/recovery remains
-required.
+The [journal codec](../architecture/journal-format.md) implements the byte format;
+local append, sync and recovery remain planned. The codec does not make this
+engine durable. See the [roadmap](../roadmap.md) for the storage and recovery work.
