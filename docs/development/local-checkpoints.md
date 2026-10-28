@@ -9,8 +9,10 @@ description: Publish and reopen immutable local checkpoint generations with actu
 segments in one local directory. It compares their complete history with the
 actual bytes read through the owning `LocalJournal`, then orders file forces,
 atomic rename and directory forces before returning success. This is an
-experimental local storage primitive. The embedded engine remains memory-only;
-checkpoint publication is not an engine commit acknowledgement.
+experimental local storage primitive. The separate [local recovery API](local-database.md)
+reconstructs read-only temporal queries from checkpoint plus journal tail. The
+`InMemoryEngine` write API remains memory-only; checkpoint publication is not an
+engine commit acknowledgement.
 
 [ADR 0012](../decisions/0012-local-checkpoint-publication.md) explains the protocol
 and primary evidence. The [manifest specification](../architecture/checkpoint-manifest-format.md)

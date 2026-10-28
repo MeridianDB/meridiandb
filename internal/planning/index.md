@@ -179,7 +179,10 @@ This runs temporal type/boundary checks, canonical histories against both refere
 and embedded engine, seeded dense-state comparisons, focused engine
 lifecycle/concurrency, journal codec, local journal I/O/process, immutable segment
 codec, local segment I/O/lifetime, manifest codec/consistency, actual owner-journal
-prefix and local checkpoint publication checks. Include before/after-rename faults,
+prefix, local checkpoint publication and local temporal read-recovery checks.
+Reopen unchanged canonical histories through journal-only, genesis and checkpoint
+plus tail; verify lineage, exact historical answers and original request positions.
+Include before/after-rename faults,
 unsupported capability before mutation, capacity reservation, same-file lock
 preservation and exact process reopen. File/directory force and process-restart
 evidence do not establish durable engine recovery or universal power-loss guarantees.

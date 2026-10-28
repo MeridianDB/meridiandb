@@ -21,7 +21,9 @@ adds create-only file writes and verified heap readers. The
 complete-set consistency against a reconstructed journal-prefix binding. The
 [local checkpoint store](local-checkpoints.md) adds actual owner-journal verification,
 immutable generation publication and verified reopen under explicit filesystem
-capabilities. Durable engine integration remains planned.
+capabilities. [Local database recovery](local-database.md) restores read-only
+temporal queries and request lookup from complete checkpoint history plus the
+journal suffix. Durable engine writes and acknowledgement remain planned.
 No library is published.
 
 ## Build and verify
@@ -67,18 +69,20 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 304 test invocations include 39 [local checkpoint publication checks](local-checkpoints.md),
+The current 341 test invocations include 37 [local database recovery checks](local-database.md),
+39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
 36 [local segment I/O/lifetime checks](local-segments.md),
 27 immutable segment codec checks, 29 journal codec checks, 57 local journal
 I/O/process/prefix checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
-engine lifecycle/concurrency checks. Each implementation executes 84 exact fixture
-expectations and 512 seeded new transactions. The [reference guide](reference-model.md)
+engine lifecycle/concurrency checks. The memory engine and reference each execute
+84 exact fixture expectations and 512 seeded new transactions. Local read recovery
+executes the canonical histories in three checkpoint shapes. The [reference guide](reference-model.md)
 and [engine guide](embedded-engine.md) explain coverage and limits. The local
-adapter has separate failure/reopen tests; durable engine integration remains
-unimplemented. The
+adapters have separate failure/reopen tests; read recovery is implemented while
+durable engine write integration remains unimplemented. The
 [journal specification](../architecture/journal-format.md) documents golden bytes,
 corruption/truncation, exact identity and allocation-limit coverage.
 
@@ -153,7 +157,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for local checkpoint publication on October 28; the selected versions remain
+for local database recovery on October 28; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 
@@ -214,11 +218,12 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run six
+artifact is uploaded or released by this workflow. Both platforms also run seven
 examples: embedded queries, local journal, pure segment codec, local immutable
-files, manifest consistency and local checkpoint publication. The last example
-reports an unavailable directory open/force capability explicitly; its real-file
-tests skip on that specific unsupported boundary while injected checks still run.
+files, manifest consistency, local checkpoint publication and local read recovery.
+The last two examples report an unavailable directory open/force capability
+explicitly; capability-dependent real-file tests skip on that specific boundary
+while injected checks still run.
 Changes under `examples/` trigger these checks.
 
 Documentation checks and automatic Pages publication retain their own workflows.

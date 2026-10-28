@@ -16,7 +16,8 @@ loads and verifies every referenced segment and reconstructs the declared prefix
 Neither operation checks an actual stored journal file, selects a generation or
 publishes a durable checkpoint. The separate [local publication protocol](../development/local-checkpoints.md)
 implements actual owner-journal verification and generation selection. Durable
-engine integration remains planned. [ADR 0011](../decisions/0011-checkpoint-manifest-format.md)
+engine writes remain planned; [local read recovery](../development/local-database.md)
+now restores temporal state from the checkpoint plus journal tail. [ADR 0011](../decisions/0011-checkpoint-manifest-format.md)
 records the representation decision.
 
 ## Generation, history and references

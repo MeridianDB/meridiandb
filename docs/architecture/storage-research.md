@@ -38,8 +38,8 @@ answers a temporal database is permitted to discard.
 | Logical commit position | Total order of complete transactions within one lineage | Implemented by the memory engine; encoded by the journal codec |
 | Complete appended prefix | Bytes contain complete, validated transaction frames | Implemented by codec and local sequential writer |
 | Forced journal prefix | Local storage has completed the declared force protocol | Explicit local file force; namespace durability remains separate |
-| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory; durable integration is planned |
-| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Local generation publication implemented with explicit filesystem requirements; engine integration planned |
+| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory and recovered local reads; durable write acknowledgement is planned |
+| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Local generation publication and read recovery implemented with explicit filesystem requirements; durable write integration planned |
 
 For the initial durable engine, the intended order is: prepare and validate a
 transaction, append its frame, complete the force boundary, publish its immutable
@@ -88,8 +88,11 @@ segment set and reconstruct its exact journal-prefix binding. The separate
 with the actual owner journal, forces dependencies, then atomically selects and
 synchronizes an immutable generation. [ADR 0012](../decisions/0012-local-checkpoint-publication.md)
 refreshes JDK and Lucene filesystem evidence and explains generation selection,
-capability gating and uncertain publication. Engine acknowledgement and recovery
-remain separate integration work.
+capability gating and uncertain publication. The [local recovery reader](../development/local-database.md)
+now rebuilds complete temporal state from that checkpoint and the journal suffix.
+[ADR 0013](../decisions/0013-local-database-recovery.md) applies refreshed XTDB log/storage
+alignment and JDK ownership evidence. Engine write acknowledgement and crash
+conformance remain separate integration work.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

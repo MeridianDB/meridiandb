@@ -13,8 +13,9 @@ description: Record MeridianDB's immutable interval snapshots, serialized writer
 
 The reference interpreter executes whole transaction history backwards. An
 embedded engine needs explicit resource lifetimes and observable commit
-publication, using an independently reasoned representation. Durable layout,
-journal and recovery remain planned capabilities.
+publication, using an independently reasoned representation. Durable commit
+publication remains planned. [ADR 0013](0013-local-database-recovery.md)
+adds read-only recovery separately while preserving this memory-only write API.
 
 ## Decision
 

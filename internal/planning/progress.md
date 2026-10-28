@@ -982,6 +982,97 @@ Refine its broad scope into bounded children while preserving acknowledged-commi
 uncertain-outcome, retry identity and temporal/reference recovery acceptance criteria.
 The embedded engine remains memory-only until that integration is verified.
 
+## 2026-10-28 — MDB-0023 Local database recovery
+
+**Outcome and decomposition:** expand MDB-0008 without reducing its original
+criteria: MDB-0023 restores local temporal reads; MDB-0024 adds forced commit
+acknowledgement and atomic query publication; MDB-0025 verifies crash/retry and
+canonical/seeded durable conformance. Complete only MDB-0023 in this iteration.
+Add `LocalDatabase.open`, private seeded `InMemoryEngine` construction and exact
+original-record restore. Verify the existing highest selected checkpoint against
+actual owned journal bytes, replay its prefix once, then apply only the journal
+suffix into private interval state. Retain stored lineage, all historical cutoffs,
+original requests and request positions, including no-ops. Expose head, optional
+checkpoint cutoff, request lookup, views and close only after complete success.
+No engine transaction API, automatic repair or reclamation is added.
+
+**Research and review:** freshly fetch all twelve Central metadata sources and
+recheck official Maven/JUnit/Jackson compatibility on October 28 at 23:20 UTC.
+Existing exact stable pins remain current compatible selections; preview Maven/
+plugin 4.x metadata stays unselected. POM changes only its description; JDK file,
+collection and engine primitives add no dependency. Refresh XTDB finalized-block/
+log alignment and out-of-sync refusal, Lucene selected-generation/commit metadata,
+and JDK file-lock/force evidence. ADR 0013 separates primary facts from MeridianDB
+replay/API choices. Review caught an important wording boundary: `Store.open`
+retains its directory-force capability probe and writable journal/lock handles.
+Logical read-only recovery promises no journal/segment data force, append, truncate,
+publication or deletion; it is not a read-only-filesystem API. Surviving suffix
+bytes establish no earlier force or acknowledgement. Production review found no
+concrete replay, ownership, cleanup or partial-exposure defect. Public review found
+one stale research-table status; qualify read integration versus planned durable
+writes at that existing caller. A missing-journal test setup issue was fixed before
+Maven validation. Browser QA prompted wrapping the usage example's long query line.
+
+**Validation:** `./mvnw -B -ntp -Dtest=LocalDatabaseTest,LocalRecoveryFixtureTest test`
+passes all 37 new cases on its first run: 22 focused and 15 dynamic fixture cases.
+Final `./mvnw -B -ntp verify` passes **341 tests, zero failures/errors/skips**,
+preserving the previous 304 cases. Each of five unchanged canonical histories runs
+through journal-only, genesis-checkpoint and first-commit-checkpoint plus journal
+tail, retaining every intermediate head/future-cutoff expectation: 84 per shape,
+252 exact expectations total, plus complete final historical query/request sweeps.
+Test-only ReferenceModel decides fixture write acceptance; observed reads always
+release writer handles and reopen production `LocalDatabase`. The oracle, original
+fixtures and seed corpus remain unchanged and test-only.
+
+Focused cases cover checkpoint-two/tail-four and journal-only exact point/scan/sum
+answers, Unicode lineage, genesis/no-op identity, checkpoint cutoff versus recovered
+head, unchanged storage/pending evidence, both ownership locks, absent journal,
+incomplete tail rejection without repair, corrupt selected manifest, missing segment,
+actual prefix mismatch and failure ownership release. Injected source cases cover
+prefix/suffix ordering/cardinality/cutoff bounds, duplicate stored identity instead
+of retries, partial replay I/O, primary/suppressed cleanup failure, ownership until
+close, view invalidation before close I/O and retryable resource cleanup. Eight
+bounded concurrent readers share a recovered view over 64 rounds with explicit
+point/scan/aggregate answers. No new failing semantic seed or production defect.
+
+All seven examples pass independently. The new recovery example prepares checkpoint
+two plus a later retraction, then reopens historical/current reads at head three.
+Local Darwin arm64 supports the inherited directory probe; real-file cases run
+without skips. Linux/Windows CI separately reports capability-dependent outcomes.
+These checks do not establish engine write acknowledgement, crash/retry conformance,
+power-loss or performance guarantees. Recovery retains all interval snapshots and
+requests, copies maps and performs multiple bounded-object sequential passes;
+total heap/replay work grows with history. The local JAR has 85 Java25 production
+classes with no bundled oracle, fixtures, seeds, JUnit or Jackson. SHA-256 is
+`20ddfa8d3df9c08389b3a9dcb72d09efdbc12c4e4ab5bab73f2f9c930a11e55d`.
+No artifact is uploaded or released.
+
+**Documentation and handoff:** add the local recovery guide and ADR 0013; reconcile
+README, home, architecture/research/roadmap, current build/reference/engine/journal/
+checkpoint/format guidance, relevant ADR callers, decision index, navigation, CI
+and agent rules. Keep execution narration in `internal/`. Both apex and GitHub
+project-path shared builds pass source, HTML, links, search and sitemap checks
+with **32 public pages**. Local HTTP/browser QA verifies the usage example, navigation
+and `checkpointPosition` search result in the new guide. Theme/assets are unchanged;
+there is no new dark/narrow-viewport claim. Validate queue IDs, parent/dependency
+references/cycles, completed-parent criteria, source-ready successor and repository
+Markdown links; inspect only task-owned staged scope. Scratch outputs stay ignored
+under `.local-qa/mdb-0023/`.
+
+**Prerequisite and delivery:** prior `9a297c2d5253e5b89fee73d807920baa340048f0`
+is verified on remote main with Java Linux/Windows/six examples, documentation
+checks and automatic Pages success; its live QA covered 30 pages/search/sitemap.
+This completion uses `Step-ID: MDB-0023` and `Step-Result: completed`; Git supplies
+its exact SHA/remote ancestry. Final handoff reports actual push, CI, automatic
+Pages and live content/search/sitemap results. No Cloudflare or other infrastructure
+deployment. MDB-0008 remains expanded until both remaining children and its full
+acknowledgement/recovery criteria pass.
+
+**Next recommendation:** MDB-0024 — forced commit publication and acknowledgement.
+Define and implement creation plus prepare/append/force/atomic-publication ordering,
+explicit uncertain outcomes and pinned-view/retry behavior over recovered state.
+Keep crash/retry conformance as required MDB-0025 rather than closing the parent early.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

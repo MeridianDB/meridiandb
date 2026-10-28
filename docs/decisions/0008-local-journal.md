@@ -72,6 +72,8 @@ platform-specific namespace publication protocol before a power-loss guarantee.
 The [local journal guide](../development/local-journal.md) defines usage, cutoffs,
 repair artifacts and tested assumptions. Short/failed-I/O injection and separate
 JVM tests exercise the adapter; sudden power loss and remote storage remain outside
-that evidence. The memory engine remains nonpersistent. Immutable segments and
-manifests, durable engine reopen and acknowledgement/retry recovery need their own
-integration and crash-boundary tests.
+that evidence. The memory engine remains nonpersistent. Immutable segments,
+[checkpoint publication](0012-local-checkpoint-publication.md) and
+[read-only local recovery](0013-local-database-recovery.md) are implemented separately.
+Durable engine acknowledgement/retry recovery still needs integration and
+crash-boundary tests.

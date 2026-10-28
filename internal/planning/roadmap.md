@@ -7,8 +7,8 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
 types, the test reference, memory-only engine, local journal and immutable segment
-I/O, manifest consistency and local checkpoint publication are implemented; durable
-engine integration and later outcomes remain planned. The
+I/O, manifest consistency, checkpoint publication and read-only local recovery
+are implemented; durable engine writes and later outcomes remain planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
@@ -33,8 +33,8 @@ These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
 with reference support in tests under the [build foundation](../../docs/development/build.md).
 The journal and immutable segment codecs have local file adapters. Manifest
-metadata, referenced-object consistency and local generation publication are
-implemented; durable integration and measured experiments remain planned.
+metadata, referenced-object consistency, local publication and read recovery are
+implemented; durable write integration and measured experiments remain planned.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 
@@ -353,6 +353,67 @@ acknowledged commits, exposes only permitted atomic outcomes for unacknowledged
 work and handles retries without duplicate effects. Read views remain consistent
 while writers commit. Re-run the temporal/reference checks through reopen and
 recovery, retaining deterministic failure reproductions.
+
+**Required children:** MDB-0023 restores a read-only local database from verified
+checkpoint history plus the journal tail. MDB-0024 defines and implements forced
+commit acknowledgement and atomic query publication. MDB-0025 exercises process
+crash/reopen, uncertain outcomes, retry identity and temporal/reference conformance.
+Keep this parent expanded until all children and its original integration criteria
+pass. Read recovery alone does not establish an engine acknowledgement guarantee.
+
+## MDB-0023 Local database recovery
+
+**Outcome:** open an existing trusted local store with exclusive journal/store
+ownership; verify the highest selected checkpoint against actual journal bytes,
+restore exact checkpoint history and replay only the journal suffix into hidden
+engine state. Preserve database lineage, commit sequences, all historical views
+and request lookup. Support journal-only and genesis-checkpoint recovery. Expose
+reads only after full success; offer no engine transaction API in this child.
+
+**Complete when:** canonical temporal expectations execute through real reopen;
+checkpoint/tail and journal-only results agree with exact historical answers;
+corrupt/missing/incomplete history fails closed with no partial database, automatic
+repair or fallback; source failures release ownership and preserve evidence;
+close, concurrent reads and resource cleanup have focused tests. Document actual
+platform capabilities, replay/memory costs and the absence of durable commit
+acknowledgement. Keep the reference oracle test-only.
+
+**Produced artifacts:** [local recovery guide](../../docs/development/local-database.md),
+[ADR 0013](../../docs/decisions/0013-local-database-recovery.md), `LocalDatabase`,
+package-private seeded `InMemoryEngine` construction/exact restore, 22 focused
+recovery/lifecycle/fault checks and 15 canonical reopen cases (five histories in
+three checkpoint shapes), plus `examples/LocalRecoveryExample.java`.
+All 252 canonical expectations across these shapes and every stored historical
+cutoff/request sweep pass. Source ownership includes the existing directory-force
+probe and writable lock permissions. This child supplies read reconstruction only;
+MDB-0024/MDB-0025 and all MDB-0008 acknowledgement/crash criteria remain required.
+
+## MDB-0024 Durable commit publication
+
+**Outcome:** define engine creation and transaction acknowledgement over the owned
+local journal and recovered state. Prepare complete state privately, append and
+force an exact record, then atomically publish values/history/request identity
+before success. Specify uncertain outcomes, retry after reopen, initialization
+namespace force and checkpoint coordination without weakening existing contracts.
+
+**Complete when:** successful writes remain queryable/recoverable with original
+identity; identical/conflicting retries, pinned views, concurrent readers/writers,
+force/publication/close failures and capability boundaries have observable tests.
+No write success may precede its promised storage boundary. Record the selected
+protocol and remaining crash-conformance checks for MDB-0025.
+
+## MDB-0025 Durable crash and retry conformance
+
+**Outcome:** exercise process termination and injected faults at each durable
+creation/append/force/state-publication/checkpoint/reopen boundary. Apply canonical
+and seeded temporal/reference histories through recovered execution; preserve
+minimal failing evidence and exact retry outcomes.
+
+**Complete when:** acknowledged commits survive tested restarts; unacknowledged
+work has only documented complete outcomes; lost acknowledgement and conflicting
+retries never duplicate effects; historical queries and pinned views remain
+consistent. State filesystem/device assumptions and distinguish process faults
+from power loss. Close MDB-0008 only after its full original criteria pass.
 
 ## MDB-0009 Temporal query operators
 

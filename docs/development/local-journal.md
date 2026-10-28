@@ -9,7 +9,9 @@ description: Create, append, force and replay MeridianDB's experimental local jo
 [versioned transaction format](../architecture/journal-format.md) in a regular local
 file. It preserves lineage, ordered transactions and exact request identity across
 reopen. It is a storage primitive; `InMemoryEngine` still loses its state on close
-or crash. There is no durable engine API or compatibility promise yet.
+or crash. The separate [local database recovery API](local-database.md) now restores
+read-only temporal queries from existing history. Durable engine writes and a
+compatibility promise remain planned.
 
 ## Create, append and force
 

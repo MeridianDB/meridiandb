@@ -45,7 +45,7 @@ history in memory; it is neither thread-safe nor intended for large workloads.
 
 The production JAR contains immutable types, the memory-only engine, local
 journal adapter, immutable history codec, local segment adapter and manifest
-codec/verifier. The oracle, fixtures, seeds,
+codec/verifier, local checkpoint publisher and read-only local recovery. The oracle, fixtures, seeds,
 JUnit and Jackson remain test-only. [ADR 0005](../decisions/0005-reference-model.md)
 records the separation and algorithm choices.
 
@@ -113,7 +113,8 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **304 JUnit test invocations**: 39
+The current default suite has **341 JUnit test invocations**: 37
+[local database recovery checks](local-database.md), 39
 [local checkpoint publication checks](local-checkpoints.md), 45
 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md), 36
 [local segment I/O/lifetime checks](local-segments.md), 27
@@ -126,5 +127,6 @@ additional JUnit invocations.
 
 The [engine guide](embedded-engine.md) explains the memory-only implementation,
 atomic publication, serialized writing and lifecycle tests. Keep the oracle in
-test support; do not use it as the engine. Durable engine recovery, compaction and performance require their own later
-implementations and evidence.
+test support; do not use it as the engine. [Local recovery](local-database.md) adds
+canonical reopen checks against the same expected answers. Durable engine writes,
+crash conformance, compaction and performance require their own evidence.

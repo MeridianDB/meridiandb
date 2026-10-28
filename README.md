@@ -12,15 +12,18 @@ workload fixtures are defined. The Java 25/Maven build now includes a memory-onl
 embedded engine, immutable temporal types, an independent test reference and a
 runnable embedding example. The engine implements the initial numeric temporal
 contract and remains nonpersistent. A separate local journal supports append,
-force, exclusive writer access and bounded replay; it is not yet integrated with
-the engine. An immutable history-segment codec preserves exact transaction ranges
+force, exclusive writer access and bounded replay. An immutable history-segment
+codec preserves exact transaction ranges
 in bounded, checksummed byte images. The [local segment adapter](docs/development/local-segments.md)
 adds create-only file writes and verified heap readers. A separate
 [manifest codec and verifier](docs/architecture/checkpoint-manifest-format.md)
 check a complete segment set against its reconstructed journal-prefix binding.
 [Local checkpoint publication](docs/development/local-checkpoints.md) now verifies the actual
 owned journal prefix and selects immutable generations through ordered forces and
-atomic rename on supported filesystems. Durable engine integration remains planned.
+atomic rename on supported filesystems. [Local database recovery](docs/development/local-database.md)
+now restores historical queries and request lookup from checkpoint history plus
+the journal tail, retaining the stored lineage. Durable engine writes and
+acknowledgement remain planned.
 There is no published library or stable API.
 The broader storage capabilities below remain the intended direction.
 
@@ -93,8 +96,8 @@ without committing to a public API.
 ## Development roadmap
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
-local journal, immutable segment files and local checkpoint publication, followed
-by durable engine recovery,
+local journal, immutable segment files, checkpoint publication and read recovery,
+followed by durable commit acknowledgement and crash conformance,
 temporal query operators, history-preserving compaction, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
@@ -113,9 +116,10 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 304 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 341 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
-I/O/lifetime, 45 manifest codec/consistency and 39 local checkpoint publication checks. Coverage
+I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication
+and 37 local database recovery checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -138,7 +142,8 @@ then confirms an identical retry returns commit `2`. The
 read-view lifetimes and memory limits. Closing or crashing loses the database.
 The separate [local journal example](docs/development/local-journal.md) exercises
 append/force and exact reopen. The [local checkpoint example](docs/development/local-checkpoints.md#readers-and-example)
-adds verified generation publication and reopen; the memory engine remains nonpersistent.
+adds verified generation publication and reopen. The [recovery example](docs/development/local-database.md#cost-and-verification)
+reopens temporal queries through `LocalDatabase`; `InMemoryEngine` remains nonpersistent.
 
 ## Working in this repository
 

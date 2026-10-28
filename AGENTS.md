@@ -20,7 +20,9 @@ so a new session can work correctly without relying on earlier conversations.
   check supplied segment history against a reconstructed journal-prefix binding;
   the [local checkpoint store](docs/development/local-checkpoints.md) verifies the
   actual owned-journal prefix and publishes immutable generations under explicit
-  filesystem capabilities. Durable engine integration remains planned.
+  filesystem capabilities. The [local recovery API](docs/development/local-database.md)
+  restores read-only temporal state and request lookup from complete checkpoint
+  history plus the journal suffix. Durable engine writes remain planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -143,6 +145,18 @@ so a new session can work correctly without relying on earlier conversations.
   publication and reader close grant no reclamation or engine-acknowledgement claim.
   Test unsupported capability before mutation, same-file lock preservation,
   before/after-rename faults, capacity limits and exact process reopen.
+- Follow the [local recovery contract](docs/development/local-database.md): acquire
+  existing store/journal ownership, verify the complete selected graph and actual
+  prefix, seed the stored lineage, replay the checkpoint exactly once and apply
+  only the journal suffix. Validate full journal order/cardinality and preserve
+  every historical cutoff and original request identity, including no-ops. Reused
+  stored identities are invalid history, not retries. Expose no database until all
+  reconstruction succeeds; discard private state and close acquired resources on
+  failure with cleanup errors suppressed. Keep directory-probe/write-permission
+  requirements explicit despite logical read-only access. Recovered bytes do not
+  prove earlier force/acknowledgement. Test unchanged canonical expectations through
+  journal-only, genesis and checkpoint-plus-tail reopen; retain separate write/crash
+  conformance work and document full-history replay/heap costs.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

@@ -96,5 +96,6 @@ for this adapter rather than receiving an implicit weaker guarantee.
 A native platform-specific durability implementation may support more environments
 or stronger device controls. It needs separate implementation and fault evidence.
 The current JDK-only adapter deliberately reports its capability boundary.
-Durable engine acknowledgement, checkpoint-plus-tail recovery and orphan cleanup
+[Read-only checkpoint-plus-tail recovery](0013-local-database-recovery.md) is now
+implemented separately. Durable engine acknowledgement and orphan cleanup
 remain subsequent work.

@@ -97,13 +97,14 @@ alternatives. No backend or multi-process writer coordination exists here.
 
 ## Verification and limits
 
-`./mvnw -B verify` currently runs **304 JUnit test invocations**, including the
+`./mvnw -B verify` currently runs **341 JUnit test invocations**, including the
 71 temporal/engine checks below, 29 [journal codec checks](../architecture/journal-format.md),
 57 [local journal I/O/process/prefix checks](local-journal.md),
 27 [immutable segment codec checks](../architecture/immutable-segment-format.md),
 36 [local segment I/O/lifetime checks](local-segments.md),
-45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md) and
-39 [local checkpoint publication checks](local-checkpoints.md):
+45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
+39 [local checkpoint publication checks](local-checkpoints.md) and
+37 [local database recovery checks](local-database.md):
 
 - The unchanged five canonical histories supply 84 expected steps for each of
   reference and engine, including invalid inputs and extreme coordinates.
@@ -137,5 +138,7 @@ backpressure, crash recovery or benchmark claim. Sequence overflow is guarded;
 practical memory capacity is reached long before the numeric sequence limit.
 The [journal codec](../architecture/journal-format.md) implements the byte format;
 the [local adapter](local-journal.md) supplies append, force and sequential replay.
-Neither is integrated with this engine. See the [roadmap](../roadmap.md) for the
-remaining durable engine recovery work.
+The separate [local database](local-database.md) rebuilds read-only state through
+a package-private seeded lineage and exact-record replay path; it shares the
+interval-state algorithm while the public `InMemoryEngine` remains nonpersistent.
+See the [roadmap](../roadmap.md) for durable writes and crash conformance.

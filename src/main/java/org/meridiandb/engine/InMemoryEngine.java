@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.meridiandb.engine;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.UUID;
+import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.temporal.CommitPosition;
 import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
@@ -29,12 +31,17 @@ import org.meridiandb.temporal.WriteOperation;
  * future operations, while a query that already captured a view may finish.
  */
 public final class InMemoryEngine implements AutoCloseable {
-    private final DatabaseId databaseId = new DatabaseId(UUID.randomUUID().toString());
+    private final DatabaseId databaseId;
     // One volatile publication includes values, historical cutoffs and request identities.
     // null marks the closed engine; all objects reachable from a published state are immutable.
     private volatile Published state;
 
     public InMemoryEngine() {
+        this(new DatabaseId(UUID.randomUUID().toString()));
+    }
+
+    InMemoryEngine(DatabaseId databaseId) {
+        this.databaseId = Objects.requireNonNull(databaseId, "databaseId");
         var genesis = new Snapshot(new CommitPosition(databaseId, 0), Map.of());
         state = new Published(genesis, Map.of(0L, genesis), Map.of());
     }
@@ -74,6 +81,18 @@ public final class InMemoryEngine implements AutoCloseable {
         requests.put(request.requestId(), new CommittedRequest(request, position));
         state = new Published(snapshot, Map.copyOf(history), Map.copyOf(requests));
         return new CommitResult(position, false);
+    }
+
+    /** Restore one original commit; repeated identities are invalid history, never retry requests. */
+    synchronized void restore(JournalRecord record) {
+        var before = requireOpen();
+        Objects.requireNonNull(record, "record");
+        long previous = before.head().position().sequence();
+        if (previous == Long.MAX_VALUE || record.sequence() != previous + 1
+                || before.requests().containsKey(record.transaction().requestId())) {
+            throw new java.io.UncheckedIOException(new IOException("Recovery requires contiguous unique commits"));
+        }
+        transact(record.transaction());
     }
 
     /** Current commit metadata, independent of a data view's cutoff. */

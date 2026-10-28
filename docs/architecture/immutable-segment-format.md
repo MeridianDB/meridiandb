@@ -16,7 +16,7 @@ verified heap readers. The [manifest codec and verifier](checkpoint-manifest-for
 check full-history coverage and the reconstructed journal-prefix binding;
 [local checkpoint publication](../development/local-checkpoints.md) supplies separate
 filesystem verification and generation selection.
-The engine remains memory-only; valid segment bytes do not establish persistence,
+The `InMemoryEngine` write API remains memory-only; valid segment bytes do not establish persistence,
 query visibility or permission to discard journal history.
 [ADR 0009](../decisions/0009-immutable-segment-format.md) records the rationale.
 
@@ -166,5 +166,6 @@ count, aggregate size preflight and input/output ownership.
 These checks establish representation and integrity. Local immutable-file creation
 and reader lifetimes have separate [adapter checks](../development/local-segments.md).
 [Local checkpoint publication](../development/local-checkpoints.md) has separate
-filesystem and failure checks. Durable engine reopen remains planned in the
-[roadmap](../roadmap.md); codec success alone is not a completed checkpoint.
+filesystem and failure checks. [Local recovery](../development/local-database.md)
+now reconstructs read-only temporal state; durable writes remain planned in the
+[roadmap](../roadmap.md). Codec success alone is not a completed checkpoint.

@@ -8,7 +8,7 @@ description: Specify MeridianDB's experimental bounded journal v1 framing, exact
 **Status:** a pure Java v1 codec is implemented in
 `org.meridiandb.storage.journal`, together with a
 [local file adapter](../development/local-journal.md) for append, force and replay.
-The embedded engine remains memory-only. This experimental format is not a
+The `InMemoryEngine` write API remains memory-only. This experimental format is not a
 compatibility promise. The
 [storage research](storage-research.md) explains the comparable designs;
 [ADR 0007](../decisions/0007-journal-format.md) records the selected tradeoffs.
@@ -156,5 +156,6 @@ The ordinary `./mvnw -B verify` also retains engine/reference conformance and
 concurrency checks. Codec tests establish representation and byte-prefix behavior.
 The [local journal suite](../development/local-journal.md) additionally checks
 short/failed I/O, force cutoffs, writer exclusion, replay and explicit tail repair.
-Durable engine recovery and journal retention still need integration tests. The
-in-memory engine remains memory-only.
+[Local database recovery](../development/local-database.md) now verifies and
+replays existing history for temporal reads. Durable engine writes, crash
+conformance and journal retention still need their own integration evidence.

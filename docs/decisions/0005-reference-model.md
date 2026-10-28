@@ -64,6 +64,7 @@ The reference interpreter is a sequential test oracle. The
 [separate interval-state engine](0006-in-memory-engine.md) compares its observable
 answers with this oracle and independent dense snapshots, with additional tests
 for atomic visibility, serialized writes and resource lifetimes. The interpreter
-remains test-only. Durable storage and recovery require their own implementation
-and tests. Changes to logical type semantics must update the contract and fixtures
+remains test-only. [Local read recovery](0013-local-database-recovery.md) exercises
+canonical histories through existing storage; durable writes and crash conformance
+require their own implementation and tests. Changes to logical type semantics must update the contract and fixtures
 together.

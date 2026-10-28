@@ -12,19 +12,21 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. MDB-0022's source acceptance criteria pass; its
-  completion also closes MDB-0020 and MDB-0007 after all required children and
-  original integration criteria pass.
-- Next source-ready item: **MDB-0008 — Integrate durable commits, reopen and recovery**.
-  Confirm MDB-0022's completion reached remote main and inspect Java/documentation
-  CI and automatic Pages publication before claiming it. Refine this broad item
-  into bounded children when needed; preserve its full recovery/acknowledgement criteria.
-- MDB-0022 implements actual owner-journal prefix verification, immutable generation
-  publication/reopen, capability gating and uncertain outcomes. All 304 local tests
-  and six examples pass; both URL-layout documentation builds pass with 30 pages.
-  This is no engine-acknowledgement or power-loss conformance result.
-- Prior completion `8317ea8b06273d3d3cb12ea079f7400a8d27bf92` is verified on remote
-  main with Java Linux/Windows/five examples, documentation checks and Pages success.
+- No executable item is active. MDB-0023's recovery-reader source criteria pass;
+  MDB-0008 remains expanded with MDB-0024/MDB-0025 required for durable write
+  acknowledgement and crash/retry conformance.
+- Next source-ready item: **MDB-0024 — Add forced commit publication and acknowledgement**.
+  Confirm MDB-0023's completion reached remote main and inspect Java/documentation
+  CI and automatic Pages publication before claiming it. Refine further if needed
+  while preserving all original transaction and recovery criteria.
+- Recovery verifies the selected checkpoint against the owned journal, restores
+  stored lineage/history/request identity privately and applies the journal suffix
+  before exposing reads. All 341 local tests and seven examples pass; both URL-layout
+  documentation builds pass with 32 pages. This is no write-acknowledgement,
+  process-crash conformance or power-loss result.
+- Prior completion `9a297c2d5253e5b89fee73d807920baa340048f0` is verified on remote
+  main with Java Linux/Windows/six examples, documentation checks and automatic
+  Pages success. Its handoff verified all 30 live pages, search and sitemap.
 - Use the [progress history](progress.md) and completion trailers for exact evidence;
   Git and workflow runs supply actual delivery/publication state.
 
@@ -47,7 +49,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | done | MDB-0006, MDB-0019 |
 | [MDB-0021](roadmap.md#mdb-0021-manifest-format-and-checkpoint-consistency) | Implement manifest format and checkpoint consistency | MDB-0020 | done | MDB-0006, MDB-0019 |
 | [MDB-0022](roadmap.md#mdb-0022-local-checkpoint-publication) | Implement local checkpoint publication and reopen | MDB-0020 | done | MDB-0006, MDB-0019, MDB-0021 |
-| [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | ready | MDB-0007 |
+| [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | expanded | MDB-0007 |
+| [MDB-0023](roadmap.md#mdb-0023-local-database-recovery) | Restore local database reads from checkpoints and journal tails | MDB-0008 | done | MDB-0007 |
+| [MDB-0024](roadmap.md#mdb-0024-durable-commit-publication) | Add forced commit publication and acknowledgement | MDB-0008 | ready | MDB-0007, MDB-0023 |
+| [MDB-0025](roadmap.md#mdb-0025-durable-crash-and-retry-conformance) | Verify durable crash, retry and temporal conformance | MDB-0008 | queued | MDB-0007, MDB-0024 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |

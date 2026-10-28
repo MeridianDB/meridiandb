@@ -4,7 +4,8 @@ description: Explore MeridianDB's memory engine, journal codec, researched immut
 
 # Architecture overview
 
-MeridianDB has an experimental memory-only embedded engine. Its API remains
+MeridianDB has an experimental memory-only engine and
+[read-only local recovery](../development/local-database.md). Its API remains
 unstable; the transaction journal codec has an experimental format, while an
 immutable history-segment codec preserves exact transactions. Query-optimized
 layouts remain open. This page describes the working direction and the questions
@@ -56,7 +57,9 @@ The [manifest codec and verifier](checkpoint-manifest-format.md) bind complete
 referenced history to an exact reconstructed journal prefix. The
 [local checkpoint store](../development/local-checkpoints.md) verifies the actual
 owned journal bytes and publishes immutable generations with ordered file/directory
-forces and atomic rename. Durable engine integration, object storage and optimized
+forces and atomic rename. The [local recovery reader](../development/local-database.md)
+rebuilds historical interval state and request identity from checkpoint plus journal
+tail before exposing queries. Durable engine writes, object storage and optimized
 query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
@@ -70,8 +73,8 @@ existing bitemporal contract rather than inheriting another product's semantics.
 
 The journal codec implements bounded versioned frames and strict byte validation.
 The local adapter adds writer exclusion, append/force and sequential recovery.
-The engine stays memory-only until journal/segment integration and crash tests
-establish durable behavior.
+The memory-only write API remains separate from local read recovery. Engine
+acknowledgement and crash tests must still establish durable write behavior.
 Group commit, bounded queues and avoiding tiny immutable parts are future throughput
 considerations; there are no MeridianDB performance results yet.
 
@@ -84,7 +87,7 @@ whose answers change after a retroactive correction.
 
 The [technical roadmap](../roadmap.md) progresses from the implemented memory
 engine, local journal, immutable files and local checkpoint publication to
-durable engine recovery and workload measurements. The initial engine serializes writes within one JVM;
+read recovery, durable commit acknowledgement and workload measurements. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 
 ## Establish correctness before optimizing
