@@ -360,6 +360,90 @@ live content checks. No Java library is uploaded or released.
 capabilities and the versioned commit journal, with exact record, checksum,
 publication and incomplete/corrupt-tail behavior before durable engine integration.
 
+## 2026-10-28 MDB-0015 — Journal format, codec and storage research
+
+**Outcome and decomposition:** retain MDB-0006's original local-storage/journal
+acceptance criteria and expand it into required children MDB-0015 (format/codec)
+and MDB-0016 (local append, force, ownership and recovery). MDB-0015 inherits
+MDB-0005; MDB-0016 inherits MDB-0005 and depends on MDB-0015. MDB-0007 continues to
+depend on the parent. This separates byte representation from filesystem failure
+handling, completing one bounded executable child in this invocation. MDB-0006
+remains expanded; the next child is source-ready, not implemented.
+
+**Owner direction and research:** the owner asked for best practices from similar
+immutable append-only, high-throughput realtime-search databases. The
+[dated primary-source comparison](../architecture/storage-research.md) covers XTDB,
+Kafka 4.4, RocksDB, Lucene/Elasticsearch, Quickwit 0.9 and ClickHouse. It distinguishes
+observed mechanisms from MeridianDB design inference. The selected approach keeps
+durable append, immutable checkpoint publication and searchable cutoff separate;
+allows later physical group commit without merging logical transaction identity;
+avoids one tiny immutable part per request; bounds work and retains the journal
+until recovery/retention proves it reclaimable. No throughput/latency claim or
+new service dependency is introduced.
+
+**Implementation:** add pure `JournalCodec`, `JournalRecord`, `JournalScan` and
+format failures under `org.meridiandb.storage.journal`. Versioned lineage headers
+and complete transaction frames use protected length framing, prefix/payload
+CRC32C and exact ordered payloads. Identifiers encode lossless Java UTF-16 code
+units, including lone surrogates; finite bounds retain distinct tags from infinity.
+Size/count bounds precede allocation. Scans require sequences contiguous from 1
+and unique request IDs, reporting only a valid prefix for incomplete candidates.
+Corruption/unsupported/malformed input fails closed without resynchronization or
+repair. [ADR 0007](../decisions/0007-journal-format.md) explains the choices and
+[journal specification](../architecture/journal-format.md) owns bytes/limits and
+the next local capability contract.
+
+**Validation:** `./mvnw -B -ntp verify` passes on macOS arm64, Oracle JDK 25.0.2 and
+Maven 3.10.0: 100 JUnit invocations, zero failures/errors/skips. The 29 new codec
+tests cover independently calculated hardcoded golden bytes; every truncation
+byte offset; single-bit mutation at every byte of the golden header/frame;
+checksum-valid malformed fields, versions and history; identity/operation limits;
+exact 8 MiB payload and the next-code-unit rejection; all bound modes, numeric
+extremes, exact Unicode and input buffer position/order/limit invariants. The
+existing 71 engine/reference/type checks, 84 expectations per implementation,
+16 seed histories and lifecycle/concurrency coverage remain unchanged. A focused
+codec run and independent static review found no production defect. Initial test
+fixtures for field-limit errors were padded to reach the field rather than fail
+the frame's minimum-size guard; no contract answer was changed.
+
+A fresh source snapshot without Git or generated output passes all 100 tests and
+the original embedding example. It produces a byte-identical JAR (SHA-256
+`17225c2b6cd5dbc7b76f53cadfadca555657e4c0344562e1c3918d53d80a825d`), containing
+35 Java 25 production classes and metadata, with no bundled test support, fixtures,
+seeds, JUnit or Jackson. Fresh October 28 Central metadata research rechecked all
+twelve coordinates; the ten POM pins remain the latest stable researched choices.
+No dependency changed; only the POM description was corrected to reflect current
+implementation. Original contract fixtures and seed corpus are unchanged.
+
+**Prerequisite delivery:** MDB-0005 completion `836eb5c` was verified on remote
+`main`, with successful Java Linux/Windows/example, Documentation checks and
+[Pages publication](https://github.com/MeridianDB/meridiandb/actions/runs/40758298971)
+before this child was selected.
+
+**Documentation and planning:** update README, agent rules, architecture, build,
+reference/engine guides, decision index and expanded queue together. The owner's
+comparable-system guidance is durable and linked to primary-source evidence.
+Strict Zensical builds and generated URL/link/fragment/asset/metadata checks pass
+for both hosting paths with 23 content pages. Local HTTP previews cover new research,
+journal specification/ADR, current status, queue and navigation/search. Java CI
+also triggers when the journal specification changes. Queue identity/parent/
+dependency checks, staged scope and whitespace are checked before commit. Scratch
+outputs remain ignored under `.local-qa/mdb-0015/`.
+
+**Limits and delivery:** codec success proves byte representation and prefix
+validation, not a successful append, force or durable acknowledgement. The image
+scanner materializes its input/results; a future file reader must recover
+sequentially with bounded frame buffers. No file I/O, writer lock, automatic tail
+truncation, device durability, durable engine, compression, fragmentation or
+performance result is implemented here. The completion commit uses
+`Step-ID: MDB-0015` and `Step-Result: completed`; Git supplies its SHA/remote
+ancestry. The final handoff reports actual push, CI, automatic Pages and live
+content checks. No Java library is uploaded or released.
+
+**Next recommendation at this checkpoint:** MDB-0016 — implement the local
+append/force and exclusive writer protocol with short/failed-I/O injection,
+bounded sequential recovery and explicit evidence-preserving tail repair.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -12,17 +12,20 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: **none**. Next source-ready item: **MDB-0006**.
-- MDB-0005 source acceptance is complete: memory-only embedded engine, immutable
-  read views, serialized atomic publication, retries, canonical/seeded conformance,
-  lifecycle/concurrency checks and a runnable Java example. See the
-  [engine guide](../development/embedded-engine.md) and [progress receipt](progress.md).
-- Before claiming MDB-0006, resolve the MDB-0005 completion commit by its trailers,
-  confirm it reached remote `main`, and inspect Java Linux/Windows checks, example
-  execution, documentation checks and automatic Pages publication. Resume delivery
-  first if any attributable failure remains.
-- MDB-0006 defines local storage capabilities and a commit journal; refine that
-  package if necessary. Durable engine integration and recovery remain MDB-0008.
+- Active executable item: **none**. Next source-ready item: **MDB-0016**.
+- MDB-0015 source acceptance is complete: primary-source storage research, explicit
+  local capability contract, versioned bounded journal codec and 29 focused checks.
+  The engine remains memory-only; there is no file writer or force guarantee yet.
+- MDB-0006 remains **expanded**, with required MDB-0015 done and MDB-0016 ready.
+  Its original acceptance criteria and MDB-0007's dependency on the parent remain
+  intact. Closing one child is not completion of the local storage milestone.
+- Before claiming MDB-0016, resolve the MDB-0015 completion commit by its trailers,
+  confirm it reached remote `main`, and inspect Java Linux/Windows/example,
+  documentation checks and automatic Pages publication. Resume delivery first if
+  any attributable failure remains.
+- MDB-0016 adds local append/sync, exclusive writer ownership and tested recovery
+  using the [journal specification](../architecture/journal-format.md). Durable
+  engine integration/crash recovery remains MDB-0008.
 - Documentation changes pushed to `main` publish automatically under the
   [website guide](../contributing/documentation.md#initial-hosting-and-publication).
 
@@ -35,7 +38,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | done | MDB-0002 |
 | [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | done | MDB-0003 |
 | [MDB-0005](roadmap.md#mdb-0005-embedded-in-memory-engine) | Build an embedded in-memory engine | — | done | MDB-0004 |
-| [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | ready | MDB-0005 |
+| [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | expanded | MDB-0005 |
+| [MDB-0015](roadmap.md#mdb-0015-journal-format-and-codec) | Specify and implement the bounded journal format and codec | MDB-0006 | done | MDB-0005 |
+| [MDB-0016](roadmap.md#mdb-0016-local-journal-io-and-recovery) | Implement local journal append, sync, ownership and recovery | MDB-0006 | ready | MDB-0005, MDB-0015 |
 | [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | queued | MDB-0006 |
 | [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | queued | MDB-0007 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |

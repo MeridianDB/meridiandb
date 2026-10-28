@@ -176,8 +176,8 @@ Current Java verification command, using the tracked Maven Wrapper and JDK 25:
 ```
 
 This runs temporal type/boundary checks, canonical histories against both reference
-and embedded engine, seeded dense-state comparisons and focused engine
-lifecycle/concurrency checks. It does not establish durability or crash recovery.
+and embedded engine, seeded dense-state comparisons, focused engine
+lifecycle/concurrency checks and pure journal codec checks. It does not establish durability or crash recovery.
 Follow the [reference guide](../development/reference-model.md) and
 [engine guide](../development/embedded-engine.md) for coverage, reproduction and
 example execution, and the [build guide](../development/build.md)

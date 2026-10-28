@@ -97,7 +97,8 @@ alternatives. No backend or multi-process writer coordination exists here.
 
 ## Verification and limits
 
-`./mvnw -B verify` currently runs **71 JUnit test invocations**:
+`./mvnw -B verify` currently runs **100 JUnit test invocations**, including the
+71 temporal/engine checks below and 29 [journal codec checks](../architecture/journal-format.md):
 
 - The unchanged five canonical histories supply 84 expected steps for each of
   reference and engine, including invalid inputs and extreme coordinates.
@@ -129,6 +130,7 @@ history and request maps on new commits and retains changed interval lists, so
 memory use and write cost grow with history. It has no reclamation, index,
 backpressure, crash recovery or benchmark claim. Sequence overflow is guarded;
 practical memory capacity is reached long before the numeric sequence limit.
-[MDB-0006](../planning/roadmap.md#mdb-0006-local-storage-and-journal) defines local
-storage and journal boundaries next; journal preparation alone will not make this
-engine durable until the later integration/recovery step is implemented.
+[MDB-0006](../planning/roadmap.md#mdb-0006-local-storage-and-journal) is expanded into
+the implemented pure codec (MDB-0015) and local append/sync/recovery next (MDB-0016).
+The codec does not make this engine durable; later integration/recovery remains
+required.

@@ -54,6 +54,8 @@ nav:
   - Design:
       - Architecture: architecture/overview.md
       - Temporal contract: architecture/temporal-contract.md
+      - Immutable storage research: architecture/storage-research.md
+      - Journal format: architecture/journal-format.md
       - Decision records: decisions/index.md
       - Language strategy: decisions/0001-language-strategy.md
       - Documentation toolchain: decisions/0002-documentation-toolchain.md
@@ -61,6 +63,7 @@ nav:
       - Java build foundation: decisions/0004-java-build-foundation.md
       - Reference model: decisions/0005-reference-model.md
       - In-memory engine: decisions/0006-in-memory-engine.md
+      - Journal format decision: decisions/0007-journal-format.md
   - Implementation:
       - Agent workflow: planning/index.md
       - Live queue: planning/queue.md

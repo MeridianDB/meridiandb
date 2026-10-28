@@ -11,7 +11,9 @@ command, query, interval, result and commit-position types in
 `org.meridiandb.temporal`. A [test-only reference model](reference-model.md) executes
 the canonical contract histories and seeded checks alongside the
 [embedded in-memory engine](embedded-engine.md) in `org.meridiandb.engine`.
-The engine is experimental and memory-only; no library is published.
+The engine is experimental and memory-only. The pure journal codec in
+`org.meridiandb.storage.journal` adds a tested representation; it supplies no local
+file I/O or durable acknowledgement. No library is published.
 
 ## Build and verify
 
@@ -56,13 +58,16 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 71 test invocations include 18 interval boundary checks, eight type
+The current 100 test invocations include 29 journal codec checks plus the existing
+71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
 engine lifecycle/concurrency checks. Each implementation executes 84 exact fixture
 expectations and 512 seeded new transactions. The [reference guide](reference-model.md)
 and [engine guide](embedded-engine.md) explain coverage and limits. Durable storage
-and crash recovery remain unimplemented.
+and crash recovery remain unimplemented. The
+[journal specification](../architecture/journal-format.md) documents golden bytes,
+corruption/truncation, exact identity and allocation-limit coverage.
 
 Run the embedding example after verification, on either platform:
 
@@ -137,7 +142,11 @@ The [Jackson project](https://github.com/FasterXML/jackson-databind) documents t
 model lets the fixture adapter reject non-integral or out-of-range values before
 constructing a transaction. MDB-0005 independently refreshed all twelve metadata
 sources on October 28 and rechecked official Maven/JUnit/Jackson compatibility;
-all selected stable versions remain unchanged. It adds no dependency or POM change.
+all selected stable versions remain unchanged. MDB-0015 refreshed those twelve
+metadata sources again and rechecked official Maven/JUnit compatibility; the
+selected stable choices remain unchanged. The codec uses JDK CRC32C and byte
+buffers, adding no dependency. The POM description now reflects the memory engine
+and journal codec.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |
@@ -194,7 +203,7 @@ repository permissions and credentials removed after checkout. Linux runs
 `./mvnw -B verify`; Windows runs `.\mvnw.cmd -B verify`. Both select Temurin from
 `.java-version`, checking for the latest patch in that Java line. Action versions
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
-by POM content. Changes to the temporal contract or canonical fixture directory
+by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
 artifact is uploaded or released by this workflow. Both platforms also run the
 embedding example; changes under `examples/` trigger these checks.

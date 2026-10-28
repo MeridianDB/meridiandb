@@ -11,7 +11,9 @@ so a new session can work correctly without relying on earlier conversations.
 - The repository has a Java 25/Maven memory-only embedded engine, immutable
   temporal types and an independent test reference. Follow the
   [Java build guide](docs/development/build.md), [engine guide](docs/development/embedded-engine.md)
-  and use `./mvnw -B verify`. Durable storage and recovery remain planned.
+  and use `./mvnw -B verify`. A pure journal codec now implements the
+  [format specification](docs/architecture/journal-format.md); local file I/O and
+  durable engine recovery remain planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -81,6 +83,16 @@ so a new session can work correctly without relying on earlier conversations.
   results against the independent reference and canonical expectations, with
   lifecycle/concurrency checks for changed behavior. State guarantees per backend;
   memory-only acknowledgement is not durability. Make uncertain outcomes explicit.
+- Owner direction, October 28, 2026: consider comparable immutable append-only
+  and realtime-search designs for storage/index work. Use the
+  [primary-source research](docs/architecture/storage-research.md) and refresh
+  relevant external claims when making new decisions. Keep durable append, immutable
+  checkpoint publication and query-visible cutoffs distinct; preserve transaction
+  identity and bounded work while evaluating batching and throughput.
+- Follow the [journal specification](docs/architecture/journal-format.md) for exact
+  encoding, allocation limits and fail-closed recovery. Pure decoding proves no
+  force/acknowledgement. Preserve incomplete/corrupt evidence; local repair belongs
+  to an explicit tested recovery policy.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

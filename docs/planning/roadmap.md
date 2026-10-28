@@ -6,8 +6,9 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 # Java and Maven implementation roadmap
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
-types, the test reference and the memory-only engine are implemented; durable
-storage and the later outcomes remain planned. The [live queue](queue.md) owns
+types, the test reference, memory-only engine and pure journal codec are implemented;
+local storage I/O, durable integration and later outcomes remain planned. The
+[live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
 
@@ -30,7 +31,8 @@ initial engine independent of a mandatory application server or service framewor
 These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../development/embedded-engine.md),
 with reference support in tests under the [build foundation](../development/build.md).
-Storage and measured experiments remain planned.
+A pure journal codec now exists; local storage I/O, durable integration and measured
+experiments remain planned.
 Read the [architecture overview](../architecture/overview.md) and
 [language strategy](../decisions/0001-language-strategy.md) before changing them.
 
@@ -143,6 +145,45 @@ semantics from a generic interface.
 have defined handling, durable publication boundaries are tested and unsupported
 format versions fail clearly. Document tested filesystem/platform assumptions.
 Expand this package if adapter and journal outcomes need separate commits.
+
+**Required children:** MDB-0015 defines and verifies the pure journal representation;
+MDB-0016 implements local ownership, append/sync and recovery using that format.
+The split separates malformed-byte correctness from filesystem failure behavior.
+Keep this parent expanded until both children and all original acceptance criteria
+pass. The durable embedded engine remains MDB-0008.
+
+## MDB-0015 Journal format and codec
+
+**Outcome:** research relevant immutable append-only database/search designs and
+record the local storage contract, durability/visibility boundaries and journal v1
+layout. Implement a bounded pure Java codec for lineage headers and complete
+ordered transaction records, including exact identity, positions and checksums.
+
+**Complete when:** typed records round-trip without changing retry payloads;
+independent known bytes fix the format; malformed/corrupt/unsupported input is
+rejected; every truncated frame exposes only the prior complete prefix; sequence
+and duplicate request identity rules are checked; size, lossless identity and
+boundary checks pass.
+No local append/fsync or durable-engine guarantee is claimed by this child.
+
+**Produced artifacts:** [storage research](../architecture/storage-research.md),
+[journal specification](../architecture/journal-format.md),
+[ADR 0007](../decisions/0007-journal-format.md), `org.meridiandb.storage.journal`
+and independent codec fixtures/corruption checks.
+
+## MDB-0016 Local journal I/O and recovery
+
+**Outcome:** implement the minimum local-file capabilities using the verified v1
+codec: exclusive writer ownership, complete append loops, explicit durable force,
+sequential bounded recovery and an explicit incomplete-tail repair policy. Fail
+closed after uncertain writes/sync errors; record tested filesystem assumptions.
+Keep visibility and durable acknowledgement distinct and preserve diagnostic bytes.
+
+**Complete when:** reopen returns exact ordered records and identity, a second
+writer is rejected, corrupt/unsupported records fail closed, incomplete tails have
+explicit tested repair, short/failed writes and force boundaries have injected
+checks, and local platform behavior is documented. Close MDB-0006 only after all
+its parent criteria pass; engine integration/crash recovery remains MDB-0008.
 
 ## MDB-0007 Immutable segments and manifests
 

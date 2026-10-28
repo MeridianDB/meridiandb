@@ -11,8 +11,9 @@ The [initial temporal contract](docs/architecture/temporal-contract.md) and exac
 workload fixtures are defined. The Java 25/Maven build now includes a memory-only
 embedded engine, immutable temporal types, an independent test reference and a
 runnable embedding example. There is no persistence, published library or stable
-API yet. The engine implements the initial numeric temporal contract; the broader
-storage capabilities below remain the intended direction.
+API yet. The engine implements the initial numeric temporal contract. A pure
+versioned journal codec is available; local append/sync and recovery remain planned.
+The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
 
@@ -70,7 +71,11 @@ The initial investigation will focus on:
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
 related but separate. Snapshot history also remains distinct from bitemporal
-history. No particular physical format has been selected.
+history. The [transaction journal format](docs/architecture/journal-format.md) now
+has a tested codec; an immutable query-segment format remains unselected. The
+[storage research](docs/architecture/storage-research.md) compares XTDB, Kafka,
+RocksDB, Lucene/Elasticsearch, Quickwit and ClickHouse, keeping durable append,
+index publication and query visibility distinct.
 
 SQL, document APIs, network protocols, replication and streaming integrations
 remain open. Public interface implementation can wait while query semantics and
@@ -99,8 +104,9 @@ To start an iteration, ask: **Continue the implementation queue for one bounded
 step.** Preparing the plan does not automatically start engine implementation.
 Source pushes run applicable checks; documentation changes pushed to `main` also
 publish the website automatically after its strict build succeeds. Library releases
-remain separate actions. The embedded in-memory engine is available; the next
-implementation outcome is a local storage contract and commit journal.
+remain separate actions. The local-storage milestone is split into required
+journal format/codec and file I/O/recovery children. The codec is available; the
+next implementation outcome is local append, sync, writer ownership and recovery.
 
 ## Build the Java foundation
 
@@ -116,9 +122,11 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 71 JUnit test invocations, including all 84 contract expectations against
+This runs 100 JUnit test invocations: the existing 71 temporal/engine checks plus
+29 journal codec checks. Coverage includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
-each, and nine lifecycle/concurrency checks. It creates the local experimental
+each, lifecycle/concurrency, golden journal bytes, corruption and truncation.
+It creates the local experimental
 `target/meridiandb-core-0.1.0-SNAPSHOT.jar`. The
 [reference model](docs/development/reference-model.md) and fixture parser remain
 test-only. See the [Java/Maven guide](docs/development/build.md) for setup, version

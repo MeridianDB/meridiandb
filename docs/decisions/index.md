@@ -16,8 +16,9 @@ permanent commitment.
 | [0004: Java build foundation](0004-java-build-foundation.md) | Adopted for the experimental artifact | Java 25, pinned stable Maven toolchain, version research and verification |
 | [0005: Reference model](0005-reference-model.md) | Implemented in test support | Immutable logical types, history-search oracle and independent dense-state checks |
 | [0006: In-memory engine](0006-in-memory-engine.md) | Implemented; experimental | Immutable interval snapshots, serialized publication, pinned views and explicit close behavior |
+| [0007: Journal format](0007-journal-format.md) | Pure codec implemented | Versioned bounded framing, exact identity, checksums and strict incomplete/corrupt input handling |
 
-The current project has no stable engine API or storage format. Read the
+The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.
 
 When a material decision changes, update its current status and retain the dated

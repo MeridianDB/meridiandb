@@ -1,11 +1,12 @@
 ---
-description: Explore MeridianDB’s proposed layers, persistence boundaries and correctness milestones before storage formats and public APIs are selected.
+description: Explore MeridianDB's memory engine, journal codec, researched immutable-storage lessons and remaining persistence boundaries before durable storage and stable APIs.
 ---
 
 # Architecture overview
 
 MeridianDB has an experimental memory-only embedded engine. Its API remains
-unstable and no durable physical format is selected. This page describes the
+unstable; the transaction journal codec has an experimental format, while an
+immutable query-segment format remains unselected. This page describes the
 working direction and the questions the storage prototype still needs to resolve.
 
 ## Start with Java and JVM embedding
@@ -45,7 +46,23 @@ rationale and alternatives.
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
 does not select the others. Local files and S3-compatible object storage are
-research targets; neither backend nor format has been implemented.
+research targets. A [transaction journal codec](journal-format.md) is implemented;
+local file I/O, object storage and immutable query segments remain planned.
+
+## Learn from immutable ingestion and search systems
+
+The owner requested comparable designs be considered for storage work. The
+[dated source comparison](storage-research.md) covers XTDB's ordered transaction
+log, Kafka/RocksDB framing, Lucene/Elasticsearch publication and durability,
+Quickwit checkpoints and ClickHouse batching. Adopt the separation of durable
+append, immutable checkpoint and query-visible cutoff; adapt mechanisms to the
+existing bitemporal contract rather than inheriting another product's semantics.
+
+MDB-0015 implements bounded versioned journal frames and strict byte validation.
+MDB-0016 adds local ownership, append/sync and recovery. The engine stays memory-only
+until journal/segment integration and crash tests establish durable behavior.
+Group commit, bounded queues and avoiding tiny immutable parts are future throughput
+considerations; there are no MeridianDB performance results yet.
 
 SQL, document APIs, network protocols and replication remain open. Representative
 logical queries can guide experiments before a public interface is stabilized:

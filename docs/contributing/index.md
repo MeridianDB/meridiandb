@@ -59,7 +59,10 @@ Research latest artifact versions for every Maven change under that procedure.
 The [reference guide](../development/reference-model.md) describes fixture replay,
 seeded histories and focused reproduction commands. Follow the
 [engine guide](../development/embedded-engine.md) to run the Java example and
-understand close semantics, concurrency checks and memory-only limits.
+understand close semantics, concurrency checks and memory-only limits. Storage
+work also follows the [journal specification](../architecture/journal-format.md)
+and [comparable-system research](../architecture/storage-research.md), with focused
+codec versus filesystem/recovery evidence kept separate.
 
 ## Run the documentation locally
 

@@ -28,7 +28,10 @@ a [memory-only embedded engine](development/embedded-engine.md) with a runnable
 Java example. Both engine and [test reference](development/reference-model.md)
 pass all 84 canonical expectations and independently checked seeded histories.
 Focused tests cover serialized writing, atomic visibility and read-view lifetimes.
-Local storage and a journal come next; recovery and layout experiments follow.
+A [pure journal codec](architecture/journal-format.md) now validates versioned
+transaction frames. [Comparable-system research](architecture/storage-research.md)
+guides storage choices. Local append/sync and recovery come next; durable engine
+integration and layout experiments follow.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?
