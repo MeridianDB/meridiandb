@@ -46,8 +46,9 @@ rationale and alternatives.
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
 does not select the others. Local files and S3-compatible object storage are
-research targets. A [transaction journal codec](journal-format.md) is implemented;
-local file I/O, object storage and immutable query segments remain planned.
+research targets. The [transaction journal codec](journal-format.md) and
+[local file adapter](../development/local-journal.md) are implemented; object
+storage and immutable query segments remain planned.
 
 ## Learn from immutable ingestion and search systems
 
@@ -59,8 +60,9 @@ append, immutable checkpoint and query-visible cutoff; adapt mechanisms to the
 existing bitemporal contract rather than inheriting another product's semantics.
 
 The journal codec implements bounded versioned frames and strict byte validation.
-Local writer exclusion, append/sync and recovery are planned. The engine stays memory-only
-until journal/segment integration and crash tests establish durable behavior.
+The local adapter adds writer exclusion, append/force and sequential recovery.
+The engine stays memory-only until journal/segment integration and crash tests
+establish durable behavior.
 Group commit, bounded queues and avoiding tiny immutable parts are future throughput
 considerations; there are no MeridianDB performance results yet.
 
@@ -72,7 +74,7 @@ whose answers change after a retroactive correction.
 ## Development direction
 
 The [technical roadmap](../roadmap.md) progresses from the implemented memory
-engine and journal codec to local storage, durable recovery, immutable segments
+engine and local journal to immutable segments, durable engine recovery
 and workload measurements. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 

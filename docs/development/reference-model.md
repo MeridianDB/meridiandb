@@ -43,7 +43,8 @@ conflicting reuse is rejected. Request lookup reads current commit metadata rath
 than a historical data view. This interpreter is sequential and keeps its whole
 history in memory; it is neither thread-safe nor intended for large workloads.
 
-The production JAR contains the immutable types and memory-only engine. The oracle, fixtures, seeds,
+The production JAR contains the immutable types, memory-only engine and local
+journal adapter. The oracle, fixtures, seeds,
 JUnit and Jackson remain test-only. [ADR 0005](../decisions/0005-reference-model.md)
 records the separation and algorithm choices.
 
@@ -111,14 +112,14 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **100 JUnit test invocations**: 29 journal codec
-checks plus 71 temporal/engine checks comprising 18 interval boundary
-checks, eight type checks, ten reference/decoding checks, five history tests per
+The current default suite has **138 JUnit test invocations**: 29 journal codec
+checks, 38 [local journal I/O/process checks](local-journal.md) and 71 temporal/engine
+checks comprising 18 interval boundary checks, eight type checks, ten reference/decoding checks, five history tests per
 implementation, 16 shared seed tests and nine engine lifecycle/concurrency tests.
 History steps and generated transactions are assertions inside those tests, not
 additional JUnit invocations.
 
 The [engine guide](embedded-engine.md) explains the memory-only implementation,
 atomic publication, serialized writing and lifecycle tests. Keep the oracle in
-test support; do not use it as the engine. Recovery, durability, compaction and
-performance require their own later implementations and evidence.
+test support; do not use it as the engine. Durable engine recovery, compaction and performance require their own later
+implementations and evidence.

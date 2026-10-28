@@ -11,9 +11,9 @@ command, query, interval, result and commit-position types in
 `org.meridiandb.temporal`. A [test-only reference model](reference-model.md) executes
 the canonical contract histories and seeded checks alongside the
 [embedded in-memory engine](embedded-engine.md) in `org.meridiandb.engine`.
-The engine is experimental and memory-only. The pure journal codec in
-`org.meridiandb.storage.journal` adds a tested representation; it supplies no local
-file I/O or durable acknowledgement. No library is published.
+The engine is experimental and memory-only. The journal codec and
+[local file adapter](local-journal.md) in `org.meridiandb.storage.journal` provide
+bounded append, force and replay independently of that engine. No library is published.
 
 ## Build and verify
 
@@ -58,14 +58,15 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 100 test invocations include 29 journal codec checks plus the existing
-71 temporal/engine checks: 18 interval boundary checks, eight type
+The current 138 test invocations include 29 journal codec checks, 38 local
+journal I/O/process checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
 engine lifecycle/concurrency checks. Each implementation executes 84 exact fixture
 expectations and 512 seeded new transactions. The [reference guide](reference-model.md)
-and [engine guide](embedded-engine.md) explain coverage and limits. Durable storage
-and crash recovery remain unimplemented. The
+and [engine guide](embedded-engine.md) explain coverage and limits. The local
+adapter has separate failure/reopen tests; durable engine integration remains
+unimplemented. The
 [journal specification](../architecture/journal-format.md) documents golden bytes,
 corruption/truncation, exact identity and allocation-limit coverage.
 
@@ -138,7 +139,9 @@ canonical test fixtures. The [Jackson project](https://github.com/FasterXML/jack
 documents its 3.x `tools.jackson` packages and Java 17 baseline. Its tree model lets
 the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
-dependency. All selected versions in the table were checked on the date above.
+dependency. The local adapter also uses only JDK file I/O. All twelve metadata
+sources and official Maven/JUnit/Jackson compatibility information were rechecked
+for the local journal work on October 28; the selected versions remain unchanged.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |

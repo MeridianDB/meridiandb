@@ -44,18 +44,12 @@ public final class JournalCodec {
     public static DatabaseId readHeader(ByteBuffer source) {
         var input = copy(source);
         int start = input.position();
-        if (input.remaining() < PREFIX_BYTES) {
-            throw failure(JournalFormatException.Code.INCOMPLETE_HEADER, "Incomplete journal header");
-        }
-        if (input.getLong() != FILE_MAGIC) {
-            throw corrupt("Journal magic does not match");
-        }
-        version(input.getInt());
-        int units = stringLength(input.getInt());
-        int bytes = units * Character.BYTES;
-        if (input.remaining() < bytes + Integer.BYTES) {
+        int size = headerBytes(input);
+        int units = (size - 20) / Character.BYTES;
+        if (input.remaining() < size) {
             throw failure(JournalFormatException.Code.INCOMPLETE_HEADER, "Incomplete lineage or header checksum");
         }
+        input.position(start + PREFIX_BYTES);
         String lineage = characters(input, units);
         int end = input.position();
         if (input.getInt() != checksum(input, start, end - start)) {
@@ -115,28 +109,12 @@ public final class JournalCodec {
         if (!input.hasRemaining()) {
             return Optional.empty();
         }
-        if (input.remaining() < PREFIX_BYTES) {
+        int size = recordBytes(input);
+        int length = size - PREFIX_BYTES - Integer.BYTES;
+        if (input.remaining() < size) {
             throw incomplete();
         }
-        int magic = input.getInt();
-        int version = input.getInt();
-        int length = input.getInt();
-        if (input.getInt() != checksum(input, start, 12)) {
-            throw corrupt("Record prefix checksum mismatch");
-        }
-        if (magic != RECORD_MAGIC) {
-            throw corrupt("Record magic does not match");
-        }
-        version(version);
-        if (length > MAX_PAYLOAD_BYTES) {
-            throw failure(JournalFormatException.Code.LIMIT_EXCEEDED, "Record payload exceeds journal v1 limit");
-        }
-        if (length < MIN_PAYLOAD_BYTES) {
-            throw corrupt("Record payload is too short");
-        }
-        if (input.remaining() < length + Integer.BYTES) {
-            throw incomplete();
-        }
+        input.position(start + PREFIX_BYTES);
         int payloadStart = input.position();
         if (input.getInt(payloadStart + length) != checksum(input, payloadStart, length)) {
             throw corrupt("Record payload checksum mismatch");
@@ -206,6 +184,44 @@ public final class JournalCodec {
             previous = record.sequence();
         }
         return new JournalScan(database, records, input.position(), false);
+    }
+
+    // Validate fixed prefixes before a file reader allocates their bounded bodies.
+    static int headerBytes(ByteBuffer source) {
+        var input = copy(source);
+        if (input.remaining() < PREFIX_BYTES) {
+            throw failure(JournalFormatException.Code.INCOMPLETE_HEADER, "Incomplete journal header");
+        }
+        if (input.getLong() != FILE_MAGIC) {
+            throw corrupt("Journal magic does not match");
+        }
+        version(input.getInt());
+        return 20 + stringLength(input.getInt()) * Character.BYTES;
+    }
+
+    static int recordBytes(ByteBuffer source) {
+        var input = copy(source);
+        int start = input.position();
+        if (input.remaining() < PREFIX_BYTES) {
+            throw incomplete();
+        }
+        int magic = input.getInt();
+        int format = input.getInt();
+        int length = input.getInt();
+        if (input.getInt() != checksum(input, start, 12)) {
+            throw corrupt("Record prefix checksum mismatch");
+        }
+        if (magic != RECORD_MAGIC) {
+            throw corrupt("Record magic does not match");
+        }
+        version(format);
+        if (length > MAX_PAYLOAD_BYTES) {
+            throw failure(JournalFormatException.Code.LIMIT_EXCEEDED, "Record payload exceeds journal v1 limit");
+        }
+        if (length < MIN_PAYLOAD_BYTES) {
+            throw corrupt("Record payload is too short");
+        }
+        return PREFIX_BYTES + length + Integer.BYTES;
     }
 
     private static ByteBuffer copy(ByteBuffer source) {

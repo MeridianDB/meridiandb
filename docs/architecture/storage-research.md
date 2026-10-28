@@ -36,8 +36,8 @@ answers a temporal database is permitted to discard.
 | Boundary | Meaning in MeridianDB's design | Current implementation |
 | --- | --- | --- |
 | Logical commit position | Total order of complete transactions within one lineage | Implemented by the memory engine; encoded by the journal codec |
-| Complete appended prefix | Bytes contain complete, validated transaction frames | Pure byte-image validation exists; local append is planned |
-| Forced journal prefix | Local storage has completed the declared force protocol | Planned; not established by the codec |
+| Complete appended prefix | Bytes contain complete, validated transaction frames | Implemented by codec and local sequential writer |
+| Forced journal prefix | Local storage has completed the declared force protocol | Explicit local file force; namespace durability remains separate |
 | Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory; durable integration is planned |
 | Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Planned with immutable segments and recovery |
 
@@ -76,9 +76,9 @@ needs its own contract and compatibility decision.
 ## Application to MeridianDB
 
 The [journal format and codec](journal-format.md) implement bounded, complete
-transaction frames. Local append, sync, writer exclusion and fault-injected
-recovery are the next storage capabilities. Immutable segments and manifests will
-then provide a durable checkpoint for engine recovery.
+transaction frames. The [local adapter](../development/local-journal.md) adds append/force,
+writer exclusion, sequential recovery and explicit evidence-preserving tail repair.
+Immutable segments and manifests will provide a durable checkpoint for engine recovery.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

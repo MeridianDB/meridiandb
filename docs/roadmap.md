@@ -6,8 +6,8 @@ description: See MeridianDB's implemented memory engine and journal codec, the p
 # Development roadmap
 
 MeridianDB's initial target is an embedded, single-node Java temporal engine.
-The memory engine and journal codec establish a correctness baseline. Local file
-storage, durable recovery and performance evaluation are still in development.
+The memory engine and local journal establish a correctness baseline. Durable
+engine recovery, immutable segments and performance evaluation remain planned.
 There is no release date or stable API commitment.
 
 ## Available today
@@ -18,6 +18,7 @@ There is no release date or stable API commitment.
 | [Embedded memory engine](development/embedded-engine.md) | Serialized atomic commits, immutable read views, request retries and exact point/scan/aggregate answers |
 | [Independent reference](development/reference-model.md) | Canonical histories and seeded comparisons against a separate dense-state representation |
 | [Journal codec](architecture/journal-format.md) | Versioned transaction frames, exact identity, checksums, allocation bounds and strict byte validation |
+| [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 The engine retains state only in memory. The journal codec validates byte
@@ -25,10 +26,11 @@ representations; it does not write files or establish durable acknowledgement.
 
 ## Local storage and recovery
 
-The next storage work adds exclusive writer access, complete append loops, an
-explicit sync boundary and bounded sequential replay. Incomplete trailing bytes
-need a documented repair policy that preserves evidence. Complete corruption and
-unsupported formats must fail clearly.
+The local journal implements exclusive writer access, complete append loops,
+explicit file force and bounded sequential replay. Incomplete candidates require
+explicit evidence-preserving repair. Complete corruption and unsupported formats
+fail closed. Directory-entry durability remains a platform-specific prerequisite;
+the adapter does not provide a portable namespace publication protocol.
 
 Immutable segments and a manifest will describe a consistent checkpoint and the
 journal prefix it includes. Durable engine integration must recover acknowledged

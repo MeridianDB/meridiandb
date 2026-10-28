@@ -64,10 +64,12 @@ nav:
       - Reference model: decisions/0005-reference-model.md
       - In-memory engine: decisions/0006-in-memory-engine.md
       - Journal format decision: decisions/0007-journal-format.md
+      - Local journal decision: decisions/0008-local-journal.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
       - Java and Maven: development/build.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
+      - Local journal: development/local-journal.md
       - Documentation and publishing: contributing/documentation.md

@@ -509,6 +509,99 @@ change is part of this correction.
 **Next recommendation at this checkpoint:** MDB-0016 — implement local journal
 append/sync, exclusive writer ownership and bounded evidence-preserving recovery.
 
+## 2026-10-28 MDB-0016 — Local journal I/O and recovery
+
+**Outcome:** implement `LocalJournal` over a single owning local `FileChannel`,
+using the existing exact v1 codec. Appends loop over short writes, require the next
+sequence and a new request ID, and keep append cutoffs separate from successfully
+forced cutoffs. Validate size/history before writing without reserving an ID.
+An I/O failure poisons the instance for append/force/replay; close releases it
+without implicit force or truncation. A fresh create forces its complete lineage
+header; a clean reopen does not infer earlier force/acknowledgement evidence.
+
+Reserve canonical-path/existing-file identity in the JVM before opening another
+channel, then acquire an exclusive OS file lock. This addresses the JDK-documented
+POSIX same-file close hazard; same-path and hard-link aliases cannot release a
+cooperating writer's lock through a failed second open. Use stable paths, local
+regular files and one adapter class-loader copy. Final symbolic links are rejected;
+external writes, rename/unlink and uncooperative handles remain unsupported.
+
+**Recovery and explicit repair:** factor validated fixed-prefix lengths from the
+codec and reuse them in sequential `JournalRecovery`. At most one bounded frame is
+read at a time; exact request-ID memory still grows with retained history. Default
+open refuses incomplete tails with the validated byte boundary. Explicit repair
+copies the exact suffix to a new sibling evidence file, forces/closes it, then
+truncates and forces the retained journal. Corruption, unknown formats, malformed
+history and partial headers fail closed without repair or resynchronization.
+Repair failures return no usable journal and retain evidence; backup failure
+leaves original journal bytes untouched. The protocol establishes file-force
+ordering, not portable directory-entry durability or a proof of harmless loss.
+
+**Research:** fresh October 28 reads of all twelve Central metadata sources and
+Apache Maven/plugin, JUnit and Jackson compatibility documentation confirm every
+existing selected stable pin unchanged. Maven 4 RC/plugin 4 betas remain preview;
+Java 25 fits the selected Java baselines. No dependency was added; the POM's
+artifact description now includes the local journal. The public build guide
+retains exact coordinates, latest-versus-selected versions and primary links.
+
+Fresh JDK25 FileChannel/FileLock, OpenJDK macOS/Windows implementations, Linux fsync,
+Microsoft directory-handle and SQLite locking/recovery evidence informed the
+protocol. `force(true)` covers local file content/metadata, not durable publication
+of a newly created journal/evidence name. There is no portable directory sync;
+namespace durability needs a platform-specific protocol. Process termination is
+not sudden power loss. The public local guide and ADR 0008 record these limits
+and sources without task/owner narration.
+
+**Validation:** `./mvnw -B -ntp verify` passes 138 JUnit invocations, zero failures,
+errors or skips: 35 local adapter cases, three separate-JVM tests and the existing
+100 codec/temporal/engine/reference checks. New checks cover exact IDs/operation
+order/lineage after reopen, force positions, short/zero/failed I/O, bounded-prefix
+allocation/read behavior, default refusal and suffix-preserving repair, failed
+backup/truncate/force/close, corruption/history/version rejection, aliases,
+callback reentrancy and failure isolation. Separate JVMs demonstrate writer
+exclusion, preservation of the OS lock after a rejected same-JVM opener, and exact
+reopen after `Runtime.halt` following successful force. Existing 84 expectations
+per engine/reference and 16 seed histories remain intact.
+
+Independent review identified a consumer-thrown `JournalFormatException` being
+mistaken for journal corruption. Isolate consumer failures with a private wrapper
+and add the reproducer: a callback decodes bad unrelated input, propagates that
+format failure, then the valid journal still accepts append/replay/force. Review
+of the repair and public force/namespace claims found no remaining material issue.
+
+Verification ran on macOS arm64, Oracle JDK 25.0.2 and local APFS. Both the existing
+memory embedding example and new `LocalJournalExample.java` run successfully.
+The local JAR has 45 Java25 production classes and no bundled test support,
+fixtures, seeds, JUnit or Jackson. SHA-256 is
+`2516ea1de772452f1d6892c2015c84ceaee21baf8debd4b45ff3eeb8146f63a9`.
+Java CI now also runs the journal example and triggers on its public contract guide.
+Linux/Windows results are confirmed in the actual workflow handoff, not inferred
+from local execution.
+
+**Documentation and planning:** update README, agent rules, home, architecture,
+research, journal specification, development guides, ADRs/index and technical
+roadmap with implemented local adapter versus planned durable engine behavior.
+Both checked documentation URL layouts pass with 22 content pages; source,
+rendered links/anchors/assets, canonicals/descriptions, public search and sitemap
+pass. Local browser/HTTP preview checks the new guide, API/code, navigation and
+search. Theme/assets are unchanged. Reconcile current callers and local links;
+Git whitespace and staged scope are checked before commit. Scratch evidence stays
+under ignored `.local-qa/mdb-0016/`.
+
+**Parent and delivery:** close MDB-0006 because both original required children and
+the scoped journal acceptance criteria now pass; preserve original IDs/criteria
+and MDB-0007's parent dependency. Mark MDB-0007 ready, without beginning segment
+work. MDB-0017 completion `81724d6fc8316f7ef085a9fb7fae10d7e769670a` was verified
+on remote `main` with Java/docs/Pages success before this step. The completion
+commit uses `Step-ID: MDB-0016`, `Step-Result: completed` and `Closes-Step: MDB-0006`;
+Git supplies its SHA and ancestry. The final handoff reports actual push, CI,
+automatic Pages and live-content evidence. No library release or other deployment.
+
+**Limits and next recommendation:** the engine remains memory-only; no immutable
+segments, manifests, compaction, rotation, object backend or performance claim is
+implemented. MDB-0007 — implement versioned immutable segments and manifests,
+including explicit namespace publication and referenced journal-prefix rules.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

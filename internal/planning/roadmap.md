@@ -197,6 +197,12 @@ explicit tested repair, short/failed writes and force boundaries have injected
 checks, and local platform behavior is documented. Close MDB-0006 only after all
 its parent criteria pass; engine integration/crash recovery remains MDB-0008.
 
+**Produced artifacts:** [local journal guide](../../docs/development/local-journal.md),
+[ADR 0008](../../docs/decisions/0008-local-journal.md), `LocalJournal`, sequential
+`JournalRecovery`, injected-I/O tests, separate-JVM checks and a runnable local
+journal example. Namespace persistence is documented separately from file force;
+there is no portable parent-directory publication protocol or durable engine yet.
+
 ## MDB-0007 Immutable segments and manifests
 
 **Outcome:** write and read a simple versioned immutable segment format and a

@@ -97,8 +97,9 @@ alternatives. No backend or multi-process writer coordination exists here.
 
 ## Verification and limits
 
-`./mvnw -B verify` currently runs **100 JUnit test invocations**, including the
-71 temporal/engine checks below and 29 [journal codec checks](../architecture/journal-format.md):
+`./mvnw -B verify` currently runs **138 JUnit test invocations**, including the
+71 temporal/engine checks below, 29 [journal codec checks](../architecture/journal-format.md)
+and 38 [local journal I/O/process checks](local-journal.md):
 
 - The unchanged five canonical histories supply 84 expected steps for each of
   reference and engine, including invalid inputs and extreme coordinates.
@@ -131,5 +132,6 @@ memory use and write cost grow with history. It has no reclamation, index,
 backpressure, crash recovery or benchmark claim. Sequence overflow is guarded;
 practical memory capacity is reached long before the numeric sequence limit.
 The [journal codec](../architecture/journal-format.md) implements the byte format;
-local append, sync and recovery remain planned. The codec does not make this
-engine durable. See the [roadmap](../roadmap.md) for the storage and recovery work.
+the [local adapter](local-journal.md) supplies append, force and sequential replay.
+Neither is integrated with this engine. See the [roadmap](../roadmap.md) for the
+remaining durable engine recovery work.

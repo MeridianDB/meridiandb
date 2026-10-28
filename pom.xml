@@ -8,7 +8,7 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>MeridianDB Core</name>
-  <description>Experimental memory-only temporal engine and journal format codec.</description>
+  <description>Experimental memory-only temporal engine and separate local transaction journal.</description>
   <url>https://meridiandb.org/</url>
   <licenses>
     <license>

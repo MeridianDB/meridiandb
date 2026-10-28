@@ -10,9 +10,10 @@ is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
 The [initial temporal contract](docs/architecture/temporal-contract.md) and exact
 workload fixtures are defined. The Java 25/Maven build now includes a memory-only
 embedded engine, immutable temporal types, an independent test reference and a
-runnable embedding example. There is no persistence, published library or stable
-API yet. The engine implements the initial numeric temporal contract. A pure
-versioned journal codec is available; local append/sync and recovery remain planned.
+runnable embedding example. The engine implements the initial numeric temporal
+contract and remains nonpersistent. A separate local journal supports append,
+force, exclusive writer access and bounded replay; it is not yet integrated with
+the engine. There is no published library or stable API.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -67,7 +68,8 @@ Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
 related but separate. Snapshot history also remains distinct from bitemporal
 history. The [transaction journal format](docs/architecture/journal-format.md) now
-has a tested codec; an immutable query-segment format remains unselected. The
+has a tested codec and [local file adapter](docs/development/local-journal.md);
+an immutable query-segment format remains unselected. The
 [storage research](docs/architecture/storage-research.md) compares XTDB, Kafka,
 RocksDB, Lucene/Elasticsearch, Quickwit and ClickHouse, keeping durable append,
 index publication and query visibility distinct.
@@ -82,7 +84,7 @@ without committing to a public API.
 ## Development roadmap
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
-journal codec, followed by local file I/O, immutable segments, durable recovery,
+local journal, followed by immutable segments, durable engine recovery,
 temporal query operators, history-preserving compaction, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
@@ -101,10 +103,11 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 100 JUnit test invocations: the existing 71 temporal/engine checks plus
-29 journal codec checks. Coverage includes all 84 contract expectations against
+This runs 138 JUnit test invocations: 71 temporal/engine checks, 29 journal codec
+checks and 38 local journal I/O/process checks. Coverage includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
-each, lifecycle/concurrency, golden journal bytes, corruption and truncation.
+each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
+evidence and separate-process writer exclusion/recovery.
 It creates the local experimental
 `target/meridiandb-core-0.1.0-SNAPSHOT.jar`. The
 [reference model](docs/development/reference-model.md) and fixture parser remain
@@ -121,6 +124,8 @@ It prints February salary values of `100` before a correction and `120` after it
 then confirms an identical retry returns commit `2`. The
 [engine guide](docs/development/embedded-engine.md) explains the experimental API,
 read-view lifetimes and memory limits. Closing or crashing loses the database.
+The separate [local journal example](docs/development/local-journal.md) exercises
+append/force and exact reopen without making the memory engine persistent.
 
 ## Working in this repository
 

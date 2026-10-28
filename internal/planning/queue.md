@@ -12,20 +12,23 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: **none**. MDB-0017's source outcome is complete.
-- Public documentation now uses direct technical prose. Execution records and site
-  administration live under `internal/`, outside website input; the public roadmap
-  describes capabilities. Agent guidance and both documentation workflows enforce
-  the shared source/rendered QA procedure.
-- **MDB-0016 is ready** after verifying MDB-0017's completion on remote `main` and
-  its relevant CI/publication outcome. No local journal I/O implementation has begun.
-- MDB-0015 completion `f9fd25d` was verified on remote `main`, with successful Java
-  Linux/Windows/example, documentation checks and Pages publication before MDB-0017.
-- MDB-0006 remains expanded; both original children and its acceptance criteria are
-  preserved. Resume MDB-0016 as the next bounded implementation step.
-- Follow the [documentation quality standard](../documentation-quality.md),
-  [progress receipt](progress.md)
-  and [site operations](../site-operations.md) for verification and delivery.
+- Active executable item: **none**. MDB-0016's local journal source outcome is complete.
+- The adapter has exclusive cooperating writer access, separate appended/forced
+  cutoffs, bounded sequential recovery and explicit evidence-preserving tail repair.
+  Maven verification passes 138 tests, including 38 local I/O/process checks.
+- MDB-0006 is **done**: both required children and the original journal criteria
+  pass within the documented local filesystem assumptions. Directory-entry
+  persistence and power-loss behavior are not inferred from file force or process
+  exit tests. The embedded engine remains memory-only.
+- **MDB-0007 is ready** after verifying MDB-0016's completion on remote `main` and
+  Java Linux/Windows/examples, documentation checks and automatic Pages publication.
+  Resolve attributable delivery failures before advancing.
+- MDB-0017 completion `81724d6` was verified on remote `main` with all relevant
+  workflows successful before this step. Use the [progress history](progress.md)
+  and completion trailers for exact source/delivery evidence.
+- Next, define immutable segment/manifest publication and its platform-specific
+  namespace assumptions. Durable engine integration and acknowledgement recovery
+  remain MDB-0008.
 
 ## Ordered work
 
@@ -36,11 +39,11 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | done | MDB-0002 |
 | [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | done | MDB-0003 |
 | [MDB-0005](roadmap.md#mdb-0005-embedded-in-memory-engine) | Build an embedded in-memory engine | — | done | MDB-0004 |
-| [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | expanded | MDB-0005 |
+| [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | done | MDB-0005 |
 | [MDB-0015](roadmap.md#mdb-0015-journal-format-and-codec) | Specify and implement the bounded journal format and codec | MDB-0006 | done | MDB-0005 |
 | [MDB-0017](roadmap.md#mdb-0017-public-documentation-quality) | Establish and apply public documentation QA | — | done | MDB-0015 |
-| [MDB-0016](roadmap.md#mdb-0016-local-journal-io-and-recovery) | Implement local journal append, sync, ownership and recovery | MDB-0006 | ready | MDB-0005, MDB-0015, MDB-0017 |
-| [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | queued | MDB-0006 |
+| [MDB-0016](roadmap.md#mdb-0016-local-journal-io-and-recovery) | Implement local journal append, sync, ownership and recovery | MDB-0006 | done | MDB-0005, MDB-0015, MDB-0017 |
+| [MDB-0007](roadmap.md#mdb-0007-immutable-segments-and-manifests) | Implement versioned immutable segments and manifests | — | ready | MDB-0006 |
 | [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | queued | MDB-0007 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |

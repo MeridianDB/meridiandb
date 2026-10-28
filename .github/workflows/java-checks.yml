@@ -14,6 +14,7 @@ on:
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
+      - 'docs/development/local-journal.md'
       - '.github/workflows/java-checks.yml'
   push:
     branches: [main]
@@ -29,6 +30,7 @@ on:
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
+      - 'docs/development/local-journal.md'
       - '.github/workflows/java-checks.yml'
 
 permissions:
@@ -66,4 +68,6 @@ jobs:
       - name: Verify with the pinned Maven Wrapper
         run: ${{ matrix.command }}
       - name: Run the embedded Java example
-        run: java --class-path target/classes examples/EmbeddedExample.java
+        run: |
+          java --class-path target/classes examples/EmbeddedExample.java
+          java --class-path target/classes examples/LocalJournalExample.java

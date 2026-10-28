@@ -11,9 +11,9 @@ so a new session can work correctly without relying on earlier conversations.
 - The repository has a Java 25/Maven memory-only embedded engine, immutable
   temporal types and an independent test reference. Follow the
   [Java build guide](docs/development/build.md), [engine guide](docs/development/embedded-engine.md)
-  and use `./mvnw -B verify`. A pure journal codec now implements the
-  [format specification](docs/architecture/journal-format.md); local file I/O and
-  durable engine recovery remain planned.
+  and use `./mvnw -B verify`. The journal codec and
+  [local adapter](docs/development/local-journal.md) implement append/force,
+  exclusive ownership and sequential replay; durable engine integration remains planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -91,8 +91,11 @@ so a new session can work correctly without relying on earlier conversations.
   identity and bounded work while evaluating batching and throughput.
 - Follow the [journal specification](docs/architecture/journal-format.md) for exact
   encoding, allocation limits and fail-closed recovery. Pure decoding proves no
-  force/acknowledgement. Preserve incomplete/corrupt evidence; local repair belongs
-  to an explicit tested recovery policy.
+  force/acknowledgement. Follow the [local adapter contract](docs/development/local-journal.md)
+  for separate appended/forced positions, failure poisoning, stable-path ownership
+  and explicit evidence-before-truncation repair. Reserve same-JVM ownership before
+  opening another same-file channel; distinguish file force from directory-entry
+  durability. Preserve incomplete/corrupt evidence and test changed I/O boundaries.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

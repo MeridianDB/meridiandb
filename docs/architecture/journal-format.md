@@ -1,21 +1,23 @@
 ---
 title: Journal format and local storage contract
-description: Specify MeridianDB's experimental bounded journal v1 framing, exact transaction encoding, CRC32C validation, incomplete-tail classification and planned local append/sync protocol.
+description: Specify MeridianDB's experimental bounded journal v1 framing, exact transaction encoding, CRC32C validation, incomplete-tail classification and local append/force protocol.
 ---
 
 # Journal format and local storage contract
 
 **Status:** a pure Java v1 codec is implemented in
-`org.meridiandb.storage.journal`. There is no journal file writer or durable engine
-yet. This experimental format is not a compatibility promise. The
+`org.meridiandb.storage.journal`, together with a
+[local file adapter](../development/local-journal.md) for append, force and replay.
+The embedded engine remains memory-only. This experimental format is not a
+compatibility promise. The
 [storage research](storage-research.md) explains the comparable designs;
 [ADR 0007](../decisions/0007-journal-format.md) records the selected tradeoffs.
 
 ## Minimum local capabilities
 
 A local file implementation must demonstrate the following capabilities on a
-stated filesystem. These requirements are not guarantees supplied by the current
-byte codec:
+stated filesystem. The local adapter implements these capabilities; the byte codec
+alone does not establish them:
 
 | Capability | Required behavior |
 | --- | --- |
@@ -103,7 +105,7 @@ prototype prioritizes exact identity over compact ASCII encoding.
 
 These are format resource limits, not performance measurements or new temporal
 semantics. An otherwise valid in-memory transaction can exceed the journal's
-limits; a future writer must reject it before append without reserving its ID.
+limits; the local writer rejects it before append without reserving its ID.
 The codec computes encoded size before allocating output. Large transactions are
 rejected rather than implicitly split across logical commits.
 
@@ -137,8 +139,8 @@ On an incomplete candidate it reports only the prior validated prefix,
 `validBytes` at the start of that candidate, and `incompleteTail=true`. It never
 modifies the input or repairs a file. Corruption, unsupported versions and invalid
 history return no successful scan result. A failed scan is not permission to
-truncate an acknowledged transaction. The local writer/recovery child must
-preserve bytes, report uncertainty and implement its explicit repair policy.
+truncate an acknowledged transaction. The local adapter defaults to refusal and
+requires explicit evidence-preserving repair of an incomplete candidate.
 
 ## Verification and boundaries
 
@@ -152,6 +154,7 @@ operation order, numeric extremes and buffer-state behavior. Run it from the roo
 
 The ordinary `./mvnw -B verify` also retains engine/reference conformance and
 concurrency checks. Codec tests establish representation and byte-prefix behavior.
-Short/failed writes, force completion, writer fencing, crash recovery and journal
-retention require tests of the local backend and durable engine. The in-memory
-engine remains memory-only until durable integration is implemented.
+The [local journal suite](../development/local-journal.md) additionally checks
+short/failed I/O, force cutoffs, writer exclusion, replay and explicit tail repair.
+Durable engine recovery and journal retention still need integration tests. The
+in-memory engine remains memory-only.

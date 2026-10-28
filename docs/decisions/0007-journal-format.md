@@ -6,7 +6,7 @@ description: Record MeridianDB's versioned journal framing, exact identity encod
 # ADR 0007: Bounded transaction journal format
 
 - **Date:** October 28, 2026
-- **Status:** pure codec implemented; local I/O and durable engine integration planned
+- **Status:** codec and separate local I/O implemented; durable engine integration planned
 - **Scope:** Journal representation and validation
 
 ## Context
@@ -64,10 +64,10 @@ improve future workloads, but they add recovery states. Start with bounded compl
 transaction frames and independent golden-byte/corruption tests. Evaluate another
 format version when measured limitations justify it.
 
-The codec adds no FileChannel writer, sync result, writer lock or durable engine.
-A local backend must test those boundaries with short/failed I/O and explicit tail
-repair. Durable engine integration must test acknowledged replay and uncertain
-outcomes through reopen.
+The codec itself adds no file I/O or durable engine. The separate
+[local adapter](0008-local-journal.md) tests append/force, writer exclusion and
+explicit tail repair. Durable engine integration must test acknowledged replay
+and uncertain outcomes through reopen.
 Future manifests name the included journal prefix before any retention decision.
 Historical temporal answers and retry identity remain governed by the original
 contract rather than a search engine's merge policy.

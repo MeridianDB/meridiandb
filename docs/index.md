@@ -30,8 +30,9 @@ pass all 84 canonical expectations and independently checked seeded histories.
 Focused tests cover serialized writing, atomic visibility and read-view lifetimes.
 A [pure journal codec](architecture/journal-format.md) now validates versioned
 transaction frames. [Comparable-system research](architecture/storage-research.md)
-guides storage choices. Local append/sync and recovery come next; durable engine
-integration and layout experiments follow.
+guides storage choices. The separate [local journal](development/local-journal.md)
+now adds exclusive writer access, append/force, bounded replay and explicit tail
+repair. Durable engine integration and layout experiments remain planned.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?
