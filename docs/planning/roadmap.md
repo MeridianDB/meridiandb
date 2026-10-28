@@ -1,0 +1,216 @@
+---
+title: Java and Maven implementation roadmap
+description: Build MeridianDB from explicit bitemporal semantics through a tested Java reference model, durable storage, query execution and measured prototype readiness.
+---
+
+# Java and Maven implementation roadmap
+
+This is the technical plan for the first embedded, single-node prototype. All
+engine capabilities below are planned. The [live queue](queue.md) owns current
+order and state; the [workflow](index.md) explains how an agent expands, executes,
+commits and pushes one bounded outcome.
+
+## Proposed implementation structure
+
+Begin with one Maven artifact and clear package boundaries. Add modules when an
+actual second deliverable or independently useful boundary needs one. Keep the
+initial engine independent of a mandatory application server or service framework.
+
+| Area | Responsibility |
+| --- | --- |
+| API and value types | Entity/value identity, valid intervals, commit positions, commands, queries and explicit lifetimes |
+| Temporal semantics | Corrections, retractions, interval splitting and historical visibility |
+| Engine | Transaction ordering, commit visibility, read views and lifecycle |
+| Storage | Journal, immutable segments, manifests, checksums and backend capabilities |
+| Query execution | Logical operations, temporal filtering and later physical access paths |
+| Test reference model | A simpler independent interpreter and reusable histories/expected answers |
+| Experiments | Reproducible workloads and evidence for layout/index decisions |
+
+These are responsibilities, not directories already implemented or a frozen public
+API. Read the [architecture overview](../architecture/overview.md) and
+[language strategy](../decisions/0001-language-strategy.md) before changing them.
+
+## MDB-0001 Planning workflow
+
+**Outcome:** a durable implementation plan and expandable queue that a fresh agent
+can follow without remembered conversation.
+
+**Complete when:** the workflow, live queue, roadmap and progress receipt exist;
+README, agent rules and site navigation agree with them; documentation and queue
+consistency checks pass; the completion commit is pushed under the owner's source
+handoff instruction. Actual delivery evidence comes from Git and the final handoff.
+
+## MDB-0002 Temporal contract
+
+**Outcome:** define the smallest useful temporal behavior before choosing storage.
+Create `docs/architecture/temporal-contract.md` and a table or small fixture set of
+histories with exact expected answers. Record material decisions in an ADR.
+
+Cover entity/value semantics, valid-time precision and interval boundaries,
+unbounded intervals, overlapping assertions, partial corrections, retractions,
+transaction atomicity, commit ordering, read cutoffs and retry/idempotency behavior.
+State a single-writer initial scope and how readers observe committed knowledge.
+Resolve ambiguity explicitly or split off a prerequisite decision; do not silently
+turn the existing salary illustration into a full conflict-resolution policy.
+
+**Complete when:** worked histories cover insertion, a partial retroactive change,
+a boundary lookup, retraction, duplicate request and historical-read stability.
+Include current-state, as-of entity, interval and correction-sensitive aggregation
+workloads. Each has explicit inputs and expected outputs suitable for later tests.
+No executable Java implementation is required for this specification step.
+
+## MDB-0003 Java and Maven foundation
+
+**Outcome:** introduce a reproducible Java build with the smallest useful project
+structure. Choose and document the JDK baseline for intended JVM consumers; pin
+Maven, build/test plugins and dependencies. Add Maven Wrapper scripts and verified
+distribution checksums, Java source/test layout and read-only CI verification.
+
+Start with one artifact. Establish package/coordinate conventions, compiler release,
+test conventions and the root `./mvnw -B verify` command. Add generated-output
+ignores and a meaningful executable check drawn from the temporal contract. Keep
+the Python documentation toolchain independent.
+
+**Complete when:** a clean checkout can run the wrapper verification on the selected
+JDK, CI is configured to run the same verification, README/contributor commands are
+accurate and the toolchain decision records versions and rationale. Publish no
+library artifact as part of this foundation step.
+
+References: [Maven's project model](https://maven.apache.org/what-is-maven.html) and
+[Wrapper setup and checksums](https://maven.apache.org/wrapper/).
+
+## MDB-0004 Temporal types and reference model
+
+**Outcome:** implement the selected command, query, interval and commit-position
+types plus a straightforward reference interpreter for the contract. Keep the
+oracle in test support or a separate test artifact when needed. Build reusable
+history fixtures and exact expected answers without borrowing future optimized
+storage/index algorithms.
+
+**Complete when:** the contract cases execute, invalid inputs and boundaries are
+covered, and seeded generated histories can be checked against independently
+reasoned properties and fixtures. Preserve failing seeds. Language/API names remain
+experimental; avoid promising broad public query syntax.
+
+## MDB-0005 Embedded in-memory engine
+
+**Outcome:** expose a small in-process Java entry point with explicit transaction,
+read-view and close semantics. Implement an initial engine separate from the test
+oracle, using simple algorithms before introducing physical optimizations.
+
+**Complete when:** consumers can insert, correct, retract and query through the
+experimental Java API; atomic commit visibility, stable historical/read views,
+serialized writer behavior, retries and lifecycle failures match the contract.
+Compare observed results with the reference fixtures and seeded histories. Include
+one runnable embedding example; state that this implementation is memory-only.
+
+## MDB-0006 Local storage and journal
+
+**Outcome:** define only the storage capabilities actually needed by the local
+engine and implement a versioned append-only transaction journal. Specify the
+record envelope, checksum, commit boundary, sync/acknowledgement behavior and retry
+identity. Keep filesystem assumptions explicit rather than claiming object-store
+semantics from a generic interface.
+
+**Complete when:** journal records round-trip, corruption and partial/torn tails
+have defined handling, durable publication boundaries are tested and unsupported
+format versions fail clearly. Document tested filesystem/platform assumptions.
+Expand this package if adapter and journal outcomes need separate commits.
+
+## MDB-0007 Immutable segments and manifests
+
+**Outcome:** write and read a simple versioned immutable segment format and a
+manifest describing a consistent segment set. Select a minimal initial format in
+an ADR; Parquet and MergeTree-like organization remain independent candidates.
+Define identifiers, checksums and atomic/durable manifest publication on the local
+backend, including how the journal and manifest relate.
+
+**Complete when:** reopened readers return exact records/intervals, invalid or
+unsupported files are detected, publication failures do not expose an invalid
+manifest, and immutable data ownership/lifetimes are explicit. Preserve a simple
+scan path usable as a correctness baseline.
+
+## MDB-0008 Durable engine and recovery
+
+**Outcome:** integrate the journal, segments and manifests with the embedded engine.
+Define commit publication, reopen/replay and uncertain commit outcomes as one
+observable protocol. Document what an acknowledgement guarantees.
+
+**Complete when:** crash/restart injection across publication boundaries preserves
+acknowledged commits, exposes only permitted atomic outcomes for unacknowledged
+work and handles retries without duplicate effects. Read views remain consistent
+while writers commit. Re-run the temporal/reference checks through reopen and
+recovery, retaining deterministic failure reproductions.
+
+## MDB-0009 Temporal query operators
+
+**Outcome:** implement the logical operators required by the selected workloads:
+entity lookup with two time cutoffs, interval selection, predicates and a small
+correction-sensitive aggregation. Define result ordering, bounds and resource
+lifetimes. Begin with correct scan execution; defer broad SQL/planning machinery.
+
+**Complete when:** in-memory and durable execution agree with the reference model
+for boundaries, overlaps, empty results, corrections and retractions; snapshots
+remain stable during execution; the embedding examples demonstrate the actual
+supported operations. API and documentation describe any remaining limits.
+
+## MDB-0010 Compaction and retention
+
+**Outcome:** compact segments while preserving the temporal contract, then reclaim
+obsolete physical objects safely. Keep all supported history by default; any
+history-pruning mode needs a separate explicit retention decision. Account for
+active readers, interrupted writes and concurrent commit publication.
+
+**Complete when:** supported query results remain equal before/after compaction
+and recovery, active views retain needed data, crashes do not publish partial
+replacement sets, and reclamation cannot remove live/referenced objects. Measure
+space effects without claiming that compaction alone proves query speedups.
+
+## MDB-0011 Object-storage backend
+
+**Outcome:** implement an S3-compatible backend against explicit range-read,
+immutable-write and conditional/publication requirements. Reuse a maintained
+provider library and run the common storage/engine conformance suite against a
+local emulator or controlled test fixture.
+
+**Complete when:** visibility, retries, uncertain outcomes, capability differences,
+reopen and reclamation have tested contracts and failure cases. Local and object
+backends agree on promised engine semantics. Keep real-cloud spending, credentials
+and infrastructure deployment outside this step unless separately authorized.
+
+## MDB-0012 Reproducible workload baseline
+
+**Outcome:** turn the selected workload descriptions into a repeatable measurement
+harness using correctness-checked data and the durable engine. State workloads,
+seeds, sizes, runtime, hardware, revision, warmup, cache conditions and durability.
+
+**Complete when:** someone else can repeat the runs and obtain reported throughput,
+latency distributions, memory use, read/write amplification and recovery behavior
+with their limitations. Separate microbenchmarks from engine measurements. Use a
+small default fixture; larger or paid runs need an explicit environment/budget.
+
+## MDB-0013 Measured layout and index experiments
+
+**Outcome:** select one demonstrated bottleneck and compare a narrowly scoped
+physical index or layout change against MDB-0012 under equivalent semantics and
+durability. Candidate formats and organizations require independent evidence.
+
+**Complete when:** correctness/reference/recovery/compaction checks still pass,
+measurements include resource and regression tradeoffs, and an ADR adopts or
+rejects the experiment. A well-evidenced rejection is a valid outcome; do not add
+an optimization merely to satisfy a feature checklist. Split multiple independent
+experiments into separate queue items.
+
+## MDB-0014 Prototype release candidate
+
+**Outcome:** prepare a reproducible candidate for an experimental embedded library.
+Review supported semantics, API limits, file-format compatibility, recovery,
+retention and backend claims. Provide accurate getting-started, embedding and
+operational examples, Javadoc and locally verifiable packaging.
+
+**Complete when:** a clean consumer fixture can use the candidate, relevant checks
+and measured evidence are recorded, known limits and compatibility policy are
+explicit, and release/versioned-documentation tasks are prepared for owner review.
+Queue any concrete missing prerequisite. Creating tags, publishing to Maven Central
+or GitHub Releases and deploying docs are separate actions requiring their own
+applicable authorization. This milestone does not promise production readiness.

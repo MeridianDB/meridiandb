@@ -30,6 +30,16 @@ will be checked. Java is the current engine default. A different language or
 dependency should answer a concrete engineering question under the existing
 language decision.
 
+## Work through the implementation queue
+
+Follow the [agent workflow](../planning/index.md) and
+[live queue](../planning/queue.md) for implementation iterations. Refine a broad
+work package into bounded children when needed. Each completed step updates
+relevant project documentation, queue state and progress evidence, then commits
+and pushes task-owned changes to `origin/main` under the owner's standing
+instruction. End by recommending the next eligible item. Website and library
+publication remain separate actions.
+
 ## Run the documentation locally
 
 Use Python 3.13 (recorded in `.python-version`) and run commands from the repository

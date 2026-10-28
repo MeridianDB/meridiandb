@@ -5,9 +5,10 @@ description: Build and preview MeridianDB documentation with Zensical and MkDocs
 # Documentation and publishing
 
 The website uses **Zensical** with **MkDocs configuration** in `mkdocs.yml` and the
-Material-style **classic theme**. Public source lives in `docs/`. The intended
-canonical address is `https://meridiandb.org/`; this guide describes preparation,
-not a receipt confirming a live deployment.
+Material-style **classic theme**. Public source lives in `docs/`. The site was
+first published at `https://meridiandb.org/` on October 28, 2026, confirmed by the
+owner and an HTTPS check. This guide remains the setup and manual publication
+procedure; an implementation source push does not publish a new site version.
 
 ## Local workflow
 

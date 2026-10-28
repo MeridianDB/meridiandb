@@ -6,8 +6,8 @@ broader host requirements remain open. Its focus is bitemporal data: preserving
 both when a fact applies in the domain and when the database recorded that knowledge.
 
 **Status:** project foundation and architectural research. The documentation site
-can be built and previewed locally. There is no engine, published library, stable
-API or runnable database example yet. The capabilities below describe the intended
+is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
+There is no engine, published library, stable API or runnable database example yet. The capabilities below describe the intended
 direction, not implemented engine features.
 
 ## Why temporal storage?
@@ -72,23 +72,27 @@ workloads guide the storage experiments. Current-state lookups, historical entit
 lookups, interval scans and correction-sensitive aggregations are candidate tests,
 not an API commitment.
 
-## First implementation milestone
+## Implementation plan and agent queue
 
-1. Specify a small temporal contract with worked examples, transaction ordering,
-   interval boundaries, correction/retraction behavior and expected query results.
-2. Implement a straightforward in-memory Java reference model and executable
-   examples, including randomized histories checked against independent expectations.
-3. Add one persistent implementation with an explicit initial writer model,
-   acknowledgement/durability guarantees and crash/restart tests.
-4. Exercise the persistence contract against local storage and an object-store
-   backend, testing commit publication, retries and uncertain outcomes.
-5. Compare layouts or indexes only after establishing correctness and a reproducible
-   baseline, including query latency, write/read amplification and recovery behavior.
+The first target is an embedded, single-node Java engine built with Maven. Its
+[implementation roadmap](docs/planning/roadmap.md) progresses through temporal
+semantics, a reproducible build and reference model, in-memory embedding, durable
+local storage/recovery, query operators, compaction, object storage, workload
+measurements and a prototype release candidate.
 
-This sequence is a working research plan. Evidence may change it. Each increment
-should leave a runnable, tested result and a short account of what was learned.
-Distribution and a broad client ecosystem are later possibilities rather than
-requirements for the first prototype.
+The [live queue](docs/planning/queue.md) owns current order, dependencies and state.
+An agent can expand a broad item into bounded substeps or insert a discovered
+prerequisite while preserving stable IDs and completion criteria. The
+[iteration workflow](docs/planning/index.md) carries one selected item through
+implementation, focused checks, documentation/planning updates, a commit and push
+to `origin/main`, then a recommendation for the next step. Dated evidence lives in
+[progress history](docs/planning/progress.md).
+
+To start an iteration, ask: **Continue the implementation queue for one bounded
+step.** Preparing the plan does not automatically start engine implementation.
+Source pushes run applicable checks; releases and website publication remain
+separate actions. The Maven Wrapper and actual Java verification command will be
+introduced by the queued build-foundation step.
 
 ## Working in this repository
 
@@ -100,8 +104,8 @@ and test instructions will be added with the first engine implementation.
 ## Documentation website
 
 The website uses Zensical with MkDocs configuration in `mkdocs.yml` and the
-Material-style classic theme. Content lives in `docs/`; the intended public
-address is `https://meridiandb.org/`. Use Python 3.13 (recorded in `.python-version`)
+Material-style classic theme. Content lives in `docs/`; the published site is
+[meridiandb.org](https://meridiandb.org/). Use Python 3.13 (recorded in `.python-version`)
 and run these commands from the repository root.
 
 Create the isolated documentation environment:

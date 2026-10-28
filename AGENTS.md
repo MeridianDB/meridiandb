@@ -15,6 +15,25 @@ so a new session can work correctly without relying on earlier conversations.
   Resolve material ambiguity about behavior or scope with the owner; routine
   implementation choices do not need another approval.
 
+## Iterative implementation queue
+
+- Follow the [implementation workflow](docs/planning/index.md),
+  [live queue](docs/planning/queue.md) and selected
+  [roadmap card](docs/planning/roadmap.md). A start/continue request executes one
+  bounded item, resuming unfinished work first. Planning-only requests prepare the
+  plan without automatically starting the next engine step.
+- Owner instruction, October 28, 2026: each completed queue step includes relevant
+  project documentation, queue and progress updates in its source commit, then a
+  normal push to `origin/main` and one concrete next-step recommendation. This
+  standing source-push authorization also covers the planning setup. Apply the
+  workflow's completion trailers, delivery checks and retry procedure.
+- Preserve IDs and acceptance criteria when inserting prerequisites or expanding
+  an item into children. Keep one active executable item and one coordinator for
+  shared queue/Git writes. The queue owns current state; dated receipts preserve
+  evidence. Reconcile dependencies and the next eligible item before handoff.
+- Source pushes do not dispatch site publication or authorize releases, artifact
+  uploads, infrastructure changes or purchases. Retain those separate boundaries.
+
 ## Language and architectural decisions
 
 - Follow [the language strategy](docs/decisions/0001-language-strategy.md): use Java
@@ -130,6 +149,7 @@ so a new session can work correctly without relying on earlier conversations.
   them uncommitted. Preserve unrelated edits and staged work.
 - Report what changed, checks actually run, limitations and the commit. State the
   actual push/release state and recommend one concrete next task.
-- A local source commit is the normal handoff. Pushes, releases, deployments and
-  paid infrastructure require the owner's applicable authorization; documentation
-  and local implementation work do not supply it.
+- For implementation queue work, finish source delivery with the authorized push
+  and remote verification in the workflow above. For other scoped work, report its
+  actual commit/push state under the owner's applicable authorization. Releases,
+  deployments and paid infrastructure remain separately authorized actions.

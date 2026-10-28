@@ -45,6 +45,15 @@ logical queries can guide experiments before a public interface is stabilized:
 current-state lookups, historical entity lookups, interval scans and aggregates
 whose answers change after a retroactive correction.
 
+## Follow the implementation plan
+
+The [Java/Maven roadmap](../planning/roadmap.md) turns these layers into initial
+work packages. The [live queue](../planning/queue.md) owns execution order and
+state; the [agent workflow](../planning/index.md) defines expansion, verification,
+documentation and commit/push handoffs. An invocation completes one bounded item.
+The first prototype uses a single writer; broader concurrency needs an explicit
+contract and later queue admission.
+
 ## Establish correctness before optimizing
 
 1. Write a small temporal contract with explicit expected results, interval
