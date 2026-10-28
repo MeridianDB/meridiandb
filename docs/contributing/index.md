@@ -10,14 +10,14 @@ Contributions are most useful when they turn an open design question into a smal
 reviewable result with explicit evidence.
 
 Start with the [architecture overview](../architecture/overview.md),
-[temporal examples](../concepts/temporal-data.md) and
+[temporal contract and fixtures](../architecture/temporal-contract.md) and
 [language decision](../decisions/0001-language-strategy.md). Repository contributors
 and coding agents should also read `AGENTS.md` at the repository root.
 
 ## Useful contributions now
 
-- Add worked temporal histories with expected answers, especially partial
-  corrections, retractions, overlapping intervals and boundary cases.
+- Extend the temporal contract's worked histories with exact expected answers.
+  Preserve the adopted behavior or explain a proposed revision in a decision record.
 - Identify a realistic workload and state its query, scale, embedding and
   durability requirements without assuming a particular storage layout.
 - Investigate a specific persistence capability or failure scenario using dated

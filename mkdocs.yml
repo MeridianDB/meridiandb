@@ -53,9 +53,11 @@ nav:
       - Temporal data: concepts/temporal-data.md
   - Design:
       - Architecture: architecture/overview.md
+      - Temporal contract: architecture/temporal-contract.md
       - Decision records: decisions/index.md
       - Language strategy: decisions/0001-language-strategy.md
       - Documentation toolchain: decisions/0002-documentation-toolchain.md
+      - Temporal semantics: decisions/0003-initial-temporal-semantics.md
   - Implementation:
       - Agent workflow: planning/index.md
       - Live queue: planning/queue.md

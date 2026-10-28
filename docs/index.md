@@ -20,9 +20,11 @@ initial working direction, with Maven selected for the future Java build.
 MeridianDB is at the project-foundation stage. This website documents the research
 direction; there is no runnable database, published library or stable API yet.
 
-The first implementation will establish a small temporal contract and a simple
-reference model. Persistent storage, recovery and layout experiments follow that
-foundation. SQL, replication and integrations remain open design questions.
+The [initial temporal contract](architecture/temporal-contract.md) now specifies
+corrections, retractions, committed views and retries, with exact workload fixtures.
+The next foundation is the Java/Maven build, followed by a simple reference model.
+Persistent storage, recovery and layout experiments follow. SQL, replication and
+integrations remain open design questions.
 
 ## Why keep both times?
 

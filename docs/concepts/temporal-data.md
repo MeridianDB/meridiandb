@@ -17,7 +17,9 @@ The application supplies the domain meaning of that date or interval.
 **System time** describes the database's history of committed knowledge. A later
 correction creates a new view of the past while preserving the earlier view.
 The database must define how its committed transaction order maps to historical
-queries; wall-clock timestamps alone are not that ordering contract.
+queries. The [initial contract](../architecture/temporal-contract.md) uses
+ordered commit positions; wall-clock timestamps alone are not that ordering
+contract.
 
 A bitemporal question identifies both dimensions: “What salary applied on
 February 15, using the knowledge committed by February 20?”
@@ -29,7 +31,9 @@ Suppose a record committed on January 5 says an employee's annual salary is
 75,000 on February 1. Assume there are no other changes.
 
 Both questions below use the **same valid date**. Only the knowledge cutoff
-changes. Each cutoff is understood to include all relevant commits by that date.
+changes. For this illustration, assume the application has mapped each calendar
+cutoff to the relevant committed prefix. The initial engine contract takes an
+explicit commit cutoff; it does not supply calendar-time lookup.
 
 | Valid date | Knowledge cutoff | Expected annual salary | Explanation |
 | --- | --- | ---: | --- |
@@ -41,10 +45,11 @@ correction changes only the applicable portion of the valid-time history. A
 historical query using the earlier knowledge cutoff should still return the
 earlier answer; replacing that answer would discard system-time history.
 
-## Interval boundaries: a proposal
+## Interval boundaries
 
-One candidate convention is **half-open valid-time intervals**: include the start
-and exclude the end. Under this proposal, the corrected view could contain:
+The initial working contract uses **half-open valid-time intervals**: include the
+start and exclude the end. Under its range-replacement rule, this example's
+unbounded correction produces:
 
 | Valid interval | Annual salary |
 | --- | ---: |
@@ -52,9 +57,10 @@ and exclude the end. Under this proposal, the corrected view could contain:
 | `[2026-02-01, unbounded)` | 75,000 |
 
 February 1 belongs to the second interval, so adjacent intervals do not both
-claim that boundary. This notation illustrates a proposal, not a storage schema
-or accepted API. Time precision, time zones, unbounded endpoints and conflicting
-assertions still need a documented contract and executable examples.
+claim that boundary. Dates here abbreviate midnight UTC. The
+[contract](../architecture/temporal-contract.md) defines microsecond coordinates,
+unbounded endpoints, overlap ordering and query results. It remains an
+unimplemented specification, not a storage schema or stable API.
 
 ## Events and snapshots answer different questions
 
@@ -69,7 +75,8 @@ facts applied in February or preserve every previously committed interpretation.
 Snapshot and compaction design must retain the historical answers the temporal
 contract promises.
 
-The next specification work is to define partial corrections, retractions,
-overlaps, duplicate requests and transaction visibility through worked examples.
-See the [architecture overview](../architecture/overview.md) for the proposed route
-from these semantics to a durable implementation.
+The [worked histories](../architecture/temporal-contract.md#worked-history-and-workload-expectations)
+cover bounded corrections, retractions, overlaps, duplicate requests and stable
+read views with exact expected answers. See the
+[architecture overview](../architecture/overview.md) for the route from that
+specification to an independently tested implementation.

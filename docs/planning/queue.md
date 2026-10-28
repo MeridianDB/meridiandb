@@ -12,20 +12,24 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Active executable item: none; the planning setup is complete.
-- Engine implementation has not started. The first eligible item is marked `ready`.
-- Before starting it, confirm the planning completion commit and relevant CI on
-  remote `main`, following the workflow's delivery check.
+- Active executable item: none; **MDB-0002** source acceptance is complete.
+- The temporal contract and exact fixtures are specified; no Java engine exists.
+- Next eligible item: **MDB-0003**, Java and Maven build foundation. Before claiming
+  it, verify the MDB-0002 completion commit reached remote `main` and its relevant
+  CI passed, following the workflow's delivery check.
+- MDB-0001 completion `c0df725` was verified on remote `main` with successful
+  Documentation checks before MDB-0002 began.
 - First website publication was confirmed on October 28, 2026 at
-  [meridiandb.org](https://meridiandb.org/). Future publication remains manual.
+  [meridiandb.org](https://meridiandb.org/). These source changes await a later manual
+  website publication.
 
 ## Ordered work
 
 | ID | Work item | Parent | State | Depends on |
 | --- | --- | --- | --- | --- |
 | [MDB-0001](roadmap.md#mdb-0001-planning-workflow) | Establish the plan and iteration workflow | — | done | — |
-| [MDB-0002](roadmap.md#mdb-0002-temporal-contract) | Define the initial temporal contract and workloads | — | ready | MDB-0001 |
-| [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | queued | MDB-0002 |
+| [MDB-0002](roadmap.md#mdb-0002-temporal-contract) | Define the initial temporal contract and workloads | — | done | MDB-0001 |
+| [MDB-0003](roadmap.md#mdb-0003-java-and-maven-foundation) | Establish the Java and Maven build foundation | — | ready | MDB-0002 |
 | [MDB-0004](roadmap.md#mdb-0004-temporal-types-and-reference-model) | Implement temporal types and the reference model | — | queued | MDB-0003 |
 | [MDB-0005](roadmap.md#mdb-0005-embedded-in-memory-engine) | Build an embedded in-memory engine | — | queued | MDB-0004 |
 | [MDB-0006](roadmap.md#mdb-0006-local-storage-and-journal) | Define local storage capabilities and a commit journal | — | queued | MDB-0005 |

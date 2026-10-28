@@ -31,9 +31,12 @@ and conditions for revisiting this decision.
 | Physical layout and indexes | How are those facts organized for efficient access? |
 | Persistence backend | Which reads, writes and publication guarantees are available? |
 
-The [temporal data examples](../concepts/temporal-data.md) are a starting point for
-the first layer. A physical optimization must preserve those answers, including
-after recovery and compaction.
+The [initial temporal contract](temporal-contract.md) defines the first layer,
+with [conceptual examples](../concepts/temporal-data.md) and reusable exact
+expectations. A physical optimization must preserve those answers, including
+after recovery and compaction. The
+[temporal decision](../decisions/0003-initial-temporal-semantics.md) records its
+rationale and alternatives.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
@@ -56,8 +59,8 @@ contract and later queue admission.
 
 ## Establish correctness before optimizing
 
-1. Write a small temporal contract with explicit expected results, interval
-   boundaries, correction rules and transaction ordering.
+1. Use the specified [temporal contract](temporal-contract.md) and fixtures for
+   interval boundaries, correction rules, transaction ordering and exact results.
 2. Build a straightforward in-memory Java reference model. Check randomized
    histories against independent expectations as well as worked examples.
 3. Add one durable implementation with a stated writer model and crash/restart
@@ -77,13 +80,16 @@ range reads, immutable data writes, conditional updates where needed, durable
 commit publication, and recovery after interrupted or uncertain operations.
 An adapter boundary cannot make local files and object stores behave identically.
 
-Before durable code is considered correct, the prototype must answer:
+The logical contract specifies one serialized writer, atomic publication, pinned
+views and request identity. Before durable code is considered correct, its backend
+and recovery tests must demonstrate:
 
-- How many writers are supported, and how are conflicting commits ordered?
-- When does a commit become visible, and what does an acknowledgement guarantee?
-- How does a client resolve an uncertain outcome without duplicating a change?
-- What may recovery expose after a crash at each publication step?
-- Which retention rules permit reclamation while protecting readers and history?
+- Enforcement of writer ownership and the specified commit order.
+- Recoverable commit and request identity before reader publication or acknowledgement.
+- Retry/lookup behavior after an interrupted acknowledgement.
+- Whole-transaction recovery after a crash at each publication step.
+- Reclamation that preserves supported history and active readers under an explicit
+  retention policy.
 
 Performance work follows a reproducible correctness baseline. Measurements should
 include query latency, memory use, write/read amplification and recovery behavior

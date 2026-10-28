@@ -58,9 +58,10 @@ so a new session can work correctly without relying on earlier conversations.
 
 ## Temporal correctness and persistence
 
-- Write expected behavior before optimizing it. Define interval boundaries,
-  overlapping and partial corrections, retractions, duplicate requests and
-  transaction ordering in executable examples.
+- Follow the [initial temporal contract](docs/architecture/temporal-contract.md)
+  and its linked conformance fixtures. Implement and test those expected answers
+  before optimizing. A material semantic change updates the contract, relevant
+  decision record and fixtures together; storage work preserves their behavior.
 - Keep valid time, database system time, event timestamps and physical snapshots
   distinct. Specify how committed transaction order maps to historical queries;
   wall-clock readings alone are not an ordering contract.

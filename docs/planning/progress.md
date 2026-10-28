@@ -47,6 +47,60 @@ build instructions are presented as current commands.
 **Next recommendation at this checkpoint:** MDB-0002 — define the temporal contract
 and workloads. This is historical context; later sessions select from the live queue.
 
+## 2026-10-28 MDB-0002 — Initial temporal contract
+
+**Outcome:** adopt the [initial temporal contract](../architecture/temporal-contract.md)
+and [ADR 0003](../decisions/0003-initial-temporal-semantics.md), with
+[five JSON histories](../architecture/fixtures/temporal-contract-v0.json) containing
+84 exact expectations. Reconcile README, agent rules, conceptual/architecture and
+contributor guidance, decision index, roadmap and site navigation.
+
+**Decisions:** whole signed-integer conformance values; UTC microsecond coordinates;
+half-open intervals with explicit infinity; range replacement and retraction in
+commit/operation order; atomic serialized commits and pinned read views; retained
+request identities for safe retries. Specify point lookups, coalesced interval
+scans and exact aggregates. Define memory-only versus future durable acknowledgement,
+uncertain outcomes and finite-coordinate boundary behavior. ADR 0003 records
+alternatives and conditions for revisiting this working specification.
+
+**Prerequisite delivery:** MDB-0001 commit
+`c0df7258f83dd904fa7680b4834b8f51668d8b5a` was verified on remote `main`; its
+[Documentation checks](https://github.com/MeridianDB/meridiandb/actions/runs/40734555585)
+completed successfully before selection.
+
+**Validation:** all 84 fixture expectations pass a one-off independent check using
+backward operation lookup at a point and partitioning at interval boundaries,
+without a mutable interval-splitting algorithm. Cases cover correction, retraction,
+old/open views, multi-entity transaction rejection, rejected-ID retry, duplicate-ID
+replay/conflict, no-op commits, gaps/coalescing, signed values, exact sums beyond
+64 bits and finite time limits. The fixture SHA-256 is
+`ae96845882f07cea56a5f7edff42a2575efe36a0792533ce16ed2342582720ef`.
+This check validates the specified examples; it is not a Java engine or a
+concurrency/durability test.
+
+Strict Zensical builds pass for `https://meridiandb.org/` and
+`https://meridiandb.github.io/meridiandb/`: 14 content pages with matching canonical
+URLs/sitemap, descriptions, assets and page/fragment links. A local static preview
+returns HTTP 200 for the contract, ADR, concept and queue pages, confirms both new
+navigation/search entries, and serves fixture bytes matching source. Queue graph,
+caller/terminology and Git whitespace/diff checks pass. No Maven/Java tests were
+run because the Java foundation remains the next unstarted item.
+
+**Scope and remaining work:** no new/split queue IDs were needed for this cohesive
+specification step. MDB-0003 introduces the JDK/Maven foundation and a meaningful
+executable check; MDB-0004 will consume the fixtures with the Java reference model.
+Actual engine concurrency, lifecycle and crash behavior remain implementation work.
+The initial retention promise is complete committed history and request identities;
+a later removal policy needs an explicit contract revision.
+
+**Delivery evidence:** the completion commit carries `Step-ID: MDB-0002` and
+`Step-Result: completed`; resolve its SHA and remote ancestry through Git. The final
+handoff reports actual push and CI state. Source changes do not publish the site;
+a later manual Pages publication remains separate.
+
+**Next recommendation at this checkpoint:** MDB-0003 — establish the Java and Maven
+build foundation. This recommendation does not start it.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

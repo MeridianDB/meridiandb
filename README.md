@@ -7,7 +7,9 @@ both when a fact applies in the domain and when the database recorded that knowl
 
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
-There is no engine, published library, stable API or runnable database example yet. The capabilities below describe the intended
+The [initial temporal contract](docs/architecture/temporal-contract.md) and exact
+workload fixtures are defined. There is no engine, published library, stable API
+or runnable database example yet. The capabilities below describe the intended
 direction, not implemented engine features.
 
 ## Why temporal storage?
@@ -69,8 +71,9 @@ history. No particular physical format has been selected.
 SQL, document APIs, network protocols, replication and streaming integrations
 remain open. Public interface implementation can wait while query semantics and
 workloads guide the storage experiments. Current-state lookups, historical entity
-lookups, interval scans and correction-sensitive aggregations are candidate tests,
-not an API commitment.
+lookups, interval scans and correction-sensitive aggregations have specified
+[expected results](docs/architecture/temporal-contract.md#worked-history-and-workload-expectations),
+without committing to a public API.
 
 ## Implementation plan and agent queue
 
@@ -97,7 +100,7 @@ introduced by the queued build-foundation step.
 ## Working in this repository
 
 Read [AGENTS.md](AGENTS.md) for agent working agreements and documentation upkeep.
-Architectural rationale lives in [decision records](docs/decisions/0001-language-strategy.md).
+Architectural rationale lives in [decision records](docs/decisions/index.md).
 Keep the README's implemented status accurate as the project develops. Java build
 and test instructions will be added with the first engine implementation.
 

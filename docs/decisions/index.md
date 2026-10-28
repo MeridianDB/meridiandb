@@ -1,5 +1,5 @@
 ---
-description: Follow MeridianDB’s architectural decision records, including the rationale, alternatives and evidence behind its Java and Maven direction.
+description: Follow MeridianDB's decisions on Java and Maven, documentation tooling and initial temporal semantics, with rationale and alternatives.
 ---
 
 # Architectural decisions
@@ -12,6 +12,7 @@ permanent commitment.
 | --- | --- | --- |
 | [0001: Language strategy](0001-language-strategy.md) | Initial working decision | Java as the initial default; conditions for considering other languages |
 | [0002: Documentation toolchain](0002-documentation-toolchain.md) | Working decision | Zensical, MkDocs configuration, initial hosting and portability |
+| [0003: Initial temporal semantics](0003-initial-temporal-semantics.md) | Working specification; unimplemented | Whole-value intervals, ordered commits, read views and request identity |
 
 The current project has no stable engine API or storage format. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

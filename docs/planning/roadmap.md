@@ -59,6 +59,11 @@ Include current-state, as-of entity, interval and correction-sensitive aggregati
 workloads. Each has explicit inputs and expected outputs suitable for later tests.
 No executable Java implementation is required for this specification step.
 
+**Specification artifacts:** [temporal contract](../architecture/temporal-contract.md),
+[exact histories](../architecture/fixtures/temporal-contract-v0.json) and
+[ADR 0003](../decisions/0003-initial-temporal-semantics.md). Reuse these fixtures in
+the reference/engine checks rather than maintaining conflicting copies.
+
 ## MDB-0003 Java and Maven foundation
 
 **Outcome:** introduce a reproducible Java build with the smallest useful project

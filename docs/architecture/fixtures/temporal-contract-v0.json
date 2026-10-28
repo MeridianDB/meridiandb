@@ -1,0 +1,1407 @@
+{
+  "format": "meridiandb-temporal-contract-v0",
+  "timeUnit": "integer microseconds since Unix epoch",
+  "status": "specification; no implemented engine yet",
+  "histories": [
+    {
+      "id": "salary",
+      "description": "Bounded correction, retraction, stable views, historical queries and retry identity.",
+      "steps": [
+        {
+          "id": "genesis-empty",
+          "kind": "query",
+          "cutoff": 0,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "insert-two-entities",
+          "kind": "transact",
+          "requestId": "initial",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alice",
+              "from": 1767225600000000,
+              "to": null,
+              "value": 70000
+            },
+            {
+              "op": "put",
+              "entity": "bob",
+              "from": 1767225600000000,
+              "to": null,
+              "value": 60000
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "pin-before-correction",
+          "kind": "openView",
+          "viewId": "before",
+          "cutoff": "head",
+          "expected": {
+            "commit": 1
+          }
+        },
+        {
+          "id": "current-before-correction",
+          "kind": "query",
+          "cutoff": "head",
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 70000
+          }
+        },
+        {
+          "id": "aggregate-before-correction",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "alice",
+              "bob"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 2,
+            "sum": "130000"
+          }
+        },
+        {
+          "id": "bounded-retroactive-correction",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alice",
+              "from": 1769904000000000,
+              "to": 1772323200000000,
+              "value": 75000
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "current-after-correction",
+          "kind": "query",
+          "cutoff": "head",
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 75000
+          }
+        },
+        {
+          "id": "past-cutoff-unchanged",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 70000
+          }
+        },
+        {
+          "id": "before-valid-start",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1767225599999999
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "correction-start-inclusive",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1769904000000000
+          },
+          "expected": {
+            "present": true,
+            "value": 75000
+          }
+        },
+        {
+          "id": "one-microsecond-before-start",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1769903999999999
+          },
+          "expected": {
+            "present": true,
+            "value": 70000
+          }
+        },
+        {
+          "id": "correction-end-exclusive",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1772323200000000
+          },
+          "expected": {
+            "present": true,
+            "value": 70000
+          }
+        },
+        {
+          "id": "clipped-interval-scan",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "scan",
+            "entity": "alice",
+            "from": 1767225600000000,
+            "to": 1775001600000000
+          },
+          "expected": [
+            {
+              "from": 1767225600000000,
+              "to": 1769904000000000,
+              "value": 70000
+            },
+            {
+              "from": 1769904000000000,
+              "to": 1772323200000000,
+              "value": 75000
+            },
+            {
+              "from": 1772323200000000,
+              "to": 1775001600000000,
+              "value": 70000
+            }
+          ]
+        },
+        {
+          "id": "aggregate-after-correction",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "alice",
+              "bob"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 2,
+            "sum": "135000"
+          }
+        },
+        {
+          "id": "partial-retraction",
+          "kind": "transact",
+          "requestId": "retraction",
+          "operations": [
+            {
+              "op": "retract",
+              "entity": "alice",
+              "from": 1770681600000000,
+              "to": 1771545600000000
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 3,
+            "replayed": false
+          }
+        },
+        {
+          "id": "retraction-start-inclusive",
+          "kind": "query",
+          "cutoff": 3,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1770681600000000
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "retraction-end-exclusive",
+          "kind": "query",
+          "cutoff": 3,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771545600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 75000
+          }
+        },
+        {
+          "id": "retraction-gap-in-scan",
+          "kind": "query",
+          "cutoff": 3,
+          "query": {
+            "kind": "scan",
+            "entity": "alice",
+            "from": 1769904000000000,
+            "to": 1772323200000000
+          },
+          "expected": [
+            {
+              "from": 1769904000000000,
+              "to": 1770681600000000,
+              "value": 75000
+            },
+            {
+              "from": 1771545600000000,
+              "to": 1772323200000000,
+              "value": 75000
+            }
+          ]
+        },
+        {
+          "id": "aggregate-ignores-absence",
+          "kind": "query",
+          "cutoff": 3,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "alice",
+              "bob"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 1,
+            "sum": "60000"
+          }
+        },
+        {
+          "id": "historical-correction-survives",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 75000
+          }
+        },
+        {
+          "id": "pinned-view-survives",
+          "kind": "query",
+          "viewId": "before",
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 70000
+          }
+        },
+        {
+          "id": "resolve-lost-acknowledgement",
+          "kind": "lookupRequest",
+          "requestId": "correction",
+          "expected": {
+            "status": "committed",
+            "commit": 2
+          }
+        },
+        {
+          "id": "retry-after-later-commit",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alice",
+              "from": 1769904000000000,
+              "to": 1772323200000000,
+              "value": 75000
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": true
+          }
+        },
+        {
+          "id": "retry-does-not-advance-head",
+          "kind": "openView",
+          "viewId": "after-retry",
+          "cutoff": "head",
+          "expected": {
+            "commit": 3
+          }
+        },
+        {
+          "id": "retry-does-not-restore-value",
+          "kind": "query",
+          "cutoff": "head",
+          "query": {
+            "kind": "get",
+            "entity": "alice",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "conflicting-request-reuse",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alice",
+              "from": 1769904000000000,
+              "to": 1772323200000000,
+              "value": 76000
+            }
+          ],
+          "expected": {
+            "error": "REQUEST_ID_REUSED"
+          }
+        },
+        {
+          "id": "conflict-does-not-advance-head",
+          "kind": "openView",
+          "viewId": "after-conflict",
+          "cutoff": "head",
+          "expected": {
+            "commit": 3
+          }
+        },
+        {
+          "id": "lookup-unknown-request",
+          "kind": "lookupRequest",
+          "requestId": "unsubmitted",
+          "expected": {
+            "status": "not_found"
+          }
+        }
+      ]
+    },
+    {
+      "id": "operation-order",
+      "description": "Unbounded endpoints, intra-transaction overlap, gap refill, coalescing and no-op commits.",
+      "steps": [
+        {
+          "id": "unbounded-values",
+          "kind": "transact",
+          "requestId": "all-time",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": null,
+              "to": null,
+              "value": 1
+            },
+            {
+              "op": "put",
+              "entity": "zero",
+              "from": null,
+              "to": null,
+              "value": 0
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "ordered-overlap",
+          "kind": "transact",
+          "requestId": "overlap",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 1769904000000000,
+              "to": 1772323200000000,
+              "value": 2
+            },
+            {
+              "op": "retract",
+              "entity": "x",
+              "from": 1770681600000000,
+              "to": 1771545600000000
+            },
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 1771113600000000,
+              "to": 1773532800000000,
+              "value": 3
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "last-operation-wins",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "x",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 3
+          }
+        },
+        {
+          "id": "middle-operation-leaves-gap",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "x",
+            "validAt": 1770854400000000
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "unbounded-scan",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "scan",
+            "entity": "x",
+            "from": null,
+            "to": null
+          },
+          "expected": [
+            {
+              "from": null,
+              "to": 1769904000000000,
+              "value": 1
+            },
+            {
+              "from": 1769904000000000,
+              "to": 1770681600000000,
+              "value": 2
+            },
+            {
+              "from": 1771113600000000,
+              "to": 1773532800000000,
+              "value": 3
+            },
+            {
+              "from": 1773532800000000,
+              "to": null,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "old-unbounded-view",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "scan",
+            "entity": "x",
+            "from": null,
+            "to": null
+          },
+          "expected": [
+            {
+              "from": null,
+              "to": null,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "put-into-retracted-gap",
+          "kind": "transact",
+          "requestId": "refill",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 1770681600000000,
+              "to": 1771113600000000,
+              "value": 2
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 3,
+            "replayed": false
+          }
+        },
+        {
+          "id": "coalesce-equal-neighbors",
+          "kind": "query",
+          "cutoff": 3,
+          "query": {
+            "kind": "scan",
+            "entity": "x",
+            "from": 1769904000000000,
+            "to": 1772323200000000
+          },
+          "expected": [
+            {
+              "from": 1769904000000000,
+              "to": 1771113600000000,
+              "value": 2
+            },
+            {
+              "from": 1771113600000000,
+              "to": 1772323200000000,
+              "value": 3
+            }
+          ]
+        },
+        {
+          "id": "retract-already-absent",
+          "kind": "transact",
+          "requestId": "absent-noop",
+          "operations": [
+            {
+              "op": "retract",
+              "entity": "missing",
+              "from": null,
+              "to": null
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 4,
+            "replayed": false
+          }
+        },
+        {
+          "id": "no-op-retraction-gets-commit",
+          "kind": "openView",
+          "viewId": "after-noop",
+          "cutoff": "head",
+          "expected": {
+            "commit": 4
+          }
+        },
+        {
+          "id": "equal-value-put",
+          "kind": "transact",
+          "requestId": "equal-noop",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 1769990400000000,
+              "to": 1770076800000000,
+              "value": 2
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 5,
+            "replayed": false
+          }
+        },
+        {
+          "id": "no-op-does-not-fragment-scan",
+          "kind": "query",
+          "cutoff": 5,
+          "query": {
+            "kind": "scan",
+            "entity": "x",
+            "from": 1769904000000000,
+            "to": 1771113600000000
+          },
+          "expected": [
+            {
+              "from": 1769904000000000,
+              "to": 1771113600000000,
+              "value": 2
+            }
+          ]
+        },
+        {
+          "id": "negative-value",
+          "kind": "transact",
+          "requestId": "negative",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "negative",
+              "from": null,
+              "to": null,
+              "value": -5
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 6,
+            "replayed": false
+          }
+        },
+        {
+          "id": "zero-present-and-negative",
+          "kind": "query",
+          "cutoff": 6,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "x",
+              "zero",
+              "negative",
+              "missing"
+            ],
+            "validAt": 1770854400000000
+          },
+          "expected": {
+            "count": 3,
+            "sum": "-3"
+          }
+        },
+        {
+          "id": "absence-distinct-from-zero",
+          "kind": "query",
+          "cutoff": 6,
+          "query": {
+            "kind": "get",
+            "entity": "zero",
+            "validAt": 1770854400000000
+          },
+          "expected": {
+            "present": true,
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "atomic-validation",
+      "description": "Whole-request rejection, identity reuse after rejection and query validation.",
+      "steps": [
+        {
+          "id": "seed",
+          "kind": "transact",
+          "requestId": "seed",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": null,
+              "to": null,
+              "value": 10
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "pin-before-write",
+          "kind": "openView",
+          "viewId": "old",
+          "cutoff": "head",
+          "expected": {
+            "commit": 1
+          }
+        },
+        {
+          "id": "invalid-second-operation",
+          "kind": "transact",
+          "requestId": "retryable",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": null,
+              "to": null,
+              "value": 20
+            },
+            {
+              "op": "put",
+              "entity": "beta",
+              "from": 1769904000000000,
+              "to": 1769904000000000,
+              "value": 30
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "no-partial-write",
+          "kind": "query",
+          "cutoff": "head",
+          "query": {
+            "kind": "get",
+            "entity": "alpha",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 10
+          }
+        },
+        {
+          "id": "failed-request-not-reserved",
+          "kind": "lookupRequest",
+          "requestId": "retryable",
+          "expected": {
+            "status": "not_found"
+          }
+        },
+        {
+          "id": "rejection-leaves-head",
+          "kind": "openView",
+          "viewId": "after-invalid",
+          "cutoff": "head",
+          "expected": {
+            "commit": 1
+          }
+        },
+        {
+          "id": "correct-rejected-payload",
+          "kind": "transact",
+          "requestId": "retryable",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": null,
+              "to": null,
+              "value": 20
+            },
+            {
+              "op": "put",
+              "entity": "beta",
+              "from": null,
+              "to": null,
+              "value": 30
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "whole-transaction-visible",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "alpha",
+              "beta"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 2,
+            "sum": "50"
+          }
+        },
+        {
+          "id": "old-view-excludes-both-changes",
+          "kind": "query",
+          "viewId": "old",
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "alpha",
+              "beta"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 1,
+            "sum": "10"
+          }
+        },
+        {
+          "id": "reject-empty-transaction",
+          "kind": "transact",
+          "requestId": "empty",
+          "operations": [],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-empty-entity",
+          "kind": "transact",
+          "requestId": "empty-entity",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "",
+              "from": null,
+              "to": null,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-empty-request-id",
+          "kind": "transact",
+          "requestId": "",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": null,
+              "to": null,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-out-of-range-value",
+          "kind": "transact",
+          "requestId": "overflow",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": null,
+              "to": null,
+              "value": 9223372036854775808
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-reversed-interval",
+          "kind": "transact",
+          "requestId": "reversed",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": 1772323200000000,
+              "to": 1769904000000000,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-submicrosecond-input",
+          "kind": "transact",
+          "requestId": "precision",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": 0.5,
+              "to": null,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-null-value",
+          "kind": "transact",
+          "requestId": "null-value",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "alpha",
+              "from": null,
+              "to": null,
+              "value": null
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "all-invalid-writes-leave-head",
+          "kind": "openView",
+          "viewId": "after-errors",
+          "cutoff": "head",
+          "expected": {
+            "commit": 2
+          }
+        },
+        {
+          "id": "reject-future-cutoff",
+          "kind": "openView",
+          "viewId": "future",
+          "cutoff": 3,
+          "expected": {
+            "error": "INVALID_CUTOFF"
+          }
+        },
+        {
+          "id": "reject-negative-cutoff",
+          "kind": "openView",
+          "viewId": "negative",
+          "cutoff": -1,
+          "expected": {
+            "error": "INVALID_CUTOFF"
+          }
+        },
+        {
+          "id": "reject-future-query-cutoff",
+          "kind": "query",
+          "cutoff": 3,
+          "query": {
+            "kind": "get",
+            "entity": "alpha",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "error": "INVALID_CUTOFF"
+          }
+        },
+        {
+          "id": "reject-duplicate-aggregate-ids",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "alpha",
+              "alpha"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          }
+        },
+        {
+          "id": "reject-empty-scan-window",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "scan",
+            "entity": "alpha",
+            "from": 1769904000000000,
+            "to": 1769904000000000
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          }
+        },
+        {
+          "id": "reject-unbounded-point",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "alpha",
+            "validAt": null
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          }
+        },
+        {
+          "id": "read-after-errors",
+          "kind": "query",
+          "cutoff": "head",
+          "query": {
+            "kind": "get",
+            "entity": "alpha",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": 20
+          }
+        }
+      ]
+    },
+    {
+      "id": "exact-integers",
+      "description": "Exact signed value boundaries, large aggregate results and exact entity identity.",
+      "steps": [
+        {
+          "id": "maxima-and-zero",
+          "kind": "transact",
+          "requestId": "large",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "a",
+              "from": null,
+              "to": null,
+              "value": 9223372036854775807
+            },
+            {
+              "op": "put",
+              "entity": "b",
+              "from": null,
+              "to": null,
+              "value": 9223372036854775807
+            },
+            {
+              "op": "put",
+              "entity": "zero",
+              "from": null,
+              "to": null,
+              "value": 0
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "sum-beyond-int64",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "a",
+              "b",
+              "zero"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 3,
+            "sum": "18446744073709551614"
+          }
+        },
+        {
+          "id": "empty-aggregate",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "sum",
+            "entities": [],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 0,
+            "sum": "0"
+          }
+        },
+        {
+          "id": "all-absent-aggregate",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "absent"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 0,
+            "sum": "0"
+          }
+        },
+        {
+          "id": "case-sensitive-entity",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "get",
+            "entity": "A",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "minimum-value",
+          "kind": "transact",
+          "requestId": "minimum",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "negative",
+              "from": null,
+              "to": null,
+              "value": -9223372036854775808
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "signed-minimum-preserved",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "get",
+            "entity": "negative",
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "present": true,
+            "value": -9223372036854775808
+          }
+        },
+        {
+          "id": "exact-signed-sum",
+          "kind": "query",
+          "cutoff": 2,
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "a",
+              "b",
+              "negative",
+              "zero"
+            ],
+            "validAt": 1771113600000000
+          },
+          "expected": {
+            "count": 4,
+            "sum": "9223372036854775806"
+          }
+        }
+      ]
+    },
+    {
+      "id": "time-coordinate-limits",
+      "description": "Finite extreme instants, explicit infinity and empty representable windows.",
+      "steps": [
+        {
+          "id": "extreme-finite-instants",
+          "kind": "transact",
+          "requestId": "edges",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": -9223372036854775808,
+              "to": -9223372036854775807,
+              "value": 7
+            },
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": 9223372036854775807,
+              "to": null,
+              "value": 9
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "minimum-is-finite",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "get",
+            "entity": "edge",
+            "validAt": -9223372036854775808
+          },
+          "expected": {
+            "present": true,
+            "value": 7
+          }
+        },
+        {
+          "id": "one-tick-after-minimum",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "get",
+            "entity": "edge",
+            "validAt": -9223372036854775807
+          },
+          "expected": {
+            "present": false
+          }
+        },
+        {
+          "id": "maximum-is-finite",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "get",
+            "entity": "edge",
+            "validAt": 9223372036854775807
+          },
+          "expected": {
+            "present": true,
+            "value": 9
+          }
+        },
+        {
+          "id": "canonical-unbounded-edge-scan",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "scan",
+            "entity": "edge",
+            "from": null,
+            "to": null
+          },
+          "expected": [
+            {
+              "from": null,
+              "to": -9223372036854775807,
+              "value": 7
+            },
+            {
+              "from": 9223372036854775807,
+              "to": null,
+              "value": 9
+            }
+          ]
+        },
+        {
+          "id": "finite-edge-window",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "scan",
+            "entity": "edge",
+            "from": -9223372036854775808,
+            "to": -9223372036854775807
+          },
+          "expected": [
+            {
+              "from": -9223372036854775808,
+              "to": -9223372036854775807,
+              "value": 7
+            }
+          ]
+        },
+        {
+          "id": "reject-empty-representable-range",
+          "kind": "transact",
+          "requestId": "empty-before-minimum",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": null,
+              "to": -9223372036854775808,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        },
+        {
+          "id": "reject-empty-representable-window",
+          "kind": "query",
+          "cutoff": 1,
+          "query": {
+            "kind": "scan",
+            "entity": "edge",
+            "from": null,
+            "to": -9223372036854775808
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          }
+        },
+        {
+          "id": "reject-time-overflow",
+          "kind": "transact",
+          "requestId": "time-overflow",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": 9223372036854775808,
+              "to": null,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "error": "INVALID_REQUEST"
+          }
+        }
+      ]
+    }
+  ]
+}
