@@ -8,7 +8,9 @@ description: Dated implementation receipts for MeridianDB, with actual checks, d
 This is an append-only history of meaningful outcomes and checkpoints. Current
 selection comes from the [live queue](queue.md). Follow the
 [workflow](index.md#completion-and-git-evidence) for completion-commit and push
-proof; a receipt does not invent its own containing commit SHA.
+proof; a receipt does not invent its own containing commit SHA. Publication notes
+in earlier receipts describe their then-current policy; current procedure comes
+from the [website guide](../contributing/documentation.md#initial-hosting-and-publication).
 
 ## 2026-10-28 MDB-0001 — Planning workflow
 
@@ -100,6 +102,31 @@ a later manual Pages publication remains separate.
 
 **Next recommendation at this checkpoint:** MDB-0003 — establish the Java and Maven
 build foundation. This recommendation does not start it.
+
+## 2026-10-28 — Automatic GitHub Pages publication
+
+**Owner request and outcome:** make website publication automatic. Add filtered
+pushes to `main` to **Publish documentation**, retaining manual rebuilds, its strict
+production build, serialized deployment and existing scoped Pages permissions.
+Documentation content/configuration/dependency/workflow changes publish;
+pull requests, other branches and Java-only source changes do not publish.
+
+**Policy reconciliation:** update README, root agent rules, ADR 0002, contributor
+and website guides, queue handoff, roadmap and reusable queue prompt. The earlier
+manual-only Pages policy is historical. The website guide owns current input
+filters and publication checks. Library releases and Cloudflare deployments keep
+their existing separate scope. The engine queue remains at MDB-0003 ready; this
+website maintenance request does not execute or advance an engine item.
+
+**Validation:** YAML parsing and ten branch/path cases check automatic trigger
+selection, optional dispatch, main-only jobs, strict-build dependency, pinned
+actions, deployment serialization and scoped permissions. Strict documentation
+builds and generated URL/link checks pass for both supported hosting paths with
+14 content pages. Review affected pages through a local preview, scan active
+policy callers and inspect the Git diff. Actual GitHub workflow/deployment results
+and live-content verification are reported in the task handoff after pushing.
+
+**Next recommendation:** MDB-0003 — establish the Java and Maven build foundation.
 
 ## Receipt template
 

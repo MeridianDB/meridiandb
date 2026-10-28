@@ -7,8 +7,9 @@ description: Build and preview MeridianDB documentation with Zensical and MkDocs
 The website uses **Zensical** with **MkDocs configuration** in `mkdocs.yml` and the
 Material-style **classic theme**. Public source lives in `docs/`. The site was
 first published at `https://meridiandb.org/` on October 28, 2026, confirmed by the
-owner and an HTTPS check. This guide remains the setup and manual publication
-procedure; an implementation source push does not publish a new site version.
+owner and an HTTPS check. Under the owner's later October 28, 2026 instruction,
+documentation changes pushed to `main` now publish automatically through GitHub
+Actions. This guide covers setup, automatic publication and optional manual rebuilds.
 
 ## Local workflow
 
@@ -118,11 +119,26 @@ would need URL, link, navigation, asset and metadata checks.
 It installs the locked dependencies and builds both custom-domain and GitHub
 project-path variants with read-only repository permissions. It does not publish.
 
-**Publish documentation** runs only on manual dispatch from `main`. The build job
-reads the existing Pages configuration, builds the site and uploads `site/`.
-A separate deployment job holds Pages write and identity-token permissions.
-The workflow definitions live in `.github/workflows/` and pin action releases by
-commit hash. They have been prepared locally; an Actions run verifies CI itself.
+**Publish documentation** runs automatically on pushes to `main` that change any
+of these inputs: `docs/**`, `mkdocs.yml`, `requirements-docs.in`,
+`requirements-docs.txt`, `.python-version` or `.github/workflows/docs-*.yml`.
+This includes planning updates under `docs/`. A source-only Java change outside
+those inputs does not rebuild the site. Pull requests and other branches do not
+publish. **Actions → Publish documentation → Run workflow** on `main` remains
+available for a manual rebuild without a new source change.
+
+The build job reads the existing Pages configuration, installs the locked
+dependencies, builds with `zensical build --strict --clean` and uploads `site/`.
+The deployment job requires that build to succeed and holds Pages write and
+identity-token permissions. The separate **Documentation checks** workflow runs
+in parallel; publication is gated by its own strict production build, not by the
+completion of that separate workflow. Workflow definitions live in
+`.github/workflows/` and pin action releases by commit hash.
+
+After pushing a documentation change, inspect both workflows for that commit,
+then confirm the expected content at the live URL. A failed build does not deploy
+a replacement. Repository/environment protection rules still apply; report any
+required GitHub approval as a pending deployment rather than calling it published.
 
 `DOCS_SITE_URL` can override the production URL for another host or base path.
 Exercise the default GitHub project path locally with:
@@ -179,9 +195,11 @@ Apex A records checked against GitHub's documentation on October 28, 2026:
 Recheck the linked GitHub DNS instructions before a later hosting change. No
 `www` CNAME, apex CNAME or URL-forwarding service is needed for this setup.
 
-A local build or commit is not publication. The Actions deployment uses the custom
-domain configured in GitHub; no source `CNAME` file is needed for that setting.
-Cloudflare deployments remain owner-performed under the owner's standing policy.
+A local build or commit is not publication. An affected push starts the automatic
+workflow; successful deployment and a live-content check establish publication.
+The Actions deployment uses the custom domain configured in GitHub; no source
+`CNAME` file is needed for that setting. Cloudflare deployments remain
+owner-performed under the owner's standing policy.
 
 References: [Zensical migration](https://zensical.org/docs/compatibility/mkdocs/migration/),
 [custom Actions workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages),

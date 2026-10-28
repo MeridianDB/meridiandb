@@ -93,9 +93,10 @@ to `origin/main`, then a recommendation for the next step. Dated evidence lives 
 
 To start an iteration, ask: **Continue the implementation queue for one bounded
 step.** Preparing the plan does not automatically start engine implementation.
-Source pushes run applicable checks; releases and website publication remain
-separate actions. The Maven Wrapper and actual Java verification command will be
-introduced by the queued build-foundation step.
+Source pushes run applicable checks; documentation changes pushed to `main` also
+publish the website automatically after its strict build succeeds. Library releases
+remain separate actions. The Maven Wrapper and actual Java verification command
+will be introduced by the queued build-foundation step.
 
 ## Working in this repository
 
@@ -139,9 +140,10 @@ The generated site is `site/`. Python documentation tooling is independent of th
 future Maven engine build. Content uses ordinary Markdown and source-relative
 links to help preserve portability to other generators, including Hugo.
 
-GitHub Pages is the initial hosting target. Pull requests and pushes to `main`
-run checks; publication requires manually running **Publish documentation** after
-Pages and the domain have been configured. Cloudflare can also host the static
+GitHub Pages is the initial hosting target. Affected pull requests and pushes to
+`main` run documentation checks. Documentation changes pushed to `main` also run
+**Publish documentation**, which builds and deploys automatically. **Run workflow**
+remains available on `main` for a manual rebuild. Cloudflare can also host the static
 output if hosting needs change. See the
 [documentation and publishing guide](docs/contributing/documentation.md) and
 [toolchain decision](docs/decisions/0002-documentation-toolchain.md) for setup,

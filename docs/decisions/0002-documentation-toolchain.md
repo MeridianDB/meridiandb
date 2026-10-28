@@ -15,10 +15,13 @@ Use Zensical with `mkdocs.yml` and its `classic` theme variant. Pin the runtime 
 resolved Python dependencies. Keep public content in `docs/` as Markdown with
 simple YAML metadata and source-relative links. The Java engine uses Maven.
 
-Use GitHub Pages as the initial publication target through the manual Actions
-workflow. The generator and hosting provider are independent choices: the same
-static output can be hosted elsewhere. Cloudflare remains an option if its
-workflow or features become useful; no hosting migration is currently requested.
+Use GitHub Pages as the initial publication target. Under the owner's October 28,
+2026 update, documentation input changes pushed to `main` automatically build and
+publish through Actions; retain manual dispatch from `main` for optional rebuilds.
+The [website guide](../contributing/documentation.md#initial-hosting-and-publication)
+owns the input filters and publication checks. The generator and hosting provider
+are independent choices: the same static output can be hosted elsewhere.
+Cloudflare remains an option; no hosting migration is currently requested.
 
 ## Rationale and limits
 
@@ -57,6 +60,12 @@ Commit `bb3431d` introduced the initial VitePress scaffold. This decision replac
 that toolchain before publication. Its source remains in Git history. The earlier
 Java/Maven decision remains current.
 
+The initial Pages workflow required manual publication. After the site went live,
+the owner requested automatic publication on October 28, 2026. The current workflow
+adds filtered pushes to `main` while preserving its strict build, deployment
+permissions and manual rebuild option. Earlier progress receipts describe the
+then-current manual policy; this update supersedes that policy.
+
 ## Evidence checked on 2026-10-28
 
 - [Zensical migration and classic theme](https://zensical.org/docs/compatibility/mkdocs/migration/)
@@ -64,3 +73,5 @@ Java/Maven decision remains current.
 - [Versioning integration](https://zensical.org/docs/compatibility/mkdocs/mike/)
 - [Material for MkDocs lifecycle](https://squidfunk.github.io/mkdocs-material/)
 - [Cloudflare static HTML hosting](https://developers.cloudflare.com/pages/framework-guides/deploy-anything/)
+- [GitHub Pages custom build/deploy workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+- [GitHub Actions branch and path filters](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)

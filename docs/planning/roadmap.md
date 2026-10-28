@@ -216,6 +216,9 @@ operational examples, Javadoc and locally verifiable packaging.
 **Complete when:** a clean consumer fixture can use the candidate, relevant checks
 and measured evidence are recorded, known limits and compatibility policy are
 explicit, and release/versioned-documentation tasks are prepared for owner review.
-Queue any concrete missing prerequisite. Creating tags, publishing to Maven Central
-or GitHub Releases and deploying docs are separate actions requiring their own
-applicable authorization. This milestone does not promise production readiness.
+Queue any concrete missing prerequisite. Creating tags and publishing to Maven
+Central or GitHub Releases require their own applicable authorization. Ordinary
+documentation changes publish automatically under the
+[website workflow](../contributing/documentation.md#initial-hosting-and-publication);
+release-versioned documentation needs its own prepared policy and implementation.
+This milestone does not promise production readiness.

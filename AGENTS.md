@@ -31,8 +31,11 @@ so a new session can work correctly without relying on earlier conversations.
   an item into children. Keep one active executable item and one coordinator for
   shared queue/Git writes. The queue owns current state; dated receipts preserve
   evidence. Reconcile dependencies and the next eligible item before handoff.
-- Source pushes do not dispatch site publication or authorize releases, artifact
-  uploads, infrastructure changes or purchases. Retain those separate boundaries.
+- Documentation changes pushed to `main` invoke automatic GitHub Pages publication
+  under the owner's October 28, 2026 instruction. Follow the
+  [website guide](docs/contributing/documentation.md#initial-hosting-and-publication)
+  and report actual checks/deployment state. Release tags, library artifact uploads,
+  other infrastructure changes and purchases retain their separate authorization.
 
 ## Language and architectural decisions
 
@@ -118,11 +121,12 @@ so a new session can work correctly without relying on earlier conversations.
   canonical and sitemap URLs. Check both `https://meridiandb.org/` and
   `https://meridiandb.github.io/meridiandb/` after routing or publication changes.
   Add `hreflang` alternates only with actual translated or regional content.
-- The docs-checks workflow validates only. The docs-publish workflow publishes
-  only on manual dispatch from `main`, deriving the URL from Pages metadata.
-  GitHub Pages is the initial host; changing the generator and changing the host
-  are separate decisions. Cloudflare deployments are owner-performed under the
-  owner's standing policy; prepare source and hand off any hosting change.
+- The docs-checks workflow validates only. The docs-publish workflow builds and
+  publishes documentation changes pushed to `main`; it also retains manual dispatch
+  from `main` for a rebuild. Derive the URL from Pages metadata and publish only after
+  its strict build succeeds. GitHub Pages is the initial host; changing the generator
+  and changing the host are separate decisions. Cloudflare deployments remain
+  owner-performed; automatic GitHub Pages publication does not change that policy.
 - Keep `.venv/`, `.cache/`, `site/`, Python caches and `.local-qa/` untracked.
   Store durable review evidence in tracked documentation when it adds lasting value.
 - Mermaid and PlantUML are permitted for useful diagrams. Preserve editable
@@ -152,5 +156,6 @@ so a new session can work correctly without relying on earlier conversations.
   actual push/release state and recommend one concrete next task.
 - For implementation queue work, finish source delivery with the authorized push
   and remote verification in the workflow above. For other scoped work, report its
-  actual commit/push state under the owner's applicable authorization. Releases,
+  actual commit/push state under the owner's applicable authorization. Automatic
+  GitHub Pages publication follows the website guide; library releases, other
   deployments and paid infrastructure remain separately authorized actions.

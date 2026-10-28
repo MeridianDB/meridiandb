@@ -37,8 +37,9 @@ Follow the [agent workflow](../planning/index.md) and
 work package into bounded children when needed. Each completed step updates
 relevant project documentation, queue state and progress evidence, then commits
 and pushes task-owned changes to `origin/main` under the owner's standing
-instruction. End by recommending the next eligible item. Website and library
-publication remain separate actions.
+instruction. End by recommending the next eligible item. Documentation changes
+on `main` publish through the automatic GitHub Pages workflow; library publication
+remains a separate action.
 
 ## Run the documentation locally
 
@@ -74,7 +75,7 @@ Preview the generated `site/` directory separately:
 These commands operate on the documentation site. Maven is selected for the Java
 engine; its wrapper, JDK baseline and commands will arrive with executable engine
 code. See [documentation and publishing](documentation.md) for dependency choices,
-portability and the manual publication procedure.
+portability, automatic publication and optional manual rebuilds.
 
 ## Keep evidence and checks focused
 

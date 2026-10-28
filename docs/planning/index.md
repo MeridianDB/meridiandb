@@ -34,9 +34,13 @@ before selecting another. A request to prepare or revise the plan alone performs
 that planning work and leaves the next implementation step ready.
 
 The owner's standing source-push authorization applies to this queue and its
-planning setup. It covers task-owned source commits, not release tags, Maven
-Central uploads, GitHub Releases, Pages dispatches, Cloudflare deployments or
-purchases. Website publication remains a separate manual action.
+planning setup. Documentation changes pushed to `main` also invoke the configured
+GitHub Pages publication workflow under the owner's October 28, 2026 automatic
+publication instruction. Follow the
+[website guide](../contributing/documentation.md#initial-hosting-and-publication)
+and report its actual deployment outcome. Release tags, Maven Central uploads,
+GitHub Releases, manual Pages dispatches, Cloudflare deployments and purchases
+remain separately scoped actions.
 
 ## Execute one iteration
 
@@ -74,9 +78,10 @@ purchases. Website publication remains a separate manual action.
    task-owned paths. Include implementation, documentation, queue and receipt in
    the completion commit. Use the trailers below. Push `main` to `origin` with a
    normal push, verify the completion is reachable from remote `main`, and inspect
-   relevant CI. Fix failures attributable to the step and push the repair before
-   handing it off as complete. If CI is still pending, report that exact state;
-   the next invocation checks its outcome before starting new work.
+   relevant CI and any automatically triggered documentation deployment. Fix
+   failures attributable to the step and push the repair before handing it off as
+   complete. If CI or deployment is still pending, report that exact state; the next
+   invocation checks its outcome before starting new work.
 8. **Stop and recommend.** Report the outcome, checks, commit, actual push/CI state,
    publication dependencies and one next task by ID and title. Recommend the next
    eligible queue item, or the concrete unblock/retry action if delivery is pending.
@@ -182,5 +187,6 @@ implementation queue for one bounded step. Reconcile Git and the live queue,
 resume unfinished work or select the first eligible item, and split it if needed.
 Implement and verify the outcome, update project documentation, queue and progress,
 commit task-owned changes and push to origin/main. Report actual delivery state
-and recommend the next queue item. Leave releases and site publication manual.
+and recommend the next queue item. Check automatically triggered GitHub Pages
+publication; leave library releases and Cloudflare deployments separately scoped.
 ```

@@ -20,8 +20,10 @@ children before implementation rather than treating a whole milestone as one pat
 - MDB-0001 completion `c0df725` was verified on remote `main` with successful
   Documentation checks before MDB-0002 began.
 - First website publication was confirmed on October 28, 2026 at
-  [meridiandb.org](https://meridiandb.org/). These source changes await a later manual
-  website publication.
+  [meridiandb.org](https://meridiandb.org/). The owner subsequently authorized
+  automatic publication for documentation changes pushed to `main`; follow the
+  [website guide](../contributing/documentation.md#initial-hosting-and-publication)
+  and verify the actual deployment outcome. The engine queue position is unchanged.
 
 ## Ordered work
 
