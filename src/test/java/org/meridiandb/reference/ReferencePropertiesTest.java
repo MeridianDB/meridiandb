@@ -18,6 +18,8 @@ import java.util.Random;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.meridiandb.engine.EngineException;
+import org.meridiandb.engine.InMemoryEngine;
 import org.meridiandb.temporal.CommitPosition;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.EntityId;
@@ -30,7 +32,7 @@ import org.meridiandb.temporal.Transaction;
 import org.meridiandb.temporal.ValidTimeInterval;
 import org.meridiandb.temporal.WriteOperation;
 
-/** Forward dense-grid state checks the history-search reference through observable queries. */
+/** Forward dense-grid snapshots check both history-search reference and interval-state engine. */
 class ReferencePropertiesTest {
     private static final int LOW = -8;
     private static final int HIGH = 9;
@@ -54,6 +56,12 @@ class ReferencePropertiesTest {
     @ParameterizedTest(name = "dense history seed={0}")
     @MethodSource("seeds")
     void matchesDenseSnapshotsAndPreservesEveryHistoricalPrefix(long seed) {
+        try (var engine = new InMemoryEngine()) {
+            checkHistory(seed, engine);
+        }
+    }
+
+    private static void checkHistory(long seed, InMemoryEngine engine) {
         var random = new Random(seed);
         var model = new ReferenceModel(new DatabaseId("seed-" + seed));
         var snapshots = new ArrayList<Long[][]>();
@@ -82,20 +90,28 @@ class ReferencePropertiesTest {
             var expected = copy(snapshots.getLast());
             applyDense(expected, request);
             var committed = model.transact(request);
+            var actualCommit = engine.transact(request);
+            assertEquals(committed.position().sequence(), actualCommit.position().sequence(), "seed=" + seed);
+            assertEquals(committed.replayed(), actualCommit.replayed(), "seed=" + seed);
             requests.add(request);
             snapshots.add(expected);
             views.add(model.openView(ReadCutoff.Head.INSTANCE));
             assertEquals(step + 1L, committed.position().sequence(), "seed=" + seed);
             assertTrue(!committed.replayed(), "A new ID must commit, including a no-op");
-            assertView(model, views.getLast(), expected, seed, step, requests);
+            assertView(engine, model, views.getLast(), expected, seed, step, requests);
 
             int old = random.nextInt(views.size());
-            assertView(model, views.get(old), snapshots.get(old), seed, step, requests);
+            assertView(engine, model, views.get(old), snapshots.get(old), seed, step, requests);
             int retry = random.nextInt(requests.size());
             var replay = model.transact(requests.get(retry));
+            var actualReplay = engine.transact(requests.get(retry));
+            assertEquals(replay.position().sequence(), actualReplay.position().sequence());
+            assertTrue(actualReplay.replayed(), "seed=" + seed);
             assertTrue(replay.replayed(), "seed=" + seed);
             assertEquals(views.get(retry + 1), replay.position());
             assertEquals(views.getLast(), model.head(), "Retry must not allocate a commit");
+            assertEquals(model.head().sequence(), engine.head().sequence());
+            assertEquals(actualReplay.position(), engine.lookupRequest(requests.get(retry).requestId()).orElseThrow());
             assertEquals(replay.position(), model.lookupRequest(requests.get(retry).requestId()).orElseThrow());
 
             if (step % 7 == 0) {
@@ -104,13 +120,16 @@ class ReferencePropertiesTest {
                 var conflict = new Transaction(request.requestId(), changed);
                 assertEquals("REQUEST_ID_REUSED", assertThrows(ReferenceModel.Rejected.class,
                         () -> model.transact(conflict)).code());
+                assertEquals(EngineException.Code.REQUEST_ID_REUSED, assertThrows(EngineException.class,
+                        () -> engine.transact(conflict)).code());
                 assertEquals(views.getLast(), model.head());
+                assertEquals(model.head().sequence(), engine.head().sequence());
             }
             // Check state again after both replay and conflicting reuse.
-            assertView(model, views.getLast(), expected, seed, step, requests);
+            assertView(engine, model, views.getLast(), expected, seed, step, requests);
         }
         for (int c = 0; c < views.size(); c++) {
-            assertView(model, views.get(c), snapshots.get(c), seed, 32, requests);
+            assertView(engine, model, views.get(c), snapshots.get(c), seed, 32, requests);
         }
     }
 
@@ -137,8 +156,17 @@ class ReferencePropertiesTest {
         }
     }
 
-    private static void assertView(ReferenceModel model, CommitPosition view, Long[][] expected,
-                                   long seed, int step, List<Transaction> history) {
+    private static void assertView(InMemoryEngine engine, ReferenceModel model, CommitPosition view,
+                                   Long[][] expected, long seed, int step, List<Transaction> history) {
+        var position = new CommitPosition(engine.head().databaseId(), view.sequence());
+        try (var actualView = engine.openView(new ReadCutoff.At(position))) {
+            assertQueries(model, view, expected, seed, step, history, actualView);
+        }
+    }
+
+    private static void assertQueries(ReferenceModel model, CommitPosition view, Long[][] expected,
+                                      long seed, int step, List<Transaction> history,
+                                      InMemoryEngine.ReadView actualView) {
         for (int e = 0; e < ENTITIES.size(); e++) {
             var entity = ENTITIES.get(e);
             for (int t = LOW; t < HIGH; t++) {
@@ -146,10 +174,14 @@ class ReferencePropertiesTest {
                 var value = wanted == null ? OptionalLong.empty() : OptionalLong.of(wanted);
                 assertEquals(new TemporalResult.Point(value), model.query(view, new TemporalQuery.Get(entity, t)),
                         () -> context(seed, step, view, history));
+                assertEquals(new TemporalResult.Point(value), actualView.query(new TemporalQuery.Get(entity, t)),
+                        () -> "engine/" + context(seed, step, view, history));
             }
             var scan = new TemporalQuery.Scan(entity, new ValidTimeInterval((long) LOW, (long) HIGH));
             assertEquals(new TemporalResult.Segments(denseSegments(expected[e])), model.query(view, scan),
                     () -> context(seed, step, view, history));
+            assertEquals(new TemporalResult.Segments(denseSegments(expected[e])), actualView.query(scan),
+                    () -> "engine/" + context(seed, step, view, history));
         }
         for (int t = LOW; t < HIGH; t++) {
             long count = 0;
@@ -163,6 +195,8 @@ class ReferencePropertiesTest {
             }
             assertEquals(new TemporalResult.Aggregate(count, sum), model.query(view, new TemporalQuery.Sum(ENTITIES, t)),
                     () -> context(seed, step, view, history));
+            assertEquals(new TemporalResult.Aggregate(count, sum), actualView.query(new TemporalQuery.Sum(ENTITIES, t)),
+                    () -> "engine/" + context(seed, step, view, history));
         }
     }
 

@@ -65,3 +65,11 @@ The next engine must demonstrate its own atomic visibility, immutable read views
 serialized writes, retries and resource lifecycle. Durable storage and recovery
 remain separate queue outcomes. Revisit the type/API shape with concrete consumers,
 recording semantic changes in the contract and fixtures together.
+
+## MDB-0005 follow-through — October 28, 2026
+
+The next step added a separate interval-state engine and compares it with this
+oracle and the independent dense-state checks. The reference interpreter remains
+test-only. [ADR 0006](0006-in-memory-engine.md) records atomic publication and
+lifecycle choices; the [engine guide](../development/embedded-engine.md) owns
+current usage and implementation limits.

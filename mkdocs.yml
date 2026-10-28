@@ -60,6 +60,7 @@ nav:
       - Temporal semantics: decisions/0003-initial-temporal-semantics.md
       - Java build foundation: decisions/0004-java-build-foundation.md
       - Reference model: decisions/0005-reference-model.md
+      - In-memory engine: decisions/0006-in-memory-engine.md
   - Implementation:
       - Agent workflow: planning/index.md
       - Live queue: planning/queue.md
@@ -69,4 +70,5 @@ nav:
       - Working on MeridianDB: contributing/index.md
       - Java and Maven: development/build.md
       - Reference checks: development/reference-model.md
+      - Embedded engine: development/embedded-engine.md
       - Documentation and publishing: contributing/documentation.md

@@ -8,11 +8,11 @@ both when a fact applies in the domain and when the database recorded that knowl
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
 The [initial temporal contract](docs/architecture/temporal-contract.md) and exact
-workload fixtures are defined. The Java 25/Maven foundation now builds immutable
-temporal types and a test-only reference model that executes those histories.
-There is no engine, published library, stable API
-or runnable database example yet. The capabilities below describe the intended
-direction, not implemented engine features.
+workload fixtures are defined. The Java 25/Maven build now includes a memory-only
+embedded engine, immutable temporal types, an independent test reference and a
+runnable embedding example. There is no persistence, published library or stable
+API yet. The engine implements the initial numeric temporal contract; the broader
+storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
 
@@ -99,8 +99,8 @@ To start an iteration, ask: **Continue the implementation queue for one bounded
 step.** Preparing the plan does not automatically start engine implementation.
 Source pushes run applicable checks; documentation changes pushed to `main` also
 publish the website automatically after its strict build succeeds. Library releases
-remain separate actions. Temporal types and the independent reference model are
-available; the next implementation outcome is an embedded in-memory engine.
+remain separate actions. The embedded in-memory engine is available; the next
+implementation outcome is a local storage contract and commit journal.
 
 ## Build the Java foundation
 
@@ -116,13 +116,24 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 57 JUnit test invocations, including five histories with 84 exact
-contract expectations and 16 seeded histories with 512 new commits. It creates
-the local experimental `target/meridiandb-core-0.1.0-SNAPSHOT.jar`, containing the
-immutable temporal types. The [reference model](docs/development/reference-model.md)
-and fixture parser remain test-only. See the [Java/Maven guide](docs/development/build.md)
-for setup, version research, wrapper verification and Linux/Windows CI. There is
-no runnable database yet; concurrency and durability remain future engine checks.
+This runs 71 JUnit test invocations, including all 84 contract expectations against
+both engine and reference, 16 seeded histories with 512 new transactions applied to
+each, and nine lifecycle/concurrency checks. It creates the local experimental
+`target/meridiandb-core-0.1.0-SNAPSHOT.jar`. The
+[reference model](docs/development/reference-model.md) and fixture parser remain
+test-only. See the [Java/Maven guide](docs/development/build.md) for setup, version
+research, wrapper verification and Linux/Windows CI.
+
+Run the memory-only embedding example after verification:
+
+```bash
+java --class-path target/classes examples/EmbeddedExample.java
+```
+
+It prints February salary values of `100` before a correction and `120` after it,
+then confirms an identical retry returns commit `2`. The
+[engine guide](docs/development/embedded-engine.md) explains the experimental API,
+read-view lifetimes and memory limits. Closing or crashing loses the database.
 
 ## Working in this repository
 

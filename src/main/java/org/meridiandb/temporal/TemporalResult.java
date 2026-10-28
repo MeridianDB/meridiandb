@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.OptionalLong;
 
-/** Logical results shared by test support and the future engine; no public syntax is fixed. */
+/** Logical results shared by test support and the embedded engine; no public syntax is fixed. */
 public sealed interface TemporalResult {
     record Point(OptionalLong value) implements TemporalResult {
         public Point {

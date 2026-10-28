@@ -175,11 +175,12 @@ Current Java verification command, using the tracked Maven Wrapper and JDK 25:
 ./mvnw -B verify
 ```
 
-This runs temporal type/boundary checks, all canonical reference histories and
-seeded comparisons against independent dense snapshots. It does not yet exercise
-an actual engine or establish concurrency/durability guarantees. Follow the
-[reference guide](../development/reference-model.md) for coverage and reproduction,
-and the [build guide](../development/build.md)
+This runs temporal type/boundary checks, canonical histories against both reference
+and embedded engine, seeded dense-state comparisons and focused engine
+lifecycle/concurrency checks. It does not establish durability or crash recovery.
+Follow the [reference guide](../development/reference-model.md) and
+[engine guide](../development/embedded-engine.md) for coverage, reproduction and
+example execution, and the [build guide](../development/build.md)
 for the owner's mandatory current-artifact research before each Maven change.
 Later cards must name their relevant unit, integration, crash/recovery or benchmark
 checks. Keep benchmark claims tied to measured semantics, durability and workloads.

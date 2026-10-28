@@ -5,10 +5,11 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 
 # Java and Maven implementation roadmap
 
-This is the technical plan for the first embedded, single-node prototype. All
-engine capabilities below are planned. The [live queue](queue.md) owns current
-order and state; the [workflow](index.md) explains how an agent expands, executes,
-commits and pushes one bounded outcome.
+This is the technical plan for the first embedded, single-node prototype. Temporal
+types, the test reference and the memory-only engine are implemented; durable
+storage and the later outcomes remain planned. The [live queue](queue.md) owns
+current order and state; the [workflow](index.md) explains how an agent expands,
+executes, commits and pushes one bounded outcome.
 
 ## Proposed implementation structure
 
@@ -26,9 +27,10 @@ initial engine independent of a mandatory application server or service framewor
 | Test reference model | A simpler independent interpreter and reusable histories/expected answers |
 | Experiments | Reproducible workloads and evidence for layout/index decisions |
 
-These are responsibilities, not directories already implemented or a frozen public
-API. The first artifact and temporal package now exist under the
-[build foundation](../development/build.md); the remaining areas are planned.
+These responsibilities do not freeze module boundaries or a public API. The
+single artifact contains temporal types and the [memory-only engine](../development/embedded-engine.md),
+with reference support in tests under the [build foundation](../development/build.md).
+Storage and measured experiments remain planned.
 Read the [architecture overview](../architecture/overview.md) and
 [language strategy](../decisions/0001-language-strategy.md) before changing them.
 
@@ -123,6 +125,11 @@ experimental Java API; atomic commit visibility, stable historical/read views,
 serialized writer behavior, retries and lifecycle failures match the contract.
 Compare observed results with the reference fixtures and seeded histories. Include
 one runnable embedding example; state that this implementation is memory-only.
+
+**Produced artifacts:** [engine guide](../development/embedded-engine.md),
+[ADR 0006](../decisions/0006-in-memory-engine.md), `org.meridiandb.engine`, canonical
+and seeded comparisons, lifecycle/concurrency tests and `examples/EmbeddedExample.java`.
+See [progress history](progress.md) for verification and delivery evidence.
 
 ## MDB-0006 Local storage and journal
 

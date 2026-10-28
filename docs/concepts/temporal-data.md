@@ -6,7 +6,8 @@ description: Understand valid time and system time through a retroactive salary 
 
 MeridianDB explores how to preserve both when a fact applies and when the
 database learned it. These examples describe the intended semantics. The engine
-and its query interface have not been implemented.
+has an experimental memory-only Java query interface; persistence and a stable API
+remain planned.
 
 ## Two time dimensions
 
@@ -61,8 +62,8 @@ claim that boundary. Dates here abbreviate midnight UTC. The
 [contract](../architecture/temporal-contract.md) defines microsecond coordinates,
 unbounded endpoints, overlap ordering and query results. It remains a working
 specification, now exercised by a [test-only reference model](../development/reference-model.md)
-and boundary checks. The full engine, storage schema and stable API remain
-unimplemented.
+and boundary checks, alongside the [embedded engine](../development/embedded-engine.md).
+Durable storage, a persistent schema and a stable API remain unimplemented.
 
 ## Events and snapshots answer different questions
 

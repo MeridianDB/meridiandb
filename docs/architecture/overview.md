@@ -4,9 +4,9 @@ description: Explore MeridianDB’s proposed layers, persistence boundaries and 
 
 # Architecture overview
 
-MeridianDB is in architectural research. There is no implemented engine, stable
-API or selected physical format. This page describes the working direction and
-the questions an initial prototype needs to resolve.
+MeridianDB has an experimental memory-only embedded engine. Its API remains
+unstable and no durable physical format is selected. This page describes the
+working direction and the questions the storage prototype still needs to resolve.
 
 ## Start with Java and JVM embedding
 
@@ -16,8 +16,10 @@ maintenance, and it fits the initial assumption of in-process JVM embedding.
 The [Java/Maven foundation](../development/build.md) now uses Java 25, a pinned
 Maven Wrapper and immutable experimental temporal types. The
 [test-only reference model](../development/reference-model.md) executes canonical
-histories and seeded comparisons. The database engine remains planned; the
-documentation site has a separate Python build.
+histories and seeded comparisons alongside a separate
+[embedded engine](../development/embedded-engine.md). That engine stores immutable
+per-commit interval snapshots, serializes writes and publishes complete state
+atomically. The documentation site has a separate Python build.
 
 Other languages remain options for bounded experiments or concrete integration
 needs. They are not promised modules or current dependencies. The
@@ -63,9 +65,10 @@ contract and later queue admission.
 
 1. Use the specified [temporal contract](temporal-contract.md) and fixtures for
    interval boundaries, correction rules, transaction ordering and exact results.
-2. Use the implemented sequential Java reference model, checked against exact
-   histories and independent dense snapshots, to verify the next engine. Keep
-   production algorithms separate from this test oracle.
+2. Check the memory-only engine against the sequential Java reference, exact
+   histories and independent dense snapshots. This is implemented with additional
+   lifecycle and concurrency checks; production uses interval replacement while
+   the oracle searches whole transaction history.
 3. Add one durable implementation with a stated writer model and crash/restart
    tests. Make acknowledgement and recovery behavior observable.
 4. Exercise its persistence contract with local storage and an object-store

@@ -18,14 +18,17 @@ working direction, with a Java 25/Maven build foundation now available.
 ## Project status
 
 MeridianDB is at the project-foundation stage. This website documents the research
-direction; there is no runnable database, published library or stable API yet.
+direction and the memory-only embedded engine. There is no persistent database,
+published library or stable API yet.
 
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.
-The [Java/Maven foundation](development/build.md) builds immutable temporal types.
-A [test-only reference model](development/reference-model.md) passes all 84 canonical
-expectations and independently checked seeded histories. The embedded in-memory
-engine comes next; persistent storage, recovery and layout experiments follow.
+The [Java/Maven build](development/build.md) includes immutable temporal types and
+a [memory-only embedded engine](development/embedded-engine.md) with a runnable
+Java example. Both engine and [test reference](development/reference-model.md)
+pass all 84 canonical expectations and independently checked seeded histories.
+Focused tests cover serialized writing, atomic visibility and read-view lifetimes.
+Local storage and a journal come next; recovery and layout experiments follow.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

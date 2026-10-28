@@ -8,10 +8,10 @@ so a new session can work correctly without relying on earlier conversations.
 - Read `README.md`, the decision records relevant to the task, and any more specific
   `AGENTS.md` before editing. Inspect Git status and preserve unrelated changes.
 - Keep changes scoped to MeridianDB and the requested task.
-- The repository has Java 25/Maven immutable temporal types and a test-only
-  reference model with canonical histories and seeded checks. The database engine
-  is not implemented. Follow the [Java build guide](docs/development/build.md)
-  and use `./mvnw -B verify`.
+- The repository has a Java 25/Maven memory-only embedded engine, immutable
+  temporal types and an independent test reference. Follow the
+  [Java build guide](docs/development/build.md), [engine guide](docs/development/embedded-engine.md)
+  and use `./mvnw -B verify`. Durable storage and recovery remain planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -76,8 +76,11 @@ so a new session can work correctly without relying on earlier conversations.
 - Keep valid time, database system time, event timestamps and physical snapshots
   distinct. Specify how committed transaction order maps to historical queries;
   wall-clock readings alone are not an ordering contract.
-- State writer concurrency, isolation, commit visibility and durability guarantees
-  for each implementation. Make retries and uncertain commit outcomes explicit.
+- Preserve the [embedded engine's](docs/development/embedded-engine.md) serialized
+  writer, immutable view, atomic publication and close semantics. Test engine
+  results against the independent reference and canonical expectations, with
+  lifecycle/concurrency checks for changed behavior. State guarantees per backend;
+  memory-only acknowledgement is not durability. Make uncertain outcomes explicit.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

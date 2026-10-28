@@ -278,6 +278,88 @@ content checks. No library artifact is uploaded or released.
 in-memory engine, independently of the test oracle, with explicit read views,
 transaction publication, lifecycle checks and one runnable embedding example.
 
+## 2026-10-28 MDB-0005 — Embedded in-memory engine
+
+**Outcome:** add `org.meridiandb.engine.InMemoryEngine` and semantic engine failures
+in the existing artifact, with a fresh lineage per instance. The engine implements
+ordered interval replacement/retraction, exact point/scan/aggregate answers,
+committed request identity and every historical cutoff in memory. Writers and
+engine close serialize on one monitor; a single volatile publication exposes
+immutable value/history/request state. Pinned views can be shared by readers and
+have explicit idempotent close behavior. No durable acknowledgement is promised.
+
+**Algorithm and independence:** production splits/replaces/coalesces per-entity
+interval state and reads immutable snapshots. The test oracle continues to search
+whole transaction history backwards and partition boundaries using arbitrary
+precision. A small test-only facade runs the same canonical notation against each;
+it captures named views as positions and reopens their cutoff for queries. Direct
+engine tests separately hold actual view objects across writes and concurrent
+reads. Neither production code nor the packaged artifact uses the test oracle.
+[ADR 0006](../decisions/0006-in-memory-engine.md) records publication and lifecycle
+choices; the [engine guide](../development/embedded-engine.md) owns API behavior,
+example execution and limitations.
+
+**Verification:** `./mvnw -B -ntp verify` passes with 71 JUnit invocations and zero
+failures/errors/skips on macOS arm64, Oracle JDK 25.0.2 and Maven 3.10.0. All five
+canonical histories execute unchanged: 84 exact expected steps per implementation.
+The existing 16 seeds apply 32 new transactions each to both engine and reference,
+checking each against independent forward dense snapshots (512 new transactions
+per implementation), with retries, conflicts and every historical prefix.
+Existing type/boundary/decoding checks remain. No semantic failing seed was found.
+
+Nine focused lifecycle/concurrency tests cover lineages/cutoffs, pinned views,
+independent view close, engine close invalidation, 12 simultaneous identical
+callers, 12 conflicting callers, 16 distinct concurrent callers with contiguous
+commits, 32 cross-entity publication rounds with four readers, and six shared-view
+readers. They use barriers and bounded waits without sleeps. Independent static
+review found no actionable defects; it does not claim exhaustive schedules or
+separate close-race stress coverage.
+
+A fresh source snapshot without Git or generated output passes the same 71 tests
+and runs `java --class-path target/classes examples/EmbeddedExample.java` with
+exact expected output: salary `100` before correction, `120` after, and identical
+retry at commit `2` with replay set. Its JAR is byte-identical to the local artifact
+(SHA-256 `9ab98fabf25ecd007e5ec145c34bd20b8231b037ae0bdf34a1806b66d10e35da`),
+containing 30 Java 25 temporal/engine classes and metadata. Test support, seeds,
+fixtures, JUnit, Jackson and the source-launch example are not bundled. Java CI
+now runs the example on both Linux and Windows and includes example-source changes
+in its trigger paths. Runtime dependencies remain zero.
+
+**Research and prerequisite delivery:** MDB-0004 completion `2f5f57d` was verified
+on remote `main`, with successful Java Linux/Windows, documentation checks and
+[Pages publication](https://github.com/MeridianDB/meridiandb/actions/runs/40755104739)
+before selection. Fresh October 28 Central metadata research checked all twelve
+existing artifact coordinates; official Maven/JUnit/Jackson documentation confirms
+the retained stable choices and compatibility. All ten POM pins still match the
+researched stable releases; POM, canonical fixture answers and persisted seed corpus
+are unchanged. The [build guide](../development/build.md) records the refreshed
+check; no new dependency or execution plugin is needed.
+
+**Documentation and planning:** strict Zensical builds and generated canonical,
+sitemap, link, fragment, asset and metadata checks pass for both hosting paths
+with 20 content pages. Local HTTP preview covers the engine guide/ADR, current
+status, build instructions, roadmap and navigation/search. README, agent rules,
+architecture, contributing, reference guidance and active status callers are
+reconciled; earlier dated decisions/receipts retain historical scope. Queue IDs and
+dependencies, working-tree/staged scope and whitespace are checked before commit.
+Scratch verification stays in ignored `.local-qa/mdb-0005/`.
+
+**Scope and limits:** this is one cohesive engine/conformance/example outcome;
+no split or new IDs were needed. Every cutoff and request identity is retained,
+with map copying and changed interval lists on commits. Memory and write cost grow
+with history. Closing loses the database; already captured operations may finish
+during a concurrent close. Persistence, recovery, retention, multi-process writer
+coordination, indexes and measured performance remain future outcomes.
+
+**Delivery evidence:** the completion commit carries `Step-ID: MDB-0005` and
+`Step-Result: completed`; Git supplies its SHA and remote ancestry. The final
+handoff reports actual push, Java/example/docs CI, automatic Pages publication and
+live content checks. No Java library is uploaded or released.
+
+**Next recommendation at this checkpoint:** MDB-0006 — define local storage
+capabilities and the versioned commit journal, with exact record, checksum,
+publication and incomplete/corrupt-tail behavior before durable engine integration.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

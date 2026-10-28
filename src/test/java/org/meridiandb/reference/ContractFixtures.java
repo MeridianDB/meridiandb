@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
+import org.meridiandb.engine.EngineException;
+import org.meridiandb.engine.InMemoryEngine;
 import org.meridiandb.temporal.CommitPosition;
+import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.EntityId;
 import org.meridiandb.temporal.ReadCutoff;
@@ -34,8 +38,51 @@ final class ContractFixtures {
         }
     }
 
-    static Object step(ReferenceModel model, DatabaseId database,
-                                    JsonNode step, Map<String, CommitPosition> views) {
+    interface Database {
+        CommitResult transact(Transaction request);
+        CommitPosition openView(ReadCutoff cutoff);
+        TemporalResult query(CommitPosition view, TemporalQuery query);
+        Optional<CommitPosition> lookupRequest(RequestId requestId);
+    }
+
+    static Database reference(ReferenceModel model) {
+        return new Database() {
+            public CommitResult transact(Transaction request) { return model.transact(request); }
+            public CommitPosition openView(ReadCutoff cutoff) { return model.openView(cutoff); }
+            public TemporalResult query(CommitPosition view, TemporalQuery query) { return model.query(view, query); }
+            public Optional<CommitPosition> lookupRequest(RequestId id) { return model.lookupRequest(id); }
+        };
+    }
+
+    static Database engine(InMemoryEngine engine) {
+        return new Database() {
+            public CommitResult transact(Transaction request) {
+                return semantic(() -> engine.transact(request));
+            }
+            public CommitPosition openView(ReadCutoff cutoff) {
+                return semantic(() -> {
+                    try (var view = engine.openView(cutoff)) { return view.position(); }
+                });
+            }
+            public TemporalResult query(CommitPosition position, TemporalQuery query) {
+                return semantic(() -> {
+                    try (var view = engine.openView(new ReadCutoff.At(position))) { return view.query(query); }
+                });
+            }
+            public Optional<CommitPosition> lookupRequest(RequestId id) { return engine.lookupRequest(id); }
+        };
+    }
+
+    private static <T> T semantic(Supplier<T> action) {
+        try {
+            return action.get();
+        } catch (EngineException rejected) {
+            throw new ReferenceModel.Rejected(rejected.code().name());
+        }
+    }
+
+    static Object step(Database model, DatabaseId database,
+                       JsonNode step, Map<String, CommitPosition> views) {
         return switch (text(step, "kind")) {
             case "transact" -> {
                 var result = model.transact(transaction(step));

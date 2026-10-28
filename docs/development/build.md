@@ -9,9 +9,9 @@ The repository contains one experimental Java artifact,
 `org.meridiandb:meridiandb-core:0.1.0-SNAPSHOT`. It contains immutable experimental
 command, query, interval, result and commit-position types in
 `org.meridiandb.temporal`. A [test-only reference model](reference-model.md) executes
-the canonical contract histories and seeded checks. There is no database engine
-or published library yet; the embedded engine follows in
-[MDB-0005](../planning/roadmap.md#mdb-0005-embedded-in-memory-engine).
+the canonical contract histories and seeded checks alongside the
+[embedded in-memory engine](embedded-engine.md) in `org.meridiandb.engine`.
+The engine is experimental and memory-only; no library is published.
 
 ## Build and verify
 
@@ -41,8 +41,8 @@ shell, `unzip` and either `sha256sum` or `shasum`; it can download through `curl
 Verification compiles production/test code, runs JUnit Jupiter and produces the
 local `target/meridiandb-core-0.1.0-SNAPSHOT.jar`. Reports are under
 `target/surefire-reports/`. `target/` is ignored. The artifact has no external
-runtime dependencies; JUnit and Jackson are test-only. The command does not install a library
-into a remote repository or publish a release.
+runtime dependencies; JUnit and Jackson are test-only. The command does not
+install a library into a remote repository or publish a release.
 
 To remove stale output before verifying:
 
@@ -56,13 +56,22 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 57 test invocations include 18 interval boundary checks, eight type
-validation checks, ten reference/fixture-decoding checks, five canonical histories
-with 84 exact expectations, and 16 seeded histories with 32 new commits each.
-The [reference guide](reference-model.md) explains their independent expectations,
-reproduction commands and limits. These checks establish sequential reference
-behavior; concurrent-reader, engine lifecycle and durability checks belong to the
-actual engine steps.
+The current 71 test invocations include 18 interval boundary checks, eight type
+checks, ten reference/decoding checks, five canonical histories per implementation,
+16 seeded histories comparing both implementations with dense snapshots, and nine
+engine lifecycle/concurrency checks. Each implementation executes 84 exact fixture
+expectations and 512 seeded new transactions. The [reference guide](reference-model.md)
+and [engine guide](embedded-engine.md) explain coverage and limits. Durable storage
+and crash recovery remain unimplemented.
+
+Run the embedding example after verification, on either platform:
+
+```bash
+java --class-path target/classes examples/EmbeddedExample.java
+```
+
+This uses JDK source-file launch mode with the compiled project classes. There is
+no extra execution plugin or example dependency.
 
 ## Project conventions
 
@@ -126,7 +135,9 @@ all existing pins on the same date and added Jackson 3.2.4 for test fixture deco
 The [Jackson project](https://github.com/FasterXML/jackson-databind) documents the
 3.x `tools.jackson` packages; its Java 17 baseline fits Java 25. Jackson's tree
 model lets the fixture adapter reject non-integral or out-of-range values before
-constructing a transaction.
+constructing a transaction. MDB-0005 independently refreshed all twelve metadata
+sources on October 28 and rechecked official Maven/JUnit/Jackson compatibility;
+all selected stable versions remain unchanged. It adds no dependency or POM change.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |
@@ -185,7 +196,8 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow.
+artifact is uploaded or released by this workflow. Both platforms also run the
+embedding example; changes under `examples/` trigger these checks.
 
 Documentation checks and automatic Pages publication retain their own workflows.
 For website setup and verification, follow the

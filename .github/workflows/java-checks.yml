@@ -10,6 +10,7 @@ on:
       - '.java-version'
       - '.gitattributes'
       - 'src/**'
+      - 'examples/**'
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - '.github/workflows/java-checks.yml'
@@ -23,6 +24,7 @@ on:
       - '.java-version'
       - '.gitattributes'
       - 'src/**'
+      - 'examples/**'
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - '.github/workflows/java-checks.yml'
@@ -61,3 +63,5 @@ jobs:
           cache-dependency-path: pom.xml
       - name: Verify with the pinned Maven Wrapper
         run: ${{ matrix.command }}
+      - name: Run the embedded Java example
+        run: java --class-path target/classes examples/EmbeddedExample.java

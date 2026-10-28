@@ -6,10 +6,11 @@ description: MeridianDB's initial bitemporal specification defines interval repl
 # Initial temporal contract
 
 **Status:** working specification v0, adopted for the initial prototype on
-October 28, 2026. No Java engine implements it yet. The
+October 28, 2026. The [memory-only Java engine](../development/embedded-engine.md)
+implements its logical operations with focused visibility/lifecycle checks. The
 [decision record](../decisions/0003-initial-temporal-semantics.md) explains the
 choices and alternatives. The [JSON histories](fixtures/temporal-contract-v0.json)
-provide 84 exact expectations now executed by the
+provide 84 exact expectations executed by both the embedded engine and
 [test-only Java reference model](../development/reference-model.md). Their notation
 is a test format, not a public API, query language or persistence format.
 
@@ -239,7 +240,9 @@ The [Java/Maven foundation](../development/build.md) now includes immutable temp
 types and the [test-only reference model](../development/reference-model.md).
 MDB-0004 executes all five histories and 84 expectations, with boundary/validation
 checks and 16 seeded histories compared against independent dense snapshots.
-Preserve failing seeds. MDB-0005 will check an actual in-memory engine against
-these expectations. Concurrent visibility and durable crash guarantees
-also need implementation tests in their respective steps; sequential fixture
-replay alone cannot establish them.
+MDB-0005 checks the actual in-memory engine against the same expectations and
+seeds, with additional pinned-view, serialized-writer, cross-entity atomic
+publication and lifecycle checks. Preserve failing seeds. Sequential fixture
+replay alone cannot establish concurrency guarantees; the focused tests supply
+bounded evidence for the memory implementation. Durable crash guarantees still
+require implementation tests in the journal/recovery steps.

@@ -4,10 +4,10 @@ description: Contribute to MeridianDB’s temporal semantics, reference model an
 
 # Contributing
 
-MeridianDB is an early documentation and research project. The storage engine is
-not implemented. The Java/Maven foundation builds immutable temporal types and
-a test-only reference model; there is no published engine artifact or stable API
-to integrate with.
+MeridianDB is an early implementation and research project. Its Java/Maven build
+contains an experimental memory-only embedded engine, immutable temporal types
+and a separate test reference. There is no durable storage, published engine
+artifact or stable API yet.
 Contributions are most useful when they turn an open design question into a small,
 reviewable result with explicit evidence.
 
@@ -57,7 +57,9 @@ Windows uses `.\mvnw.cmd -B verify`. Follow the [Java/Maven guide](../developmen
 for bootstrap tools, current artifact research, exact version pins and test scope.
 Research latest artifact versions for every Maven change under that procedure.
 The [reference guide](../development/reference-model.md) describes fixture replay,
-seeded histories and focused reproduction commands.
+seeded histories and focused reproduction commands. Follow the
+[engine guide](../development/embedded-engine.md) to run the Java example and
+understand close semantics, concurrency checks and memory-only limits.
 
 ## Run the documentation locally
 

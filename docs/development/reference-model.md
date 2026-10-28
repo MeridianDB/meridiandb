@@ -7,8 +7,9 @@ description: Run MeridianDB's sequential Java reference model against exact temp
 
 MDB-0004 implements immutable temporal types and a sequential reference interpreter
 for the [initial temporal contract](../architecture/temporal-contract.md). It is a
-test oracle for the next engine. It has no engine lifecycle, reader concurrency,
-persistence or recovery implementation. All Java names remain experimental.
+test oracle for the separate [embedded engine](embedded-engine.md). The oracle
+itself has no engine lifecycle, reader concurrency, persistence or recovery
+implementation. All Java names remain experimental.
 
 ## Types and source layout
 
@@ -42,7 +43,7 @@ conflicting reuse is rejected. Request lookup reads current commit metadata rath
 than a historical data view. This interpreter is sequential and keeps its whole
 history in memory; it is neither thread-safe nor intended for large workloads.
 
-The production JAR contains the immutable types. The oracle, fixtures, seeds,
+The production JAR contains the immutable types and memory-only engine. The oracle, fixtures, seeds,
 JUnit and Jackson remain test-only. [ADR 0005](../decisions/0005-reference-model.md)
 records the separation and algorithm choices.
 
@@ -54,6 +55,10 @@ Maven exposes it under `contracts/` on the test classpath, so there is no mainta
 copy. `ReferenceFixtureTest` executes five independent histories with **84 exact
 step expectations** covering corrections, retractions, overlap ordering, retry
 identity, pinned views, invalid inputs, empty state and coordinate extremes.
+`EngineFixtureTest` runs those same 84 expectations through the actual engine.
+The fixture adapter represents named views as captured positions and reopens that
+cutoff for each query; direct engine tests separately retain actual `ReadView`
+objects across commits and concurrent reads.
 
 `ContractFixtures` is a test adapter. It decodes integral JSON values exactly,
 rejects decimals, booleans, missing endpoints and out-of-range numbers, and validates
@@ -64,14 +69,15 @@ belong to the fixture notation rather than a public Java exception/API contract.
 Run only the canonical histories from the repository root:
 
 ```bash
-./mvnw -B -Dtest=ReferenceFixtureTest test
+./mvnw -B -Dtest=ReferenceFixtureTest,EngineFixtureTest test
 ```
 
 ## Independent seeded histories
 
 `ReferencePropertiesTest` uses **16 persisted seeds**, each producing 32 new
 transactions with one to three ordered puts/retractions across three entities.
-It independently builds dense forward snapshots for integer instants in `[-8, 9)`.
+It applies each history to both engine and reference, checking each against
+independently built dense forward snapshots for integer instants in `[-8, 9)`.
 This representation assigns cells directly; it does not search transaction history,
 partition arbitrary-precision boundaries or use the interval membership helper.
 
@@ -84,7 +90,7 @@ time coordinates and canonical unbounded scans. The bounded generated grid is
 useful evidence, not exhaustive coverage of every possible history.
 
 The default suite reads `src/test/resources/reference-seeds.txt` and creates
-**512 new commits**, in addition to retries and conflicts. Reproduce one seed:
+**512 new transactions per implementation**, in addition to retries and conflicts. Reproduce one seed:
 
 ```bash
 ./mvnw -B -Dtest=ReferencePropertiesTest -Dmeridiandb.seed=42 test
@@ -95,9 +101,9 @@ failure is found, preserve its seed and a minimized input with independently
 reasoned expected answers before fixing the defect. Add a regression to the
 appropriate fixture or focused test, then rerun it and the affected suite. Keep
 seeds that expose distinct behavior; do not adjust expected answers solely to
-match the implementation. No failing semantic seed has been found in this step.
+match the implementation. No failing semantic seed has been found in the current corpus.
 
-## Verification and the next engine
+## Verification and engine checks
 
 The standard [Java verification](build.md) command is:
 
@@ -105,14 +111,13 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **57 JUnit test invocations**: 18 interval boundary
-checks, eight type checks, ten reference/decoding checks, five history tests and
-16 seed tests. History steps and generated transactions are assertions inside
-those tests, not additional JUnit invocations.
+The current default suite has **71 JUnit test invocations**: 18 interval boundary
+checks, eight type checks, ten reference/decoding checks, five history tests per
+implementation, 16 shared seed tests and nine engine lifecycle/concurrency tests.
+History steps and generated transactions are assertions inside those tests, not
+additional JUnit invocations.
 
-[MDB-0005](../planning/roadmap.md#mdb-0005-embedded-in-memory-engine) will add a
-separate embedded in-memory engine, compare its observable results with these
-expectations, and test atomic publication, serialized writing and lifecycle
-behavior. Keep the oracle in test support; do not use it as the engine. Recovery,
-durability, compaction and performance require their own later implementations
-and evidence.
+The [engine guide](embedded-engine.md) explains the memory-only implementation,
+atomic publication, serialized writing and lifecycle tests. Keep the oracle in
+test support; do not use it as the engine. Recovery, durability, compaction and
+performance require their own later implementations and evidence.

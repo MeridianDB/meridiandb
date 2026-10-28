@@ -41,7 +41,7 @@ class ReferenceFixtureTest {
                 for (var step : steps) {
                     Object actual;
                     try {
-                        actual = ContractFixtures.step(model, database, step, views);
+                        actual = ContractFixtures.step(ContractFixtures.reference(model), database, step, views);
                     } catch (ReferenceModel.Rejected rejected) {
                         actual = ContractFixtures.fields("error", rejected.code());
                     }
