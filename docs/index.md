@@ -18,8 +18,8 @@ working direction, with a Java 25/Maven build foundation now available.
 ## Project status
 
 MeridianDB is at the project-foundation stage. This website documents the research
-direction, the memory-only embedded engine and read-only recovery from local
-history. Durable engine writes, a published library and a stable API remain planned.
+direction, the memory-only engine and the local database's recovery and forced-write
+protocol. Process crash conformance, a published library and a stable API remain planned.
 
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.
@@ -42,7 +42,9 @@ referenced history against an exact reconstructed journal prefix. The
 owned journal prefix, publishes immutable generations and reopens complete history
 under explicit filesystem requirements. [Local database recovery](development/local-database.md)
 restores historical queries and request lookup from that checkpoint plus the journal
-tail. Durable engine writes, crash conformance and layout experiments remain planned.
+tail. Writable mode forces each new journal record before publishing the complete
+query state and acknowledging success. Crash conformance and layout experiments
+remain planned.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

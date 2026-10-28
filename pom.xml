@@ -8,7 +8,7 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>MeridianDB Core</name>
-  <description>Experimental temporal engine, immutable checkpoints and local temporal read recovery.</description>
+  <description>Experimental temporal engine, immutable checkpoints and forced local commit publication.</description>
   <url>https://meridiandb.org/</url>
   <licenses>
     <license>

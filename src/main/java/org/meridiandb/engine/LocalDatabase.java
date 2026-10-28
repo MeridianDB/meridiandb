@@ -9,21 +9,24 @@ import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.function.Consumer;
 import org.meridiandb.storage.journal.JournalRecord;
+import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.manifest.LocalCheckpointReader;
 import org.meridiandb.storage.manifest.LocalCheckpointStore;
 import org.meridiandb.temporal.CommitPosition;
+import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.ReadCutoff;
 import org.meridiandb.temporal.RequestId;
 import org.meridiandb.temporal.TemporalQuery;
 import org.meridiandb.temporal.TemporalResult;
+import org.meridiandb.temporal.Transaction;
 
 /**
- * Experimental read-only recovery of an existing local database. The complete checkpoint and
- * journal are verified before exposing any view. Owns both storage locks until close; no append,
- * journal/segment force, repair, checkpoint publication or engine write acknowledgement occurs here.
- * Store acquisition retains its directory-force capability probe.
+ * Experimental local temporal database with explicit read-only and writable open modes.
+ * Recovery verifies complete history before exposure. Writable startup synchronizes journal/name;
+ * new writes prepare privately, append/force and then publish one complete immutable state.
+ * Failed append attempts have uncertain outcomes and require close/reopen; no automatic repair.
  */
 public final class LocalDatabase implements AutoCloseable {
     // The production source has already verified checkpoint/journal binding. This narrow owned-source
@@ -37,19 +40,74 @@ public final class LocalDatabase implements AutoCloseable {
         @Override void close() throws IOException;
     }
 
+    interface WriteSource extends RecoverySource {
+        void synchronize() throws IOException;
+        void append(JournalRecord record) throws IOException;
+        void force() throws IOException;
+    }
+
+    /** A write was attempted; its presence must be established by closing and reopening storage. */
+    public static final class UncertainCommitException extends IOException {
+        private static final long serialVersionUID = 1L;
+        private final String requestIdentity;
+        private final String databaseIdentity;
+        private final long proposedSequence;
+        UncertainCommitException(RequestId requestId, CommitPosition proposedPosition, Throwable cause) {
+            super("Commit outcome is uncertain; close and reopen before resolving request " + requestId.value(), cause);
+            this.requestIdentity = requestId.value();
+            this.databaseIdentity = proposedPosition.databaseId().value();
+            this.proposedSequence = proposedPosition.sequence();
+        }
+        public RequestId requestId() { return new RequestId(requestIdentity); }
+        public CommitPosition proposedPosition() {
+            return new CommitPosition(new DatabaseId(databaseIdentity), proposedSequence);
+        }
+    }
+
     private final RecoverySource source;
+    private final WriteSource writer;
     private final Optional<CommitPosition> checkpoint;
     private volatile InMemoryEngine state;
     private boolean resourcesClosed;
+    private boolean operating;
+    private volatile boolean failed;
 
-    private LocalDatabase(RecoverySource source, InMemoryEngine state, Optional<CommitPosition> checkpoint) {
+    private LocalDatabase(RecoverySource source, WriteSource writer, InMemoryEngine state, Optional<CommitPosition> checkpoint) {
         this.source = source;
+        this.writer = writer;
         this.state = state;
         this.checkpoint = checkpoint;
     }
 
     /** Open an existing journal without automatic tail repair; all owners are released on failure. */
     public static LocalDatabase open(Path directory) throws IOException {
+        return open(directory, false);
+    }
+
+    /** Recover and synchronize all complete history before enabling new or retry acknowledgements. */
+    public static LocalDatabase openWritable(Path directory) throws IOException {
+        return open(directory, true);
+    }
+
+    /** Initialize an existing fresh durably named directory; failures retain storage for inspection. */
+    public static LocalDatabase create(Path directory, DatabaseId databaseId) throws IOException {
+        JournalCodec.encodeHeader(databaseId); // Reject invalid/oversize lineage before any store mutation.
+        var store = LocalCheckpointStore.open(directory);
+        LocalJournal journal = null;
+        LocalCheckpointReader reader = null;
+        try {
+            journal = store.initialize(databaseId);
+            reader = store.readLatest(journal).orElseThrow();
+        } catch (IOException | RuntimeException | Error failure) {
+            closeAfterFailure(reader, failure);
+            closeAfterFailure(journal, failure);
+            closeAfterFailure(store, failure);
+            throw failure;
+        }
+        return recoverWritable(new LocalSource(store, journal, reader));
+    }
+
+    private static LocalDatabase open(Path directory, boolean writable) throws IOException {
         var store = LocalCheckpointStore.open(directory);
         LocalJournal journal = null;
         LocalCheckpointReader reader = null;
@@ -62,11 +120,20 @@ public final class LocalDatabase implements AutoCloseable {
             closeAfterFailure(store, failure);
             throw failure;
         }
-        return recover(new LocalSource(store, journal, reader));
+        var source = new LocalSource(store, journal, reader);
+        return writable ? recoverWritable(source) : recover(source);
     }
 
     /** Takes ownership even on failure; never exposes an engine under construction. */
     static LocalDatabase recover(RecoverySource source) throws IOException {
+        return rebuild(source, null);
+    }
+
+    static LocalDatabase recoverWritable(WriteSource source) throws IOException {
+        return rebuild(source, source);
+    }
+
+    private static LocalDatabase rebuild(RecoverySource source, WriteSource writer) throws IOException {
         Objects.requireNonNull(source, "source");
         InMemoryEngine engine = null;
         try {
@@ -96,7 +163,8 @@ public final class LocalDatabase implements AutoCloseable {
             }
             var checkpoint = selected.isPresent() ? Optional.of(new CommitPosition(databaseId, cutoff))
                     : Optional.<CommitPosition>empty();
-            return new LocalDatabase(source, engine, checkpoint);
+            if (writer != null) { writer.synchronize(); }
+            return new LocalDatabase(source, writer, engine, checkpoint);
         } catch (IOException | RuntimeException | Error failure) {
             if (engine != null) { engine.close(); }
             var primary = failure instanceof UncheckedIOException wrapped ? wrapped.getCause() : failure;
@@ -115,8 +183,41 @@ public final class LocalDatabase implements AutoCloseable {
 
     public ReadView openView(ReadCutoff cutoff) { return new ReadView(capture().openView(cutoff)); }
 
+    /** Success follows owner-journal force and atomic publication; exact retries allocate no new commit. */
+    public synchronized CommitResult transact(Transaction request) throws IOException {
+        var engine = capture();
+        if (writer == null) { throw new IllegalStateException("Local database was opened read-only"); }
+        if (operating) { throw new IllegalStateException("Reentrant local transaction"); }
+        var prepared = engine.prepare(request);
+        var result = prepared.result();
+        if (result.replayed()) { return result; }
+        var record = new JournalRecord(result.position().sequence(), request);
+        JournalCodec.encodeRecord(record); // Bounds/encoding preflight before an append attempt.
+        operating = true;
+        try {
+            writer.append(record); // May take effect and then throw; any failure from here is uncertain.
+            writer.force();
+            return engine.publish(prepared); // Valid path allocates no state or result after force.
+        } catch (IOException | RuntimeException failure) {
+            poison(engine);
+            throw new UncertainCommitException(request.requestId(), result.position(), failure);
+        } catch (Error failure) {
+            poison(engine);
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    private void poison(InMemoryEngine engine) {
+        failed = true;
+        state = null;
+        engine.close();
+    }
+
     /** Invalidates views before releasing locks. Failed resource cleanup can be retried. */
     @Override public synchronized void close() throws IOException {
+        if (operating) { throw new IOException("Cannot close a database inside a write callback"); }
         var engine = state;
         state = null;
         if (engine != null) { engine.close(); }
@@ -128,7 +229,8 @@ public final class LocalDatabase implements AutoCloseable {
 
     private InMemoryEngine capture() {
         var engine = state;
-        if (engine == null) { throw new IllegalStateException("Local database is closed"); }
+        if (engine == null) { throw new IllegalStateException(failed
+                ? "Local database failed; close and reopen to resolve the outcome" : "Local database is closed"); }
         return engine;
     }
 
@@ -149,7 +251,7 @@ public final class LocalDatabase implements AutoCloseable {
         }
     }
 
-    private static final class LocalSource implements RecoverySource {
+    private static final class LocalSource implements WriteSource {
         private final LocalCheckpointStore store;
         private final LocalJournal journal;
         private final LocalCheckpointReader reader;
@@ -163,6 +265,9 @@ public final class LocalDatabase implements AutoCloseable {
             return reader == null ? OptionalLong.empty() : OptionalLong.of(reader.manifest().journalPrefix().sequence());
         }
         @Override public long journalSequence() { return journal.appendedSequence(); }
+        @Override public void synchronize() throws IOException { store.synchronizeJournal(journal); }
+        @Override public void append(JournalRecord record) throws IOException { journal.append(record); }
+        @Override public void force() throws IOException { journal.force(); }
         @Override public void replayCheckpoint(Consumer<? super JournalRecord> consumer) throws IOException {
             if (reader != null) {
                 for (int index = 0; index < reader.manifest().segments().size(); index++) {

@@ -10,9 +10,9 @@ segments in one local directory. It compares their complete history with the
 actual bytes read through the owning `LocalJournal`, then orders file forces,
 atomic rename and directory forces before returning success. This is an
 experimental local storage primitive. The separate [local recovery API](local-database.md)
-reconstructs read-only temporal queries from checkpoint plus journal tail. The
-`InMemoryEngine` write API remains memory-only; checkpoint publication is not an
-engine commit acknowledgement.
+reconstructs temporal queries from checkpoint plus journal tail. Its explicit
+writable mode adds a separate forced commit protocol; checkpoint publication
+alone is not an engine commit acknowledgement.
 
 [ADR 0012](../decisions/0012-local-checkpoint-publication.md) explains the protocol
 and primary evidence. The [manifest specification](../architecture/checkpoint-manifest-format.md)
@@ -67,6 +67,23 @@ These prototype limits bound discovery, alongside the existing manifest and
 segment limits. Publication reserves room before forcing dependencies or creating
 a candidate. Reaching a limit requires a separately designed retention or
 migration procedure; deleting old files by inspection is not a supported remedy.
+
+## Initialize and synchronize a journal
+
+`initialize(databaseId)` creates an owned `transactions.journal` and publishes
+selected genesis generation one at cutoff zero. The existing directory may contain
+only this store's lock file. Invalid lineage metadata is rejected before journal
+creation; storage failures retain candidates, close the new journal owner and
+require reopening the store. The returned journal is owned by the caller and
+must be closed separately.
+
+`synchronizeJournal(journal)` validates that owner's canonical path, forces it
+through its existing channel, then forces the directory. It establishes the file
+and name boundary used before enabling writable database acknowledgements; failure
+poisons the store. It does not select a new manifest or replace complete graph
+verification. The [local database](local-database.md) recovers and verifies history
+before invoking this startup barrier. Use its `create` and `openWritable` APIs for
+engine writes rather than treating a primitive force as an engine acknowledgement.
 
 ## Publication order
 

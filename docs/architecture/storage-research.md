@@ -38,14 +38,14 @@ answers a temporal database is permitted to discard.
 | Logical commit position | Total order of complete transactions within one lineage | Implemented by the memory engine; encoded by the journal codec |
 | Complete appended prefix | Bytes contain complete, validated transaction frames | Implemented by codec and local sequential writer |
 | Forced journal prefix | Local storage has completed the declared force protocol | Explicit local file force; namespace durability remains separate |
-| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory and recovered local reads; durable write acknowledgement is planned |
-| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Local generation publication and read recovery implemented with explicit filesystem requirements; durable write integration planned |
+| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory and local recovery; writable mode forces before atomic query publication, with crash conformance pending |
+| Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Local generation publication and read recovery implemented with explicit filesystem requirements; the database excludes concurrent checkpoint owners |
 
-For the initial durable engine, the intended order is: prepare and validate a
-transaction, append its frame, complete the force boundary, publish its immutable
-read state, then acknowledge. A lost acknowledgement can leave a recoverable
-complete transaction; retry identity must resolve it without a second effect.
-This protocol remains future work, with crash tests required before claiming it.
+The local write protocol prepares and validates a transaction, appends its frame,
+completes the force boundary, publishes immutable read state, then acknowledges.
+A lost acknowledgement can leave a recoverable complete transaction; retry
+identity resolves it without a second effect. This protocol is implemented with
+focused fault/concurrency checks; process crash conformance remains required.
 
 If later indexing becomes asynchronous, expose its position and an explicit
 wait-for-cutoff mechanism. An ingestion acknowledgement must not silently change
@@ -91,8 +91,10 @@ refreshes JDK and Lucene filesystem evidence and explains generation selection,
 capability gating and uncertain publication. The [local recovery reader](../development/local-database.md)
 now rebuilds complete temporal state from that checkpoint and the journal suffix.
 [ADR 0013](../decisions/0013-local-database-recovery.md) applies refreshed XTDB log/storage
-alignment and JDK ownership evidence. Engine write acknowledgement and crash
-conformance remain separate integration work.
+alignment and JDK ownership evidence. [ADR 0014](../decisions/0014-durable-commit-publication.md)
+adds forced write acknowledgement, startup synchronization and conservative
+uncertainty after append attempts, informed by refreshed JDK, Elasticsearch and
+RocksDB synchronization evidence. Process crash conformance remains separate work.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

@@ -72,6 +72,7 @@ nav:
       - Manifest decision: decisions/0011-checkpoint-manifest-format.md
       - Local checkpoint decision: decisions/0012-local-checkpoint-publication.md
       - Local recovery decision: decisions/0013-local-database-recovery.md
+      - Durable commit decision: decisions/0014-durable-commit-publication.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -81,5 +82,5 @@ nav:
       - Local journal: development/local-journal.md
       - Local immutable segments: development/local-segments.md
       - Local checkpoints: development/local-checkpoints.md
-      - Local database recovery: development/local-database.md
+      - Local database: development/local-database.md
       - Documentation and publishing: contributing/documentation.md

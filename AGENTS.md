@@ -22,7 +22,8 @@ so a new session can work correctly without relying on earlier conversations.
   actual owned-journal prefix and publishes immutable generations under explicit
   filesystem capabilities. The [local recovery API](docs/development/local-database.md)
   restores read-only temporal state and request lookup from complete checkpoint
-  history plus the journal suffix. Durable engine writes remain planned.
+  history plus the journal suffix. Explicit create/writable modes now force before
+  atomic commit publication; process crash/retry conformance remains planned.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -155,8 +156,22 @@ so a new session can work correctly without relying on earlier conversations.
   failure with cleanup errors suppressed. Keep directory-probe/write-permission
   requirements explicit despite logical read-only access. Recovered bytes do not
   prove earlier force/acknowledgement. Test unchanged canonical expectations through
-  journal-only, genesis and checkpoint-plus-tail reopen; retain separate write/crash
+  journal-only, genesis and checkpoint-plus-tail reopen; retain separate crash
   conformance work and document full-history replay/heap costs.
+- Follow [forced local commit publication](docs/decisions/0014-durable-commit-publication.md):
+  create only in a fresh durably named directory, select genesis through the
+  checkpoint protocol, and synchronize the owner journal plus namespace before
+  exposing a writable recovered instance. Prepare complete immutable state/result
+  and preflight encoding before append. Serialize append/force/publication with
+  close; publish only the prepared state and return its existing result after
+  force. Exact retries may skip I/O only after startup or prior acknowledged force.
+  Treat post-append-attempt I/O/runtime failure as uncertain, poison the instance
+  and views, retain locks/evidence until close and resolve by reopen. Errors also
+  poison before propagation. Keep read-only open and writer/checkpoint exclusion
+  explicit; no failure or close authorizes automatic repair/reclamation. Test
+  startup barriers, preparation invisibility, before/after-effect failures,
+  pinned views and concurrent writers/readers, preserving required process crash
+  conformance and actual provider/device force assumptions.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

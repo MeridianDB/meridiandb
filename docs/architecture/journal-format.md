@@ -157,5 +157,6 @@ concurrency checks. Codec tests establish representation and byte-prefix behavio
 The [local journal suite](../development/local-journal.md) additionally checks
 short/failed I/O, force cutoffs, writer exclusion, replay and explicit tail repair.
 [Local database recovery](../development/local-database.md) now verifies and
-replays existing history for temporal reads. Durable engine writes, crash
-conformance and journal retention still need their own integration evidence.
+replays existing history for temporal reads. Its explicit writable protocol now
+forces each new record before atomic query publication. Process crash conformance
+and journal retention still need their own integration evidence.

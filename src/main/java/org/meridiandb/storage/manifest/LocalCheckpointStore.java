@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.meridiandb.storage.journal.LocalJournal;
+import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.segment.ImmutableSegment;
 import org.meridiandb.storage.segment.SegmentCodec;
 import org.meridiandb.storage.segment.SegmentId;
@@ -108,6 +109,55 @@ public final class LocalCheckpointStore implements AutoCloseable {
     public synchronized Path journalPath() throws IOException {
         usable();
         return namespace.directory().resolve(JOURNAL);
+    }
+
+    /**
+     * Initialize a fresh store with an owned journal and selected genesis generation one.
+     * Only this store's ownership file may already exist. Failure retains all candidate evidence.
+     * The returned journal is owned by the caller and must be closed separately.
+     */
+    public synchronized LocalJournal initialize(DatabaseId databaseId) throws IOException {
+        usable();
+        JournalCodec.encodeHeader(databaseId); // Invalid lineage must not create a journal candidate.
+        LocalJournal journal = null;
+        operating = true;
+        try {
+            if (namespace.entries().stream().anyMatch(name -> !name.equals(LOCK))) {
+                throw new IOException("Database initialization requires a fresh directory");
+            }
+            journal = LocalJournal.create(namespace.directory().resolve(JOURNAL), databaseId);
+            var prefix = journal.prefix(0);
+            var genesis = new CheckpointManifest(databaseId, 1,
+                    new CheckpointManifest.JournalPrefix(0, prefix.byteLength(), prefix.sha256()), List.of());
+            operating = false; // publish owns the guarded I/O phase; the store monitor remains held.
+            publish(genesis, journal);
+            return journal;
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            if (journal != null) {
+                try { journal.close(); }
+                catch (IOException | RuntimeException | Error closeFailure) { failure.addSuppressed(closeFailure); }
+            }
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    /** Establish a recovered owner's file and name before enabling durable write acknowledgements. */
+    public synchronized void synchronizeJournal(LocalJournal journal) throws IOException {
+        usable();
+        var owned = access(journal);
+        operating = true;
+        try {
+            owned.force();
+            namespace.forceDirectory();
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
     }
 
     /** Create a new content-addressed segment; an existing candidate is never replaced or repaired. */

@@ -91,3 +91,5 @@ jobs:
         run: java --class-path target/classes examples/LocalCheckpointExample.java
       - name: Run the local database recovery example
         run: java --class-path target/classes examples/LocalRecoveryExample.java
+      - name: Run the writable local database example
+        run: java --class-path target/classes examples/LocalDatabaseExample.java

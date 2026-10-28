@@ -15,9 +15,9 @@ Decoding verifies manifest bytes and declarations. `CheckpointVerifier` separate
 loads and verifies every referenced segment and reconstructs the declared prefix.
 Neither operation checks an actual stored journal file, selects a generation or
 publishes a durable checkpoint. The separate [local publication protocol](../development/local-checkpoints.md)
-implements actual owner-journal verification and generation selection. Durable
-engine writes remain planned; [local read recovery](../development/local-database.md)
-now restores temporal state from the checkpoint plus journal tail. [ADR 0011](../decisions/0011-checkpoint-manifest-format.md)
+implements actual owner-journal verification and generation selection. The
+[local database](../development/local-database.md) separately restores temporal
+state and implements forced writes before query publication. [ADR 0011](../decisions/0011-checkpoint-manifest-format.md)
 records the representation decision.
 
 ## Generation, history and references

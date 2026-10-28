@@ -97,5 +97,6 @@ A native platform-specific durability implementation may support more environmen
 or stronger device controls. It needs separate implementation and fault evidence.
 The current JDK-only adapter deliberately reports its capability boundary.
 [Read-only checkpoint-plus-tail recovery](0013-local-database-recovery.md) is now
-implemented separately. Durable engine acknowledgement and orphan cleanup
+implemented separately. [ADR 0014](0014-durable-commit-publication.md) adds the
+engine acknowledgement protocol. Process crash conformance and orphan cleanup
 remain subsequent work.

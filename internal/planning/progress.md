@@ -1073,6 +1073,117 @@ Define and implement creation plus prepare/append/force/atomic-publication order
 explicit uncertain outcomes and pinned-view/retry behavior over recovered state.
 Keep crash/retry conformance as required MDB-0025 rather than closing the parent early.
 
+## 2026-10-28 — MDB-0024 Forced commit publication and acknowledgement
+
+**Outcome:** complete the selected forced-write protocol without closing MDB-0008.
+Add `LocalDatabase.create`, `openWritable` and `transact`; retain plain `open` as
+logically read-only. Split memory-engine commits into private immutable preparation
+and guarded one-reference publication. Prepare values/history/request metadata,
+position and result and preflight encoding before the append attempt. Append and
+force through the owner journal before publishing, then return the existing result.
+Serialize writers and close while readers keep the previous committed state during
+force. Exact retries require no new I/O only after writable startup synchronization
+or an earlier acknowledged commit. Conflicting IDs and pure encoding failures leave
+storage/head unchanged. No-op requests still commit.
+
+Store `initialize` accepts only a fresh namespace (own lock file allowed), creates
+the owned journal and publishes genesis generation one at cutoff zero through the
+existing force/atomic-rename/directory protocol. Creation validates lineage before
+store mutation, retains failed candidates and closes acquired owners. Store
+`synchronizeJournal` forces the actual owned journal then its directory. Writable
+reopen performs complete hidden recovery and this barrier before exposing any
+writer, re-establishing force for recovered complete history without inventing an
+earlier acknowledgement. Per-transaction appends need no new namespace rename.
+Checkpoint cutoff does not auto-advance; exclusive ownership blocks external
+checkpoint publication until close. No repair, truncation or reclamation is added.
+
+Mark uncertainty before append: I/O/runtime failure from append, force or publication
+poisons the instance/views, retains source locks and reports request/proposed-position
+metadata in `UncertainCommitException`. Errors also poison before propagating.
+Close/reopen resolves complete stored request identity; exceptions do not establish
+rollback. Resource cleanup remains retryable and never implicitly forces or revokes
+a previously successful acknowledgement. Valid publication allocates no new state
+or result after force. Journal adapter byte-offset/size guards remain inside the
+conservatively uncertain append call; record-format preflight precedes that call.
+
+**Research and review:** freshly recheck all twelve Central metadata sources and
+Maven/JUnit/Jackson compatibility on October 28 at 23:37 UTC. Existing exact stable
+pins remain latest compatible selections; preview Maven/plugin 4.x entries remain
+unselected. POM changes only its description; no dependency added. Refresh JDK
+force/locks, Linux file-versus-directory fsync, Lucene flush/commit and device
+qualifications, Elasticsearch request translog synchronization and RocksDB synchronous
+WAL evidence. ADR 0014 distinguishes those facts from MeridianDB's design choices.
+Explicitly qualify forcing previously dirty data on a reopened file by actual
+provider/OS/device behavior; surviving bytes prove no earlier force/acknowledgement.
+Static production review found no actionable preparation/publication, ownership,
+cleanup or partial-visibility defect. The initial strict compilation rejected
+nonserializable exception metadata fields; store strings/sequence and reconstruct
+immutable accessor values, preserving `-Xlint:all -Werror` without suppression.
+
+**Validation:** focused `./mvnw -B -ntp -Dtest=LocalCommitTest,PreparedCommitTest,LocalInitializationTest test`
+passes all 49 cases on its first test run: 24 commit, five preparation and 20
+initialization cases. Final `./mvnw -B -ntp verify` passes **390 tests with zero
+failures/errors/skips**, preserving all prior 341 cases, original canonical fixture
+and seed sources. Five preparation checks prove values/history/request IDs stay
+hidden, future cutoff rejection, same allocated result at publication, stale/foreign
+holders, exact replay/conflict behavior and closed-engine rejection. Initialization
+covers real genesis/reopen, invalid metadata before candidate creation, every
+nonfresh entry rejection, own-lock allowance, before/after-directory/rename failures,
+partial write/runtime/error evidence, released journal ownership, owner-path guard,
+force-before-directory ordering and failed force/sync poisoning.
+
+Commit checks cover real forced creation/write/reopen, preserved lineage and
+request positions, no overwrite, read-only rejection, no-op identity and pinned
+views. Injected sources cover hidden startup sync/cleanup/suppression, no-I/O exact
+retries, pure encoding rejection, append failures before and after an effect,
+force failures, runtime/error poisoning, retained ownership, close retry, reopen
+resolution and rejected reentrant transact/close. Bounded concurrency demonstrates
+old state while force waits, whole cross-entity state after publication, serialized
+close, simultaneous identical retries and contiguous distinct-writer commits.
+All eight examples pass individually; the new example forces commits one/two,
+retains an older salary view, reopens and returns retry commit two with unchanged
+head. Darwin arm64 real-file cases run without skips. Linux/Windows CI separately
+reports actual capabilities; unsupported directory force remains explicit.
+
+The local JAR has 88 Java25 production classes, with no bundled oracle, fixtures,
+seeds, JUnit or Jackson. SHA-256:
+`f24ee1310faa470e041fa4afe952caa7c82ef2633bb5f3f0b4eb064acea58839`.
+This is local artifact evidence, not a release or measured performance result.
+No new process crash/retry or seeded durable conformance is claimed; MDB-0025
+retains those required checks and MDB-0008 stays expanded. Device power loss,
+remote-filesystem guarantees, group commit and automatic checkpoint scheduling
+remain outside current evidence.
+
+**Documentation and handoff:** add ADR 0014, rewrite the local database guide with
+explicit modes and acknowledgement/uncertainty/lifetime costs, add store initialization
+and startup synchronization guidance and the eighth example/CI step. Reconcile
+README, home/technical roadmap, architecture/research, concepts/contributing,
+build/reference/engine/journal/checkpoint/format guides, current ADR statuses,
+index/navigation, workflow and agent rules. Public review found accurate new pages
+but stale older future/absence claims; update their existing callers, preserving
+historical receipts and separating implemented forced writes from pending crash
+conformance. Both apex and project-path shared builds pass source, HTML, links,
+search and sitemap checks with **33 pages**. Local HTTP/browser QA verifies the
+mode table, usage example/navigation and `UncertainCommitException` results in the
+guide and ADR. Theme/assets unchanged; no new dark/narrow-viewport claim. Validate
+25 queue IDs, references/cycles, completed-parent criteria, only MDB-0025 ready
+and repository Markdown links; inspect task-owned staged scope. Scratch evidence
+stays ignored under `.local-qa/mdb-0024/`.
+
+**Prerequisite and delivery:** prior `eddaa238f86c80ba89b0ab7651e5749742bd1cf2`
+is verified on remote main with Java Linux/Windows/seven examples, documentation
+checks and automatic Pages success; its handoff verified 32 live pages/search/sitemap.
+This completion uses `Step-ID: MDB-0024` and `Step-Result: completed`; Git supplies
+the SHA and remote ancestry. Final handoff reports actual push, CI, Pages and live
+content/search/sitemap checks. No library release/upload, Cloudflare or other
+infrastructure deployment.
+
+**Next recommendation:** MDB-0025 — durable crash, retry and temporal conformance.
+Exercise process termination at creation/append/force/publication/acknowledgement/
+checkpoint/reopen boundaries and canonical/seeded histories with exact retry
+outcomes. Preserve deterministic failures and provider assumptions; close MDB-0008
+only after this required child and all original criteria pass.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

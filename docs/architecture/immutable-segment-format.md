@@ -167,5 +167,6 @@ These checks establish representation and integrity. Local immutable-file creati
 and reader lifetimes have separate [adapter checks](../development/local-segments.md).
 [Local checkpoint publication](../development/local-checkpoints.md) has separate
 filesystem and failure checks. [Local recovery](../development/local-database.md)
-now reconstructs read-only temporal state; durable writes remain planned in the
-[roadmap](../roadmap.md). Codec success alone is not a completed checkpoint.
+now reconstructs temporal state, with a separate forced-write protocol. Process
+crash conformance remains planned in the [roadmap](../roadmap.md). Codec success
+alone is not a completed checkpoint.

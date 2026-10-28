@@ -23,7 +23,9 @@ complete-set consistency against a reconstructed journal-prefix binding. The
 immutable generation publication and verified reopen under explicit filesystem
 capabilities. [Local database recovery](local-database.md) restores read-only
 temporal queries and request lookup from complete checkpoint history plus the
-journal suffix. Durable engine writes and acknowledgement remain planned.
+journal suffix. Explicit writable modes now synchronize startup and force each
+new record before atomic query publication and acknowledgement. Process crash
+conformance remains planned.
 No library is published.
 
 ## Build and verify
@@ -69,7 +71,8 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 341 test invocations include 37 [local database recovery checks](local-database.md),
+The current 390 test invocations include 49 [commit preparation/initialization/publication checks](local-database.md),
+37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
 36 [local segment I/O/lifetime checks](local-segments.md),
@@ -81,8 +84,8 @@ engine lifecycle/concurrency checks. The memory engine and reference each execut
 84 exact fixture expectations and 512 seeded new transactions. Local read recovery
 executes the canonical histories in three checkpoint shapes. The [reference guide](reference-model.md)
 and [engine guide](embedded-engine.md) explain coverage and limits. The local
-adapters have separate failure/reopen tests; read recovery is implemented while
-durable engine write integration remains unimplemented. The
+adapters have separate failure/reopen tests; forced local writes and atomic
+publication have focused checks while process crash conformance remains pending. The
 [journal specification](../architecture/journal-format.md) documents golden bytes,
 corruption/truncation, exact identity and allocation-limit coverage.
 
@@ -157,7 +160,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for local database recovery on October 28; the selected versions remain
+for forced local commit publication on October 28; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 
@@ -218,10 +221,11 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run seven
+artifact is uploaded or released by this workflow. Both platforms also run eight
 examples: embedded queries, local journal, pure segment codec, local immutable
-files, manifest consistency, local checkpoint publication and local read recovery.
-The last two examples report an unavailable directory open/force capability
+files, manifest consistency, local checkpoint publication, local read recovery
+and forced local writes. The last three examples report an unavailable
+directory open/force capability
 explicitly; capability-dependent real-file tests skip on that specific boundary
 while injected checks still run.
 Changes under `examples/` trigger these checks.

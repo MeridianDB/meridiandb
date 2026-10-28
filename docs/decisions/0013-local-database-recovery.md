@@ -6,7 +6,7 @@ description: Restore temporal query state from verified immutable history and a 
 # ADR 0013: Local database recovery
 
 - **Date:** October 28, 2026
-- **Status:** Implemented; experimental read-only local API
+- **Status:** Read recovery implemented; writable extension implemented separately in ADR 0014
 - **Scope:** Complete checkpoint-plus-journal reconstruction before query exposure
 
 ## Context
@@ -40,10 +40,10 @@ its package-private seeded constructor and restore operation serve recovery.
 A repeated identity in stored history is invalid, even when its payload is
 identical. It is not an application retry and must not silently skip a commit.
 
-Expose read views, head, checkpoint cutoff, request lookup and close. Introduce
-engine transactions only with an explicit prepare/append/force/atomic-publication
-protocol and uncertain-outcome tests. This keeps recovered reads useful without
-implying a write acknowledgement guarantee. The [recovery guide](../development/local-database.md)
+Expose read views, head, checkpoint cutoff, request lookup and close. The
+separate [writable extension](0014-durable-commit-publication.md) now implements
+prepare/append/force/atomic publication with uncertain-outcome tests. Plain `open`
+retains this read-only contract without implying a write acknowledgement guarantee. The [recovery guide](../development/local-database.md)
 owns API usage, lifetimes, failure handling and costs.
 
 ## Primary evidence and design inference
@@ -87,6 +87,6 @@ and provide its own verification. Retaining all interval snapshots instead gives
 a simple correctness baseline with growing heap and map-copy costs.
 
 A writable API that only updates recovered heap state would be misleading for a
-local database. Durable writes remain a separate implementation with force and
-acknowledgement evidence. Independent crash/retry and temporal conformance will
-complete that integration; this decision establishes read recovery only.
+local database. [ADR 0014](0014-durable-commit-publication.md) now defines the
+separate forced-write and acknowledgement protocol. Independent crash/retry and
+temporal conformance remain required; this decision establishes read recovery only.

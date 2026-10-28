@@ -7,8 +7,8 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
 types, the test reference, memory-only engine, local journal and immutable segment
-I/O, manifest consistency, checkpoint publication and read-only local recovery
-are implemented; durable engine writes and later outcomes remain planned. The
+I/O, manifest consistency, checkpoint publication, recovery and forced local writes
+are implemented; process crash conformance and later outcomes remain planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
@@ -33,8 +33,8 @@ These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
 with reference support in tests under the [build foundation](../../docs/development/build.md).
 The journal and immutable segment codecs have local file adapters. Manifest
-metadata, referenced-object consistency, local publication and read recovery are
-implemented; durable write integration and measured experiments remain planned.
+metadata, referenced-object consistency, local publication, recovery and forced
+write publication are implemented; crash conformance and measurements remain planned.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 
@@ -386,7 +386,8 @@ three checkpoint shapes), plus `examples/LocalRecoveryExample.java`.
 All 252 canonical expectations across these shapes and every stored historical
 cutoff/request sweep pass. Source ownership includes the existing directory-force
 probe and writable lock permissions. This child supplies read reconstruction only;
-MDB-0024/MDB-0025 and all MDB-0008 acknowledgement/crash criteria remain required.
+MDB-0024 now supplies forced write publication; MDB-0025 and all original
+MDB-0008 crash/retry criteria remain required.
 
 ## MDB-0024 Durable commit publication
 
@@ -401,6 +402,18 @@ identity; identical/conflicting retries, pinned views, concurrent readers/writer
 force/publication/close failures and capability boundaries have observable tests.
 No write success may precede its promised storage boundary. Record the selected
 protocol and remaining crash-conformance checks for MDB-0025.
+
+**Produced artifacts:** [ADR 0014](../../docs/decisions/0014-durable-commit-publication.md),
+expanded [local database guide](../../docs/development/local-database.md),
+`InMemoryEngine.prepare/publish`, `LocalDatabase.create/openWritable/transact`,
+explicit uncertain-commit metadata, store genesis initialization/startup journal
+synchronization, 49 preparation/initialization/commit tests and an eighth runnable
+example. Genesis creation uses selected generation one at cutoff zero; writable
+startup forces the recovered journal and directory before retry acknowledgements.
+All 390 local tests and eight examples pass. Checkpoints do not auto-advance, all
+history is retained, and ownership excludes external checkpoint writers while open.
+The forced-write protocol is experimental: MDB-0025 still verifies required process
+crash/retry and canonical/seeded durable conformance before MDB-0008 closes.
 
 ## MDB-0025 Durable crash and retry conformance
 

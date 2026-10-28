@@ -52,6 +52,11 @@ public final class InMemoryEngine implements AutoCloseable {
 
     /** Validated immutable requests commit entirely, or leave publication unchanged. */
     public synchronized CommitResult transact(Transaction request) {
+        return publish(prepare(request));
+    }
+
+    /** All allocation and semantic work precedes any durable append or visible state change. */
+    synchronized PreparedCommit prepare(Transaction request) {
         var before = requireOpen();
         Objects.requireNonNull(request, "request");
         var previous = before.requests().get(request.requestId());
@@ -59,7 +64,7 @@ public final class InMemoryEngine implements AutoCloseable {
             if (!previous.request().operations().equals(request.operations())) {
                 throw new EngineException(EngineException.Code.REQUEST_ID_REUSED);
             }
-            return new CommitResult(previous.position(), true);
+            return new PreparedCommit(this, before, before, new CommitResult(previous.position(), true));
         }
         if (before.head().position().sequence() == Long.MAX_VALUE) {
             throw new EngineException(EngineException.Code.COMMIT_EXHAUSTED);
@@ -79,8 +84,32 @@ public final class InMemoryEngine implements AutoCloseable {
         history.put(position.sequence(), snapshot);
         var requests = new HashMap<>(before.requests());
         requests.put(request.requestId(), new CommittedRequest(request, position));
-        state = new Published(snapshot, Map.copyOf(history), Map.copyOf(requests));
-        return new CommitResult(position, false);
+        var after = new Published(snapshot, Map.copyOf(history), Map.copyOf(requests));
+        return new PreparedCommit(this, before, after, new CommitResult(position, false));
+    }
+
+    /** On the valid path this only checks ownership/state, publishes one reference and returns a value. */
+    synchronized CommitResult publish(PreparedCommit prepared) {
+        Objects.requireNonNull(prepared, "prepared");
+        if (prepared.owner != this || requireOpen() != prepared.before) {
+            throw new IllegalStateException("Prepared commit belongs to another engine or stale state");
+        }
+        state = prepared.after;
+        return prepared.result;
+    }
+
+    static final class PreparedCommit {
+        private final InMemoryEngine owner;
+        private final Published before;
+        private final Published after;
+        private final CommitResult result;
+        private PreparedCommit(InMemoryEngine owner, Published before, Published after, CommitResult result) {
+            this.owner = owner;
+            this.before = before;
+            this.after = after;
+            this.result = result;
+        }
+        CommitResult result() { return result; }
     }
 
     /** Restore one original commit; repeated identities are invalid history, never retry requests. */
