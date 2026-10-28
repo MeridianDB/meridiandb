@@ -8,9 +8,9 @@ so a new session can work correctly without relying on earlier conversations.
 - Read `README.md`, the decision records relevant to the task, and any more specific
   `AGENTS.md` before editing. Inspect Git status and preserve unrelated changes.
 - Keep changes scoped to MeridianDB and the requested task.
-- The repository currently contains documentation only. Discover actual tooling
-  before running commands; add accurate setup and verification commands when code
-  and its build configuration are introduced.
+- The repository has a VitePress documentation site; the Java engine is not yet
+  implemented. Use Node.js 24 and the checked-in npm lockfile for the site. Discover
+  actual tooling before running engine commands.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
   implementation choices do not need another approval.
@@ -26,9 +26,10 @@ so a new session can work correctly without relying on earlier conversations.
 - Keep the initial engine usable without a mandatory service framework, cloud SDK,
   language wrapper or native runtime dependency. Put integrations behind narrow
   boundaries when they are actually needed.
-- Select and record the JDK baseline, build tool and dependency versions with the
-  first implementation. Introduce preview features or native code only with a
-  documented need and reproducible verification.
+- Maven is the chosen Java build tool, per the owner's October 28, 2026 direction.
+  Establish the JDK baseline, Maven Wrapper and dependency versions with the first
+  Java implementation. Keep the npm documentation build independent. Introduce
+  preview features or native code only with a documented need and verification.
 - Separate temporal semantics, logical query operations, physical layout and
   backend capabilities. Delay public syntax and broad integration commitments
   while using explicit queries to evaluate storage decisions.
@@ -67,10 +68,39 @@ so a new session can work correctly without relying on earlier conversations.
   Record revision, runtime, hardware, dataset/seed, configuration, warmup and cache
   conditions. Include resource use and latency distributions when relevant; label
   estimates and microbenchmarks so they are not presented as engine results.
-- Use the narrowest checks justified by the change. Documentation-only work needs
-  link/path, consistency and diff checks rather than invented build/test claims.
+- Use the narrowest checks justified by the change. For website changes, run
+  `npm ci` when dependency inputs change, then `npm run docs:build`; check affected
+  pages through `npm run docs:preview`, including navigation/search when touched.
+  Local development uses `npm run docs:dev`. Run commands from the repository root.
+  Check links, terminology and diffs without claiming engine tests were run.
 - Parallelize independent research or review when useful; assign clear ownership
   and serialize overlapping edits and Git operations.
+
+## Documentation website
+
+- Keep public content in `docs/`, website configuration in `docs/.vitepress/`,
+  and assets in `docs/public/`. Root `README.md` is the repository entry point;
+  root `AGENTS.md` remains working guidance. Add navigable pages to the site config.
+- Follow [the website guide](docs/contributing/documentation.md) for dependency
+  decisions and hosting setup. Maintain the exact stable VitePress pin and scoped
+  Vite override until an evidenced upgrade supersedes them; inspect the lockfile,
+  advisory status and local behavior when changing either.
+- The docs-checks workflow only validates. The docs-publish workflow publishes
+  only on manual dispatch from `main`. Preserve that separation unless the owner
+  explicitly changes the publication policy.
+- Read Pages metadata during manual publication to derive the base path and site
+  origin. Local/custom-domain builds use `/`; project-hosted builds may use
+  `/meridiandb/`. Check both paths when changing routing or publication config.
+- Give public pages specific descriptions. Generate canonical URLs centrally from
+  the publication origin, base path and clean route; keep them aligned with the
+  sitemap and check generated HTML after routing changes. Add `hreflang` alternates
+  only with real translated or regional content. See the website guide for details.
+- Keep `node_modules/`, site cache/output and `.local-qa/` untracked. Store durable
+  review evidence in tracked documentation when it adds lasting value.
+- Mermaid and PlantUML are permitted for useful architecture diagrams. Follow the
+  website guide's source and SVG-generation conventions. The first diagram change
+  must add and verify its renderer in the shared docs build; the initial scaffold
+  has no renderer. Keep editable sources and check generated labels and both themes.
 
 ## Maintain the guidance
 

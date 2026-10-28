@@ -5,9 +5,10 @@ engine. Java and in-process JVM embedding are the initial working direction;
 broader host requirements remain open. Its focus is bitemporal data: preserving
 both when a fact applies in the domain and when the database recorded that knowledge.
 
-**Status:** project foundation and architectural research. There is no engine,
-published artifact, stable API, build configuration or runnable example yet.
-The capabilities below describe the intended direction, not implemented features.
+**Status:** project foundation and architectural research. The documentation site
+can be built and previewed locally. There is no engine, published library, stable
+API or runnable database example yet. The capabilities below describe the intended
+direction, not implemented engine features.
 
 ## Why temporal storage?
 
@@ -44,8 +45,9 @@ dependency or a promised module. Learning another language is welcome; productio
 adoption should serve an identified engineering need.
 
 See the [language decision](docs/decisions/0001-language-strategy.md) for alternatives,
-tradeoffs, evidence and conditions for revisiting this default. The JDK baseline
-and build tool will be selected when executable code is introduced.
+tradeoffs, evidence and conditions for revisiting this default. **Maven is the
+chosen Java build tool**, reflecting the maintainer's experience. The JDK baseline
+and Maven Wrapper will be established with the first Java implementation.
 
 ## Research direction
 
@@ -92,8 +94,46 @@ requirements for the first prototype.
 
 Read [AGENTS.md](AGENTS.md) for agent working agreements and documentation upkeep.
 Architectural rationale lives in [decision records](docs/decisions/0001-language-strategy.md).
-Keep the README's implemented status accurate as the project develops. Build and
-test instructions will be added with the first executable implementation.
+Keep the README's implemented status accurate as the project develops. Java build
+and test instructions will be added with the first engine implementation.
+
+## Documentation website
+
+The VitePress website lives in `docs/`; its intended public address is
+`https://meridiandb.org`. Publication and domain configuration are separate from
+this local source setup. Use Node.js 24 (recorded in `.node-version`) and run these
+commands from the repository root.
+
+Install the locked documentation dependencies:
+
+```bash
+npm ci
+```
+
+Start the local development server:
+
+```bash
+npm run docs:dev
+```
+
+Build the static site, including VitePress's dead-link checks:
+
+```bash
+npm run docs:build
+```
+
+Preview the generated site:
+
+```bash
+npm run docs:preview
+```
+
+The documentation uses npm independently of the future Maven engine build.
+Pull requests and pushes to `main` run documentation checks; publication requires
+manually running the **Publish documentation** workflow on `main` after GitHub
+Pages and the domain have been configured. See the
+[documentation and publishing guide](docs/contributing/documentation.md) for
+dependency choices, local checks and the one-time hosting setup.
 
 ## License
 

@@ -1,3 +1,8 @@
+---
+title: Language strategy — Java and Maven
+description: Why MeridianDB starts with Java and Maven, how Clojure, Scala, Rust and Go compare, and what evidence could change the language decision.
+---
+
 # 0001: Start with Java; revisit language choices against concrete requirements
 
 - Date: 2026-10-28
@@ -19,8 +24,11 @@ Java, that the most concise language is best, or that Java guarantees adoption.
 ## Working decision
 
 Use Java for the initial engine and simple reference model. Keep the initial
-runtime and tooling focused on one implementation language. Select the actual
-JDK baseline and build tool when the first executable increment is introduced.
+runtime and tooling focused on one implementation language. Maven is the Java
+build tool, following the owner's October 28, 2026 preference and existing
+fluency. Establish the JDK baseline and Maven Wrapper with the first Java
+implementation. The VitePress website has a separate npm build; it does not add
+a language or runtime dependency to the engine.
 
 The reference model should use a simpler, independently reasoned algorithm than
 the optimized implementation. It need not use a different language. Correctness
