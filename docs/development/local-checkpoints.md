@@ -134,6 +134,13 @@ behavior; they do not simulate power loss or establish guarantees for remote
 filesystems. [Durability conformance](durability-conformance.md) also exercises
 initialization and checkpoint publication with actual database recovery.
 
+The [pure history compactor](history-compaction.md) can propose the next generation
+at the same cutoff with exact original transactions regrouped. It does not install
+that proposal. Local integration must recheck source selection/actual journal,
+verify or create replacement objects and use this publication protocol. Existing
+content names require complete verified reuse rather than another create-only
+write. Physical deletion still needs reader protection and a separate safety proof.
+
 ## Readers and example
 
 `readLatest(journal)` verifies the complete selected graph before returning a

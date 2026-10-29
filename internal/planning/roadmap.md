@@ -492,6 +492,90 @@ and recovery, active views retain needed data, crashes do not publish partial
 replacement sets, and reclamation cannot remove live/referenced objects. Measure
 space effects without claiming that compaction alone proves query speedups.
 
+**Required children:** MDB-0026 defines logical retention and bounded pure history
+repacking; MDB-0027 installs/verifies replacement objects and publishes the next
+physical generation at the same cutoff; MDB-0028 protects lazy readers across owner
+lifetimes and implements reachability-based physical reclamation; MDB-0029 verifies
+all original temporal/recovery/crash/space criteria together. Preserve the original
+criteria and keep this parent expanded until all children and integration pass.
+Pure plans and durable replacement publication grant no deletion permission.
+
+## MDB-0026 Bounded history compaction
+
+**Outcome:** distinguish logical history retention from physical object retention,
+record publication/reader/reclamation obligations, and implement a pure deterministic
+checkpoint-history compactor. Verify the complete input graph and exact prefix;
+repack whole original transactions under explicit aggregate input/output bytes,
+record count and per-segment bounds. Preserve lineage, sequences, request payloads,
+all cutoffs and retry identities; propose only the next physical generation with
+the same journal prefix. Use existing formats and add no storage mutation.
+
+**Complete when:** exact history and prefix identities survive grouping/splitting;
+all canonical/query expectations and historical/retry checks agree after repacking;
+invalid/missing/corrupt/late input fails without a partial plan; aggregate budgets,
+indivisible oversize records, generation/count limits, deterministic IDs and result
+ownership have boundary tests. Report encoded segment space effects separately from
+actual filesystem space. Document that publication, reader protection and deletion
+remain required children; preserve the complete journal and default all-history promise.
+
+**Produced artifacts:** [ADR 0016](../../docs/decisions/0016-history-preserving-compaction.md),
+[compaction guide](../../docs/development/history-compaction.md), pure
+`HistoryCompactor`/private-constructed immutable `Plan` and explicit `Limits`, exact
+`SegmentCodec.encodedBytes` preflight and an internal verifier collector retaining
+one source read per reference. Thirty-three boundary/format/resource/ownership
+cases plus eight original/query fixture histories and 16 persisted seeds add 57
+tests. All 552 tests and ten examples pass locally with no skips. All 174 literal
+expectations execute before/after repacking; rebuilding consumes actual output.
+The example changes two segment images / 430 encoded bytes to one / 302, preserving
+cutoff two and proposing generation eight. This is encoded accounting only; no
+filesystem installation, durable compaction publication, reader pin or reclamation
+is implemented here. MDB-0010 remains expanded with original criteria intact.
+
+## MDB-0027 Local compaction publication
+
+**Outcome:** install a validated replacement under store/journal ownership. Verify
+source generation and actual journal prefix; verify/reuse identical existing content
+IDs instead of overwriting, create/force new objects, then select the next immutable
+generation through the existing force/atomic-rename protocol. Keep cutoff/history
+and full journal unchanged; retain all old and failed candidates. Exclude concurrent
+engine writers through existing ownership.
+
+**Complete when:** exact local reopen chooses only a complete valid generation;
+reuse verifies bytes/identity, damaged existing candidates fail closed, new segments
+and namespace precede selection, failures poison/mark uncertainty appropriately,
+and no old object is deleted. Test same-cutoff publication, unchanged-layout plans,
+capacity and actual owner-journal binding. No fast-recovery or throughput claim.
+
+## MDB-0028 Reader-safe physical reclamation
+
+**Outcome:** define and implement explicit cooperating reader protection independent
+of store lifetime, including cross-process acquisition-versus-deletion coordination.
+Compute live roots and retain all objects required by selected/retained generations
+or active lazy readers. Reclaim only proven obsolete physical metadata/segments;
+retain logical history, journal, unknown files and diagnostic candidates unless an
+explicit inspected policy establishes permission. Expand into prerequisites if needed.
+
+**Complete when:** active readers retain lazy access after store close and new
+publication, reader acquisition cannot race deletion, cross-process protection and
+release/restart behavior have tests, and deletion never removes live/referenced
+objects or lock/journal aliases. Order/synchronize obsolete metadata removal before
+unreferenced dependencies, preserve fail-closed newest selection, and document
+interruption/cleanup/capacity behavior. Timer-only grace or a process-local registry
+is insufficient. No logical history pruning or journal truncation is authorized.
+
+## MDB-0029 Compaction and reclamation conformance
+
+**Outcome:** integrate actual compaction publication, protected readers and physical
+reclamation with canonical/seeded temporal and retry checks, bounded process/fault
+injection and measured physical space accounting.
+
+**Complete when:** all MDB-0010 original criteria pass through local reopen before/
+after replacement and safe deletion; acknowledged commits/history/IDs persist,
+active views/lazy readers remain valid, interrupted publication/removal has only
+specified complete outcomes and no dangling selected graph. Compare actual retained
+bytes/counts to encoded plan figures without claiming query speedups. Preserve
+failing seeds and provider/device assumptions; close MDB-0010 only with this evidence.
+
 ## MDB-0011 Object-storage backend
 
 **Outcome:** implement an S3-compatible backend against explicit range-read,

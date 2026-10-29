@@ -189,9 +189,23 @@ so a new session can work correctly without relying on earlier conversations.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.
-- Preserve every supported temporal query result across recovery and compaction.
-  Base history removal and object reclamation on an explicit retention contract
-  that accounts for active readers and in-flight commits.
+- Follow [history-preserving compaction](docs/development/history-compaction.md) and
+  [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
+  original transactions, all historical cutoffs and request identities; never turn
+  physical repacking into latest-value or history-pruning behavior. Validate the
+  complete graph/prefix and enforce aggregate input/output/record budgets as well
+  as per-object limits before returning a pure plan. Preserve deterministic whole-
+  transaction groups and report encoded bytes separately from reclaimed disk space.
+- Keep pure compaction, actual owner-journal verification, replacement installation,
+  durable publication and physical deletion as distinct stages. Verify/reuse existing
+  identical content IDs; an existing path is not proof of valid reuse. Retain the
+  complete journal under the current contract. Retain old/failed physical objects
+  until an implemented reclamation protocol and inspected diagnostic policy establish
+  permission. Reader protection must cover cross-process admission
+  versus deletion, survive store close and serialize release with lazy opens;
+  timers/PID checks or a process-local registry alone are insufficient. Preserve
+  selected/retained/reader/backup roots and fail closed when liveness is uncertain.
+  Change logical history retention only through a separate explicit decision.
 
 ## Verification and experiments
 

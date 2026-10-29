@@ -6,7 +6,9 @@ import java.security.MessageDigest;
 import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.Objects;
+import java.util.function.Consumer;
 import org.meridiandb.storage.journal.JournalCodec;
+import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.segment.SegmentCodec;
 import org.meridiandb.storage.segment.SegmentId;
 import org.meridiandb.temporal.RequestId;
@@ -26,7 +28,15 @@ public final class CheckpointVerifier {
 
     /** Resolve one segment at a time and return only after complete whole-set consistency checks. */
     public static void verify(CheckpointManifest manifest, SegmentSource source) throws IOException {
+        verify(manifest, source, record -> { });
+    }
+
+    // Internal collectors must keep all work private until full verification returns successfully.
+    // No application visitor API: a malformed late object/hash can invalidate the entire prefix.
+    static void verify(CheckpointManifest manifest, SegmentSource source,
+                       Consumer<? super JournalRecord> collector) throws IOException {
         Objects.requireNonNull(source, "source");
+        Objects.requireNonNull(collector, "collector");
         byte[] lineage = ManifestCodec.checkedLineage(manifest);
         var digest = ManifestCodec.sha256();
         digest.update(lineage);
@@ -56,6 +66,7 @@ public final class CheckpointVerifier {
                     throw invalid("Reconstructed journal prefix exceeds declared byte length");
                 }
                 digest.update(frame);
+                collector.accept(record);
             }
         }
         if (prefixBytes != manifest.journalPrefix().byteLength()

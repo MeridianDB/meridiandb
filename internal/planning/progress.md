@@ -1371,6 +1371,110 @@ into bounded children before implementation. Preserve all historical query resul
 request identities and durable recovery; deleting logical history needs a separately
 defined retention contract. A recommendation does not begin that work.
 
+## 2026-10-29 — MDB-0026 Bounded pure history compaction
+
+**Refinement and scope:** expand MDB-0010 without changing its original outcome or
+completion criteria. Add required children MDB-0026 (retention contract and pure
+bounded repacking), MDB-0027 (actual local installation/publication), MDB-0028
+(cross-process reader protection and physical reclamation) and MDB-0029 (integrated
+crash/temporal/space conformance). Preserve external prerequisite MDB-0009 and
+existing MDB-0011 dependency on the parent. Complete only MDB-0026 in this invocation;
+MDB-0010 remains expanded. Retain every logical transaction, cutoff, request identity
+and the complete journal. Default physical retention also remains unchanged.
+
+**Implementation:** add pure `HistoryCompactor` with explicit aggregate input/output
+segment-byte and record budgets, hard complete-output targets, deterministic greedy
+whole-record packing and immutable private-constructed proposals. Defaults/hard caps
+are 32 MiB output target, 64 MiB input, 64 MiB output and 262,144 history records;
+existing per-segment 65,536 record / 32 MiB and 4,096 manifest-reference limits remain.
+Check declared aggregate input/record bounds and generation exhaustion before any
+source read. One internal collector shares complete checkpoint verification rather
+than resolving mutable sources twice. All collected work is private; no Plan escapes
+before every expected ID/length/lineage/range, global request uniqueness and final
+reconstructed prefix length/hash pass. Each source reference is read once.
+
+Preserve exact original record fields and frames, including no-ops, retractions,
+operation order, UTF-16 identities and finite/unbounded endpoints. Split only between
+whole transactions; an indivisible target overflow fails explicitly. Output encoding
+checks budget before image allocation. Plan metadata proposes source generation +1
+with the identical lineage/prefix/cutoff. Genesis remains empty. Add exact codec
+`encodedBytes` validation without output-image allocation; existing v1 bytes remain
+unchanged. Plan output owns immutable values without aliasing source arrays and
+reports encoded segment totals, excluding metadata/journal/filesystem/retained files.
+Serialized-byte limits are not exact JVM heap guarantees. No file creation, actual
+journal verification, publication, deletion or new external dependency is added.
+
+**Research/review:** freshly fetch all twelve Central metadata sources October 29,
+08:54–08:55 Toronto / 12:54–12:55 UTC, retrying one transient Surefire DNS failure.
+All selected versions remain latest stable and Java 25 compatible after official
+Maven/JUnit/Jackson checks; Maven/plugin 4 RC/beta entries remain unselected. POM and
+wrapper are unchanged. Refresh primary Lucene deletion/snapshot policy, RocksDB
+snapshot, Kafka compaction and XTDB history/recovery evidence. Record why latest-key
+retention is incompatible, and why process-local pins/timers cannot protect a lazy
+reader after store close. Later physical reclamation must close cross-process reader
+admission versus deletion, preserve live roots and serialize pin release with lazy
+opens. Existing content-name reuse must verify complete bytes; current create-only
+`writeSegment` is not a reuse operation. Independent production review found no
+correctness/resource defect in compactor, verifier sharing or codec extraction.
+
+**Verification:** focused `HistoryCompactorTest,CompactionConformanceTest,SegmentCodecTest,CheckpointVerifierTest`
+passes **104 tests**. Full `./mvnw -B -ntp verify` passes **552 tests**, zero failures,
+errors or skips on this macOS/arm64 run. New 57 invocations comprise:
+
+- 33 boundary/format/budget/ownership cases: independently known 176/232 and UTF-16
+  166/222 exact sizes, one-byte-under targets, maximal groups, 65,536 record split,
+  4,096 output limit, zero-budget genesis, generation exhaustion, input/record
+  preflight before source calls, output budgets, indivisible records, complete graph
+  and late/missing/corrupt/source failure, deterministic/reused IDs and array/list
+  ownership. Errors return no accepted partial plan.
+- Eight original/query fixture histories execute all **174 literal expectations
+  before and after** repacking (**348 assertions**), then sweep every valid fixture
+  query at every stored cutoff and check retry/lookup identities. Rebuilt new commits
+  consume compacted output records; fixture requests are compared against that output,
+  while retry/conflict calls exercise the rebuilt engine's identity map.
+- Sixteen persisted seeds provide 32 new transactions each (**512 original commits**),
+  repack single-record source objects at a 1,024-byte target and rebuild solely from
+  output. Forward dense snapshots and independent reference compare point/exact-sum/
+  selection/filtered-scan results across sampled historical cutoffs, with exact flattened
+  records/prefix bytes, request retries, bounds and aggregate encoded accounting.
+  Original fixtures and seed corpus are unchanged; seed overrides remain reproducible.
+
+All **ten examples** pass. `CompactionExample` verifies replacement graph/exact history,
+merges two in-memory segments / **430 bytes** into one / **302 bytes**, and proposes
+physical generation eight at unchanged cutoff two. The 128-byte difference is repeated
+segment overhead, not reclaimed disk space. CI invokes this tenth example on both
+Linux and Windows. Production JAR inspection finds **102 Java 25 classes**, major69,
+with no oracle/reference, fixture, seed, JUnit or Jackson content. SHA-256:
+`7298a556f58d5eeb6240674d2fa464655f86e67aaf69a4fdaaba1d7c0405774e`.
+No artifact release/upload or performance claim.
+
+**Documentation and planning:** add ADR 0016 and the compaction guide, navigate both,
+and reconcile README, home/roadmap, architecture/research/segment-format, build,
+reference/engine and local checkpoint/segment guides plus decision index and AGENTS.
+Persist exact-history/budget/stage/reader obligations, distinguishing complete-journal
+retention from conditional obsolete-object removal. Public review corrected reversed
+retention-tradeoff wording and count punctuation; no chat/task narrative is published.
+Both URL-layout shared builds pass source/HTML/links/search/sitemap with **38 pages**.
+Local browser QA confirms retention/resource tables, example/navigation, compactor
+search-result anchor and ADR 0016 as an actual decision-table row. Theme/assets remain
+unchanged; no new dark/mobile claim. Validate all 29 IDs/parents/dependencies/DAG,
+completed-parent children, only MDB-0027 ready and no executable active row; repository
+Markdown paths and staged task ownership pass. Scratch logs/metrics remain ignored
+under `.local-qa/mdb-0026/`.
+
+**Prerequisite and delivery:** prior `ea28984daa07ecd710eaaf5e442b42f16aac2433` is
+verified on remote main with Linux/Windows Java/nine examples, documentation checks
+and automatic Pages; its handoff verified 36 live pages/search/sitemap. This completion
+uses `Step-ID: MDB-0026` / `Step-Result: completed`; Git supplies its SHA and remote
+ancestry. Final handoff reports actual push/CI/Pages and exact live verification.
+No library release, Cloudflare or other infrastructure deployment.
+
+**Next recommendation:** MDB-0027 — install and publish verified local compaction
+replacements. Recheck source generation and actual owned journal, verify/reuse
+identical existing content or create-only install, then force/publish the same-cutoff
+next generation. Retain full journal and all old/failed objects; reader-safe physical
+reclamation and integration evidence remain MDB-0028/MDB-0029.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

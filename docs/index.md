@@ -48,7 +48,11 @@ under explicit filesystem requirements. [Local database recovery](development/lo
 restores historical queries and request lookup from that checkpoint plus the journal
 tail. Writable mode forces each new journal record before publishing the complete
 query state and acknowledging success. Process-exit and seeded writable-reopen
-checks preserve exact history and retry identity. Layout experiments remain planned.
+checks preserve exact history and retry identity. The
+[pure history compactor](development/history-compaction.md) now repacks complete
+checkpoint history under aggregate/per-object limits, retaining all cutoffs and
+request payloads. Local compaction publication and physical reclamation remain
+planned; layout performance experiments need their own evidence.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

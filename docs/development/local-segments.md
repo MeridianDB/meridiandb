@@ -91,6 +91,8 @@ callback holding a lock or channel while application code scans records.
 Neither closing a reader nor completing a file write permits reclaiming journal
 history or referenced segments. Manifest ownership, active checkpoint selection
 and retention rules must establish that permission separately.
+[Pure history compaction](history-compaction.md) retains exact records and proposes
+new grouping under encoded-byte/record budgets; it grants no deletion permission.
 
 ## Local filesystem boundary
 

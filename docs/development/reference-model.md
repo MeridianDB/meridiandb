@@ -113,7 +113,7 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **495 JUnit test invocations**: 55 [typed query checks](temporal-queries.md), 50
+The current default suite has **552 JUnit test invocations**: 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
 [durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
@@ -143,3 +143,11 @@ while production compares signed values directly. Separate memory/durable seeded
 checks use 16 persisted seeds and forward dense cells for selection and filtered
 interval results, including absence, ordering, extremes and corrected history.
 See the [query guide](temporal-queries.md) for reproduction and resource limits.
+
+[Pure compaction conformance](history-compaction.md#verify-and-run-the-example)
+executes all eight fixture histories before and after repacking (174 literal
+expectations per pass), then compares every valid fixture query at every stored
+cutoff. Rebuilt engine writes consume actual compacted records. Sixteen persisted
+seed histories add independent forward dense/reference checks, exact flattened
+record/prefix equality and retry identity. This proves no local file publication
+or reclamation behavior; those require their own integrated evidence.

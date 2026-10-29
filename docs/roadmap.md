@@ -27,6 +27,7 @@ There is no release date or stable API commitment.
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
 | [Typed temporal queries](development/temporal-queries.md) | Signed numeric predicates, deterministically ordered entity selection, filtered intervals and exact sums at one pinned cutoff |
+| [Pure history compaction](development/history-compaction.md) | Complete graph validation, exact transaction repacking and encoded-space accounting under explicit budgets; no file installation/deletion |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -66,8 +67,12 @@ effects. These checks do not establish device power-loss behavior.
 explicit-entity selection, coalesced and filtered interval scans, signed numeric
 predicates and exact aggregates. It uses eager immutable results over one pinned
 snapshot; indexes, pagination and total query budgets remain open. Indexes and physical layouts must preserve the temporal contract.
-Compaction and reclamation require an explicit retention policy covering earlier
-cutoffs, active readers and recovery.
+[Pure compaction](development/history-compaction.md) now retains every original
+transaction and request identity while repacking segment boundaries. Logical
+retention remains all history; a plan changes no selected generation or file.
+Local installation/publication and cross-process reader protection must precede
+physical reclamation. Earlier cutoffs, lazy readers, recovery and backup roots
+remain part of that safety contract.
 
 An object-storage backend needs its own immutable-object publication, conditional
 update and recovery protocol. A common API cannot make object storage behave like

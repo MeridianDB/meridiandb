@@ -95,6 +95,9 @@ local journal, immutable files, checkpoint publication, read recovery and forced
 commit acknowledgement and process crash/retry conformance. Workload measurements
 remain planned. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
+The [pure compactor](../development/history-compaction.md) preserves exact history
+while grouping transactions under explicit budgets. It does not install or publish
+replacement objects, protect lazy readers for deletion, or reclaim files.
 
 ## Establish correctness before optimizing
 

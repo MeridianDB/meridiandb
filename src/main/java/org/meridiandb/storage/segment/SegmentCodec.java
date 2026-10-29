@@ -35,11 +35,10 @@ public final class SegmentCodec {
 
     private SegmentCodec() { }
 
-    /** Deterministic bytes owned by the caller; the segment retains no reference to them. */
-    public static byte[] encode(ImmutableSegment segment) {
+    /** Exact complete v1 byte count, with the same validation as encode and no output-image allocation. */
+    public static int encodedBytes(ImmutableSegment segment) {
         Objects.requireNonNull(segment, "segment");
-        int count = segment.records().size();
-        countLimit(count);
+        countLimit(segment.records().size());
         final byte[] lineage;
         try {
             lineage = JournalCodec.encodeHeader(segment.databaseId());
@@ -56,11 +55,18 @@ public final class SegmentCodec {
         } catch (JournalFormatException failure) {
             throw nested(failure);
         }
-        int totalBytes = headerBytes + (int) bodyBytes + DIGEST_BYTES;
+        return headerBytes + (int) bodyBytes + DIGEST_BYTES;
+    }
+
+    /** Deterministic bytes owned by the caller; the segment retains no reference to them. */
+    public static byte[] encode(ImmutableSegment segment) {
+        int totalBytes = encodedBytes(segment);
+        byte[] lineage = JournalCodec.encodeHeader(segment.databaseId());
+        int bodyBytes = totalBytes - HEADER_OVERHEAD - lineage.length - DIGEST_BYTES;
         var output = ByteBuffer.allocate(totalBytes);
         output.putLong(MAGIC).putInt(VERSION).putInt(lineage.length).put(lineage);
         output.putLong(segment.firstSequence()).putLong(segment.lastSequence());
-        output.putInt(count).putLong(bodyBytes);
+        output.putInt(segment.records().size()).putLong(bodyBytes);
         output.putInt(crc(output.array(), output.position()));
         for (var record : segment.records()) {
             output.put(JournalCodec.encodeRecord(record));

@@ -95,3 +95,5 @@ jobs:
         run: java --class-path target/classes examples/LocalDatabaseExample.java
       - name: Run the temporal query example
         run: java --class-path target/classes examples/QueryExample.java
+      - name: Run the pure history compaction example
+        run: java --class-path target/classes examples/CompactionExample.java

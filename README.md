@@ -101,8 +101,9 @@ without committing to a public API.
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
 local journal, immutable segment files, checkpoint publication and read recovery,
 plus forced local commit publication, process crash/retry conformance and typed
-temporal query operators. Planned work covers history-preserving compaction,
-object storage and reproducible workload measurements. The initial target is an embedded, single-node
+temporal query operators and bounded pure history repacking. Planned work covers
+local compaction publication, reader-safe physical reclamation, object storage and
+reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
 ## Build the Java foundation
@@ -119,12 +120,12 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 495 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 552 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
-checks, plus 50 durable process/retry/temporal conformance checks
-and 55 typed query checks. Coverage
+checks, plus 50 durable process/retry/temporal conformance checks,
+55 typed query checks and 57 pure compaction checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -157,6 +158,15 @@ pinned cutoff. Run its checked example after verification:
 
 ```bash
 java --class-path target/classes examples/QueryExample.java
+```
+
+[History compaction](docs/development/history-compaction.md) validates a complete
+checkpoint and repacks exact original transactions under byte/record budgets.
+It preserves all historical answers and retry identities. The current pure API
+creates, publishes and deletes no files. Run its checked example after verification:
+
+```bash
+java --class-path target/classes examples/CompactionExample.java
 ```
 
 ## Working in this repository

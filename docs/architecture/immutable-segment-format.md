@@ -170,3 +170,9 @@ filesystem and failure checks. [Local recovery](../development/local-database.md
 now reconstructs temporal state, with a separate forced-write protocol and
 [process crash/retry conformance](../development/durability-conformance.md). Codec success
 alone is not a completed checkpoint.
+
+`SegmentCodec.encodedBytes(segment)` returns the exact complete image size using
+the same validation as `encode`, without allocating the output image. The
+[pure compactor](../development/history-compaction.md) uses frame sizes and this
+preflight to respect hard complete-segment targets while preserving original
+history. Neither the v1 bytes nor content-ID definition changes.

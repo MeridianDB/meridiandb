@@ -103,3 +103,12 @@ termination from filesystem/device failure simulation.
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the
 [technical roadmap](../roadmap.md) for the current capabilities and planned work.
+
+[History-preserving compaction](../development/history-compaction.md) now validates
+a complete supplied graph and deterministically repacks original transactions.
+[ADR 0016](../decisions/0016-history-preserving-compaction.md) refreshes Lucene
+snapshot/deletion policy, RocksDB snapshot, Kafka compaction and XTDB recovery
+sources on October 29. Its default retains all logical history and retry payloads;
+pure byte accounting, local replacement publication and reader-safe physical
+reclamation remain distinct. No deletion or measured query speedup follows from
+producing a plan.
