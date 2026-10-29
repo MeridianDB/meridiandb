@@ -113,7 +113,7 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **552 JUnit test invocations**: 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
+The current default suite has **603 JUnit test invocations**: 51 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
 [durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
@@ -151,3 +151,10 @@ cutoff. Rebuilt engine writes consume actual compacted records. Sixteen persiste
 seed histories add independent forward dense/reference checks, exact flattened
 record/prefix equality and retry identity. This proves no local file publication
 or reclamation behavior; those require their own integrated evidence.
+
+The separate local compaction suite verifies installation/reuse/publication against
+actual journal bytes, a checkpoint plus uncheckpointed tail, historical queries and
+request identities after writable reopen. Its four process exits select only the
+old or new complete graph while retaining old files. It supplements the pure
+fixture/seed comparisons; full canonical/seeded replacement plus physical-removal
+conformance remains planned with protected reclamation.

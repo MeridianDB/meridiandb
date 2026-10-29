@@ -97,7 +97,9 @@ remain planned. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 The [pure compactor](../development/history-compaction.md) preserves exact history
 while grouping transactions under explicit budgets. It does not install or publish
-replacement objects, protect lazy readers for deletion, or reclaim files.
+replacement objects. A separate local publisher now verifies/reuses or installs
+those objects and selects the next generation at the same cutoff. Lazy-reader
+protection for deletion and physical reclamation remain planned.
 
 ## Establish correctness before optimizing
 

@@ -112,3 +112,11 @@ sources on October 29. Its default retains all logical history and retry payload
 pure byte accounting, local replacement publication and reader-safe physical
 reclamation remain distinct. No deletion or measured query speedup follows from
 producing a plan.
+
+Local compaction publication now installs missing immutable outputs and verifies
+complete existing images before reuse. The October 29 refresh of Lucene Directory /
+SegmentInfos and JDK 25 Files / FileChannel evidence in ADR 0016 supports keeping
+file synchronization, dependency-name synchronization and generation selection
+separate. Exact-byte content reuse is a MeridianDB design choice, not an inherited
+Lucene content-addressing guarantee. All prior objects and the full journal remain
+retained; protected deletion requires separate evidence.

@@ -12,23 +12,25 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0026's source criteria pass**: complete
-  supplied checkpoint verification, bounded deterministic exact-history repacking
-  and immutable next-generation proposals are implemented without filesystem mutation.
-- **MDB-0010 remains expanded** into MDB-0026 through MDB-0029. Local replacement
-  installation/publication, cross-process reader-safe physical reclamation and
-  integrated crash/space conformance remain required; no file deletion is authorized
-  by a pure plan or reader/store close.
-- Next source-ready item: **MDB-0027 — Install and publish verified local compaction replacements**.
+- No executable item is active. **MDB-0027's source criteria pass**: local compaction
+  verifies the exact selected source and actual owned journal, checks existing output
+  bytes before reuse, reserves complete installation capacity, creates missing objects
+  and publishes the next generation through the shared force/rename protocol.
+- **MDB-0010 remains expanded** into MDB-0026 through MDB-0029. Cross-process
+  reader-safe physical reclamation and integrated crash/space conformance remain
+  required. Every old/failed object and the full journal remain retained; publication
+  and reader/store close permit no physical deletion.
+- Next source-ready item: **MDB-0028 — Protect readers and reclaim obsolete physical objects safely**.
   Verify this completion on remote main and inspect Java/documentation CI and
-  automatic Pages before claiming it. Recheck source selection/actual journal and
-  verify identical existing content before reuse; retain the full journal and all old files.
-- All **552 local tests** and **ten examples** pass with no test skips. Both URL
-  layouts pass documentation QA with 38 pages. Byte/record budgets bound serialized
-  scope, not exact heap usage; encoded totals are not reclaimed disk space.
-- Previous completion `ea28984daa07ecd710eaaf5e442b42f16aac2433` is verified on remote
-  main with Linux/Windows Java/nine examples, documentation checks and automatic
-  Pages; its handoff verified 36 live pages, search and sitemap.
+  automatic Pages before claiming it. Refine into bounded prerequisites if necessary;
+  reader protection must outlive store ownership and close admission-versus-deletion races.
+- All **603 local tests** and **eleven examples** pass with no test skips. The new
+  checks include 34 injected protocol, 13 real integration and four process-exit cases.
+  Both URL layouts pass documentation QA with 38 pages. Process exits do not simulate
+  device power loss; unchanged-layout publication still consumes a generation slot.
+- Previous completion `6d419787425717a15ca50acc29f3c0eeb40cc801` is verified on remote
+  main with successful Java checks, documentation checks and automatic Pages; its
+  handoff verified 38 live pages, search and sitemap.
 - Use the [progress history](progress.md) and completion trailers for exact evidence;
   Git and workflow runs supply actual delivery/publication state.
 
@@ -58,8 +60,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | done | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | expanded | MDB-0009 |
 | [MDB-0026](roadmap.md#mdb-0026-bounded-history-compaction) | Define retention and implement bounded pure history compaction | MDB-0010 | done | MDB-0009 |
-| [MDB-0027](roadmap.md#mdb-0027-local-compaction-publication) | Install and publish verified local compaction replacements | MDB-0010 | ready | MDB-0009, MDB-0026 |
-| [MDB-0028](roadmap.md#mdb-0028-reader-safe-physical-reclamation) | Protect readers and reclaim obsolete physical objects safely | MDB-0010 | queued | MDB-0009, MDB-0027 |
+| [MDB-0027](roadmap.md#mdb-0027-local-compaction-publication) | Install and publish verified local compaction replacements | MDB-0010 | done | MDB-0009, MDB-0026 |
+| [MDB-0028](roadmap.md#mdb-0028-reader-safe-physical-reclamation) | Protect readers and reclaim obsolete physical objects safely | MDB-0010 | ready | MDB-0009, MDB-0027 |
 | [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | queued | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |

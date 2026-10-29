@@ -28,8 +28,9 @@ new record before atomic query publication and acknowledgement.
 [Durability conformance](durability-conformance.md) adds process exits, retry and
 canonical/seeded writable-reopen checks.
 [Pure history compaction](history-compaction.md) validates supplied checkpoint
-history and returns bounded exact-history replacement proposals; local compaction
-installation/publication and physical deletion remain separate work.
+history and returns bounded exact-history replacement proposals. Local compaction
+publication now verifies/reuses or installs outputs and selects the next generation
+at the same cutoff. Protected physical deletion remains planned.
 No library is published.
 
 ## Build and verify
@@ -75,7 +76,7 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 552 test invocations include 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 603 test invocations include 51 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
@@ -165,7 +166,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for bounded history compaction on October 29; the selected versions remain
+for local compaction publication on October 29 at 10:36 Toronto / 14:36 UTC; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 
@@ -226,11 +227,12 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run ten
+artifact is uploaded or released by this workflow. Both platforms also run eleven
 examples: embedded queries, local journal, pure segment codec, local immutable
 files, manifest consistency, local checkpoint publication, local read recovery,
-forced local writes, typed temporal queries and pure history compaction. The three local checkpoint/recovery/write
-examples report an unavailable
+forced local writes, typed temporal queries, pure history compaction and local
+compaction publication. The four local checkpoint/recovery/write/compaction examples
+report an unavailable
 directory open/force capability
 explicitly; capability-dependent real-file tests skip on that specific boundary
 while injected checks still run.

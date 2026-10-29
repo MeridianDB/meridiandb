@@ -1475,6 +1475,113 @@ identical existing content or create-only install, then force/publish the same-c
 next generation. Retain full journal and all old/failed objects; reader-safe physical
 reclamation and integration evidence remain MDB-0028/MDB-0029.
 
+## 2026-10-29 — MDB-0027 Local compaction installation and publication
+
+**Outcome:** implement `LocalCheckpointStore.publishCompaction(Plan, LocalJournal)`
+for the exact currently selected source. Keep MDB-0010 expanded; complete only its
+MDB-0027 child. No storage format, logical history, journal truncation, reader pin
+or physical removal change. No automatic compaction scheduling or performance claim.
+
+**Implementation:** gate source manifest ID during generation discovery before
+reading an unrelated stale graph. Completely verify the matching stored source and
+actual prefix through the canonical journal owner. The immutable private-constructed
+plan binds its bounded history and proposed source+1 generation at the same cutoff.
+Verify every existing replacement path against the exact complete encoded image
+before any output write, using the namespace's regular/no-follow/non-alias checks.
+Reject corrupt/truncated/wrong objects without repair. Reserve every missing segment
+plus one manifest candidate and the retained-generation slot before the first create.
+Create only missing objects through full-write/force/close, then reverify the complete
+replacement graph and actual owner prefix.
+
+Extract the existing verified dependency/manifest force-and-rename protocol into a
+private shared method. Force the journal through its owning adapter, force all
+replacement segments including reused files, force dependency names, force/close a
+create-only candidate, attempt atomic rename, then force the directory. Both callers
+retain the operating guard and poison after I/O/runtime/Error; attempted rename
+I/O/runtime failure remains `UncertainPublicationException`. All source/old/failed
+objects and the full journal are retained. Genesis and unchanged layouts explicitly
+publish the next generation; repeated unchanged publication consumes generation
+capacity. Store/journal ownership excludes cooperating engine writers. Existing
+`writeSegment` remains create-only and rejects an existing name.
+
+**Research/review:** freshly fetch all twelve Maven Central metadata sources on
+October 29 at **10:36:14 Toronto / 14:36:14 UTC**, and recheck official Maven/JUnit/
+Jackson compatibility. Selected versions remain latest stable and compatible with
+Java 25; Maven/plugin 4 RC/beta versions remain unselected. No POM, wrapper or new
+dependency change. Refresh Lucene Directory/SegmentInfos and JDK 25 Files/FileChannel
+primary evidence in ADR 0016: separate file sync, namespace sync and generation
+selection, retain exclusive ownership/destination checks for atomic rename, and
+state provider/device force assumptions. Verified exact-image content reuse is a
+MeridianDB design inference, not an inherited Lucene CAS guarantee.
+
+Independent production review finds no actionable correctness/resource defect.
+Documentation review corrects checkpoint cutoff versus journal forced position:
+publication preserves contents but can advance the owner's force counters. Independent
+test review improves crash evidence from filename existence to complete replacement
+bytes/expected ID and exact pending manifest bytes/ID; link creation now fails on
+ordinary permission/I/O errors instead of treating all FileSystemException cases as
+unsupported. Persist those capability/crash-evidence standards in AGENTS.
+
+**Verification:** initial focused compaction/checkpoint protocol/crash command
+`./mvnw -B -ntp -Dtest=LocalCompactionPublicationTest,LocalCompactionIntegrationTest,LocalCompactionCrashTest,LocalCheckpointStoreTest,LocalCheckpointCrashTest test`
+passes **94 tests**. Final `./mvnw -B -ntp verify`, after stronger evidence assertions,
+passes **603 tests**, zero failures/errors/skips on macOS/arm64. The 51 new invocations:
+
+- **34 injected protocol cases:** new/mixed/all-reused/genesis outputs, exact bytes
+  and ordered forces, stale/missing source, owner lineage/prefix mismatch, damaged
+  source, corrupt later reuse checked before earlier missing output creation,
+  exact/insufficient directory capacity and generation exhaustion, before/after-effect
+  installation/verification/force/candidate/rename faults, retained evidence, reopen
+  selection, poison/Error/uncertainty, reentrancy, null/path prevalidation and close retry.
+- **13 real integration cases:** two-to-one publication, old lazy readers after
+  store close, unchanged-layout and preinstalled valid reuse, genesis, stale source
+  ID/generation, wrong owner path/actual journal history, engine exclusion, corrupt/
+  directory/symlink candidates and journal/store-lock hard-link aliases. Four bounded
+  contender JVMs verify lock preservation after alias rejection. Journal raw bytes
+  are inspected only after owners close.
+- **Four real process exits:** halt after dependencies sync, candidate sync,
+  manifest rename and final directory sync. Reopen selects only the old/new complete
+  graph as appropriate, verifies installed segment expected bytes/ID and exact pending
+  metadata when present, retains old manifests/segments, and preserves the complete
+  journal plus uncheckpointed tail. Writable reopen checks historical/current queries,
+  request lookup, identical retry and conflicting identity rejection. This is process
+  termination, not power-loss simulation.
+
+All **eleven examples** pass. New `LocalCompactionExample` publishes two segments
+as one at cutoff two, verifies unchanged-layout reuse in generation three and reopens
+exact two-transaction history. It retains failed-run evidence and removes only its
+successful temporary output after every handle closes. Linux/Windows CI invokes the
+new example. Production JAR inspection confirms **102 Java 25 classes**, major69,
+with no test oracle/reference, fixture, seed, JUnit or Jackson content. SHA-256:
+`8a11bf7c431711efad2749e44a282f18a4b33db3c4b9fe75849234f5780e53cf`.
+
+**Documentation/planning:** reconcile README, home/roadmap, architecture/research,
+ADR 0016/index, build/reference/engine and compaction/checkpoint guides plus AGENTS.
+Explain explicit ownership, verified reuse, all-output capacity, unchanged-layout
+generation cost, full retention, uncertainty and remaining reclamation/integration
+work. Both URL-layout shared builds pass source/HTML/links/search/sitemap for **38
+pages**. Local browser QA confirms the rendered publication section/code/list,
+navigation and `publishCompaction` search result opening its exact anchor. No theme/
+asset change or new dark/mobile claim. Validate all 29 queue IDs/references/DAG and
+completed-parent rules, no active executable row and only MDB-0028 ready; repository
+Markdown paths and diff checks pass. Scratch logs/evidence remain ignored in
+`.local-qa/mdb-0027/`.
+
+**Prerequisite/delivery:** prior `6d419787425717a15ca50acc29f3c0eeb40cc801` is on
+remote main with successful Java (**40880212348**), documentation (**40880212242**)
+and Pages (**40880212362**) workflows; its prior handoff verified 38 live pages,
+search and sitemap. This completion uses `Step-ID: MDB-0027` / `Step-Result: completed`;
+Git supplies its SHA/remote ancestry. Final handoff reports actual push, CI/Pages
+and exact live content/search/sitemap verification. No library artifact release/upload,
+Cloudflare or other infrastructure deployment.
+
+**Next recommendation:** MDB-0028 — protect readers and reclaim obsolete physical
+objects safely. Refine its cross-process admission/deletion and reader-lifetime work
+into bounded prerequisites if needed. Preserve selected/retained/reader/backup roots,
+full journal, unknown/diagnostic evidence and fail-closed newest selection. Integrated
+canonical/seeded publication/removal, interrupted cleanup and physical-space evidence
+remain MDB-0029; the parent remains expanded.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

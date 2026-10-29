@@ -6,7 +6,7 @@ description: Preserve all temporal history and request identity during bounded d
 # ADR 0016: History-preserving compaction
 
 - **Date:** October 29, 2026
-- **Status:** Pure bounded repacking implemented; local installation/publication and reclamation remain planned
+- **Status:** Pure bounded repacking and local publication implemented; protected reclamation remains planned
 - **Scope:** Complete checkpoint history, logical retention and physical object lifetimes
 
 ## Context
@@ -39,10 +39,15 @@ exceeding a hard target. Encoded-byte budgets do not claim an exact JVM heap bou
 The [compaction guide](../development/history-compaction.md) owns API details,
 limits, space accounting and reproduction commands.
 
-Keep local integration separate. It must recheck the source generation and actual
-owned journal, verify/reuse identical existing content IDs or create new immutable
-objects, force dependencies/names and publish through the established checkpoint
-protocol. Retain old files and failed candidates through publication uncertainty.
+Keep local installation/publication as a separate explicit operation.
+`LocalCheckpointStore.publishCompaction` rechecks the exact selected source ID and
+actual owned journal, verifies all existing expected images byte for byte, reserves
+all missing-object and manifest capacity, then create-only installs missing objects.
+It revalidates the replacement and uses the established checkpoint force/rename
+protocol, including forcing reused objects. Genesis and unchanged layouts still
+publish the next generation at the same cutoff. Retain the complete journal, all
+old files and failed candidates through publication uncertainty. No automatic
+scheduling or physical deletion is introduced.
 
 Permit physical deletion only after a separately implemented protection protocol
 closes the cross-process reader-admission versus deletion race. Pins belong to lazy
@@ -72,6 +77,17 @@ Sources checked October 29, 2026:
   file sets with log progress.
   [XTDB](https://docs.xtdb.com/index.html),
   [Backup and restore](https://docs.xtdb.com/ops/backup-and-restore/overview.html).
+- Lucene's directory contract separates create-only output, file synchronization,
+  metadata synchronization and complete-content rename visibility; `SegmentInfos`
+  selects the largest commit generation.
+  [Directory](https://lucene.apache.org/core/10_5_2/core/org/apache/lucene/store/Directory.html),
+  [SegmentInfos](https://lucene.apache.org/core/10_5_2/core/org/apache/lucene/index/SegmentInfos.html).
+- JDK 25 documents atomic check/create with `CREATE_NEW`, provider-specific existing
+  target behavior for `ATOMIC_MOVE`, and the storage scope of `FileChannel.force`.
+  Exclusive ownership and destination-absence checks remain required; file force
+  alone does not establish directory-name durability.
+  [Files](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Files.html),
+  [FileChannel.force](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/FileChannel.html#force(boolean)).
 
 MeridianDB's exact-history repacking, budgets and required reader-protection
 boundaries are design choices informed by these sources. They do not inherit
@@ -87,7 +103,9 @@ Publishing or deleting directly from a pure plan would conflate consistency,
 actual stored-journal verification, namespace durability and reader liveness.
 Separating them preserves the existing fail-closed publication contract while
 making each new boundary testable. Generation advancement is physical bookkeeping;
-an unchanged layout need not be published just because a plan exists.
+a caller can avoid submitting an unchanged layout. Once explicitly submitted,
+`publishCompaction` verifies it and selects the next generation consistently,
+consuming one retained-generation slot even when all content IDs are reused.
 
 Greedy whole-record packing is a simple deterministic baseline. It may reduce
 repeated header/footer overhead; a smaller target can increase it. Plan byte totals

@@ -101,8 +101,9 @@ without committing to a public API.
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
 local journal, immutable segment files, checkpoint publication and read recovery,
 plus forced local commit publication, process crash/retry conformance and typed
-temporal query operators and bounded pure history repacking. Planned work covers
-local compaction publication, reader-safe physical reclamation, object storage and
+temporal query operators, bounded pure history repacking and verified local
+compaction publication. Planned work covers
+reader-safe physical reclamation, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
@@ -120,12 +121,13 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 552 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 603 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,
-55 typed query checks and 57 pure compaction checks. Coverage
+55 typed query checks, 57 pure compaction checks and 51 local compaction
+publication/integration/process checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -167,6 +169,15 @@ creates, publishes and deletes no files. Run its checked example after verificat
 
 ```bash
 java --class-path target/classes examples/CompactionExample.java
+```
+
+The separate local publisher rechecks source selection and the actual owned journal,
+verifies/reuses identical existing content, installs missing objects and publishes
+at the same cutoff. All old files and the full journal remain retained. Run its
+installation/reuse/reopen example:
+
+```bash
+java --class-path target/classes examples/LocalCompactionExample.java
 ```
 
 ## Working in this repository

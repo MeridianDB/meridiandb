@@ -51,8 +51,10 @@ query state and acknowledging success. Process-exit and seeded writable-reopen
 checks preserve exact history and retry identity. The
 [pure history compactor](development/history-compaction.md) now repacks complete
 checkpoint history under aggregate/per-object limits, retaining all cutoffs and
-request payloads. Local compaction publication and physical reclamation remain
-planned; layout performance experiments need their own evidence.
+request payloads. The local publisher now verifies/reuses or creates replacement
+objects and selects the same-cutoff next generation, retaining all old files and
+the full journal. Protected physical reclamation remains planned; layout performance
+experiments need their own evidence.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

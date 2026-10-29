@@ -134,12 +134,15 @@ behavior; they do not simulate power loss or establish guarantees for remote
 filesystems. [Durability conformance](durability-conformance.md) also exercises
 initialization and checkpoint publication with actual database recovery.
 
-The [pure history compactor](history-compaction.md) can propose the next generation
-at the same cutoff with exact original transactions regrouped. It does not install
-that proposal. Local integration must recheck source selection/actual journal,
-verify or create replacement objects and use this publication protocol. Existing
-content names require complete verified reuse rather than another create-only
-write. Physical deletion still needs reader protection and a separate safety proof.
+The [history compactor](history-compaction.md) proposes the next generation at the
+same cutoff with exact original transactions regrouped. `publishCompaction(plan,
+journal)` rechecks the selected source ID and actual owner journal, verifies every
+existing output byte for byte, reserves all missing-object/candidate capacity and
+create-only installs missing segments before using this same publication protocol.
+Reused objects are forced too. An unchanged layout still selects the next generation;
+all old files and the complete journal remain retained. Physical deletion still
+needs reader protection and a separate safety proof. Ordinary `writeSegment` keeps
+its existing-path rejection behavior.
 
 ## Readers and example
 

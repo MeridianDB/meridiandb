@@ -11,11 +11,12 @@ into new immutable history segments. Corrections, overwritten values, retraction
 no-op commits and request payloads remain intact. This preserves the logical
 history rather than keeping only the latest value for each entity.
 
-The implemented compactor creates no files, changes no selected generation and
-deletes nothing. A source resolver supplies complete existing byte images. Actual
-journal verification, replacement installation, durable publication and reader-safe
-physical reclamation need separate local integration. A plan is neither a force
-receipt nor permission to remove old objects.
+The pure compactor creates no files and changes no selected generation. A source
+resolver supplies complete existing byte images. `LocalCheckpointStore.publishCompaction`
+now installs a plan after rechecking the selected source and actual owned journal,
+then publishes its replacement. Both APIs retain all old files and the complete
+journal. Physical reclamation still requires reader protection; a plan alone is
+neither a force receipt nor permission to remove old objects.
 
 ## Retention and physical layout
 
@@ -119,18 +120,61 @@ segment count and encoded overhead. No disk space is reclaimed by this calculati
 
 The same history and target produce the same segment bytes/IDs regardless of input
 grouping or physical generation. Repacking an already matching layout can reuse
-all content IDs while proposing another generation; local integration must verify
-existing candidates before reuse and may choose not to publish an unchanged layout.
+all content IDs while proposing another generation. The local publisher verifies
+existing candidates and explicitly publishes the next generation even when every
+segment reference is unchanged. It does not automatically schedule compaction;
+callers should consider generation capacity before requesting repeated repacks.
 A corrupt file bearing an expected content name is never a valid reusable object.
 
-## Publication and reclamation boundaries
+## Install and publish locally
 
-The [local checkpoint protocol](local-checkpoints.md) already verifies the actual
-owned journal, forces dependencies and names, then selects a complete immutable
-generation by atomic rename and final directory force. Local compaction still needs
-to install or verify/reuse its outputs under that ownership and recheck the source
-generation before publication. Existing `writeSegment` is create-only: an existing
-path is not an implicit successful reuse. All prior files remain retained.
+Close the `LocalDatabase` owner before acquiring the store and its journal.
+Compaction uses their existing exclusive ownership, so a cooperating engine writer
+cannot run concurrently. A plan may be prepared earlier, but publication accepts
+only the exact currently selected source manifest ID.
+
+```java
+try (var store = LocalCheckpointStore.open(directory);
+     var journal = LocalJournal.open(store.journalPath())) {
+    var publishedId = store.publishCompaction(plan, journal);
+}
+```
+
+`LocalJournal` is in `org.meridiandb.storage.journal`. The publisher:
+
+1. Discovers the highest generation and rejects a stale source ID before reading
+   an unrelated graph. Verifies the selected source's complete stored graph and
+   exact prefix through the actual journal owner at `transactions.journal`.
+2. Checks every already present replacement object against its complete expected
+   encoded bytes. Reuse requires a regular, nonsymlink file that aliases neither
+   the journal nor the store lock. A corrupt, truncated or wrong same-name image
+   fails closed, even if later installation could otherwise succeed.
+3. Reserves capacity for **all missing segments plus one manifest candidate** and
+   one retained generation before creating the first output. Existing source,
+   unrelated and failed files all count toward the directory limit.
+4. Creates only missing objects, fully writing, forcing and closing each. Verifies
+   the complete replacement graph and actual owner prefix again.
+5. Uses the shared [checkpoint publication protocol](local-checkpoints.md#publication-order):
+   force journal, force every referenced segment including reused objects, force
+   dependency names, force/close a new manifest candidate, atomically rename it,
+   then force the directory. The checkpoint cutoff and journal contents are unchanged.
+
+Success returns the replacement `ManifestId`. Genesis and unchanged layouts also
+publish source generation plus one. An existing output is never overwritten or
+repaired. Storage-discovered failures poison the store until close/reopen; once
+atomic rename is attempted, I/O/runtime failure is `UncertainPublicationException`.
+Reopen to discover the highest complete valid generation, without falling back
+from a damaged newest graph or promoting an unselected candidate. Failure retains
+all old files and any partially installed output for inspection. Ordinary
+`writeSegment` remains create-only and still rejects an existing path.
+
+Source verification, replacement verification and publication perform repeated
+bounded reads/encoding; the plan's byte totals are not total I/O or peak heap use.
+This is an explicit whole-checkpoint operation, with no automatic scheduling,
+journal truncation, fast-recovery or throughput claim. The filesystem/provider and
+force assumptions of local checkpoint publication apply equally to reused objects.
+
+## Physical reclamation boundaries
 
 Physical reclamation needs a separate protection protocol. Lazy reader admission
 must select and pin its generation under cross-process coordination that excludes
@@ -143,7 +187,7 @@ Timers, PID observations and a process-local registry alone cannot establish tha
 an old generation is unused. An uncertain pin or removal outcome requires retention.
 Obsolete metadata must be safely retired before its now-unreferenced dependencies;
 newest selected state must remain verifiable after interruption. No such deletion
-protocol is implemented by the pure compactor.
+protocol is implemented by either compaction API.
 
 ## Verify and run the example
 
@@ -175,5 +219,31 @@ All eight original/query fixture histories execute their 174 literal expectation
 before and after repacking. Rebuilt execution consumes actual compactor output;
 independent reference and dense seeded checks cover historical queries and retries.
 Reproduce a reported seed with `-Dtest=CompactionConformanceTest -Dmeridiandb.seed=42`.
-These checks establish pure history preservation, not local compaction publication,
-reclamation, crash safety of deletion or a query-performance improvement.
+These pure checks establish history preservation independently of local publication.
+They do not establish reclamation, crash safety of deletion or query performance.
+
+Run the local installation/reuse/reopen example after verification:
+
+```bash
+java --class-path target/classes examples/LocalCompactionExample.java
+```
+
+It publishes a two-to-one replacement at cutoff two, verifies unchanged-layout
+reuse in generation three, then reopens exact history. It reports unsupported
+directory open/force separately, removes only its successful temporary output
+after all handles close, and retains failed-run evidence. Neither storage API
+reclaims objects.
+
+```bash
+./mvnw -B -Dtest=LocalCompactionPublicationTest,LocalCompactionIntegrationTest,LocalCompactionCrashTest test
+```
+
+The 51 local checks (34 injected protocol, 13 real integration and four child-JVM
+exit cases) cover verified reuse, corrupt same-name candidates, source/journal
+binding, whole-installation capacity, fault poisoning and uncertain rename outcomes.
+Real-file checks retain old lazy readers, exclude engine writers and reopen exact
+history. Child JVMs halt at the four dependency/candidate/rename/directory boundaries
+and verify the selected old or new complete graph with journal-tail recovery and
+original request retries. These process exits do not simulate device power loss.
+Full canonical/seeded publication with protected physical removal and retained-space
+accounting still requires a reclamation implementation.

@@ -197,7 +197,13 @@ so a new session can work correctly without relying on earlier conversations.
   as per-object limits before returning a pure plan. Preserve deterministic whole-
   transaction groups and report encoded bytes separately from reclaimed disk space.
 - Keep pure compaction, actual owner-journal verification, replacement installation,
-  durable publication and physical deletion as distinct stages. Verify/reuse existing
+  durable publication and physical deletion as distinct stages. For local installation,
+  use `publishCompaction(plan, journal)`: require the exact selected source ID and
+  actual owner prefix, verify every existing complete output before reuse, reserve
+  all missing segments plus one candidate before writes, then use the shared
+  force/rename protocol including reused files. An unchanged layout still publishes
+  the next physical generation; test stale plans, capacity, failure/uncertainty and
+  real process reopen. Ordinary `writeSegment` remains create-only. Verify/reuse existing
   identical content IDs; an existing path is not proof of valid reuse. Retain the
   complete journal under the current contract. Retain old/failed physical objects
   until an implemented reclamation protocol and inspected diagnostic policy establish
@@ -217,6 +223,12 @@ so a new session can work correctly without relying on earlier conversations.
 - For behavioral changes, run focused tests of observable results. Temporal and
   storage work needs boundary cases and, as relevant, randomized histories,
   crash/restart injection, retry tests and concurrent-writer tests.
+- In capability-specific tests, distinguish an explicitly unsupported required
+  capability from ordinary I/O or permission failure. Directory-sync-dependent
+  recovery tests skip only that unavailable capability; link-specific cases may
+  separately report an explicit unsupported link operation. Ordinary storage or
+  permission failures must fail the check. Verify retained crash candidates by
+  complete expected bytes/IDs, not filename existence alone.
 - Preserve failing seeds and minimal reproductions when fixing a defect. Test the
   contract rather than mirroring implementation details.
 - Compare performance under equivalent semantics, durability and workloads.

@@ -28,6 +28,7 @@ There is no release date or stable API commitment.
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
 | [Typed temporal queries](development/temporal-queries.md) | Signed numeric predicates, deterministically ordered entity selection, filtered intervals and exact sums at one pinned cutoff |
 | [Pure history compaction](development/history-compaction.md) | Complete graph validation, exact transaction repacking and encoded-space accounting under explicit budgets; no file installation/deletion |
+| [Local compaction publication](development/history-compaction.md#install-and-publish-locally) | Exact source/owner-journal checks, verified reuse, create-only installation and same-cutoff generation publication; old files retained |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -70,8 +71,9 @@ snapshot; indexes, pagination and total query budgets remain open. Indexes and p
 [Pure compaction](development/history-compaction.md) now retains every original
 transaction and request identity while repacking segment boundaries. Logical
 retention remains all history; a plan changes no selected generation or file.
-Local installation/publication and cross-process reader protection must precede
-physical reclamation. Earlier cutoffs, lazy readers, recovery and backup roots
+Local installation/publication now verifies existing content and selects the
+same-cutoff replacement through the checkpoint protocol. Cross-process reader
+protection must precede physical reclamation. Earlier cutoffs, lazy readers, recovery and backup roots
 remain part of that safety contract.
 
 An object-storage backend needs its own immutable-object publication, conditional

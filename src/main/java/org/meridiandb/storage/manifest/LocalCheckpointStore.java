@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.List;
@@ -207,7 +208,6 @@ public final class LocalCheckpointStore implements AutoCloseable {
         byte[] image = ManifestCodec.encode(manifest); // Validate caller metadata before storage work.
         var id = ManifestCodec.decode(image).id();
         operating = true;
-        boolean moving = false;
         try {
             var previous = loadLatest(journal);
             long generation = previous.map(value -> value.manifest().generation()).orElse(0L);
@@ -218,6 +218,82 @@ public final class LocalCheckpointStore implements AutoCloseable {
             }
             requireCapacity(true);
             verify(manifest, journal);
+            return publishVerified(manifest, image, id, journal);
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    /**
+     * Install a pure compaction plan for the exact currently selected generation and publish its
+     * replacement at the same journal cutoff. Existing content is verified byte for byte before
+     * reuse; missing objects are created, never replaced. Even unchanged layouts publish the next
+     * generation. All older objects, failed candidates and the complete journal remain retained.
+     * Close any database owner before acquiring this store and its journal for compaction.
+     */
+    public synchronized ManifestId publishCompaction(HistoryCompactor.Plan plan, LocalJournal journal) throws IOException {
+        usable();
+        return publishCompaction(plan, access(journal));
+    }
+
+    synchronized ManifestId publishCompaction(HistoryCompactor.Plan plan, JournalAccess journal) throws IOException {
+        usable();
+        Objects.requireNonNull(plan, "plan");
+        Objects.requireNonNull(journal, "journal");
+        var replacement = plan.replacementManifest();
+        byte[] manifestImage = ManifestCodec.encode(replacement);
+        var id = ManifestCodec.decode(manifestImage).id();
+        operating = true;
+        try {
+            loadLatest(journal, plan.sourceManifestId())
+                    .orElseThrow(() -> new IOException("Compaction requires a selected source generation"));
+            // Plan construction is private and validates immutable metadata/history. Recheck the
+            // selected stored graph and actual owned journal above before any installation effect.
+            var entries = namespace.entries();
+            var existing = new HashSet<>(entries);
+            int missing = 0;
+            for (int index = 0; index < plan.segments().size(); index++) {
+                String name = segmentName(replacement.segments().get(index).id());
+                if (existing.contains(name)) {
+                    byte[] expected = SegmentCodec.encode(plan.segments().get(index));
+                    byte[] stored = namespace.read(name, expected.length);
+                    if (!Arrays.equals(expected, stored)) {
+                        throw new IOException("Existing compaction object differs from its expected complete image: " + name);
+                    }
+                } else {
+                    missing++;
+                }
+            }
+            // Reserve every missing object and the candidate before creating the first one. The
+            // rename replaces the candidate name, so it requires no additional directory slot.
+            if ((long) entries.size() + missing + 1 > MAX_DIRECTORY_ENTRIES
+                    || entries.stream().filter(name -> name.startsWith("checkpoint-")).count() >= MAX_GENERATIONS) {
+                throw new IOException("No capacity for complete compaction installation and publication");
+            }
+            for (int index = 0; index < plan.segments().size(); index++) {
+                String name = segmentName(replacement.segments().get(index).id());
+                if (!existing.contains(name)) {
+                    namespace.writeNew(name, SegmentCodec.encode(plan.segments().get(index)));
+                }
+            }
+            verify(replacement, journal);
+            return publishVerified(replacement, manifestImage, id, journal);
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    /** Shared force/selection protocol; caller holds the monitor and guarded I/O phase. */
+    private ManifestId publishVerified(CheckpointManifest manifest, byte[] image, ManifestId id,
+                                       JournalAccess journal) throws IOException {
+        boolean moving = false;
+        try {
             journal.force(); // Through the owning journal, never a second same-file channel.
             for (var reference : manifest.segments()) {
                 namespace.forceFile(segmentName(reference.id()));
@@ -235,14 +311,8 @@ public final class LocalCheckpointStore implements AutoCloseable {
             observe(PublicationBoundary.DIRECTORY_SYNCED);
             return id;
         } catch (IOException | RuntimeException failure) {
-            failed = true;
             if (moving) { throw new UncertainPublicationException(failure); }
             throw failure;
-        } catch (Error failure) {
-            failed = true;
-            throw failure;
-        } finally {
-            operating = false;
         }
     }
 
@@ -266,6 +336,10 @@ public final class LocalCheckpointStore implements AutoCloseable {
     }
 
     private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal) throws IOException {
+        return loadLatest(journal, null);
+    }
+
+    private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal, ManifestId expectedSource) throws IOException {
         List<String> entries = namespace.entries();
         if (entries.size() > MAX_DIRECTORY_ENTRIES) { throw new IOException("Checkpoint directory entry limit exceeded"); }
         Generation latest = null;
@@ -283,6 +357,9 @@ public final class LocalCheckpointStore implements AutoCloseable {
             if (latest == null || number > latest.number()) { latest = generation; }
         }
         if (latest == null) { return Optional.empty(); }
+        if (expectedSource != null && !latest.id().equals(expectedSource)) {
+            throw new IOException("Compaction source is no longer the selected generation");
+        }
         var decoded = ManifestCodec.decode(namespace.read(latest.name(), ManifestCodec.MAX_MANIFEST_BYTES), latest.id());
         if (decoded.manifest().generation() != latest.number()) { throw new IOException("Filename generation differs from manifest"); }
         verify(decoded.manifest(), journal); // Fail on damaged newest state; never silently fall back.
