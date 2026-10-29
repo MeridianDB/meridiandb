@@ -32,6 +32,10 @@ children before implementation rather than treating a whole milestone as one pat
 - The full journal and every old/failed object remain retained. All participating
   readers must use the protocol and one loaded library copy per JVM; legacy readers
   cannot be retroactively protected. Long-lived readers may indefinitely block cleanup.
+- Delivery repair: `6fb7b60c0e435db13d4dec913365885944199fff` passed Linux Java,
+  docs/Pages and 40-page live QA; Windows exposed two POSIX-specific path-fixture
+  assumptions. Use provider-real-parent expected files without weakening identity
+  checks or adding skips. Verify the repair commit's Windows CI before advancing.
 - Previous completion `798dfce47f57279ee25336884766ff4cbf8da47e` is on remote main;
   Java, documentation checks and automatic Pages all passed. Its handoff verified
   38 live pages, search and sitemap. Use Git/workflows for actual delivery status.

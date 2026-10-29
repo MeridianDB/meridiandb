@@ -39,20 +39,22 @@ class LocalJournalTest {
     Path directory;
 
     @Test
-    void symlinkParentThenDotDotOpensTheActualRequestedJournalRatherThanItsLexicalNeighbor() throws IOException {
+    void symlinkParentThenDotDotUsesTheProviderRealParentForCreateAndReopen() throws IOException {
         var base = Files.createDirectory(directory.resolve("base"));
         var elsewhere = Files.createDirectory(directory.resolve("elsewhere"));
         var child = Files.createDirectory(elsewhere.resolve("child"));
         try { Files.createSymbolicLink(base.resolve("link"), child); }
         catch (UnsupportedOperationException unavailable) { assumeTrue(false, "Symbolic links unavailable: " + unavailable); }
         var requested = base.resolve("link").resolve("..").resolve("transactions.journal");
-        var actual = elsewhere.toRealPath().resolve("transactions.journal");
+        var actual = requested.getParent().toRealPath().resolve(requested.getFileName());
         try (var journal = LocalJournal.create(requested, DATABASE)) {
             assertEquals(Optional.of(actual), journal.path());
             journal.append(FIRST);
             assertEquals(1, journal.force());
         }
-        assertFalse(Files.exists(base.resolve("transactions.journal")));
+        assertTrue(Files.isSameFile(actual, requested));
+        var lexicalNeighbor = base.toRealPath().resolve("transactions.journal");
+        if (!actual.equals(lexicalNeighbor)) { assertFalse(Files.exists(lexicalNeighbor)); }
         try (var journal = LocalJournal.open(requested)) {
             assertEquals(Optional.of(actual), journal.path());
             assertEquals(List.of(FIRST), replay(journal));

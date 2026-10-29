@@ -76,7 +76,12 @@ and segment reads/forces, reuse checks and lazy segment opens also reject guard
 aliases, including control files owned in other stores in the same JVM. Shared
 cross-adapter reservations coordinate control ownership with transient metadata/segment
 read, force and create-only channels before opening. Resolve real parent paths before interpreting
-`..` beside a symlink. Hard-link checks matter: closing another handle to the same file can release
+`..` beside a symlink, using the actual filesystem provider's real-parent result.
+POSIX and Windows can resolve that lexical pattern differently; identity tests
+bind the provider-selected file rather than assuming a particular sibling. The
+[JDK Path contract](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/file/Path.html#toRealPath(java.nio.file.LinkOption...))
+defines real-path resolution as implementation dependent.
+Hard-link checks matter: closing another handle to the same file can release
 process locks on some platforms. Inspect identity/attributes without independently
 reading the protected guard through another channel.
 

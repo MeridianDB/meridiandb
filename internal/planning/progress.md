@@ -1707,6 +1707,32 @@ selection, metadata retirement before unreferenced dependency removal, and direc
 sync. Retain MDB-0029's integrated canonical/seeded/crash/space gate and both expanded
 parents until their original criteria pass.
 
+## 2026-10-29 — MDB-0030 Provider-aware CI repair
+
+Initial completion `6fb7b60c0e435db13d4dec913365885944199fff` reached remote main.
+Linux Java, documentation and Pages passed, and exact live QA verified 40 public
+pages/search/sitemap. Windows Java run **40907411566** reported 678 invocations,
+one failure, one error and 142 capability skips. Both failures were new fixtures
+assuming POSIX symlink/`..` resolution: journal expected the physical sibling and
+the identity fixture queried a nonexistent POSIX-selected target on Windows.
+
+Repair only those expected paths: derive the existing target from the actual
+provider's real-parent resolution, then retain same-file, control/read exclusion,
+create/reopen/history and conditional distinct-neighbor checks. No new skips,
+production changes, dependency updates or weakened identity guarantees. Preserve
+the original source commit and native-close/capacity safeguards. Add the observed
+provider distinction to AGENTS and the public reader guide, plus a delivery hold
+in the live queue until repair CI passes.
+
+Focused `./mvnw -B -ntp -Dtest=LocalFileOwnershipTest,LocalJournalTest test` passes
+**54 tests**, zero failures/errors/skips locally. Full local 678/eleven-example and
+JAR evidence remains the prior final-code result; production bytes are unchanged.
+Both URL-layout shared docs builds pass 40-page source/HTML/link/search/sitemap QA.
+Inspect the repair's Linux/Windows CI and Pages, then verify exact live content.
+This repair retains `Step-ID: MDB-0030` / `Step-Result: completed`; Git supplies its
+SHA and actual remote state. MDB-0031 remains the next recommendation, conditional
+on resolved delivery; neither expanded parent is closed.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

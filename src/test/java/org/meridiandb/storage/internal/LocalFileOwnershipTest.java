@@ -154,13 +154,14 @@ class LocalFileOwnershipTest {
     }
 
     @Test
-    void dotDotAfterASymbolicParentResolvesThePhysicalParentBeforeReservation() throws IOException {
+    void dotDotAfterASymbolicParentUsesTheProviderRealParentBeforeReservation() throws IOException {
         var lexicalParent = Files.createDirectory(directory.resolve("lexical"));
         var physicalParent = Files.createDirectory(directory.resolve("physical"));
         var target = Files.createDirectory(physicalParent.resolve("child"));
         var link = symbolicLink(lexicalParent.resolve("link"), target);
-        var actual = Files.createFile(physicalParent.resolve("owned"));
         var alias = link.resolve("..").resolve("owned");
+        // Providers differ here: bind the existing file selected by this provider's real parent.
+        var actual = Files.createFile(alias.getParent().toRealPath().resolve(alias.getFileName()));
         assertTrue(Files.isSameFile(actual, alias));
         try (var control = LocalFileOwnership.control(actual)) {
             assertThrows(IOException.class, () -> LocalFileOwnership.read(alias));

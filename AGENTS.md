@@ -120,7 +120,10 @@ so a new session can work correctly without relying on earlier conversations.
   after known successful channel close. A thrown native close remains quarantined
   even when Java reports `isOpen() == false`; a no-op retry is not cleanup evidence.
   Retain reservations and require process restart on that uncertainty. Resolve the real parent before final name handling,
-  preserving symlink/`..` identity. Distinguish file force from directory-entry
+  preserving the provider's symlink/`..` identity. Path fixtures derive expected
+  identities from that provider's real-parent resolution; POSIX and Windows may
+  resolve the same lexical pattern differently. Keep both control/read exclusion
+  and create/reopen checks without assuming one platform's sibling. Distinguish file force from directory-entry
   durability. Preserve incomplete/corrupt evidence and test changed I/O boundaries.
   In journal tests, inspect raw file bytes after closing the owning adapter; use
   replay/counters while open. A second read handle can be blocked by Windows locks
