@@ -1733,6 +1733,99 @@ This repair retains `Step-ID: MDB-0030` / `Step-Result: completed`; Git supplies
 SHA and actual remote state. MDB-0031 remains the next recommendation, conditional
 on resolved delivery; neither expanded parent is closed.
 
+## 2026-10-29 — MDB-0032 Verified reclamation inventory
+
+**Outcome and refinement:** reconcile clean main and previous repair
+`37ac5b63f3db4b0f38c5047bca1c75613a7a5af9` against origin/main and successful Java
+40908240454, documentation 40908240419 and Pages 40908240392. Split MDB-0031 into
+MDB-0032 (this bounded inventory/retention outcome) and required MDB-0033 (ordered
+protected removal/interruption). Preserve the original MDB-0031/MDB-0028 criteria
+and MDB-0029's integrated semantic/crash/space gate; all three parents remain expanded.
+
+Implement `LocalCheckpointStore.inspectReclamation` with private-constructed immutable
+`ReclamationInventory`, explicit limits, exact names/lengths, selected/retained IDs,
+preserved names and repeated-graph/candidate accounting. Acquire nonblocking exclusive
+reader protection under store ownership; known contention returns an empty deferred
+status without poisoning. Freeze caller roots, retain newest implicitly and reject
+missing retained IDs. Verify every published graph and actual owned-journal prefix,
+including obsolete generations, without newest fallback. Preserve legal generation gaps.
+Candidates are verified obsolete metadata plus dependencies absent from every live
+root. Unknown/orphan objects remain unclassified/preserved; any pending name refuses
+inventory. No physical object is removed and no persistent pin is created.
+
+Preflight aliases before metadata/segment opens, including same-directory unknown
+hard links; shared identity reservations retain cross-store control exclusion. Bound
+metadata reads, repeated graph bytes (64 MiB), records (262,144) and namespace
+identity comparisons (1,000,000). Independent review found generic verification's
+32 MiB read bound could exceed a smaller declared segment limit for corrupt input;
+use an inspection-specific source capped at each declared exact length and add an
+oversized-file regression. No outstanding material review finding remains. Clarify
+that graph budgets exclude journal acquisition and actual prefix I/O, which retain
+journal frame/cutoff bounds. Keep protection reachable after failed close, suppress
+cleanup failures, attempt publisher cleanup independently and retain native-close
+quarantine rules. Reuse strict generation discovery with existing selection.
+
+**Research:** refresh all twelve no-cache Central metadata sources on October 29,
+2026 at **15:18:57 Toronto / 19:18:57 UTC**, plus official compatibility. All existing
+pins remain latest stable: Maven 3.10.0 (4.0.0-rc-7 metadata), wrapper distribution/
+plugin 3.3.4, clean/resources 3.5.0, compiler 3.16.0, surefire 3.6.1, jar 3.5.1,
+install/deploy 3.2.0, JUnit 6.1.3 and Jackson 3.2.4. Maven/plugin 4 entries remain
+prereleases. Java 25 is compatible with documented Maven/JUnit/Jackson baselines.
+No dependency/POM/wrapper change. Refresh primary Lucene commit-file/retention/snapshot,
+JDK deletion/locking/force and namespace-sync evidence in ADR 0018. Explicit roots,
+conservative diagnostics and metadata-before-dependency removal are MeridianDB
+inferences, with no inherited throughput, deletion or device guarantee.
+
+**Verification:** focused
+`./mvnw -B -ntp -Dtest=LocalReclamationInventoryTest,LocalReclamationInventoryIntegrationTest,LocalCheckpointStoreTest,LocalCompactionPublicationTest,LocalInitializationTest test`
+passes **159 tests** before generation-gap/read-bound additions. Initial full verify
+passes 746 tests; final post-review `./mvnw -B -ntp verify` passes **747 tests**, zero
+failures/errors/skips on macOS/arm64. New coverage comprises **51 unit/fault cases**
+for roots/shared dependencies, genesis/empty/gaps, immutable results, bad old/new
+metadata/history/prefix, pending/unknown evidence, exact and huge declared bounds,
+corrupt oversized reads, malformed/duplicate/capacity names, alias budgets,
+contention/reentry, validity, before/after effects and IO/runtime/Error cleanup;
+plus **18 real filesystem/process cases** for exact repeated accounting, retained
+roots, orphan/diagnostic bytes, wrong journal, symlinks/hard links, independent
+contenders preserving both owner locks, cross-store controls, same-JVM and child-JVM
+reader lifetime, fresh admission and exact budget reopening. No existing fixture,
+seed or logical format changes; original writable history/retry verification passes.
+Tests inspect raw owner bytes only after close. Capability-dependent skips remain
+explicit unsupported-directory-sync/link boundaries rather than ordinary I/O failures.
+
+All **twelve examples** pass locally; the new inventory example demonstrates live
+reader deferral, selected-only candidates and explicit retained roots without deletion.
+Linux/Windows CI runs that same twelfth example. Production JAR inspection confirms
+**118 Java 25 classes**, major 69, no reference oracle, fixtures, seeds, JUnit or
+Jackson content. SHA-256:
+`3e9c68253a8f0433435da777f97fb3210ce415a678a8fba30535259c037cbcce`.
+No artifact release/upload. Process contention is not deletion-crash or device
+power-loss conformance; actual freed-space evidence still requires the remover.
+
+**Documentation/planning:** add inventory guide and ADR 0018 with navigation/decision
+table, reconcile README/home/roadmap/architecture/research, checkpoint/reader/
+compaction and build/reference/engine status. Persist exact read-bound, root,
+diagnostic and no-stale-deletion rules in AGENTS. Public copy explains technical
+behavior without internal workflow narration. Both URL layouts use shared
+source/HTML/link/search/sitemap QA for **42 pages**. Local browser inspection confirms
+policy table, code/navigation, inventory search/section anchor and ADR navigation;
+assets/theme unchanged, with no new dark/mobile claim. Validate 33 unique queue IDs,
+references/DAG/completed children, no active item and only MDB-0033 ready; inspect
+repository Markdown links and task-owned staged diff. Scratch evidence stays ignored
+under `.local-qa/mdb-0032/`.
+
+**Delivery:** commit with `Step-ID: MDB-0032` / `Step-Result: completed`, normal push
+to origin/main and remote ancestry/tip checks. Git provides this commit's SHA; final
+handoff records actual Java/docs/Pages outcomes and exact live content/search/sitemap
+verification. No Cloudflare or other infrastructure deployment.
+
+**Next recommendation:** MDB-0033 — remove verified obsolete objects with ordered
+synchronization. Recompute under both owners, reject aliases before delete, retire
+and force metadata before unreachable dependencies, preserve full journal and
+unknown/diagnostic objects, and prove safe interruption/reopen/capacity behavior.
+A preview is not a deletion capability. Keep MDB-0031/MDB-0028 and integrated
+MDB-0029/MDB-0010 criteria open until their actual evidence passes.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -15,6 +15,9 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.List;
@@ -78,6 +81,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
         LocalReaderBarrier.Protection acquireReader() throws IOException;
         Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() throws IOException;
         List<String> entries() throws IOException;
+        void checkObjectAliases(String name, List<String> entries) throws IOException;
         byte[] read(String name, int maxBytes) throws IOException;
         void writeNew(String name, byte[] image) throws IOException;
         void forceFile(String name) throws IOException;
@@ -107,6 +111,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
     private boolean closed;
     private boolean resourcesClosed;
     private boolean operating;
+    private LocalReaderBarrier.Protection inspectionProtection;
 
     LocalCheckpointStore(Namespace namespace) { this(namespace, null); }
 
@@ -366,14 +371,163 @@ public final class LocalCheckpointStore implements AutoCloseable {
         finally { operating = false; }
     }
 
+    /**
+     * Inspect physical retention under exclusive reader protection. The selected generation is
+     * always retained. Explicit IDs designate additional retained/backup roots in this directory;
+     * callers must repeat them on every future inspection/removal. This is no persistent pin.
+     * A live reader defers inspection. No files are removed; first admission can create/sync the
+     * permanent guard. The result is evidence only and must never be used as a deletion capability.
+     */
+    public synchronized ReclamationInventory inspectReclamation(Set<ManifestId> retainedRoots, LocalJournal journal) throws IOException {
+        usable();
+        return inspectReclamation(retainedRoots, access(journal), ReclamationInventory.Limits.DEFAULT);
+    }
+
+    public synchronized ReclamationInventory inspectReclamation(Set<ManifestId> retainedRoots, LocalJournal journal,
+                                                                ReclamationInventory.Limits limits) throws IOException {
+        usable();
+        return inspectReclamation(retainedRoots, access(journal), limits);
+    }
+
+    synchronized ReclamationInventory inspectReclamation(Set<ManifestId> retainedRoots, JournalAccess journal,
+                                                         ReclamationInventory.Limits limits) throws IOException {
+        usable();
+        var retained = Set.copyOf(retainedRoots); // Freeze caller input before storage effects.
+        Objects.requireNonNull(journal, "journal");
+        Objects.requireNonNull(limits, "limits");
+        operating = true;
+        try {
+            var acquired = namespace.tryReclamationBarrier();
+            if (acquired.isEmpty()) { return ReclamationInventory.deferred(); }
+            final ReclamationInventory result;
+            try (var protection = acquired.orElseThrow()) {
+                // Keep failed cleanup reachable for close retry; native uncertainty stays quarantined.
+                inspectionProtection = protection;
+                protection.checkValid();
+                result = inspectProtected(retained, journal, limits);
+                protection.checkValid();
+            }
+            inspectionProtection = null;
+            return result; // Release failure prevents any successful inventory from escaping.
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    private ReclamationInventory inspectProtected(Set<ManifestId> requested, JournalAccess journal,
+                                                  ReclamationInventory.Limits limits) throws IOException {
+        var entries = namespace.entries();
+        var generations = generations(entries);
+        if (entries.stream().anyMatch(name -> name.startsWith("pending-"))) {
+            throw new IOException("Pending checkpoint evidence requires explicit inspection before reclamation inventory");
+        }
+        var retained = new HashSet<>(requested);
+        Optional<ManifestId> selected = generations.isEmpty() ? Optional.empty()
+                : Optional.of(generations.getLast().id());
+        selected.ifPresent(retained::add);
+        var present = new HashSet<ManifestId>();
+        for (var generation : generations) { present.add(generation.id()); }
+        if (!present.containsAll(requested)) { throw new IOException("Requested retained checkpoint root is missing"); }
+
+        // Identity checks do not open another file channel. Check every metadata name before the
+        // first metadata open, then every distinct referenced segment before any segment open.
+        var checked = new HashSet<String>();
+        for (var generation : generations) { checkInventoryAliases(generation.name(), entries, checked); }
+        var decoded = new LinkedHashMap<Generation, ManifestCodec.DecodedManifest>();
+        var manifestLengths = new LinkedHashMap<String, Long>();
+        var segmentLengths = new LinkedHashMap<String, Long>();
+        var liveSegments = new HashSet<String>();
+        long bytes = 0;
+        long records = 0;
+        for (var generation : generations) {
+            int bound = (int) Math.min(ManifestCodec.MAX_MANIFEST_BYTES, limits.maxBytes() - bytes);
+            byte[] image = namespace.read(generation.name(), bound);
+            bytes += image.length;
+            if (bytes > limits.maxBytes()) { throw new IOException("Reclamation inspection byte budget exceeded"); }
+            var value = ManifestCodec.decode(image, generation.id());
+            var manifest = value.manifest();
+            if (manifest.generation() != generation.number()) { throw new IOException("Filename generation differs from manifest"); }
+            if (!manifest.databaseId().equals(journal.databaseId())) { throw new IOException("Checkpoint and journal lineage differ"); }
+            if (manifest.journalPrefix().sequence() > limits.maxRecords() - records) {
+                throw new IOException("Reclamation inspection record budget exceeded");
+            }
+            records += manifest.journalPrefix().sequence();
+            for (var reference : manifest.segments()) {
+                if (reference.byteLength() > limits.maxBytes() - bytes) {
+                    throw new IOException("Reclamation inspection byte budget exceeded");
+                }
+                bytes += reference.byteLength(); // Shared objects count again for repeated verification.
+                String name = segmentName(reference.id());
+                Long previous = segmentLengths.putIfAbsent(name, reference.byteLength());
+                if (previous != null && previous.longValue() != reference.byteLength()) {
+                    throw new IOException("Referenced segment lengths disagree");
+                }
+                if (retained.contains(generation.id())) { liveSegments.add(name); }
+            }
+            manifestLengths.put(generation.name(), (long) image.length);
+            decoded.put(generation, value);
+        }
+        for (String name : segmentLengths.keySet()) { checkInventoryAliases(name, entries, checked); }
+        for (var value : decoded.values()) {
+            verify(value.manifest(), journal, id -> {
+                String name = segmentName(id);
+                // A corrupt oversized stored file must not bypass the metadata work budget.
+                return namespace.read(name, Math.toIntExact(segmentLengths.get(name)));
+            });
+        }
+        var obsoleteManifests = new ArrayList<ReclamationInventory.ObjectFile>();
+        for (var generation : generations) {
+            if (!retained.contains(generation.id())) {
+                obsoleteManifests.add(new ReclamationInventory.ObjectFile(generation.name(), manifestLengths.get(generation.name())));
+            }
+        }
+        var obsoleteSegments = new ArrayList<ReclamationInventory.ObjectFile>();
+        for (var entry : segmentLengths.entrySet()) {
+            if (!liveSegments.contains(entry.getKey())) {
+                obsoleteSegments.add(new ReclamationInventory.ObjectFile(entry.getKey(), entry.getValue()));
+            }
+        }
+        obsoleteSegments.sort(Comparator.comparing(ReclamationInventory.ObjectFile::name));
+        var obsoleteNames = new HashSet<String>();
+        obsoleteManifests.forEach(file -> obsoleteNames.add(file.name()));
+        obsoleteSegments.forEach(file -> obsoleteNames.add(file.name()));
+        var preserved = entries.stream().filter(name -> !obsoleteNames.contains(name)).sorted().toList();
+        return new ReclamationInventory(ReclamationInventory.Status.VERIFIED, selected, retained,
+                obsoleteManifests, obsoleteSegments, preserved, bytes, records);
+    }
+
+    private void checkInventoryAliases(String name, List<String> entries, Set<String> checked) throws IOException {
+        if (checked.contains(name)) { return; }
+        if ((long) (checked.size() + 1) * Math.max(0, entries.size() - 1) > ReclamationInventory.MAX_ALIAS_COMPARISONS) {
+            throw new IOException("Reclamation inspection alias-comparison budget exceeded");
+        }
+        namespace.checkObjectAliases(name, entries);
+        checked.add(name);
+    }
+
     private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal) throws IOException {
         return loadLatest(journal, null);
     }
 
     private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal, ManifestId expectedSource) throws IOException {
-        List<String> entries = namespace.entries();
+        var generations = generations(namespace.entries());
+        if (generations.isEmpty()) { return Optional.empty(); }
+        var latest = generations.getLast();
+        if (expectedSource != null && !latest.id().equals(expectedSource)) {
+            throw new IOException("Compaction source is no longer the selected generation");
+        }
+        var decoded = ManifestCodec.decode(namespace.read(latest.name(), ManifestCodec.MAX_MANIFEST_BYTES), latest.id());
+        if (decoded.manifest().generation() != latest.number()) { throw new IOException("Filename generation differs from manifest"); }
+        verify(decoded.manifest(), journal); // Fail on damaged newest state; never silently fall back.
+        return Optional.of(decoded);
+    }
+
+    private static List<Generation> generations(List<String> entries) throws IOException {
         if (entries.size() > MAX_DIRECTORY_ENTRIES) { throw new IOException("Checkpoint directory entry limit exceeded"); }
-        Generation latest = null;
+        var result = new ArrayList<Generation>();
         var seen = new HashSet<Long>();
         for (String name : entries) {
             if (!name.startsWith("checkpoint-")) { continue; }
@@ -384,17 +538,10 @@ public final class LocalCheckpointStore implements AutoCloseable {
             catch (NumberFormatException invalid) { throw new IOException("Invalid checkpoint generation", invalid); }
             if (number <= 0 || !seen.add(number)) { throw new IOException("Invalid or repeated checkpoint generation"); }
             if (seen.size() > MAX_GENERATIONS) { throw new IOException("Retained checkpoint generation limit exceeded"); }
-            var generation = new Generation(name, number, new ManifestId(match.group(2)));
-            if (latest == null || number > latest.number()) { latest = generation; }
+            result.add(new Generation(name, number, new ManifestId(match.group(2))));
         }
-        if (latest == null) { return Optional.empty(); }
-        if (expectedSource != null && !latest.id().equals(expectedSource)) {
-            throw new IOException("Compaction source is no longer the selected generation");
-        }
-        var decoded = ManifestCodec.decode(namespace.read(latest.name(), ManifestCodec.MAX_MANIFEST_BYTES), latest.id());
-        if (decoded.manifest().generation() != latest.number()) { throw new IOException("Filename generation differs from manifest"); }
-        verify(decoded.manifest(), journal); // Fail on damaged newest state; never silently fall back.
-        return Optional.of(decoded);
+        result.sort(Comparator.comparingLong(Generation::number));
+        return result;
     }
 
     private void requireCapacity(boolean newGeneration) throws IOException {
@@ -408,8 +555,12 @@ public final class LocalCheckpointStore implements AutoCloseable {
     }
 
     private void verify(CheckpointManifest manifest, JournalAccess journal) throws IOException {
+        verify(manifest, journal, id -> namespace.read(segmentName(id), SegmentCodec.MAX_SEGMENT_BYTES));
+    }
+
+    private void verify(CheckpointManifest manifest, JournalAccess journal, CheckpointVerifier.SegmentSource source) throws IOException {
         if (!manifest.databaseId().equals(journal.databaseId())) { throw new IOException("Checkpoint and journal lineage differ"); }
-        CheckpointVerifier.verify(manifest, id -> namespace.read(segmentName(id), SegmentCodec.MAX_SEGMENT_BYTES));
+        CheckpointVerifier.verify(manifest, source);
         var actual = journal.prefix(manifest.journalPrefix().sequence());
         var expected = manifest.journalPrefix();
         if (actual.sequence() != expected.sequence() || actual.byteLength() != expected.byteLength()
@@ -439,10 +590,21 @@ public final class LocalCheckpointStore implements AutoCloseable {
     @Override public synchronized void close() throws IOException {
         if (operating) { throw new IOException("Cannot close store inside a storage callback"); }
         closed = true;
-        if (!resourcesClosed) {
-            namespace.close();
-            resourcesClosed = true;
+        Throwable failure = null;
+        if (inspectionProtection != null) {
+            try { inspectionProtection.close(); inspectionProtection = null; }
+            catch (IOException | RuntimeException | Error closeFailure) { failure = closeFailure; }
         }
+        if (!resourcesClosed) {
+            try { namespace.close(); resourcesClosed = true; }
+            catch (IOException | RuntimeException | Error closeFailure) {
+                if (failure == null) { failure = closeFailure; }
+                else if (failure != closeFailure) { failure.addSuppressed(closeFailure); }
+            }
+        }
+        if (failure instanceof IOException io) { throw io; }
+        if (failure instanceof RuntimeException runtime) { throw runtime; }
+        if (failure instanceof Error error) { throw error; }
     }
 
     private void usable() throws IOException {
@@ -618,6 +780,14 @@ public final class LocalCheckpointStore implements AutoCloseable {
                 }
             }
             return names;
+        }
+        @Override public void checkObjectAliases(String name, List<String> entries) throws IOException {
+            Path object = regular(name);
+            for (String other : entries) {
+                if (!name.equals(other) && Files.isSameFile(object, directory.resolve(other))) {
+                    throw new IOException("Checkpoint inventory object aliases another directory entry: " + name + " / " + other);
+                }
+            }
         }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             Path path = regular(name);

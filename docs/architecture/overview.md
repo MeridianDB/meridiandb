@@ -99,7 +99,8 @@ The [pure compactor](../development/history-compaction.md) preserves exact histo
 while grouping transactions under explicit budgets. It does not install or publish
 replacement objects. A separate local publisher now verifies/reuses or installs
 those objects and selects the next generation at the same cutoff. A shared [reader barrier](../development/reader-protection.md) now protects lazy
-access across store lifetimes/processes. Physical reclamation remains planned.
+access across store lifetimes/processes. A bounded [reclamation inventory](../development/reclamation-inventory.md)
+now verifies retained roots and candidate metadata without deletion. Physical removal remains planned.
 
 ## Establish correctness before optimizing
 

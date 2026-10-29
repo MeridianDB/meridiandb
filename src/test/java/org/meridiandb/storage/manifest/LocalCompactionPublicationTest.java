@@ -437,6 +437,7 @@ class LocalCompactionPublicationTest {
             names.addAll(fillers);
             return List.copyOf(names);
         }
+        @Override public void checkObjectAliases(String name, List<String> entries) { }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             events.add("read:" + name);
             if (readHook != null) { readHook.run(); }

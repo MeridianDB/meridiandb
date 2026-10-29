@@ -126,7 +126,8 @@ protection** through root verification, metadata/dependency removal and director
 synchronization. Any live reader conservatively defers all removal. It must still
 preserve selected/retained generations and explicit backup roots, retain the journal,
 ownership/barrier files, unknown and diagnostic candidates, and fail closed on
-uncertainty. None of those removal/root-selection operations is implemented here.
+uncertainty. The [inventory API](reclamation-inventory.md) now verifies explicit retained roots
+and obsolete objects under that exclusive barrier, without removal.
 Long-lived readers may indefinitely delay cleanup and exhaust generation or entry
 capacity; fine-grained per-generation protection would require another verified
 protocol. See the [compaction boundary](history-compaction.md#physical-reclamation-boundaries)

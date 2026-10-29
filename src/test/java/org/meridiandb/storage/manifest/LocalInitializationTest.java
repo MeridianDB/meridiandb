@@ -281,6 +281,7 @@ class LocalInitializationTest {
             return List.copyOf(entries);
         }
 
+        @Override public void checkObjectAliases(String name, List<String> entries) { }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             var value = files.get(name);
             if (value == null || value.length > maxBytes) { throw new IOException("Missing or oversized object"); }

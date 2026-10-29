@@ -176,6 +176,12 @@ force assumptions of local checkpoint publication apply equally to reused object
 
 ## Physical reclamation boundaries
 
+A separate [reclamation inventory](reclamation-inventory.md) now checks all published
+graphs, selected/explicit retained roots and the actual owned journal under exclusive
+reader protection. It reports verified obsolete metadata and dependencies, preserves
+unclassified objects and refuses pending evidence. It deletes no files; a preview
+cannot authorize later removal.
+
 [Live reader protection](reader-protection.md) now uses a shared store-wide OS
 barrier independent of store lifetime, with release serialized against lazy opens.
 Any live lazy reader conservatively excludes a future exclusive removal barrier;

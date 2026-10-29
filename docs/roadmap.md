@@ -30,6 +30,7 @@ There is no release date or stable API commitment.
 | [Pure history compaction](development/history-compaction.md) | Complete graph validation, exact transaction repacking and encoded-space accounting under explicit budgets; no file installation/deletion |
 | [Local compaction publication](development/history-compaction.md#install-and-publish-locally) | Exact source/owner-journal checks, verified reuse, create-only installation and same-cutoff generation publication; old files retained |
 | [Live reader protection](development/reader-protection.md) | Shared cross-process barrier independent of store lifetime; any live lazy reader excludes future removal |
+| [Reclamation inventory](development/reclamation-inventory.md) | Bounded complete graph/owner-prefix checks, explicit retained roots and immutable obsolete-object metadata; no deletion |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -74,7 +75,8 @@ transaction and request identity while repacking segment boundaries. Logical
 retention remains all history; a plan changes no selected generation or file.
 Local installation/publication now verifies existing content and selects the
 same-cutoff replacement through the checkpoint protocol. Shared cross-process
-reader protection now outlives store close. Physical reclamation still requires an
+reader protection now outlives store close. A bounded [inventory](development/reclamation-inventory.md)
+verifies selected/retained roots and reports obsolete dependencies. Physical reclamation still requires an
 implemented remover holding store ownership plus exclusive reader protection. Earlier cutoffs, lazy readers, recovery and backup roots
 remain part of that safety contract.
 

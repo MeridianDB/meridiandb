@@ -198,3 +198,12 @@ remains quarantined even when Java reports the channel closed; a retry cannot pr
 native cleanup. Restart the process before reusing that identity. The
 [reader-protection guide](reader-protection.md#failure-and-close) explains this
 conservative close boundary and its distinction from a retryable release failure.
+
+## Inspect physical retention
+
+Use [reclamation inventory](reclamation-inventory.md) with this store's owned journal
+to verify all published generations and explicit retained/backup roots. The newest
+root is always retained. Known live-reader contention defers inspection; complete
+validation returns immutable obsolete-object metadata without deleting any files.
+Candidate byte counts are not a filesystem space receipt. A later remover must
+recompute under store ownership and exclusive reader protection.

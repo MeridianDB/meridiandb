@@ -32,7 +32,8 @@ history and returns bounded exact-history replacement proposals. Local compactio
 publication now verifies/reuses or installs outputs and selects the next generation
 at the same cutoff. Lazy readers now hold independent shared cross-process
 [protection](reader-protection.md), with explicit release/cleanup behavior. Protected
-physical deletion remains planned.
+physical deletion remains planned. A bounded [inventory](reclamation-inventory.md)
+now verifies explicit retained roots and obsolete-object metadata without removal.
 No library is published.
 
 ## Build and verify
@@ -78,7 +79,7 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 678 test invocations include 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 747 test invocations include 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
@@ -168,7 +169,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for reader protection on October 29 at 11:24:54 Toronto / 15:24:54 UTC; the selected versions remain
+for reclamation inventory on October 29 at 15:18:57 Toronto / 19:18:57 UTC; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 
@@ -229,11 +230,12 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run eleven
+artifact is uploaded or released by this workflow. Both platforms also run twelve
 examples: embedded queries, local journal, pure segment codec, local immutable
 files, manifest consistency, local checkpoint publication, local read recovery,
-forced local writes, typed temporal queries, pure history compaction and local
-compaction publication. The four local checkpoint/recovery/write/compaction examples
+forced local writes, typed temporal queries, pure history compaction, local
+compaction publication and reclamation inventory. The five local
+checkpoint/recovery/write/compaction/inventory examples
 report an unavailable
 directory open/force capability
 explicitly; capability-dependent real-file tests skip on that specific boundary

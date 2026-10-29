@@ -99,3 +99,5 @@ jobs:
         run: java --class-path target/classes examples/CompactionExample.java
       - name: Run the local compaction publication example
         run: java --class-path target/classes examples/LocalCompactionExample.java
+      - name: Run the reclamation inventory example
+        run: java --class-path target/classes examples/ReclamationInventoryExample.java

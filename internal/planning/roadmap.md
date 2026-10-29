@@ -600,6 +600,52 @@ fails closed and every stop/failure has documented safe reopen behavior. Test ac
 cross-process contention, retained roots, interrupted removal and no dangling graph.
 Keep MDB-0029's full semantic/crash/space integration separate and required.
 
+**Required children:** MDB-0032 establishes verified retention/candidate inventory;
+MDB-0033 performs protected ordered removal and interruption checks. Preserve every
+original acceptance criterion above and keep this parent expanded until both pass.
+
+## MDB-0032 Verified reclamation inventory
+
+**Parent:** MDB-0031. **Outcome:** inspect published generations under store
+ownership and nonblocking exclusive reader protection. Always retain the selected
+root and explicit retained/backup IDs. Verify every published manifest, dependency
+and actual owner-journal prefix before exposing immutable deterministic candidate
+metadata/byte counts. Include only dependencies of verified obsolete roots that
+no live root uses; preserve unclassified/orphan objects and refuse pending evidence.
+Check aliases before opens and bound aggregate repeated bytes/records/identity work.
+
+**Complete when:** tests cover retained/shared/genesis roots, missing IDs, bad old
+and newest state, actual prefix mismatch, immutable outputs, bounded work, pending
+and unknown evidence, alias/control preservation, cross-process reader deferral and
+cleanup failures. Preview creates at most permanent guard metadata; it removes no
+objects, grants no later deletion authority and makes no freed-space claim. Keep
+MDB-0033 and original parent criteria required.
+
+**Produced artifacts:** `ReclamationInventory`, `LocalCheckpointStore.inspectReclamation`,
+[retention/inventory guide](../../docs/development/reclamation-inventory.md),
+[ADR 0018](../../docs/decisions/0018-reclamation-inventory.md) and a twelfth checked
+example. Fifty-one unit/fault and 18 real filesystem/process invocations cover
+complete roots, exact budgets, corrupt/diagnostic evidence, alias lock preservation,
+reader lifetime and cleanup. All 747 local tests and twelve examples pass without
+skips. No objects are removed; MDB-0033 and original parents/integration remain required.
+
+## MDB-0033 Ordered protected removal
+
+**Parent:** MDB-0031. **Outcome:** recompute the verified inventory while retaining
+store ownership and exclusive reader protection, retire only obsolete complete
+metadata, force the directory, then remove eligible dependencies and force again.
+Retain selected/explicit roots, full journal, permanent controls, unknown/orphan
+and diagnostic evidence. Refuse aliases before delete and preserve all reader
+admission/cleanup guarantees.
+
+**Complete when:** original MDB-0031/MDB-0028 removal, capacity and interruption
+criteria pass, including actual process contention, no dangling graph at each
+stop/failure, fail-closed newest state and documented reopen/retry behavior. Add a
+persistent intent only if evidence requires it; otherwise explicitly preserve
+orphaned dependencies after interrupted retirement. Integrate/retest MDB-0032's
+inventory policy and close MDB-0031/MDB-0028 only when original criteria pass.
+Keep MDB-0029's whole-history/crash/space integration separate and required.
+
 ## MDB-0029 Compaction and reclamation conformance
 
 **Outcome:** integrate actual compaction publication, protected readers and physical

@@ -114,3 +114,11 @@ repeated header/footer overhead; a smaller target can increase it. Plan byte tot
 are not reclaimed disk space, faster queries or a measured throughput result.
 All output history is materialized, so larger databases need bounded streaming or
 range compaction under a separately verified contract.
+
+## Retained-root inspection
+
+[ADR 0018](0018-reclamation-inventory.md) now implements a bounded inventory of
+verified obsolete physical objects under explicit retained roots and exclusive
+reader protection. It removes no files and preserves this decision's complete
+logical-history contract. Ordered removal and its integrated conformance remain
+required before claiming physical reclamation.

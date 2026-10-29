@@ -230,6 +230,20 @@ so a new session can work correctly without relying on earlier conversations.
   timers/PID checks or a process-local registry alone are insufficient. Preserve
   selected/retained/reader/backup roots and fail closed when liveness is uncertain.
   Change logical history retention only through a separate explicit decision.
+- Follow [verified reclamation inventory](docs/development/reclamation-inventory.md)
+  and [ADR 0018](docs/decisions/0018-reclamation-inventory.md). Inspect under store
+  ownership and exclusive reader protection; known contention defers without a
+  partial inventory. Always retain selected state and resolve every explicit
+  retained/backup ID. Verify all published graphs against the actual owner journal,
+  bound repeated graph bytes/records/identity work and reject aliases before opens.
+  Limit metadata reads to remaining budget and segment reads to declared exact
+  lengths, including corrupt inputs; distinguish owner-journal validation costs.
+  Candidate segments come only from verified obsolete roots minus live dependencies;
+  preserve unknown/orphan/diagnostic objects and refuse pending candidates. Return
+  immutable evidence only after successful protection cleanup. A preview grants no
+  later deletion authority or freed-space claim; future removal recomputes under
+  both owners, retires/synchronizes metadata before dependencies and proves safe
+  interruption/reopen. Keep original reclamation/integration gates required.
 
 ## Verification and experiments
 

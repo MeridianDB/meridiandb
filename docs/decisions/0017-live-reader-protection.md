@@ -85,3 +85,10 @@ older binary must be quiesced before future deletion is enabled. A permanent gua
 explicit close, shared-lock support and write/name-sync permission are new resource
 requirements for lazy reader admission. Existing segment/manifest/journal bytes and
 all temporal query/retry semantics are unchanged.
+
+## Inventory integration
+
+[ADR 0018](0018-reclamation-inventory.md) now uses the exclusive barrier for bounded
+retained-root and obsolete-object inspection. Any live lazy reader defers that
+inspection. No physical deletion is introduced; all rollout, ownership and uncertain
+cleanup requirements above continue to apply.

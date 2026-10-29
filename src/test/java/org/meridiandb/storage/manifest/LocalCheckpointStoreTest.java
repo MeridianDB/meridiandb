@@ -742,6 +742,7 @@ class LocalCheckpointStoreTest {
             return java.util.Optional.of(acquireReader());
         }
         @Override public List<String> entries() { events.add("entries"); return entryOverride == null ? new ArrayList<>(files.keySet()) : entryOverride; }
+        @Override public void checkObjectAliases(String name, List<String> entries) { }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             events.add("read:" + name);
             reads++;

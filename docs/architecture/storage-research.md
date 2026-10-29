@@ -125,5 +125,11 @@ retained; protected deletion requires separate evidence.
 shared OS barrier independent of store ownership. [ADR 0017](../decisions/0017-live-reader-protection.md)
 refreshes JDK lock, Linux/Windows release and Lucene snapshot evidence on October 29.
 Its conservative store-wide exclusion and shared cross-adapter identity reservations
-protect cooperating lazy readers; physical deletion and retained-root policy remain
-separate required work. No per-generation cleanup-progress guarantee is implied.
+protect cooperating lazy readers. [Verified inventory](../development/reclamation-inventory.md)
+now applies explicit retained roots and bounded complete owner-journal checks without
+deletion; physical removal remains separate required work. No per-generation cleanup-progress guarantee is implied.
+
+[ADR 0018](../decisions/0018-reclamation-inventory.md) refreshes Lucene commit-file,
+retention and snapshot documentation alongside JDK deletion/locking and namespace
+sync evidence on October 29. Explicit retained roots and conservative diagnostic
+handling are MeridianDB choices; candidate bytes make no freed-block claim.

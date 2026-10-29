@@ -104,7 +104,9 @@ plus forced local commit publication, process crash/retry conformance and typed
 temporal query operators, bounded pure history repacking and verified local
 compaction publication. Lazy checkpoint readers now hold shared cross-process
 [protection](docs/development/reader-protection.md) independently of store lifetime.
-Planned work covers protected physical reclamation, object storage and
+A bounded [reclamation inventory](docs/development/reclamation-inventory.md) now
+verifies retained roots and reports obsolete physical objects without deletion.
+Planned work covers ordered physical removal, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
@@ -122,13 +124,14 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 678 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 747 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,
 55 typed query checks, 57 pure compaction checks, 55 local compaction
-publication/integration/process checks and 70 reader protection/identity/cleanup checks. Coverage
+publication/integration/process checks, 70 reader protection/identity/cleanup checks
+and 69 verified inventory/root/budget/process checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -179,6 +182,15 @@ installation/reuse/reopen example:
 
 ```bash
 java --class-path target/classes examples/LocalCompactionExample.java
+```
+
+[Reclamation inventory](docs/development/reclamation-inventory.md) verifies every
+published graph and explicit retained root under exclusive reader protection,
+then reports obsolete metadata/dependencies without deleting files. A live reader
+defers inspection; unknown and failed evidence stays preserved. Run its example:
+
+```bash
+java --class-path target/classes examples/ReclamationInventoryExample.java
 ```
 
 ## Working in this repository

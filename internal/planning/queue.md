@@ -12,33 +12,34 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0030's source criteria pass**: lazy readers
-  hold a shared cross-process barrier independently of store ownership, with one
-  reference-counted channel per loaded JVM copy and synchronized lazy access/release.
-- **MDB-0028 remains expanded** into required MDB-0030 (reader protection) and
-  MDB-0031 (protected physical reclamation). Its original criteria and MDB-0010's
-  required integration remain intact. No physical deletion is implemented here.
-- Next source-ready item: **MDB-0031 — Reclaim obsolete objects under exclusive reader protection**.
-  Verify this completion on remote main and inspect Java/documentation CI and
-  automatic Pages before claiming it. Hold store ownership and exclusive reader
-  protection through root selection/removal/sync; any live reader defers all removal.
-- All **678 local tests** and **eleven examples** pass with no test skips. Seventy
-  new reader/identity/cleanup cases and four permanent-capacity regressions supplement
-  the existing suite, plus one real-parent journal path regression. Both URL layouts pass documentation QA with **40 pages**.
-- Cross-adapter identity reservations protect controls and transient data channels,
-  including aliases across stores. Creation/publication reserves an absent guard
-  slot. A thrown native close remains quarantined despite Java reporting closed;
-  no-op retries cannot clear that uncertainty, so process restart is required.
-- The full journal and every old/failed object remain retained. All participating
-  readers must use the protocol and one loaded library copy per JVM; legacy readers
-  cannot be retroactively protected. Long-lived readers may indefinitely block cleanup.
-- Delivery repair: `6fb7b60c0e435db13d4dec913365885944199fff` passed Linux Java,
-  docs/Pages and 40-page live QA; Windows exposed two POSIX-specific path-fixture
-  assumptions. Use provider-real-parent expected files without weakening identity
-  checks or adding skips. Verify the repair commit's Windows CI before advancing.
-- Previous completion `798dfce47f57279ee25336884766ff4cbf8da47e` is on remote main;
-  Java, documentation checks and automatic Pages all passed. Its handoff verified
-  38 live pages, search and sitemap. Use Git/workflows for actual delivery status.
+- No executable item is active. **MDB-0032's source criteria pass**: immutable
+  bounded inventory verifies every published graph and actual owner-journal prefix,
+  always retains selected state plus explicit retained/backup roots, and reports
+  only verified obsolete metadata/dependencies without deletion.
+- **MDB-0031 remains expanded** into completed MDB-0032 and required MDB-0033
+  (ordered protected removal and interruption checks). MDB-0028 and MDB-0010 remain
+  expanded; MDB-0029 retains complete temporal/crash/space integration. Original
+  parent criteria are unchanged.
+- Next source-ready item: **MDB-0033 — Remove verified obsolete objects with ordered
+  synchronization**. Verify this completion on remote main, Java/documentation CI
+  and automatic Pages before claiming. Recompute under store ownership plus exclusive
+  reader protection; retire/synchronize obsolete metadata before dependencies.
+- All **747 local tests** and **twelve examples** pass with no test skips. The new
+  inventory coverage is 51 unit/fault cases plus 18 real filesystem/process cases.
+  Both URL layouts pass documentation QA with **42 pages**.
+- Known live-reader contention defers without reads or poisoning. Explicit retained
+  IDs must exist; pending evidence refuses inspection, and unknown/orphan objects
+  remain preserved. Identity checks precede opens; exact declared read bounds cover
+  corrupt oversized inputs. Graph-byte/record/identity budgets are not a total
+  journal-acquisition/I/O bound. Failed protection cleanup remains reachable and
+  publisher cleanup is independently attempted; native uncertainty stays quarantined.
+- The preview grants no later deletion authority or freed-space claim. The full
+  journal and every physical object remain retained. Future interruption can leave
+  orphaned dependencies; preserve them unless an inspected policy proves permission.
+- Previous repair `37ac5b63f3db4b0f38c5047bca1c75613a7a5af9` matched remote main.
+  Java (40908240454), docs (40908240419) and Pages (40908240392) passed, resolving
+  the earlier Windows path-fixture failure. Its handoff verified exact 40-page live
+  content, search and sitemap. Git/workflows own this completion's delivery status.
 
 ## Ordered work
 
@@ -69,7 +70,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0027](roadmap.md#mdb-0027-local-compaction-publication) | Install and publish verified local compaction replacements | MDB-0010 | done | MDB-0009, MDB-0026 |
 | [MDB-0028](roadmap.md#mdb-0028-reader-safe-physical-reclamation) | Protect readers and reclaim obsolete physical objects safely | MDB-0010 | expanded | MDB-0009, MDB-0027 |
 | [MDB-0030](roadmap.md#mdb-0030-cross-process-reader-protection) | Protect lazy readers across store lifetimes and processes | MDB-0028 | done | MDB-0009, MDB-0027 |
-| [MDB-0031](roadmap.md#mdb-0031-protected-physical-reclamation) | Reclaim obsolete objects under exclusive reader protection | MDB-0028 | ready | MDB-0009, MDB-0027, MDB-0030 |
+| [MDB-0031](roadmap.md#mdb-0031-protected-physical-reclamation) | Reclaim obsolete objects under exclusive reader protection | MDB-0028 | expanded | MDB-0009, MDB-0027, MDB-0030 |
+| [MDB-0032](roadmap.md#mdb-0032-verified-reclamation-inventory) | Inspect retained roots and verified obsolete objects | MDB-0031 | done | MDB-0009, MDB-0027, MDB-0030 |
+| [MDB-0033](roadmap.md#mdb-0033-ordered-protected-removal) | Remove verified obsolete objects with ordered synchronization | MDB-0031 | ready | MDB-0009, MDB-0027, MDB-0030, MDB-0032 |
 | [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | queued | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |

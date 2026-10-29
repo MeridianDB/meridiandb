@@ -27,6 +27,7 @@ permanent commitment.
 | [0015: Temporal query operators](0015-temporal-query-operators.md) | Implemented; experimental | Signed-value predicates, explicit entity selection and filtered intervals over one pinned snapshot |
 | [0016: History-preserving compaction](0016-history-preserving-compaction.md) | Pure repacking and local publication implemented; reclamation planned | Retain all transactions and request IDs; bound repacking and separate publication from protected physical reclamation |
 | [0017: Live checkpoint reader protection](0017-live-reader-protection.md) | Shared barrier implemented; deletion planned | Independent lazy-reader lifetime, cross-process exclusion and fail-closed cleanup |
+| [0018: Verified reclamation inventory](0018-reclamation-inventory.md) | Inventory implemented; deletion planned | Explicit retained roots, complete owner-bound verification, conservative diagnostic handling and bounded candidate accounting |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

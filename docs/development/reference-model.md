@@ -113,7 +113,7 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **678 JUnit test invocations**: 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
+The current default suite has **747 JUnit test invocations**: 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
 [durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
