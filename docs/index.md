@@ -53,8 +53,9 @@ checks preserve exact history and retry identity. The
 checkpoint history under aggregate/per-object limits, retaining all cutoffs and
 request payloads. The local publisher now verifies/reuses or creates replacement
 objects and selects the same-cutoff next generation, retaining all old files and
-the full journal. Protected physical reclamation remains planned; layout performance
-experiments need their own evidence.
+the full journal. [Live reader protection](development/reader-protection.md) now
+holds a shared barrier across store close and cooperating processes. Physical
+reclamation remains planned; layout performance experiments need their own evidence.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

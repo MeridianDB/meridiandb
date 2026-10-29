@@ -138,3 +138,10 @@ ownership, expected identity, malformed/missing/changed files, limits, short and
 stalled I/O, failed force/close and immutable reader lifetimes. Linux and Windows
 CI run verification and the example. These checks do not simulate power loss or
 establish durable engine conformance.
+
+Local adapters share file-identity reservations across journal, store and reader
+controls and transient data channels. If native channel close throws, its cleanup
+remains quarantined even when Java reports the channel closed; a retry cannot prove
+native cleanup. Restart the process before reusing that identity. The
+[reader-protection guide](reader-protection.md#failure-and-close) explains this
+conservative close boundary and its distinction from a retryable release failure.

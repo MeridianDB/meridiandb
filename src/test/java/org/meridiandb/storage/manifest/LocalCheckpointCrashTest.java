@@ -64,10 +64,11 @@ class LocalCheckpointCrashTest {
         haltAt("initialize", boundary, home);
 
         boolean renamed = afterRename(boundary);
-        assertNamespace(home, renamed ? 1 : 0, boundary == PublicationBoundary.CANDIDATE_SYNCED ? 1 : 0, 0);
+        assertNamespace(home, renamed ? 1 : 0, boundary == PublicationBoundary.CANDIDATE_SYNCED ? 1 : 0, 0, false);
         var original = snapshot(home);
         assertCreateRejectedWithoutChanges(home, original);
         assertStoredHistory(home, renamed ? 1 : 0, 0, List.of());
+        if (renamed) { original.put(LocalReaderBarrier.NAME, new byte[0]); }
         try (var database = LocalDatabase.openWritable(home);
                 var view = database.openView(ReadCutoff.Head.INSTANCE)) {
             assertEquals(position(0), database.head());
@@ -87,7 +88,7 @@ class LocalCheckpointCrashTest {
         haltAt("checkpoint", boundary, home);
 
         boolean renamed = afterRename(boundary);
-        assertNamespace(home, renamed ? 2 : 1, boundary == PublicationBoundary.CANDIDATE_SYNCED ? 1 : 0, 1);
+        assertNamespace(home, renamed ? 2 : 1, boundary == PublicationBoundary.CANDIDATE_SYNCED ? 1 : 0, 1, true);
         var original = snapshot(home);
         assertCreateRejectedWithoutChanges(home, original);
         assertStoredHistory(home, renamed ? 2 : 1, renamed ? 1 : 0, history());
@@ -134,7 +135,7 @@ class LocalCheckpointCrashTest {
         }
     }
 
-    private static void assertNamespace(Path home, int selected, int pending, int segments) throws IOException {
+    private static void assertNamespace(Path home, int selected, int pending, int segments, boolean readerGuard) throws IOException {
         try (var entries = Files.list(home)) {
             var paths = entries.toList();
             var names = paths.stream().map(path -> path.getFileName().toString()).toList();
@@ -143,7 +144,9 @@ class LocalCheckpointCrashTest {
             assertEquals(segments, names.stream().filter(name -> name.endsWith(".segment")).count());
             assertTrue(names.contains("transactions.journal"));
             assertTrue(names.contains(".meridiandb-checkpoints.lock"));
-            assertEquals(2 + selected + pending + segments, names.size(), "No child diagnostics or unexpected store files");
+            assertEquals(readerGuard, names.contains(LocalReaderBarrier.NAME));
+            if (readerGuard) { assertEquals(0, Files.size(home.resolve(LocalReaderBarrier.NAME))); }
+            assertEquals(2 + selected + pending + segments + (readerGuard ? 1 : 0), names.size(), "No child diagnostics or unexpected store files");
             for (var candidate : paths.stream().filter(path -> path.getFileName().toString().startsWith("pending-")).toList()) {
                 var manifest = ManifestCodec.decode(Files.readAllBytes(candidate)).manifest();
                 assertEquals(selected + 1L, manifest.generation());

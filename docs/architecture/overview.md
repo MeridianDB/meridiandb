@@ -98,8 +98,8 @@ multi-process and distributed writing require additional coordination contracts.
 The [pure compactor](../development/history-compaction.md) preserves exact history
 while grouping transactions under explicit budgets. It does not install or publish
 replacement objects. A separate local publisher now verifies/reuses or installs
-those objects and selects the next generation at the same cutoff. Lazy-reader
-protection for deletion and physical reclamation remain planned.
+those objects and selects the next generation at the same cutoff. A shared [reader barrier](../development/reader-protection.md) now protects lazy
+access across store lifetimes/processes. Physical reclamation remains planned.
 
 ## Establish correctness before optimizing
 

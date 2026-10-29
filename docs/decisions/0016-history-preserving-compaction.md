@@ -49,8 +49,10 @@ publish the next generation at the same cutoff. Retain the complete journal, all
 old files and failed candidates through publication uncertainty. No automatic
 scheduling or physical deletion is introduced.
 
-Permit physical deletion only after a separately implemented protection protocol
-closes the cross-process reader-admission versus deletion race. Pins belong to lazy
+[ADR 0017](0017-live-reader-protection.md) now implements a coarse shared reader
+barrier across store lifetimes/processes. Permit physical deletion only after a
+remover holds store ownership and exclusive reader protection throughout verified
+root selection, removal and synchronization. Pins belong to lazy
 readers, outlive the store and release only after active lazy access completes.
 Live roots include selected/retained generations, active reader generations and
 explicit backup roots. Heap-owned returned values need no file-name pin. Unknown,

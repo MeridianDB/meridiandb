@@ -1582,6 +1582,131 @@ full journal, unknown/diagnostic evidence and fail-closed newest selection. Inte
 canonical/seeded publication/removal, interrupted cleanup and physical-space evidence
 remain MDB-0029; the parent remains expanded.
 
+## 2026-10-29 — MDB-0030 Cross-process lazy-reader protection
+
+**Refinement/outcome:** expand MDB-0028 into required MDB-0030 (live-reader
+protection, this iteration) and MDB-0031 (protected physical reclamation). Retain
+its original acceptance criteria, dependency chain and MDB-0029 integration gate;
+MDB-0028 and MDB-0010 remain expanded. Complete only MDB-0030. Implement no deletion,
+logical pruning, journal truncation, backup policy or automatic compaction scheduling.
+
+**Protection:** add permanent empty `.meridiandb-readers.lock` and package-private
+shared/exclusive barrier machinery. The store verifies the selected graph/actual
+journal while holding exclusive ownership, then acquires independent shared protection
+before returning a lazy reader. A future remover must acquire that store ownership
+first, so it cannot race verification/admission. Empty/corrupt selection creates
+no reader guard; internal publication verification manufactures no reader lease.
+One canonical-path/identity registry holds one channel and reference count per
+loaded JVM library copy; independent processes use shared OS locks. Require actual
+shared lock support, nonblocking region(0,1) acquisition and no in-place lock upgrade.
+Any live reader conservatively excludes all future reclamation. New publication
+remains possible after store close while old lazy readers retain original access.
+
+Reader close serializes with complete lazy loading, invalidates access first and
+retains retryable release state. Heap children and returned metadata survive close.
+Database cleanup attempts reader/journal/store independently, suppresses later
+errors and preserves its retry path. Admission and cleanup failures retain evidence;
+known contention differs from I/O/unsupported/uncertain outcomes. Unexpected JVM
+overlap quarantines the duplicate instead of closing a potentially lock-dropping handle.
+
+**Shared ownership and capacity:** consolidate pre-open identity reservations for
+journal, store and reader controls with transient segment/checkpoint read, force,
+create-only and journal-tail evidence channels. Control reservations conflict with
+any same-file handle, including cross-store aliases; data/data channels may coexist.
+Keep reservations through known successful channel close. Resolve real parents
+before final-name handling; correct the journal's older lexical normalization of
+symlink/`..` input and add an actual create/reopen regression. Reserve an absent
+permanent guard slot in store acquisition, segment writes, manifest publication and
+whole-compaction installation so success cannot exhaust first-reader capacity.
+Existing fake namespaces explicitly model established control metadata; exact crash/
+recovery snapshots now admit only the expected new empty guard while comparing every
+prior byte and excluding unrelated files.
+
+**Native-close finding:** JDK `AbstractInterruptibleChannel.close` marks a channel
+closed before native cleanup and invokes native cleanup at most once. Therefore a
+thrown close remains uncertain even with `isOpen() == false`; a later no-op does not
+prove cleanup. Central `OwnedChannel` wrappers retain reservations and sticky
+quarantine after IOException/runtime/Error or unexpected external raw close. Real
+native-close uncertainty requires process restart. Exposed-reader lock-release
+failure with known successful channel cleanup remains a distinct retryable logical
+release. Partial admission with uncertain cleanup can leave no returned retry owner.
+Persist these positive procedures in AGENTS and the linked guide/ADR.
+
+**Research/review:** freshly fetch all twelve Central metadata sources on October 29
+at **11:24:54 Toronto / 15:24:54 UTC**, and recheck official Maven/JUnit/Jackson
+compatibility. All selected versions remain latest stable and Java 25 compatible;
+Maven 4 RC/plugin 4 betas remain unselected. No dependency/POM/wrapper changes. Refresh
+JDK 25 FileLock/FileChannel/AbstractInterruptibleChannel, Linux any-close locking,
+Windows process-exit release delay and Lucene snapshot/deletion primary sources.
+Record one loaded adapter copy, participating-reader rollout, legacy-reader quiescence,
+permanent-name and provider/stable-path boundaries. Independent production/test review
+identified and drove the cross-store alias, absent-slot, preallocation/reference,
+real-parent and native-close fixes; final shared-wrapper/lock-order/lifetime review
+found no additional material issue. No inherited Lucene deletion or power-loss claim.
+
+**Verification:** initial focused reader/ownership/cleanup and adapter command
+`./mvnw -B -ntp -Dtest=LocalReaderBarrierTest,LocalCheckpointReaderProtectionTest,LocalReaderProtectionIntegrationTest,LocalFileOwnershipTest,LocalResourceCleanupTest,LocalCheckpointStoreTest,LocalCompactionPublicationTest,LocalJournalTest,LocalSegmentFileTest test`
+passes **209 tests** before the later native-close/path cases. Final
+`./mvnw -B -ntp verify` passes **678 tests**, zero failures/errors/skips on macOS/arm64.
+The **75 new invocations** comprise:
+
+- **27 barrier protocol cases:** shared refs/exclusive deferral, distinct paths,
+  hard-link alias rejection before open, shared-to-exclusive conversion rejection,
+  invalid handles, acquire/release/close faults, IO/runtime/Error suppression, retained
+  quarantine, retry and actual-close versus still-open fake outcomes.
+- **Seven reader lifetime/concurrency cases:** logically closed state before retry,
+  invalid protection before path access, corrupt segment pin retention, latches
+  proving close waits for lazy load, and heap child/value survival.
+- **18 shared identity/native-close cases:** canonical/hard-link/parent aliases,
+  symlink/`..`, read/control conflicts, read coexistence, exact-token idempotence,
+  pre-create reservation and eight-caller admission. Actual AbstractInterruptibleChannel
+  fake cleanup proves Java closed state after IO/runtime/Error is insufficient;
+  repeat close never retries native cleanup or releases ownership. Test-only fake
+  reservations are explicitly disposed because they own no OS descriptor.
+- **14 real filesystem/process cases:** same-JVM final-reference gating, retained
+  reader/store/publication lifetimes, empty selection, permanent exclusive guard,
+  failed graph adoption, invalid guard inputs, local/cross-store/reverse journal
+  aliases, independent JVM contenders preserving prior locks, cross-process shared
+  admission/new publication, explicit release and forced child exit. Sixteen bounded
+  lazy-open/close races keep child snapshots valid. Logs stay outside store homes;
+  no raw guard/alias channel is opened while protection is held. Unsupported required
+  capabilities remain distinct from ordinary permission/I/O failures.
+- **Four database cleanup cases**, **four compaction permanent-capacity regressions**
+  and **one actual journal real-parent create/reopen regression**.
+
+All **eleven examples** pass against the final code. Production JAR inspection
+confirms **114 Java 25 classes**, major69, with no test oracle/reference, fixture,
+seed, JUnit or Jackson content. SHA-256:
+`8135facbb525f66c658801c8b835b46992e880390e8f05be7bf4a7e0ba31fd75`.
+No library artifact is uploaded or released; CI retains the existing eleven example
+steps on Linux/Windows. Process exit and injected cleanup are not device power loss.
+
+**Documentation/planning:** add reader guide and ADR 0017 with actual decision-table
+row/navigation, reconcile README/home/roadmap/architecture/research, build/reference/
+engine, compaction/checkpoint/database/journal/segment guides and ADR 0016. Public
+copy explains behavior and limitations without workflow narrative. Both URL-layout
+shared builds pass source/HTML/links/search/sitemap for **40 pages**. Local browser
+QA confirms capabilities table, code/navigation, exact reader-barrier search anchor
+and ADR 0017 in the decision table. Theme/assets remain unchanged; no new dark/mobile
+claim. Validate 31 unique queue IDs, references/DAG/parents/completed children, no
+active executable row and only MDB-0031 ready; repository Markdown paths and staged
+ownership/diff checks pass. Scratch logs/evidence remain ignored under `.local-qa/mdb-0030/`.
+
+**Prerequisite/delivery:** prior `798dfce47f57279ee25336884766ff4cbf8da47e` is on
+remote main with successful Java (**40895161300**), documentation (**40895161218**)
+and Pages (**40895161479**) workflows; its handoff verified 38 live pages/search/sitemap.
+This completion uses `Step-ID: MDB-0030` / `Step-Result: completed`; Git supplies its
+SHA/remote ancestry. Final handoff reports actual push, CI/Pages and exact live
+content/search/sitemap verification. No Cloudflare or other infrastructure deployment.
+
+**Next recommendation:** MDB-0031 — reclaim obsolete objects under exclusive reader
+protection. Preserve selected/retained/explicit backup roots, full journal,
+ownership/barrier files and unknown/diagnostic evidence. Any live reader defers all
+removal. Keep both store ownership and exclusive protection through verified root
+selection, metadata retirement before unreferenced dependency removal, and directory
+sync. Retain MDB-0029's integrated canonical/seeded/crash/space gate and both expanded
+parents until their original criteria pass.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -75,6 +75,7 @@ nav:
       - Durable commit decision: decisions/0014-durable-commit-publication.md
       - Query operators decision: decisions/0015-temporal-query-operators.md
       - History compaction decision: decisions/0016-history-preserving-compaction.md
+      - Reader protection decision: decisions/0017-live-reader-protection.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -85,6 +86,7 @@ nav:
       - Local journal: development/local-journal.md
       - Local immutable segments: development/local-segments.md
       - Local checkpoints: development/local-checkpoints.md
+      - Reader protection: development/reader-protection.md
       - History compaction: development/history-compaction.md
       - Local database: development/local-database.md
       - Durability conformance: development/durability-conformance.md

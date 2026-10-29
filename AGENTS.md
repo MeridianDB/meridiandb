@@ -114,7 +114,13 @@ so a new session can work correctly without relying on earlier conversations.
   force/acknowledgement. Follow the [local adapter contract](docs/development/local-journal.md)
   for separate appended/forced positions, failure poisoning, stable-path ownership
   and explicit evidence-before-truncation repair. Reserve same-JVM ownership before
-  opening another same-file channel; distinguish file force from directory-entry
+  opening another same-file channel. Use the shared identity reservation across
+  journal/store/reader control owners and transient checkpoint/segment read/force
+  handles; reject cross-store aliases before open and release a reservation only
+  after known successful channel close. A thrown native close remains quarantined
+  even when Java reports `isOpen() == false`; a no-op retry is not cleanup evidence.
+  Retain reservations and require process restart on that uncertainty. Resolve the real parent before final name handling,
+  preserving symlink/`..` identity. Distinguish file force from directory-entry
   durability. Preserve incomplete/corrupt evidence and test changed I/O boundaries.
   In journal tests, inspect raw file bytes after closing the owning adapter; use
   replay/counters while open. A second read handle can be blocked by Windows locks
@@ -207,8 +213,17 @@ so a new session can work correctly without relying on earlier conversations.
   identical content IDs; an existing path is not proof of valid reuse. Retain the
   complete journal under the current contract. Retain old/failed physical objects
   until an implemented reclamation protocol and inspected diagnostic policy establish
-  permission. Reader protection must cover cross-process admission
-  versus deletion, survive store close and serialize release with lazy opens;
+  permission. Follow [live reader protection](docs/development/reader-protection.md)
+  and [ADR 0017](docs/decisions/0017-live-reader-protection.md): shared store-wide
+  protection belongs to lazy readers, outlives store close and serializes release
+  with lazy opens. Keep the guard permanent, reserve its absent slot during object
+  creation/publication, share one JVM channel, require actual shared-lock support
+  and retain uncertain cleanup reservations. Reader close invalidates access first
+  and retries release; database cleanup must still attempt every owner. Future
+  removal holds both store ownership and exclusive protection through checks/removal/sync;
+  any live reader defers all deletion. All participating readers use the protocol
+  and one loaded adapter copy per JVM; quiesce legacy unprotected readers first.
+  Reader protection must cover cross-process admission versus deletion;
   timers/PID checks or a process-local registry alone are insufficient. Preserve
   selected/retained/reader/backup roots and fail closed when liveness is uncertain.
   Change logical history retention only through a separate explicit decision.

@@ -263,6 +263,15 @@ class LocalInitializationTest {
 
         TestNamespace(Path directory) throws IOException { this.directory = directory.toRealPath(); }
         @Override public Path directory() { return directory; }
+        @Override public LocalReaderBarrier.Protection acquireReader() {
+            return new LocalReaderBarrier.Protection() {
+                @Override public void checkValid() { }
+                @Override public void close() { }
+            };
+        }
+        @Override public java.util.Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() {
+            return java.util.Optional.of(acquireReader());
+        }
 
         @Override public List<String> entries() throws IOException {
             var entries = new LinkedHashSet<>(files.keySet());

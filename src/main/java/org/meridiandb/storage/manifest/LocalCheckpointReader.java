@@ -11,15 +11,17 @@ import org.meridiandb.storage.segment.LocalSegmentReader;
 
 /**
  * A verified generation's immutable metadata and lazy segment access. May outlive its store;
- * published files are retained. Child heap readers and previously returned values survive close.
+ * shared reader protection outlives store ownership. Child heap readers and previously returned values survive close.
  */
 public final class LocalCheckpointReader implements AutoCloseable {
     private Path directory;
     private ManifestCodec.DecodedManifest decoded;
+    private LocalReaderBarrier.Protection protection;
 
-    LocalCheckpointReader(Path directory, ManifestCodec.DecodedManifest decoded) {
+    LocalCheckpointReader(Path directory, ManifestCodec.DecodedManifest decoded, LocalReaderBarrier.Protection protection) {
         this.directory = Objects.requireNonNull(directory, "directory");
         this.decoded = Objects.requireNonNull(decoded, "decoded");
+        this.protection = Objects.requireNonNull(protection, "protection");
     }
 
     public synchronized ManifestId manifestId() { return usable().id(); }
@@ -29,7 +31,9 @@ public final class LocalCheckpointReader implements AutoCloseable {
     public synchronized LocalSegmentReader openSegment(int index) throws IOException {
         var manifest = usable().manifest();
         var reference = manifest.segments().get(index);
+        protection.checkValid();
         Path path = directory.resolve(LocalCheckpointStore.segmentName(reference.id()));
+        LocalReaderBarrier.rejectObjectAlias(directory, path);
         if (Files.readAttributes(path, java.nio.file.attribute.BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS)
                 .size() != reference.byteLength()) { throw new IOException("Referenced segment size differs"); }
         var reader = LocalSegmentFile.open(path, reference.id());
@@ -42,9 +46,14 @@ public final class LocalCheckpointReader implements AutoCloseable {
         return reader;
     }
 
-    @Override public synchronized void close() {
+    /** Invalidate lazy access before release; a failed release can be retried with close again. */
+    @Override public synchronized void close() throws IOException {
         decoded = null;
         directory = null;
+        if (protection != null) {
+            protection.close();
+            protection = null;
+        }
     }
 
     private ManifestCodec.DecodedManifest usable() {

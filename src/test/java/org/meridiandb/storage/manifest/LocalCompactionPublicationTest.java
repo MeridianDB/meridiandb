@@ -70,6 +70,38 @@ class LocalCompactionPublicationTest {
     }
 
     @ParameterizedTest
+    @ValueSource(strings = {"segment", "manifest", "compaction"})
+    void creationReservesAnAbsentPermanentReaderBarrierBeforeFillingTheDirectory(String operation) throws IOException {
+        var fixture = fixture("new", 1);
+        fixture.namespace.files.remove(LocalReaderBarrier.NAME);
+        fixture.namespace.fillTo(LocalCheckpointStore.MAX_DIRECTORY_ENTRIES - 1);
+        try (var store = new LocalCheckpointStore(fixture.namespace)) {
+            var failure = assertThrows(IOException.class, () -> {
+                switch (operation) {
+                    case "segment" -> store.writeSegment(fixture.plan.segments().getFirst());
+                    case "manifest" -> store.publish(fixture.plan.replacementManifest(), fixture.journal);
+                    case "compaction" -> store.publishCompaction(fixture.plan, fixture.journal);
+                    default -> throw new AssertionError(operation);
+                }
+            });
+            assertTrue(failure.getMessage().contains("capacity"));
+            assertNoEffects(fixture);
+        }
+    }
+
+    @Test
+    void successfulCompactionLeavesOneSlotForItsAbsentPermanentReaderBarrier() throws IOException {
+        var fixture = fixture("new", 1);
+        fixture.namespace.files.remove(LocalReaderBarrier.NAME);
+        fixture.namespace.fillTo(LocalCheckpointStore.MAX_DIRECTORY_ENTRIES - 3);
+        try (var store = new LocalCheckpointStore(fixture.namespace)) {
+            store.publishCompaction(fixture.plan, fixture.journal);
+            assertEquals(LocalCheckpointStore.MAX_DIRECTORY_ENTRIES - 1, fixture.namespace.entries().size());
+            assertFalse(fixture.namespace.files.containsKey(LocalReaderBarrier.NAME));
+        }
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {"missing", "stale"})
     void selectedSourceMustExistAndMatchThePlansExactManifestIdentifier(String change) throws IOException {
         var fixture = fixture("new", 1);
@@ -319,6 +351,7 @@ class LocalCompactionPublicationTest {
 
     private Fixture fixture(List<List<JournalRecord>> partitions, int target, long generation) throws IOException {
         var namespace = new MemoryNamespace(directory);
+        namespace.files.put(LocalReaderBarrier.NAME, new byte[0]);
         var references = new ArrayList<SegmentReference>();
         var prefixImage = new ByteArrayOutputStream();
         prefixImage.writeBytes(JournalCodec.encodeHeader(DATABASE));
@@ -389,6 +422,15 @@ class LocalCompactionPublicationTest {
         boolean failCloseOnce;
         MemoryNamespace(Path directory) { this.directory = directory.toAbsolutePath().normalize(); }
         @Override public Path directory() { return directory; }
+        @Override public LocalReaderBarrier.Protection acquireReader() {
+            return new LocalReaderBarrier.Protection() {
+                @Override public void checkValid() { }
+                @Override public void close() { }
+            };
+        }
+        @Override public java.util.Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() {
+            return java.util.Optional.of(acquireReader());
+        }
         @Override public List<String> entries() {
             events.add("entries");
             var names = new LinkedHashSet<>(files.keySet());

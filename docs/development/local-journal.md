@@ -162,3 +162,10 @@ separate-JVM lock exclusion and abrupt process exit after force. Local macOS APF
 checks and Linux/Windows CI provide platform evidence; process termination tests
 do not simulate storage-controller caches, lost directory entries or sudden power
 loss. See [ADR 0008](../decisions/0008-local-journal.md) for the design rationale.
+
+Local adapters share file-identity reservations across journal, store and reader
+controls and transient data channels. If native channel close throws, its cleanup
+remains quarantined even when Java reports the channel closed; a retry cannot prove
+native cleanup. Restart the process before reusing that identity. The
+[reader-protection guide](reader-protection.md#failure-and-close) explains this
+conservative close boundary and its distinction from a retryable release failure.

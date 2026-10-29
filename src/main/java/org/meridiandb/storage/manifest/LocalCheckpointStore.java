@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import org.meridiandb.storage.internal.LocalFileOwnership;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.segment.ImmutableSegment;
@@ -39,14 +39,21 @@ import org.meridiandb.temporal.DatabaseId;
 public final class LocalCheckpointStore implements AutoCloseable {
     public static final int MAX_DIRECTORY_ENTRIES = 16_384;
     public static final int MAX_GENERATIONS = 1024;
-    private static final String JOURNAL = "transactions.journal";
-    private static final String LOCK = ".meridiandb-checkpoints.lock";
+    static final String JOURNAL = "transactions.journal";
+    static final String LOCK = ".meridiandb-checkpoints.lock";
     private static final Pattern GENERATION = Pattern.compile("checkpoint-([0-9]{19})-([0-9a-f]{64})\\.manifest");
 
     public static final class DirectorySyncUnsupportedException extends IOException {
         private static final long serialVersionUID = 1L;
         DirectorySyncUnsupportedException(Throwable cause) {
             super("Directory open/force is unavailable; checkpoint publication requires this capability", cause);
+        }
+    }
+
+    public static final class SharedReaderLockUnsupportedException extends IOException {
+        private static final long serialVersionUID = 1L;
+        SharedReaderLockUnsupportedException() {
+            super("Shared file locking is unavailable; lazy checkpoint readers require this capability");
         }
     }
 
@@ -68,6 +75,8 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     interface Namespace extends AutoCloseable {
         Path directory();
+        LocalReaderBarrier.Protection acquireReader() throws IOException;
+        Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() throws IOException;
         List<String> entries() throws IOException;
         byte[] read(String name, int maxBytes) throws IOException;
         void writeNew(String name, byte[] image) throws IOException;
@@ -269,7 +278,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
             }
             // Reserve every missing object and the candidate before creating the first one. The
             // rename replaces the candidate name, so it requires no additional directory slot.
-            if ((long) entries.size() + missing + 1 > MAX_DIRECTORY_ENTRIES
+            if ((long) entries.size() + missing + 1 + (existing.contains(LocalReaderBarrier.NAME) ? 0 : 1) > MAX_DIRECTORY_ENTRIES
                     || entries.stream().filter(name -> name.startsWith("checkpoint-")).count() >= MAX_GENERATIONS) {
                 throw new IOException("No capacity for complete compaction installation and publication");
             }
@@ -326,13 +335,35 @@ public final class LocalCheckpointStore implements AutoCloseable {
         Objects.requireNonNull(journal, "journal");
         operating = true;
         try {
-            return loadLatest(journal).map(decoded -> new LocalCheckpointReader(namespace.directory(), decoded));
+            var selected = loadLatest(journal);
+            if (selected.isEmpty()) { return Optional.empty(); }
+            // Store ownership excludes reclamation throughout verification and admission. Acquire
+            // independent protection before exposing the reader or permitting store close.
+            var protection = namespace.acquireReader();
+            try {
+                return Optional.of(new LocalCheckpointReader(namespace.directory(), selected.orElseThrow(), protection));
+            } catch (RuntimeException | Error failure) {
+                try { protection.close(); }
+                catch (IOException | RuntimeException | Error closeFailure) {
+                    if (failure != closeFailure) { failure.addSuppressed(closeFailure); }
+                }
+                throw failure;
+            }
         } catch (IOException | RuntimeException | Error failure) {
             failed = true;
             throw failure;
         } finally {
             operating = false;
         }
+    }
+
+    /** Internal foundation for reclamation. No deletion operation is exposed by this adapter yet. */
+    synchronized Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() throws IOException {
+        usable();
+        operating = true;
+        try { return namespace.tryReclamationBarrier(); }
+        catch (IOException | RuntimeException | Error failure) { failed = true; throw failure; }
+        finally { operating = false; }
     }
 
     private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal) throws IOException {
@@ -368,7 +399,9 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     private void requireCapacity(boolean newGeneration) throws IOException {
         var entries = namespace.entries();
-        if (entries.size() >= MAX_DIRECTORY_ENTRIES) { throw new IOException("No capacity for another checkpoint object"); }
+        if ((long) entries.size() + 1 + (entries.contains(LocalReaderBarrier.NAME) ? 0 : 1) > MAX_DIRECTORY_ENTRIES) {
+            throw new IOException("No capacity for another checkpoint object and permanent reader barrier");
+        }
         if (newGeneration && entries.stream().filter(name -> name.startsWith("checkpoint-")).count() >= MAX_GENERATIONS) {
             throw new IOException("No capacity for another retained generation");
         }
@@ -462,28 +495,40 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     private static final class NioFile implements FileAccess {
         private final FileChannel channel;
-        NioFile(FileChannel channel) { this.channel = channel; }
+        private final LocalFileOwnership.OwnedChannel owned;
+        NioFile(LocalFileOwnership.OwnedChannel owned) { this.owned = owned; this.channel = owned.channel(); }
+        static NioFile open(Path path, StandardOpenOption option) throws IOException { return open(path, option, false); }
+        static NioFile create(Path path) throws IOException { return open(path, StandardOpenOption.WRITE, true); }
+        private static NioFile open(Path path, StandardOpenOption option, boolean create) throws IOException {
+            var owned = create ? LocalFileOwnership.openData(path, option, StandardOpenOption.CREATE_NEW, LinkOption.NOFOLLOW_LINKS)
+                    : LocalFileOwnership.openData(path, option, LinkOption.NOFOLLOW_LINKS);
+            try { return new NioFile(owned); }
+            catch (RuntimeException | Error failure) {
+                try { owned.close(); }
+                catch (IOException | RuntimeException | Error closeFailure) { failure.addSuppressed(closeFailure); }
+                throw failure;
+            }
+        }
         @Override public int read(ByteBuffer target, long offset) throws IOException { return channel.read(target, offset); }
         @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
         @Override public long size() throws IOException { return channel.size(); }
         @Override public void force() throws IOException { channel.force(true); }
-        @Override public void close() throws IOException { channel.close(); }
+        @Override public void close() throws IOException { owned.close(); }
     }
 
     private static final class NioNamespace implements Namespace {
-        private static final Set<Path> OWNED = new HashSet<>();
         private final Path directory;
         private final Path lockPath;
         private final FileChannel directoryChannel;
-        private final FileChannel lockChannel;
         private final FileLock lock;
+        private final LocalFileOwnership.OwnedChannel owned;
 
-        private NioNamespace(Path directory, Path lockPath, FileChannel directoryChannel, FileChannel lockChannel, FileLock lock) {
+        private NioNamespace(Path directory, Path lockPath, FileChannel directoryChannel, FileLock lock, LocalFileOwnership.OwnedChannel owned) {
             this.directory = directory;
             this.lockPath = lockPath;
             this.directoryChannel = directoryChannel;
-            this.lockChannel = lockChannel;
             this.lock = lock;
+            this.owned = owned;
         }
 
         static NioNamespace acquire(Path requested, DirectoryProbe probe) throws IOException {
@@ -507,20 +552,15 @@ public final class LocalCheckpointStore implements AutoCloseable {
             }
             Path lockPath = directory.resolve(LOCK);
             FileChannel channel = null;
-            boolean reserved = false;
+            LocalFileOwnership.OwnedChannel owned = null;
             try {
+                LocalReaderBarrier.validateName(directory);
+                LocalReaderBarrier.rejectActiveAlias(lockPath);
+                LocalReaderBarrier.rejectActiveAlias(directory.resolve(JOURNAL));
                 var existing = listNames(directory);
-                if (!Files.exists(lockPath, LinkOption.NOFOLLOW_LINKS) && existing.size() >= MAX_DIRECTORY_ENTRIES) {
+                if ((long) existing.size() + (Files.exists(lockPath, LinkOption.NOFOLLOW_LINKS) ? 0 : 1)
+                        + (existing.contains(LocalReaderBarrier.NAME) ? 0 : 1) > MAX_DIRECTORY_ENTRIES) {
                     throw new IOException("No directory capacity for checkpoint ownership file");
-                }
-                synchronized (OWNED) {
-                    for (Path active : OWNED) {
-                        if (active.equals(lockPath) || (Files.exists(lockPath) && Files.isSameFile(active, lockPath))) {
-                            throw new IOException("Checkpoint store is already owned in this JVM");
-                        }
-                    }
-                    OWNED.add(lockPath);
-                    reserved = true;
                 }
                 if (Files.exists(lockPath, LinkOption.NOFOLLOW_LINKS) && !Files.isRegularFile(lockPath, LinkOption.NOFOLLOW_LINKS)) {
                     throw new IOException("Checkpoint lock must be a regular file");
@@ -530,27 +570,44 @@ public final class LocalCheckpointStore implements AutoCloseable {
                         && Files.isSameFile(lockPath, journalPath)) {
                     throw new IOException("Checkpoint lock must not alias the journal");
                 }
-                channel = FileChannel.open(lockPath, StandardOpenOption.CREATE, StandardOpenOption.READ,
+                owned = LocalFileOwnership.openControl(lockPath, StandardOpenOption.CREATE, StandardOpenOption.READ,
                         StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS);
+                channel = owned.channel();
                 if (!Files.isRegularFile(lockPath, LinkOption.NOFOLLOW_LINKS)) { throw new IOException("Checkpoint lock path changed"); }
                 FileLock lock;
                 try { lock = channel.tryLock(); }
                 catch (OverlappingFileLockException overlap) { throw new IOException("Checkpoint store lock overlaps", overlap); }
                 if (lock == null) { throw new IOException("Checkpoint store is locked by another process"); }
-                return new NioNamespace(directory, lockPath, dir, channel, lock);
+                return new NioNamespace(directory, lockPath, dir, lock, owned);
             } catch (IOException | RuntimeException | Error failure) {
-                if (channel != null) {
-                    try { channel.close(); } catch (IOException closeFailure) { failure.addSuppressed(closeFailure); }
+                if (owned != null) {
+                    try { owned.close(); }
+                    catch (IOException | RuntimeException | Error closeFailure) { failure.addSuppressed(closeFailure); }
                 }
                 try { dir.close(); } catch (IOException closeFailure) { failure.addSuppressed(closeFailure); }
-                if (reserved && (channel == null || !channel.isOpen())) {
-                    synchronized (OWNED) { OWNED.remove(lockPath); }
-                }
                 throw failure;
             }
         }
 
         @Override public Path directory() { return directory; }
+        @Override public LocalReaderBarrier.Protection acquireReader() throws IOException {
+            return acquireBarrier(true).orElseThrow(() -> new IOException("Reader barrier is held exclusively"));
+        }
+        @Override public Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() throws IOException {
+            return acquireBarrier(false);
+        }
+        private Optional<LocalReaderBarrier.Protection> acquireBarrier(boolean shared) throws IOException {
+            var acquired = LocalReaderBarrier.acquire(directory, shared);
+            if (acquired.isEmpty()) { return acquired; }
+            try { forceDirectory(); return acquired; }
+            catch (IOException | RuntimeException | Error failure) {
+                try { acquired.orElseThrow().close(); }
+                catch (IOException | RuntimeException | Error closeFailure) {
+                    if (failure != closeFailure) { failure.addSuppressed(closeFailure); }
+                }
+                throw failure;
+            }
+        }
         @Override public List<String> entries() throws IOException { return listNames(directory); }
         private static List<String> listNames(Path directory) throws IOException {
             var names = new ArrayList<String>();
@@ -564,23 +621,19 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             Path path = regular(name);
-            return LocalCheckpointStore.read(new NioFile(FileChannel.open(path, StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS)), maxBytes);
+            return LocalCheckpointStore.read(NioFile.open(path, StandardOpenOption.READ), maxBytes);
         }
         @Override public void writeNew(String name, byte[] image) throws IOException {
-            LocalCheckpointStore.write(new NioFile(FileChannel.open(directory.resolve(name), StandardOpenOption.CREATE_NEW,
-                    StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS)), image);
+            LocalCheckpointStore.write(NioFile.create(directory.resolve(name)), image);
         }
         @Override public void forceFile(String name) throws IOException {
             Path path = regular(name);
-            try (var channel = FileChannel.open(path, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS)) { channel.force(true); }
+            try (var file = NioFile.open(path, StandardOpenOption.WRITE)) { file.force(); }
         }
         private Path regular(String name) throws IOException {
             Path path = directory.resolve(name);
             if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) { throw new IOException("Checkpoint object must be a regular file: " + name); }
-            Path journal = directory.resolve(JOURNAL);
-            if (Files.isSameFile(path, lockPath) || (Files.exists(journal, LinkOption.NOFOLLOW_LINKS) && Files.isSameFile(path, journal))) {
-                throw new IOException("Checkpoint objects must not alias an owned journal or lock file");
-            }
+            LocalReaderBarrier.rejectObjectAlias(directory, path);
             return path;
         }
         @Override public void atomicMove(String from, String to) throws IOException {
@@ -591,17 +644,20 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
         @Override public void forceDirectory() throws IOException { directoryChannel.force(true); }
         @Override public void close() throws IOException {
-            IOException failure = null;
-            try { if (lock.isValid()) { lock.release(); } } catch (IOException releaseFailure) { failure = releaseFailure; }
-            try { lockChannel.close(); } catch (IOException closeFailure) {
-                if (failure == null) { failure = closeFailure; } else { failure.addSuppressed(closeFailure); }
-            } finally {
-                if (!lockChannel.isOpen()) { synchronized (OWNED) { OWNED.remove(lockPath); } }
+            Throwable failure = null;
+            try { if (lock.isValid()) { lock.release(); } }
+            catch (IOException | RuntimeException | Error releaseFailure) { failure = releaseFailure; }
+            for (var resource : new AutoCloseable[] {owned, directoryChannel}) {
+                try { resource.close(); }
+                catch (Exception | Error closeFailure) {
+                    if (failure == null) { failure = closeFailure; }
+                    else if (failure != closeFailure) { failure.addSuppressed(closeFailure); }
+                }
             }
-            try { directoryChannel.close(); } catch (IOException closeFailure) {
-                if (failure == null) { failure = closeFailure; } else { failure.addSuppressed(closeFailure); }
-            }
-            if (failure != null) { throw failure; }
+            if (failure instanceof IOException io) { throw io; }
+            if (failure instanceof RuntimeException runtime) { throw runtime; }
+            if (failure instanceof Error error) { throw error; }
+            if (failure != null) { throw new IOException("Checkpoint cleanup failed", failure); }
         }
     }
 }

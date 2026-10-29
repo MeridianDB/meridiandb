@@ -120,3 +120,10 @@ file synchronization, dependency-name synchronization and generation selection
 separate. Exact-byte content reuse is a MeridianDB design choice, not an inherited
 Lucene content-addressing guarantee. All prior objects and the full journal remain
 retained; protected deletion requires separate evidence.
+
+[Live checkpoint reader protection](../development/reader-protection.md) now uses a
+shared OS barrier independent of store ownership. [ADR 0017](../decisions/0017-live-reader-protection.md)
+refreshes JDK lock, Linux/Windows release and Lucene snapshot evidence on October 29.
+Its conservative store-wide exclusion and shared cross-adapter identity reservations
+protect cooperating lazy readers; physical deletion and retained-root policy remain
+separate required work. No per-generation cleanup-progress guarantee is implied.

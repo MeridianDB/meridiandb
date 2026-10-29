@@ -39,6 +39,27 @@ class LocalJournalTest {
     Path directory;
 
     @Test
+    void symlinkParentThenDotDotOpensTheActualRequestedJournalRatherThanItsLexicalNeighbor() throws IOException {
+        var base = Files.createDirectory(directory.resolve("base"));
+        var elsewhere = Files.createDirectory(directory.resolve("elsewhere"));
+        var child = Files.createDirectory(elsewhere.resolve("child"));
+        try { Files.createSymbolicLink(base.resolve("link"), child); }
+        catch (UnsupportedOperationException unavailable) { assumeTrue(false, "Symbolic links unavailable: " + unavailable); }
+        var requested = base.resolve("link").resolve("..").resolve("transactions.journal");
+        var actual = elsewhere.toRealPath().resolve("transactions.journal");
+        try (var journal = LocalJournal.create(requested, DATABASE)) {
+            assertEquals(Optional.of(actual), journal.path());
+            journal.append(FIRST);
+            assertEquals(1, journal.force());
+        }
+        assertFalse(Files.exists(base.resolve("transactions.journal")));
+        try (var journal = LocalJournal.open(requested)) {
+            assertEquals(Optional.of(actual), journal.path());
+            assertEquals(List.of(FIRST), replay(journal));
+        }
+    }
+
+    @Test
     void realFilePreservesLineageExactIdentityOperationOrderAndExplicitForceCutoff() throws IOException {
         var path = directory.resolve("transactions.journal");
         var identity = "A\u0000é" + (char) 0xd800 + "e" + (char) 0x0301 + (char) 0xdc00;

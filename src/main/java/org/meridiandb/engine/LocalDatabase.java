@@ -286,6 +286,23 @@ public final class LocalDatabase implements AutoCloseable {
         }
     }
 
+    /** Attempt every owned cleanup even when an earlier reader/journal/store release fails. */
+    static void closeResources(AutoCloseable... resources) throws IOException {
+        Throwable failure = null;
+        for (var resource : resources) {
+            if (resource == null) { continue; }
+            try { resource.close(); }
+            catch (Exception | Error closeFailure) {
+                if (failure == null) { failure = closeFailure; }
+                else if (failure != closeFailure) { failure.addSuppressed(closeFailure); }
+            }
+        }
+        if (failure instanceof IOException io) { throw io; }
+        if (failure instanceof RuntimeException runtime) { throw runtime; }
+        if (failure instanceof Error error) { throw error; }
+        if (failure != null) { throw new IOException("Local database cleanup failed", failure); }
+    }
+
     private static final class LocalSource implements WriteSource {
         private final LocalCheckpointStore store;
         private final LocalJournal journal;
@@ -312,13 +329,7 @@ public final class LocalDatabase implements AutoCloseable {
         }
         @Override public void replayJournal(Consumer<? super JournalRecord> consumer) throws IOException { journal.replay(consumer); }
         @Override public void close() throws IOException {
-            if (reader != null) { reader.close(); }
-            IOException failure = null;
-            try { journal.close(); } catch (IOException journalFailure) { failure = journalFailure; }
-            try { store.close(); } catch (IOException storeFailure) {
-                if (failure == null) { failure = storeFailure; } else { failure.addSuppressed(storeFailure); }
-            }
-            if (failure != null) { throw failure; }
+            closeResources(reader, journal, store);
         }
     }
 }

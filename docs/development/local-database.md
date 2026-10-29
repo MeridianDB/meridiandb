@@ -207,3 +207,9 @@ journal-only, genesis and checkpoint-plus-tail reopen coverage.
 creation, append, force, publication, acknowledgement, checkpoint and startup
 boundaries, 168 writable canonical expectations and 512 seeded durable commits.
 These checks and injected storage faults do not simulate device power loss.
+
+Recovered databases also retain the checkpoint's shared [reader protection](reader-protection.md)
+until close. Closing invalidates query views, then attempts reader, journal and store
+cleanup independently, preserving suppressed failures. A failed reader release cannot
+strand the other owners; retry database close for remaining cleanup. This protection
+adds no physical deletion or change to historical query/retry semantics.

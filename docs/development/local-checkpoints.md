@@ -41,7 +41,7 @@ locks on platforms where closing a second same-file handle can release them.
 The journal has its own exclusive owner and must occupy the canonical
 `store.journalPath()`, named `transactions.journal`, in the same directory.
 Read and force operations reject checkpoint objects hard-linked to either owned
-file before opening another channel. The store lock itself cannot alias the
+file or the reader barrier before opening another channel. The store lock itself cannot alias the
 journal. Avoid independently opening the journal
 while its adapter owns it; use `prefix`, replay and counters on that adapter.
 
@@ -54,6 +54,7 @@ while its adapter owns it; use `prefix`, replay and counters on that adapter.
 | `pending-<generation>-<UUID>.manifest` | Unselected candidate; ignored during discovery and retained after failure |
 | `checkpoint-<19-digit-generation>-<64-hex-manifest-id>.manifest` | Selected immutable generation |
 | `.meridiandb-checkpoints.lock` | Cooperating store ownership |
+| `.meridiandb-readers.lock` | Permanent shared protection for live lazy readers, independent of store ownership |
 
 Discovery selects the highest positive generation. Every selected filename must
 be well formed, and generation numbers must be unique. The selected manifest's
@@ -65,7 +66,10 @@ An empty selected namespace returns `Optional.empty()`.
 There are at most 16,384 total directory entries and 1,024 selected generations.
 These prototype limits bound discovery, alongside the existing manifest and
 segment limits. Publication reserves room before forcing dependencies or creating
-a candidate. Reaching a limit requires a separately designed retention or
+a candidate, including a reserved slot for the permanent reader barrier when absent.
+Store acquisition and segment/compaction creation preserve that slot too, so successful
+publication cannot consume the capacity needed for first reader admission.
+Reaching a limit requires a separately designed retention or
 migration procedure; deleting old files by inspection is not a supported remedy.
 
 ## Initialize and synchronize a journal
@@ -149,10 +153,14 @@ its existing-path rejection behavior.
 `readLatest(journal)` verifies the complete selected graph before returning a
 `LocalCheckpointReader`. Its manifest metadata is immutable. `openSegment(index)`
 loads and verifies one referenced segment again and returns a separate heap-owned
-reader. It retains no channel. A checkpoint reader can outlive the store while
-files remain retained; closing it prevents later access without invalidating
-already returned metadata or child readers. Subsequent lazy opens fail if files
-have changed or disappeared. Reader close grants no reclamation permission.
+reader. The child retains no channel. The parent holds independent shared
+[reader protection](reader-protection.md), so it can outlive the store and new
+publications. Closing it serializes with lazy opens and can raise `IOException`;
+retry close after cleanup failure. Already returned metadata and heap child readers
+remain valid. The permanent guard needs one free entry on first admission and actual
+shared-lock support; empty selected state creates no guard. Reader close grants no
+reclamation permission, and a future remover must hold both exclusive store ownership
+and exclusive reader protection before any removal.
 
 Run from the repository root with JDK 25:
 
@@ -183,3 +191,10 @@ process writer exclusion. A separate process halts immediately after successful
 publication and another reopens exact history. Capability-dependent real-file
 cases skip only when their required capability is unavailable; injected protocol
 checks still run. The same verification and example run in Linux/Windows CI.
+
+Local adapters share file-identity reservations across journal, store and reader
+controls and transient data channels. If native channel close throws, its cleanup
+remains quarantined even when Java reports the channel closed; a retry cannot prove
+native cleanup. Restart the process before reusing that identity. The
+[reader-protection guide](reader-protection.md#failure-and-close) explains this
+conservative close boundary and its distinction from a retryable release failure.

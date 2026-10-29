@@ -563,6 +563,43 @@ unreferenced dependencies, preserve fail-closed newest selection, and document
 interruption/cleanup/capacity behavior. Timer-only grace or a process-local registry
 is insufficient. No logical history pruning or journal truncation is authorized.
 
+**Required children:** MDB-0030 introduces cross-process reader protection with
+no deletion; MDB-0031 uses that protection for conservative physical reclamation.
+Keep this parent expanded until both children and its original criteria pass.
+
+## MDB-0030 Cross-process reader protection
+
+**Outcome:** add a permanent store-wide shared reader barrier acquired under store
+ownership before returning a verified lazy reader. A single JVM channel/reference
+registry and OS file lock preserve protection across store close and independent
+processes. Synchronize lazy opens with release; returned heap children survive close.
+Prepare an internal nonblocking exclusive barrier for future reclamation; any live
+reader conservatively defers all deletion. Introduce no physical removal.
+
+**Complete when:** multiple same-JVM readers share one channel, readers survive
+store close/new publication, another process cannot acquire exclusive protection
+until all readers close or their process exits, and close serializes with lazy opens.
+Test release/close failures and retry, fail-closed uncertain/invalid protection,
+unsupported shared-lock capability, pre-open journal/store-lock/guard aliases,
+capacity and admission cleanup. Preserve ordinary I/O failures and do not substitute
+PID/timer/in-memory-only liveness. Document coarse protection, class-loader/provider
+boundaries and required explicit close. Update engine cleanup for failing reader release.
+
+## MDB-0031 Protected physical reclamation
+
+**Outcome:** under exclusive store ownership and a nonblocking exclusive reader
+barrier, verify live selected/retained/explicit backup roots and reclaim only proven
+obsolete complete metadata and unreferenced immutable segments. While any reader is
+live, defer all removal. Retain journal, ownership/barrier files, unknown and diagnostic
+objects absent an inspected explicit policy. Preserve complete logical history.
+
+**Complete when:** original MDB-0028 removal/interruption/capacity criteria pass,
+reader admission cannot race deletion, aliases are rejected before open/delete,
+obsolete metadata removal is forced before unreferenced dependencies, newest state
+fails closed and every stop/failure has documented safe reopen behavior. Test actual
+cross-process contention, retained roots, interrupted removal and no dangling graph.
+Keep MDB-0029's full semantic/crash/space integration separate and required.
+
 ## MDB-0029 Compaction and reclamation conformance
 
 **Outcome:** integrate actual compaction publication, protected readers and physical

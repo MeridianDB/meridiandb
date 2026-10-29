@@ -30,7 +30,9 @@ canonical/seeded writable-reopen checks.
 [Pure history compaction](history-compaction.md) validates supplied checkpoint
 history and returns bounded exact-history replacement proposals. Local compaction
 publication now verifies/reuses or installs outputs and selects the next generation
-at the same cutoff. Protected physical deletion remains planned.
+at the same cutoff. Lazy readers now hold independent shared cross-process
+[protection](reader-protection.md), with explicit release/cleanup behavior. Protected
+physical deletion remains planned.
 No library is published.
 
 ## Build and verify
@@ -76,12 +78,12 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 603 test invocations include 51 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 678 test invocations include 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
 36 [local segment I/O/lifetime checks](local-segments.md),
-27 immutable segment codec checks, 29 journal codec checks, 57 local journal
+27 immutable segment codec checks, 29 journal codec checks, 58 local journal
 I/O/process/prefix checks and 71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
@@ -166,7 +168,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for local compaction publication on October 29 at 10:36 Toronto / 14:36 UTC; the selected versions remain
+for reader protection on October 29 at 11:24:54 Toronto / 15:24:54 UTC; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 

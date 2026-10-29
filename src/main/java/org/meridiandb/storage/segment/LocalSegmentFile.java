@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 import java.util.Objects;
+import org.meridiandb.storage.internal.LocalFileOwnership;
 
 /**
  * Create-only local segment I/O in an existing, trusted, stable directory.
@@ -141,35 +142,25 @@ public final class LocalSegmentFile {
 
     private static final class NioFile implements FileAccess {
         private final FileChannel channel;
-
-        private NioFile(FileChannel channel) {
-            this.channel = channel;
-        }
-
-        static NioFile create(Path path) throws IOException {
-            // CREATE_NEW atomically rejects existing files/symlinks. It does not publish whole bytes.
-            return new NioFile(FileChannel.open(path, StandardOpenOption.WRITE,
-                    StandardOpenOption.CREATE_NEW, LinkOption.NOFOLLOW_LINKS));
-        }
-
+        private final LocalFileOwnership.OwnedChannel owned;
+        private NioFile(LocalFileOwnership.OwnedChannel owned) { this.owned = owned; this.channel = owned.channel(); }
+        static NioFile create(Path path) throws IOException { return acquire(path, true); }
         static NioFile open(Path path) throws IOException {
-            // Check before opening to avoid treating directories/devices/pipes as segment files.
-            // Parents and names must stay stable: this is not a hostile-path sandbox.
             if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) {
                 throw new IOException("Segment must be a regular local file: " + path);
             }
-            var channel = FileChannel.open(path, StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS);
+            return acquire(path, false);
+        }
+        private static NioFile acquire(Path path, boolean create) throws IOException {
+            var owned = create ? LocalFileOwnership.openData(path, StandardOpenOption.WRITE,
+                    StandardOpenOption.CREATE_NEW, LinkOption.NOFOLLOW_LINKS)
+                    : LocalFileOwnership.openData(path, StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS);
             try {
-                if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) {
-                    throw new IOException("Segment path changed during open: " + path);
-                }
-                return new NioFile(channel);
+                if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) { throw new IOException("Segment path changed"); }
+                return new NioFile(owned);
             } catch (IOException | RuntimeException | Error failure) {
-                try {
-                    channel.close();
-                } catch (IOException | RuntimeException closeFailure) {
-                    failure.addSuppressed(closeFailure);
-                }
+                try { owned.close(); }
+                catch (IOException | RuntimeException | Error closeFailure) { failure.addSuppressed(closeFailure); }
                 throw failure;
             }
         }
@@ -178,6 +169,6 @@ public final class LocalSegmentFile {
         @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
         @Override public long size() throws IOException { return channel.size(); }
         @Override public void force() throws IOException { channel.force(true); }
-        @Override public void close() throws IOException { channel.close(); }
+        @Override public void close() throws IOException { owned.close(); }
     }
 }

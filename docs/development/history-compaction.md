@@ -147,7 +147,7 @@ try (var store = LocalCheckpointStore.open(directory);
    exact prefix through the actual journal owner at `transactions.journal`.
 2. Checks every already present replacement object against its complete expected
    encoded bytes. Reuse requires a regular, nonsymlink file that aliases neither
-   the journal nor the store lock. A corrupt, truncated or wrong same-name image
+   the journal, store lock nor reader barrier. A corrupt, truncated or wrong same-name image
    fails closed, even if later installation could otherwise succeed.
 3. Reserves capacity for **all missing segments plus one manifest candidate** and
    one retained generation before creating the first output. Existing source,
@@ -176,10 +176,11 @@ force assumptions of local checkpoint publication apply equally to reused object
 
 ## Physical reclamation boundaries
 
-Physical reclamation needs a separate protection protocol. Lazy reader admission
-must select and pin its generation under cross-process coordination that excludes
-deletion. A reader's protection must outlive the store, and release must serialize
-with its in-progress lazy opens. Selected/retained generations, active lazy-reader
+[Live reader protection](reader-protection.md) now uses a shared store-wide OS
+barrier independent of store lifetime, with release serialized against lazy opens.
+Any live lazy reader conservatively excludes a future exclusive removal barrier;
+publication remains possible. Physical reclamation still needs a remover that holds
+store ownership plus exclusive protection through root checks, deletion and sync. Selected/retained generations, active lazy-reader
 pins and explicit backup roots determine which dependency graphs remain live.
 Heap-owned child readers do not need their old file names to keep returned values.
 
@@ -187,7 +188,8 @@ Timers, PID observations and a process-local registry alone cannot establish tha
 an old generation is unused. An uncertain pin or removal outcome requires retention.
 Obsolete metadata must be safely retired before its now-unreferenced dependencies;
 newest selected state must remain verifiable after interruption. No such deletion
-protocol is implemented by either compaction API.
+removal protocol is implemented by either compaction API. The shared reader
+barrier is a prerequisite, not a physical removal operation.
 
 ## Verify and run the example
 
@@ -238,7 +240,7 @@ reclaims objects.
 ./mvnw -B -Dtest=LocalCompactionPublicationTest,LocalCompactionIntegrationTest,LocalCompactionCrashTest test
 ```
 
-The 51 local checks (34 injected protocol, 13 real integration and four child-JVM
+The 55 local checks (38 injected protocol, 13 real integration and four child-JVM
 exit cases) cover verified reuse, corrupt same-name candidates, source/journal
 binding, whole-installation capacity, fault poisoning and uncertain rename outcomes.
 Real-file checks retain old lazy readers, exclude engine writers and reopen exact

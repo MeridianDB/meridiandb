@@ -427,6 +427,7 @@ class LocalCheckpointStoreTest {
     @Test
     void failedSegmentCreationRetainsCandidateAndPoisonsStore() throws IOException {
         var namespace = new MemoryNamespace(directory);
+        namespace.files.put(LocalReaderBarrier.NAME, new byte[0]);
         namespace.partialWriteFailure = true;
         var fixture = new Fixture(namespace, new MemoryJournal(namespace.events));
         try (var store = new LocalCheckpointStore(namespace)) {
@@ -638,6 +639,7 @@ class LocalCheckpointStoreTest {
 
     private Fixture fixture() {
         var namespace = new MemoryNamespace(directory);
+        namespace.files.put(LocalReaderBarrier.NAME, new byte[0]);
         namespace.files.put(LocalCheckpointStore.segmentName(SEGMENT_ID), SEGMENT_IMAGE.clone());
         return new Fixture(namespace, new MemoryJournal(namespace.events));
     }
@@ -730,6 +732,15 @@ class LocalCheckpointStoreTest {
         Runnable readHook;
         MemoryNamespace(Path directory) { this.directory = directory; }
         @Override public Path directory() { return directory; }
+        @Override public LocalReaderBarrier.Protection acquireReader() {
+            return new LocalReaderBarrier.Protection() {
+                @Override public void checkValid() { }
+                @Override public void close() { }
+            };
+        }
+        @Override public java.util.Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() {
+            return java.util.Optional.of(acquireReader());
+        }
         @Override public List<String> entries() { events.add("entries"); return entryOverride == null ? new ArrayList<>(files.keySet()) : entryOverride; }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             events.add("read:" + name);

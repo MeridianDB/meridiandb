@@ -113,7 +113,7 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **603 JUnit test invocations**: 51 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
+The current default suite has **678 JUnit test invocations**: 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
 [durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
@@ -121,7 +121,7 @@ The current default suite has **603 JUnit test invocations**: 51 [local compacti
 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md), 36
 [local segment I/O/lifetime checks](local-segments.md), 27
 [immutable segment codec checks](../architecture/immutable-segment-format.md),
-29 journal codec checks, 57 [local journal I/O/process/prefix checks](local-journal.md)
+29 journal codec checks, 58 [local journal I/O/process/prefix checks](local-journal.md)
 and 71 temporal/engine checks comprising 18 interval boundary checks, eight type checks, ten reference/decoding checks, five history tests per
 implementation, 16 shared seed tests and nine engine lifecycle/concurrency tests.
 History steps and generated transactions are assertions inside those tests, not

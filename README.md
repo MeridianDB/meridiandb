@@ -102,8 +102,9 @@ The [technical roadmap](docs/roadmap.md) describes the current memory engine and
 local journal, immutable segment files, checkpoint publication and read recovery,
 plus forced local commit publication, process crash/retry conformance and typed
 temporal query operators, bounded pure history repacking and verified local
-compaction publication. Planned work covers
-reader-safe physical reclamation, object storage and
+compaction publication. Lazy checkpoint readers now hold shared cross-process
+[protection](docs/development/reader-protection.md) independently of store lifetime.
+Planned work covers protected physical reclamation, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
@@ -121,13 +122,13 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 603 JUnit test invocations: 71 temporal/engine, 29 journal codec,
-57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
+This runs 678 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,
-55 typed query checks, 57 pure compaction checks and 51 local compaction
-publication/integration/process checks. Coverage
+55 typed query checks, 57 pure compaction checks, 55 local compaction
+publication/integration/process checks and 70 reader protection/identity/cleanup checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair

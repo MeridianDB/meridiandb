@@ -76,6 +76,7 @@ class LocalDatabaseTest {
     void realCheckpointAndCompleteTailRecoverExactHistoricalQueriesRequestsAndLineage() throws IOException {
         var fixture = createFiles(DATABASE, HISTORY, OptionalLong.of(2));
         var before = snapshot();
+        before.put(".meridiandb-readers.lock", new byte[0]); // First reader admits permanent control metadata.
         try (var database = LocalDatabase.open(directory)) {
             assertRecoveredHistory(database, DATABASE);
             assertEquals(Optional.of(position(DATABASE, 2)), database.checkpointPosition());

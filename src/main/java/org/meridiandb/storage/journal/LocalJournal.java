@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import org.meridiandb.storage.internal.LocalFileOwnership;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.RequestId;
 
@@ -298,7 +299,8 @@ public final class LocalJournal implements AutoCloseable {
     private static Path preserveTail(Path path, FileAccess source, long start, long size) throws IOException {
         Path evidence = path.resolveSibling(path.getFileName() + ".tail-at-" + start + "-" + UUID.randomUUID() + ".bin");
         // CREATE_NEW keeps earlier evidence. Partial evidence is retained on failure; original is untouched.
-        try (var output = FileChannel.open(evidence, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE)) {
+        try (var owned = LocalFileOwnership.openData(evidence, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE)) {
+            var output = owned.channel();
             var buffer = ByteBuffer.allocate(64 * 1024);
             long offset = start;
             while (offset < size) {
@@ -322,38 +324,33 @@ public final class LocalJournal implements AutoCloseable {
 
     private static final class NioFile implements FileAccess {
         // Reserve before opening: closing a losing same-file channel can drop another JVM lock on POSIX.
-        private static final Set<Path> OWNED = new HashSet<>();
         private final Path path;
+        private final LocalFileOwnership.OwnedChannel owned;
         private final FileChannel channel;
         private final FileLock lock;
 
-        private NioFile(Path path, FileChannel channel, FileLock lock) {
+        private NioFile(Path path, FileChannel channel, FileLock lock, LocalFileOwnership.OwnedChannel owned) {
             this.path = path;
+            this.owned = owned;
             this.channel = channel;
             this.lock = lock;
         }
 
         static NioFile acquire(Path requested, boolean create) throws IOException {
             Objects.requireNonNull(requested, "path");
-            Path absolute = requested.toAbsolutePath().normalize();
+            Path absolute = requested.toAbsolutePath();
             if (Files.isSymbolicLink(absolute)) {
                 throw new IOException("Journal path must not be a symbolic link");
             }
             Path path = absolute.getParent().toRealPath().resolve(absolute.getFileName());
-            synchronized (OWNED) {
-                for (Path active : OWNED) {
-                    if (active.equals(path) || (Files.exists(path) && Files.isSameFile(active, path))) {
-                        throw new IOException("Journal is already owned in this JVM: " + path);
-                    }
-                }
-                OWNED.add(path);
-            }
+            LocalFileOwnership.OwnedChannel owned = null;
             FileChannel channel = null;
             try {
-                channel = create
-                        ? FileChannel.open(path, StandardOpenOption.READ, StandardOpenOption.WRITE,
+                owned = create
+                        ? LocalFileOwnership.openControl(path, StandardOpenOption.READ, StandardOpenOption.WRITE,
                                 StandardOpenOption.CREATE_NEW, LinkOption.NOFOLLOW_LINKS)
-                        : FileChannel.open(path, StandardOpenOption.READ, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS);
+                        : LocalFileOwnership.openControl(path, StandardOpenOption.READ, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS);
+                channel = owned.channel();
                 if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) {
                     throw new IOException("Journal must be a regular local file");
                 }
@@ -366,13 +363,11 @@ public final class LocalJournal implements AutoCloseable {
                 if (lock == null) {
                     throw new IOException("Journal is locked by another process: " + path);
                 }
-                return new NioFile(path, channel, lock);
+                return new NioFile(path, channel, lock, owned);
             } catch (IOException | RuntimeException | Error failure) {
-                if (channel != null) {
-                    try { channel.close(); } catch (IOException closeFailure) { failure.addSuppressed(closeFailure); }
-                }
-                if (channel == null || !channel.isOpen()) {
-                    synchronized (OWNED) { OWNED.remove(path); }
+                if (owned != null) {
+                    try { owned.close(); }
+                    catch (IOException | RuntimeException | Error closeFailure) { failure.addSuppressed(closeFailure); }
                 }
                 throw failure;
             }
@@ -385,23 +380,17 @@ public final class LocalJournal implements AutoCloseable {
         @Override public void truncate(long size) throws IOException { channel.truncate(size); }
 
         @Override public void close() throws IOException {
-            IOException failure = null;
-            try {
-                if (lock.isValid()) { lock.release(); }
-            } catch (IOException releaseFailure) {
-                failure = releaseFailure;
-            }
-            try {
-                channel.close();
-            } catch (IOException closeFailure) {
+            Throwable failure = null;
+            try { if (lock.isValid()) { lock.release(); } }
+            catch (IOException | RuntimeException | Error releaseFailure) { failure = releaseFailure; }
+            try { owned.close(); }
+            catch (IOException | RuntimeException | Error closeFailure) {
                 if (failure == null) { failure = closeFailure; }
-                else { failure.addSuppressed(closeFailure); }
-            } finally {
-                if (!channel.isOpen()) {
-                    synchronized (OWNED) { OWNED.remove(path); }
-                }
+                else if (failure != closeFailure) { failure.addSuppressed(closeFailure); }
             }
-            if (failure != null) { throw failure; }
+            if (failure instanceof IOException io) { throw io; }
+            if (failure instanceof RuntimeException runtime) { throw runtime; }
+            if (failure instanceof Error error) { throw error; }
         }
     }
 }
