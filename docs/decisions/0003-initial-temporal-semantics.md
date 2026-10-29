@@ -33,9 +33,13 @@ authoritative behavior for the prototype, backed by its JSON histories. In brief
   Publish complete transactions atomically. Pin read views to one position.
 - Require request IDs, retain their committed identity and return the original
   position for an identical retry. Conflicting reuse is an error. Distinguish
-  memory-only acknowledgement from future durable acknowledgement and recovery.
+  memory-only acknowledgement from the separately defined durable local protocol.
 - Specify entity lookup, coalesced interval scan and exact point aggregate results
   without adopting public query syntax or selecting a storage layout.
+
+[ADR 0015](0015-temporal-query-operators.md) adds signed-value predicates,
+explicit entity selection and filtered scans, preserving these rules and the
+original fixtures. The additive query corpus records its exact expectations.
 
 The contract owns detailed rules; this record preserves why they were chosen.
 Fixture field names are test notation, not an API/format compatibility promise.

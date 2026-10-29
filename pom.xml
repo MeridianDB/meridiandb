@@ -49,6 +49,7 @@
         <targetPath>contracts</targetPath>
         <includes>
           <include>temporal-contract-v0.json</include>
+          <include>temporal-query-v0.json</include>
         </includes>
         <filtering>false</filtering>
       </testResource>

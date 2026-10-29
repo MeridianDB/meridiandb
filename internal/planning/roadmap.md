@@ -457,6 +457,29 @@ for boundaries, overlaps, empty results, corrections and retractions; snapshots
 remain stable during execution; the embedding examples demonstrate the actual
 supported operations. API and documentation describe any remaining limits.
 
+**Implementation refinement:** preserve the original outcome. Point lookup,
+coalesced interval scan and exact correction-sensitive sum already exist. Complete
+this cohesive query extension with six signed numeric comparison predicates,
+explicit-entity point selection and filtered interval scans. Resolve values at the
+pinned cutoff before filtering; exclude absence, define deterministic UTF-16 entity
+ordering and retain gaps. Materialize immutable results with existing close
+semantics. Extend independent fixtures/reference/dense comparisons and real local
+reopen, keeping existing histories and storage bytes unchanged. No SQL, index,
+callback predicate, pagination or total-memory bound is implied.
+
+**Produced artifacts:** [ADR 0015](../../docs/decisions/0015-temporal-query-operators.md),
+[query guide](../../docs/development/temporal-queries.md), additive query fixture
+corpus, `ValuePredicate`, `EntityValue`, typed `Select`/`FilterScan`/`Rows` and a
+ninth checked embedding example run by Linux/Windows CI. Original Get/Scan/Sum,
+canonical histories, persisted seeds and storage formats are unchanged. Eight type,
+three lifecycle/concurrency, 12 exact-fixture and 32 seeded cases add 55 tests;
+all 495 tests and nine examples pass locally with no skips. The three new histories
+supply 90 expectations across four reference/memory/durable shapes (360 assertions).
+Each seeded memory and durable target executes 512 new transactions, with checkpoint
+tails and writable reopen after each durable new write. Scope, eager allocation,
+linear scans and absent query-wide budgets remain explicit. Original completion
+criteria pass without adding a separate prerequisite or weakening the outcome.
+
 ## MDB-0010 Compaction and retention
 
 **Outcome:** compact segments while preserving the temporal contract, then reclaim

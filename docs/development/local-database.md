@@ -85,6 +85,9 @@ each new write. Use `new ReadCutoff.At(new CommitPosition(databaseId, sequence))
 for an earlier commit in the stored lineage. Foreign or unavailable cutoffs fail
 with `EngineException(INVALID_CUTOFF)`. Point, clipped interval scans and exact sums
 follow the [temporal contract](../architecture/temporal-contract.md).
+[Typed selection and filtered scans](temporal-queries.md) use the same immutable
+queries and resolved-state predicates in memory and after local recovery. Query
+results retain no file handle and remain immutable values after database close.
 
 ## Recovery and writable startup
 

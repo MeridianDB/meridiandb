@@ -6,7 +6,9 @@ description: Contribute to MeridianDB’s temporal semantics, reference model an
 
 MeridianDB is an early implementation and research project. Its Java/Maven build
 contains immutable temporal types, a memory-only engine and a separate test
-reference. The experimental local database adds checkpoint recovery and forced
+reference. [Typed query operators](../development/temporal-queries.md) include
+resolved-value predicates, selection, filtered scans and exact sums.
+The experimental local database adds checkpoint recovery and forced
 commit publication and process-exit/retry conformance; there is no
 published artifact or stable API yet.
 Contributions are most useful when they turn an open design question into a small,

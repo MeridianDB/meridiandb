@@ -113,7 +113,7 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **440 JUnit test invocations**: 50
+The current default suite has **495 JUnit test invocations**: 55 [typed query checks](temporal-queries.md), 50
 [durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
@@ -135,3 +135,11 @@ have focused publication/failure checks and
 [durability conformance](durability-conformance.md): 168 unchanged canonical
 expectations through writable reopen, 512 seeded durable commits, historical
 sweeps and real child-JVM exits. Compaction and performance require their own evidence.
+
+The separate query corpus adds three histories/90 literal expectations across
+reference, memory and two writable-reopen shapes (360 assertions). Query predicates
+are evaluated independently using arbitrary-precision comparison in the reference,
+while production compares signed values directly. Separate memory/durable seeded
+checks use 16 persisted seeds and forward dense cells for selection and filtered
+interval results, including absence, ordering, extremes and corrected history.
+See the [query guide](temporal-queries.md) for reproduction and resource limits.

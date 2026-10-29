@@ -1274,6 +1274,103 @@ Refine its remaining predicates/selection and ordering/bounds/resource contract
 against the existing point/scan/sum baseline, then implement one bounded child if
 needed. Preserve canonical/reopen conformance and research current Maven artifacts.
 
+## 2026-10-29 — MDB-0009 Typed temporal query operators
+
+**Outcome:** complete the original query-operator card as one cohesive additive
+extension. Existing Get/Scan/Sum already supply entity lookup, interval scans and
+correction-sensitive exact aggregation. Add six signed numeric comparison operators
+as immutable `ValuePredicate`, explicit-candidate `Select`, `FilterScan`, `EntityValue`
+and immutable `Rows`. Capture one snapshot before resolving values and evaluating
+predicates; absence fails every operator, including NE. Sort entity rows by exact
+UTF-16 String.compareTo order, independent of input/hash/locale/normalization. Keep
+excluded/absent scan ranges as gaps, preserving clipping/coalescing/coordinate limits.
+No callback predicates, index, SQL, pagination or total query-memory/work budget.
+No child IDs or changed parent outcomes are needed for this bounded extension.
+
+Production reuses the ordinary scan clipping loop and interval state. Query additions
+change no journal, segment, manifest or retry bytes and retain the original five
+canonical histories and seed corpus. Results are eager immutable heap values with
+no file/cursor handle; existing view/owner close semantics remain intact. Independent
+production review found no correctness/resource issue. New public docs and the
+updated temporal contract own exact semantics, scope and costs.
+
+**Acceptance evidence:** 55 new invocations across four classes:
+
+- `QueryTypesTest`: six signed comparison truth tables with min/max operands plus
+  two validation/ownership checks. Candidate lists/results are copied, duplicates
+  and null arguments reject, and returned rows are immutable.
+- `QueryLifecycleTest`: three focused checks for correction/retraction precedence,
+  NE absence, no revived earlier matches, immutable results after close, filtered
+  gaps and finite/unbounded extremes. A 64-round barrier-coordinated writer/reader
+  check verifies Select's atomic multi-entity answers and FilterScan at the same
+  pinned cutoff while preserving an old view. Timed waits bound the test; this is
+  real overlap evidence rather than exhaustive schedule exploration.
+- `QueryFixtureTest`: three new literal histories / **90 expectations** in the
+  separately versioned query corpus, each executed by reference, memory, durable
+  genesis and durable nonempty-checkpoint-plus-tail (12 cases / **360 assertions**).
+  All three histories retain later writes after checkpoint one. Actual database
+  writes determine acceptance and every successful write/retry closes/reopens the
+  writer. Comparisons, absence, corrections/retractions/no-ops/retries, clipping,
+  ordering and malformed predicates/operands are exact expected results.
+- `QueryPropertiesTest`: separate 16-seed memory and 16-seed durable methods,
+  **512 new transactions per target** plus retries. Forward dense cells provide
+  independent selected rows and clipped scan runs; the separate backward-history
+  reference uses BigInteger comparison, without production predicate evaluation.
+  All six operators, five thresholds, finite-grid/extreme coordinates and values,
+  exact UTF-16 identities (including zero/lone surrogates), historical cutoffs and
+  unbounded windows are exercised. Every durable new write closes/reopens; after
+  head16, checkpoint1..8 is published with suffix9..16 retained. Pinned views remain
+  correct during writes and invalidate at owner close. Failing diagnostics retain
+  seed/history; `meridiandb.seed` overrides both target methods. Local capability
+  skips affect only durable cases, preserving memory/reference evidence.
+
+No failed semantic seed was found. Focused 55-case query verification and full
+`./mvnw -B -ntp verify` pass: **495 tests**, zero failures/errors/skips on this
+macOS/arm64 provider. All **nine examples** pass, including `QueryExample` checking
+selection, filtered interval and exact aggregate answers before/after a correction
+and retraction. Linux/Windows Java CI now invokes that ninth example. Production
+JAR inspection finds **98 Java25 classes**, major69, with no reference/oracle,
+fixtures, seeds, JUnit or Jackson. SHA-256:
+`60ad52f8f6607029936db56dd16721336a6b6b1993d558ec4fcf4f4dfedba2c9`.
+This is local artifact evidence, not a release or performance claim.
+
+**Fresh research:** all twelve Central metadata sources fetched no-cache October 29,
+08:31 Toronto / 12:31 UTC, with current official Maven/JUnit/Jackson compatibility.
+Selected versions remain latest stable and Java 25 compatible; Maven/plugin 4 RC/beta
+entries remain unselected. POM adds only the exact new test-resource filename,
+with no dependency or wrapper version change. Refresh XTDB explicit valid/system
+basis and clipped validity, Datomic immutable values, and JDK signed comparison/
+String ordering sources for ADR 0015; distinguish design inference from inherited
+semantics or guarantees.
+
+**Documentation and planning:** add ADR 0015, query guide, fixture download and
+navigation. Reconcile README, home/roadmap, temporal contract, contributing,
+build/reference/engine/local guides, decision index/current temporal decision and
+AGENTS. Persist resolved-before-filter, absence/order/gap/resource/independent-test
+rules at the authoritative query guide. Final review found one blank line breaking
+the decision table; correct it at its original location and rebuild both layouts.
+Both shared apex/project-path builds pass source, rendered HTML, links, search and
+sitemap with **36 pages**. Local browser QA confirms the operator/predicate tables,
+Java example/navigation, FilterScan search-result anchor and ADR 0015 as an actual
+row in the decision table. Theme/assets unchanged; no dark/mobile claim. MDB-0009
+is done, MDB-0010 ready, with all 25 IDs/parents/dependencies/DAG and completed-child
+criteria validated; repository Markdown paths and staged scope checked. Scratch
+logs/metrics/live-verification preparation stay ignored under `.local-qa/mdb-0009/`.
+
+**Prerequisite and delivery:** previous `943dff4bd1d0efc05da96048402e586eeea18a43`
+is verified on remote main with successful Java Linux/Windows/eight examples,
+documentation checks and automatic Pages; its handoff verified 34 live pages/search/
+sitemap. This completion uses `Step-ID: MDB-0009` and `Step-Result: completed`; Git
+supplies its SHA/remote ancestry. Final handoff reports actual source push, CI,
+automatic Pages and exact live content/search/sitemap. No library release/upload,
+Cloudflare or other infrastructure change.
+
+**Next recommendation:** MDB-0010 — history-preserving compaction and reclamation.
+Refine its retention/reader-lifetime and safe publication/reclamation requirements
+into bounded children before implementation. Preserve all historical query results,
+request identities and durable recovery; deleting logical history needs a separately
+defined retention contract. A recommendation does not begin that work.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -73,12 +73,14 @@ nav:
       - Local checkpoint decision: decisions/0012-local-checkpoint-publication.md
       - Local recovery decision: decisions/0013-local-database-recovery.md
       - Durable commit decision: decisions/0014-durable-commit-publication.md
+      - Query operators decision: decisions/0015-temporal-query-operators.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
       - Java and Maven: development/build.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
+      - Temporal queries: development/temporal-queries.md
       - Local journal: development/local-journal.md
       - Local immutable segments: development/local-segments.md
       - Local checkpoints: development/local-checkpoints.md

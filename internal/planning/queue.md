@@ -12,19 +12,19 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0025 and parent MDB-0008 meet their source
-  criteria**: real process-exit boundaries preserve acknowledged history and exact
-  retry outcomes; canonical and seeded histories pass through writable reopen.
-- Next source-ready item: **MDB-0009 — Implement temporal query operators and interval scans**.
+- No executable item is active. **MDB-0009's source criteria pass**: typed signed
+  predicates, explicit-entity selection and filtered interval scans preserve one
+  pinned temporal snapshot, exact ordering, gaps and immutable result ownership.
+- Next source-ready item: **MDB-0010 — Add history-preserving compaction and reclamation**.
   Confirm this completion reached remote main and inspect Java/documentation CI
-  and automatic Pages publication before claiming it. Refine its remaining query
-  work against the already implemented point/scan/sum baseline before editing.
-- All **440 local tests** pass with no skips, including 50 new conformance cases;
-  all eight examples pass. The protocol remains experimental and depends on actual
-  filesystem/device synchronization. Process exits do not simulate power loss.
-- Previous completion `231d98800d7be53a49b3e188224edc0fe145e47c` is verified on remote
-  main with Java Linux/Windows/eight examples, documentation checks and automatic
-  Pages success; its handoff verified 33 live pages, search and sitemap.
+  and automatic Pages publication before claiming it. Refine the broad package
+  into bounded children while preserving all historical answers and request IDs.
+- All **495 local tests** pass with no skips, including 55 new query cases;
+  all nine examples pass. Both documentation URL layouts validate with 36 pages.
+  Query execution remains eager scans with no total query-memory/work budget.
+- Previous completion `943dff4bd1d0efc05da96048402e586eeea18a43` is verified on remote
+  main with Linux/Windows Java checks, documentation checks and automatic Pages;
+  its handoff verified all 34 live pages, search and sitemap.
 - Use the [progress history](progress.md) and completion trailers for exact evidence;
   Git and workflow runs supply actual delivery/publication state.
 
@@ -51,8 +51,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0023](roadmap.md#mdb-0023-local-database-recovery) | Restore local database reads from checkpoints and journal tails | MDB-0008 | done | MDB-0007 |
 | [MDB-0024](roadmap.md#mdb-0024-durable-commit-publication) | Add forced commit publication and acknowledgement | MDB-0008 | done | MDB-0007, MDB-0023 |
 | [MDB-0025](roadmap.md#mdb-0025-durable-crash-and-retry-conformance) | Verify durable crash, retry and temporal conformance | MDB-0008 | done | MDB-0007, MDB-0024 |
-| [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | ready | MDB-0008 |
-| [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |
+| [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | done | MDB-0008 |
+| [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | ready | MDB-0009 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |

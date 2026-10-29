@@ -26,6 +26,7 @@ There is no release date or stable API commitment.
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
+| [Typed temporal queries](development/temporal-queries.md) | Signed numeric predicates, deterministically ordered entity selection, filtered intervals and exact sums at one pinned cutoff |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -61,8 +62,10 @@ effects. These checks do not establish device power-loss behavior.
 
 ## Queries, retention and object storage
 
-Query execution will grow from the existing point, interval and aggregate
-operations. Indexes and physical layouts must preserve the temporal contract.
+[Typed query execution](development/temporal-queries.md) now includes point lookup,
+explicit-entity selection, coalesced and filtered interval scans, signed numeric
+predicates and exact aggregates. It uses eager immutable results over one pinned
+snapshot; indexes, pagination and total query budgets remain open. Indexes and physical layouts must preserve the temporal contract.
 Compaction and reclamation require an explicit retention policy covering earlier
 cutoffs, active readers and recovery.
 

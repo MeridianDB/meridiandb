@@ -24,6 +24,7 @@ permanent commitment.
 | [0012: Local checkpoint publication](0012-local-checkpoint-publication.md) | Implemented; experimental | Actual owner-journal verification, immutable generation selection, ordered forces and atomic rename |
 | [0013: Local database recovery](0013-local-database-recovery.md) | Read recovery implemented | Stored lineage, complete checkpoint-plus-tail replay, historical reads and request lookup |
 | [0014: Durable local commit publication](0014-durable-commit-publication.md) | Forced-write protocol and process crash/retry conformance implemented | Private preparation, startup synchronization, append/force before publication and explicit uncertainty |
+| [0015: Temporal query operators](0015-temporal-query-operators.md) | Implemented; experimental | Signed-value predicates, explicit entity selection and filtered intervals over one pinned snapshot |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

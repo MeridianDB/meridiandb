@@ -20,6 +20,26 @@ public sealed interface TemporalQuery {
         }
     }
 
+    /** Present matching entities at one valid instant, returned in exact String.compareTo order. */
+    record Select(List<EntityId> entities, long validAtMicros, ValuePredicate predicate) implements TemporalQuery {
+        public Select {
+            entities = List.copyOf(entities);
+            if (new HashSet<>(entities).size() != entities.size()) {
+                throw new IllegalArgumentException("Selection entity identities must be distinct");
+            }
+            Objects.requireNonNull(predicate, "predicate");
+        }
+    }
+
+    /** Filter already resolved state intervals; absence and rejected values remain gaps. */
+    record FilterScan(EntityId entity, ValidTimeInterval window, ValuePredicate predicate) implements TemporalQuery {
+        public FilterScan {
+            Objects.requireNonNull(entity, "entity");
+            Objects.requireNonNull(window, "window");
+            Objects.requireNonNull(predicate, "predicate");
+        }
+    }
+
     record Sum(List<EntityId> entities, long validAtMicros) implements TemporalQuery {
         public Sum {
             entities = List.copyOf(entities);

@@ -100,9 +100,9 @@ without committing to a public API.
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
 local journal, immutable segment files, checkpoint publication and read recovery,
-plus forced local commit publication and process crash/retry conformance, followed by
-temporal query operators, history-preserving compaction, object storage and
-reproducible workload measurements. The initial target is an embedded, single-node
+plus forced local commit publication, process crash/retry conformance and typed
+temporal query operators. Planned work covers history-preserving compaction,
+object storage and reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
 ## Build the Java foundation
@@ -119,11 +119,12 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 440 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 495 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
-checks, plus 50 durable process/retry/temporal conformance checks. Coverage
+checks, plus 50 durable process/retry/temporal conformance checks
+and 55 typed query checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -150,6 +151,13 @@ adds verified generation publication and reopen. The [recovery example](docs/dev
 reopens temporal queries through `LocalDatabase`. The
 [writable example](docs/development/local-database.md#create-and-write) adds forced
 commits and an identical retry after reopen. `InMemoryEngine` remains nonpersistent.
+The [typed query guide](docs/development/temporal-queries.md) explains signed-value
+predicates, deterministic entity selection and filtered interval scans at one
+pinned cutoff. Run its checked example after verification:
+
+```bash
+java --class-path target/classes examples/QueryExample.java
+```
 
 ## Working in this repository
 

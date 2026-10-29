@@ -20,6 +20,12 @@ public sealed interface TemporalResult {
         }
     }
 
+    record Rows(List<EntityValue> values) implements TemporalResult {
+        public Rows {
+            values = List.copyOf(values);
+        }
+    }
+
     record Aggregate(long count, BigInteger sum) implements TemporalResult {
         public Aggregate {
             Objects.requireNonNull(sum, "sum");

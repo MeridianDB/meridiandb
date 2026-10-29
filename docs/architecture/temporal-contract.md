@@ -13,6 +13,9 @@ choices and alternatives. The [JSON histories](fixtures/temporal-contract-v0.jso
 provide 84 exact expectations executed by both the embedded engine and
 [test-only Java reference model](../development/reference-model.md). Their notation
 is a test format, not a public API, query language or persistence format.
+The October 29 query extension adds typed numeric selection/filtering with a
+[separate query corpus](fixtures/temporal-query-v0.json); the original histories
+and expected answers are unchanged.
 
 ## Scope and values
 
@@ -125,6 +128,8 @@ including every entity used by an aggregate.
 | `get(e, t)` | Explicit presence and the whole value at finite valid instant `t`, or explicit absence |
 | `scan(e, from, to)` | All present intervals within the requested window, clipped to it and sorted by start |
 | `sum(entities, t)` | Count of present entities and their exact mathematical integer sum at `t` |
+| `select(entities, t, predicate)` | Matching present entity/value rows at `t`, sorted by exact entity string order |
+| `filterScan(e, from, to, predicate)` | Resolved matching state intervals, clipped and ordered as for `scan` |
 
 Scan results contain nonempty, nonoverlapping intervals. Coalesce adjacent
 intervals with equal values, even when different commits produced them. Omit
@@ -144,6 +149,24 @@ values returns count `0` and sum `0`. Use exact arithmetic, including sums outsi
 the signed 64-bit value range. Fixtures encode sums as decimal strings to preserve
 that precision. This is a point-in-valid-time aggregate, not salary proration,
 a duration-weighted integral or a grouping/public query language.
+
+The query extension uses immutable signed-value comparisons `EQ`, `NE`, `LT`,
+`LE`, `GT` and `GE` against one signed 64-bit operand. Resolve the latest applicable
+operation at the view's cutoff **before** comparing its value. Absence fails every
+predicate, including `NE`. A newer nonmatching value or retraction never revives
+an older matching put. Use signed comparisons without subtraction overflow.
+
+Selection uses an explicit list of distinct entity IDs, with the same validation
+as aggregation. Empty input returns no rows. Row order is exact Java
+`String.compareTo` order over UTF-16 code units; input/hash order, locale and Unicode
+normalization do not affect it. Filtered scans preserve clipping, endpoint
+canonicalization, ordering and coalescing. Excluded values and absent intervals
+remain gaps, even between equal matching values. Every operator in one view uses
+the same pinned snapshot. Results are eager immutable heap values, retain no cursor
+or file handle and remain values after view close. Calls that captured open state
+may finish during close; future calls reject closed views/owners.
+The [query guide](../development/temporal-queries.md) defines Java types, scope,
+linear-scan/materialization costs and the absence of a total memory/work budget.
 
 “Current state” always means a new head view **and an explicitly supplied valid
 instant**. There is no hidden wall-clock read in the logical query contract.
@@ -243,5 +266,17 @@ boundary/validation checks and 16 seeded histories compared against independent
 dense snapshots. The engine has additional pinned-view, serialized-writer,
 cross-entity atomic publication and lifecycle checks. Preserve failing seeds. Sequential fixture
 replay alone cannot establish concurrency guarantees; the focused tests supply
-bounded evidence for the memory implementation. Durable crash guarantees still
-require implementation tests in the journal/recovery steps.
+bounded evidence for the memory implementation. The
+[durability suite](../development/durability-conformance.md) separately checks
+forced local publication, process exits and writable temporal reopen.
+
+The additive [query corpus](fixtures/temporal-query-v0.json), format
+`meridiandb-temporal-query-v0`, supplies three histories and 90 exact expectations.
+Its `select` and `filterScan` query objects include
+`predicate: {"operator": "GT", "operand": 0}` alongside the corresponding candidate
+list/valid instant or entity/window. Row results are arrays of
+`{"entity": "a", "value": 7}`. Strict decoding rejects unsupported operators,
+invalid predicates, non-integral/out-of-range operands and repeated candidates.
+All expectations execute against reference, memory and two writable-reopen shapes.
+The [query guide](../development/temporal-queries.md#verify-and-reproduce) provides
+commands and seeded independent comparisons.

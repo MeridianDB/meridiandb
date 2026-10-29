@@ -8,7 +8,7 @@ description: Run MeridianDB's experimental Java embedded engine with atomic memo
 `org.meridiandb.engine.InMemoryEngine` implements the
 [initial numeric temporal contract](../architecture/temporal-contract.md) in one
 JVM. It supports ordered puts/retractions, historical point and interval queries,
-exact aggregates and request retries. It has **no persistence**: closing or crashing
+exact aggregates, numeric predicates, explicit entity selection and request retries. It has **no persistence**: closing or crashing
 loses values, history and request identity. The API is experimental, with no library
 release or compatibility promise.
 
@@ -88,7 +88,9 @@ position, even after later commits; a logical no-op with a new ID still commits.
 Views can be shared by concurrent readers. Every operation in one view, including
 all entities in an aggregate, uses its captured snapshot. New commits affect new
 head views only. Point queries inspect the entity's intervals; scans clip existing
-segments to the requested window; sums use exact `BigInteger` arithmetic. The
+segments to the requested window; sums use exact `BigInteger` arithmetic.
+[Typed selection and filtered scans](temporal-queries.md) compare resolved present
+values in the same snapshot, retain interval gaps and return immutable eager results. The
 [reference oracle](reference-model.md) instead searches transaction history and
 partitions boundaries, providing a separate execution algorithm.
 
@@ -97,7 +99,7 @@ alternatives. No backend or multi-process writer coordination exists here.
 
 ## Verification and limits
 
-`./mvnw -B verify` currently runs **440 JUnit test invocations**, including the
+`./mvnw -B verify` currently runs **495 JUnit test invocations**, including the
 71 temporal/engine checks below, 29 [journal codec checks](../architecture/journal-format.md),
 57 [local journal I/O/process/prefix checks](local-journal.md),
 27 [immutable segment codec checks](../architecture/immutable-segment-format.md),
@@ -106,7 +108,8 @@ alternatives. No backend or multi-process writer coordination exists here.
 39 [local checkpoint publication checks](local-checkpoints.md),
 37 [local database recovery checks](local-database.md) and
 49 [commit preparation/initialization/publication checks](local-database.md), plus
-50 [durable conformance checks](durability-conformance.md):
+50 [durable conformance checks](durability-conformance.md) and
+55 [typed query checks](temporal-queries.md):
 
 - The unchanged five canonical histories supply 84 expected steps for each of
   reference and engine, including invalid inputs and extreme coordinates.

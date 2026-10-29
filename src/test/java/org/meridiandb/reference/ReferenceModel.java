@@ -14,6 +14,7 @@ import org.meridiandb.temporal.CommitPosition;
 import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.EntityId;
+import org.meridiandb.temporal.EntityValue;
 import org.meridiandb.temporal.ReadCutoff;
 import org.meridiandb.temporal.RequestId;
 import org.meridiandb.temporal.TemporalQuery;
@@ -21,6 +22,7 @@ import org.meridiandb.temporal.TemporalResult;
 import org.meridiandb.temporal.TemporalSegment;
 import org.meridiandb.temporal.Transaction;
 import org.meridiandb.temporal.ValidTimeInterval;
+import org.meridiandb.temporal.ValuePredicate;
 import org.meridiandb.temporal.WriteOperation;
 
 /**
@@ -79,6 +81,10 @@ public final class ReferenceModel {
             case TemporalQuery.Get get -> new TemporalResult.Point(value(view, get.entity(), get.validAtMicros()));
             case TemporalQuery.Scan scan -> new TemporalResult.Segments(scan(view, scan));
             case TemporalQuery.Sum sum -> aggregate(view, sum);
+            case TemporalQuery.Select select -> select(view, select);
+            case TemporalQuery.FilterScan filter -> new TemporalResult.Segments(
+                    scan(view, new TemporalQuery.Scan(filter.entity(), filter.window())).stream()
+                            .filter(segment -> matches(filter.predicate(), segment.value())).toList());
         };
     }
 
@@ -164,6 +170,31 @@ public final class ReferenceModel {
             }
         }
         return new TemporalResult.Aggregate(count, sum);
+    }
+
+    private TemporalResult.Rows select(CommitPosition view, TemporalQuery.Select query) {
+        var rows = new ArrayList<EntityValue>();
+        for (var entity : query.entities()) {
+            var present = value(view, entity, query.validAtMicros());
+            if (present.isPresent() && matches(query.predicate(), present.getAsLong())) {
+                rows.add(new EntityValue(entity, present.getAsLong()));
+            }
+        }
+        rows.sort((left, right) -> left.entity().value().compareTo(right.entity().value()));
+        return new TemporalResult.Rows(rows);
+    }
+
+    private static boolean matches(ValuePredicate predicate, long value) {
+        // Deliberately independent from production predicate evaluation and signed arithmetic.
+        int comparison = BigInteger.valueOf(value).compareTo(BigInteger.valueOf(predicate.operand()));
+        return switch (predicate.operator()) {
+            case EQ -> comparison == 0;
+            case NE -> comparison != 0;
+            case LT -> comparison < 0;
+            case LE -> comparison <= 0;
+            case GT -> comparison > 0;
+            case GE -> comparison >= 0;
+        };
     }
 
     private static BigInteger lower(ValidTimeInterval interval) {

@@ -86,6 +86,15 @@ so a new session can work correctly without relying on earlier conversations.
   and its linked conformance fixtures. Implement and test those expected answers
   before optimizing. A material semantic change updates the contract, relevant
   decision record and fixtures together; storage work preserves their behavior.
+- Follow [typed temporal queries](docs/development/temporal-queries.md) and
+  [ADR 0015](docs/decisions/0015-temporal-query-operators.md): resolve one pinned
+  temporal snapshot before evaluating numeric predicates. Absence matches no
+  predicate, including NE; filtering must not revive older puts or bridge omitted
+  intervals. Preserve exact UTF-16 entity ordering, clipping, immutable eager results
+  and existing view/owner close semantics. Extend the separate query fixture corpus
+  and independent reference/dense comparisons for new operators; preserve original
+  canonical histories and seed reproduction. Check memory and real writable reopen,
+  keeping capability-dependent skips separate from memory/reference coverage.
 - Keep valid time, database system time, event timestamps and physical snapshots
   distinct. Specify how committed transaction order maps to historical queries;
   wall-clock readings alone are not an ordering contract.

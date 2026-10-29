@@ -4,6 +4,7 @@ package org.meridiandb.reference;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -19,6 +20,7 @@ import org.meridiandb.temporal.TemporalQuery;
 import org.meridiandb.temporal.TemporalResult;
 import org.meridiandb.temporal.Transaction;
 import org.meridiandb.temporal.ValidTimeInterval;
+import org.meridiandb.temporal.ValuePredicate;
 import org.meridiandb.temporal.WriteOperation;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -30,9 +32,13 @@ final class ContractFixtures {
     private ContractFixtures() { }
 
     static JsonNode load() throws IOException {
-        try (var input = ContractFixtures.class.getResourceAsStream("/contracts/temporal-contract-v0.json")) {
+        return load("temporal-contract-v0.json");
+    }
+
+    static JsonNode load(String name) throws IOException {
+        try (var input = ContractFixtures.class.getResourceAsStream("/contracts/" + name)) {
             if (input == null) {
-                throw new IllegalStateException("Canonical contract resource missing");
+                throw new IllegalStateException("Canonical fixture resource missing: " + name);
             }
             return JSON.readTree(input);
         }
@@ -143,17 +149,25 @@ final class ContractFixtures {
         return decode("INVALID_QUERY", () -> switch (text(node, "kind")) {
             case "get" -> new TemporalQuery.Get(new EntityId(text(node, "entity")), integer(field(node, "validAt")));
             case "scan" -> new TemporalQuery.Scan(new EntityId(text(node, "entity")), interval(node));
-            case "sum" -> {
-                var entities = new ArrayList<EntityId>();
-                var raw = field(node, "entities");
-                requireArray(raw);
-                for (var entity : raw) {
-                    entities.add(new EntityId(string(entity)));
-                }
-                yield new TemporalQuery.Sum(entities, integer(field(node, "validAt")));
-            }
+            case "sum" -> new TemporalQuery.Sum(entities(node), integer(field(node, "validAt")));
+            case "select" -> new TemporalQuery.Select(entities(node), integer(field(node, "validAt")),
+                    predicate(field(node, "predicate")));
+            case "filterScan" -> new TemporalQuery.FilterScan(new EntityId(text(node, "entity")), interval(node),
+                    predicate(field(node, "predicate")));
             default -> throw new IllegalArgumentException("Unknown query kind");
         });
+    }
+
+    private static List<EntityId> entities(JsonNode node) {
+        var entities = new ArrayList<EntityId>();
+        var raw = field(node, "entities");
+        requireArray(raw);
+        for (var entity : raw) { entities.add(new EntityId(string(entity))); }
+        return entities;
+    }
+
+    private static ValuePredicate predicate(JsonNode node) {
+        return new ValuePredicate(ValuePredicate.Operator.valueOf(text(node, "operator")), integer(field(node, "operand")));
     }
 
     private static ReadCutoff cutoff(JsonNode node, DatabaseId database) {
@@ -220,6 +234,8 @@ final class ContractFixtures {
                     "from", segment.interval().fromInclusiveMicros(),
                     "to", segment.interval().toExclusiveMicros(), "value", segment.value())).toList();
             case TemporalResult.Aggregate aggregate -> fields("count", aggregate.count(), "sum", aggregate.sum().toString());
+            case TemporalResult.Rows rows -> rows.values().stream().map(row -> fields(
+                    "entity", row.entity().value(), "value", row.value())).toList();
         };
     }
 

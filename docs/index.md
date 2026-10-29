@@ -27,7 +27,10 @@ corrections, retractions, committed views and retries, with exact workload fixtu
 The [Java/Maven build](development/build.md) includes immutable temporal types and
 a [memory-only embedded engine](development/embedded-engine.md) with a runnable
 Java example. Both engine and [test reference](development/reference-model.md)
-pass all 84 canonical expectations and independently checked seeded histories.
+pass all 84 original canonical expectations and independently checked seeded histories.
+[Typed temporal queries](development/temporal-queries.md) add numeric predicates,
+ordered entity selection and filtered intervals, verified with a separate exact
+query corpus and seeded memory/writable-reopen checks.
 Focused tests cover serialized writing, atomic visibility and read-view lifetimes.
 A [pure journal codec](architecture/journal-format.md) now validates versioned
 transaction frames. [Comparable-system research](architecture/storage-research.md)

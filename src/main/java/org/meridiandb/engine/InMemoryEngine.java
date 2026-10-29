@@ -4,6 +4,7 @@ package org.meridiandb.engine;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.meridiandb.temporal.CommitPosition;
 import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.EntityId;
+import org.meridiandb.temporal.EntityValue;
+import org.meridiandb.temporal.ValuePredicate;
 import org.meridiandb.temporal.ReadCutoff;
 import org.meridiandb.temporal.RequestId;
 import org.meridiandb.temporal.TemporalQuery;
@@ -238,19 +241,19 @@ public final class InMemoryEngine implements AutoCloseable {
     private static TemporalResult query(Snapshot snapshot, TemporalQuery query) {
         return switch (query) {
             case TemporalQuery.Get get -> new TemporalResult.Point(point(snapshot, get.entity(), get.validAtMicros()));
-            case TemporalQuery.Scan scan -> {
-                var result = new ArrayList<TemporalSegment>();
-                for (var segment : snapshot.values().getOrDefault(scan.entity(), List.of())) {
-                    if (!overlaps(segment.interval(), scan.window())) {
-                        continue;
+            case TemporalQuery.Scan scan -> new TemporalResult.Segments(scan(snapshot, scan.entity(), scan.window(), null));
+            case TemporalQuery.FilterScan scan -> new TemporalResult.Segments(
+                    scan(snapshot, scan.entity(), scan.window(), scan.predicate()));
+            case TemporalQuery.Select select -> {
+                var result = new ArrayList<EntityValue>();
+                for (var entity : select.entities()) {
+                    var present = point(snapshot, entity, select.validAtMicros());
+                    if (present.isPresent() && select.predicate().matches(present.getAsLong())) {
+                        result.add(new EntityValue(entity, present.getAsLong()));
                     }
-                    Long from = compareLower(segment.interval().fromInclusiveMicros(), scan.window().fromInclusiveMicros()) >= 0
-                            ? segment.interval().fromInclusiveMicros() : scan.window().fromInclusiveMicros();
-                    Long to = compareUpper(segment.interval().toExclusiveMicros(), scan.window().toExclusiveMicros()) <= 0
-                            ? segment.interval().toExclusiveMicros() : scan.window().toExclusiveMicros();
-                    result.add(new TemporalSegment(new ValidTimeInterval(from, to), segment.value()));
                 }
-                yield new TemporalResult.Segments(result);
+                result.sort(Comparator.comparing(row -> row.entity().value()));
+                yield new TemporalResult.Rows(result);
             }
             case TemporalQuery.Sum sum -> {
                 long count = 0;
@@ -265,6 +268,24 @@ public final class InMemoryEngine implements AutoCloseable {
                 yield new TemporalResult.Aggregate(count, total);
             }
         };
+    }
+
+    // The snapshot already resolves temporal precedence. null is internal match-all for ordinary Scan.
+    private static List<TemporalSegment> scan(Snapshot snapshot, EntityId entity,
+                                               ValidTimeInterval window, ValuePredicate predicate) {
+        var result = new ArrayList<TemporalSegment>();
+        for (var segment : snapshot.values().getOrDefault(entity, List.of())) {
+            if (!overlaps(segment.interval(), window)
+                    || (predicate != null && !predicate.matches(segment.value()))) {
+                continue;
+            }
+            Long from = compareLower(segment.interval().fromInclusiveMicros(), window.fromInclusiveMicros()) >= 0
+                    ? segment.interval().fromInclusiveMicros() : window.fromInclusiveMicros();
+            Long to = compareUpper(segment.interval().toExclusiveMicros(), window.toExclusiveMicros()) <= 0
+                    ? segment.interval().toExclusiveMicros() : window.toExclusiveMicros();
+            result.add(new TemporalSegment(new ValidTimeInterval(from, to), segment.value()));
+        }
+        return result;
     }
 
     /** Thread-safe pinned snapshot. Closing either owner or view rejects later operations. */

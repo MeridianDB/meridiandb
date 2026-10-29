@@ -1,0 +1,2355 @@
+{
+  "format": "meridiandb-temporal-query-v0",
+  "histories": [
+    {
+      "id": "selection-and-corrections",
+      "description": "Resolve presence and current history before all six value comparisons, with retries and no-op commits.",
+      "steps": [
+        {
+          "id": "genesis-ne-excludes-absence",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [],
+          "cutoff": "head"
+        },
+        {
+          "id": "initial-values",
+          "kind": "transact",
+          "requestId": "initial",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "b",
+              "from": null,
+              "to": null,
+              "value": 0
+            },
+            {
+              "op": "put",
+              "entity": "a",
+              "from": null,
+              "to": null,
+              "value": -5
+            },
+            {
+              "op": "put",
+              "entity": "z",
+              "from": null,
+              "to": null,
+              "value": 10
+            },
+            {
+              "op": "put",
+              "entity": "mid",
+              "from": null,
+              "to": null,
+              "value": 5
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "pin-original",
+          "kind": "openView",
+          "viewId": "original",
+          "cutoff": "head",
+          "expected": {
+            "commit": 1
+          }
+        },
+        {
+          "id": "eq-zero",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 0
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "ne-zero-excludes-absence",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "a",
+              "value": -5
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            },
+            {
+              "entity": "z",
+              "value": 10
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "lt-zero",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "LT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "a",
+              "value": -5
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "le-zero",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "LE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "a",
+              "value": -5
+            },
+            {
+              "entity": "b",
+              "value": 0
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "gt-zero",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "mid",
+              "value": 5
+            },
+            {
+              "entity": "z",
+              "value": 10
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "ge-zero",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 0
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            },
+            {
+              "entity": "z",
+              "value": 10
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "empty-input-is-empty",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [],
+          "cutoff": "head"
+        },
+        {
+          "id": "inclusive-nonzero-threshold",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GE",
+              "operand": 10
+            }
+          },
+          "expected": [
+            {
+              "entity": "z",
+              "value": 10
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "correct-and-retract",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "z",
+              "from": 0,
+              "to": 10,
+              "value": -7
+            },
+            {
+              "op": "retract",
+              "entity": "a",
+              "from": 0,
+              "to": 10
+            },
+            {
+              "op": "put",
+              "entity": "b",
+              "from": 0,
+              "to": 10,
+              "value": 5
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "current-ne-does-not-match-retracted-a",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 5
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            },
+            {
+              "entity": "z",
+              "value": -7
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "current-gt-does-not-revive-old-z",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 5
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "historical-positive-z-remains",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "mid",
+              "value": 5
+            },
+            {
+              "entity": "z",
+              "value": 10
+            }
+          ],
+          "viewId": "original"
+        },
+        {
+          "id": "correction-upper-bound-is-excluded",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 10,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 0
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            },
+            {
+              "entity": "z",
+              "value": 10
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "before-correction-lower-bound",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": -1,
+            "predicate": {
+              "operator": "LE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "a",
+              "value": -5
+            },
+            {
+              "entity": "b",
+              "value": 0
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "same-value-new-id",
+          "kind": "transact",
+          "requestId": "no-op",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "mid",
+              "from": null,
+              "to": null,
+              "value": 5
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 3,
+            "replayed": false
+          }
+        },
+        {
+          "id": "equal-values-after-no-op",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 5
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 5
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "retry-original-correction",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "z",
+              "from": 0,
+              "to": 10,
+              "value": -7
+            },
+            {
+              "op": "retract",
+              "entity": "a",
+              "from": 0,
+              "to": 10
+            },
+            {
+              "op": "put",
+              "entity": "b",
+              "from": 0,
+              "to": 10,
+              "value": 5
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": true
+          }
+        },
+        {
+          "id": "lookup-correction",
+          "kind": "lookupRequest",
+          "requestId": "correction",
+          "expected": {
+            "status": "committed",
+            "commit": 2
+          }
+        },
+        {
+          "id": "pin-after-no-op",
+          "kind": "openView",
+          "viewId": "after-no-op",
+          "cutoff": "head",
+          "expected": {
+            "commit": 3
+          }
+        },
+        {
+          "id": "reject-conflicting-correction",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "z",
+              "from": null,
+              "to": null,
+              "value": 999
+            }
+          ],
+          "expected": {
+            "error": "REQUEST_ID_REUSED"
+          }
+        },
+        {
+          "id": "conflict-does-not-change-selection",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 5
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-future-cutoff",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_CUTOFF"
+          },
+          "cutoff": 4
+        },
+        {
+          "id": "retract-mid",
+          "kind": "transact",
+          "requestId": "remove-mid",
+          "operations": [
+            {
+              "op": "retract",
+              "entity": "mid",
+              "from": 2,
+              "to": 8
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 4,
+            "replayed": false
+          }
+        },
+        {
+          "id": "retraction-removes-matching-mid",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 5
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 5
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "older-cutoff-keeps-mid",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "z",
+              "mid",
+              "missing",
+              "b",
+              "a"
+            ],
+            "validAt": 5,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 5
+            }
+          },
+          "expected": [
+            {
+              "entity": "b",
+              "value": 5
+            },
+            {
+              "entity": "mid",
+              "value": 5
+            }
+          ],
+          "viewId": "after-no-op"
+        }
+      ]
+    },
+    {
+      "id": "filtered-scans-and-coordinate-limits",
+      "description": "Filter resolved clipped and coalesced intervals without bridging absence or reviving overwritten values.",
+      "steps": [
+        {
+          "id": "initial-ranges",
+          "kind": "transact",
+          "requestId": "initial",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": null,
+              "to": null,
+              "value": 9
+            },
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": null,
+              "to": -9223372036854775806,
+              "value": -9223372036854775808
+            },
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": 9223372036854775805,
+              "to": null,
+              "value": 9223372036854775807
+            },
+            {
+              "op": "put",
+              "entity": "levels",
+              "from": -3,
+              "to": -2,
+              "value": -1
+            },
+            {
+              "op": "put",
+              "entity": "levels",
+              "from": -2,
+              "to": -1,
+              "value": 0
+            },
+            {
+              "op": "put",
+              "entity": "levels",
+              "from": -1,
+              "to": 0,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "filter-eq-zero",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "levels",
+            "from": -3,
+            "to": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -2,
+              "to": -1,
+              "value": 0
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "filter-ne-retains-separated-values",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "levels",
+            "from": -3,
+            "to": 0,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -3,
+              "to": -2,
+              "value": -1
+            },
+            {
+              "from": -1,
+              "to": 0,
+              "value": 1
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "filter-lt-zero",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "levels",
+            "from": -3,
+            "to": 0,
+            "predicate": {
+              "operator": "LT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -3,
+              "to": -2,
+              "value": -1
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "filter-le-zero",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "levels",
+            "from": -3,
+            "to": 0,
+            "predicate": {
+              "operator": "LE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -3,
+              "to": -2,
+              "value": -1
+            },
+            {
+              "from": -2,
+              "to": -1,
+              "value": 0
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "filter-gt-zero",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "levels",
+            "from": -3,
+            "to": 0,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -1,
+              "to": 0,
+              "value": 1
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "filter-ge-zero",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "levels",
+            "from": -3,
+            "to": 0,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -2,
+              "to": -1,
+              "value": 0
+            },
+            {
+              "from": -1,
+              "to": 0,
+              "value": 1
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "unbounded-positive-edge",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": 9223372036854775805,
+              "to": null,
+              "value": 9223372036854775807
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "unbounded-negative-edge",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "LE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": null,
+              "to": -9223372036854775806,
+              "value": -9223372036854775808
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "clip-minimum-finite-bound",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": -9223372036854775808,
+            "to": -9223372036854775807,
+            "predicate": {
+              "operator": "LE",
+              "operand": -9223372036854775808
+            }
+          },
+          "expected": [
+            {
+              "from": -9223372036854775808,
+              "to": -9223372036854775807,
+              "value": -9223372036854775808
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "clip-maximum-lower-bound",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": 9223372036854775806,
+            "to": null,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 9223372036854775807
+            }
+          },
+          "expected": [
+            {
+              "from": 9223372036854775806,
+              "to": null,
+              "value": 9223372036854775807
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "negative-correction-and-gap",
+          "kind": "transact",
+          "requestId": "correction",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 0,
+              "to": 10,
+              "value": -9
+            },
+            {
+              "op": "retract",
+              "entity": "x",
+              "from": 3,
+              "to": 7
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "matching-earlier-write-is-not-revived",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": null,
+              "to": 0,
+              "value": 9
+            },
+            {
+              "from": 10,
+              "to": null,
+              "value": 9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "matching-sides-stay-separated",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": -2,
+            "to": 12,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -2,
+              "to": 0,
+              "value": 9
+            },
+            {
+              "from": 10,
+              "to": 12,
+              "value": 9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "retracted-gap-does-not-merge",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "LT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": 0,
+              "to": 3,
+              "value": -9
+            },
+            {
+              "from": 7,
+              "to": 10,
+              "value": -9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "historical-positive-range",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": null,
+              "to": null,
+              "value": 9
+            }
+          ],
+          "cutoff": 1
+        },
+        {
+          "id": "fill-retracted-gap",
+          "kind": "transact",
+          "requestId": "fill",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 3,
+              "to": 7,
+              "value": -9
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 3,
+            "replayed": false
+          }
+        },
+        {
+          "id": "resolved-adjacent-equal-ranges-coalesce",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "LT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": 0,
+              "to": 10,
+              "value": -9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "clip-coalesced-match",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": 2,
+            "to": 8,
+            "predicate": {
+              "operator": "LT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": 2,
+              "to": 8,
+              "value": -9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "range-no-op",
+          "kind": "transact",
+          "requestId": "no-op",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": 0,
+              "to": 10,
+              "value": -9
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 4,
+            "replayed": false
+          }
+        },
+        {
+          "id": "range-no-op-keeps-normalized-answer",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "x",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "LT",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": 0,
+              "to": 10,
+              "value": -9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "retry-initial",
+          "kind": "transact",
+          "requestId": "initial",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "x",
+              "from": null,
+              "to": null,
+              "value": 9
+            },
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": null,
+              "to": -9223372036854775806,
+              "value": -9223372036854775808
+            },
+            {
+              "op": "put",
+              "entity": "edge",
+              "from": 9223372036854775805,
+              "to": null,
+              "value": 9223372036854775807
+            },
+            {
+              "op": "put",
+              "entity": "levels",
+              "from": -3,
+              "to": -2,
+              "value": -1
+            },
+            {
+              "op": "put",
+              "entity": "levels",
+              "from": -2,
+              "to": -1,
+              "value": 0
+            },
+            {
+              "op": "put",
+              "entity": "levels",
+              "from": -1,
+              "to": 0,
+              "value": 1
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": true
+          }
+        },
+        {
+          "id": "less-than-minimum-is-empty",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "LT",
+              "operand": -9223372036854775808
+            }
+          },
+          "expected": [],
+          "cutoff": "head"
+        },
+        {
+          "id": "greater-than-maximum-is-empty",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "GT",
+              "operand": 9223372036854775807
+            }
+          },
+          "expected": [],
+          "cutoff": "head"
+        },
+        {
+          "id": "clip-both-extreme-ranges",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": -9223372036854775808,
+            "to": 9223372036854775807,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "from": -9223372036854775808,
+              "to": -9223372036854775806,
+              "value": -9223372036854775808
+            },
+            {
+              "from": 9223372036854775805,
+              "to": 9223372036854775807,
+              "value": 9223372036854775807
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "maximum-instant-remains-queryable",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "edge",
+            "from": 9223372036854775807,
+            "to": null,
+            "predicate": {
+              "operator": "GE",
+              "operand": 9223372036854775807
+            }
+          },
+          "expected": [
+            {
+              "from": 9223372036854775807,
+              "to": null,
+              "value": 9223372036854775807
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "select-maximum-value",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "edge"
+            ],
+            "validAt": 9223372036854775807,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 9223372036854775807
+            }
+          },
+          "expected": [
+            {
+              "entity": "edge",
+              "value": 9223372036854775807
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "select-minimum-value",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "edge"
+            ],
+            "validAt": -9223372036854775808,
+            "predicate": {
+              "operator": "EQ",
+              "operand": -9223372036854775808
+            }
+          },
+          "expected": [
+            {
+              "entity": "edge",
+              "value": -9223372036854775808
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "get-retains-existing-behavior",
+          "kind": "query",
+          "query": {
+            "kind": "get",
+            "entity": "x",
+            "validAt": 5
+          },
+          "expected": {
+            "present": true,
+            "value": -9
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "scan-retains-existing-behavior",
+          "kind": "query",
+          "query": {
+            "kind": "scan",
+            "entity": "x",
+            "from": -2,
+            "to": 12
+          },
+          "expected": [
+            {
+              "from": -2,
+              "to": 0,
+              "value": 9
+            },
+            {
+              "from": 0,
+              "to": 10,
+              "value": -9
+            },
+            {
+              "from": 10,
+              "to": 12,
+              "value": 9
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "sum-retains-exact-existing-behavior",
+          "kind": "query",
+          "query": {
+            "kind": "sum",
+            "entities": [
+              "x",
+              "edge"
+            ],
+            "validAt": 9223372036854775807
+          },
+          "expected": {
+            "count": 2,
+            "sum": "9223372036854775816"
+          },
+          "cutoff": "head"
+        }
+      ]
+    },
+    {
+      "id": "exact-order-and-invalid-queries",
+      "description": "Preserve exact UTF-16 identities and reject malformed predicates, coordinates and entity sets.",
+      "steps": [
+        {
+          "id": "initial-exact-identities",
+          "kind": "transact",
+          "requestId": "initial",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "\ue000",
+              "from": null,
+              "to": null,
+              "value": 7
+            },
+            {
+              "op": "put",
+              "entity": "\ud83d\ude00",
+              "from": null,
+              "to": null,
+              "value": 6
+            },
+            {
+              "op": "put",
+              "entity": "\ud800",
+              "from": null,
+              "to": null,
+              "value": 5
+            },
+            {
+              "op": "put",
+              "entity": "\u00e9",
+              "from": null,
+              "to": null,
+              "value": 4
+            },
+            {
+              "op": "put",
+              "entity": "e\u0301",
+              "from": null,
+              "to": null,
+              "value": 3
+            },
+            {
+              "op": "put",
+              "entity": "b",
+              "from": null,
+              "to": null,
+              "value": 2
+            },
+            {
+              "op": "put",
+              "entity": "a",
+              "from": null,
+              "to": null,
+              "value": 1
+            },
+            {
+              "op": "put",
+              "entity": "A",
+              "from": null,
+              "to": null,
+              "value": 0
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": false
+          }
+        },
+        {
+          "id": "utf16-natural-order-not-input-or-codepoint-order",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "\ue000",
+              "\u00e9",
+              "b",
+              "\ud83d\ude00",
+              "a",
+              "\ud800",
+              "e\u0301",
+              "A",
+              "missing"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "A",
+              "value": 0
+            },
+            {
+              "entity": "a",
+              "value": 1
+            },
+            {
+              "entity": "b",
+              "value": 2
+            },
+            {
+              "entity": "e\u0301",
+              "value": 3
+            },
+            {
+              "entity": "\u00e9",
+              "value": 4
+            },
+            {
+              "entity": "\ud800",
+              "value": 5
+            },
+            {
+              "entity": "\ud83d\ude00",
+              "value": 6
+            },
+            {
+              "entity": "\ue000",
+              "value": 7
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "ne-includes-present-zero",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "\ue000",
+              "\u00e9",
+              "b",
+              "\ud83d\ude00",
+              "a",
+              "\ud800",
+              "e\u0301",
+              "A",
+              "missing"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "NE",
+              "operand": 999
+            }
+          },
+          "expected": [
+            {
+              "entity": "A",
+              "value": 0
+            },
+            {
+              "entity": "a",
+              "value": 1
+            },
+            {
+              "entity": "b",
+              "value": 2
+            },
+            {
+              "entity": "e\u0301",
+              "value": 3
+            },
+            {
+              "entity": "\u00e9",
+              "value": 4
+            },
+            {
+              "entity": "\ud800",
+              "value": 5
+            },
+            {
+              "entity": "\ud83d\ude00",
+              "value": 6
+            },
+            {
+              "entity": "\ue000",
+              "value": 7
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "surrogate-then-supplementary-then-private-bmp",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "\ue000",
+              "\u00e9",
+              "b",
+              "\ud83d\ude00",
+              "a",
+              "\ud800",
+              "e\u0301",
+              "A",
+              "missing"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "GE",
+              "operand": 5
+            }
+          },
+          "expected": [
+            {
+              "entity": "\ud800",
+              "value": 5
+            },
+            {
+              "entity": "\ud83d\ude00",
+              "value": 6
+            },
+            {
+              "entity": "\ue000",
+              "value": 7
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "normalization-is-not-applied",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "\u00e9",
+              "e\u0301"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "e\u0301",
+              "value": 3
+            },
+            {
+              "entity": "\u00e9",
+              "value": 4
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-duplicate-entities",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a",
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-null-entity",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a",
+              null
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-null-entity-list",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": null,
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-nonarray-entity-list",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": "a",
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-empty-identity",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              ""
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-null-predicate",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": null
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-missing-predicate",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-missing-operator",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-null-operator",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": null,
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-unknown-operator",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "BETWEEN",
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-lowercase-operator",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "eq",
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-null-operand",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": null
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-missing-operand",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ"
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-decimal-operand",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1.0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-boolean-operand",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": true
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-positive-overflow-operand",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 9223372036854775808
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-negative-overflow-operand",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "EQ",
+              "operand": -9223372036854775809
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-overflow-valid-time",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "a"
+            ],
+            "validAt": 9223372036854775808,
+            "predicate": {
+              "operator": "EQ",
+              "operand": 1
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-null-filter-predicate",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "a",
+            "from": null,
+            "to": null,
+            "predicate": null
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-missing-filter-endpoint",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "a",
+            "to": null,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "reject-empty-filter-window",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "a",
+            "from": 1,
+            "to": 1,
+            "predicate": {
+              "operator": "GT",
+              "operand": 0
+            }
+          },
+          "expected": {
+            "error": "INVALID_QUERY"
+          },
+          "cutoff": "head"
+        },
+        {
+          "id": "absent-filter-is-empty-even-for-ne",
+          "kind": "query",
+          "query": {
+            "kind": "filterScan",
+            "entity": "missing",
+            "from": null,
+            "to": null,
+            "predicate": {
+              "operator": "NE",
+              "operand": 0
+            }
+          },
+          "expected": [],
+          "cutoff": "head"
+        },
+        {
+          "id": "invalid-queries-do-not-change-data",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "\ue000",
+              "\u00e9",
+              "b",
+              "\ud83d\ude00",
+              "a",
+              "\ud800",
+              "e\u0301",
+              "A",
+              "missing"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "A",
+              "value": 0
+            },
+            {
+              "entity": "a",
+              "value": 1
+            },
+            {
+              "entity": "b",
+              "value": 2
+            },
+            {
+              "entity": "e\u0301",
+              "value": 3
+            },
+            {
+              "entity": "\u00e9",
+              "value": 4
+            },
+            {
+              "entity": "\ud800",
+              "value": 5
+            },
+            {
+              "entity": "\ud83d\ude00",
+              "value": 6
+            },
+            {
+              "entity": "\ue000",
+              "value": 7
+            }
+          ],
+          "cutoff": "head"
+        },
+        {
+          "id": "zero-no-op",
+          "kind": "transact",
+          "requestId": "no-op",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "A",
+              "from": null,
+              "to": null,
+              "value": 0
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 2,
+            "replayed": false
+          }
+        },
+        {
+          "id": "retry-exact-identity-payload",
+          "kind": "transact",
+          "requestId": "initial",
+          "operations": [
+            {
+              "op": "put",
+              "entity": "\ue000",
+              "from": null,
+              "to": null,
+              "value": 7
+            },
+            {
+              "op": "put",
+              "entity": "\ud83d\ude00",
+              "from": null,
+              "to": null,
+              "value": 6
+            },
+            {
+              "op": "put",
+              "entity": "\ud800",
+              "from": null,
+              "to": null,
+              "value": 5
+            },
+            {
+              "op": "put",
+              "entity": "\u00e9",
+              "from": null,
+              "to": null,
+              "value": 4
+            },
+            {
+              "op": "put",
+              "entity": "e\u0301",
+              "from": null,
+              "to": null,
+              "value": 3
+            },
+            {
+              "op": "put",
+              "entity": "b",
+              "from": null,
+              "to": null,
+              "value": 2
+            },
+            {
+              "op": "put",
+              "entity": "a",
+              "from": null,
+              "to": null,
+              "value": 1
+            },
+            {
+              "op": "put",
+              "entity": "A",
+              "from": null,
+              "to": null,
+              "value": 0
+            }
+          ],
+          "expected": {
+            "status": "committed",
+            "commit": 1,
+            "replayed": true
+          }
+        },
+        {
+          "id": "retry-and-no-op-preserve-order",
+          "kind": "query",
+          "query": {
+            "kind": "select",
+            "entities": [
+              "\ue000",
+              "\u00e9",
+              "b",
+              "\ud83d\ude00",
+              "a",
+              "\ud800",
+              "e\u0301",
+              "A",
+              "missing"
+            ],
+            "validAt": 0,
+            "predicate": {
+              "operator": "GE",
+              "operand": 0
+            }
+          },
+          "expected": [
+            {
+              "entity": "A",
+              "value": 0
+            },
+            {
+              "entity": "a",
+              "value": 1
+            },
+            {
+              "entity": "b",
+              "value": 2
+            },
+            {
+              "entity": "e\u0301",
+              "value": 3
+            },
+            {
+              "entity": "\u00e9",
+              "value": 4
+            },
+            {
+              "entity": "\ud800",
+              "value": 5
+            },
+            {
+              "entity": "\ud83d\ude00",
+              "value": 6
+            },
+            {
+              "entity": "\ue000",
+              "value": 7
+            }
+          ],
+          "cutoff": "head"
+        }
+      ]
+    }
+  ]
+}

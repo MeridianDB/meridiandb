@@ -72,7 +72,7 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 440 test invocations include 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 495 test invocations include 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
@@ -113,8 +113,9 @@ The group/artifact coordinates are project conventions, not a Maven Central
 publication or verified-namespace claim. No release repository is configured.
 The records and their nullable unbounded endpoints are experimental Java syntax;
 the logical contract remains authoritative as the type set develops. Maven loads
-`docs/architecture/fixtures/temporal-contract-v0.json` as a test resource under
-`contracts/`; keep that source authoritative rather than copying its expectations.
+`docs/architecture/fixtures/temporal-contract-v0.json` and `temporal-query-v0.json`
+as test resources under `contracts/`; keep those sources authoritative rather than
+copying their expectations.
 The seed corpus is `src/test/resources/reference-seeds.txt`. Test code/resources
 and their JSON parser stay outside the production JAR.
 
@@ -146,7 +147,7 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-10-28
+## Artifact research checked on 2026-10-29
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
@@ -155,13 +156,13 @@ Maven 4 is preview. The [plugin catalog](https://maven.apache.org/plugins/index.
 confirms the stable Maven 3 plugin lines. The
 [JUnit guide](https://docs.junit.org/6.1.3/overview.html) identifies JUnit 6.1.3 and
 its Java 17 minimum, compatible with this Java 25 baseline. Jackson 3.2.4 decodes
-canonical test fixtures. The [Jackson project](https://github.com/FasterXML/jackson-databind)
+canonical temporal and query test fixtures. The [Jackson project](https://github.com/FasterXML/jackson-databind)
 documents its 3.x `tools.jackson` packages and Java 17 baseline. Its tree model lets
 the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for durable crash/retry conformance on October 28 (Toronto; October 29 UTC); the selected versions remain
+for temporal query operators on October 29; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 
@@ -222,10 +223,11 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run eight
+artifact is uploaded or released by this workflow. Both platforms also run nine
 examples: embedded queries, local journal, pure segment codec, local immutable
-files, manifest consistency, local checkpoint publication, local read recovery
-and forced local writes. The last three examples report an unavailable
+files, manifest consistency, local checkpoint publication, local read recovery,
+forced local writes and typed temporal queries. The three local checkpoint/recovery/write
+examples report an unavailable
 directory open/force capability
 explicitly; capability-dependent real-file tests skip on that specific boundary
 while injected checks still run.
