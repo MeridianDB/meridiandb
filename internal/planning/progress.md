@@ -1184,6 +1184,96 @@ checkpoint/reopen boundaries and canonical/seeded histories with exact retry
 outcomes. Preserve deterministic failures and provider assumptions; close MDB-0008
 only after this required child and all original criteria pass.
 
+## 2026-10-28 — MDB-0025 Durable crash, retry and temporal conformance
+
+**Outcome:** complete MDB-0025 and parent MDB-0008 without changing their original
+criteria. Add package-private per-instance boundary observers to the real local
+database and checkpoint publisher; public factories install no observer. There is
+no global fault state, new public API or dependency. Cleanup/operating guards and
+uncertain-outcome behavior remain intact. Independent review verified resource
+lifetime, null-before-acquire validation, reentrancy and publication ordering.
+
+**Acceptance evidence:** five new test classes add 50 invocations:
+
+- `LocalDatabaseCrashTest`: ten real child-JVM exits across before append, after
+  append, after force, after publication, acknowledged return, writable/read-only
+  reconstruction, startup synchronization and genesis exposure; plus one separately
+  injected strict partial-frame image after owner close. Parent checks exact
+  journal bytes/lineage/history, multi-entity point/scan/sum answers, original request
+  positions, exact retries/conflicts and no duplicate effects. Both strict open
+  modes reject/preserve the torn image; restoration is fixture-only.
+- `LocalCheckpointCrashTest`: five initialization and four checkpoint publication
+  exits after actual journal creation/dependency sync/candidate sync/rename/final
+  directory sync. Selection stays absent/genesis before rename and complete after
+  rename; pending evidence is never adopted. A nonempty checkpoint covers commit
+  one with acknowledged commit two retained in the journal tail. Original bytes,
+  history, prefix bindings, requests/retries and rejected recreation remain exact.
+- `LocalBoundaryTest`: four observer-order, hidden startup cleanup and postpublication
+  lost-acknowledgement/poison/reopen checks. Exact retries invoke no write boundary.
+- `LocalDurableFixtureTest`: ten cases apply the unchanged five canonical histories
+  through actual transactions and writable reopen after every accepted new write
+  and retry. Genesis-only and checkpoint-after-commit-one shapes execute all 168
+  literal expectations; four histories have nonempty suffixes, while the one-commit
+  history has none. Final sweeps cover every historical cutoff/query/request.
+- `LocalDurablePropertiesTest`: all 16 persisted seeds, 32 new transactions per seed
+  (**512 new durable commits**) plus retries/conflicts, reopen after every successful
+  new/replayed write, and checkpoint 1..8 after head16. Forward dense cells and the
+  separate reference check point/clipped scan/exact sum answers, unbounded scans,
+  extreme coordinates/values, no-ops, pinned views and complete final history.
+  Assertions retain seed/history; canonical fixtures and seed corpus are unchanged.
+
+Child logs stay outside fresh database namespaces; process timeouts and cleanup
+are bounded. The 19 abrupt exits keep the OS alive; they do not simulate device
+power loss, reordered/lost unsynchronized writes or remote storage guarantees.
+Only explicit `DirectorySyncUnsupportedException` permits capability-dependent
+skips. This macOS/arm64 run supported the capabilities and had **zero skips**.
+Earlier fault-injection/concurrency checks still pass, including immutable pinned
+views during concurrent writes. The original MDB-0008 criteria are satisfied.
+
+**Research:** freshly fetch all twelve Central metadata sources on October 28
+Toronto / October 29 00:23:56 UTC and reopen official Maven/JUnit/Jackson compatibility
+sources. Every selected stable version remains latest stable and Java25-compatible;
+Maven4/plugin4 RC/beta metadata is deliberately not selected. No POM/wrapper change.
+Refresh JDK force/lock, RocksDB synchronous-write and SQLite crash/atomic-commit
+sources; the new public guide distinguishes actual process exits from SQLite-style
+filesystem fault simulation, which MeridianDB does not implement.
+
+**Commands and results:** focused canonical/seeded run passes 26 tests; focused five-class
+conformance run passes 50; `./mvnw -B -ntp verify` passes **440 tests**, zero failures,
+errors or skips. All eight existing source-file examples pass. The production JAR
+contains **92 Java25 classes** (major69), excluding test-only reference/oracle,
+fixtures, seeds, JUnit and Jackson. SHA-256:
+`bc961589e956b8f1c50ed46d37f04e1c79ce37b3b237c4113f1674f053da6fa6`.
+This is local artifact evidence, with no release/upload or performance claim.
+
+**Documentation and rules:** add the navigable durability-conformance guide with
+boundary tables, reproduction commands, exact coverage and provider/device limits.
+Reconcile README, home/roadmap, architecture/research/format guides, concepts,
+contributing, build/reference/engine/local guides, current ADRs and index. Independent
+review found stale future-tense callers and an overbroad checkpoint-tail description;
+correct them at their original locations. Keep historical receipts unchanged.
+Persist concrete crash-test, child-log, capability and writable-reopen procedures
+in AGENTS. Both apex/project-path shared documentation builds pass source, HTML,
+links, search and sitemap with **34 pages**. Local HTTP/browser QA verifies readable
+tables/navigation and successful search-result anchor navigation for lost
+acknowledgement. Theme/assets unchanged; no new dark/mobile claim. Validate queue
+IDs/references/DAG, all completed-parent children, no active row and MDB-0009 as the
+single ready item; inspect repository links and staged scope. Scratch evidence
+stays ignored under `.local-qa/mdb-0025/`.
+
+**Prerequisite and delivery:** prior `231d98800d7be53a49b3e188224edc0fe145e47c`
+is verified on remote main with successful Java Linux/Windows/eight examples,
+documentation checks and automatic Pages; its handoff verified 33 live pages,
+search and sitemap. This completion uses `Step-ID: MDB-0025` and
+`Step-Result: completed`; Git supplies its SHA and remote ancestry. Final handoff
+reports actual push/CI/Pages and live verification. No library release, Cloudflare
+or other infrastructure deployment. No new queue IDs are required.
+
+**Next recommendation:** MDB-0009 — temporal query operators and interval scans.
+Refine its remaining predicates/selection and ordering/bounds/resource contract
+against the existing point/scan/sum baseline, then implement one bounded child if
+needed. Preserve canonical/reopen conformance and research current Maven artifacts.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

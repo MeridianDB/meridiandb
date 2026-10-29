@@ -158,5 +158,6 @@ The [local journal suite](../development/local-journal.md) additionally checks
 short/failed I/O, force cutoffs, writer exclusion, replay and explicit tail repair.
 [Local database recovery](../development/local-database.md) now verifies and
 replays existing history for temporal reads. Its explicit writable protocol now
-forces each new record before atomic query publication. Process crash conformance
-and journal retention still need their own integration evidence.
+forces each new record before atomic query publication.
+[Durability conformance](../development/durability-conformance.md) checks process
+exits and exact writable reopen; journal retention remains separate work.

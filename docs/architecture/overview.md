@@ -1,5 +1,5 @@
 ---
-description: Explore MeridianDB's memory engine, journal codec, researched immutable-storage lessons and remaining persistence boundaries before durable storage and stable APIs.
+description: Explore MeridianDB's memory engine, journal codec, researched immutable-storage lessons and forced local publication, recovery conformance and remaining storage/API boundaries.
 ---
 
 # Architecture overview
@@ -61,8 +61,9 @@ forces and atomic rename. The [local recovery reader](../development/local-datab
 rebuilds historical interval state and request identity from checkpoint plus journal
 tail before exposing queries. Writable mode prepares complete immutable state,
 appends and forces its journal record, then atomically publishes that state before
-acknowledging success. Process crash conformance, object storage and optimized
-query layouts remain planned.
+acknowledging success. [Process crash/retry conformance](../development/durability-conformance.md)
+checks those boundaries and exact recovery. Object storage and optimized query
+layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 
@@ -77,8 +78,8 @@ The journal codec implements bounded versioned frames and strict byte validation
 The local adapter adds writer exclusion, append/force and sequential recovery.
 The memory-only API remains separate from the local database's forced commit
 protocol. [ADR 0014](../decisions/0014-durable-commit-publication.md) defines its
-acknowledgement and uncertainty boundaries; process crash/retry conformance is
-still required.
+acknowledgement and uncertainty boundaries; process-exit/retry and canonical/seeded
+writable-reopen checks exercise the implemented protocol.
 Group commit, bounded queues and avoiding tiny immutable parts are future throughput
 considerations; there are no MeridianDB performance results yet.
 
@@ -91,7 +92,7 @@ whose answers change after a retroactive correction.
 
 The [technical roadmap](../roadmap.md) builds on the implemented memory engine,
 local journal, immutable files, checkpoint publication, read recovery and forced
-commit acknowledgement. Process crash conformance and workload measurements
+commit acknowledgement and process crash/retry conformance. Workload measurements
 remain planned. The initial engine serializes writes within one JVM;
 multi-process and distributed writing require additional coordination contracts.
 
@@ -103,8 +104,9 @@ multi-process and distributed writing require additional coordination contracts.
    histories and independent dense snapshots. This is implemented with additional
    lifecycle and concurrency checks; production uses interval replacement while
    the oracle searches whole transaction history.
-3. Add one durable implementation with a stated writer model and crash/restart
-   tests. Make acknowledgement and recovery behavior observable.
+3. Verify the local implementation's serialized writer, forced acknowledgement
+   and recovery through real process exits and writable temporal histories. The
+   [conformance suite](../development/durability-conformance.md) implements these checks.
 4. Exercise its persistence contract with local storage and an object-store
    backend, including retries and uncertain commit outcomes.
 5. Compare layouts and indexes under equivalent semantics and durability.

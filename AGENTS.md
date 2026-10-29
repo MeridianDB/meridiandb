@@ -23,7 +23,8 @@ so a new session can work correctly without relying on earlier conversations.
   filesystem capabilities. The [local recovery API](docs/development/local-database.md)
   restores read-only temporal state and request lookup from complete checkpoint
   history plus the journal suffix. Explicit create/writable modes now force before
-  atomic commit publication; process crash/retry conformance remains planned.
+  atomic commit publication. Process crash/retry and canonical/seeded writable-reopen
+  conformance exercise this protocol; see the [durability guide](docs/development/durability-conformance.md).
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -156,8 +157,8 @@ so a new session can work correctly without relying on earlier conversations.
   failure with cleanup errors suppressed. Keep directory-probe/write-permission
   requirements explicit despite logical read-only access. Recovered bytes do not
   prove earlier force/acknowledgement. Test unchanged canonical expectations through
-  journal-only, genesis and checkpoint-plus-tail reopen; retain separate crash
-  conformance work and document full-history replay/heap costs.
+  journal-only, genesis and checkpoint-plus-tail reopen; run writable canonical/seeded
+  and process-exit conformance for changed durability boundaries and document full-history replay/heap costs.
 - Follow [forced local commit publication](docs/decisions/0014-durable-commit-publication.md):
   create only in a fresh durably named directory, select genesis through the
   checkpoint protocol, and synchronize the owner journal plus namespace before
@@ -170,8 +171,12 @@ so a new session can work correctly without relying on earlier conversations.
   poison before propagation. Keep read-only open and writer/checkpoint exclusion
   explicit; no failure or close authorizes automatic repair/reclamation. Test
   startup barriers, preparation invisibility, before/after-effect failures,
-  pinned views and concurrent writers/readers, preserving required process crash
-  conformance and actual provider/device force assumptions.
+  pinned views and concurrent writers/readers. Follow the [durability conformance](docs/development/durability-conformance.md)
+  matrix: use real child-JVM exits at production boundaries, keep per-instance probes
+  package-private, logs outside fresh store directories and child lifetimes bounded.
+  Preserve canonical fixtures/seeds and reproduce through actual writable reopen;
+  distinguish injected torn images, process exit and device power loss. Skip only
+  explicit unsupported directory-sync capability; retain provider/device force assumptions.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.

@@ -7,7 +7,7 @@ description: Understand valid time and system time through a retroactive salary 
 MeridianDB explores how to preserve both when a fact applies and when the
 database learned it. These examples describe the working temporal contract,
 implemented by the memory engine and an experimental local storage/write protocol.
-Process crash conformance and a stable API remain planned.
+Process crash/retry conformance checks local recovery; a stable API remains planned.
 
 ## Two time dimensions
 
@@ -65,8 +65,7 @@ specification, now exercised by a [test-only reference model](../development/ref
 and boundary checks, alongside the [embedded engine](../development/embedded-engine.md).
 The [local database](../development/local-database.md) recovers this history and
 forces new records before atomic query publication. Its protocol remains
-experimental, with process crash conformance and stable schema/API commitments
-still pending.
+experimental, with process-exit/retry checks and no stable schema/API commitment.
 
 ## Events and snapshots answer different questions
 

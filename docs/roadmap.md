@@ -8,8 +8,8 @@ description: See MeridianDB's implemented memory engine and journal codec, the p
 MeridianDB's initial target is an embedded, single-node Java temporal engine.
 The memory engine, local journal, immutable history files and manifest consistency
 checks, local checkpoint publication, recovery and forced local writes establish
-a correctness baseline. Process crash conformance and performance evaluation
-remain planned.
+a correctness baseline, including process-exit/retry and seeded writable-reopen
+conformance. Performance evaluation remains planned.
 There is no release date or stable API commitment.
 
 ## Available today
@@ -25,7 +25,7 @@ There is no release date or stable API commitment.
 | [Local immutable files](development/local-segments.md) | Create-only file writes, bounded expected-ID verification and explicit heap-reader lifetimes |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
-| [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; crash conformance pending |
+| [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -54,9 +54,10 @@ The local recovery API now reconstructs all stored transactions, historical
 answers and request positions before exposing reads. Writable startup forces the
 recovered journal and namespace; new transactions prepare privately, append/force
 and then publish one complete immutable state. Failed append attempts invalidate
-the instance and require reopen to resolve uncertainty. Required crash/restart
-conformance must still cover each publication boundary and lost acknowledgements
-without duplicate effects. These checks do not establish device power-loss behavior.
+the instance and require reopen to resolve uncertainty.
+[Durability conformance](development/durability-conformance.md) checks publication
+boundaries, lost acknowledgements and repeated writable reopen without duplicate
+effects. These checks do not establish device power-loss behavior.
 
 ## Queries, retention and object storage
 

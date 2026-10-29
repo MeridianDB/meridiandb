@@ -82,7 +82,8 @@ while using independently reasoned algorithms. The
 sequential fixtures alongside the memory-only engine. The
 [engine checks](../development/embedded-engine.md) additionally exercise visibility
 and lifecycle; fixture success alone does not establish those guarantees.
-Durability and crash recovery remain future work.
+The [local database](../development/local-database.md) now adds forced writes,
+verified recovery and [process crash/retry conformance](../development/durability-conformance.md).
 
 Revisit this decision with a concrete need for richer values, another time domain
 or precision, intentional conflict handling, calendar-time queries, history/ID

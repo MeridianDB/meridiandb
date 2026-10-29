@@ -11,8 +11,8 @@ file. It preserves lineage, ordered transactions and exact request identity acro
 reopen. It is a storage primitive; `InMemoryEngine` still loses its state on close
 or crash. The separate [local database recovery API](local-database.md) now restores
 temporal queries from existing history. Its writable mode now forces the journal
-before atomic state publication; a stable compatibility promise and process
-crash conformance remain planned.
+before atomic state publication; [process crash/retry conformance](durability-conformance.md)
+checks its local protocol. There is no stable compatibility promise.
 
 ## Create, append and force
 
@@ -70,7 +70,8 @@ suffix. It starts the force counters at zero: surviving bytes do not reveal whic
 previous force calls succeeded. An explicit new force establishes the current
 instance's cutoff. The [local database](local-database.md) now establishes that
 startup force boundary and resolves uncertain outcomes by original request
-identity after reopen; process crash conformance remains required.
+identity after reopen; [process-exit checks](durability-conformance.md) exercise
+append, force and lost-acknowledgement boundaries.
 
 Short reads/writes loop to completion. Sixteen consecutive zero-progress operations
 fail instead of spinning indefinitely. An I/O error, replay corruption or unexpected

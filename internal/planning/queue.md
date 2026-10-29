@@ -12,20 +12,19 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. MDB-0024's source criteria pass: local creation,
-  writable startup synchronization, private preparation and append/force before
-  atomic commit publication/acknowledgement are implemented.
-- Next source-ready item: **MDB-0025 — Verify durable crash, retry and temporal conformance**.
-  Confirm MDB-0024's completion reached remote main and inspect Java/documentation
-  CI and automatic Pages publication before claiming it. Keep MDB-0008 expanded
-  until this child and the parent's original acknowledgement/recovery criteria pass.
-- All 390 local tests and eight examples pass; both URL-layout documentation builds
-  pass with 33 pages. Failures after append attempts preserve uncertain outcomes,
-  invalidate the instance/views and retain locks/evidence until close/reopen.
-  Current unit/fault/concurrency checks establish no device power-loss guarantee.
-- Prior completion `eddaa238f86c80ba89b0ab7651e5749742bd1cf2` is verified on remote
-  main with Java Linux/Windows/seven examples, documentation checks and automatic
-  Pages success. Its handoff verified all 32 live pages, search and sitemap.
+- No executable item is active. **MDB-0025 and parent MDB-0008 meet their source
+  criteria**: real process-exit boundaries preserve acknowledged history and exact
+  retry outcomes; canonical and seeded histories pass through writable reopen.
+- Next source-ready item: **MDB-0009 — Implement temporal query operators and interval scans**.
+  Confirm this completion reached remote main and inspect Java/documentation CI
+  and automatic Pages publication before claiming it. Refine its remaining query
+  work against the already implemented point/scan/sum baseline before editing.
+- All **440 local tests** pass with no skips, including 50 new conformance cases;
+  all eight examples pass. The protocol remains experimental and depends on actual
+  filesystem/device synchronization. Process exits do not simulate power loss.
+- Previous completion `231d98800d7be53a49b3e188224edc0fe145e47c` is verified on remote
+  main with Java Linux/Windows/eight examples, documentation checks and automatic
+  Pages success; its handoff verified 33 live pages, search and sitemap.
 - Use the [progress history](progress.md) and completion trailers for exact evidence;
   Git and workflow runs supply actual delivery/publication state.
 
@@ -48,11 +47,11 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0020](roadmap.md#mdb-0020-checkpoint-manifest-and-publication) | Implement checkpoint manifests and local publication | MDB-0007 | done | MDB-0006, MDB-0019 |
 | [MDB-0021](roadmap.md#mdb-0021-manifest-format-and-checkpoint-consistency) | Implement manifest format and checkpoint consistency | MDB-0020 | done | MDB-0006, MDB-0019 |
 | [MDB-0022](roadmap.md#mdb-0022-local-checkpoint-publication) | Implement local checkpoint publication and reopen | MDB-0020 | done | MDB-0006, MDB-0019, MDB-0021 |
-| [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | expanded | MDB-0007 |
+| [MDB-0008](roadmap.md#mdb-0008-durable-engine-and-recovery) | Integrate durable commits, reopen and recovery | — | done | MDB-0007 |
 | [MDB-0023](roadmap.md#mdb-0023-local-database-recovery) | Restore local database reads from checkpoints and journal tails | MDB-0008 | done | MDB-0007 |
 | [MDB-0024](roadmap.md#mdb-0024-durable-commit-publication) | Add forced commit publication and acknowledgement | MDB-0008 | done | MDB-0007, MDB-0023 |
-| [MDB-0025](roadmap.md#mdb-0025-durable-crash-and-retry-conformance) | Verify durable crash, retry and temporal conformance | MDB-0008 | ready | MDB-0007, MDB-0024 |
-| [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | queued | MDB-0008 |
+| [MDB-0025](roadmap.md#mdb-0025-durable-crash-and-retry-conformance) | Verify durable crash, retry and temporal conformance | MDB-0008 | done | MDB-0007, MDB-0024 |
+| [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | ready | MDB-0008 |
 | [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | queued | MDB-0009 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |

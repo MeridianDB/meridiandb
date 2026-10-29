@@ -88,5 +88,5 @@ a simple correctness baseline with growing heap and map-copy costs.
 
 A writable API that only updates recovered heap state would be misleading for a
 local database. [ADR 0014](0014-durable-commit-publication.md) now defines the
-separate forced-write and acknowledgement protocol. Independent crash/retry and
-temporal conformance remain required; this decision establishes read recovery only.
+separate forced-write and acknowledgement protocol. Independent [crash/retry and temporal conformance](../development/durability-conformance.md)
+now checks that protocol; this decision establishes read recovery only.

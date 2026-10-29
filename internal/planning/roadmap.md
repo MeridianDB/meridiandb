@@ -361,6 +361,12 @@ crash/reopen, uncertain outcomes, retry identity and temporal/reference conforma
 Keep this parent expanded until all children and its original integration criteria
 pass. Read recovery alone does not establish an engine acknowledgement guarantee.
 
+**Integration complete:** MDB-0025 closes this parent after real process exits at
+commit/startup/initialization/checkpoint boundaries, lost-acknowledgement retries,
+unchanged canonical expectations and seeded writable histories. Earlier preparation,
+fault and concurrency checks remain passing. Actual force/provider/device assumptions
+remain explicit; no device power-loss simulation, reclamation or throughput claim.
+
 ## MDB-0023 Local database recovery
 
 **Outcome:** open an existing trusted local store with exclusive journal/store
@@ -427,6 +433,17 @@ work has only documented complete outcomes; lost acknowledgement and conflicting
 retries never duplicate effects; historical queries and pinned views remain
 consistent. State filesystem/device assumptions and distinguish process faults
 from power loss. Close MDB-0008 only after its full original criteria pass.
+
+**Produced artifacts:** [durability conformance guide](../../docs/development/durability-conformance.md),
+package-private per-instance production boundary observers and five new test classes:
+11 engine process/torn-image cases, nine checkpoint process cases, four observer
+order/cleanup/uncertainty cases, ten canonical writable histories (168 literal
+expectations) and 16 persisted seeded histories (512 new durable commits). All
+440 default tests and eight examples pass locally with no skips. The 19 real
+child-JVM exits preserve exact histories, lineage, request IDs and retry positions;
+one separately injected torn image is rejected without automatic repair. Canonical
+source and seed corpus are unchanged. MDB-0008's original criteria are now met;
+provider/device assumptions and the absence of power-loss simulation remain stated.
 
 ## MDB-0009 Temporal query operators
 

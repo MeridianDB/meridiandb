@@ -6,7 +6,7 @@ description: Order private commit preparation, journal append and force, then at
 # ADR 0014: Durable local commit publication
 
 - **Date:** October 28, 2026
-- **Status:** Implemented; experimental protocol with crash conformance still pending
+- **Status:** Implemented; experimental protocol with process crash/retry conformance
 - **Scope:** Local creation, writable reopen, forced acknowledgement and atomic query publication
 
 ## Context
@@ -110,5 +110,6 @@ become visible even when its earlier acknowledgement was lost.
 Forcing every new transaction is a simple initial contract with no group-commit
 throughput claim. Existing snapshots and request history still grow in memory.
 Batching, checkpoint scheduling and native durability capabilities need separate
-evidence. Process crash/retry and seeded durable temporal conformance remain
-required subsequent verification; current tests do not simulate device power loss.
+evidence. [Durability conformance](../development/durability-conformance.md)
+now checks process crash/retry and canonical/seeded writable temporal histories.
+The tests do not simulate device power loss.

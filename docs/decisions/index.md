@@ -23,7 +23,7 @@ permanent commitment.
 | [0011: Checkpoint manifest representation](0011-checkpoint-manifest-format.md) | Codec and consistency verifier implemented | Bounded generation metadata, complete segment references and reconstructed journal-prefix binding |
 | [0012: Local checkpoint publication](0012-local-checkpoint-publication.md) | Implemented; experimental | Actual owner-journal verification, immutable generation selection, ordered forces and atomic rename |
 | [0013: Local database recovery](0013-local-database-recovery.md) | Read recovery implemented | Stored lineage, complete checkpoint-plus-tail replay, historical reads and request lookup |
-| [0014: Durable local commit publication](0014-durable-commit-publication.md) | Forced-write protocol implemented; crash conformance pending | Private preparation, startup synchronization, append/force before publication and explicit uncertainty |
+| [0014: Durable local commit publication](0014-durable-commit-publication.md) | Forced-write protocol and process crash/retry conformance implemented | Private preparation, startup synchronization, append/force before publication and explicit uncertainty |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

@@ -130,8 +130,9 @@ unpublished transaction.
 
 The protocol relies on the provider's atomic-move and force behavior and the
 filesystem/device honoring it. Tests with process termination exercise reopen
-behavior; they do not simulate power loss, establish guarantees for remote
-filesystems or provide durable engine conformance.
+behavior; they do not simulate power loss or establish guarantees for remote
+filesystems. [Durability conformance](durability-conformance.md) also exercises
+initialization and checkpoint publication with actual database recovery.
 
 ## Readers and example
 

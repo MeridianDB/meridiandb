@@ -113,7 +113,8 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **390 JUnit test invocations**: 49
+The current default suite has **440 JUnit test invocations**: 50
+[durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
 [local checkpoint publication checks](local-checkpoints.md), 45
@@ -130,5 +131,7 @@ The [engine guide](embedded-engine.md) explains the memory-only implementation,
 atomic publication, serialized writing and lifecycle tests. Keep the oracle in
 test support; do not use it as the engine. [Local recovery](local-database.md) adds
 canonical reopen checks against the same expected answers. Forced local writes
-have focused publication/failure checks; process crash conformance, compaction
-and performance require their own evidence.
+have focused publication/failure checks and
+[durability conformance](durability-conformance.md): 168 unchanged canonical
+expectations through writable reopen, 512 seeded durable commits, historical
+sweeps and real child-JVM exits. Compaction and performance require their own evidence.

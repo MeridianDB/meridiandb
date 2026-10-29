@@ -56,6 +56,10 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
     }
 
+    // Per-instance package seam; production callers have no observer or global fault state.
+    enum PublicationBoundary { JOURNAL_CREATED, DEPENDENCIES_SYNCED, CANDIDATE_SYNCED, MANIFEST_RENAMED, DIRECTORY_SYNCED }
+    @FunctionalInterface interface PublicationProbe { void reached(PublicationBoundary boundary) throws IOException; }
+
     @FunctionalInterface
     interface DirectoryProbe {
         void force(FileChannel directory) throws IOException;
@@ -87,13 +91,17 @@ public final class LocalCheckpointStore implements AutoCloseable {
     }
 
     private record Generation(String name, long number, ManifestId id) { }
+    private final PublicationProbe probe;
     private final Namespace namespace;
     private boolean failed;
     private boolean closed;
     private boolean resourcesClosed;
     private boolean operating;
 
-    LocalCheckpointStore(Namespace namespace) {
+    LocalCheckpointStore(Namespace namespace) { this(namespace, null); }
+
+    LocalCheckpointStore(Namespace namespace, PublicationProbe probe) {
+        this.probe = probe;
         this.namespace = Objects.requireNonNull(namespace, "namespace");
     }
 
@@ -104,6 +112,15 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     static LocalCheckpointStore open(Path directory, DirectoryProbe probe) throws IOException {
         return new LocalCheckpointStore(NioNamespace.acquire(directory, Objects.requireNonNull(probe, "probe")));
+    }
+
+    static LocalCheckpointStore openObserved(Path directory, PublicationProbe probe) throws IOException {
+        Objects.requireNonNull(probe, "probe");
+        return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> channel.force(true)), probe);
+    }
+
+    private void observe(PublicationBoundary boundary) throws IOException {
+        if (probe != null) { probe.reached(boundary); }
     }
 
     public synchronized Path journalPath() throws IOException {
@@ -126,6 +143,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
                 throw new IOException("Database initialization requires a fresh directory");
             }
             journal = LocalJournal.create(namespace.directory().resolve(JOURNAL), databaseId);
+            observe(PublicationBoundary.JOURNAL_CREATED);
             var prefix = journal.prefix(0);
             var genesis = new CheckpointManifest(databaseId, 1,
                     new CheckpointManifest.JournalPrefix(0, prefix.byteLength(), prefix.sha256()), List.of());
@@ -205,12 +223,16 @@ public final class LocalCheckpointStore implements AutoCloseable {
                 namespace.forceFile(segmentName(reference.id()));
             }
             namespace.forceDirectory(); // Persist all dependency names, including the journal name.
+            observe(PublicationBoundary.DEPENDENCIES_SYNCED);
             String pending = "pending-" + manifest.generation() + "-" + UUID.randomUUID() + ".manifest";
             namespace.writeNew(pending, image); // Full write, force and successful close before rename.
+            observe(PublicationBoundary.CANDIDATE_SYNCED);
             String selected = generationName(manifest.generation(), id);
             moving = true; // A move may take effect and then throw: never infer rollback from an exception.
             namespace.atomicMove(pending, selected);
+            observe(PublicationBoundary.MANIFEST_RENAMED);
             namespace.forceDirectory();
+            observe(PublicationBoundary.DIRECTORY_SYNCED);
             return id;
         } catch (IOException | RuntimeException failure) {
             failed = true;

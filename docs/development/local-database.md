@@ -9,7 +9,8 @@ description: Create and reopen MeridianDB's local temporal database, force write
 provides an explicit writable mode. New writes prepare their complete state,
 append and force an exact journal record, then publish values, historical cutoffs
 and request identity together before returning success. The API and local protocol
-are experimental; process crash/retry conformance remains pending.
+are experimental, with [process crash/retry and temporal conformance](durability-conformance.md)
+through real writable reopen.
 
 [ADR 0013](../decisions/0013-local-database-recovery.md) explains read reconstruction;
 [ADR 0014](../decisions/0014-durable-commit-publication.md) defines creation, writable
@@ -198,6 +199,8 @@ Recovery checks:
 Tests cover preparation invisibility, exact identities, startup synchronization,
 append/force errors before or after an effect, uncertainty/poisoning, pinned views,
 concurrent readers/writers and resource lifetimes. Canonical histories retain their
-journal-only, genesis and checkpoint-plus-tail reopen coverage. Required process
-crash/retry and seeded durable conformance remain subsequent work; existing process
-storage tests and unit faults do not simulate device power loss.
+journal-only, genesis and checkpoint-plus-tail reopen coverage.
+[Durability conformance](durability-conformance.md) adds real child-JVM exits at
+creation, append, force, publication, acknowledgement, checkpoint and startup
+boundaries, 168 writable canonical expectations and 512 seeded durable commits.
+These checks and injected storage faults do not simulate device power loss.

@@ -83,4 +83,5 @@ nav:
       - Local immutable segments: development/local-segments.md
       - Local checkpoints: development/local-checkpoints.md
       - Local database: development/local-database.md
+      - Durability conformance: development/durability-conformance.md
       - Documentation and publishing: contributing/documentation.md

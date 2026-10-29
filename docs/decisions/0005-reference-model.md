@@ -65,6 +65,7 @@ The reference interpreter is a sequential test oracle. The
 answers with this oracle and independent dense snapshots, with additional tests
 for atomic visibility, serialized writes and resource lifetimes. The interpreter
 remains test-only. [Local read recovery](0013-local-database-recovery.md) exercises
-canonical histories through existing storage; durable writes and crash conformance
-require their own implementation and tests. Changes to logical type semantics must update the contract and fixtures
-together.
+canonical histories through existing storage. The [writable local protocol](0014-durable-commit-publication.md)
+and [durability conformance](../development/durability-conformance.md) add actual
+writable/reopen histories and process-exit checks. Changes to logical type semantics
+must update the contract and fixtures together.

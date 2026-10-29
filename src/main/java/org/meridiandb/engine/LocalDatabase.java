@@ -29,6 +29,10 @@ import org.meridiandb.temporal.Transaction;
  * Failed append attempts have uncertain outcomes and require close/reopen; no automatic repair.
  */
 public final class LocalDatabase implements AutoCloseable {
+    // Per-invocation package seam for real process-exit conformance; public factories use no probe.
+    enum Boundary { BEFORE_APPEND, AFTER_APPEND, AFTER_FORCE, AFTER_PUBLICATION, RECOVERED, SYNCHRONIZED }
+    @FunctionalInterface interface BoundaryProbe { void reached(Boundary boundary) throws IOException; }
+
     // The production source has already verified checkpoint/journal binding. This narrow owned-source
     // seam exercises partial recovery and cleanup failures; it is not another backend.
     interface RecoverySource extends AutoCloseable {
@@ -64,6 +68,7 @@ public final class LocalDatabase implements AutoCloseable {
         }
     }
 
+    private final BoundaryProbe probe;
     private final RecoverySource source;
     private final WriteSource writer;
     private final Optional<CommitPosition> checkpoint;
@@ -72,7 +77,8 @@ public final class LocalDatabase implements AutoCloseable {
     private boolean operating;
     private volatile boolean failed;
 
-    private LocalDatabase(RecoverySource source, WriteSource writer, InMemoryEngine state, Optional<CommitPosition> checkpoint) {
+    private LocalDatabase(RecoverySource source, WriteSource writer, InMemoryEngine state, Optional<CommitPosition> checkpoint, BoundaryProbe probe) {
+        this.probe = probe;
         this.source = source;
         this.writer = writer;
         this.state = state;
@@ -81,16 +87,20 @@ public final class LocalDatabase implements AutoCloseable {
 
     /** Open an existing journal without automatic tail repair; all owners are released on failure. */
     public static LocalDatabase open(Path directory) throws IOException {
-        return open(directory, false);
+        return open(directory, false, null);
     }
 
     /** Recover and synchronize all complete history before enabling new or retry acknowledgements. */
     public static LocalDatabase openWritable(Path directory) throws IOException {
-        return open(directory, true);
+        return open(directory, true, null);
     }
 
     /** Initialize an existing fresh durably named directory; failures retain storage for inspection. */
     public static LocalDatabase create(Path directory, DatabaseId databaseId) throws IOException {
+        return create(directory, databaseId, null);
+    }
+
+    static LocalDatabase create(Path directory, DatabaseId databaseId, BoundaryProbe probe) throws IOException {
         JournalCodec.encodeHeader(databaseId); // Reject invalid/oversize lineage before any store mutation.
         var store = LocalCheckpointStore.open(directory);
         LocalJournal journal = null;
@@ -104,10 +114,18 @@ public final class LocalDatabase implements AutoCloseable {
             closeAfterFailure(store, failure);
             throw failure;
         }
-        return recoverWritable(new LocalSource(store, journal, reader));
+        return rebuild(new LocalSource(store, journal, reader), true, probe);
     }
 
-    private static LocalDatabase open(Path directory, boolean writable) throws IOException {
+    static LocalDatabase open(Path directory, BoundaryProbe probe) throws IOException {
+        return open(directory, false, probe);
+    }
+
+    static LocalDatabase openWritable(Path directory, BoundaryProbe probe) throws IOException {
+        return open(directory, true, probe);
+    }
+
+    private static LocalDatabase open(Path directory, boolean writable, BoundaryProbe probe) throws IOException {
         var store = LocalCheckpointStore.open(directory);
         LocalJournal journal = null;
         LocalCheckpointReader reader = null;
@@ -121,19 +139,23 @@ public final class LocalDatabase implements AutoCloseable {
             throw failure;
         }
         var source = new LocalSource(store, journal, reader);
-        return writable ? recoverWritable(source) : recover(source);
+        return rebuild(source, writable, probe);
     }
 
     /** Takes ownership even on failure; never exposes an engine under construction. */
     static LocalDatabase recover(RecoverySource source) throws IOException {
-        return rebuild(source, null);
+        return rebuild(source, null, null);
     }
 
     static LocalDatabase recoverWritable(WriteSource source) throws IOException {
-        return rebuild(source, source);
+        return rebuild(source, source, null);
     }
 
-    private static LocalDatabase rebuild(RecoverySource source, WriteSource writer) throws IOException {
+    private static LocalDatabase rebuild(LocalSource source, boolean writable, BoundaryProbe probe) throws IOException {
+        return rebuild(source, writable ? source : null, probe);
+    }
+
+    private static LocalDatabase rebuild(RecoverySource source, WriteSource writer, BoundaryProbe probe) throws IOException {
         Objects.requireNonNull(source, "source");
         InMemoryEngine engine = null;
         try {
@@ -163,8 +185,12 @@ public final class LocalDatabase implements AutoCloseable {
             }
             var checkpoint = selected.isPresent() ? Optional.of(new CommitPosition(databaseId, cutoff))
                     : Optional.<CommitPosition>empty();
-            if (writer != null) { writer.synchronize(); }
-            return new LocalDatabase(source, writer, engine, checkpoint);
+            if (probe != null) { probe.reached(Boundary.RECOVERED); }
+            if (writer != null) {
+                writer.synchronize();
+                if (probe != null) { probe.reached(Boundary.SYNCHRONIZED); }
+            }
+            return new LocalDatabase(source, writer, engine, checkpoint, probe);
         } catch (IOException | RuntimeException | Error failure) {
             if (engine != null) { engine.close(); }
             var primary = failure instanceof UncheckedIOException wrapped ? wrapped.getCause() : failure;
@@ -195,9 +221,14 @@ public final class LocalDatabase implements AutoCloseable {
         JournalCodec.encodeRecord(record); // Bounds/encoding preflight before an append attempt.
         operating = true;
         try {
+            observe(Boundary.BEFORE_APPEND);
             writer.append(record); // May take effect and then throw; any failure from here is uncertain.
+            observe(Boundary.AFTER_APPEND);
             writer.force();
-            return engine.publish(prepared); // Valid path allocates no state or result after force.
+            observe(Boundary.AFTER_FORCE);
+            engine.publish(prepared); // Valid path allocates no state or result after force.
+            observe(Boundary.AFTER_PUBLICATION);
+            return result;
         } catch (IOException | RuntimeException failure) {
             poison(engine);
             throw new UncertainCommitException(request.requestId(), result.position(), failure);
@@ -207,6 +238,10 @@ public final class LocalDatabase implements AutoCloseable {
         } finally {
             operating = false;
         }
+    }
+
+    private void observe(Boundary boundary) throws IOException {
+        if (probe != null) { probe.reached(boundary); }
     }
 
     private void poison(InMemoryEngine engine) {

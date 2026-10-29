@@ -21,7 +21,7 @@ establish dependencies or performance results.
 | [Kafka 4.4 record batches](https://kafka.apache.org/44/implementation/message-format/) | Versioned batches have lengths, CRC32C coverage and producer sequence metadata; compaction preserves sequence information needed for duplicate checks. | Protect framing and payload, preserve commit/request identity and plan group I/O without merging logical transaction identities. Adopt no Kafka wire compatibility. |
 | [RocksDB WAL format](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-File-Format) | Physical record fragments carry checksums and types, allowing larger logical records to span blocks. | Specify corruption and incomplete-record handling before writing files. Start with bounded complete frames; fragmentation requires a demonstrated workload and another format decision. |
 | [Lucene 10.5.2 IndexWriter](https://lucene.apache.org/core/10_5_2/core/org/apache/lucene/index/IndexWriter.html) | Readers retain point-in-time snapshots. Flush moves buffered segments into a directory; commit supplies the sync boundary. One writer owns a directory lock. | Keep reader publication, byte append and durable force explicit. Use exclusive local writer ownership and retain old segment references while readers need them. |
-| [Elasticsearch translog](https://www.elastic.co/docs/reference/elasticsearch/index-settings/translog) | A transaction log recovers operations absent from the last Lucene commit. Request and async durability policies provide different acknowledgement guarantees. | A later durable engine must force recoverable log state before durable acknowledgement. A complete decoded frame alone proves neither sync nor acknowledgement. |
+| [Elasticsearch translog](https://www.elastic.co/docs/reference/elasticsearch/index-settings/translog) | A transaction log recovers operations absent from the last Lucene commit. Request and async durability policies provide different acknowledgement guarantees. | The local engine forces recoverable journal state before acknowledgement. A complete decoded frame alone proves neither sync nor acknowledgement. |
 | [Quickwit 0.9 indexing/checkpoints](https://quickwit.io/docs/overview/concepts/indexing) | Immutable splits are published with atomic checkpoint advancement in metadata; restart resumes from the published source position. | A manifest must name the included journal prefix and publish only when all referenced immutable objects are available. Segment creation alone cannot justify advancing the checkpoint. |
 | [ClickHouse table parts](https://clickhouse.com/docs/concepts/core-concepts/parts) | Inserts create immutable sorted parts that are merged; batching reduces small-part and merge overhead. | Avoid a new disk segment per tiny transaction. Batch physical work separately from temporal commit order and measure the resulting visibility lag. |
 | [ClickHouse async inserts](https://clickhouse.com/docs/concepts/features/operations/insert/asyncinserts) | Waiting for buffer flush gives different error/acknowledgement behavior from accepting buffered data immediately; bounded ingestion must respond to downstream pressure. | Do not label a queue admission as durable success. Bound future queues by bytes and work; block or reject explicitly when storage/indexing falls behind. |
@@ -38,14 +38,15 @@ answers a temporal database is permitted to discard.
 | Logical commit position | Total order of complete transactions within one lineage | Implemented by the memory engine; encoded by the journal codec |
 | Complete appended prefix | Bytes contain complete, validated transaction frames | Implemented by codec and local sequential writer |
 | Forced journal prefix | Local storage has completed the declared force protocol | Explicit local file force; namespace durability remains separate |
-| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory and local recovery; writable mode forces before atomic query publication, with crash conformance pending |
+| Query-visible cutoff | An immutable view can answer queries at that commit | Implemented in memory and local recovery; writable mode forces before atomic query publication, with process-exit/retry checks |
 | Immutable checkpoint | Published segments/manifest cover an identified journal prefix | Local generation publication and read recovery implemented with explicit filesystem requirements; the database excludes concurrent checkpoint owners |
 
 The local write protocol prepares and validates a transaction, appends its frame,
 completes the force boundary, publishes immutable read state, then acknowledges.
 A lost acknowledgement can leave a recoverable complete transaction; retry
 identity resolves it without a second effect. This protocol is implemented with
-focused fault/concurrency checks; process crash conformance remains required.
+focused fault/concurrency checks and [durability conformance](../development/durability-conformance.md).
+Process exits preserve the OS cache; they do not simulate device power loss.
 
 If later indexing becomes asynchronous, expose its position and an explicit
 wait-for-cutoff mechanism. An ingestion acknowledgement must not silently change
@@ -94,7 +95,10 @@ now rebuilds complete temporal state from that checkpoint and the journal suffix
 alignment and JDK ownership evidence. [ADR 0014](../decisions/0014-durable-commit-publication.md)
 adds forced write acknowledgement, startup synchronization and conservative
 uncertainty after append attempts, informed by refreshed JDK, Elasticsearch and
-RocksDB synchronization evidence. Process crash conformance remains separate work.
+RocksDB synchronization evidence.
+[Durability conformance](../development/durability-conformance.md) exercises actual
+publication boundaries and writable temporal histories, distinguishing process
+termination from filesystem/device failure simulation.
 
 Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the

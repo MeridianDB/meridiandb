@@ -7,7 +7,7 @@ description: Contribute to MeridianDB’s temporal semantics, reference model an
 MeridianDB is an early implementation and research project. Its Java/Maven build
 contains immutable temporal types, a memory-only engine and a separate test
 reference. The experimental local database adds checkpoint recovery and forced
-commit publication. Process crash conformance remains pending; there is no
+commit publication and process-exit/retry conformance; there is no
 published artifact or stable API yet.
 Contributions are most useful when they turn an open design question into a small,
 reviewable result with explicit evidence.
@@ -62,7 +62,8 @@ codec versus filesystem/recovery evidence kept separate. The
 [local immutable segment guide](../development/local-segments.md) documents
 create-only objects, expected IDs and heap-reader lifetimes. The
 [local database guide](../development/local-database.md) defines writable startup,
-acknowledgement, uncertainty and the remaining crash-conformance boundary.
+acknowledgement and uncertainty. [Durability conformance](../development/durability-conformance.md)
+explains real process exits, writable-reopen histories and the power-loss boundary.
 
 ## Run the documentation locally
 

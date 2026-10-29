@@ -24,7 +24,9 @@ atomic rename on supported filesystems. [Local database recovery](docs/developme
 now restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now
 forces each new journal record before atomic query publication and acknowledgement.
-The local protocol is experimental; process crash/retry conformance remains pending.
+The local protocol is experimental. [Durability conformance](docs/development/durability-conformance.md)
+checks process exits, lost acknowledgements, retries and seeded writable reopen;
+it does not simulate device power loss.
 There is no published library or stable API.
 The broader storage capabilities below remain the intended direction.
 
@@ -98,7 +100,7 @@ without committing to a public API.
 
 The [technical roadmap](docs/roadmap.md) describes the current memory engine and
 local journal, immutable segment files, checkpoint publication and read recovery,
-plus forced local commit publication, followed by crash conformance,
+plus forced local commit publication and process crash/retry conformance, followed by
 temporal query operators, history-preserving compaction, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
@@ -117,11 +119,11 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 390 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 440 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 57 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
-checks. Coverage
+checks, plus 50 durable process/retry/temporal conformance checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair

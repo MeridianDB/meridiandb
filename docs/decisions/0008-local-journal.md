@@ -75,5 +75,6 @@ JVM tests exercise the adapter; sudden power loss and remote storage remain outs
 that evidence. The memory engine remains nonpersistent. Immutable segments,
 [checkpoint publication](0012-local-checkpoint-publication.md) and
 [read-only local recovery](0013-local-database-recovery.md) are implemented separately.
-Durable engine acknowledgement/retry recovery still needs integration and
-crash-boundary tests.
+[Forced local writes](0014-durable-commit-publication.md) and
+[durability conformance](../development/durability-conformance.md) now cover engine
+acknowledgement/retry recovery and real process-exit boundaries.
