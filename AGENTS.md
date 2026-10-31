@@ -264,6 +264,15 @@ so a new session can work correctly without relying on earlier conversations.
   bounded strong ASCII tag as opaque data; report SDK-visible header checks and
   native normalization limits precisely. Keep durable reconciliation and actual
   graph/owned-journal publication in their separate required step.
+- Follow [ADR 0025](docs/decisions/0025-object-checkpoint-graph-verification.md) and
+  [object graph verification](docs/development/object-checkpoint-graphs.md) for
+  complete object-history checks. Reserve both graphs' object/prefix/record work,
+  count repeated dependencies, bind segment header ranges before record decoding
+  and use exact declared caps through the journal owner. Keep results private until
+  complete verification/cleanup; preserve original codec paths and error behavior.
+  Test aggregate limits, copied divergent histories and native actual-read bounds
+  as well as local/SDK consumers. Verification supplies no selected-head token,
+  force barrier, durable intent, lease or cleanup authority.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

@@ -24,6 +24,11 @@ public final class CheckpointVerifier {
         byte[] read(SegmentId id) throws IOException;
     }
 
+    @FunctionalInterface
+    interface DecodedSegmentSource {
+        SegmentCodec.DecodedSegment read(CheckpointManifest.SegmentReference reference) throws IOException;
+    }
+
     private CheckpointVerifier() { }
 
     /** Resolve one segment at a time and return only after complete whole-set consistency checks. */
@@ -37,20 +42,31 @@ public final class CheckpointVerifier {
                        Consumer<? super JournalRecord> collector) throws IOException {
         Objects.requireNonNull(source, "source");
         Objects.requireNonNull(collector, "collector");
+        verifyDecoded(manifest, reference -> {
+            byte[] image = source.read(reference.id());
+            if (image == null) { throw invalid("Missing referenced segment"); }
+            if (image.length != reference.byteLength()) { throw invalid("Referenced segment byte length differs"); }
+            return SegmentCodec.decode(image, reference.id());
+        }, collector);
+    }
+
+    // The object consumer binds exact range/count before decoding records. Reuse the same
+    // whole-history algorithm without fetching or decoding each segment a second time.
+    static void verifyDecoded(CheckpointManifest manifest, DecodedSegmentSource source) throws IOException {
+        verifyDecoded(manifest, source, record -> { });
+    }
+
+    private static void verifyDecoded(CheckpointManifest manifest, DecodedSegmentSource source,
+                                      Consumer<? super JournalRecord> collector) throws IOException {
         byte[] lineage = ManifestCodec.checkedLineage(manifest);
         var digest = ManifestCodec.sha256();
         digest.update(lineage);
         long prefixBytes = lineage.length;
         var identities = new HashSet<RequestId>();
         for (var reference : manifest.segments()) {
-            byte[] image = source.read(reference.id());
-            if (image == null) {
-                throw invalid("Missing referenced segment");
-            }
-            if (image.length != reference.byteLength()) {
-                throw invalid("Referenced segment byte length differs");
-            }
-            var segment = SegmentCodec.decode(image, reference.id()).segment();
+            var decoded = source.read(reference);
+            if (decoded == null || !decoded.id().equals(reference.id())) { throw invalid("Referenced segment identity differs"); }
+            var segment = decoded.segment();
             if (!segment.databaseId().equals(manifest.databaseId())
                     || segment.firstSequence() != reference.firstSequence()
                     || segment.lastSequence() != reference.lastSequence()) {

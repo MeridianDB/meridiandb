@@ -41,8 +41,9 @@ verified heap ranges, independently of checkpoint selection. The pure
 [object-checkpoint-head codec](../architecture/object-checkpoint-protocol.md) adds
 a bounded selection format and metadata checks. Optional
 [conditional S3 head access](s3-checkpoint-heads.md) provides same-response
-observations and exact conditional writes; verified remote publication remains
-planned. No library is published.
+observations and exact conditional writes. JDK-only
+[object graph verification](object-checkpoint-graphs.md) adds bounded complete
+history and actual-journal comparisons; verified remote publication remains planned. No library is published.
 
 ## Build and verify
 
@@ -90,12 +91,12 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 1,042 core test invocations include 46 [object-checkpoint-head format/metadata checks](../architecture/object-checkpoint-protocol.md), 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md), 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 1,092 core test invocations include 34 [object graph/actual-prefix checks](object-checkpoint-graphs.md), 46 [object-checkpoint-head format/metadata checks](../architecture/object-checkpoint-protocol.md), 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md), 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
 36 [local segment I/O/lifetime checks](local-segments.md),
-27 immutable segment codec checks, 29 journal codec checks, 84 local journal
+43 immutable segment codec checks, 29 journal codec checks, 84 local journal
 I/O/process/prefix checks (including 26 [caller-budget checks](local-journal.md#bound-prefix-verification-by-encoded-bytes)) and 71 temporal/engine checks: 18 interval boundary checks, eight type
 checks, ten reference/decoding checks, five canonical histories per implementation,
 16 seeded histories comparing both implementations with dense snapshots, and nine
@@ -182,7 +183,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on October 31 at 18:11:41 EDT / 22:11:41 UTC; the listed selections remain
+on October 31 at 18:33:53 EDT / 22:33:53 UTC; the listed selections remain
 unchanged. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

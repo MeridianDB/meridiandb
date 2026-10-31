@@ -1140,6 +1140,24 @@ real local/object checks. The result is verification evidence, not a selected
 head, force receipt or cleanup authority; durable intent and publication remain
 required. Preserve original parent acceptance and independent local embedding.
 
+**Produced artifacts:** JDK-only `ObjectCheckpointGraphs`, typed graph failures,
+private-constructed immutable Graph/Verification results and explicit Limits/Usage.
+Single/pair operations preflight both head-known budgets, bind complete manifests,
+reserve all segment work, then verify graphs and bounded actual owner prefixes in
+predecessor order. Repeated dependencies count twice; no fallback/ancestry/LIST or
+partial result occurs. Checked SegmentCodec range decoding rejects unexpected
+header counts before record work; a private decoded source reuses the existing
+whole-history algorithm without a second fetch/decode or legacy error change.
+Twenty-eight core graph, six actual-read/cleanup and sixteen checked-range cases
+pass, plus four actual-SDK graph-consumer cases. Final clean builds pass 1,092 core /
+120 optional tests and fourteen packaged-core examples; 153 production core
+classes depend only on java.base. All fourteen Maven pins are freshly confirmed.
+ADR 0025, a new guide, public callers/counts/navigation and agent rules are
+reconciled; both 59-page URL builds and rendered/search checks pass. Source push,
+CI and automatic Pages/live readback remain pending in this completion receipt.
+Durable intent, actual conditional publication/reconciliation and engine recovery
+remain separate required stages; parent acceptance is retained.
+
 ## MDB-0052 Durable object publication intent
 
 **Parent:** MDB-0049. **Outcome:** persist bounded exact configured target/bindings,
@@ -1172,6 +1190,26 @@ aggregate work and explicit deployment limits. Preserve local acknowledgement;
 remote engine recovery and protected reclamation remain later separate tasks.
 Mark both expanded publication parents done only after all children and original
 integration acceptance pass, and deliver documentation/CI/live evidence normally.
+
+## MDB-0054 Legacy bounded segment preflight
+
+**Outcome:** use independently expected segment ranges before record allocation/
+decoding in existing bounded consumers. Start with HistoryCompactor's manifest
+record reservation, then audit inventory/reclamation and related bounded callers.
+The raw verifier currently discovers a segment/manifest range mismatch only after
+full decoding, so malformed references can spend more record work than reserved.
+Per-object format ceilings still apply and no invalid result is returned.
+
+**Complete when:** a one-record manifest reservation with a larger CRC-valid
+segment header and nested malformed-body trap is rejected before record decoding.
+Reuse the checked range path where appropriate, preserve valid compaction/history/
+reference results and ordinary raw codec behavior, and document intentional error-
+precedence changes in bounded callers. Verify aggregate resource and cleanup
+contracts for affected callers; do not silently change formats, retention,
+publication or local acknowledgement. Research current Maven selections, run
+focused/core/optional checks and deliver docs/planning/CI normally. This independent
+maintenance step is not a missing prerequisite or acceptance relaxation for the
+new object graph verifier or expanded publication parents.
 
 ## MDB-0038 Remote checkpoint engine recovery
 

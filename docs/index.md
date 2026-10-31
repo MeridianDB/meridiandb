@@ -68,8 +68,10 @@ segment-codec consumer. The optional [S3 adapter](development/s3-objects.md) run
 the same object expectations through a real SDK/HTTP fixture; it does not select
 remote checkpoints. A pure [checkpoint-head format](architecture/object-checkpoint-protocol.md)
 and binding checks are available. Separate [conditional S3 head access](development/s3-checkpoint-heads.md)
-now supplies bounded GET/conditional PUT, while verified remote publication remains
-planned. Existing journal/checkpoint protocols remain explicit.
+now supplies bounded GET/conditional PUT. JDK-only
+[object graph verification](development/object-checkpoint-graphs.md) checks complete
+history against the owned journal under aggregate budgets. Verified remote
+publication remains planned. Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

@@ -9,7 +9,9 @@ A remote checkpoint needs one small selection record pointing to complete
 immutable history. `ObjectCheckpointHead`, its codec and its pure metadata checks
 are implemented in the JDK-only core. A separate optional
 [S3 head adapter](../development/s3-checkpoint-heads.md) now provides bounded GET
-and conditional PUT. The complete verified publisher, durable intent/reconciliation
+and conditional PUT. JDK-only [graph verification](../development/object-checkpoint-graphs.md)
+now validates complete dependencies and actual owned-journal prefixes under shared
+operation limits. The complete verified publisher, durable intent/reconciliation
 path and remote database recovery are **not yet implemented**. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
@@ -188,11 +190,12 @@ is needed to validate one adjacent transition. Retained immutable intent history
 is diagnostic evidence, not permission to infer selection from object existence.
 
 The [owned-journal prefix API](../development/local-journal.md#bound-prefix-verification-by-encoded-bytes)
-now accepts a byte cap before framing/body reads. A future graph verifier must
-use that cap for the actual owner-journal comparison as well as bounding object
-fetches; a short untrusted declaration does not bound a different actual record.
-It must also budget aggregate record/identity work across both graphs and repeated
-prefix checks. The byte-cap primitive alone supplies none of that composition.
+accepts a byte cap before framing/body reads. The implemented
+[graph verifier](../development/object-checkpoint-graphs.md) uses that cap for each
+actual owner-journal comparison and reserves object bytes/fetches, prefix bytes
+and graph/journal record work across both graphs, including repeated dependencies.
+It checks segment header ranges before record decoding. Those read-only results
+still supply no durable intent, conditional publication or recovery protocol.
 
 ## Failure and retry outcomes
 

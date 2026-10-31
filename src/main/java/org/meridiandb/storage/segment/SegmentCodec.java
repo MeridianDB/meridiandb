@@ -77,6 +77,10 @@ public final class SegmentCodec {
 
     /** Decode exactly one complete object, retaining neither its input array nor a partial prefix. */
     public static DecodedSegment decode(byte[] image) {
+        return decodeRange(image, 0, 0);
+    }
+
+    private static DecodedSegment decodeRange(byte[] image, long expectedFirst, long expectedLast) {
         Objects.requireNonNull(image, "image");
         if (image.length > MAX_SEGMENT_BYTES) {
             throw failure(SegmentFormatException.Code.LIMIT_EXCEEDED, "Segment exceeds v1 byte limit");
@@ -111,6 +115,9 @@ public final class SegmentCodec {
         countLimit(count);
         if (first <= 0 || last < first || last - first + 1 != count) {
             throw history("Segment range does not match record count");
+        }
+        if (expectedFirst != 0 && (first != expectedFirst || last != expectedLast)) {
+            throw history("Segment header differs from the expected sequence range");
         }
         sizeLimit(headerBytes, bodyBytes);
         int bodyEnd = headerBytes + (int) bodyBytes;
@@ -152,6 +159,19 @@ public final class SegmentCodec {
     public static DecodedSegment decode(byte[] image, SegmentId expected) {
         Objects.requireNonNull(expected, "expected");
         var decoded = decode(image);
+        if (!decoded.id().equals(expected)) {
+            throw failure(SegmentFormatException.Code.IDENTIFIER_MISMATCH, "Segment content identifier does not match");
+        }
+        return decoded;
+    }
+
+    /** Bind the header range before body hashing, record-list allocation or transaction decoding. */
+    public static DecodedSegment decode(byte[] image, SegmentId expected, long expectedFirst, long expectedLast) {
+        Objects.requireNonNull(expected, "expected");
+        if (expectedFirst <= 0 || expectedLast < expectedFirst || expectedLast - expectedFirst + 1 > MAX_RECORDS) {
+            throw new IllegalArgumentException("Expected segment range exceeds supported record bounds");
+        }
+        var decoded = decodeRange(image, expectedFirst, expectedLast);
         if (!decoded.id().equals(expected)) {
             throw failure(SegmentFormatException.Code.IDENTIFIER_MISMATCH, "Segment content identifier does not match");
         }

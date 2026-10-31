@@ -3110,6 +3110,127 @@ operation occurs in this receipt.
 **Next recommendation:** MDB-0051 — verified object checkpoint graphs against the
 actual owned journal, with shared aggregate object/prefix/record/identity budgets.
 
+## 2026-10-31 — MDB-0051 Verified object checkpoint graphs
+
+**Selection:** start from clean main/origin
+`6322e93bac85efcddd2ee0e8716f5df5e410e97a`; verify preceding MDB-0050 source
+`28eec44b952e854a383f4ae11c8560eec1ce31f8`, Java/docs/Pages and live delivery
+before advancing. Execute this one required child; keep MDB-0049/MDB-0037 expanded
+and preserve every original graph/publication/intent/reconciliation criterion.
+
+**Outcome:** add JDK-only `ObjectCheckpointGraphs` over caller-owned immutable byte
+access and an actual LocalJournal, independently configured namespace/publisher
+UUIDs and actual canonical journal lineage. Single or adjacent-pair operations
+reserve all head-known manifest fetches/bytes, actual prefix bytes and 2N graph/
+journal record work before the first fetch. Bind/close complete manifests, then
+reserve every dependency's bytes/fetch before segment or actual-prefix work.
+Verify both graphs in predecessor order, exact header range/count, complete IDs/
+lengths/lineage/ranges, cross-segment request uniqueness and reconstructed original
+prefix; compare sequence/length/SHA-256 through `journal.prefix(sequence, declaredBytes)`.
+Count repeated dependencies and same-cutoff comparisons twice. No listing,
+ancestry traversal, implicit reuse exemption, force, writes, fallback or partial
+verification result is introduced. Reserved namespace key helpers follow the
+existing protocol.
+
+Private Graph/Verification constructors expose immutable metadata, actual-prefix
+observations and successful Usage only after complete verification/cleanup. They
+retain no object arrays/readers or segment records and supply no current-head
+scope/token, lease, force receipt or cleanup authority. Typed checked failures
+separate aggregate limits, invalid graphs and journal mismatch; pure head checks
+keep existing errors and adapter I/O propagates. Actual-prefix cap exhaustion
+retains its cause and a healthy owner; actual journal corruption/I/O retains
+poisoning. Limits are per operation: object/journal encoded bytes, record/request
+cardinality and logical fetches, not exact heap/CPU/native short-read calls, initial
+open recovery or arbitrary later invocations.
+
+Add a checked SegmentCodec decode overload binding expected header first/last/
+count before codec payload hashing, record-list allocation or transaction decoding.
+The immutable adapter has already verified the complete object identity; no
+partial-object integrity claim follows. A package-private decoded segment source
+shares the existing CheckpointVerifier algorithm without a second fetch/decode;
+the legacy raw-source path and failure behavior remain unchanged. No runtime
+artifact, wire format, engine acknowledgement or recovery behavior changes.
+
+**Research:** fresh fourteen-coordinate Central metadata at **22:33:53 UTC /
+18:33:53 EDT**, with official compatibility evidence at 22:33:54 UTC, reconfirms
+all current selections as latest stable: Maven 3.10.0, wrapper 3.3.4,
+clean/resources 3.5.0, compiler 3.16.0, Surefire 3.6.1, jar 3.5.1,
+install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and SDK s3/URLConnection 2.57.8.
+No POM change is needed. Metadata summary SHA-256
+`223832852976ae9526ddc0f83ede0ac5e76e70218fdef4a367d6bb936d3b6905`;
+research report
+`090579498d2b4ee9a865deffd8cc294bd0ab38c72e528463991ca2e21fdb129d`.
+Raw working evidence is ignored under `.local-qa/mdb-0051/research-helper/`;
+the public build guide owns dated coordinates and primary compatibility links.
+Retain project-tested Java 25 wording rather than provider certification.
+
+**Verification:** 28 independent graph invocations cover empty/nonempty/multiple/
+repacked/unchanged graphs, exact Usage/read order, prefetch and aggregate pair
+budgets, independent bindings, transition errors, no fallback, copied same-lineage
+divergence despite candidate agreement, shorter/longer actual histories, damaged/
+missing/wrong-ID/lineage/range metadata, duplicate requests, immutable lifetime and
+actual LocalObjectStore/owned-journal integration. Six focused owner-read/cleanup
+cases observe exact native requested boundaries, actual cap exhaustion without
+poisoning, actual I/O poisoning, oversized segment count preflight, rejected wrong
+adapter references and propagated cleanup failure. Sixteen independent checked-
+range codec cases use literal golden vectors and re-signed header faults to prove
+preflight before payload decoding, exact/Long.MAX bounds and complete ID/footer/
+record validation when the range matches. Existing codec/shared verifier focused
+regression passes 47 prior cases alongside the 16 new cases. All 50 new core
+cases pass together.
+
+Four actual SDK/HTTP consumer cases verify genesis, repeated shared dependencies
+and exact pair usage, missing/corrupt/forbidden dependency failures and valid but
+divergent actual journal history. Graph operations issue immutable GETs only;
+fixture setup uploads are distinct, and original constant-ETag byte plus changing-
+token head suites remain unchanged. Fixtures establish no live-provider, TLS/
+signature authentication, remote durability, replication or throughput claim.
+
+Final `./mvnw -B clean install` passes **1,092 core tests**;
+`./mvnw -B -f adapters/s3/pom.xml clean verify` passes **120 optional tests**,
+all zero failures/errors/skips locally. All fourteen examples run against only
+the packaged core JAR. Archive/`jdeps` inspection finds **153 core production
+classes**, java.base-only external modules, no SDK/test classes and the unchanged
+one-class shared conformance classifier. Preserve all existing temporal/reference,
+local process/recovery, reader/reclamation, native cleanup and ownership evidence.
+
+**Documentation and independent review:** add graph guide/ADR 0025; reconcile
+README, homepage/roadmap/build/S3 guides, architecture/persistence/head protocol,
+decision index/nav and root agent rules. Review confirms production caps, cleanup,
+complete-result scope and legacy paths; doc review corrects one precision issue:
+only a header/frame exceeding the remaining total prefix cap is rejected before
+its body, while other valid divergence fails the final comparison. Both strict
+project-path and production builds pass source/HTML/links/search/sitemap for
+**59 pages**, restoring production output. Rendered review covers desktop light,
+390-pixel dark operations/budget tables with no page-wide overflow, actual search
+results/new routes and decision navigation. No diagram/renderer or dependency
+change is needed. Helpers own only bounded independent research/review and their
+assigned test files; coordinator owns production/docs/shared planning/Git.
+
+**Discovered follow-up:** admit independent MDB-0054 after publisher integration,
+starting with early expected-range validation in HistoryCompactor and auditing
+other legacy bounded consumers. Code review confirms its manifest-based record
+reservation currently precedes raw decoding whose range comparison occurs only
+after records are materialized. Malformed input may exceed that caller reservation,
+although format ceilings still apply and no invalid plan escapes. The checked
+object consumer already prevents this; preserving existing raw-path errors here
+keeps the maintenance work separate without weakening this child's acceptance.
+Require an independently malformed-body/range regression and unaffected valid
+compaction/reference outcomes in that future step. No fix starts during this one.
+
+**Source completion/delivery:** mark MDB-0051 done and MDB-0052 ready, retaining
+expanded publication parents. Validate **54 unique IDs**, cards, references,
+parent/dependency DAG, eligibility and completed children. Inspect explicit owned
+paths/staged diff, commit with Step-ID MDB-0051 / Step-Result completed, push
+normally and verify remote ancestry/tips, Java/docs CI, automatic Pages and live
+new guide/ADR/callers/canonical/search/sitemap. Git and the delivery receipt supply
+actual SHA/check results. No later implementation, release/tag/artifact upload,
+real-cloud/account/DNS or other hosting action is included.
+
+**Next recommendation:** MDB-0052 — durable object publication intent, preserving
+exact expected/pending observations and original preconditions through local
+failure/process exit before conditional publisher/reconciliation integration.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

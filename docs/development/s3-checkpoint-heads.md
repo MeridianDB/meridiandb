@@ -16,6 +16,9 @@ in core. This adapter adds GET and conditional PUT; a complete checkpoint
 publisher with graph/actual-journal verification, durable pending intent and
 uncertain-result reconciliation is **not yet implemented**. Transaction
 acknowledgement, engine recovery, reader protection and reclamation are unchanged.
+Separate JDK-only [graph verification](object-checkpoint-graphs.md) now checks
+complete referenced history and actual journal prefixes; it does not compose
+those checks with conditional selection or durable intent.
 [ADR 0024](../decisions/0024-conditional-s3-head-access.md) records this boundary.
 
 ## Build and configuration
@@ -32,9 +35,10 @@ Run the same two builds from the repository root:
 
 Use `mvnw.cmd` on Windows. Core verification installs the core JAR and its small
 shared test classifier locally; the optional build verifies both immutable and
-conditional-head APIs. The optional build runs **116 tests**: the existing 46 immutable-object cases,
-43 conditional-head SDK/API cases and 27 token/observation/native-stream cases.
-Core runs its separate 1,042 tests. No cloud service or account is used by these tests.
+conditional-head APIs. The optional build runs **120 tests**: 46 immutable-object
+cases, 43 conditional-head SDK/API cases, 27 token/observation/native-stream cases
+and four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md).
+Core runs its separate 1,092 tests. No cloud service or account is used by these tests.
 
 Construct `S3CheckpointHeads` with an explicit endpoint origin, signing region,
 existing bucket, caller-owned credentials and a `Binding` containing the expected

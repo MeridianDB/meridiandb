@@ -18,7 +18,9 @@ remain unimplemented; the local journal and commit acknowledgement protocol are 
 provider-library choice. The [checkpoint-head format](../architecture/object-checkpoint-protocol.md)
 and pure metadata checks are available in core. A separate
 [conditional head API](s3-checkpoint-heads.md) adds bounded GET/conditional PUT;
-this byte adapter remains immutable-only.
+this byte adapter remains immutable-only. The JDK-only
+[graph verifier](object-checkpoint-graphs.md) can consume this byte API for complete
+manifest/segment and actual-journal comparisons; it performs no head mutation.
 
 ## Build and verify
 
@@ -44,8 +46,9 @@ uses the JDK HTTP implementation and JVM-managed connection pooling.
 
 The immutable adapter's 46 tests comprise nine shared object-contract cases, 29 actual
 SDK/HTTP protocol and integration cases, and eight focused native-stream/guard
-fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md).
-Core's separate 1,042 tests and fourteen runnable examples still
+fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md)
+and four [complete graph-consumer cases](object-checkpoint-graphs.md).
+Core's separate 1,092 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.
 The fixture binds only `127.0.0.1`, uses fixed test credentials and needs no service
 emulator, Docker daemon, cloud account or provisioned bucket.

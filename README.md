@@ -99,8 +99,11 @@ reuse and a segment consumer. The separate `meridiandb-s3` artifact runs the sam
 object contract through a real SDK/HTTP fixture. A pure [checkpoint-head codec](docs/architecture/object-checkpoint-protocol.md)
 defines bounded remote metadata and adjacent-transition checks. A separate
 [conditional S3 head API](docs/development/s3-checkpoint-heads.md) now pairs GET
-bytes/tokens and issues exact conditional writes. Verified checkpoint publication
-remains planned; existing checkpoint and engine protocols are unchanged.
+bytes/tokens and issues exact conditional writes. JDK-only
+[object graph verification](docs/development/object-checkpoint-graphs.md) now checks
+complete dependencies and actual owned-journal prefixes under shared budgets.
+Verified checkpoint publication remains planned; existing checkpoint and engine
+protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
@@ -158,8 +161,9 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,042 JUnit test invocations: 71 temporal/engine, 29 journal codec,
-84 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
+This runs 1,092 JUnit test invocations: 34 object graph/actual-prefix checks,
+71 temporal/engine, 29 journal codec,
+84 local journal I/O/process/prefix, 43 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,
