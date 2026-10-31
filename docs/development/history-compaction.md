@@ -15,7 +15,7 @@ The pure compactor creates no files and changes no selected generation. A source
 resolver supplies complete existing byte images. `LocalCheckpointStore.publishCompaction`
 now installs a plan after rechecking the selected source and actual owned journal,
 then publishes its replacement. Both APIs retain all old files and the complete
-journal. Physical reclamation still requires reader protection; a plan alone is
+journal. Physical reclamation uses the separate protected remover; a plan alone is
 neither a force receipt nor permission to remove old objects.
 
 ## Retention and physical layout
@@ -184,18 +184,18 @@ cannot authorize later removal.
 
 [Live reader protection](reader-protection.md) now uses a shared store-wide OS
 barrier independent of store lifetime, with release serialized against lazy opens.
-Any live lazy reader conservatively excludes a future exclusive removal barrier;
-publication remains possible. Physical reclamation still needs a remover that holds
-store ownership plus exclusive protection through root checks, deletion and sync. Selected/retained generations, active lazy-reader
+Any live lazy reader conservatively excludes the exclusive removal barrier;
+publication remains possible. The [protected remover](physical-reclamation.md) now holds
+store ownership plus exclusive protection through fresh root checks, deletion and sync. Selected/retained generations, active lazy-reader
 pins and explicit backup roots determine which dependency graphs remain live.
 Heap-owned child readers do not need their old file names to keep returned values.
 
 Timers, PID observations and a process-local registry alone cannot establish that
 an old generation is unused. An uncertain pin or removal outcome requires retention.
 Obsolete metadata must be safely retired before its now-unreferenced dependencies;
-newest selected state must remain verifiable after interruption. No such deletion
-removal protocol is implemented by either compaction API. The shared reader
-barrier is a prerequisite, not a physical removal operation.
+newest selected state must remain verifiable after interruption. The separate
+[remover](physical-reclamation.md) implements that protocol; neither compaction API
+performs deletion.
 
 ## Verify and run the example
 
@@ -254,4 +254,5 @@ history. Child JVMs halt at the four dependency/candidate/rename/directory bound
 and verify the selected old or new complete graph with journal-tail recovery and
 original request retries. These process exits do not simulate device power loss.
 Full canonical/seeded publication with protected physical removal and retained-space
-accounting still requires a reclamation implementation.
+accounting remains a required integrated conformance check alongside the
+implemented [removal protocol](physical-reclamation.md).

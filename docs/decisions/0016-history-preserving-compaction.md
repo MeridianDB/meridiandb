@@ -6,7 +6,7 @@ description: Preserve all temporal history and request identity during bounded d
 # ADR 0016: History-preserving compaction
 
 - **Date:** October 29, 2026
-- **Status:** Pure bounded repacking and local publication implemented; protected reclamation remains planned
+- **Status:** Pure bounded repacking and local publication implemented; protected removal implemented separately
 - **Scope:** Complete checkpoint history, logical retention and physical object lifetimes
 
 ## Context
@@ -122,3 +122,11 @@ verified obsolete physical objects under explicit retained roots and exclusive
 reader protection. It removes no files and preserves this decision's complete
 logical-history contract. Ordered removal and its integrated conformance remain
 required before claiming physical reclamation.
+
+## Protected removal integration
+
+[ADR 0019](0019-protected-physical-reclamation.md) implements the separate remover:
+fresh inventory under both owners, retained-file/journal/namespace synchronization,
+metadata retirement before unused dependencies and conservative interrupted-orphan
+retention. This record's stage remains distinct; full integrated temporal/crash/space
+conformance is separately required.

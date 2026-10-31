@@ -31,6 +31,7 @@ There is no release date or stable API commitment.
 | [Local compaction publication](development/history-compaction.md#install-and-publish-locally) | Exact source/owner-journal checks, verified reuse, create-only installation and same-cutoff generation publication; old files retained |
 | [Live reader protection](development/reader-protection.md) | Shared cross-process barrier independent of store lifetime; any live lazy reader excludes future removal |
 | [Reclamation inventory](development/reclamation-inventory.md) | Bounded complete graph/owner-prefix checks, explicit retained roots and immutable obsolete-object metadata; no deletion |
+| [Protected physical reclamation](development/physical-reclamation.md) | Fresh owner-bound inventory, durable live roots, metadata retirement before dependency removal and conservative interruption recovery |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -76,8 +77,10 @@ retention remains all history; a plan changes no selected generation or file.
 Local installation/publication now verifies existing content and selects the
 same-cutoff replacement through the checkpoint protocol. Shared cross-process
 reader protection now outlives store close. A bounded [inventory](development/reclamation-inventory.md)
-verifies selected/retained roots and reports obsolete dependencies. Physical reclamation still requires an
-implemented remover holding store ownership plus exclusive reader protection. Earlier cutoffs, lazy readers, recovery and backup roots
+verifies selected/retained roots and reports obsolete dependencies. [Protected removal](development/physical-reclamation.md) now holds store ownership
+and exclusive protection, establishes retained roots and synchronizes metadata
+retirement before unused dependencies. Full integrated temporal/crash/space
+conformance remains separate. Earlier cutoffs, lazy readers, recovery and backup roots
 remain part of that safety contract.
 
 An object-storage backend needs its own immutable-object publication, conditional

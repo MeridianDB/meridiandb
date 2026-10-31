@@ -771,6 +771,7 @@ class LocalCheckpointStoreTest {
             files.put(to, files.remove(from));
             if (moveThenFail) { throw new IOException("Move took effect then failed"); }
         }
+        @Override public void delete(String name) { throw new AssertionError("Unexpected deletion"); }
         @Override public void forceDirectory() throws IOException {
             events.add("directory-force");
             if (++directoryForces == failDirectoryAt) {

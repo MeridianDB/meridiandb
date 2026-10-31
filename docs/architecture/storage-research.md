@@ -127,9 +127,16 @@ refreshes JDK lock, Linux/Windows release and Lucene snapshot evidence on Octobe
 Its conservative store-wide exclusion and shared cross-adapter identity reservations
 protect cooperating lazy readers. [Verified inventory](../development/reclamation-inventory.md)
 now applies explicit retained roots and bounded complete owner-journal checks without
-deletion; physical removal remains separate required work. No per-generation cleanup-progress guarantee is implied.
+deletion. [Protected removal](../development/physical-reclamation.md) now recomputes
+that inventory and durably retires metadata before unused dependencies. Full
+integrated conformance remains separate required work. No per-generation cleanup-progress guarantee is implied.
 
 [ADR 0018](../decisions/0018-reclamation-inventory.md) refreshes Lucene commit-file,
 retention and snapshot documentation alongside JDK deletion/locking and namespace
 sync evidence on October 29. Explicit retained roots and conservative diagnostic
 handling are MeridianDB choices; candidate bytes make no freed-block claim.
+
+[ADR 0019](../decisions/0019-protected-physical-reclamation.md) refreshes the JDK
+strict-delete/locking, Lucene commit-retention/namespace-sync and Linux directory-sync
+sources on October 30. Forcing live roots before retirement and retaining interrupted
+orphans are MeridianDB choices. Name-removal receipts do not measure freed blocks.

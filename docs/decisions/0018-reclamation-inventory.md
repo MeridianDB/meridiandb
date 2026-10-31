@@ -6,7 +6,7 @@ description: Define explicit physical retention roots and bounded verified obsol
 # ADR 0018: Verified reclamation inventory
 
 - **Date:** October 29, 2026
-- **Status:** Inventory implemented; physical removal remains planned
+- **Status:** Inventory implemented; protected removal implemented separately
 - **Scope:** Local checkpoint retention, diagnostic evidence and candidate accounting
 
 ## Context
@@ -42,7 +42,7 @@ protection cleanup and quarantine uncertain native close. The
 retention responsibilities and failure behavior.
 
 This operation removes no files. First exclusive admission may create/synchronize
-the permanent guard. A result can immediately become stale; a future remover must
+the permanent guard. A result can immediately become stale; the separate remover must
 recompute while holding both forms of ownership through checks, retirement and
 sync. Durable metadata retirement must precede dependency removal. Interrupted
 retirement may leave orphaned dependencies requiring separate inspected evidence;
@@ -66,7 +66,7 @@ Primary sources checked October 29, 2026:
   [fsync](https://man7.org/linux/man-pages/man2/fsync.2.html),
   [FileChannel.force](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/channels/FileChannel.html#force(boolean)).
 
-Explicit roots, conservative diagnostic refusal, aggregate budgets and the future
+Explicit roots, conservative diagnostic refusal, aggregate budgets and the
 metadata-before-dependencies protocol are MeridianDB design inferences. No Lucene
 retention implementation, OS durability guarantee or measured throughput is inherited.
 
@@ -81,5 +81,13 @@ retention ergonomics and progress; both require additional lifecycle/recovery ru
 This preview favors evidence and bounded implementation. Repeated old history,
 pending candidates, an inaccessible alias, namespace pressure or a long-lived reader
 can prevent useful inventory. Candidate bytes are encoded-object counts rather
-than physical-space receipts. Ordered removal and full temporal/crash/space
-conformance remain required before claiming physical reclamation.
+than physical-space receipts. The separate remover implements ordered retirement. Full temporal/crash/space
+conformance remains required before broader integrated claims.
+
+## Protected removal integration
+
+[ADR 0019](0019-protected-physical-reclamation.md) implements the separate remover:
+fresh inventory under both owners, retained-file/journal/namespace synchronization,
+metadata retirement before unused dependencies and conservative interrupted-orphan
+retention. This record's stage remains distinct; full integrated temporal/crash/space
+conformance is separately required.

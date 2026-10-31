@@ -144,8 +144,9 @@ journal)` rechecks the selected source ID and actual owner journal, verifies eve
 existing output byte for byte, reserves all missing-object/candidate capacity and
 create-only installs missing segments before using this same publication protocol.
 Reused objects are forced too. An unchanged layout still selects the next generation;
-all old files and the complete journal remain retained. Physical deletion still
-needs reader protection and a separate safety proof. Ordinary `writeSegment` keeps
+all old files and the complete journal remain retained through publication. Use
+the separate [protected removal protocol](physical-reclamation.md) for explicit
+reclamation. Ordinary `writeSegment` keeps
 its existing-path rejection behavior.
 
 ## Readers and example
@@ -159,7 +160,7 @@ publications. Closing it serializes with lazy opens and can raise `IOException`;
 retry close after cleanup failure. Already returned metadata and heap child readers
 remain valid. The permanent guard needs one free entry on first admission and actual
 shared-lock support; empty selected state creates no guard. Reader close grants no
-reclamation permission, and a future remover must hold both exclusive store ownership
+reclamation permission, and the remover holds both exclusive store ownership
 and exclusive reader protection before any removal.
 
 Run from the repository root with JDK 25:
@@ -205,5 +206,6 @@ Use [reclamation inventory](reclamation-inventory.md) with this store's owned jo
 to verify all published generations and explicit retained/backup roots. The newest
 root is always retained. Known live-reader contention defers inspection; complete
 validation returns immutable obsolete-object metadata without deleting any files.
-Candidate byte counts are not a filesystem space receipt. A later remover must
-recompute under store ownership and exclusive reader protection.
+Candidate byte counts are not a filesystem space receipt. The separate [remover](physical-reclamation.md) recomputes under store ownership
+and exclusive reader protection, establishes live roots and durably retires metadata
+before unused dependencies.

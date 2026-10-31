@@ -56,8 +56,10 @@ objects and selects the same-cutoff next generation, retaining all old files and
 the full journal. [Live reader protection](development/reader-protection.md) now
 holds a shared barrier across store close and cooperating processes. A bounded
 [reclamation inventory](development/reclamation-inventory.md) now verifies retained
-roots and obsolete-object metadata without deletion. Physical removal remains
-planned; layout performance experiments need their own evidence.
+roots and obsolete-object metadata without deletion. [Protected physical removal](development/physical-reclamation.md)
+now recomputes that inventory and synchronizes metadata retirement before unused
+dependencies. Full integrated conformance and layout performance experiments need
+their own evidence.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

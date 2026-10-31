@@ -241,9 +241,18 @@ so a new session can work correctly without relying on earlier conversations.
   Candidate segments come only from verified obsolete roots minus live dependencies;
   preserve unknown/orphan/diagnostic objects and refuse pending candidates. Return
   immutable evidence only after successful protection cleanup. A preview grants no
-  later deletion authority or freed-space claim; future removal recomputes under
-  both owners, retires/synchronizes metadata before dependencies and proves safe
-  interruption/reopen. Keep original reclamation/integration gates required.
+  later deletion authority or freed-space claim. Follow
+  [protected physical removal](docs/development/physical-reclamation.md) and
+  [ADR 0019](docs/decisions/0019-protected-physical-reclamation.md): `reclaim`
+  recomputes under both owners; force actual journal, retained manifest images,
+  retained dependencies and directory before the first removal. Retire/synchronize
+  obsolete metadata before unused dependencies, then sync again. Recheck aliases
+  and reserve common identity before strict delete without opening a native handle.
+  Mark uncertainty before delete attempts, poison failures and establish remaining
+  names by reopen. Preserve orphaned dependencies after interrupted retirement;
+  no stale preview, filename sweep or automatic intent replay grants permission.
+  Test per-object/boundary interruption, cross-process admission/reader deferral,
+  cleanup and capacity; keep full integrated conformance separately required.
 
 ## Verification and experiments
 

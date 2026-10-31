@@ -316,6 +316,7 @@ class LocalInitializationTest {
             files.put(to, files.remove(from));
         }
 
+        @Override public void delete(String name) { throw new AssertionError("Unexpected deletion"); }
         @Override public void forceDirectory() throws IOException {
             events.add("directory-force");
             directoryForces++;

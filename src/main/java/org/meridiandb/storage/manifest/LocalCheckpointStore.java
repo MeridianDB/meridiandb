@@ -67,6 +67,18 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
     }
 
+    public static final class UncertainReclamationException extends IOException {
+        private static final long serialVersionUID = 1L;
+        UncertainReclamationException(Throwable cause) {
+            super("Physical removal was attempted; close and reopen to establish remaining objects", cause);
+        }
+    }
+
+    enum ReclamationBoundary { LIVE_ROOTS_SYNCED, MANIFEST_REMOVED, MANIFESTS_SYNCED, SEGMENT_REMOVED, DIRECTORY_SYNCED }
+    @FunctionalInterface interface ReclamationProbe {
+        void reached(ReclamationBoundary boundary, String objectName) throws IOException;
+    }
+
     // Per-instance package seam; production callers have no observer or global fault state.
     enum PublicationBoundary { JOURNAL_CREATED, DEPENDENCIES_SYNCED, CANDIDATE_SYNCED, MANIFEST_RENAMED, DIRECTORY_SYNCED }
     @FunctionalInterface interface PublicationProbe { void reached(PublicationBoundary boundary) throws IOException; }
@@ -86,6 +98,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
         void writeNew(String name, byte[] image) throws IOException;
         void forceFile(String name) throws IOException;
         void atomicMove(String from, String to) throws IOException;
+        void delete(String name) throws IOException;
         void forceDirectory() throws IOException;
         @Override void close() throws IOException;
     }
@@ -106,6 +119,8 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     private record Generation(String name, long number, ManifestId id) { }
     private final PublicationProbe probe;
+    private final ReclamationProbe reclamationProbe;
+    private record Inspection(ReclamationInventory inventory, List<String> retainedFiles) { }
     private final Namespace namespace;
     private boolean failed;
     private boolean closed;
@@ -115,8 +130,11 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     LocalCheckpointStore(Namespace namespace) { this(namespace, null); }
 
-    LocalCheckpointStore(Namespace namespace, PublicationProbe probe) {
+    LocalCheckpointStore(Namespace namespace, PublicationProbe probe) { this(namespace, probe, null); }
+
+    LocalCheckpointStore(Namespace namespace, PublicationProbe probe, ReclamationProbe reclamationProbe) {
         this.probe = probe;
+        this.reclamationProbe = reclamationProbe;
         this.namespace = Objects.requireNonNull(namespace, "namespace");
     }
 
@@ -132,6 +150,15 @@ public final class LocalCheckpointStore implements AutoCloseable {
     static LocalCheckpointStore openObserved(Path directory, PublicationProbe probe) throws IOException {
         Objects.requireNonNull(probe, "probe");
         return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> channel.force(true)), probe);
+    }
+
+    static LocalCheckpointStore openReclamationObserved(Path directory, ReclamationProbe probe) throws IOException {
+        Objects.requireNonNull(probe, "probe");
+        return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> channel.force(true)), null, probe);
+    }
+
+    private void observe(ReclamationBoundary boundary, String name) throws IOException {
+        if (reclamationProbe != null) { reclamationProbe.reached(boundary, name); }
     }
 
     private void observe(PublicationBoundary boundary) throws IOException {
@@ -362,7 +389,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
     }
 
-    /** Internal foundation for reclamation. No deletion operation is exposed by this adapter yet. */
+    /** Package-level barrier seam; callers must retain store ownership until protection is released. */
     synchronized Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() throws IOException {
         usable();
         operating = true;
@@ -404,7 +431,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
                 // Keep failed cleanup reachable for close retry; native uncertainty stays quarantined.
                 inspectionProtection = protection;
                 protection.checkValid();
-                result = inspectProtected(retained, journal, limits);
+                result = inspectProtected(retained, journal, limits).inventory();
                 protection.checkValid();
             }
             inspectionProtection = null;
@@ -417,7 +444,82 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
     }
 
-    private ReclamationInventory inspectProtected(Set<ManifestId> requested, JournalAccess journal,
+    /**
+     * Recompute retention and remove only verified obsolete published metadata/dependencies.
+     * The selected root is always retained; explicit IDs must be supplied on every invocation.
+     * A live reader defers all removal. Preserve full journal, permanent controls, unknown/orphan
+     * objects and pending evidence. No previously returned inventory is accepted as authority.
+     */
+    public synchronized ReclamationResult reclaim(Set<ManifestId> retainedRoots, LocalJournal journal) throws IOException {
+        usable();
+        return reclaim(retainedRoots, access(journal), ReclamationInventory.Limits.DEFAULT);
+    }
+
+    public synchronized ReclamationResult reclaim(Set<ManifestId> retainedRoots, LocalJournal journal,
+                                                   ReclamationInventory.Limits limits) throws IOException {
+        usable();
+        return reclaim(retainedRoots, access(journal), limits);
+    }
+
+    synchronized ReclamationResult reclaim(Set<ManifestId> retainedRoots, JournalAccess journal,
+                                           ReclamationInventory.Limits limits) throws IOException {
+        usable();
+        var retained = Set.copyOf(retainedRoots);
+        Objects.requireNonNull(journal, "journal");
+        Objects.requireNonNull(limits, "limits");
+        operating = true;
+        boolean removing = false;
+        try {
+            var acquired = namespace.tryReclamationBarrier();
+            if (acquired.isEmpty()) { return ReclamationResult.deferred(); }
+            final ReclamationResult result;
+            try (var protection = acquired.orElseThrow()) {
+                inspectionProtection = protection;
+                protection.checkValid();
+                var inspection = inspectProtected(retained, journal, limits);
+                var inventory = inspection.inventory();
+                result = ReclamationResult.completed(inventory); // Allocate receipt before the first deletion effect.
+                if (!inventory.obsoleteManifests().isEmpty() || !inventory.obsoleteSegments().isEmpty()) {
+                    // A selected image can be visible after an uncertain publication. Verification
+                    // alone is no durability receipt: establish live files/names before retiring roots.
+                    journal.force();
+                    for (String name : inspection.retainedFiles()) { namespace.forceFile(name); }
+                    namespace.forceDirectory();
+                    observe(ReclamationBoundary.LIVE_ROOTS_SYNCED, null);
+                    protection.checkValid();
+                    for (var file : inventory.obsoleteManifests()) {
+                        removing = true; // A delete may take effect and then throw; never infer rollback.
+                        namespace.delete(file.name());
+                        observe(ReclamationBoundary.MANIFEST_REMOVED, file.name());
+                    }
+                    namespace.forceDirectory(); // No dependency deletion before durable metadata retirement.
+                    observe(ReclamationBoundary.MANIFESTS_SYNCED, null);
+                    protection.checkValid();
+                    for (var file : inventory.obsoleteSegments()) {
+                        removing = true;
+                        namespace.delete(file.name());
+                        observe(ReclamationBoundary.SEGMENT_REMOVED, file.name());
+                    }
+                    namespace.forceDirectory();
+                    observe(ReclamationBoundary.DIRECTORY_SYNCED, null);
+                }
+                protection.checkValid();
+            }
+            inspectionProtection = null;
+            return result; // Final sync AND successful protection release precede a removal receipt.
+        } catch (IOException | RuntimeException failure) {
+            failed = true;
+            if (removing) { throw new UncertainReclamationException(failure); }
+            throw failure;
+        } catch (Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
+    private Inspection inspectProtected(Set<ManifestId> requested, JournalAccess journal,
                                                   ReclamationInventory.Limits limits) throws IOException {
         var entries = namespace.entries();
         var generations = generations(entries);
@@ -495,8 +597,13 @@ public final class LocalCheckpointStore implements AutoCloseable {
         obsoleteManifests.forEach(file -> obsoleteNames.add(file.name()));
         obsoleteSegments.forEach(file -> obsoleteNames.add(file.name()));
         var preserved = entries.stream().filter(name -> !obsoleteNames.contains(name)).sorted().toList();
-        return new ReclamationInventory(ReclamationInventory.Status.VERIFIED, selected, retained,
+        var inventory = new ReclamationInventory(ReclamationInventory.Status.VERIFIED, selected, retained,
                 obsoleteManifests, obsoleteSegments, preserved, bytes, records);
+        var retainedFiles = new HashSet<>(liveSegments);
+        for (var generation : generations) {
+            if (retained.contains(generation.id())) { retainedFiles.add(generation.name()); }
+        }
+        return new Inspection(inventory, retainedFiles.stream().sorted().toList());
     }
 
     private void checkInventoryAliases(String name, List<String> entries, Set<String> checked) throws IOException {
@@ -811,6 +918,16 @@ public final class LocalCheckpointStore implements AutoCloseable {
             if (Files.exists(destination, LinkOption.NOFOLLOW_LINKS)) { throw new FileAlreadyExistsException(destination.toString()); }
             // Exclusive cooperating ownership and stable paths protect the precondition. No fallback.
             Files.move(directory.resolve(from), destination, StandardCopyOption.ATOMIC_MOVE);
+        }
+        @Override public void delete(String name) throws IOException {
+            Path path = regular(name);
+            // Reserve identity without opening a native handle. This excludes controls and active
+            // transient data channels, including same-file aliases in other loaded adapters/stores.
+            var reservation = LocalFileOwnership.control(path);
+            try {
+                checkObjectAliases(name, listNames(directory));
+                Files.delete(path); // Missing names and ordinary I/O failures fail closed; no blind retry.
+            } finally { reservation.close(); }
         }
         @Override public void forceDirectory() throws IOException { directoryChannel.force(true); }
         @Override public void close() throws IOException {

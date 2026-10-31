@@ -106,7 +106,9 @@ compaction publication. Lazy checkpoint readers now hold shared cross-process
 [protection](docs/development/reader-protection.md) independently of store lifetime.
 A bounded [reclamation inventory](docs/development/reclamation-inventory.md) now
 verifies retained roots and reports obsolete physical objects without deletion.
-Planned work covers ordered physical removal, object storage and
+[Protected physical removal](docs/development/physical-reclamation.md) now retires
+verified obsolete metadata before unused dependencies, retaining full logical history.
+Planned work covers integrated reclamation conformance, object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
@@ -124,14 +126,15 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 747 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 840 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,
 55 typed query checks, 57 pure compaction checks, 55 local compaction
 publication/integration/process checks, 70 reader protection/identity/cleanup checks
-and 69 verified inventory/root/budget/process checks. Coverage
+69 verified inventory/root/budget/process checks and 93 protected physical
+removal/fault/process checks. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -191,6 +194,15 @@ defers inspection; unknown and failed evidence stays preserved. Run its example:
 
 ```bash
 java --class-path target/classes examples/ReclamationInventoryExample.java
+```
+
+[Protected physical reclamation](docs/development/physical-reclamation.md) recomputes
+that inventory under both owners, synchronizes retained roots, then removes obsolete
+metadata before unused dependencies. Explicit retained/backup roots and the full
+journal remain intact. Run its checked removal/reopen example:
+
+```bash
+java --class-path target/classes examples/ReclamationExample.java
 ```
 
 ## Working in this repository

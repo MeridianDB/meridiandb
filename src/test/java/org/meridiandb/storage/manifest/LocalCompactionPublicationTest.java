@@ -476,6 +476,7 @@ class LocalCompactionPublicationTest {
             if (fault.equals("move-runtime-after")) { throw new IllegalStateException("Rename runtime failure after effect"); }
             if (fault.equals("move-error-after")) { throw new AssertionError("Rename error after effect"); }
         }
+        @Override public void delete(String name) { throw new AssertionError("Unexpected deletion"); }
         @Override public void forceDirectory() throws IOException {
             events.add("directory-force");
             directoryForces++;

@@ -107,9 +107,9 @@ name ordering; returned collections are immutable. `retainedManifestIds` include
 the selected root, with no set-iteration-order promise. `verifiedBytes` and
 `verifiedRecords` report the accounting above. Candidate bytes count each eligible
 name once. They describe encoded files, with no promise of freed blocks, completed
-reclamation or faster queries. A later remover must recompute under both forms of
-ownership, durably retire obsolete metadata before dependencies, and verify safe
-interruption behavior. No removal API is currently implemented.
+reclamation or faster queries. The separate [remover](physical-reclamation.md) recomputes under both forms of
+ownership, establishes durable live roots, then retires/synchronizes obsolete
+metadata before dependencies. A preview is never an input to that API.
 
 ## Example and verification
 
@@ -132,5 +132,6 @@ Focused tests:
 The tests cover roots and shared dependencies, exact bounds, invalid old/new state,
 actual journal binding, immutable results, diagnostic evidence, alias rejection,
 protection cleanup and cross-process reader lifetime. They establish inventory
-behavior; actual removal, interrupted deletion and integrated reclaimed-space
-conformance remain separate work. See [ADR 0018](../decisions/0018-reclamation-inventory.md).
+behavior. Actual removal and interrupted deletion have their own
+[protocol checks](physical-reclamation.md); full integrated temporal/crash/space
+conformance remains separate. See [ADR 0018](../decisions/0018-reclamation-inventory.md).

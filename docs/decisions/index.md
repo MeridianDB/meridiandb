@@ -25,9 +25,10 @@ permanent commitment.
 | [0013: Local database recovery](0013-local-database-recovery.md) | Read recovery implemented | Stored lineage, complete checkpoint-plus-tail replay, historical reads and request lookup |
 | [0014: Durable local commit publication](0014-durable-commit-publication.md) | Forced-write protocol and process crash/retry conformance implemented | Private preparation, startup synchronization, append/force before publication and explicit uncertainty |
 | [0015: Temporal query operators](0015-temporal-query-operators.md) | Implemented; experimental | Signed-value predicates, explicit entity selection and filtered intervals over one pinned snapshot |
-| [0016: History-preserving compaction](0016-history-preserving-compaction.md) | Pure repacking and local publication implemented; reclamation planned | Retain all transactions and request IDs; bound repacking and separate publication from protected physical reclamation |
-| [0017: Live checkpoint reader protection](0017-live-reader-protection.md) | Shared barrier implemented; deletion planned | Independent lazy-reader lifetime, cross-process exclusion and fail-closed cleanup |
-| [0018: Verified reclamation inventory](0018-reclamation-inventory.md) | Inventory implemented; deletion planned | Explicit retained roots, complete owner-bound verification, conservative diagnostic handling and bounded candidate accounting |
+| [0016: History-preserving compaction](0016-history-preserving-compaction.md) | Pure repacking/publication implemented; protected removal separate | Retain all transactions and request IDs; bound repacking and separate publication from protected physical reclamation |
+| [0017: Live checkpoint reader protection](0017-live-reader-protection.md) | Shared barrier implemented; protected removal separate | Independent lazy-reader lifetime, cross-process exclusion and fail-closed cleanup |
+| [0018: Verified reclamation inventory](0018-reclamation-inventory.md) | Inventory implemented; protected removal separate | Explicit retained roots, complete owner-bound verification, conservative diagnostic handling and bounded candidate accounting |
+| [0019: Protected physical reclamation](0019-protected-physical-reclamation.md) | Local removal implemented; integrated conformance remains separate | Recompute under both owners, force live roots, retire metadata before dependencies and preserve interrupted orphans |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

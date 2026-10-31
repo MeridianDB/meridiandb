@@ -677,6 +677,7 @@ class LocalReclamationInventoryTest {
         @Override public void writeNew(String name, byte[] image) { events.add("write:" + name); throw new AssertionError("Inventory must not write"); }
         @Override public void forceFile(String name) { events.add("force:" + name); throw new AssertionError("Inventory must not force files"); }
         @Override public void atomicMove(String from, String to) { events.add("move:" + from); throw new AssertionError("Inventory must not rename"); }
+        @Override public void delete(String name) { throw new AssertionError("Unexpected deletion"); }
         @Override public void forceDirectory() { events.add("directory-force"); throw new AssertionError("Inventory must not force directories"); }
         @Override public void close() throws IOException {
             events.add("namespace-close");

@@ -8,10 +8,10 @@ description: Protect live lazy checkpoint readers across store close and coopera
 A `LocalCheckpointReader` now holds shared protection independently of its
 `LocalCheckpointStore`. Closing the store releases publisher ownership, but leaves
 each returned reader able to lazily load its original files. New publications may
-proceed while those readers remain open. No physical removal API is implemented.
+proceed while those readers remain open. The separate [removal API](physical-reclamation.md) requires exclusive protection
+and recomputes verified retention before deletion.
 
-This protection is deliberately coarse: **any live lazy reader prevents a future
-cooperating reclaimer from obtaining exclusive protection for the entire store**.
+This protection is deliberately coarse: **any live lazy reader prevents a cooperating reclaimer from obtaining exclusive protection for the entire store**.
 It does not promise reclamation progress for generations unrelated to that reader.
 All original history, the complete journal and old/failed files remain retained.
 
@@ -37,7 +37,7 @@ contains a reference. An empty selected namespace still returns `Optional.empty(
 
 The store holds exclusive publisher ownership throughout complete selected-graph
 and actual journal-prefix verification. It then acquires shared reader protection
-before returning the reader. A future remover must acquire that same store
+before returning the reader. The remover acquires that same store
 ownership before requesting an exclusive reader barrier, so it cannot interleave
 with verification or admission. Empty or invalid selection returns no reader and
 creates no reader barrier. Publication's internal graph checks create no reader.
@@ -121,13 +121,14 @@ public pin identifier.
 
 ## Reclamation boundary
 
-A future reclaimer must hold **exclusive store ownership and exclusive reader
+The [physical reclaimer](physical-reclamation.md) holds **exclusive store ownership and exclusive reader
 protection** through root verification, metadata/dependency removal and directory
 synchronization. Any live reader conservatively defers all removal. It must still
 preserve selected/retained generations and explicit backup roots, retain the journal,
 ownership/barrier files, unknown and diagnostic candidates, and fail closed on
-uncertainty. The [inventory API](reclamation-inventory.md) now verifies explicit retained roots
-and obsolete objects under that exclusive barrier, without removal.
+uncertainty. The [inventory API](reclamation-inventory.md) verifies explicit retained roots
+and obsolete objects without removal. The separate remover recomputes, establishes
+durable live roots and synchronizes metadata retirement before unused dependencies.
 Long-lived readers may indefinitely delay cleanup and exhaust generation or entry
 capacity; fine-grained per-generation protection would require another verified
 protocol. See the [compaction boundary](history-compaction.md#physical-reclamation-boundaries)

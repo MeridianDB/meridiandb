@@ -31,8 +31,8 @@ canonical/seeded writable-reopen checks.
 history and returns bounded exact-history replacement proposals. Local compaction
 publication now verifies/reuses or installs outputs and selects the next generation
 at the same cutoff. Lazy readers now hold independent shared cross-process
-[protection](reader-protection.md), with explicit release/cleanup behavior. Protected
-physical deletion remains planned. A bounded [inventory](reclamation-inventory.md)
+[protection](reader-protection.md), with explicit release/cleanup behavior. [Protected physical deletion](physical-reclamation.md) now recomputes retention
+and orders live-root synchronization and metadata retirement before dependencies. A bounded [inventory](reclamation-inventory.md)
 now verifies explicit retained roots and obsolete-object metadata without removal.
 No library is published.
 
@@ -79,7 +79,7 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 747 test invocations include 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 840 test invocations include 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
@@ -154,7 +154,7 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-10-29
+## Artifact research checked on 2026-10-30
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
@@ -169,7 +169,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All twelve metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for reclamation inventory on October 29 at 15:18:57 Toronto / 19:18:57 UTC; the selected versions remain
+for protected removal on October 30 at 23:00:40 Toronto / October 31, 03:00:40 UTC; the selected versions remain
 unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
 the local adapters use JDK file I/O, with no new dependency.
 
@@ -230,12 +230,12 @@ repository permissions and credentials removed after checkout. Linux runs
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
 also trigger Java checks, since they affect executable expectations. No Java
-artifact is uploaded or released by this workflow. Both platforms also run twelve
+artifact is uploaded or released by this workflow. Both platforms also run thirteen
 examples: embedded queries, local journal, pure segment codec, local immutable
 files, manifest consistency, local checkpoint publication, local read recovery,
 forced local writes, typed temporal queries, pure history compaction, local
-compaction publication and reclamation inventory. The five local
-checkpoint/recovery/write/compaction/inventory examples
+compaction publication, reclamation inventory and protected physical removal. The
+six local checkpoint/recovery/write/compaction/inventory/removal examples
 report an unavailable
 directory open/force capability
 explicitly; capability-dependent real-file tests skip on that specific boundary

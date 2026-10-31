@@ -100,7 +100,10 @@ while grouping transactions under explicit budgets. It does not install or publi
 replacement objects. A separate local publisher now verifies/reuses or installs
 those objects and selects the next generation at the same cutoff. A shared [reader barrier](../development/reader-protection.md) now protects lazy
 access across store lifetimes/processes. A bounded [reclamation inventory](../development/reclamation-inventory.md)
-now verifies retained roots and candidate metadata without deletion. Physical removal remains planned.
+now verifies retained roots and candidate metadata without deletion. The separate
+[remover](../development/physical-reclamation.md) recomputes under both owners and
+orders durable metadata retirement before unused dependencies. Full integrated
+reclamation conformance remains separate.
 
 ## Establish correctness before optimizing
 

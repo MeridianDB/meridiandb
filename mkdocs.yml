@@ -77,6 +77,7 @@ nav:
       - History compaction decision: decisions/0016-history-preserving-compaction.md
       - Reader protection decision: decisions/0017-live-reader-protection.md
       - Reclamation inventory decision: decisions/0018-reclamation-inventory.md
+      - Physical reclamation decision: decisions/0019-protected-physical-reclamation.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -89,6 +90,7 @@ nav:
       - Local checkpoints: development/local-checkpoints.md
       - Reader protection: development/reader-protection.md
       - Reclamation inventory: development/reclamation-inventory.md
+      - Physical reclamation: development/physical-reclamation.md
       - History compaction: development/history-compaction.md
       - Local database: development/local-database.md
       - Durability conformance: development/durability-conformance.md

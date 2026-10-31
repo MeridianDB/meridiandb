@@ -6,7 +6,7 @@ description: Use a coarse shared file-lock barrier to preserve lazy checkpoint a
 # ADR 0017: Live checkpoint reader protection
 
 - **Date:** October 29, 2026
-- **Status:** Implemented foundation; physical reclamation remains planned
+- **Status:** Implemented shared-reader foundation; removal implemented separately
 - **Scope:** Cooperating local lazy readers, OS lock lifetime and future deletion exclusion
 
 ## Context
@@ -31,7 +31,7 @@ cleanup and retains retryable protection after a release failure. Store close le
 readers protected. Heap child readers and returned immutable values retain their
 existing lifetimes. Database cleanup attempts all owners even when reader close fails.
 
-A future remover must acquire store ownership first, then nonblocking exclusive
+The remover must acquire store ownership first, then nonblocking exclusive
 reader protection. Any live reader defers all removal, including unrelated old
 generations. Keep both forms of ownership through root verification, removal and
 synchronization. Implement no deletion in this foundation.
@@ -81,7 +81,7 @@ can indefinitely block removal and exhaust retained namespace capacity.
 
 The protocol supports one loaded adapter registry per JVM and requires every
 participating reader to acquire protection. Existing unprotected readers from an
-older binary must be quiesced before future deletion is enabled. A permanent guard,
+older binary must be quiesced before physical deletion is enabled. A permanent guard,
 explicit close, shared-lock support and write/name-sync permission are new resource
 requirements for lazy reader admission. Existing segment/manifest/journal bytes and
 all temporal query/retry semantics are unchanged.
@@ -92,3 +92,11 @@ all temporal query/retry semantics are unchanged.
 retained-root and obsolete-object inspection. Any live lazy reader defers that
 inspection. No physical deletion is introduced; all rollout, ownership and uncertain
 cleanup requirements above continue to apply.
+
+## Protected removal integration
+
+[ADR 0019](0019-protected-physical-reclamation.md) implements the separate remover:
+fresh inventory under both owners, retained-file/journal/namespace synchronization,
+metadata retirement before unused dependencies and conservative interrupted-orphan
+retention. This record's stage remains distinct; full integrated temporal/crash/space
+conformance is separately required.

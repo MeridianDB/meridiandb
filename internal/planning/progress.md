@@ -1826,6 +1826,106 @@ unknown/diagnostic objects, and prove safe interruption/reopen/capacity behavior
 A preview is not a deletion capability. Keep MDB-0031/MDB-0028 and integrated
 MDB-0029/MDB-0010 criteria open until their actual evidence passes.
 
+## 2026-10-30 — MDB-0033 Ordered protected physical removal
+
+**Outcome:** verify prior `2ffdfef3101b5cbd1c322a5863162ba5300c6cd0` matches remote
+main with successful Java 40941178083, docs 40941178045 and Pages 40941177915.
+Implement explicit `LocalCheckpointStore.reclaim` over fresh inventory under
+exclusive store ownership plus nonblocking exclusive reader protection. Always
+retain selected state and explicit retained/backup IDs; verify all published graphs
+against the actual owned journal. Create immutable `ReclamationResult` before any
+deletion effect. Known reader contention returns deferred with no partial inventory;
+empty candidates return a completed empty receipt without the removal force sequence.
+
+Force the actual journal, each retained manifest image and segment, then directory
+names before first deletion, including a visible root from uncertain publication.
+Strictly delete obsolete complete manifests and force the directory before any
+unused dependency; remove eligible segments and sync again. Recheck protection
+and require successful close before receipt. Per-delete regular/no-follow and
+same-file alias checks plus a common control reservation exclude active control/data
+identities without opening another native handle. Missing names fail closed; no
+`deleteIfExists` or stale preview list is accepted. Preserve journal, permanent
+controls, unknown/orphan/diagnostic objects; pending candidates refuse removal.
+
+Mark uncertainty before attempting the first delete. IO/runtime failure afterward
+throws `UncertainReclamationException`; Error poisons and retains its type. Preserve
+failed protection for close retry and independently attempt publisher cleanup;
+existing native-close quarantine remains. Reopen discovers current names and
+recomputes. Interrupted retirement may orphan old dependencies, which remain
+preserved without automatic sweep or persistent intent. Existing logical bytes,
+history/request identities, canonical fixtures and seeds are unchanged.
+
+**Research/review:** fresh no-cache fetch of all twelve pinned Central metadata
+sources at **October 30, 23:00:40 Toronto / October 31, 03:00:40 UTC**, plus official
+Maven/JUnit/Jackson compatibility. All pins remain latest stable: Maven 3.10.0
+(metadata 4.0.0-rc-7), wrapper distribution/plugin 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4; newer Maven/plugin 4 entries remain prereleases. No POM/wrapper/
+dependency change. Refresh primary JDK strict-delete/FileLock, Lucene retention/
+snapshot/namespace-sync and Linux directory-sync sources. Record live-root forcing,
+ordered retirement and conservative orphans as MeridianDB inferences. Independent
+production review finds no material correctness issue; clarify that the inventory
+comparison cap excludes additional bounded per-delete rechecks and journal I/O.
+
+**Verification:** initial focused
+`./mvnw -B -ntp -Dtest=LocalReclamationRemovalTest,LocalReclamationRemovalIntegrationTest,LocalReclamationRemovalCrashTest,LocalReclamationInventoryTest,LocalCheckpointStoreTest,LocalCompactionPublicationTest,LocalInitializationTest test`
+runs **236 cases**, with one new fixture assertion omitting required barrier cleanup.
+Correct only that assertion to require acquire+close and released protection with
+no object access. Focused `./mvnw -B -ntp -Dtest=LocalReclamationRemovalTest test`
+then passes **71 cases**. Final `./mvnw -B -ntp verify` passes **840 tests**, zero
+failures/errors/skips locally on macOS/arm64. New removal coverage comprises:
+
+- **71 unit/fault cases:** exact retained/shared roots, immutable receipts, empty/
+  genesis/gaps/idempotence, stale-preview recomputation, full-entry capacity,
+  corruption/alias/budget/prefix/pending/missing-root refusal, journal/retained-
+  manifest/segment force, all three namespace barriers and before/after metadata/
+  segment deletion faults. IO/runtime/Error observer and cleanup faults preserve
+  complete surviving graphs, explicit uncertainty and independently retryable cleanup.
+- **15 real integration cases:** actual names/encoded bytes, explicit backup roots,
+  shared layouts, genesis/empty/unknown/orphan/pending evidence, damaged newest
+  state, fresh selected layout, heap children and same-JVM/child-JVM old readers,
+  both exclusive owners blocking admission during actual removal, late diagnostic
+  hard-link refusal and a held data reservation blocking delete without a raw handle.
+  A full 16,384-entry namespace restores publication headroom without creating intent
+  or temporary objects; comparison/retention pressure remains an explicit limit.
+- **Seven child-JVM halts:** live-root sync, each of two manifest removals, metadata
+  retirement sync, each of two segment removals and final directory sync. Check
+  complete surviving graphs, exact selected/journal/control bytes, writable history/
+  retries and fresh cleanup preserving already orphaned segments. Bounded children
+  and logs outside store homes; raw owner bytes are inspected only after close.
+
+All **thirteen examples** pass, including actual reader deferral, explicit retention,
+removal and selected-history reopen. Linux/Windows CI runs the thirteenth example.
+JAR inspection confirms **124 Java 25 classes**, major 69, no test oracle, fixture,
+seed, JUnit or Jackson content. SHA-256:
+`6e222a32fae1aaaf00846f70b96f34a99b43d0cf7d3f45c7fa77b96d05ad5a35`.
+No artifact release/upload. Process exit and injected namespace failures are not
+power-loss simulation or full canonical/seeded reclamation conformance.
+
+**Documentation/planning:** add physical reclamation guide and ADR 0019, navigation
+and decision-table row; reconcile README/home/architecture/research/roadmap,
+compaction/checkpoint/reader/inventory and earlier decision status, build/reference/
+engine counts and permanent AGENTS procedures. Both URL-layout shared builds pass
+source/HTML/link/search/sitemap QA for **44 pages**. Browser inspection confirms
+ordered protocol, code, failure table, exact search anchor and ADR 0019 listing;
+assets/theme unchanged with no new dark/mobile claim. Close MDB-0033, MDB-0031 and
+MDB-0028 against original criteria; preserve expanded MDB-0010 and admit only
+MDB-0029 ready. Validate 33 unique IDs, dependencies/parents/DAG/completed children,
+no active row and repository Markdown paths; inspect task-owned staged diff.
+Scratch receipts remain ignored in `.local-qa/mdb-0033/`.
+
+**Delivery:** completion trailers `Step-ID: MDB-0033` / `Step-Result: completed`,
+normal push to origin/main and remote ancestry/tip/clean-tree verification. Git
+supplies the source SHA; final handoff reports actual Java/docs/automatic Pages
+outcomes and exact live-page/search/sitemap QA. No Cloudflare/infrastructure or
+artifact deployment beyond authorized automatic documentation publication.
+
+**Next recommendation:** MDB-0029 — verify compaction, reclamation, crash and temporal
+conformance. Exercise actual publication/removal through canonical/seeded reference
+and query histories, original retry identities, interruption/reopen and measured
+retained-space evidence. Keep MDB-0010 open until all original integration criteria
+pass; no object-store or performance work starts from this recommendation.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

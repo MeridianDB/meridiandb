@@ -567,6 +567,11 @@ is insufficient. No logical history pruning or journal truncation is authorized.
 no deletion; MDB-0031 uses that protection for conservative physical reclamation.
 Keep this parent expanded until both children and its original criteria pass.
 
+**Completion evidence:** MDB-0030's cross-process reader protocol plus MDB-0031's
+verified inventory/ordered removal now satisfy the original reader, alias, retained-
+root, interruption, cleanup and capacity criteria. All 840 tests and thirteen examples
+pass locally. MDB-0029 still owns full semantic/crash/space integration for MDB-0010.
+
 ## MDB-0030 Cross-process reader protection
 
 **Outcome:** add a permanent store-wide shared reader barrier acquired under store
@@ -603,6 +608,11 @@ Keep MDB-0029's full semantic/crash/space integration separate and required.
 **Required children:** MDB-0032 establishes verified retention/candidate inventory;
 MDB-0033 performs protected ordered removal and interruption checks. Preserve every
 original acceptance criterion above and keep this parent expanded until both pass.
+
+**Completion evidence:** MDB-0032 and MDB-0033 are complete. Actual guarded removal,
+per-object/boundary halts and safe reopen preserve every live graph; explicit roots,
+full journal and unknown/diagnostic objects remain retained. Original criteria pass
+without introducing a persistent intent or weakening the integrated MDB-0029 gate.
 
 ## MDB-0032 Verified reclamation inventory
 
@@ -645,6 +655,16 @@ persistent intent only if evidence requires it; otherwise explicitly preserve
 orphaned dependencies after interrupted retirement. Integrate/retest MDB-0032's
 inventory policy and close MDB-0031/MDB-0028 only when original criteria pass.
 Keep MDB-0029's whole-history/crash/space integration separate and required.
+
+**Produced artifacts:** `reclaim`, immutable `ReclamationResult`, explicit uncertain
+removal, retained-file/journal/namespace barriers and per-delete alias/control
+reservation, [removal guide](../../docs/development/physical-reclamation.md),
+[ADR 0019](../../docs/decisions/0019-protected-physical-reclamation.md) and a thirteenth
+checked example. Seventy-one unit/fault, 15 real integration and seven process-halt
+cases pass; all 840 local tests and thirteen examples pass without skips. Original
+MDB-0031/MDB-0028 criteria pass, closing both parents. MDB-0029 remains required
+before MDB-0010 closes; orphan retention, coarse-reader/capacity limits and full
+logical-history retention remain explicit.
 
 ## MDB-0029 Compaction and reclamation conformance
 
