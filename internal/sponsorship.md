@@ -36,6 +36,11 @@ it creates no new sponsorship account or financial transaction.
    to the expected recipient. Adding a file alone is not readback evidence.
    If the repository's Sponsorships feature is disabled, enable that specific
    feature under repository Settings → General → Features, then verify again.
+   GitHub GraphQL also exposes `Repository.hasSponsorshipsEnabled` and
+   `fundingLinks`. When the connector lacks that setting, authenticated `gh api
+   graphql` can read the repository ID, set only `UpdateRepositoryInput`'s
+   `hasSponsorshipsEnabled: true`, then independently requery the flag/recipient.
+   Use the freshly read repository ID and preserve every other setting.
 
 README changes trigger documentation checks, but README/FUNDING/internal-only
 changes do not trigger the configured Pages publisher. No site deployment is
@@ -44,3 +49,5 @@ their own public-documentation and publication checks.
 
 Primary configuration reference checked October 31, 2026:
 [GitHub sponsor-button documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository).
+The [GraphQL repository reference](https://docs.github.com/en/graphql/reference/repos)
+documents the feature flag and scoped update input.

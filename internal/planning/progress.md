@@ -2286,6 +2286,30 @@ claim of deployed repository UI. No Cloudflare, artifact release or site dispatc
 mention MeridianDB alongside the existing portfolio, if the owner wants that
 separate account-copy change. Engine work remains MDB-0036; neither starts here.
 
+
+## 2026-10-31 — MDB-0042 Sponsorship feature enablement and readback
+
+Source commit `d06f42243457cfa0891befe8043ff3f98006e91f` is pushed, matches
+origin/main and passes documentation run **41230965024**. Its README support link
+renders correctly. GraphQL readback recognizes the sole GITHUB funding recipient
+`https://github.com/MasteryEducation`, but reports hasSponsorshipsEnabled=false.
+
+Under the explicit enable-sponsorship request, read repository ID R_kgDOVarwyA
+and set only `hasSponsorshipsEnabled: true` with updateRepository through the
+already authenticated gh CLI, since the connector lacks this setting and the
+in-app browser is signed out. Independent GraphQL readback confirms true and the
+same single recipient. Browser reload/hydration then shows the enabled **Sponsor
+MeridianDB/meridiandb** link and **Sponsor this project** section. Clicking the
+actual header link opens `https://github.com/sponsors/MasteryEducation`, headed
+**Become a sponsor to Mastery Education by Tokenizer Inc.**, with monthly/one-time
+custom support. No payment is initiated. All requested button/link criteria pass.
+
+Persist this external feature receipt and update the maintenance procedure/queue
+in a normal source commit/push; no source/public-site or funding-recipient change
+is needed. Record this receipt's actual commit and matching remote tip at final
+handoff. Engine work stays MDB-0036, and central profile copy remains its own
+optional next task.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

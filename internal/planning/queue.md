@@ -20,8 +20,12 @@ children before implementation rather than treating a whole milestone as one pat
   checks pass for the unchanged 49-page site. All 42 task IDs/cards/dependencies/
   parents form a valid DAG. No engine, Maven, central profile, tier or payout work
   occurs; central profile wording still concerns the education portfolio.
-- Verify this source commit on remote main, the expected documentation checks and
-  the live repository Sponsor panel/destination before treating delivery as complete.
+- Source commit `d06f42243457cfa0891befe8043ff3f98006e91f` is on origin/main and
+  documentation run 41230965024 passed. GitHub recognized the funding recipient
+  but its Sponsorships feature was disabled; set only hasSponsorshipsEnabled from
+  false to true and independently verify the flag/fundingLinks. Browser readback
+  now shows the live Sponsor link, and clicking it opens the intended active
+  Mastery Education by Tokenizer Inc. Sponsors page. Delivery criteria pass.
   README/FUNDING/internal changes trigger no Pages deployment; no website content
   or engine input changes. The 970-test/14-example baseline remains separate.
 - Engine selection stays **MDB-0036 ready**. Starting clean main at
