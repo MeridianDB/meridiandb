@@ -2717,6 +2717,32 @@ No release/tag/Maven Central upload, paid infrastructure or account/DNS change.
 including verified actual journal-prefix binding and the separately specified
 single-writer/uncertain-selection protocol. This task starts none of that work.
 
+## 2026-10-31 — MDB-0036 Delivery and publication readback
+
+Source completion **`b16c9d160eb25bfbe928512bb28fff09e5411b66`** reaches
+origin/main with matching tips and a clean source checkout. Java checks
+**41241692651**, documentation checks **41241692527** and automatic Pages
+**41241692511** all complete successfully. Ubuntu runs **970 core/46 optional**
+tests with zero failures/errors/skips. Windows runs **970 core/46 optional** with
+zero failures/errors; its **228 core skips** are the documented prior filesystem
+capability cases, while **all 46 optional tests run without skips**. All fourteen
+example steps finish on both CI OSes. No platform-specific S3 bypass is added.
+
+The live HTTPS S3 guide, ADR 0022, build version evidence, public roadmap and
+homepage contain the final capability/limit copy with canonical HTTPS URLs.
+The public search index includes both new page routes/titles; the sitemap contains
+**53 HTTPS canonical pages** including the S3 guide. The published guide is
+inspected in the browser; proof is saved at `.local-qa/mdb-0036/site-published.png`
+and embedded in the delivery update. Temporary viewport/theme settings are
+restored, the preview tab now shows the live deliverable and the owned localhost
+site server is stopped.
+
+The queue/card record this readback. The internal-only receipt uses a normal
+commit/push; these paths trigger no additional configured workflows. Git provides
+its own SHA and remote ancestry/tip evidence. MDB-0037 remains
+ready; no checkpoint publisher, live-cloud validation, release or subsequent
+implementation step starts during this delivery receipt.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

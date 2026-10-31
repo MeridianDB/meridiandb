@@ -951,9 +951,9 @@ contract and gains no runtime dependency. ADR 0022/S3 guide/build/status/agent
 callers document exact configuration, limits and fixture scope. Clean verification
 passes 970 core and 46 optional cases; fourteen core-JAR examples, dependency/archive
 checks, 42 documentation QA tests and both 53-page URL builds pass. Linux/Windows
-CI now checks both builds. Source push, CI/Pages and live readback remain delivery
-checks in the completion receipt. No remote selection/engine/deletion guarantee
-or live-service qualification is introduced.
+CI checks both builds; source push, CI/Pages and live readback succeed, with
+exact delivery evidence in progress history. No remote selection/engine/deletion
+guarantee or live-service qualification is introduced.
 
 ## MDB-0037 Conditional object checkpoint publication
 

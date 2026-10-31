@@ -12,8 +12,8 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0036 — Optional S3-compatible object access** is source
-  complete: a separate `meridiandb-s3` artifact implements conditional immutable
+- No active item. **MDB-0036 — Optional S3-compatible object access** is delivered:
+  a separate `meridiandb-s3` artifact implements conditional immutable
   creation and bounded verified whole reads using AWS SDK 2.57.8. Core remains
   independently usable with no external runtime dependency.
 - Fresh Central metadata and official API/compatibility research on October 31 at
@@ -31,10 +31,15 @@ children before implementation rather than treating a whole milestone as one pat
   process-narration guards and positive/negative fixtures: **42 QA tests** pass.
   Both strict URL layouts and restored production build pass for **53 pages**;
   preview desktop/narrow/light/dark, navigation and S3 search checks pass.
-- Source commit/push, remote ancestry/tips, Java/docs CI, automatic Pages and live
-  readback remain delivery checks. Record actual results in progress history;
-  verify those checks before advancing. Existing hosting/DNS observations remain
-  historical administrative dependencies and no setting changes here.
+- Source completion `b16c9d160eb25bfbe928512bb28fff09e5411b66` is on origin/main
+  with matching source tips. Java **41241692651**, documentation checks
+  **41241692527** and automatic Pages **41241692511** all succeed. Both CI OSes
+  pass all 46 optional tests without skips; Windows retains its 228 documented
+  pre-existing core filesystem capability skips. All examples complete.
+- Live HTTPS guide/ADR/build/status content, canonical URLs, search entries and
+  the 53-page sitemap pass readback. Delivery evidence is in progress history;
+  Git owns this internal receipt's own commit/push identity. Existing hosting/DNS
+  observations remain historical dependencies and no setting changes here.
 - **MDB-0037 — Conditional object checkpoint publication** is next source-ready.
   This adapter selects no checkpoint, changes no local acknowledgement, supplies
   no distributed writer authority and qualifies no live S3-compatible service.
