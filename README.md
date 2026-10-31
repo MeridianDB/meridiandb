@@ -1,5 +1,10 @@
 # MeridianDB
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/brand/meridiandb-wordmark-dark.svg">
+  <img src="docs/assets/brand/meridiandb-wordmark.svg" alt="MeridianDB logo" width="537" height="128">
+</picture>
+
 MeridianDB is an experimental embeddable Java bitemporal database. It preserves
 both when a fact applies in the domain and when the database recorded that
 knowledge. Built-in local persistence is the foundation; optional storage adapters

@@ -13,8 +13,8 @@ theme:
   name: material
   variant: classic
   language: en
-  logo: assets/favicon.svg
-  favicon: assets/favicon.svg
+  logo: assets/brand/meridiandb-icon-180.png
+  favicon: assets/brand/meridiandb-icon-32.png
   font: false
   palette:
     - media: '(prefers-color-scheme: light)'
@@ -84,6 +84,7 @@ nav:
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
+      - Logos and colors: contributing/brand.md
       - Java and Maven: development/build.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md

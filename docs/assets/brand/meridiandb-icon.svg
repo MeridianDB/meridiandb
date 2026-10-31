@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">MeridianDB</title>
+  <desc id="desc">Two adjoining meridian arches form a lowercase m, in white and mint on a rounded navy square.</desc>
+  <rect width="256" height="256" rx="56" fill="#102c38"/>
+  <g fill="none" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 192V100C56 56 128 56 128 100V192" stroke="#f0fdfa"/>
+    <path d="M128 192V100C128 56 200 56 200 100V192" stroke="#5eead4"/>
+  </g>
+</svg>

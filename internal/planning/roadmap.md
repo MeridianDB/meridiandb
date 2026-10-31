@@ -843,6 +843,30 @@ Replace the obsolete 80+ websites claim with current experimental work and factu
 AI-assisted development/testing wording. Other profile settings and the ready
 MDB-0036 engine selection are preserved; no site deployment is required.
 
+## MDB-0044 MeridianDB visual identity
+
+**Outcome:** create precise SVG master artwork for MeridianDB and export PNGs for
+GitHub and the public website. Integrate the mark with the repository and existing
+documentation theme, preserving readable navigation and both color schemes.
+
+**Complete when:** self-contained editable SVGs and derived PNGs are committed,
+dimensions/backgrounds/use cases are documented, conversion can be repeated, and
+light/dark/mobile and small-icon rendering are inspected. Keep source attribution
+and applicable licenses with the assets. Verify README/site links, strict docs,
+both URL layouts, queue integrity and actual automatic publication after push.
+Provide a GitHub-upload-ready image without changing account identity, funding
+settings or the engine cursor. This visual task introduces no Maven dependency.
+
+**Produced artifacts:** two SVG masters, a dark wordmark variant, six PNG exports
+and an updated compatibility favicon. Add a pinned local exporter, font attribution,
+public download guide and internal brand maintenance procedure linked from AGENTS.
+README selects light/dark SVGs; the website header/favicon use derived PNGs.
+Exports are repeatable and self-contained; 1024-pixel GitHub artwork is 32,746 bytes.
+Both strict site layouts pass for 50 pages; desktop/mobile light/dark, circular
+crop, small icons, navigation and search are inspected. Source completion leaves
+remote CI/automatic Pages/live readback as delivery checks; the organization avatar
+and ready MDB-0036 engine selection remain unchanged.
+
 ## MDB-0036 Optional S3-compatible object access
 
 **Parent:** MDB-0011. **Outcome:** implement immutable object creation and bounded

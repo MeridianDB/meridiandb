@@ -372,6 +372,11 @@ so a new session can work correctly without relying on earlier conversations.
   sources and follow the website guide's SVG conventions. The first actual
   diagram must add and verify a pinned renderer in a shared build command used
   locally and by both workflows; the current site has no diagram renderer.
+- Follow [brand artwork maintenance](internal/brand.md) for logos: edit the SVG
+  masters, regenerate committed PNG/dark variants with the pinned exporter, and
+  verify small icons, circular crop, README and light/dark/mobile website use.
+  Preserve source attribution; distinguish prepared avatar artwork from an actual
+  GitHub account upload.
 
 ## Project sponsorship
 

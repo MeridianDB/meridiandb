@@ -2358,6 +2358,60 @@ readback; no release, site dispatch or Cloudflare action is performed.
 checks. Begin with optional packaging and controlled SDK/HTTP fixture refinement,
 using fresh Maven version/compatibility research. This task starts no engine work.
 
+## 2026-10-31 — MDB-0044 MeridianDB visual identity
+
+**Outcome:** fulfill the SVG-first logo request with a compact lowercase m formed
+from two adjoining meridian-like arches. Use deep navy, soft white and mint for the
+square mark; light-surface wordmark DB lettering uses darker teal for contrast.
+Retain exact symbol geometry and outlined Inter 4.1 SemiBold lettering as two SVG
+masters. Derive the dark wordmark SVG, four square PNGs (32/180/512/1024 pixels) and
+two transparent 2148 × 512 wordmark PNGs. The GitHub avatar PNG is **32,746 bytes**.
+All SVGs are self-contained with accessible titles/descriptions and no external
+fonts, scripts or raster references. Preserve the font's OFL notice and release/
+OTF hashes in the maintenance record; downloaded fonts and exploratory work stay
+under ignored `.local-qa/mdb-0044/`.
+
+**Integration and guidance:** README uses portable picture markup for light/dark
+SVG wordmarks. The existing Zensical theme uses the 180-pixel header PNG and
+32-pixel favicon. Keep the old public assets/favicon.svg URL as a generated copy
+of the new symbol for cached pages. Add navigable public Logos and colors downloads,
+palette/use guidance and a contributor link. `internal/brand.md` owns master/export
+maintenance, exact installed librsvg **2.61.1** conversion, source attribution and
+checks; the concise AGENTS brand rule links it. The exporter uses Python standard
+library plus local rsvg-convert, keeps icon geometry synchronized and verifies PNG
+signatures/dimensions. Committed exports need no CI renderer or font download.
+No Maven/POM/runtime dependency, account avatar or funding setting is changed.
+
+**Verification:** run the exporter repeatedly and compare complete asset hashes:
+the second export changes no bytes, including the compatibility favicon. Parse
+SVGs, reject external/resource/script/text dependencies, verify every PNG's full
+decode, dimensions, RGBA/transparency and GitHub upload size. One scratch validation
+attempt calls Pillow verify after pixel access; correct the checker to verify a
+freshly opened file, then pass the complete checks. No artwork defect is found.
+Review light/dark wordmarks, 16/24/32/48/64-pixel symbols and circular avatar crop.
+Both strict documentation URL layouts pass, then restore the production build:
+**50 pages**, with source/HTML/local links/search/sitemap valid. Confirm the rendered
+PNG header/favicon references. Inspect the download page in desktop light/dark
+and **390 × 844** light/dark views with no page-wide overflow. The first radio AX
+click selects the current theme; inspect the real label targets and use them to
+verify both themes. Search returns the Logos and colors page and its two sections.
+Reset temporary viewport/theme; retain ignored visual evidence locally. Final
+44-ID queue/card/parent/dependency DAG and working/staged diff checks must pass.
+
+**Delivery:** prior scoped Sponsors completion
+`d8b2d82af4ea66f1c6ef3b509b2e26ddd9a5d51f` is on origin/main with matching tips
+and no path-triggered workflows. Commit the logo source/docs/planning with
+`Step-ID: MDB-0044` and `Step-Result: completed`, push normally, verify remote
+ancestry/tips, inspect docs CI and automatic Pages, then compare live assets and
+check the public page, navigation, search and sitemap. Git and the final handoff
+supply the actual completion SHA and deployment outcome. No release, manual site
+dispatch, Cloudflare or paid infrastructure action is performed. The PNG is ready
+for a separately requested GitHub organization-avatar upload.
+
+**Next recommendation:** MDB-0036 — optional S3-compatible object access and provider
+checks, beginning with maintained-library packaging, real SDK/HTTP fixture design
+and fresh Maven artifact/compatibility research. No engine step starts here.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

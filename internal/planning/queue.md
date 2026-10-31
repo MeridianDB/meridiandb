@@ -12,20 +12,23 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0043 — Sponsors profile description** is complete: the
-  existing MasteryEducation listing now has the approved current-work short bio
-  and introduction, retained in [the profile source](../sponsorship-profile.md).
-- GitHub confirmed the authenticated save after owner-completed Confirm access.
-  Independent GraphQL readback exactly matches both description fields; the public
-  profile renders the introduction and MeridianDB link. The old 80+ websites claim
-  is removed. Account identity, recipient, tiers, payout settings and featured work
-  were outside this copy-only edit and were preserved.
-- Source completion requires normal commit/push and remote ancestry/tip readback
-  under the workflow. This internal/account-copy change triggers no configured
-  Java/docs CI or Pages deployment. Starting main at
-  `a70bbc47b2d552678d5e99072927c3eb30d32acb` matches fetched origin/main; its prior
-  repository-sponsorship delivery and live button verification are recorded in
-  progress history.
+- No active item. **MDB-0044 — MeridianDB visual identity** is source-complete:
+  twin-arch m SVG masters, light/dark outlined wordmarks, six PNG exports, README
+  integration, website logo/favicon and a public download page. The avatar PNG is
+  ready to upload; no GitHub account avatar was changed.
+- Prior **MDB-0043** is delivered at
+  `d8b2d82af4ea66f1c6ef3b509b2e26ddd9a5d51f`, matching fetched origin/main. GitHub
+  saved the updated Sponsors descriptions and both API fields match exactly.
+  That internal-only push triggered no configured workflows.
+- Self-contained SVG, decoded PNG dimensions/transparency/size, repeatable exports,
+  circular crop and 16/24/32-pixel previews pass. Strict public builds pass for both
+  URL layouts and restored production output (**50 pages**); inspect desktop and
+  390-pixel light/dark use, navigation and search. Brand maintenance owns the SVG
+  masters/exporter, renderer pin and attribution. Queue/card checks retain 44 IDs.
+- Deliver this completion with its normal commit/push, remote ancestry/tip readback,
+  docs CI, automatic Pages and exact live page/asset checks. The source introduces
+  no Maven or engine runtime change. Git supplies the completion SHA; final handoff
+  reports actual delivery and publication state.
 - **MDB-0036 — Optional S3-compatible object access** remains ready and is the next
   engine item. Refine optional packaging and a controlled SDK/HTTP fixture with
   fresh Maven artifact research. No engine/Maven work or next item starts here.
@@ -68,6 +71,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0035](roadmap.md#mdb-0035-bounded-immutable-object-access) | Implement bounded immutable-object access and local conformance | MDB-0011 | done | MDB-0010, MDB-0034 |
 | [MDB-0042](roadmap.md#mdb-0042-repository-sponsorship) | Enable repository sponsorship using the existing verified recipient | — | done | — |
 | [MDB-0043](roadmap.md#mdb-0043-sponsors-profile-description) | Refresh the central Sponsors bio and introduction | — | done | MDB-0042 |
+| [MDB-0044](roadmap.md#mdb-0044-meridiandb-visual-identity) | Create SVG identity and GitHub/website PNG assets | — | done | — |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |

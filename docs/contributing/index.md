@@ -102,6 +102,9 @@ These commands operate on the documentation site; Java verification uses the
 independent Maven Wrapper command above. See [documentation and publishing](documentation.md) for dependency choices,
 portability, automatic publication and optional manual rebuilds.
 
+For project graphics, use the [SVG and PNG logos](brand.md), with matching
+light/dark wordmarks and square website/GitHub icons.
+
 ## Keep evidence and checks focused
 
 For documentation changes, check links, paths, terminology, proposed-versus-built
