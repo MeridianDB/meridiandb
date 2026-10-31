@@ -136,7 +136,8 @@ This does not detect every unseen copied writer, external rollback or deletion,
 and supplies no distributed fencing. The [publication protocol](../architecture/object-checkpoint-protocol.md#failure-and-retry-outcomes)
 still requires durable expected/pending intent and reconciliation before selection.
 The optional [state codec](s3-publication-state.md) now represents that metadata
-without implementing its durable local installation or the full publisher.
+separately from [durable local installation](local-s3-publication-state.md).
+Neither alone implements the full publisher.
 
 The 34 graph/actual-prefix cases use independent histories, bounded fake/native-read
 seams and actual local journal/object adapters. Sixteen checked-range codec cases

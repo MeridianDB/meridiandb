@@ -3374,6 +3374,107 @@ implementation, release, real-cloud/account/DNS or hosting-setting change occurs
 exact expected/pending bytes and original preconditions under supported exclusive
 placement, staged force/atomic installation, poisoning and process-exit/reopen.
 
+## 2026-10-31 — MDB-0056 Durable local publication state
+
+**Selection:** start from clean main/origin `8df2b69e4179a12d0639efd230a755d6550f8ead`;
+verify MDB-0055 source `742d52ed8cc4f6de31db4c7c5fc6d7fef5a68c54`, successful Java/
+docs/Pages and live delivery. Execute this required child, preserving all MDB-0052/
+MDB-0049/MDB-0037 criteria and the independent MDB-0054 follow-up.
+
+**Outcome:** add LocalS3PublicationState in the optional artifact over the unchanged
+state codec. A dedicated existing trusted, stable, durably named directory supports
+separate empty create and existing-state open. Create-only permanent ownership,
+shared same-JVM file reservations and native locking exclude cooperating control/
+data aliases before another native open. The lock is forced through its owner.
+Bound discovery to 16,384 entries and 1,024 selected generations; cap state size
+before allocation, complete short I/O and inspect EOF/unchanged size. Validate the
+highest unique selected name, complete identity/generation and managed target/
+bindings; reject malformed/duplicate/missing/damaged newest state without fallback
+or pending adoption. Open resynchronizes lock/selected file/directory before use.
+
+Prepare and exact-candidate recognition preflight pure transitions, revalidate
+current selected metadata and reserve capacity, then create/write/force/close a
+unique pending image, atomically rename it and force the directory before exposing
+new state. Preserve exact original candidate/expected bytes and preconditions;
+there is no old-head/absence/error clear/reset/rebase path. Storage failures poison;
+mark uncertainty before rename, retain old/pending evidence and reopen to establish
+selected state. Close invalidates access before cleanup and installs nothing.
+Uncertain reserved native cleanup remains quarantined until process exit. No
+remote request, graph verification, engine acknowledgement, deletion, distributed
+fence or external-rollback/copy detection is added. Default Windows filesystem
+placement is explicitly unsupported by this adapter; ordinary directory I/O on
+other placements propagates rather than masquerading as a capability skip.
+
+**Research:** all fourteen Central coordinates rechecked **23:29:10 UTC /
+19:29:10 EDT**, with official compatibility refreshed 23:29:11 UTC, remain latest
+stable at the selected pins: Maven 3.10.0, wrapper 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4 and optional SDK s3/URLConnection 2.57.8. No POM change is required.
+Metadata summary SHA-256 `a82d780b1be5d9aad8d066bd6494ad7f0c6f263a4a837efbd005eeb4f1623a51`;
+compatibility summary `22c88e2f416f4e1aaefd12cbb64c0212c0f2322fc3d431b2233cfb8aabec84c5`;
+report `eae2a9d60b4d6a925a84d5617b1238898f168ccc36180dc43bbda899a36ab7f3`.
+Fresh JDK 25 force/lock/move and Lucene 10.5.2 primary evidence at **23:33:55 UTC**
+has summary `006b8bdbe7c5a01a8eaf817a6c417d054f46908eda5fcb7501b9d34d7c7da6ff`.
+Preserve the distinctions: JDK atomic target replacement is implementation-specific;
+Lucene's ordering analogy permits dual names and different failure cleanup, while
+this protocol requires atomic move and retains evidence. Ignored raw material lives
+under `.local-qa/mdb-0056/research-helper/`; public ADR/build retain primary links.
+
+**Verification:** 34 real filesystem/API cases cover exact four-state reopen flows,
+pure-invalid healthy owner, ownership/close, wrong configuration, missing/bad/
+partial/oversized/duplicate newest state, whole IDs/generation names, nofollow links,
+shared LocalJournal/LocalCheckpointStore control and selected-data aliases, retained
+unknown/pending evidence and exact/over capacity. 31 fault invocations cover explicit
+write/force/close/move ordering, before/after-effect I/O, runtime/Error poisoning,
+reentrancy, stale/corrupt/capacity rejection before candidate effects, bounded short/
+zero/invalid progress, changed sizes, force/close suppression, unsupported-before-
+mutation and ordinary I/O identity. Native cleanup quarantine runs in a child JVM.
+
+21 process invocations halt at candidate-force, rename and directory-force during
+initial creation, pending create/replacement and both observation installations;
+verify exact selected/candidate bytes, original quoted token, independent generation,
+repeated pre-rename candidates and no missing-state initialization. Competing JVMs,
+graceful/abrupt owner exit, same-JVM rejection preserving the process lock and
+damaged-newest reopen rejection pass. Child deadlines/logs are bounded/outside store
+directories. Process termination is not a device-power-loss simulation.
+
+An initial combined run exposed a fixture isolation error: deliberately quarantined
+ownership lived beyond temporary-path deletion and contaminated later cases. Move
+that intentional failure into a child process so its required restart precedes
+path cleanup; persist this procedure in agent rules. Subsequent combined 52 fault/
+process cases and all 34 API cases pass. Independent review also corrects broad
+IOException-to-unsupported classification and qualifies reserved-channel cleanup;
+probe cleanup suppresses runtime/Error failures as well as IOException.
+
+Final serial `./mvnw -B clean install` and
+`./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,092 core / 271 optional**
+cases with zero local failures/errors/skips. All fourteen examples run against only
+the packaged core JAR. Archive/jdeps inspection retains 153 production classes,
+java.base-only external modules, no SDK/test classes and unchanged one-class shared
+conformance classifier. No core source, format, dependency, temporal or acknowledgement
+contract changes are made.
+
+**Documentation and completion:** add local state guide/ADR 0027; reconcile pure
+state ADR/guide, README, homepage, architecture/persistence/head protocol, build,
+S3/graph guides, public roadmap, nav/index and agent rules. Both strict project-path
+and production builds pass source/rendered/links/search/sitemap for **63 pages**,
+restoring production output. Desktop light and 390-pixel dark tables have no
+page-wide overflow; search finds both new routes and decision navigation works.
+No diagram/renderer is needed. Helpers own bounded research/review and assigned
+test files; coordinator owns production, shared docs/planning and Git.
+
+Mark MDB-0056 and its complete MDB-0052 parent done, clear active ownership and
+mark MDB-0053 ready, subject to remote delivery/CI. MDB-0049/MDB-0037 remain expanded.
+Validate all 56 IDs/cards/dependencies/eligibility, inspect explicit staged paths,
+commit with Step-ID MDB-0056 / Step-Result completed, push normally and verify
+remote ancestry/tips, Java/docs CI, automatic Pages and live guide/ADR/callers/
+canonical/search/sitemap. Git and the delivery receipt supply actual identities.
+No later implementation, release, cloud/account/DNS or other hosting action starts.
+
+**Next recommendation:** MDB-0053 — verified conditional publisher, composing actual
+graph/owned-prefix checks, forced exact local intent and conditional requests with
+original-precondition reconciliation after uncertain outcomes.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

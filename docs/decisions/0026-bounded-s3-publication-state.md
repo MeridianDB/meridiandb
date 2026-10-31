@@ -6,8 +6,8 @@ description: Represent exact target, expected observation and pending conditiona
 # ADR 0026: Bounded S3 publication state
 
 Date: October 31, 2026. Status: bounded representation and pure transitions
-implemented, experimental; durable local installation and full conditional
-publisher/reconciliation remain planned.
+implemented, experimental. [ADR 0027](0027-durable-local-s3-publication-state.md)
+adds durable local installation; full conditional publisher/reconciliation remains planned.
 
 ## Context
 
@@ -45,8 +45,9 @@ Pure decoded state declares metadata. It proves no observed request, prior
 transition history, graph verification, supported ownership, force or durable
 installation. Recognition of the exact candidate observation likewise requires
 the complete publisher to establish its provenance and graph/actual-prefix facts.
-Durable local ownership and installation remain separate required work with
-failure poisoning, partial-newest handling and process-exit/reopen tests.
+Durable local ownership and installation are implemented separately under
+[ADR 0027](0027-durable-local-s3-publication-state.md), with failure poisoning,
+damaged-newest handling and process-exit/reopen tests.
 
 ## Evidence and alternatives
 
@@ -62,5 +63,5 @@ ordinary embedding. A free-form text document would need additional normalizatio
 and parsing policy for exact retry bytes. Independently editable token/operation
 fields could contradict the expected observation. A reset or implicit adoption
 helper would hide unresolved intent. Keep the representation small and explicit,
-then install it through a separately verified local durability protocol before
-claiming durable publication state.
+then use the separately verified local durability protocol before claiming
+durable publication state.

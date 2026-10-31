@@ -283,6 +283,18 @@ so a new session can work correctly without relying on earlier conversations.
   old/missing heads and errors grant no reset/adopt/clear/rebase. Keep local
   generations independent and distinguish decoded declarations from observation,
   graph, ownership, force, durable installation and remote selection evidence.
+- Follow [ADR 0027](docs/decisions/0027-durable-local-s3-publication-state.md) and
+  [durable local S3 state](docs/development/local-s3-publication-state.md) for its
+  dedicated metadata directory. Separate empty create from existing-state open;
+  bind exact managed configuration, validate highest unique state without fallback,
+  and synchronize on reopen. Reserve shared file identity before native opens;
+  force the lock through its owner. Install create-only/force/close/atomic-move/
+  directory-force generations with capacity reserved first; poison failures and
+  retain evidence. Treat default Windows placement as explicitly unsupported;
+  ordinary directory I/O elsewhere must fail rather than become capability skips.
+  Native uncertain close retains reservations until restart; isolate deliberate
+  quarantine fixtures in child JVMs and exit before temporary path cleanup. Verify fault and real
+  process/ownership cases; local metadata supplies no remote/graph/engine receipt.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

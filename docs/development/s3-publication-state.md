@@ -10,9 +10,10 @@ pending publication metadata in the optional `meridiandb-s3` artifact. They perf
 no filesystem or network operations and own no credentials or clients. Core and
 ordinary local embedding remain independent of the optional SDK artifact.
 
-The format and pure transitions are implemented. Exclusive local storage,
-ordered forces, atomic installation, poisoned-state recovery and complete remote
-publication/reconciliation remain planned. Encoding or decoding this value is
+The format and pure transitions are implemented. A separate
+[local state owner](local-s3-publication-state.md) adds exclusive storage, ordered
+forces, atomic installation and fail-closed reopen. Complete remote publication/
+reconciliation remains planned. Encoding or decoding this value is
 neither a durable intent receipt nor proof of remote selection.
 [ADR 0026](../decisions/0026-bounded-s3-publication-state.md) records the decision.
 
@@ -95,7 +96,8 @@ var precondition = restored.pending().orElseThrow().precondition();
 
 The classes live in `org.meridiandb.storage.s3`. This code creates no local file
 and attempts no conditional request. Fresh local metadata must not silently replace
-missing initialized state; the later local owner must enforce create/open policy.
+missing initialized state; the [local owner](local-s3-publication-state.md) enforces
+separate create/open policy.
 
 ## Version 1 encoding
 
@@ -140,7 +142,7 @@ bad candidate bytes supplied to `prepare` retain head-codec/argument failures.
 
 Checksum success is structural evidence, not authentication or proof of a legal
 prior transition, observed GET, complete graph, ownership or force. Initializing,
-selecting and reopening durable local state requires its own I/O protocol. The
+selecting and reopening durable local state uses a [separate I/O protocol](local-s3-publication-state.md). The
 [full publication protocol](../architecture/object-checkpoint-protocol.md#specified-conditional-publication)
 also retains original preconditions across uncertainty, actual graph/prefix checks,
 single-placement assumptions and protection of old/pending/uncertain objects.

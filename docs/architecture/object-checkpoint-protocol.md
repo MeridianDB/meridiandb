@@ -11,7 +11,8 @@ are implemented in the JDK-only core. A separate optional
 [S3 head adapter](../development/s3-checkpoint-heads.md) now provides bounded GET
 and conditional PUT. JDK-only [graph verification](../development/object-checkpoint-graphs.md)
 now validates complete dependencies and actual owned-journal prefixes under shared
-operation limits. The complete verified publisher, durable intent/reconciliation
+operation limits. [Durable local expected/pending state](../development/local-s3-publication-state.md)
+is available separately. The complete verified publisher, remote reconciliation
 path and remote database recovery are **not yet implemented**. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
@@ -198,8 +199,9 @@ It checks segment header ranges before record decoding. Those read-only results
 still supply no durable intent, conditional publication or recovery protocol.
 A separate [S3 state format](../development/s3-publication-state.md) now represents
 exact target/bindings, expected observation and one pending intent with pure checked
-transitions. Its durable local installation and complete conditional publisher
-remain unimplemented; serializing the snapshot does not establish step 5.
+transitions. [Durable local installation](../development/local-s3-publication-state.md)
+now preserves those snapshots under exclusive ownership. Serializing alone does
+not establish step 5; the complete conditional publisher remains unimplemented.
 
 ## Failure and retry outcomes
 

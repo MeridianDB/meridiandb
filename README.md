@@ -103,8 +103,9 @@ bytes/tokens and issues exact conditional writes. JDK-only
 [object graph verification](docs/development/object-checkpoint-graphs.md) now checks
 complete dependencies and actual owned-journal prefixes under shared budgets.
 An optional [publication-state codec](docs/development/s3-publication-state.md)
-preserves exact expected/pending metadata with pure checked transitions. Durable
-local state installation and verified checkpoint publication remain planned;
+preserves exact expected/pending metadata with pure checked transitions.
+[Durable local state](docs/development/local-s3-publication-state.md) now installs
+those snapshots under exclusive local ownership. Verified remote publication remains planned;
 existing checkpoint and engine protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;

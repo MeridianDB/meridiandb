@@ -86,14 +86,15 @@ predecessor identity and actual journal-prefix agreement. Separate
 [conditional S3 head access](../development/s3-checkpoint-heads.md) and read-only
 [object graph verification](../development/object-checkpoint-graphs.md) are implemented.
 A bounded [publication-state representation](../development/s3-publication-state.md)
-and pure transitions are available. Its durable local installation, the verified
-publisher, reconciliation and recovery remain planned.
+and pure transitions are available. [Durable local state](../development/local-s3-publication-state.md)
+installs exact snapshots under exclusive ownership; the verified publisher, remote
+reconciliation and engine recovery remain planned.
 
 An object-store checkpoint is planned as an optional companion to the local
 journal. First upload or verify all immutable dependencies, then publish immutable
 manifest bytes and conditionally select the complete generation. The verified
-publisher, durable intent/reconciliation and aggregate recovery protocol still
-require implementation and failure tests. Listing objects is not by itself a
+publisher, remote reconciliation and aggregate recovery protocol still require
+implementation and failure tests; durable local expected/pending storage is available. Listing objects is not by itself a
 commit protocol.
 
 Amazon S3 documents strong object consistency and conditional writes using

@@ -20,7 +20,8 @@ Separate JDK-only [graph verification](object-checkpoint-graphs.md) now checks
 complete referenced history and actual journal prefixes; it does not compose
 those checks with conditional selection or durable intent. The separate
 [publication-state codec](s3-publication-state.md) represents exact expected/pending
-metadata and pure transitions; it adds no local durable installation.
+metadata and pure transitions. [Durable local installation](local-s3-publication-state.md)
+is now available separately; the complete publisher remains planned.
 [ADR 0024](../decisions/0024-conditional-s3-head-access.md) records this boundary.
 
 ## Build and configuration
@@ -37,10 +38,13 @@ Run the same two builds from the repository root:
 
 Use `mvnw.cmd` on Windows. Core verification installs the core JAR and its small
 shared test classifier locally; the optional build verifies both immutable and
-conditional-head APIs. The optional build runs **185 tests**: 46 immutable-object
+conditional-head APIs. The optional build runs **271 tests**: 46 immutable-object
 cases, 43 conditional-head SDK/API cases, 27 token/observation/native-stream cases,
 four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md) and 65 pure
-[publication-state codec/transition cases](s3-publication-state.md).
+[publication-state codec/transition cases](s3-publication-state.md), plus 86
+[local state API/fault/process cases](local-s3-publication-state.md).
+Native local cases explicitly skip unsupported placement; pure and injected checks
+remain independent of those capabilities.
 Core runs its separate 1,092 tests. No cloud service or account is used by these tests.
 
 Construct `S3CheckpointHeads` with an explicit endpoint origin, signing region,

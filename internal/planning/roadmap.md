@@ -1183,6 +1183,12 @@ fail-closed reopen and process-exit evidence. All original durable-state accepta
 remains required; format success is neither a force nor a remote selection receipt.
 MDB-0053 continues to depend on the complete MDB-0052 parent.
 
+**Completion evidence:** MDB-0055 and MDB-0056 now supply the exact pure snapshot
+plus durable local installation, supported ownership and failure/process evidence.
+Both children preserve original bytes/preconditions, reject missing/damaged newest
+state and retain uncertain candidates. No remote publisher or engine integration
+is inferred; MDB-0053 retains those criteria. Delivery identities follow its receipt.
+
 ## MDB-0055 Bounded S3 publication state
 
 **Parent:** MDB-0052. **Outcome:** specify and encode a bounded versioned S3 target/
@@ -1234,6 +1240,19 @@ single-placement/no-external-rollback assumptions without distributed fencing.
 No automatic cleanup, remote publication or engine recovery follows. Complete
 local durable-state integration and documentation/delivery before marking MDB-0052
 done; MDB-0053 retains full graph/force/conditional reconciliation criteria.
+
+**Produced artifacts:** optional `LocalS3PublicationState`, dedicated empty create/
+existing open, shared control/data identity reservation, immutable selected names,
+bounded discovery/read/capacity and write/force/close/atomic-move/directory-force.
+Open validates exact configuration and highest state, then resynchronizes. Storage
+failures poison; attempted rename is uncertain; cleanup quarantine retains ownership
+until process restart. Default Windows placement is explicitly unsupported; ordinary
+directory I/O remains an actual failure. The original state codec/core remain unchanged.
+34 real API, 31 fault and 21 process invocations pass, plus clean 1,092 core /
+271 optional tests and fourteen packaged-core examples. Public guide/ADR 0027,
+callers/agent rules and strict 63-page builds are reconciled. Local capacity and
+no-external-rollback/single-placement assumptions remain explicit. Git/CI/Pages/
+live delivery identities follow in its receipt.
 
 ## MDB-0053 Verified conditional publisher
 

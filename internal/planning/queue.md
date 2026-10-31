@@ -12,24 +12,21 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0055 source `742d52ed8cc4f6de31db4c7c5fc6d7fef5a68c54` is verified on
-  origin/main with matching tips and ancestry. Java **41252084742**, documentation
-  **41252084800** and automatic Pages **41252084803** pass. Live HTTPS guide/ADR,
-  callers, canonical/search and the **61-page** sitemap are verified.
-- **MDB-0052** is expanded into required children **MDB-0055** bounded S3
-  publication state/intent format and pure transitions, then **MDB-0056** durable
-  local ownership/installation/poisoning/process reopen. Preserve all original
-  MDB-0052/MDB-0049/MDB-0037 criteria; this split does not satisfy local durability.
-- **MDB-0055 — Bounded S3 publication state** is done: exact target/bindings,
-  expected observation and pending intent have bounded v1 encoding and pure legal
-  transitions. All 65 new cases, 1,092 core and 185 optional cases pass locally;
-  fourteen examples, artifact inspection and both strict 61-page site builds pass.
-  Core and dependency pins remain unchanged. No active executable claim remains.
-- **MDB-0056 — Durable local publication state** is ready after verified MDB-0055
-  delivery. Implement exclusive supported local placement,
-  staged force/atomic installation, poisoning and process-exit/reopen next.
-  Pure metadata recognition supplies no graph/selection/force/durable evidence;
-  preserve exact pending intent/preconditions and all parent acceptance criteria.
+- MDB-0056 source acceptance passes from clean main/origin
+  `8df2b69e4179a12d0639efd230a755d6550f8ead`. Completion commit/push, remote
+  ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- **MDB-0056 — Durable local publication state** is done. Its 86 new API/fault/
+  process cases and clean 1,092 core / 271 optional cases pass without local skips;
+  fourteen packaged-core examples, artifact inspection and both strict 63-page
+  site builds pass. Clear the active claim; core/format/dependencies are unchanged.
+- **MDB-0052** is done with both required children complete: exact bounded state
+  and durable dedicated local placement, force/atomic installation, fail-closed
+  reopen, ownership/alias/cleanup and real process-exit evidence. This supplies no
+  remote selection or graph/actual-journal publisher integration by itself.
+- **MDB-0053 — Verified conditional publisher** is source-ready, subject to the
+  delivery gate above. Keep MDB-0049/MDB-0037 expanded until full integration passes.
+  Preserve exact pending/preconditions, actual graph/prefix checks and uncertainty;
+  MDB-0054 remains independently queued outside the publication parents.
 
 ## Ordered work
 
@@ -79,10 +76,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | expanded | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0050](roadmap.md#mdb-0050-bounded-owned-journal-prefix) | Bound actual owned-journal prefix reads before allocation | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0051](roadmap.md#mdb-0051-verified-object-checkpoint-graphs) | Verify bounded object checkpoint graphs against the owned journal | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0050 |
-| [MDB-0052](roadmap.md#mdb-0052-durable-object-publication-intent) | Persist expected head and exact pending publication intent | MDB-0049 | expanded | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
+| [MDB-0052](roadmap.md#mdb-0052-durable-object-publication-intent) | Persist expected head and exact pending publication intent | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
 | [MDB-0055](roadmap.md#mdb-0055-bounded-s3-publication-state) | Encode bounded S3 publication state and exact pending intent | MDB-0052 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
-| [MDB-0056](roadmap.md#mdb-0056-durable-local-publication-state) | Install local publication state under durable exclusive ownership | MDB-0052 | ready | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0055 |
-| [MDB-0053](roadmap.md#mdb-0053-verified-conditional-publisher) | Integrate verified conditional publication and reconciliation | MDB-0049 | queued | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
+| [MDB-0056](roadmap.md#mdb-0056-durable-local-publication-state) | Install local publication state under durable exclusive ownership | MDB-0052 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0055 |
+| [MDB-0053](roadmap.md#mdb-0053-verified-conditional-publisher) | Integrate verified conditional publication and reconciliation | MDB-0049 | ready | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | queued | MDB-0010, MDB-0051 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
