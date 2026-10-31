@@ -51,7 +51,9 @@ class LocalObjectStoreConformanceTest extends AbstractImmutableObjectStoreConfor
         var folder = new ObjectKey("folder");
         Files.createDirectory(directory.resolve(folder.value()));
         assertThrows(IOException.class, () -> backend.read(folder, ABC_REFERENCE));
-        assertThrows(ObjectAlreadyExistsException.class, () -> backend.createNew(folder, ABC));
+        // A directory is not an immutable byte object. Providers may report access denied
+        // rather than the optional existing-file subtype; preserve that ordinary I/O failure.
+        assertThrows(IOException.class, () -> backend.createNew(folder, ABC));
         assertThrows(IOException.class, () -> backend.createOrVerify(folder, ABC));
         assertTrue(Files.isDirectory(directory.resolve(folder.value())));
     }

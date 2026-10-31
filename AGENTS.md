@@ -223,6 +223,10 @@ so a new session can work correctly without relying on earlier conversations.
   reader protection explicit; another adapter alone establishes no new engine
   guarantee. Add bounded physical range access only with a concrete integrity and
   resource-lifetime contract, rather than exposing partial segment history.
+  For invalid non-regular destinations, assert I/O rejection and unchanged
+  evidence across providers; a directory conflict may be access denied on Windows.
+  Keep exact existing-object conflict checks for regular files, and never translate
+  an arbitrary permission failure into absence or verified reuse.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

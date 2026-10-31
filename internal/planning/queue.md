@@ -29,6 +29,12 @@ children before implementation rather than treating a whole milestone as one pat
 - Fresh Central/official compatibility research on October 31 at 13:38:43 EDT /
   17:38:43 UTC confirms all twelve Maven pins remain latest stable. No POM,
   wrapper, dependency, fixture or runtime-library change is needed.
+- Delivery repair: initial Java run 41226645494 passed Ubuntu but found one
+  Windows-only assertion mismatch for an invalid directory destination. Windows
+  returned AccessDeniedException rather than a name-conflict subtype. Keep ordinary
+  I/O rejection and unchanged evidence for directories, retain strict regular-file
+  conflict tests and leave production behavior unchanged. Focused local conformance
+  and both doc layouts pass; the repair commit must pass remote CI before advancing.
 - **MDB-0011 remains expanded**. Next source-ready item: **MDB-0036 — Add optional
   S3-compatible object access and provider checks**. Verify this completion on
   remote main and Java/docs/automatic Pages before claiming it. Refine provider

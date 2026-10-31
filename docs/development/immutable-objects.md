@@ -42,12 +42,15 @@ bytes, verifies the resulting length, forces file data/metadata and closes befor
 returning successful creation. Bounds and input validation precede path creation.
 Short writes are completed; sixteen consecutive zero-progress results fail.
 
-An existing name raises `ObjectAlreadyExistsException`. `createOrVerify` catches
-only that conflict and reads the complete expected image. A different length or
+An existing regular-file name raises `ObjectAlreadyExistsException` on the tested
+local providers. `createOrVerify` catches only that conflict and reads the complete
+expected image. A different length or
 hash raises `ObjectIntegrityException` with `LENGTH_MISMATCH` or `ID_MISMATCH`.
 Missing local objects use `NoSuchFileException`; permission, ordinary I/O and
 non-regular-input failures remain failures rather than absence or a successful
-reuse. Unsupported filesystem operations are not silently emulated.
+reuse. Creating over a directory may report a name conflict or access denied,
+depending on the provider; neither permits reuse or replacement of that directory.
+Unsupported filesystem operations are not silently emulated.
 
 After a failed creation, partial or complete candidate bytes remain. A force or
 close failure can follow completed writes, so an exception is not proof of an

@@ -2215,6 +2215,35 @@ controlled SDK/HTTP fixture, with fresh Maven compatibility/version research.
 Preserve local use without a cloud runtime requirement and keep remote checkpoint,
 engine integration, reclamation and replication separate. No next item starts.
 
+
+## 2026-10-31 — MDB-0035 Windows directory-rejection assertion repair
+
+**Evidence:** source completion `ba0a97f86ad29cd274c9b952b4dd0d541f4af785`
+is pushed and matches origin/main. Java run 41226645494 passes Ubuntu and fails
+one Windows assertion in LocalObjectStoreConformanceTest: opening an existing
+directory with CREATE_NEW reports AccessDeniedException on that provider instead
+of the expected ObjectAlreadyExistsException. Windows observes 970 tests with
+one failure, zero errors and 228 explicit existing capability skips. Other new
+object/type/fault/segment tests pass. Docs 41226645890 and automatic Pages
+41226645586 succeed; exact initial live 49-page/search/sitemap verification passes.
+
+**Repair:** assert IOException and preserved directory evidence for this invalid
+non-regular destination. Keep all strict inherited regular-file conflict/reuse
+checks. Clarify provider-specific directory rejection in the public object guide
+and AGENTS; do not change production code or classify arbitrary access denial as
+absence, conflict or successful reuse. This is a portable expectation correction,
+not a capability skip or weakened object-integrity guarantee.
+
+**Verification/delivery:** rerun the focused LocalObjectStoreConformanceTest via
+`./mvnw -B -Dtest=LocalObjectStoreConformanceTest verify`: 19 cases pass locally.
+Both public site layouts and the restored production build pass for 49 pages;
+queue/DAG and diff checks pass. Production classes, Maven pins and the local JAR
+remain unchanged; the earlier full 970-test/14-example local baseline is retained.
+Commit the repair with MDB-0035 completion trailers, push normally and verify
+new Java/docs/automatic Pages and exact updated live content before handoff.
+The final report distinguishes this initial CI failure from the repaired result.
+MDB-0036 remains next and starts only after successful delivery checks.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
