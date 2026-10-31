@@ -2123,6 +2123,98 @@ ownership/integrity/budget tests and fresh Maven artifact research; preserve the
 separate journal, checkpoint publication and future provider/replication gates.
 This recommendation starts no next-step implementation.
 
+
+## 2026-10-31 — MDB-0035 Bounded immutable-object access
+
+**Outcome:** implement the small immutable byte-store boundary with a real local
+adapter and segment-codec consumer. Add `ObjectKey`, `ObjectId`, `ObjectReference`,
+`ObjectAlreadyExistsException`, `ObjectIntegrityException`, `VerifiedObject`,
+`ImmutableObjectStore`, `LocalObjectStore` and `SegmentObjects`. Keys are flat,
+portable and bounded; references carry full-image SHA-256 and exact length capped
+at 32 MiB. Create-only writing preflights/copies before path effects, completes
+bounded I/O, forces and closes before success. Explicit identical reuse verifies
+bytes and reports creation separately, without inferring an earlier force/ack.
+
+**Correctness boundaries:** complete expected-length reads, bounded allocation,
+EOF/final-size check and full hash validation precede heap-reader return. Verified
+heap ranges check negative/overflow/out-of-range input; they are not physical file
+or HTTP ranges. Reader copies survive close and reject new access after close.
+Pre-open shared ownership reservations reject control/journal aliases and retain
+uncertain native-close reservations. Failed candidates remain; no repair/deletion,
+mutable head, namespace durability, checkpoint selection, transaction authority or
+replicated acknowledgement is added. SegmentObjects decodes all history bytes and
+keeps the exact existing codec, including rejection of well-hashed malformed data.
+Existing local segment/checkpoint/journal/engine production files are unchanged.
+
+**Independent checks:** two focused helpers author only the assigned tests, and
+an independent read-only review of production/ownership finds no blocking issue.
+The new **84 test invocations** comprise 8 type/range/lifetime, 9 reusable byte-store
+contract, 10 real local, 53 injected I/O and 4 segment-consumer checks. Real local
+cases check no-follow/sparse/regular paths, absent/conflicting/corrupt evidence,
+copy/lifetime behavior and separate-JVM native-lock preservation after rejected
+control/hard-link/journal alias operations. Capability-specific link skips retain
+ordinary I/O failures. Fault tests cover short/stalled/negative/inconsistent I/O,
+length before allocation, EOF/suffix/size drift, force/close ordering, partial
+candidate retention, IOException/runtime/Error and primary/cleanup suppression,
+including the same throwable. Consumer tests prove both directions of legacy-byte
+compatibility, exact original transactions, reuse and invalid ID/length/format.
+
+**Actual verification:**
+
+- Initial `./mvnw -B -DskipTests package` compiles under Java 25 with -Xlint:all /
+  -Werror; the focused `-Dtest=LocalObjectStoreIoTest,SegmentObjectsTest test`
+  passes 57 invocations. No failing Maven run occurs.
+- `./mvnw -B verify` passes **970 tests**, zero failures/errors/skips, including
+  all existing independent temporal/reference, durability/process and integrated
+  compaction/reclamation checks. No fixture, seed, semantic or format revision.
+- All **fourteen examples** pass against target/classes. The new ObjectStoreExample
+  also runs against `target/meridiandb-core-0.1.0-SNAPSHOT.jar`, reopens two original
+  transactions, verifies identical reuse and retains header bytes after close.
+  Java CI runs this example on Linux and Windows without extra provider setup.
+- Packaged artifact: **137 classes**, class-file major **69**, no test/reference/
+  canonical-fixture entries. `jdeps -s` reports only **java.base**. SHA-256:
+  `ced17b1ade2b863779e6b52ed0ac5031d87278f350c617b2b0206349010f8b47`.
+  This is a local experimental artifact, not a library release. The first jdeps
+  attempt used unsupported --summary; use the documented -s option successfully.
+- All **41 documentation QA tests** pass. The shared strict build succeeds for
+  the production and GitHub project-path layouts, then restores production:
+  **49 pages**, source/HTML/local-link/search/sitemap checks pass. Preview the new
+  API table in light/dark and at 390-pixel width, new ADR/navigation and searchable
+  createOrVerify content; reset temporary viewport/theme and close the preview.
+- Queue/card/reference/parent/dependency/eligibility checks retain **41 unique IDs**
+  and no cycles, completed children consistent, no active item and only MDB-0036
+  ready. Changed Markdown local targets, public caller consistency and staged diff
+  receive review. Temporary logs/metadata remain under `.local-qa/mdb-0035/`.
+
+**Research and documentation:** Central metadata plus official Maven/plugin/JUnit/
+Jackson compatibility sources are freshly checked October 31 at **13:38:43 EDT /
+17:38:43 UTC**. All twelve selected versions remain latest stable (Maven 3.10.0,
+wrapper distribution/plugin 3.3.4, clean/resources 3.5.0, compiler 3.16.0, Surefire
+3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4). Maven/plugin
+4.x entries remain preview/beta. No new runtime dependency or POM/wrapper change.
+Refresh JDK 25 create-new, FileChannel and FileLock evidence in ADR 0021. Add the
+object guide and new example, and reconcile README/home, architecture/boundaries/
+research, public roadmap, build/local-segment guides, ADR index, navigation and
+agent rules. Public copy describes implemented technical behavior and remaining
+limits, without owner/agent/task narration.
+
+**Closure/delivery:** complete MDB-0035 without expanding it; a separate segment
+consumer provides the concrete interface use while the established publisher
+remains unchanged. Keep MDB-0011 expanded and all remaining provider/publication/
+engine/reclamation/conformance gates required. Prior clean main at
+`24df9b0871bd208fe3c0bd436ece8185852f0663` matches fetched origin/main, with docs
+41222060256 and Pages 41222060285 successful. Commit with `Step-ID: MDB-0035` /
+`Step-Result: completed`, push normally, verify remote ancestry/tips and inspect
+Java/docs/automatic Pages and exact live pages/search/sitemap. Git supplies this
+commit's SHA and final handoff reports actual delivery; no release, Cloudflare or
+real-cloud provisioning/spending is performed.
+
+**Next recommendation:** MDB-0036 — add optional S3-compatible object access and
+provider checks. First refine maintained-library/optional packaging and the
+controlled SDK/HTTP fixture, with fresh Maven compatibility/version research.
+Preserve local use without a cloud runtime requirement and keep remote checkpoint,
+engine integration, reclamation and replication separate. No next item starts.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

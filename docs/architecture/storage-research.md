@@ -127,6 +127,13 @@ Compression, block fragmentation, memory mapping, persistent collections and
 specialized indexes remain experiments driven by measured limitations. See the
 [technical roadmap](../roadmap.md) for the current capabilities and planned work.
 
+The [immutable byte-object interface](../development/immutable-objects.md) now
+separates complete bounded image creation/read from checkpoint publication.
+Its local implementation and segment-codec consumer preserve the existing file
+format; ranges copy from a verified whole heap image. [ADR 0021](../decisions/0021-bounded-immutable-object-access.md)
+refreshes JDK creation, I/O and ownership evidence on October 31. No provider
+SDK, physical range-read optimization or remote durability follows from that API.
+
 [History-preserving compaction](../development/history-compaction.md) now validates
 a complete supplied graph and deterministically repacks original transactions.
 [ADR 0016](../decisions/0016-history-preserving-compaction.md) refreshes Lucene

@@ -211,6 +211,18 @@ so a new session can work correctly without relying on earlier conversations.
 - Require persistence adapters to declare their guarantees, including range reads,
   conditional updates where used and durable publication. Reuse provider libraries
   without pretending local files and object stores have identical behavior.
+- Follow [ADR 0021](docs/decisions/0021-bounded-immutable-object-access.md) and the
+  [immutable-object contract](docs/development/immutable-objects.md) for byte
+  adapters. Preserve bounded flat keys, complete SHA-256/exact length, preflight
+  before path effects, create-only writes and explicit verified reuse. Return heap
+  snapshots only after complete validation and native cleanup; range copies are
+  slices of verified whole objects, not physical range proofs. Reuse shared local
+  ownership reservations, retain failed candidates and separate verified reuse
+  from force/publication receipts. Run the reusable object contract, local/fault
+  and segment compatibility cases for changes. Keep legacy checkpoint/journal/
+  reader protection explicit; another adapter alone establishes no new engine
+  guarantee. Add bounded physical range access only with a concrete integrity and
+  resource-lifetime contract, rather than exposing partial segment history.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

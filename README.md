@@ -84,7 +84,10 @@ The initial investigation will focus on:
 The [persistence boundaries](docs/architecture/persistence-boundaries.md) separate
 commit authority, ordered journal history, immutable objects, checkpoint selection
 and derived search indexes. Local persistence is implemented; additional adapters,
-replication and near-real-time indexing remain planned and unmeasured.
+replication and near-real-time indexing remain planned and unmeasured. The
+[immutable-object interface](docs/development/immutable-objects.md) now includes a
+JDK-only local adapter, complete identity/length validation, explicit identical
+reuse and a segment consumer. Existing checkpoint and engine protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
@@ -97,8 +100,8 @@ those exact transaction frames. Query-optimized layouts remain open. The
 RocksDB, Lucene/Elasticsearch, Quickwit and ClickHouse, keeping durable append,
 index publication and query visibility distinct.
 
-SQL, document APIs, network protocols, replication and streaming integrations
-remain open. Public interface implementation can wait while query semantics and
+SQL, document APIs, network protocols and streaming integrations remain open.
+Replication is a separate planned optional extension. Public interface implementation can wait while query semantics and
 workloads guide the storage experiments. Current-state lookups, historical entity
 lookups, interval scans and correction-sensitive aggregations have specified
 [expected results](docs/architecture/temporal-contract.md#worked-history-and-workload-expectations),
@@ -136,7 +139,7 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 886 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 970 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
@@ -144,7 +147,8 @@ checks, plus 50 durable process/retry/temporal conformance checks,
 55 typed query checks, 57 pure compaction checks, 55 local compaction
 publication/integration/process checks, 70 reader protection/identity/cleanup checks,
 69 verified inventory/root/budget/process checks and 93 protected physical
-removal/fault/process checks, plus 46 integrated compaction/reclamation cases. Coverage
+removal/fault/process checks, plus 46 integrated compaction/reclamation cases and 84 immutable-object/type/local/
+fault/segment-consumer cases. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair
@@ -213,6 +217,12 @@ journal remain intact. Run its checked removal/reopen example:
 
 ```bash
 java --class-path target/classes examples/ReclamationExample.java
+```
+
+The immutable byte adapter has a checked history/reuse/range example:
+
+```bash
+java --class-path target/classes examples/ObjectStoreExample.java
 ```
 
 ## Working in this repository

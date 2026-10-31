@@ -12,31 +12,32 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0034's decision/planning criteria pass**:
-  ADR 0020 and the persistence boundary specification define the local-first
-  embedded Java bitemporal direction, narrow optional adapters and separate
-  replication work. No production code, format, Maven input or temporal fixture
-  changed; the existing 886-test Java baseline is not rerun for this docs-only step.
-- **MDB-0011 remains expanded**, preserving its original S3-compatible backend,
-  recovery and reclamation conformance criteria. Required children MDB-0034 through
-  MDB-0040 cover boundaries, object access, provider integration, conditional
-  publication, engine recovery, protected cleanup and final conformance.
-  MDB-0034 alone is done; no object backend is implemented by this change.
-- Next source-ready item: **MDB-0035 — Implement bounded immutable-object access
-  and local conformance**. Verify this completion on remote main and documentation/
-  automatic Pages before claiming it. Keep explicit local journal/ownership and
-  backend-specific publication; split the item further if concrete consumers demand it.
-- **MDB-0041 remains deferred**, outside MDB-0011 and the prototype dependency
-  chain. It specifies the optional replication protocol before any network work;
-  no replication, automatic failover or multiwriter guarantee is implemented.
-- Public documentation, research, roadmap, README and agent rules agree. Both URL
-  layouts pass strict shared source/HTML/link/search/sitemap QA for **47 pages**;
-  all **41 documentation QA tests** pass. Desktop light/dark, narrow table scrolling,
-  new decision/navigation/search and final clone/tail wording are previewed.
-- Prior completion `4c255e2689870c45bddfea1496f3a43e5983d09f` matches origin/main
-  at iteration start. Java 41210455116, documentation 41210455122 and automatic
-  Pages 41210455167 succeeded. Git/workflows own this step's subsequent delivery
-  evidence; only documentation workflows are expected for the changed inputs.
+- No executable item is active. **MDB-0035's source criteria pass**: bounded
+  immutable-object types/interface, a JDK-only local adapter, verified heap ranges,
+  explicit identical reuse and a segment-codec consumer are implemented.
+  Existing segment/checkpoint/journal APIs, formats and engine acknowledgement
+  remain unchanged. No provider SDK, physical range I/O or remote publication is added.
+- **970 local Java tests and fourteen examples pass**, with no failures/errors/skips.
+  The 84 new invocations are eight type cases, nine reusable contract cases,
+  ten local cases, 53 injected-I/O cases and four segment compatibility cases.
+  The new example also passes against the packaged JAR; `jdeps -s` reports only
+  `java.base`. The JAR has 137 Java 25 classes and no test/reference fixture content.
+- Both public URL layouts pass source/HTML/link/search/sitemap QA for **49 pages**,
+  and all 41 documentation QA tests pass. Light/dark, narrow table, new ADR,
+  navigation and `createOrVerify` search preview checks pass. The production site
+  build is restored after the project-path check.
+- Fresh Central/official compatibility research on October 31 at 13:38:43 EDT /
+  17:38:43 UTC confirms all twelve Maven pins remain latest stable. No POM,
+  wrapper, dependency, fixture or runtime-library change is needed.
+- **MDB-0011 remains expanded**. Next source-ready item: **MDB-0036 — Add optional
+  S3-compatible object access and provider checks**. Verify this completion on
+  remote main and Java/docs/automatic Pages before claiming it. Refine provider
+  packaging, maintained-library selection and controlled SDK/HTTP fixture before
+  implementation; preserve standalone local use and separate checkpoint/engine gates.
+- MDB-0041 remains deferred; no replication/failover work is started. Prior
+  `24df9b0871bd208fe3c0bd436ece8185852f0663` matches origin/main at iteration start;
+  docs 41222060256 and automatic Pages 41222060285 succeeded. Git/workflows own
+  this completion's later delivery evidence.
 
 ## Ordered work
 
@@ -73,8 +74,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | done | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | expanded | MDB-0010 |
 | [MDB-0034](roadmap.md#mdb-0034-bitemporal-persistence-boundaries) | Define bitemporal persistence boundaries and staged backend work | MDB-0011 | done | MDB-0010 |
-| [MDB-0035](roadmap.md#mdb-0035-bounded-immutable-object-access) | Implement bounded immutable-object access and local conformance | MDB-0011 | ready | MDB-0010, MDB-0034 |
-| [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | queued | MDB-0010, MDB-0035 |
+| [MDB-0035](roadmap.md#mdb-0035-bounded-immutable-object-access) | Implement bounded immutable-object access and local conformance | MDB-0011 | done | MDB-0010, MDB-0034 |
+| [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |

@@ -15,6 +15,11 @@ same temporal answers and declare their own durability and coordination guarante
 direction. The interfaces described here are responsibilities to implement and
 test, rather than a stable Java service-provider API.
 
+The first [immutable-byte interface and local adapter](../development/immutable-objects.md)
+are implemented, with a segment-codec consumer and bounded whole-object reads.
+Existing local checkpoint and engine APIs retain their current protocols. Remote
+adapters and replication remain planned.
+
 ## Bitemporal history is the core contract
 
 The [temporal contract](temporal-contract.md) distinguishes when a fact applies
@@ -68,6 +73,9 @@ An object adapter needs precise creation, read and failure behavior:
 The existing [segment format](immutable-segment-format.md) requires complete-object
 verification before records are returned. Range-read support does not relax that
 format. Another block-integrity scheme would require its own format decision.
+The implemented `VerifiedObject.readRange` copies a range from a fully verified
+heap image; it is not a physical range-read interface. [ADR 0021](../decisions/0021-bounded-immutable-object-access.md)
+records that initial boundary.
 
 ## Object storage and checkpoints
 

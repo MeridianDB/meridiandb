@@ -85,6 +85,8 @@ jobs:
         run: java --class-path target/classes examples/SegmentCodecExample.java
       - name: Run the local immutable segment example
         run: java --class-path target/classes examples/LocalSegmentExample.java
+      - name: Run the immutable object adapter example
+        run: java --class-path target/classes examples/ObjectStoreExample.java
       - name: Run the manifest consistency example
         run: java --class-path target/classes examples/ManifestExample.java
       - name: Run the local checkpoint example

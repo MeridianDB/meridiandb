@@ -62,6 +62,9 @@ now recomputes that inventory and synchronizes metadata retirement before unused
 dependencies. [Integrated conformance](development/compaction-conformance.md) checks
 canonical/seeded histories, process stops and named-file lengths across those stages.
 Layout performance experiments remain open.
+The [immutable byte-object interface](development/immutable-objects.md) now has a
+local adapter, complete content/length validation, verified heap ranges and a
+segment-codec consumer. Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

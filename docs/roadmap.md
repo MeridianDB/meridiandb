@@ -25,6 +25,7 @@ There is no release date or stable API commitment.
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |
 | [Local immutable files](development/local-segments.md) | Create-only file writes, bounded expected-ID verification and explicit heap-reader lifetimes |
+| [Immutable byte access](development/immutable-objects.md) | Small interface, JDK-only local adapter, complete expected-ID/length checks, explicit identical reuse, verified heap ranges and segment-codec consumer |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
@@ -87,11 +88,13 @@ now combines full fixture/seed histories, richer process exits and exact named-f
 space accounting. Earlier cutoffs, lazy readers, recovery and backup roots
 remain part of that safety contract.
 
-The object-storage work proceeds through bounded immutable-object access and a
-local implementation, an optional S3-compatible adapter, conditional checkpoint
+Bounded [immutable-object access](development/immutable-objects.md) and a local
+implementation are available, with reusable conformance and a segment consumer.
+Existing checkpoint/engine paths are unchanged. The remaining object-storage work
+proceeds through an optional S3-compatible adapter, conditional checkpoint
 publication, engine recovery, protected reclamation and common conformance.
 It retains the existing local journal and acknowledgement contract. Each stage
-needs capability and failure evidence; the backend is not implemented today.
+needs capability and failure evidence; a remote backend is not implemented today.
 A common API cannot make object storage behave like a local filesystem.
 [Comparable-system research](architecture/storage-research.md) informs these
 boundaries without selecting another database's semantics.

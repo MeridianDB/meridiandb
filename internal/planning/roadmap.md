@@ -785,6 +785,19 @@ verification, fresh artifact research under AGENTS, documentation and a runnable
 consumer example. Expand further if extracting byte access and migrating a consumer
 cannot remain one bounded change; keep MDB-0036 and later gates required.
 
+**Produced artifacts:** nine production sources: `ImmutableObjectStore`, bounded
+key/ID/reference and error types, `VerifiedObject`, `LocalObjectStore` and the
+`SegmentObjects` codec consumer. Add a reusable backend conformance base, local/
+type/fault/segment suites, [object-access guide](../../docs/development/immutable-objects.md),
+[ADR 0021](../../docs/decisions/0021-bounded-immutable-object-access.md) and a fourteenth
+CI-checked example. All 970 local tests (84 new) and fourteen examples pass without
+skips; the example also consumes the JAR, whose only module dependency is java.base.
+Whole images are limited to 32 MiB; ranges are verified heap slices, not physical
+range I/O. Existing local checkpoint/journal/engine protocols and file formats are
+unchanged. Both documentation layouts pass for 49 pages; all 41 QA tests and 41-ID
+queue checks pass. MDB-0036 and the original parent protocol/integration gates remain
+required after remote delivery/CI.
+
 ## MDB-0036 Optional S3-compatible object access
 
 **Parent:** MDB-0011. **Outcome:** implement immutable object creation and bounded

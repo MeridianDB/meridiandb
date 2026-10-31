@@ -54,6 +54,12 @@ separate planned protocol; changing an object adapter does not change transactio
 authority or acknowledgement guarantees. [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md)
 records the direction and alternatives.
 
+The [immutable byte-object adapter](../development/immutable-objects.md) now
+provides a small JDK-only interface and local implementation. `SegmentObjects`
+consumes it to reopen the unchanged history format after complete identity/length
+and format checks. Verified heap ranges and explicit identical reuse do not
+select checkpoints or establish another durability policy.
+
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
 does not select the others. Local files and S3-compatible object storage are

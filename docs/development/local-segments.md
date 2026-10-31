@@ -11,6 +11,11 @@ without changing transaction identity, interval bounds or operation order. The
 adapter is experimental and independent of the memory engine. It supplies file
 I/O, not manifest selection or durable database acknowledgement.
 
+The separate [immutable-object interface](immutable-objects.md) now has a local
+byte adapter and `SegmentObjects` consumer, with complete identity/length checks
+and verified heap ranges. Both paths use the same segment bytes; this path and
+the existing checkpoint protocol keep their original API and behavior.
+
 ## Write and reopen
 
 Use an existing local directory whose paths remain stable. The caller selects a
