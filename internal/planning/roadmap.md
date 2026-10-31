@@ -1211,8 +1211,10 @@ independent generation, complete references and no pending-clear/rebase operatio
 Final local verification passes 1,092 core / 185 optional cases without skips,
 all fourteen packaged-core examples, unchanged core artifact inspection and both
 strict 61-page site builds with rendered desktop/mobile/search/decision review.
-Maven research freshly reconfirms all fourteen pins. Source/Git/CI/Pages/live
-identities follow in the delivery receipt; durable installation remains MDB-0056.
+Maven research freshly reconfirms all fourteen pins. Source
+`742d52ed8cc4f6de31db4c7c5fc6d7fef5a68c54`, Java 41252084742, docs 41252084800
+and Pages 41252084803 pass remote/live verification in the delivery receipt;
+durable installation remains MDB-0056.
 
 ## MDB-0056 Durable local publication state
 

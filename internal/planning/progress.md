@@ -3342,6 +3342,38 @@ hosting action is included.
 expected/pending bytes and preconditions through supported exclusive placement,
 ordered force/atomic installation, poisoning and real process-exit/reopen.
 
+## 2026-10-31 — MDB-0055 Delivery and publication readback
+
+Source completion **`742d52ed8cc4f6de31db4c7c5fc6d7fef5a68c54`** reaches origin/main
+with matching tips, verified ancestry and clean source checkout. Java checks
+**41252084742**, documentation checks **41252084800** and automatic Pages
+**41252084803** all finish successfully. Ubuntu runs **1,092 core / 185 optional**
+tests without failures/errors/skips; Windows runs the same totals without failures/
+errors and retains **228 pre-existing core filesystem capability skips**. All
+**36 new state/transition and 29 codec cases**, and all other optional cases, run
+without skips on both platforms. All fourteen example steps succeed on both.
+Both docs URL builds also pass the unchanged 42 QA-rule fixture tests.
+
+Live HTTPS readback verifies the new state guide/ADR 0026, head protocol, build
+research timestamp/test counts, conditional-head guide, roadmap and homepage.
+Canonicals are correct, search contains both new routes/titles and sitemap has
+**61 unique HTTPS canonical pages**. Browser readback confirms the live guide;
+`.local-qa/mdb-0055/site-published.png` is saved and embedded in the delivery update.
+Temporary viewport/theme changes are restored; the preview tab shows the live
+user-facing guide and the owned loopback static server is stopped.
+
+Queue/card delivery state is reconciled. This internal-only receipt receives a
+normal commit/push with its identity and remote verification supplied by Git;
+these paths trigger no further configured workflows. MDB-0055 is done and MDB-0056
+ready. MDB-0052/MDB-0049/MDB-0037 remain expanded with every original durability/
+publisher criterion preserved; MDB-0053 still depends on complete MDB-0052.
+Independent MDB-0054 remains queued outside those parents. No subsequent
+implementation, release, real-cloud/account/DNS or hosting-setting change occurs.
+
+**Next recommendation:** MDB-0056 — durable local publication state, preserving
+exact expected/pending bytes and original preconditions under supported exclusive
+placement, staged force/atomic installation, poisoning and process-exit/reopen.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

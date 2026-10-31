@@ -12,9 +12,10 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0055 source acceptance passes from clean main/origin
-  `422f7a73995b4ac0abfca113b8329a1e3b5b1a2f`. Its completion commit, normal push,
-  remote ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- MDB-0055 source `742d52ed8cc4f6de31db4c7c5fc6d7fef5a68c54` is verified on
+  origin/main with matching tips and ancestry. Java **41252084742**, documentation
+  **41252084800** and automatic Pages **41252084803** pass. Live HTTPS guide/ADR,
+  callers, canonical/search and the **61-page** sitemap are verified.
 - **MDB-0052** is expanded into required children **MDB-0055** bounded S3
   publication state/intent format and pure transitions, then **MDB-0056** durable
   local ownership/installation/poisoning/process reopen. Preserve all original
@@ -24,8 +25,8 @@ children before implementation rather than treating a whole milestone as one pat
   transitions. All 65 new cases, 1,092 core and 185 optional cases pass locally;
   fourteen examples, artifact inspection and both strict 61-page site builds pass.
   Core and dependency pins remain unchanged. No active executable claim remains.
-- **MDB-0056 — Durable local publication state** is source-ready, conditional on
-  verified MDB-0055 delivery. Implement exclusive supported local placement,
+- **MDB-0056 — Durable local publication state** is ready after verified MDB-0055
+  delivery. Implement exclusive supported local placement,
   staged force/atomic installation, poisoning and process-exit/reopen next.
   Pure metadata recognition supplies no graph/selection/force/durable evidence;
   preserve exact pending intent/preconditions and all parent acceptance criteria.
