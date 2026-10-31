@@ -63,9 +63,9 @@ final class JournalRecovery {
 
     /** Hash only the requested complete history using the already owned file access. */
     static LocalJournal.Prefix prefix(LocalJournal.FileAccess file, DatabaseId databaseId,
-                                     long throughSequence) throws IOException {
+                                     long throughSequence, long maxBytes) throws IOException {
         long size = file.size();
-        var header = header(file, size);
+        var header = header(file, size, maxBytes);
         if (!header.databaseId().equals(databaseId)) {
             throw new JournalFormatException(JournalFormatException.Code.INVALID_HISTORY,
                     "Journal lineage changed during prefix verification");
@@ -77,6 +77,7 @@ final class JournalRecovery {
         var identities = new HashSet<RequestId>();
         var fixed = ByteBuffer.allocate(16);
         while (previous < throughSequence) {
+            requireBudget(offset, 16, maxBytes);
             if (size - offset < 16) {
                 throw new JournalFormatException(JournalFormatException.Code.INCOMPLETE_TAIL,
                         "Incomplete journal prefix frame at byte " + offset);
@@ -85,6 +86,7 @@ final class JournalRecovery {
             readFully(file, fixed, offset);
             fixed.flip();
             int frameSize = JournalCodec.recordBytes(fixed);
+            requireBudget(offset, frameSize, maxBytes);
             if (size - offset < frameSize) {
                 throw new JournalFormatException(JournalFormatException.Code.INCOMPLETE_TAIL,
                         "Incomplete journal prefix frame at byte " + offset);
@@ -108,6 +110,11 @@ final class JournalRecovery {
     private record Header(DatabaseId databaseId, byte[] bytes) { }
 
     private static Header header(LocalJournal.FileAccess file, long size) throws IOException {
+        return header(file, size, Long.MAX_VALUE);
+    }
+
+    private static Header header(LocalJournal.FileAccess file, long size, long maxBytes) throws IOException {
+        requireBudget(0, 16, maxBytes);
         if (size < 16) {
             throw new JournalFormatException(JournalFormatException.Code.INCOMPLETE_HEADER, "Incomplete journal header");
         }
@@ -115,6 +122,7 @@ final class JournalRecovery {
         readFully(file, prefix, 0);
         prefix.flip();
         int headerSize = JournalCodec.headerBytes(prefix);
+        requireBudget(0, headerSize, maxBytes);
         if (size < headerSize) {
             throw new JournalFormatException(JournalFormatException.Code.INCOMPLETE_HEADER, "Incomplete lineage or header checksum");
         }
@@ -123,6 +131,12 @@ final class JournalRecovery {
         readFully(file, header, 16);
         header.flip();
         return new Header(JournalCodec.readHeader(header), header.array());
+    }
+
+    private static void requireBudget(long offset, int count, long maxBytes) throws LocalJournal.PrefixLimitException {
+        if (offset > maxBytes || count > maxBytes - offset) {
+            throw new LocalJournal.PrefixLimitException(maxBytes);
+        }
     }
 
     private static MessageDigest sha256() {

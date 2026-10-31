@@ -2995,6 +2995,89 @@ real-cloud/account/DNS action or hosting setting change occurs here.
 refining its graph/journal verification and durable intent/reconciliation stages
 into bounded children before implementation if needed.
 
+## 2026-10-31 — MDB-0050 Bounded owned-journal prefix verification
+
+**Selection and refinement:** start from clean main/origin
+`f239da980264601b24f8c96f1c2c39732818e69f`; verify preceding source
+`ed4ba02baf9be8834721870959d80c6515d87ee4` and Java/docs/Pages success before
+advancing. Expand MDB-0049 into four required children while preserving all
+original MDB-0049/MDB-0037 acceptance: MDB-0050 actual-prefix byte bounds,
+MDB-0051 bounded graph/actual-prefix verification, MDB-0052 durable expected/pending
+state and MDB-0053 conditional publisher/reconciliation integration. A short,
+self-consistent remote declaration cannot bound a different actual owner record;
+therefore actual journal read preflight is a necessary first prerequisite, not
+proof of the parent outcome. Parent publication and later engine/reclamation
+work remain incomplete.
+
+**Outcome:** add `LocalJournal.prefix(throughSequence, maxBytes)` and nested typed
+`PrefixLimitException.maxBytes()`. Include the complete header and all requested
+frames in the encoded-byte cap, check the remaining bytes before every 16-byte
+framing read and before header/frame payload allocation/read, and use subtraction
+to avoid overflow. Exact caps fit; negative arguments/cutoffs reject before I/O.
+Policy exhaustion returns no prefix but preserves a healthy owner, counters,
+identities, locks and bytes. Actual observed corruption, I/O and size changes
+retain poisoning. The unlimited overload delegates with Long.MAX_VALUE. Existing
+open/recovery scanning, acknowledgement, force/repair/close and wire formats are
+unchanged. The public runnable journal example exercises a 64 KiB cap.
+
+**Research:** all fourteen Maven selections are freshly checked at **22:11:41 UTC /
+18:11:41 EDT**, with separate official compatibility snapshots at 22:11:59 UTC.
+Selected stable versions remain Maven 3.10.0, wrapper 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4 and optional SDK s3/URLConnection 2.57.8. No POM/dependency change
+is needed. Metadata summary SHA-256
+`0de3b959ea49cbdb4a76b8fd831d5186caa4b30e92fb783977ea78c18fef9fd8`;
+research report
+`cc0a34f7bf162ded79e4639a6399fb2bf58ac978140d5b8ee911a3d29622d68b`.
+Ignored raw evidence is under `.local-qa/mdb-0050/research-helper/`; the public
+build guide owns current dated coordinates and primary links. Preserve the
+project-tested Java 25 description rather than implying provider certification.
+
+**Verification:** an independent helper contributes 25 focused invocations;
+coordinator adds the complete valid shorter-versus-larger same-lineage/same-cutoff
+case. The final **26 bounded-prefix tests** cover exact/Long.MAX/unlimited hashes,
+zero/tiny/header/max-lineage/frame/cumulative caps, exact native read request
+bounds, short/zero/stalled/failed I/O, large valid framing without payload access,
+format-limit/corruption versus policy classification, late unread faults, owner
+reuse/append/identity/counter preservation, invalid/closed/replay states and real
+locked-file exclusion. Raw real-file bytes are read only after owner close.
+Observed size change remains a poisoned failure even with a zero budget. The
+caller cap does not certify unread bytes, bound initial open recovery, provide a
+universal heap/CPU limit or replace aggregate record/identity/repeated-call budgets.
+
+Existing focused journal regression passes **58 cases**. Clean core and optional
+builds pass; after adding the final explicit divergence case, final
+`./mvnw -B install` passes **1,042 core tests**, and the unchanged optional
+implementation's `./mvnw -B -f adapters/s3/pom.xml clean verify` passes **116 tests**.
+All have zero failures/errors/skips locally. All fourteen examples run against
+the packaged core JAR, including the changed journal example. Archive/`jdeps`
+inspection finds **144 core production classes**, only java.base, no SDK/test
+classes and the unchanged one-class shared conformance classifier. No changed
+force boundary, remote graph guarantee or cloud qualification is inferred.
+
+**Documentation and review:** update the journal guide/spec, ADR 0008, object-head
+protocol, README, build evidence/counts, current S3 test-count callers and agent
+rules. Independent production and document/planning review finds no actionable
+issue. Both strict production and project-path builds pass source/HTML/links/
+search/sitemap for **57 pages**, then restore production output. Rendered review
+covers desktop light, 390-pixel dark and actual search results for the new section;
+there is no page-wide overflow. No new route, diagram, dependency or renderer is
+needed. Helpers own only independent research/review and their bounded test file;
+coordinator owns production/docs/shared planning/Git writes.
+
+**Source completion/delivery:** mark MDB-0050 done and MDB-0051 ready; leave
+MDB-0049 and MDB-0037 expanded. Validate **53 unique IDs**, cards, references,
+dependencies/parents/DAG and eligibility. Inspect explicit task-owned paths/staged
+diff, commit with Step-ID MDB-0050 / Step-Result completed, push normally and
+verify remote ancestry/tips, Java/docs CI, automatic Pages and live guide/build/
+protocol/canonical/search/sitemap readback. Git and the delivery receipt supply
+actual commit/check identities. No subsequent child, release/tag/artifact upload,
+real-cloud/account/DNS or other hosting change is included.
+
+**Next recommendation:** MDB-0051 — verified object checkpoint graphs against the
+actual owned journal, sharing bounded object/prefix/record/identity work budgets
+before durable intent and conditional publisher integration.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

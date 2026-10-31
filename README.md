@@ -19,7 +19,8 @@ workload fixtures are defined. The Java 25/Maven build now includes a memory-onl
 embedded engine, immutable temporal types, an independent test reference and a
 runnable embedding example. `InMemoryEngine` implements the initial numeric
 temporal contract and remains nonpersistent. A separate local journal supports append,
-force, exclusive writer access and bounded replay. An immutable history-segment
+force, exclusive writer access and bounded replay. [Owned prefix verification](docs/development/local-journal.md#bound-prefix-verification-by-encoded-bytes)
+also accepts a per-call encoded-byte budget. An immutable history-segment
 codec preserves exact transaction ranges
 in bounded, checksummed byte images. The [local segment adapter](docs/development/local-segments.md)
 adds create-only file writes and verified heap readers. A separate
@@ -157,8 +158,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,016 JUnit test invocations: 71 temporal/engine, 29 journal codec,
-58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
+This runs 1,042 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+84 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,

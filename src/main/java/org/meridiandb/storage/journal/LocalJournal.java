@@ -44,6 +44,19 @@ public final class LocalJournal implements AutoCloseable {
         }
     }
 
+    /** Caller byte policy exhausted before further reads; this alone does not poison the owner. */
+    public static final class PrefixLimitException extends IOException {
+        private static final long serialVersionUID = 1L;
+        private final long maxBytes;
+
+        PrefixLimitException(long maxBytes) {
+            super("Journal prefix exceeds caller byte limit " + maxBytes);
+            this.maxBytes = maxBytes;
+        }
+
+        public long maxBytes() { return maxBytes; }
+    }
+
     public static final class IncompleteTailException extends IOException {
         private static final long serialVersionUID = 1L;
         private final long validBytes;
@@ -242,15 +255,28 @@ public final class LocalJournal implements AutoCloseable {
      * The zero prefix includes only the lineage header. Later records need not be read or validated.
      */
     public synchronized Prefix prefix(long throughSequence) throws IOException {
+        return prefix(throughSequence, Long.MAX_VALUE);
+    }
+
+    /**
+     * Validate the owned prefix within an encoded-byte budget, including the lineage header.
+     * Check remaining bytes before framing reads, body allocation and body reads. A policy-limit
+     * failure leaves the owner usable; observed corruption or I/O failure still poisons it.
+     * This neither forces data nor limits repeated calls or total heap/identity costs.
+     */
+    public synchronized Prefix prefix(long throughSequence, long maxBytes) throws IOException {
         usable();
         if (throughSequence < 0 || throughSequence > appendedSequence) {
             throw new IllegalArgumentException("Prefix requires an existing appended sequence");
         }
+        if (maxBytes < 0) { throw new IllegalArgumentException("Prefix byte limit must be nonnegative"); }
         try {
             unchangedSize();
-            var prefix = JournalRecovery.prefix(file, databaseId, throughSequence);
+            var prefix = JournalRecovery.prefix(file, databaseId, throughSequence, maxBytes);
             unchangedSize();
             return prefix;
+        } catch (PrefixLimitException limit) {
+            throw limit;
         } catch (IOException | JournalFormatException failure) {
             failed = true;
             throw failure;

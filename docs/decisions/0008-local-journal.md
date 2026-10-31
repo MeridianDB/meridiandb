@@ -39,6 +39,13 @@ grows with retained history. Keep complete recovered transactions even when thei
 previous acknowledgement is unknown. Force counters describe only successful
 calls in the current instance, not an inferred persisted acknowledgement record.
 
+Owned prefix validation also accepts an explicit per-call encoded-byte budget.
+Check it before each framing read and before allocating/reading a declared body.
+A dedicated caller-limit exception leaves a healthy journal usable; observed
+format or I/O failures retain poisoning. The [prefix guide](../development/local-journal.md#bound-prefix-verification-by-encoded-bytes)
+owns API behavior and limits. This budget does not change framing, startup recovery,
+force evidence or publication and does not replace aggregate caller work limits.
+
 Reject incomplete tails by default. Explicit repair first writes, forces and
 closes an exact suffix evidence file, then truncates and forces the retained
 journal prefix. Never repair complete corruption, malformed history, unknown

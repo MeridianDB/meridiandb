@@ -129,6 +129,50 @@ forcing data. Appended/forced counters remain unchanged. Invalid cutoffs are
 rejected before I/O; I/O, corruption and observed size changes poison the journal.
 Validation keeps a request-ID set for the prefix and bounded per-frame buffers.
 
+### Bound prefix verification by encoded bytes
+
+Use `prefix(throughSequence, maxBytes)` when the caller needs a per-call byte
+budget. `maxBytes` is nonnegative and covers the complete encoded prefix from
+byte zero, including the lineage header. The result is identical to the original
+overload when the full prefix fits; the original `prefix(throughSequence)` remains
+available without a caller byte cap.
+
+The bounded path checks the remaining budget before each 16-byte framing read,
+then validates that framing before trusting its declared size. It checks the full
+header or frame size against the remaining budget **before allocating or reading
+its body**. Exact equality fits. A longer actual record cannot cause unrestricted
+payload reads merely because another object declared a smaller prefix length.
+Earlier cutoffs still stop before later records, even if the suffix is corrupt.
+
+If the requested prefix cannot fit, `LocalJournal.PrefixLimitException` reports
+`maxBytes()`. This is a caller-policy rejection, so it leaves a healthy owner
+usable for a larger-budget retry, append or force. It performs no write, force,
+repair, truncation or counter advancement and retains exclusive ownership. Actual
+I/O/size failures and corruption observed within the permitted reads still poison
+the owner. Rejection at the budget boundary proves nothing about unread bytes;
+in particular, it does not certify that the remaining history is valid.
+
+For example, with an existing owner and an independently chosen budget:
+
+```java
+try {
+    var prefix = journal.prefix(cutoff, byteBudget);
+    // Compare sequence, length and SHA-256 with the expected prefix.
+} catch (LocalJournal.PrefixLimitException limit) {
+    // Stop verification; no force or publication has occurred.
+}
+```
+
+The runnable journal example also validates its stored transaction within a
+64 KiB prefix budget.
+
+This cap bounds encoded bytes read by this call, not exact JVM heap size, elapsed
+time or total work across calls. Decoding uses bounded frame buffers and a growing
+request-ID set; callers performing repeated graph verification must separately
+budget aggregate bytes, record/identity work and retained results. It does not
+bound the initial `open()` recovery scan. No force or remote-selection receipt
+follows from a successful prefix comparison.
+
 `path()` exposes the canonical real-file path for cooperating adapters; injected
 storage has no path. The [local checkpoint store](local-checkpoints.md) requires
 this owner at its designated journal path and compares the actual prefix with

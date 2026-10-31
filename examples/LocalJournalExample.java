@@ -28,6 +28,8 @@ class LocalJournalExample {
                 System.out.println("Appended sequence: " + journal.appendedSequence());
                 System.out.println("Forced sequence before force: " + journal.forcedSequence());
                 System.out.println("Forced sequence after force: " + journal.force());
+                var prefix = journal.prefix(1, 64 * 1024);
+                System.out.println("Verified prefix bytes within 64 KiB budget: " + prefix.byteLength());
             }
             try (var journal = LocalJournal.open(path)) {
                 var records = new ArrayList<JournalRecord>();

@@ -1075,6 +1075,102 @@ actual-prefix fixtures, finish parent integration/docs/delivery and mark MDB-003
 done only when all required children and parent criteria pass. Engine recovery
 and reader-safe remote reclamation remain the later separate tasks.
 
+**Required children:** MDB-0050 bounds reads of the actual owner journal before
+remote declarations can cause unbudgeted frame allocation/I/O. MDB-0051 composes
+complete object graph checks with actual owner-prefix validation and aggregate
+budgets. MDB-0052 persists durable expected-head and exact pending-intent state
+with explicit ownership, failures and reopen. MDB-0053 integrates those results
+with real SDK conditional operations and uncertain-result reconciliation, and
+finishes every original parent integration/failure criterion. An old-head GET
+alone never establishes completed failure. All children are required; the split
+does not implement remote publication or weaken the original acceptance criteria.
+
+## MDB-0050 Bounded owned journal prefix
+
+**Parent:** MDB-0049. **Outcome:** add an explicit encoded-byte cap to the existing
+owned `LocalJournal.prefix` validation path. Enforce the cap before reading a
+framing prefix, allocating/reading a declared header or full frame, and processing
+request identities. Preserve exact original bytes/hash, the zero-prefix header,
+earlier-cutoff behavior and the existing unlimited entry point.
+
+**Complete when:** typed policy-limit failure occurs without reads beyond the
+caller cap or allocation for an oversized declared frame; a healthy owner remains
+usable after that failure. Invalid bounds/cutoffs reject before I/O. Actual
+corruption/I/O failure still poisons the owner. Observe native fake-file offsets,
+short/stalled reads, header/frame boundaries and cumulative limits, including a
+same-lineage actual history larger than a remote declaration. Real file tests
+retain exclusive ownership, prove force counters unchanged and compare raw bytes
+only after owner close. Research Maven selections, run focused/core/optional
+checks and reconcile guide/contract/agent/queue documentation before normal
+delivery. The cap bounds encoded bytes, not a universal JVM-memory or CPU limit;
+callers must separately budget records/identities across repeated graph work.
+No graph/publication, force barrier, engine change or cloud qualification follows.
+
+**Produced artifacts:** `LocalJournal.prefix(sequence, maxBytes)` and typed
+`PrefixLimitException`, with remaining-byte checks in the owned recovery path
+before framing reads or header/frame-body allocation/I/O. The old overload keeps
+its behavior. Twenty-six focused cases observe exact read requests, independent
+raw-byte hashes, policy versus corruption/I/O outcomes, healthy reuse/append,
+real-file exclusion and unchanged force evidence. The runnable journal example
+uses a 64 KiB budget. Final local core/optional checks pass 1,042/116 tests and
+all fourteen packaged-core examples; core has 144 production classes and no
+external dependency beyond java.base. Fresh research keeps all fourteen pins.
+Guide/spec/ADR/README/build/S3 counts and agent rules are reconciled; both 57-page
+URL builds and rendered/search checks pass. Source push, CI and automatic
+Pages/live readback remain pending in this completion receipt. No publication
+or startup-recovery budget is implemented by this child.
+
+## MDB-0051 Verified object checkpoint graphs
+
+**Parent:** MDB-0049. **Outcome:** resolve namespace-scoped complete manifest and
+segment images through immutable object access; verify exact head/manifest/graph
+identity, lineage, ranges, request uniqueness and reconstructed prefix. Compare
+both predecessor and candidate against the actual exclusively owned journal
+using bounded reads. Preflight and share aggregate byte/record/identity/read work
+budgets across the entire operation, including repeated dependencies. No fallback
+from a damaged selected graph and no unbounded ancestry walk/listing.
+
+**Complete when:** genesis and adjacent graph verification cover absent/corrupt/
+wrong-ID dependencies, mismatched metadata and actual prefixes, equal-lineage
+copied divergent stores, resource limits before expensive work, cleanup and
+immutable result scope. Reuse existing manifest/actual-prefix fixtures and run
+real local/object checks. The result is verification evidence, not a selected
+head, force receipt or cleanup authority; durable intent and publication remain
+required. Preserve original parent acceptance and independent local embedding.
+
+## MDB-0052 Durable object publication intent
+
+**Parent:** MDB-0049. **Outcome:** persist bounded exact configured target/bindings,
+expected-head observation and one pending candidate/operation/precondition under
+exclusive supported local publisher placement. Specify trusted durable paths,
+capabilities, staged write/force/selection ordering, poisoning and fail-closed
+reopen. Preserve original intent identity and bytes through process exit.
+
+**Complete when:** fresh/initialized/missing/damaged state, stale/competing local
+owners, before/after-effect I/O, native cleanup and process-exit/reopen cases have
+exact outcomes. A missing head never authorizes genesis in initialized state;
+no old-head read alone resolves a pending request. Preserve evidence, original
+precondition and single-placement assumptions without distributed-fencing claims.
+No automatic graph cleanup or engine recovery follows. Finish documentation and
+normal delivery without weakening MDB-0049's durable-state criteria.
+
+## MDB-0053 Verified conditional publisher
+
+**Parent:** MDB-0049. **Outcome:** compose graph/actual-prefix verification, ordered
+local force barriers, verified immutable dependency/intent installation and durable
+expected/pending state with the optional SDK head API. Reconcile exact success,
+conflict and uncertainty against the original intent before another publication.
+
+**Complete when:** every original MDB-0049/MDB-0037 criterion passes through the
+actual SDK/HTTP fixture and supported local persistence, including genesis,
+competing/stale selection, damaged selected graph without fallback, copied divergent
+histories, lost replies before/after effects, a still-in-flight late effect,
+exact-intent retry/reopen and retained old/pending/uncertain objects. Keep bounded
+aggregate work and explicit deployment limits. Preserve local acknowledgement;
+remote engine recovery and protected reclamation remain later separate tasks.
+Mark both expanded publication parents done only after all children and original
+integration acceptance pass, and deliver documentation/CI/live evidence normally.
+
 ## MDB-0038 Remote checkpoint engine recovery
 
 **Parent:** MDB-0011. **Outcome:** compose the remote checkpoint implementation

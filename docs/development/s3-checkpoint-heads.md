@@ -34,7 +34,7 @@ Use `mvnw.cmd` on Windows. Core verification installs the core JAR and its small
 shared test classifier locally; the optional build verifies both immutable and
 conditional-head APIs. The optional build runs **116 tests**: the existing 46 immutable-object cases,
 43 conditional-head SDK/API cases and 27 token/observation/native-stream cases.
-Core runs its separate 1,016 tests. No cloud service or account is used by these tests.
+Core runs its separate 1,042 tests. No cloud service or account is used by these tests.
 
 Construct `S3CheckpointHeads` with an explicit endpoint origin, signing region,
 existing bucket, caller-owned credentials and a `Binding` containing the expected

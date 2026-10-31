@@ -45,7 +45,7 @@ uses the JDK HTTP implementation and JVM-managed connection pooling.
 The immutable adapter's 46 tests comprise nine shared object-contract cases, 29 actual
 SDK/HTTP protocol and integration cases, and eight focused native-stream/guard
 fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md).
-Core's separate 1,016 tests and fourteen runnable examples still
+Core's separate 1,042 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.
 The fixture binds only `127.0.0.1`, uses fixed test credentials and needs no service
 emulator, Docker daemon, cloud account or provisioned bucket.

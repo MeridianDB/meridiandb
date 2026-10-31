@@ -187,6 +187,13 @@ before it can establish a verified graph. No unbounded ancestry walk or listing
 is needed to validate one adjacent transition. Retained immutable intent history
 is diagnostic evidence, not permission to infer selection from object existence.
 
+The [owned-journal prefix API](../development/local-journal.md#bound-prefix-verification-by-encoded-bytes)
+now accepts a byte cap before framing/body reads. A future graph verifier must
+use that cap for the actual owner-journal comparison as well as bounding object
+fetches; a short untrusted declaration does not bound a different actual record.
+It must also budget aggregate record/identity work across both graphs and repeated
+prefix checks. The byte-cap primitive alone supplies none of that composition.
+
 ## Failure and retry outcomes
 
 S3's strong single-key consistency does not make several immutable uploads plus

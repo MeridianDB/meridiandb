@@ -152,6 +152,12 @@ operation order, numeric extremes and buffer-state behavior. Run it from the roo
 ./mvnw -B -Dtest=JournalCodecTest test
 ```
 
+The local adapter's [bounded prefix API](../development/local-journal.md#bound-prefix-verification-by-encoded-bytes)
+adds a caller byte budget without changing these wire limits. It refuses the
+next framing read or declared body when the encoded prefix would exceed that
+budget. A policy-limit result is distinct from an observed format/I/O failure;
+it does not validate unread history or establish a force/publication boundary.
+
 The ordinary `./mvnw -B verify` also retains engine/reference conformance and
 concurrency checks. Codec tests establish representation and byte-prefix behavior.
 The [local journal suite](../development/local-journal.md) additionally checks

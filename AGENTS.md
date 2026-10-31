@@ -131,7 +131,13 @@ so a new session can work correctly without relying on earlier conversations.
   encoding, allocation limits and fail-closed recovery. Pure decoding proves no
   force/acknowledgement. Follow the [local adapter contract](docs/development/local-journal.md)
   for separate appended/forced positions, failure poisoning, stable-path ownership
-  and explicit evidence-before-truncation repair. Reserve same-JVM ownership before
+  and explicit evidence-before-truncation repair. For caller-budgeted actual-prefix
+  checks use `prefix(sequence, maxBytes)` and the [prefix limits](docs/development/local-journal.md#bound-prefix-verification-by-encoded-bytes):
+  include the header, reject before framing/body reads or payload allocation, keep
+  policy exhaustion separate from I/O/corruption poisoning, and test exact native
+  read bounds plus subsequent owner usability. Budget aggregate records/identities
+  and repeated calls separately; this cap does not bound initial open recovery.
+  Reserve same-JVM ownership before
   opening another same-file channel. Use the shared identity reservation across
   journal/store/reader control owners and transient checkpoint/segment read/force
   handles; reject cross-store aliases before open and release a reservation only
