@@ -12,38 +12,21 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0035's source criteria pass**: bounded
-  immutable-object types/interface, a JDK-only local adapter, verified heap ranges,
-  explicit identical reuse and a segment-codec consumer are implemented.
-  Existing segment/checkpoint/journal APIs, formats and engine acknowledgement
-  remain unchanged. No provider SDK, physical range I/O or remote publication is added.
-- **970 local Java tests and fourteen examples pass**, with no failures/errors/skips.
-  The 84 new invocations are eight type cases, nine reusable contract cases,
-  ten local cases, 53 injected-I/O cases and four segment compatibility cases.
-  The new example also passes against the packaged JAR; `jdeps -s` reports only
-  `java.base`. The JAR has 137 Java 25 classes and no test/reference fixture content.
-- Both public URL layouts pass source/HTML/link/search/sitemap QA for **49 pages**,
-  and all 41 documentation QA tests pass. Light/dark, narrow table, new ADR,
-  navigation and `createOrVerify` search preview checks pass. The production site
-  build is restored after the project-path check.
-- Fresh Central/official compatibility research on October 31 at 13:38:43 EDT /
-  17:38:43 UTC confirms all twelve Maven pins remain latest stable. No POM,
-  wrapper, dependency, fixture or runtime-library change is needed.
-- Delivery repair: initial Java run 41226645494 passed Ubuntu but found one
-  Windows-only assertion mismatch for an invalid directory destination. Windows
-  returned AccessDeniedException rather than a name-conflict subtype. Keep ordinary
-  I/O rejection and unchanged evidence for directories, retain strict regular-file
-  conflict tests and leave production behavior unchanged. Focused local conformance
-  and both doc layouts pass; the repair commit must pass remote CI before advancing.
-- **MDB-0011 remains expanded**. Next source-ready item: **MDB-0036 — Add optional
-  S3-compatible object access and provider checks**. Verify this completion on
-  remote main and Java/docs/automatic Pages before claiming it. Refine provider
-  packaging, maintained-library selection and controlled SDK/HTTP fixture before
-  implementation; preserve standalone local use and separate checkpoint/engine gates.
-- MDB-0041 remains deferred; no replication/failover work is started. Prior
-  `24df9b0871bd208fe3c0bd436ece8185852f0663` matches origin/main at iteration start;
-  docs 41222060256 and automatic Pages 41222060285 succeeded. Git/workflows own
-  this completion's later delivery evidence.
+- No executable item is active. **MDB-0042's sponsorship source criteria pass**:
+  `.github/FUNDING.yml` points to the verified active MasteryEducation Sponsors
+  profile (Mastery Education by Tokenizer Inc.). README identifies Tokenizer Inc.
+  and describes voluntary support for experimental development, testing and docs.
+- Funding YAML, recipient/README consistency, local links and strict public docs
+  checks pass for the unchanged 49-page site. All 42 task IDs/cards/dependencies/
+  parents form a valid DAG. No engine, Maven, central profile, tier or payout work
+  occurs; central profile wording still concerns the education portfolio.
+- Verify this source commit on remote main, the expected documentation checks and
+  the live repository Sponsor panel/destination before treating delivery as complete.
+  README/FUNDING/internal changes trigger no Pages deployment; no website content
+  or engine input changes. The 970-test/14-example baseline remains separate.
+- Engine selection stays **MDB-0036 ready**. Starting clean main at
+  `d5dbbc37c2311c9c0d7304183d7cfd5e438bf887` matches fetched origin/main; Java
+  41226869828, docs 41226869905 and Pages 41226869896 all succeeded.
 
 ## Ordered work
 
@@ -81,6 +64,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | expanded | MDB-0010 |
 | [MDB-0034](roadmap.md#mdb-0034-bitemporal-persistence-boundaries) | Define bitemporal persistence boundaries and staged backend work | MDB-0011 | done | MDB-0010 |
 | [MDB-0035](roadmap.md#mdb-0035-bounded-immutable-object-access) | Implement bounded immutable-object access and local conformance | MDB-0011 | done | MDB-0010, MDB-0034 |
+| [MDB-0042](roadmap.md#mdb-0042-repository-sponsorship) | Enable repository sponsorship using the existing verified recipient | — | done | — |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |

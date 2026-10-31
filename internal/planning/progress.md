@@ -2244,6 +2244,48 @@ new Java/docs/automatic Pages and exact updated live content before handoff.
 The final report distinguishes this initial CI failure from the repaired result.
 MDB-0036 remains next and starts only after successful delivery checks.
 
+
+## 2026-10-31 — MDB-0042 Repository sponsorship
+
+**Outcome:** implement the owner's scoped request for the repository Sponsor button
+and a short README link. Add minimal `.github/FUNDING.yml` with
+`github: [MasteryEducation]`. README identifies Tokenizer Inc. as recipient and
+supports MeridianDB development, testing and documentation with explicit
+experimental/voluntary wording. Add `internal/sponsorship.md` as the maintenance
+procedure and link it from AGENTS. Keep the engine's MDB-0036 selection unchanged.
+
+**Recipient evidence:** the public personal FuadEfendi Sponsors URL redirects to
+its regular profile. Earlier SoftwarePatternsLexicon.com funding commit
+`b45e8312b13388f28957491e9ab2d15529266f86` supplies MasteryEducation as its GitHub
+recipient. Browser verification on October 31 confirms the active
+`https://github.com/sponsors/MasteryEducation` page identifies **Mastery Education
+by Tokenizer Inc.**, Toronto, founded by Fuad Efendi, with monthly/one-time custom
+support. Use that verified existing destination only; do not copy the old unused
+funding platform placeholders or other payment links. Central profile wording
+still concerns education; no profile, tier, bank/payout or other-repository change
+is performed, and no donation transaction is initiated.
+
+**Verification:** parse the YAML and assert its exact recipient; confirm the README
+has one matching active funding link and honest support wording. Local referenced
+paths, `git diff --check`, source/rendered strict docs, links, search and sitemap
+pass for the unchanged **49-page** website. The queue validator checks **42 unique
+IDs**, roadmap cards/anchors, dependency/parent references, eligibility and DAG;
+MDB-0042 is done, no item active and only MDB-0036 ready. No production/Maven or
+site-content input changes require Java verification, dependency research, new
+unit tests or a Pages deployment. The configured README path triggers docs-checks.
+
+**Delivery:** start clean main at `d5dbbc37c2311c9c0d7304183d7cfd5e438bf887`,
+matching fetched origin/main. Its Java 41226869828, docs 41226869905 and Pages
+41226869896 runs succeeded. Commit with MDB-0042 completion trailers, normal-push
+origin/main, verify ancestry/tips and documentation CI, then inspect the live
+repository Sponsor panel and its intended destination. Git and the final handoff
+supply this completion's actual SHA/readback; source files make no preemptive
+claim of deployed repository UI. No Cloudflare, artifact release or site dispatch.
+
+**Next recommendation:** update the central Sponsors profile introduction to
+mention MeridianDB alongside the existing portfolio, if the owner wants that
+separate account-copy change. Engine work remains MDB-0036; neither starts here.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

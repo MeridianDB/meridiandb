@@ -276,6 +276,12 @@ output if hosting needs change. See the
 [toolchain decision](docs/decisions/0002-documentation-toolchain.md) for setup,
 compatibility, metadata and future versioning.
 
+## Support MeridianDB
+
+Support MeridianDB's open-source development, testing and documentation through
+[Tokenizer Inc. on GitHub Sponsors](https://github.com/sponsors/MasteryEducation).
+MeridianDB is experimental; sponsorship is voluntary support for ongoing work.
+
 ## License
 
 [Apache License 2.0](LICENSE).

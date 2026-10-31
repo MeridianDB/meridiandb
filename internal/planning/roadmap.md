@@ -798,6 +798,28 @@ unchanged. Both documentation layouts pass for 49 pages; all 41 QA tests and 41-
 queue checks pass. MDB-0036 and the original parent protocol/integration gates remain
 required after remote delivery/CI.
 
+## MDB-0042 Repository sponsorship
+
+**Outcome:** implement the owner's scoped sponsorship request with a repository
+Sponsor button and a concise README link, reusing an existing verified profile.
+This independent task does not advance the engine queue or change payment details.
+
+**Complete when:** `.github/FUNDING.yml` names the verified recipient, README support
+copy matches and retains experimental status, the maintenance procedure/agent rule
+and progress/queue agree, and YAML/source/strict-doc checks pass. Commit/push the
+source and verify the live repository's Sponsor panel and destination. Report any
+actual account/setup dependency explicitly; do not claim that a redirect to a
+regular profile accepts sponsorship. No new tiers, feature promises, payout
+changes, engine work or website deployment are required by this task.
+
+**Produced artifacts:** minimal FUNDING YAML for MasteryEducation, a concise README
+support section identifying Tokenizer Inc., the internal sponsorship procedure
+and linked agent rule. Recipient is recovered from earlier configured funding and
+verified as an active Sponsors page, with monthly/one-time custom support. YAML,
+README consistency, source/rendered docs and the 42-ID queue checks pass. Source
+closure leaves remote button/readback and documentation CI as delivery checks;
+engine selection remains MDB-0036 and central profile/tiers/payouts are unchanged.
+
 ## MDB-0036 Optional S3-compatible object access
 
 **Parent:** MDB-0011. **Outcome:** implement immutable object creation and bounded

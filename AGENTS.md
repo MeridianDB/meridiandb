@@ -373,6 +373,15 @@ so a new session can work correctly without relying on earlier conversations.
   diagram must add and verify a pinned renderer in a shared build command used
   locally and by both workflows; the current site has no diagram renderer.
 
+## Project sponsorship
+
+- Follow [the sponsorship procedure](internal/sponsorship.md) when changing
+  funding configuration or support copy. `.github/FUNDING.yml` owns the verified
+  recipient; keep README links consistent and describe voluntary support for the
+  experimental project. Verify the active destination and live repository button
+  after delivery. Treat central account/profile, tier and payout changes as their
+  own scoped work, rather than inferring them from a repository-link update.
+
 ## Maintain the guidance
 
 - Update these rules in the same task when an owner instruction, established
