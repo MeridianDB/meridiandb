@@ -2876,6 +2876,95 @@ MDB-0047 done and MDB-0048 ready; no conditional head I/O or later implementatio
 starts during this receipt. No release, real-cloud/account/DNS operation or
 hosting-setting change occurs.
 
+## 2026-10-31 — MDB-0048 Conditional S3 head access
+
+**Outcome:** implement a separate optional `S3CheckpointHeads` API with one complete
+256-byte GET paired with its strong opaque ETag, revision-1 create-if-absent and
+exact adjacent replacement using the original scoped observation. The API checks
+independently configured namespace/publisher/lineage before I/O or observation
+return. Immutable `S3HeadObservation` owns bounded heap bytes and full endpoint/
+bucket/derived-key scope; `restore()` declares saved metadata and proves no prior
+GET. `S3HeadToken` preserves one quoted ASCII tag up to 1,024 bytes (including
+empty, comma, quoted star and literal backslash); `S3HeadWriteException` records
+409/412/missing-key/service/uncertain observations without claiming resolution of
+an earlier request. There is one SDK attempt and no refresh/rebase/reconciliation.
+
+Extract private client ownership and exact-body cleanup for reuse by both APIs.
+Each adapter owns its own SDK/URLConnection lifecycle and serializes close/calls;
+shared credentials remain caller-owned. Fixed binary PUTs carry SHA-256 transfer
+checksums with AWS chunk framing disabled. GET cleanup completes inside SDK timers;
+exact SDK-visible length/token checks precede complete codec/binding validation.
+The existing bounded error/control-body guard remains in force. Core production,
+format, acknowledgement, local recovery and POMs are unchanged.
+
+**Research:** fresh Central metadata at **21:47:41 UTC / 17:47:41 EDT** reconfirms
+all fourteen existing selections as latest stable, including SDK s3 and
+URLConnection **2.57.8**. No new dependency is needed. s3 metadata SHA-256
+`a821c5586fd7e2ee72668bc3def61e27d88dc84449b0d39ec27b7b28448e23b6`;
+URLConnection metadata
+`211308639aacbf2f4a204a22ddc187b61aa19bb5bf432ca5f9c07cb330fd3b15`;
+s3 source JAR
+`8b031931d0247e905e91fd1356ae2380bd521f60ef81e2938a177ca8c11819da`.
+Official PutObject/conditional-write/GetObject and RFC 9110 evidence distinguish
+provider semantics from the narrower token/application policy. Actual SDK source
+and a JDK 25/SDK probe show differently cased duplicate raw headers can collapse
+when copied into the SDK's case-insensitive map. The adapter rejects exposed
+multi-value lists, but establishes SDK-visible validation rather than universal
+raw-wire duplicate detection. Native header allocation/framing remain transport
+limits. Raw working evidence is ignored under `.local-qa/mdb-0048/research-helper/`.
+
+**Verification:** the separate bounded JDK HTTP fixture models atomic changes and
+changing opaque tokens through actual SDK serialization/signing/transport/XML
+handling. **43 head SDK/API cases** cover genesis/replacement races, stale tokens,
+captured bytes/token/absence, saved exact precondition retries, lost replies before/
+after effects, status distinctions, response/token/head faults, limits/timeouts,
+scope/binding/transition preflight and lifetime/credentials. A deterministic held
+PUT times out; a GET still reads the predecessor; release then allows the original
+request to take effect without retry. A deliberate external A → B → A rollback
+restores bytes/token and permits stale CAS: this is an explicit unprevented
+primitive limit. **27 type/observation/native-stream cases** cover grammar/bounds,
+heap ownership, declared restore provenance, exact visible headers and close/
+abort/stall/suppression. All **46 original immutable-object cases** remain unchanged
+and pass. The fixture's duplicate-length fault combines duplicate raw fields with
+chunked framing because JDK HttpServer overwrites fixed-body lengths; focused
+stream/header checks provide additional isolated evidence.
+
+Final `./mvnw -B clean install` passes **1,016 core tests** and
+`./mvnw -B -f adapters/s3/pom.xml clean verify` passes **116 optional tests**, all
+without failures/errors/skips locally. All fourteen examples run against the
+packaged core JAR. Archive/`jdeps` inspection confirms **143 core production
+classes**, no SDK/test classes, java.base-only external dependency and the unchanged
+one-class shared test classifier. Optional resolved transport is URLConnection
+2.57.8 with no Apache/Netty/CRT client. No real cloud, TLS/signature authentication,
+durable provider, replication or throughput qualification is inferred.
+
+**Documentation/caller QA:** add ADR 0024 and the conditional-head guide; reconcile
+README, homepage, public roadmap, architecture/protocol/persistence, prior head
+ADR, S3/build guides, decision index/navigation and root agent rules. Independent
+review corrects two descriptions: head representation/predecessor binding are
+already implemented, and same-GET provenance applies to `read()` observations,
+not arbitrary `restore()`. Both strict production and project-path builds pass
+source/HTML/link/search/sitemap checks for **57 pages**; restore production output.
+Rendered review covers desktop light, 390-pixel dark operation tables without
+page-wide overflow, navigation and actual search results for both new pages.
+No diagram or renderer change is needed. Coordinator owns shared production/docs/
+planning/Git; independent helpers own only their bounded fixture/test and research/
+review work. Preserve prior historical receipts.
+
+**Source completion/delivery:** mark MDB-0048 done and MDB-0049 ready, leave parent
+MDB-0037 expanded and validate queue IDs/cards/dependencies/eligibility. Inspect
+explicit task-owned paths/staged diff; commit with Step-ID MDB-0048 and Step-Result
+completed, push normally, verify remote ancestry/tips, Java/docs CI and automatic
+Pages/live readback. Git/final delivery receipt supplies actual SHA/results after
+publication. Full graph/actual-owned-journal agreement, durable expected/pending
+intent, uncertain-result reconciliation, engine recovery and removal remain outside
+this primitive. No release/tag/artifact upload, real-cloud/account/DNS change or
+subsequent child implementation is included.
+
+**Next recommendation:** MDB-0049 — verified object checkpoint publication against
+the actual owned journal, refining it into bounded children before implementation
+if its complete parent acceptance requires more than one reviewable change.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -6,7 +6,8 @@ description: Separate a compact versioned head and pure metadata checks from con
 # ADR 0023: Object checkpoint head protocol
 
 Date: October 31, 2026. Status: format and pure metadata checks implemented,
-experimental; conditional head access and verified publication remain planned.
+experimental. Conditional head access is implemented separately under
+[ADR 0024](0024-conditional-s3-head-access.md); verified publication remains planned.
 
 ## Context
 
@@ -71,6 +72,7 @@ generation would force unnecessary manifest reconstruction. A stateless CAS
 helper would leave lost replies, copied writers and rollback ambiguities hidden.
 
 The fixed format and independent vectors make the declaration boundary auditable.
-Future versions require an explicit versioned codec/transition decision. Real
-conditional SDK/HTTP tests and full journal/graph publication remain required
-before any remote selection capability is claimed.
+Future versions require an explicit versioned codec/transition decision. The
+optional conditional adapter and real SDK/HTTP checks are implemented under
+ADR 0024; full journal/graph publication remains required before a verified
+remote checkpoint publisher is available.

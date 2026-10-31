@@ -68,8 +68,10 @@ select checkpoints or establish another durability policy.
 The separate optional [S3 adapter](../development/s3-objects.md) implements that
 byte contract through the AWS SDK, with controlled HTTP conformance checks. The
 pure [checkpoint-head codec](object-checkpoint-protocol.md) defines a bounded
-selection format and metadata/transition checks; actual conditional selection
-and verified remote publication remain planned.
+selection format and metadata/transition checks. Separate
+[conditional S3 head access](../development/s3-checkpoint-heads.md) pairs bounded
+head bytes/tokens and issues exact conditional writes. Verified remote publication
+remains planned.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one

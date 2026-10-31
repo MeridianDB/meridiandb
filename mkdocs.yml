@@ -85,6 +85,7 @@ nav:
       - Immutable object access decision: decisions/0021-bounded-immutable-object-access.md
       - Optional S3 access decision: decisions/0022-optional-s3-object-access.md
       - Object checkpoint head decision: decisions/0023-object-checkpoint-head-protocol.md
+      - Conditional S3 head decision: decisions/0024-conditional-s3-head-access.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -97,6 +98,7 @@ nav:
       - Local immutable segments: development/local-segments.md
       - Immutable byte objects: development/immutable-objects.md
       - Optional S3 byte objects: development/s3-objects.md
+      - Conditional S3 heads: development/s3-checkpoint-heads.md
       - Local checkpoints: development/local-checkpoints.md
       - Reader protection: development/reader-protection.md
       - Reclamation inventory: development/reclamation-inventory.md

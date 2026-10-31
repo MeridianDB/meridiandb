@@ -82,14 +82,16 @@ records that initial boundary.
 
 A fixed [checkpoint-head format and pure metadata checks](object-checkpoint-protocol.md)
 are available. Their specification separates head revision, manifest generation,
-predecessor identity and actual journal-prefix agreement. Conditional head access
-and verified publication remain unimplemented.
+predecessor identity and actual journal-prefix agreement. Separate
+[conditional S3 head access](../development/s3-checkpoint-heads.md) is implemented;
+the verified publisher, durable intent/reconciliation and recovery remain planned.
 
 An object-store checkpoint is planned as an optional companion to the local
 journal. First upload or verify all immutable dependencies, then publish immutable
-manifest bytes and conditionally select the complete generation. The exact head
-representation, predecessor binding and recovery protocol require an implementation
-decision and failure tests. Listing objects is not by itself a commit protocol.
+manifest bytes and conditionally select the complete generation. The verified
+publisher, durable intent/reconciliation and aggregate recovery protocol still
+require implementation and failure tests. Listing objects is not by itself a
+commit protocol.
 
 Amazon S3 documents strong object consistency and conditional writes using
 `If-None-Match` and `If-Match`. These are useful building blocks, but updates to

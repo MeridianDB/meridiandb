@@ -27,7 +27,8 @@ There is no release date or stable API commitment.
 | [Local immutable files](development/local-segments.md) | Create-only file writes, bounded expected-ID verification and explicit heap-reader lifetimes |
 | [Immutable byte access](development/immutable-objects.md) | Small interface, JDK-only local adapter, complete expected-ID/length checks, explicit identical reuse, verified heap ranges and segment-codec consumer |
 | [Optional S3 byte access](development/s3-objects.md) | Separate SDK artifact, conditional creation, complete verified reads, controlled real-SDK/HTTP conformance and response limits; no remote checkpoint selection |
-| [Object checkpoint heads](architecture/object-checkpoint-protocol.md) | Fixed 256-byte format, exact predecessor/manifest binding and pure transition checks; conditional head I/O and verified publication remain planned |
+| [Object checkpoint heads](architecture/object-checkpoint-protocol.md) | Fixed 256-byte format, exact predecessor/manifest binding and pure transition checks |
+| [Conditional S3 heads](development/s3-checkpoint-heads.md) | Same-response bytes/token observations, scoped exact conditional writes, response/resource checks and real SDK/HTTP tests; no verified checkpoint publisher |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
@@ -96,7 +97,8 @@ An optional [S3-compatible byte adapter](development/s3-objects.md) now implemen
 that interface, verified against a controlled real-SDK HTTP fixture. Existing
 checkpoint/engine paths are unchanged. The pure [head format and protocol](architecture/object-checkpoint-protocol.md)
 now distinguish selection revision, manifest generation and temporal cutoff, with
-exact adjacent metadata checks. Remote conditional checkpoint publication,
+exact adjacent metadata checks. The optional [head-access primitive](development/s3-checkpoint-heads.md)
+now provides paired GET observations and exact conditional writes. Verified checkpoint publication,
 engine recovery, protected reclamation and common backend conformance remain open.
 Those stages retain the existing local journal and acknowledgement contract and
 need their own capability and failure evidence. No integrated remote database

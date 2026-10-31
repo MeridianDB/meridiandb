@@ -250,6 +250,14 @@ so a new session can work correctly without relying on earlier conversations.
   durable expected/pending state and explicit single-publisher placement before
   publication. Copied IDs and metadata CAS supply no distributed fencing; reject
   observed conflicts and retain uncertain objects without cleanup.
+- Follow [ADR 0024](docs/decisions/0024-conditional-s3-head-access.md) and the
+  [conditional S3 head guide](docs/development/s3-checkpoint-heads.md) for provider
+  head primitives. Pair complete bytes/token from one GET, preserve exact scope
+  and original intent/precondition, and run real SDK/changing-token plus native
+  cleanup cases alongside unchanged immutable-object conformance. Validate the
+  bounded strong ASCII tag as opaque data; report SDK-visible header checks and
+  native normalization limits precisely. Keep durable reconciliation and actual
+  graph/owned-journal publication in their separate required step.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

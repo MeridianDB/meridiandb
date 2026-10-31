@@ -96,9 +96,10 @@ indexing remain planned and unmeasured. The
 JDK-only local adapter, complete identity/length validation, explicit identical
 reuse and a segment consumer. The separate `meridiandb-s3` artifact runs the same
 object contract through a real SDK/HTTP fixture. A pure [checkpoint-head codec](docs/architecture/object-checkpoint-protocol.md)
-now defines bounded remote metadata and adjacent-transition checks; actual
-conditional selection and verified publication remain planned. Existing checkpoint
-and engine protocols are unchanged.
+defines bounded remote metadata and adjacent-transition checks. A separate
+[conditional S3 head API](docs/development/s3-checkpoint-heads.md) now pairs GET
+bytes/tokens and issues exact conditional writes. Verified checkpoint publication
+remains planned; existing checkpoint and engine protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are

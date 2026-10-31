@@ -1037,6 +1037,20 @@ independence, document exact fixture/capability limits and deliver normally. The
 primitives grant no graph/prefix validation, distributed fencing, engine recovery
 or removal authority. Full publication stays in MDB-0049.
 
+**Produced artifacts:** optional `S3CheckpointHeads`, bounded opaque `S3HeadToken`,
+immutable scoped `S3HeadObservation` and typed `S3HeadWriteException`; private
+client/body owners shared with unchanged immutable access. Separate atomic
+changing-token HTTP fixture, 43 SDK/API and 27 type/native-stream cases include
+races, exact saved intent/preconditions, lost replies, a gated post-timeout late
+write and explicit rollback/ABA limits. Local final clean builds pass 1,016 core /
+116 optional tests; fourteen packaged-core examples and archive/dependency checks
+pass. ADR 0024, the head guide, public callers, navigation and agent rules describe
+implemented primitives and remaining publisher duties; both strict URL builds
+pass 57 pages and desktop/mobile light/dark/search review. All fourteen existing
+Maven selections are freshly verified. Source push, CI and Pages/live verification
+remain pending in this completion receipt. No cloud provider is qualified and no
+verified publisher/engine integration or removal is added.
+
 ## MDB-0049 Verified object checkpoint publication
 
 **Parent:** MDB-0037. **Outcome:** compose head access with immutable manifest/

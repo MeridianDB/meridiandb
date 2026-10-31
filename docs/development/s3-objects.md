@@ -12,12 +12,13 @@ The core JAR and ordinary local embedding retain no external runtime dependency.
 No library is published.
 
 This adapter creates and reads byte objects in an existing bucket. Remote
-checkpoint selection, engine recovery and protected object deletion remain
-unimplemented; the local journal and commit acknowledgement protocol are unchanged.
+verified checkpoint publication, engine recovery and protected object deletion
+remain unimplemented; the local journal and commit acknowledgement protocol are unchanged.
 [ADR 0022](../decisions/0022-optional-s3-object-access.md) records the packaging and
 provider-library choice. The [checkpoint-head format](../architecture/object-checkpoint-protocol.md)
-and pure metadata checks are available in core; they add no conditional head I/O
-to this byte adapter.
+and pure metadata checks are available in core. A separate
+[conditional head API](s3-checkpoint-heads.md) adds bounded GET/conditional PUT;
+this byte adapter remains immutable-only.
 
 ## Build and verify
 
@@ -41,9 +42,10 @@ SDK dependencies. The SDK's default Apache 5/Netty HTTP clients and optional CRT
 runtime are absent from this integration. The explicit URLConnection transport
 uses the JDK HTTP implementation and JVM-managed connection pooling.
 
-The adapter's 46 tests comprise nine shared object-contract cases, 29 actual
+The immutable adapter's 46 tests comprise nine shared object-contract cases, 29 actual
 SDK/HTTP protocol and integration cases, and eight focused native-stream/guard
-fault checks. Core's separate 1,016 tests and fourteen runnable examples still
+fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md).
+Core's separate 1,016 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.
 The fixture binds only `127.0.0.1`, uses fixed test credentials and needs no service
 emulator, Docker daemon, cloud account or provisioned bucket.

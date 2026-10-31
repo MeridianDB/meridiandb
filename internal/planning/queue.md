@@ -12,41 +12,24 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0047 — Bounded object checkpoint head** is delivered:
-  pure 256-byte v1 encoding, complete identity/footer separation, explicit bindings,
-  exact adjacent predecessor/revision checks and complete manifest metadata binding.
-  Conditional remote mutation, graph publication, actual-journal checks and recovery
-  remain unimplemented by this child.
-- **MDB-0037** is expanded into required children MDB-0047/0048/0049, preserving
-  its full acceptance and all downstream dependencies. The protocol distinguishes
-  head revision, physical manifest generation and temporal cutoff. Canonical-header
-  SHA-256 preserves the existing 32,768 UTF-16-unit lineage domain, including
-  unpaired surrogates. Copied IDs/metadata CAS provide no distributed fencing.
-- Independent golden vectors and 46 focused cases (28 codec, 18 metadata/binding)
-  pass. A divergent same-lineage graph intentionally passes coordinate-only checks,
-  making the future actual-owner-prefix requirement explicit. Fresh Central checks
-  at 21:18:58 UTC confirm all 14 selected Maven/SDK artifacts unchanged; no POM or
-  runtime dependency change occurs.
-- Clean core install/verification passes **1,016 tests**, optional S3 verification
-  passes **46 tests**, all without failures/errors/skips locally. Fourteen examples
-  pass with the packaged core JAR; 143 production classes depend only on java.base.
-  The shared test classifier remains one abstract contract class.
-- Public protocol/ADR/status/build callers and agent rules are reconciled. Both
-  strict URL layouts and restored production build pass for **55 pages**. Desktop
-  light and 390-pixel dark table/text, navigation and actual protocol search pass;
-  temporary theme/viewport settings are restored after QA.
-- Source completion `4049a2a52331979f633940bf542cfaa242a34b20` is on origin/main
-  with matching source tips. Java **41244438456**, docs checks **41244438603** and
-  automatic Pages **41244438583** all succeed. Both OSes pass all 46 new pure
-  cases and 46 optional cases without skips; Windows retains 228 documented prior
-  core filesystem capability skips. All examples complete.
-- Live protocol/ADR/build/status, canonical HTTPS URLs, search routes/titles and
-  the 55-page sitemap pass readback. Progress history records exact evidence; Git
-  owns this internal-only receipt's own commit/push identity. No hosting, account
-  or deployment setting changes occur.
-- **MDB-0048 — Conditional S3 head access** is next source-ready. Implement the
-  narrow provider primitive and real SDK/changing-token fixture cases next;
-  MDB-0049 retains full verified publication and parent integration criteria.
+- **MDB-0048 — Conditional S3 head access** meets its source criteria: separate
+  scoped same-GET observations and exact create/replace primitives, explicit write
+  outcomes, shared private client/body handling and 70 new head cases. The original
+  46 immutable-object cases are preserved. Source completion commit, normal push,
+  remote ancestry, Java/docs CI and automatic Pages/live readback are pending;
+  the delivery receipt will record actual results before the next invocation.
+- Local final clean builds pass **1,016 core / 116 optional tests**, zero failures,
+  errors or skips; all fourteen packaged-core examples pass. Core still contains
+  143 production classes and depends only on java.base. Fresh metadata confirms
+  all fourteen existing Maven selections; no dependency/POM change is required.
+- **MDB-0049 — Verified object checkpoint publication** is the next source-ready
+  item, conditional on delivery checks above. It owns actual graph/journal-prefix
+  validation, durable expected/pending intent, uncertainty handling and publisher
+  integration. MDB-0037 remains expanded. No later implementation starts here.
+- Preserve the documented SDK-visible header normalization and native framing
+  limits. A restored observation is declared saved metadata, not GET provenance;
+  an old-head GET cannot resolve a still-in-flight PUT. The deterministic late
+  effect and A → B → A rollback cases remain required evidence for future work.
 
 ## Ordered work
 
@@ -92,8 +75,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | done | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | expanded | MDB-0010, MDB-0036 |
 | [MDB-0047](roadmap.md#mdb-0047-bounded-object-checkpoint-head) | Specify and encode bounded object checkpoint heads | MDB-0037 | done | MDB-0010, MDB-0036 |
-| [MDB-0048](roadmap.md#mdb-0048-conditional-s3-head-access) | Implement bounded S3 head reads and conditional replacement | MDB-0037 | ready | MDB-0010, MDB-0036, MDB-0047 |
-| [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | queued | MDB-0010, MDB-0036, MDB-0048 |
+| [MDB-0048](roadmap.md#mdb-0048-conditional-s3-head-access) | Implement bounded S3 head reads and conditional replacement | MDB-0037 | done | MDB-0010, MDB-0036, MDB-0047 |
+| [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | ready | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |

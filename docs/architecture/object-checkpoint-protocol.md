@@ -7,10 +7,11 @@ description: A fixed-size checkpoint-head format separates remote selection orde
 
 A remote checkpoint needs one small selection record pointing to complete
 immutable history. `ObjectCheckpointHead`, its codec and its pure metadata checks
-are implemented in the JDK-only core. The conditional head adapter, durable
-publication/reconciliation path and remote database recovery are **not yet
-implemented**. The existing [S3 byte adapter](../development/s3-objects.md) still
-creates and reads immutable objects only.
+are implemented in the JDK-only core. A separate optional
+[S3 head adapter](../development/s3-checkpoint-heads.md) now provides bounded GET
+and conditional PUT. The complete verified publisher, durable intent/reconciliation
+path and remote database recovery are **not yet implemented**. The existing
+[S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
 This specification defines the selection protocol those implementations must
 follow. It preserves the existing local journal and force-before-publication
@@ -145,7 +146,9 @@ each graph is insufficient to establish common history.
 
 ## Specified conditional publication
 
-The following sequence is required by the protocol and remains to be implemented:
+The complete publisher sequence below remains unimplemented. The separate
+conditional-head adapter supplies its bounded provider operations; it does not
+establish the other stages:
 
 1. Acquire the supported local journal/publisher ownership. Load durable namespace,
    expected-head and pending-intent state. Refuse unsupported shared-writer modes,

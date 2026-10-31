@@ -39,8 +39,10 @@ The [immutable-object interface](immutable-objects.md) adds a JDK-only local
 adapter and segment-codec consumer with complete expected-ID/length checks and
 verified heap ranges, independently of checkpoint selection. The pure
 [object-checkpoint-head codec](../architecture/object-checkpoint-protocol.md) adds
-a bounded selection format and metadata checks; conditional remote publication
-remains planned. No library is published.
+a bounded selection format and metadata checks. Optional
+[conditional S3 head access](s3-checkpoint-heads.md) provides same-response
+observations and exact conditional writes; verified remote publication remains
+planned. No library is published.
 
 ## Build and verify
 
@@ -180,7 +182,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on October 31 at 17:18:58 EDT / 21:18:58 UTC; the listed selections remain
+on October 31 at 17:47:41 EDT / 21:47:41 UTC; the listed selections remain
 unchanged. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
