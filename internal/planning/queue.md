@@ -12,25 +12,23 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0042's sponsorship source criteria pass**:
-  `.github/FUNDING.yml` points to the verified active MasteryEducation Sponsors
-  profile (Mastery Education by Tokenizer Inc.). README identifies Tokenizer Inc.
-  and describes voluntary support for experimental development, testing and docs.
-- Funding YAML, recipient/README consistency, local links and strict public docs
-  checks pass for the unchanged 49-page site. All 42 task IDs/cards/dependencies/
-  parents form a valid DAG. No engine, Maven, central profile, tier or payout work
-  occurs; central profile wording still concerns the education portfolio.
-- Source commit `d06f42243457cfa0891befe8043ff3f98006e91f` is on origin/main and
-  documentation run 41230965024 passed. GitHub recognized the funding recipient
-  but its Sponsorships feature was disabled; set only hasSponsorshipsEnabled from
-  false to true and independently verify the flag/fundingLinks. Browser readback
-  now shows the live Sponsor link, and clicking it opens the intended active
-  Mastery Education by Tokenizer Inc. Sponsors page. Delivery criteria pass.
-  README/FUNDING/internal changes trigger no Pages deployment; no website content
-  or engine input changes. The 970-test/14-example baseline remains separate.
-- Engine selection stays **MDB-0036 ready**. Starting clean main at
-  `d5dbbc37c2311c9c0d7304183d7cfd5e438bf887` matches fetched origin/main; Java
-  41226869828, docs 41226869905 and Pages 41226869896 all succeeded.
+- No active item. **MDB-0043 — Sponsors profile description** is complete: the
+  existing MasteryEducation listing now has the approved current-work short bio
+  and introduction, retained in [the profile source](../sponsorship-profile.md).
+- GitHub confirmed the authenticated save after owner-completed Confirm access.
+  Independent GraphQL readback exactly matches both description fields; the public
+  profile renders the introduction and MeridianDB link. The old 80+ websites claim
+  is removed. Account identity, recipient, tiers, payout settings and featured work
+  were outside this copy-only edit and were preserved.
+- Source completion requires normal commit/push and remote ancestry/tip readback
+  under the workflow. This internal/account-copy change triggers no configured
+  Java/docs CI or Pages deployment. Starting main at
+  `a70bbc47b2d552678d5e99072927c3eb30d32acb` matches fetched origin/main; its prior
+  repository-sponsorship delivery and live button verification are recorded in
+  progress history.
+- **MDB-0036 — Optional S3-compatible object access** remains ready and is the next
+  engine item. Refine optional packaging and a controlled SDK/HTTP fixture with
+  fresh Maven artifact research. No engine/Maven work or next item starts here.
 
 ## Ordered work
 
@@ -69,6 +67,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0034](roadmap.md#mdb-0034-bitemporal-persistence-boundaries) | Define bitemporal persistence boundaries and staged backend work | MDB-0011 | done | MDB-0010 |
 | [MDB-0035](roadmap.md#mdb-0035-bounded-immutable-object-access) | Implement bounded immutable-object access and local conformance | MDB-0011 | done | MDB-0010, MDB-0034 |
 | [MDB-0042](roadmap.md#mdb-0042-repository-sponsorship) | Enable repository sponsorship using the existing verified recipient | — | done | — |
+| [MDB-0043](roadmap.md#mdb-0043-sponsors-profile-description) | Refresh the central Sponsors bio and introduction | — | done | MDB-0042 |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |

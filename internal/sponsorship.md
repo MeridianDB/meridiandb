@@ -16,11 +16,12 @@ funding configuration at commit `b45e8312b13388f28957491e9ab2d15529266f86`.
 The personal `https://github.com/sponsors/FuadEfendi` URL instead redirects to the
 ordinary profile, so it is not used as a sponsorship destination.
 
-The owner's October 31 implementation request authorizes reusing that existing
-profile for MeridianDB's repository button and README link. Its current central
-profile description concerns the education portfolio. This scoped change leaves
-central profile copy, tiers, payment details and other repositories as they are;
-it creates no new sponsorship account or financial transaction.
+The initial October 31 repository-button task reused that existing profile for
+MeridianDB and left central account copy/tiers/payouts unchanged. The subsequent
+profile-copy request is tracked separately; its exact short bio/introduction and
+publication status live in [the profile source](sponsorship-profile.md). Preserve
+account identity, recipient, tiers and payment settings during a copy-only update;
+no new sponsorship account or financial transaction is involved.
 
 ## Maintain and verify
 
@@ -51,3 +52,20 @@ Primary configuration reference checked October 31, 2026:
 [GitHub sponsor-button documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository).
 The [GraphQL repository reference](https://docs.github.com/en/graphql/reference/repos)
 documents the feature flag and scoped update input.
+
+## Central profile descriptions
+
+For an explicitly requested description update, prepare and retain the exact short
+bio and introduction in the profile source above. Verify current public fields
+through SponsorsListing.shortDescription/fullDescription, and update only those
+fields through the authenticated Sponsors dashboard's Profile details. The public
+GraphQL schema checked October 31, 2026 supports reading these descriptions but
+exposes no existing-listing update mutation; use the dashboard to update a listing.
+
+If GitHub requires Confirm access, retain the dashboard tab and ask the owner to
+complete their passkey/authenticator flow. Keep publication pending until it saves
+successfully. After saving, independently read both fields via API and verify the
+rendered public introduction and links, then record the exact published copy/status.
+
+Primary editing procedure checked October 31, 2026:
+[GitHub Sponsors profile details](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/editing-your-profile-details-for-github-sponsors).

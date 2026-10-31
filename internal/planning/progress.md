@@ -2310,6 +2310,54 @@ is needed. Record this receipt's actual commit and matching remote tip at final
 handoff. Engine work stays MDB-0036, and central profile copy remains its own
 optional next task.
 
+## 2026-10-31 — MDB-0043 Sponsors profile description
+
+**Outcome:** fulfill the owner's approved central-profile refresh. Retain the exact
+short bio and introduction in `internal/sponsorship-profile.md` and save only those
+two fields at `https://github.com/sponsors/MasteryEducation`. The published copy
+identifies Fuad Efendi/Tokenizer Inc., experimental embeddable Java bitemporal
+MeridianDB, AI-assisted workflows with architectural contracts, independent
+reference models and automated tests, and development/testing/documentation support.
+Preserve account identity, funding recipient, tiers, payout settings and featured
+work. No other repository, sponsor message or financial transaction is involved.
+
+**Historical baseline:** both prior description fields claimed free, open-source
+educational books on 80+ websites, with the introduction also describing interactive
+quizzes in programming, finance, accounting, certifications and trading. The owner
+reports those earlier source repositories are now removed/private. Replace the
+superseded broad public-source claim without implying private sources are public.
+The listing remains **Mastery Education by Tokenizer Inc.**; no account rename.
+
+**Publication evidence:** inspect the public GraphQL schema and GitHub's documented
+Profile details procedure on October 31. SponsorsListing exposes description reads
+but no existing-listing update mutation; use the authenticated Chrome dashboard.
+GitHub initially requires Confirm access; the owner completes their authentication
+and replies done. Verify both prepared form values and unchanged profile-option
+values, then select Update profile. GitHub reports **Your profile has been updated**.
+Independent `gh api graphql` readback of shortDescription and fullDescription
+matches the retained source exactly; the short bio is **139/250 characters**, and
+neither field contains the old 80+ claim. Public browser readback renders all four
+introduction paragraphs and the actual MeridianDB repository link. Capture proof
+at `.local-qa/mdb-0043/sponsors-profile-published.png` and retain the public tab as
+the result. No credentials or payment information are recorded in the receipt.
+
+**Source verification/delivery:** update the sponsorship maintenance procedure,
+roadmap card and live queue; the root AGENTS sponsorship rule already links that
+procedure and retains the same scoped-profile authority. Validate Markdown targets,
+the exact profile source and the **43-ID** queue/card/parent/dependency DAG, then
+inspect task-owned working/staged diffs and `git diff --check`. No public site,
+Maven, dependency or runtime input changes require build/tests, version research or
+Pages deployment. The configured Java/docs/Pages path filters exclude these
+internal-only changes. Starting main is `a70bbc47b2d552678d5e99072927c3eb30d32acb`,
+matching fetched origin/main. Commit with `Step-ID: MDB-0043` and
+`Step-Result: completed`, push normally and verify remote ancestry/tips and actual
+workflow state. Git and the final handoff supply this completion's SHA and push
+readback; no release, site dispatch or Cloudflare action is performed.
+
+**Next recommendation:** MDB-0036 — optional S3-compatible object access and provider
+checks. Begin with optional packaging and controlled SDK/HTTP fixture refinement,
+using fresh Maven version/compatibility research. This task starts no engine work.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

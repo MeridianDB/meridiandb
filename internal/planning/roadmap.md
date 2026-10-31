@@ -820,6 +820,29 @@ README consistency, source/rendered docs and the 42-ID queue checks pass. Source
 closure leaves remote button/readback and documentation CI as delivery checks;
 engine selection remains MDB-0036 and central profile/tiers/payouts are unchanged.
 
+## MDB-0043 Sponsors profile description
+
+**Outcome:** replace the central Sponsors listing's outdated education-portfolio
+claims with the owner-approved current-work bio and introduction, preserving the
+existing account/recipient and financial settings.
+
+**Complete when:** exact short bio/introduction source is retained in
+`internal/sponsorship-profile.md`, both fields are saved through authenticated
+Sponsors settings, and independent API/public readback matches. Keep AI-assisted
+workflow, experimental status and support use factual, with no unsupported public
+source, production or delivery claims. Record any required platform authentication
+as a pending checkpoint, never a successful update. Update the current sponsorship
+procedure, queue and receipt and commit/push the task-owned source. Do not change
+tiers, payout/account identity, featured work or engine selection.
+
+**Produced artifacts:** exact [published profile source](../sponsorship-profile.md)
+and the updated sponsorship procedure. GitHub confirms the dashboard save; both
+GraphQL description fields match exactly, and public browser readback shows the
+rendered introduction and MeridianDB link. The short bio is 139/250 characters.
+Replace the obsolete 80+ websites claim with current experimental work and factual
+AI-assisted development/testing wording. Other profile settings and the ready
+MDB-0036 engine selection are preserved; no site deployment is required.
+
 ## MDB-0036 Optional S3-compatible object access
 
 **Parent:** MDB-0011. **Outcome:** implement immutable object creation and bounded
