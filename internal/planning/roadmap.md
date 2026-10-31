@@ -1015,8 +1015,9 @@ future conditional selection, durable intent, full actual-journal/graph checks,
 lost-reply handling and copied-writer/ABA limits without claiming implemented I/O.
 Independent vectors and 46 focused checks pass; full core/optional builds pass
 1,016/46 tests and 14 core-JAR examples. Both 55-page URL builds and rendered/
-caller/queue checks pass. Source push, CI/Pages and live readback remain delivery
-checks in source completion. Parent MDB-0037 remains expanded.
+caller/queue checks pass. Source delivery, Linux/Windows CI, automatic Pages and
+live readback succeed; exact evidence is in progress history. Parent MDB-0037
+remains expanded.
 
 ## MDB-0048 Conditional S3 head access
 

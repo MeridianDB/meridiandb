@@ -12,7 +12,7 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0047 — Bounded object checkpoint head** is source complete:
+- No active item. **MDB-0047 — Bounded object checkpoint head** is delivered:
   pure 256-byte v1 encoding, complete identity/footer separation, explicit bindings,
   exact adjacent predecessor/revision checks and complete manifest metadata binding.
   Conditional remote mutation, graph publication, actual-journal checks and recovery
@@ -35,10 +35,15 @@ children before implementation rather than treating a whole milestone as one pat
   strict URL layouts and restored production build pass for **55 pages**. Desktop
   light and 390-pixel dark table/text, navigation and actual protocol search pass;
   temporary theme/viewport settings are restored after QA.
-- Source commit/push, remote ancestry/tips, Java/docs CI, automatic Pages and live
-  readback remain delivery checks. Record actual evidence in progress history and
-  verify it before advancing. Start was clean main
-  `cafefdec67b8cf68663377dc4233e39016832485`, matching origin/main.
+- Source completion `4049a2a52331979f633940bf542cfaa242a34b20` is on origin/main
+  with matching source tips. Java **41244438456**, docs checks **41244438603** and
+  automatic Pages **41244438583** all succeed. Both OSes pass all 46 new pure
+  cases and 46 optional cases without skips; Windows retains 228 documented prior
+  core filesystem capability skips. All examples complete.
+- Live protocol/ADR/build/status, canonical HTTPS URLs, search routes/titles and
+  the 55-page sitemap pass readback. Progress history records exact evidence; Git
+  owns this internal-only receipt's own commit/push identity. No hosting, account
+  or deployment setting changes occur.
 - **MDB-0048 — Conditional S3 head access** is next source-ready. Implement the
   narrow provider primitive and real SDK/changing-token fixture cases next;
   MDB-0049 retains full verified publication and parent integration criteria.

@@ -2849,6 +2849,33 @@ release/tag/artifact upload or subsequent child implementation is included.
 changing-token/failure fixture cases. MDB-0049 still owns complete verified
 publication, durable intent and all remaining parent integration acceptance.
 
+## 2026-10-31 — MDB-0047 Delivery and publication readback
+
+Source completion **`4049a2a52331979f633940bf542cfaa242a34b20`** reaches
+origin/main with matching tips and clean source checkout. Java checks
+**41244438456**, documentation checks **41244438603** and automatic Pages
+**41244438583** finish successfully. Ubuntu runs **1,016 core/46 optional** tests
+without failures/errors/skips; Windows runs the same counts without failures/
+errors and retains **228 pre-existing core filesystem capability skips**.
+Both OSes execute all **28 new codec/18 new verifier** and **46 optional** cases
+without skips, and all fourteen example steps complete. No new capability bypass
+or provider qualification is inferred.
+
+The live HTTPS object-checkpoint protocol, ADR 0023, build evidence, public
+roadmap and homepage contain the final pure-versus-planned capability copy and
+canonical URLs. Search includes both new routes/titles; the sitemap contains
+**55 HTTPS canonical pages**. Browser readback confirms the new protocol and
+seven sections. Proof is saved at `.local-qa/mdb-0047/site-published.png` and
+embedded in the delivery update. Viewport/theme changes were restored; the preview tab now shows
+the live deliverable, and the owned localhost static server is stopped.
+
+The queue/card record this readback. The internal-only receipt uses a normal
+commit/push, with its own identity/remote ancestry supplied by Git. These paths
+trigger no additional configured workflows. MDB-0037 remains expanded with
+MDB-0047 done and MDB-0048 ready; no conditional head I/O or later implementation
+starts during this receipt. No release, real-cloud/account/DNS operation or
+hosting-setting change occurs.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
