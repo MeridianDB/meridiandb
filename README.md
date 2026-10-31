@@ -284,7 +284,7 @@ compatibility, metadata and future versioning.
 ## Support MeridianDB
 
 Support MeridianDB's open-source development, testing and documentation through
-[Tokenizer Inc. on GitHub Sponsors](https://github.com/sponsors/MasteryEducation).
+[MeridianDB on GitHub Sponsors](https://github.com/sponsors/MeridianDB).
 MeridianDB is experimental; sponsorship is voluntary support for ongoing work.
 
 ## License

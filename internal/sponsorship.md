@@ -1,32 +1,38 @@
 # Repository sponsorship
 
 `.github/FUNDING.yml` owns the repository's funding recipient. The README's
-Support MeridianDB section links to the same GitHub Sponsors profile, identifying
-Tokenizer Inc. and describing voluntary support for development, tests and docs.
+Support MeridianDB section links to the same project-specific GitHub Sponsors
+profile and describes voluntary support for development, tests and docs.
 Keep the project's experimental status explicit. Add specific delivery/support
 commitments only when separately agreed; the support link creates none.
 
 ## Verified recipient
 
-Checked October 31, 2026: `https://github.com/sponsors/MasteryEducation` displays
-**Mastery Education by Tokenizer Inc.**, Toronto, and identifies Fuad Efendi as
-founder. It offers monthly and one-time support with a custom amount. This is the
-existing GitHub recipient recovered from the earlier SoftwarePatternsLexicon.com
-funding configuration at commit `b45e8312b13388f28957491e9ab2d15529266f86`.
-The personal `https://github.com/sponsors/FuadEfendi` URL instead redirects to the
-ordinary profile, so it is not used as a sponsorship destination.
+Current recipient: **MeridianDB**, at `https://github.com/sponsors/MeridianDB`.
+On October 31, 2026, the owner completed the dedicated organization's enrollment
+and authorized the remaining setup after approval. The authenticated dashboard
+confirms its Sponsors profile is approved and public; independent GraphQL readback
+identifies the same listing. Verify the actual public page and repository button
+when delivering this migration. Public listing availability is distinct from
+platform-managed payout verification; public-profile work changes no bank/tax data.
 
-The initial October 31 repository-button task reused that existing profile for
-MeridianDB and left central account copy/tiers/payouts unchanged. The subsequent
-profile-copy request is tracked separately; its exact short bio/introduction and
-publication status live in [the profile source](sponsorship-profile.md). Preserve
-account identity, recipient, tiers and payment settings during a copy-only update;
-no new sponsorship account or financial transaction is involved.
+The project-specific profile identifies Fuad Efendi of Tokenizer Inc. as maintainer.
+Exact short bio/introduction and publication evidence live in
+[the profile source](sponsorship-profile.md). The organization uses the project's
+existing PNG logo and links to `https://meridiandb.org/`.
+
+The earlier MasteryEducation recipient and profile refresh are historical setup
+choices, preserved in Git and [progress history](planning/progress.md). They are
+not the current destination or an automatic fallback. Retiring that separate
+organization/profile requires its own scope; this migration changes the MeridianDB
+links and public identity only.
 
 ## Maintain and verify
 
 1. Confirm the intended profile remains an active Sponsors page, with the correct
-   recipient identity. Preserve a known destination; verify any requested change.
+   recipient identity. For an approved migration, verify the new public listing
+   before switching links, then reconcile FUNDING, README and current guidance.
+   Retain old recipient/copy evidence in dated history rather than active defaults.
 2. Keep FUNDING YAML limited to actual configured funding channels. Use a GitHub
    account name, not a URL, for the `github` entry. Keep the README destination
    consistent; do not copy unused funding-platform placeholders.
@@ -66,6 +72,24 @@ If GitHub requires Confirm access, retain the dashboard tab and ask the owner to
 complete their passkey/authenticator flow. Keep publication pending until it saves
 successfully. After saving, independently read both fields via API and verify the
 rendered public introduction and links, then record the exact published copy/status.
+
+Feature the actual public MeridianDB/meridiandb repository when configuring this
+project's Sponsors page. Use factual experimental-project copy; keep monetary
+goals, tier prices/rewards, newsletters, bank/tax/payout changes and account removal
+within separately requested scopes. Custom-amount support needs no invented tiers
+or delivery commitments.
+
+## Organization identity
+
+For an authorized project-profile setup, use MeridianDB as the display name, the
+current experimental-project description and `https://meridiandb.org/` as website.
+Preserve unrelated profile fields and settings. Upload the prepared
+`docs/assets/brand/meridiandb-github-1024.png` through organization Settings →
+General → Upload new picture, review the crop and save it. Inspect the public
+organization and Sponsors avatar after publishing; preparing a PNG alone is not
+evidence of an account update. See [brand maintenance](brand.md) for the SVG master
+and reproducible exports. Keep the exact published identity/copy receipt in progress
+history, without credentials or private financial fields.
 
 Primary editing procedure checked October 31, 2026:
 [GitHub Sponsors profile details](https://docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/editing-your-profile-details-for-github-sponsors).

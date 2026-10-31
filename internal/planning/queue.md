@@ -12,26 +12,24 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0044 — MeridianDB visual identity** is delivered:
-  twin-arch m SVG masters, light/dark outlined wordmarks, six PNG exports, README
-  integration, website logo/favicon and a public download page. The avatar PNG is
-  ready to upload; no GitHub account avatar was changed.
-- Source completion `16a1fe5fe6839738f8f1fffdb5b3a8c270929304` is on origin/main
-  with matching tips. Documentation checks **41234117182** and automatic Pages
-  **41234117111** succeeded. Public brand page/header/favicon, README SVG loading,
-  search and the 50-page sitemap pass; all **11 live asset files** match exactly.
-  The prior Sponsors description refresh is also delivered; see progress history.
-- Self-contained SVG, decoded PNG dimensions/transparency/size, repeatable exports,
-  circular crop and 16/24/32-pixel previews pass. Strict public builds pass for both
-  URL layouts and restored production output (**50 pages**); inspect desktop and
-  390-pixel light/dark use, navigation and search. Brand maintenance owns the SVG
-  masters/exporter, renderer pin and attribution. Queue/card checks retain 44 IDs.
-- Delivery readback is retained in progress history; Git supplies its receipt's
-  commit/push evidence. It triggers no additional configured workflows. No Maven or engine
-  runtime change. A separate hosting observation remains: Pages reports
-  https_enforced=false and certificate state dns_changed; the project-host redirect
-  lands on HTTP while the canonical HTTPS site and assets work. Record the finding
-  for scoped hosting follow-up; logo work changes no DNS or HTTPS setting.
+- No active item. **MDB-0045 — Dedicated MeridianDB sponsorship** passes its source
+  criteria: approved public listing, project-specific bio/introduction, featured
+  repository, uploaded logo and matching organization/repository descriptions and
+  website links. The actual public Sponsors page shows the new logo and copy;
+  independent API reads match the retained profile source exactly (109/250 bio).
+- FUNDING and README now name MeridianDB, with current sponsorship/brand procedures
+  reconciled. Earlier MasteryEducation recipients/copy remain dated history, not a
+  fallback. Its separate organization and financial settings are unchanged.
+- Funding YAML/README consistency, public metadata, Markdown links, strict docs
+  (unchanged 50-page site), 45-ID queue/card/DAG and diff checks pass. Commit/push
+  normally, verify remote ancestry/tips and README-triggered docs CI, then inspect
+  the actual repository Sponsor destination. These paths trigger no Pages deploy.
+- Starting clean main `ac70cfd2833f7680d31cacae81fade095523a830` matches fetched
+  origin/main; its delivered logo/CI/Pages and earlier sponsorship receipts remain
+  in progress history. No Maven, paid transaction, tier promise or engine change.
+- Separate existing hosting observation: Pages reports https_enforced=false and
+  certificate state dns_changed. The canonical HTTPS site works, while the project
+  host redirects to HTTP. This sponsorship setup changes no DNS/HTTPS setting.
 - **MDB-0036 — Optional S3-compatible object access** remains ready and is the next
   engine item. Refine optional packaging and a controlled SDK/HTTP fixture with
   fresh Maven artifact research. No engine/Maven work or next item starts here.
@@ -75,6 +73,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0042](roadmap.md#mdb-0042-repository-sponsorship) | Enable repository sponsorship using the existing verified recipient | — | done | — |
 | [MDB-0043](roadmap.md#mdb-0043-sponsors-profile-description) | Refresh the central Sponsors bio and introduction | — | done | MDB-0042 |
 | [MDB-0044](roadmap.md#mdb-0044-meridiandb-visual-identity) | Create SVG identity and GitHub/website PNG assets | — | done | — |
+| [MDB-0045](roadmap.md#mdb-0045-dedicated-meridiandb-sponsorship) | Configure the approved MeridianDB Sponsors profile and migrate funding links | — | done | MDB-0044 |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |

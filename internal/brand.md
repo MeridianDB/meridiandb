@@ -41,8 +41,11 @@ provides the GitHub-ready 1024-pixel PNG, with the 512-pixel version available t
 GitHub's [profile reference](https://docs.github.com/en/account-and-profile/reference/profile-reference),
 checked October 31, 2026, permits PNG/JPG/GIF below 1 MB and smaller than 3000 × 3000.
 The prepared 1024-pixel PNG is about 33 KB. Asset preparation and README integration
-do not change the organization's avatar; uploading that file remains a separate
-account action.
+do not change the organization's avatar. For an explicitly requested upload, follow
+[organization identity](sponsorship.md#organization-identity), save the reviewed
+crop and verify the public organization/Sponsors image. The owner authorized that
+separate setup after approval of the MeridianDB Sponsors account; its published
+identity and source image are recorded in [the profile source](sponsorship-profile.md).
 
 ## Lettering provenance
 

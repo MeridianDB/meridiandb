@@ -2439,6 +2439,65 @@ Persist the delivery receipt/queue in an internal-only commit, push normally and
 verify remote ancestry/tips. No new docs/Pages workflow is expected from that
 receipt. Engine selection remains MDB-0036 ready; no implementation step starts.
 
+## 2026-10-31 — MDB-0045 Dedicated MeridianDB sponsorship
+
+**Outcome:** complete the owner's remaining setup after they enroll the MeridianDB
+organization and report GitHub approval. Dashboard readback confirms the listing
+is approved/public and active, while the existing repository funding link still
+points to MasteryEducation. Replace that dependency with the dedicated project
+profile; retain prior setup/copy as historical rather than an active fallback.
+No deletion or financial/account transaction is performed.
+
+**Public profile and identity:** the connector exposes no profile/avatar mutation,
+so use authenticated Chrome for the existing settings. Replace the placeholder
+short/full description with the project copy approved in the conversation and
+retain exact strings in `internal/sponsorship-profile.md`. GitHub confirms saves;
+independent GraphQL readback matches both fields exactly (**109/250** bio). Feature
+the actual public MeridianDB/meridiandb repository. Upload the existing committed
+1024-pixel PNG, inspect the complete crop, select Set new profile picture and
+observe GitHub's success message. Save organization display name MeridianDB,
+experimental-project description and https://meridiandb.org/ website. The public
+repository's older description implies streaming work; align only its description
+and homepage with the experimental embeddable Java bitemporal/local-persistence
+status. Verify both public metadata sets independently through REST.
+
+**Rendered proof:** the public Sponsors page displays the exact introduction,
+featured repository/card description and monthly/one-time custom support. GitHub
+warns avatar propagation may take minutes. A normal CDN avatar URL already serves
+the new navy/mint symbol while Chrome retains the identicon; a one-time cache-
+bypassing page reload verifies the actual new image without changing page content
+or leaving any browser configuration in place. Save the final public proof at
+`.local-qa/mdb-0045/meridiandb-sponsors-published.png`. No settings/private financial
+screenshot is retained in tracked evidence. Preserve existing optional visibility
+choices, bank/tax/payout settings, goals and pricing/reward commitments; add no
+newsletter or promotional message. MasteryEducation remains unchanged.
+
+**Repository and rules:** set `.github/FUNDING.yml` to github: [MeridianDB] and
+point README's matching support label/link to the new Sponsors page. The existing
+Sponsorships feature is already enabled. Reconcile the current recipient, exact
+profile source and migration/avatar procedure; root AGENTS already links that
+authority, and brand maintenance now points to the completed upload evidence.
+Mark earlier roadmap recipient/copy outcomes historical. Preserve original dated
+progress and Git history. No website input, logo source, Java or Maven change.
+
+**Verification/delivery:** exact funding YAML, one matching README link, absence
+of its old recipient, experimental/voluntary wording and public metadata checks
+pass. The shared strict documentation command passes source/HTML/local links/
+search/sitemap for the unchanged **50-page** production site. Validate changed
+Markdown paths/anchors, 45 unique queue IDs/cards/dependencies/parents/DAG and
+task-owned working/staged diffs. Starting clean main is
+`ac70cfd2833f7680d31cacae81fade095523a830`, matching fetched origin/main. Commit
+with `Step-ID: MDB-0045` and `Step-Result: completed`, normal-push origin/main,
+verify ancestry/tips and README-triggered documentation CI, then independently
+read the repository funding recipient and click its actual Sponsor link. These
+paths require no Pages publication, version research, Maven tests or release.
+Git/final handoff supply the actual completion SHA and delivery readback.
+
+**Next recommendation:** MDB-0036 — optional S3-compatible object access and provider
+checks, starting with optional packaging, a controlled real SDK/HTTP fixture and
+fresh Maven artifact/compatibility research. The engine cursor remains ready;
+this scoped setup starts no implementation work.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

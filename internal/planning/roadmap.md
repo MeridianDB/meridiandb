@@ -843,6 +843,10 @@ Replace the obsolete 80+ websites claim with current experimental work and factu
 AI-assisted development/testing wording. Other profile settings and the ready
 MDB-0036 engine selection are preserved; no site deployment is required.
 
+These initial MasteryEducation setup/copy outcomes are historical. MDB-0045 owns
+the later dedicated MeridianDB recipient and current profile source; prior exact
+copy remains in Git and progress history.
+
 ## MDB-0044 MeridianDB visual identity
 
 **Outcome:** create precise SVG master artwork for MeridianDB and export PNGs for
@@ -866,6 +870,33 @@ Both strict site layouts pass for 50 pages; desktop/mobile light/dark, circular
 crop, small icons, navigation and search are inspected. Source completion leaves
 remote CI/automatic Pages/live readback as delivery checks; the organization avatar
 and ready MDB-0036 engine selection remain unchanged.
+
+## MDB-0045 Dedicated MeridianDB sponsorship
+
+**Outcome:** complete the owner's requested setup after approval of the dedicated
+MeridianDB Sponsors account. Publish project-specific bio/introduction, feature
+the public repository and upload the existing logo to the organization profile.
+Align organization/repository descriptions and website links with the current
+experimental Java bitemporal identity.
+Switch repository funding/README links only after verifying the live new listing.
+
+**Complete when:** profile source matches saved API/public copy, the organization
+avatar displays the prepared logo, and the actual repository Sponsor button opens
+the MeridianDB listing. Reconcile current sponsorship/brand guidance and retain
+earlier recipients/copy as dated history. Validate funding YAML, README/link
+consistency, strict docs, queue/card integrity and task-owned diffs; commit/push
+with CI and remote readback. Bank/tax/payout settings, new tiers/financial promises
+and deletion of the older organization are separate from this public setup.
+Preserve the engine cursor and experimental status.
+
+**Produced artifacts:** exact project profile/identity source, MeridianDB FUNDING
+and README links, current migration/avatar procedures and scoped receipts. GitHub
+saves the bio/introduction and featured repository; API readback matches both
+descriptions (109-character bio). Upload the existing 1024-pixel logo, review its
+crop and verify the new public avatar. Organization/repository descriptions and
+website links match the experimental project. Funding/metadata/strict-doc and
+45-ID queue checks pass. Remote source delivery, docs CI and the actual repository
+Sponsor link remain delivery checks; no new tier, account deletion or engine work.
 
 ## MDB-0036 Optional S3-compatible object access
 
