@@ -15,16 +15,18 @@ children before implementation rather than treating a whole milestone as one pat
 - **MDB-0051 — Verified object checkpoint graphs** meets its source criteria:
   JDK-only complete manifest/segment verification against the owned journal,
   exact header-range preflight, aggregate pair budgets, immutable complete results
-  and local/SDK/failure evidence. Source commit, normal push/remote ancestry,
-  Java/docs CI and automatic Pages/live readback are pending; the delivery receipt
-  will record actual results before the next invocation.
+  and local/SDK/failure evidence. Source
+  `5d0255b2f2a6ebef468f26f7366f4ae0d2ac65ec` reaches origin/main with matching
+  tips/verified ancestry. Java **41249949891**, docs **41249949945** and automatic
+  Pages **41249949841** pass; live new guide/ADR/callers, canonical/search and
+  59-page sitemap readback are verified.
 - Final clean builds pass **1,092 core / 120 optional tests**, zero failures,
   errors or skips locally, plus all fourteen packaged-core examples. Core contains
   153 production classes and depends only on java.base. All fourteen existing
   Maven pins are freshly rechecked and unchanged. Both strict documentation URL
   builds pass 59 pages; desktop/mobile/light/dark/navigation/search review passes.
-- **MDB-0052 — Durable object publication intent** is next, conditional on delivery
-  checks above. Expanded MDB-0049/MDB-0037 still require durable expected/pending
+- **MDB-0052 — Durable object publication intent** is next; preceding delivery
+  checks have passed. Expanded MDB-0049/MDB-0037 still require durable expected/pending
   state and complete conditional publisher/reconciliation integration. Original
   acceptance and exclusive-placement assumptions are preserved.
 - **MDB-0054** separately tracks early range/count validation in legacy bounded

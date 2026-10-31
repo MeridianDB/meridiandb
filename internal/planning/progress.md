@@ -3231,6 +3231,38 @@ real-cloud/account/DNS or other hosting action is included.
 exact expected/pending observations and original preconditions through local
 failure/process exit before conditional publisher/reconciliation integration.
 
+## 2026-10-31 — MDB-0051 Delivery and publication readback
+
+Source completion **`5d0255b2f2a6ebef468f26f7366f4ae0d2ac65ec`** reaches origin/main
+with matching tips, verified ancestry and clean source checkout. Java checks
+**41249949891**, documentation checks **41249949945** and automatic Pages
+**41249949841** all finish successfully. Ubuntu runs **1,092 core / 120 optional**
+tests without failures/errors/skips; Windows runs the same totals without failures/
+errors and retains **228 pre-existing core filesystem capability skips**. Both
+platforms run all **28 graph, six owner-read/cleanup, sixteen checked-range and
+four SDK graph-consumer** cases without skips. Every one of the fourteen example
+steps succeeds on both platforms. No live-provider or stronger durability claim
+is inferred from these results.
+
+Live HTTPS readback verifies the new graph guide/ADR 0025, head protocol, current
+build research/test counts, conditional-head guide, roadmap and homepage capability
+copy. Canonical URLs are correct, search contains both new routes/titles and the
+sitemap has **59 HTTPS canonical pages**. Browser readback confirms the live guide;
+`.local-qa/mdb-0051/site-published.png` is embedded in the delivery update. Temporary
+viewport/theme changes are restored. The preview tab now shows the live deliverable
+and the owned loopback static server is stopped.
+
+Queue/card delivery state is reconciled. The internal-only receipt uses a normal
+commit/push, with its own identity/remote verification supplied by Git; these paths
+trigger no additional configured workflows. MDB-0051 is done and MDB-0052 ready;
+MDB-0049/MDB-0037 remain expanded. Independent MDB-0054 retains the legacy bounded-
+consumer range-preflight follow-up outside the publication parents. No later
+implementation, release, real-cloud/account/DNS or hosting-setting change occurs.
+
+**Next recommendation:** MDB-0052 — durable object publication intent, preserving
+exact expected/pending observations and original preconditions across process exit
+before conditional publisher/reconciliation integration.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

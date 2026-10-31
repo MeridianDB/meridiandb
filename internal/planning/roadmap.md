@@ -1153,8 +1153,10 @@ pass, plus four actual-SDK graph-consumer cases. Final clean builds pass 1,092 c
 120 optional tests and fourteen packaged-core examples; 153 production core
 classes depend only on java.base. All fourteen Maven pins are freshly confirmed.
 ADR 0025, a new guide, public callers/counts/navigation and agent rules are
-reconciled; both 59-page URL builds and rendered/search checks pass. Source push,
-CI and automatic Pages/live readback remain pending in this completion receipt.
+reconciled; both 59-page URL builds and rendered/search checks pass. Source
+`5d0255b2f2a6ebef468f26f7366f4ae0d2ac65ec` reaches origin/main; Java 41249949891,
+docs 41249949945 and automatic Pages 41249949841 pass. New guide/ADR/caller,
+canonical/search and 59-page sitemap live readback are verified.
 Durable intent, actual conditional publication/reconciliation and engine recovery
 remain separate required stages; parent acceptance is retained.
 
