@@ -12,23 +12,26 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0044 — MeridianDB visual identity** is source-complete:
+- No active item. **MDB-0044 — MeridianDB visual identity** is delivered:
   twin-arch m SVG masters, light/dark outlined wordmarks, six PNG exports, README
   integration, website logo/favicon and a public download page. The avatar PNG is
   ready to upload; no GitHub account avatar was changed.
-- Prior **MDB-0043** is delivered at
-  `d8b2d82af4ea66f1c6ef3b509b2e26ddd9a5d51f`, matching fetched origin/main. GitHub
-  saved the updated Sponsors descriptions and both API fields match exactly.
-  That internal-only push triggered no configured workflows.
+- Source completion `16a1fe5fe6839738f8f1fffdb5b3a8c270929304` is on origin/main
+  with matching tips. Documentation checks **41234117182** and automatic Pages
+  **41234117111** succeeded. Public brand page/header/favicon, README SVG loading,
+  search and the 50-page sitemap pass; all **11 live asset files** match exactly.
+  The prior Sponsors description refresh is also delivered; see progress history.
 - Self-contained SVG, decoded PNG dimensions/transparency/size, repeatable exports,
   circular crop and 16/24/32-pixel previews pass. Strict public builds pass for both
   URL layouts and restored production output (**50 pages**); inspect desktop and
   390-pixel light/dark use, navigation and search. Brand maintenance owns the SVG
   masters/exporter, renderer pin and attribution. Queue/card checks retain 44 IDs.
-- Deliver this completion with its normal commit/push, remote ancestry/tip readback,
-  docs CI, automatic Pages and exact live page/asset checks. The source introduces
-  no Maven or engine runtime change. Git supplies the completion SHA; final handoff
-  reports actual delivery and publication state.
+- Delivery readback is retained in progress history; Git supplies its receipt's
+  commit/push evidence. It triggers no additional configured workflows. No Maven or engine
+  runtime change. A separate hosting observation remains: Pages reports
+  https_enforced=false and certificate state dns_changed; the project-host redirect
+  lands on HTTP while the canonical HTTPS site and assets work. Record the finding
+  for scoped hosting follow-up; logo work changes no DNS or HTTPS setting.
 - **MDB-0036 — Optional S3-compatible object access** remains ready and is the next
   engine item. Refine optional packaging and a controlled SDK/HTTP fixture with
   fresh Maven artifact research. No engine/Maven work or next item starts here.

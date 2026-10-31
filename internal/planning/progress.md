@@ -2412,6 +2412,33 @@ for a separately requested GitHub organization-avatar upload.
 checks, beginning with maintained-library packaging, real SDK/HTTP fixture design
 and fresh Maven artifact/compatibility research. No engine step starts here.
 
+## 2026-10-31 — MDB-0044 Publication readback
+
+Source completion `16a1fe5fe6839738f8f1fffdb5b3a8c270929304` reaches origin/main
+with matching tips and a clean checkout. Documentation checks **41234117182** and
+automatic Pages **41234117111** both finish successfully. The GitHub README loads
+the outlined SVG at its intended 537-pixel display width. The public
+`https://meridiandb.org/contributing/brand/` page visibly renders the symbol and
+download links, with the new header logo and favicon. Compare all **11 published
+asset files**, including font notice and compatibility favicon, against source:
+every byte matches. Search contains the brand page/sections and the sitemap has
+**50** HTTPS canonical page URLs. Save published browser proof locally at
+`.local-qa/mdb-0044/site-published.png`; restore preview preferences/viewport and
+stop the temporary HTTP server. No GitHub avatar upload occurs.
+
+**Separate hosting observation:** the default GitHub project-path brand URL redirects
+to `http://meridiandb.org/contributing/brand/`; the page canonical is HTTPS and
+direct HTTPS serves the expected content and exact assets. Read-only Pages API
+confirms `html_url: http://meridiandb.org/`, `https_enforced: false` and certificate
+state `dns_changed`. These hosting settings are outside the logo change; no DNS or
+HTTPS setting is changed. A scoped hosting follow-up should recheck DNS/certificate
+readiness and restore HTTPS enforcement when available. Keep that actual host
+state distinct from the successful logo publication and canonical build checks.
+
+Persist the delivery receipt/queue in an internal-only commit, push normally and
+verify remote ancestry/tips. No new docs/Pages workflow is expected from that
+receipt. Engine selection remains MDB-0036 ready; no implementation step starts.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
