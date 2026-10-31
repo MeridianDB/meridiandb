@@ -12,8 +12,8 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0046 — Temporal geometry and index research** passes its
-  source criteria: public architecture note, direct SVG, precise overlap/visibility
+- No active item. **MDB-0046 — Temporal geometry and index research** is delivered:
+  public architecture note, direct SVG, precise overlap/visibility
   explanation, dated Lucene/Solr candidates and measured-experiment guidance.
   Knowledge order resolves applicable assertions; this is not global coordinate
   precedence or an adopted spatial index. Existing temporal semantics are preserved.
@@ -27,14 +27,18 @@ children before implementation rather than treating a whole milestone as one pat
   pass for **51 pages**, with source/HTML/links/search/sitemap checks. Reconcile
   diagram rules in AGENTS, the public guide and site operations: direct SVG is
   committed source; first PlantUML/Mermaid use must add pinned build conversion.
-- Validate the 46-ID queue/card/DAG and final diffs, commit/push, then verify remote
-  ancestry/tips, docs CI, automatic Pages and exact live note/SVG/search/sitemap.
-  Starting clean main `f42c1157018f5a7c40185354cdd755dcd4b6e10c` matches fetched
-  origin/main. Prior delivered sponsorship/branding evidence stays in progress
-  history. No Java/Maven implementation, benchmark or next engine item starts.
+- Source completion `aa5f1ee6427151ef76d601cb423be942ad5aba44` reaches origin/main
+  with matching tips. Documentation checks **41239726551** and automatic Pages
+  **41239726446** succeed. The live note/navigation and diagram procedure render;
+  the live SVG exactly matches source, search contains the page and the sitemap
+  has 51 HTTPS canonical entries. Retain the delivery receipt in progress history;
+  Git supplies its own commit/push evidence.
+- The 46-ID queue/card/DAG and task-owned diff checks pass. Prior delivered
+  sponsorship/branding evidence stays in progress history. No Java/Maven
+  implementation, benchmark or next engine item starts.
 - Separate existing hosting observation: Pages reports https_enforced=false and
   certificate state dns_changed. The canonical HTTPS site works, while the project
-  host redirects to HTTP. This sponsorship setup changes no DNS/HTTPS setting.
+  host redirects to HTTP. This documentation step changes no DNS/HTTPS setting.
 - **MDB-0036 — Optional S3-compatible object access** remains ready and is the next
   engine item. Refine optional packaging and a controlled SDK/HTTP fixture with
   fresh Maven artifact research. No engine/Maven work or next item starts here.

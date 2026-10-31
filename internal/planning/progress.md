@@ -2601,6 +2601,26 @@ checks, with fresh Maven version/compatibility research and optional packaging/
 controlled real SDK-HTTP fixture design. Index experiments remain in MDB-0013 after
 the existing workload baseline; neither starts here.
 
+## 2026-10-31 — MDB-0046 Publication readback
+
+Source completion `aa5f1ee6427151ef76d601cb423be942ad5aba44` reaches origin/main
+with matching local/remote tips and a clean checkout. Documentation checks
+**41239726551** and automatic Pages **41239726446** both finish successfully.
+The live HTTPS architecture/temporal-geometry page contains the final note and
+source references, with the new navigation entry and SVG. Its diagram loads at
+the expected natural width of 640; complete live SVG bytes match committed source.
+The new page appears in search and the **51-page** sitemap has HTTPS canonical
+URLs. The live documentation guide publishes the direct-SVG/generated-renderer
+distinction. Save browser proof at `.local-qa/mdb-0046/site-published.png` and
+retain the public note tab as the result. Temporary theme/viewport changes are
+restored, the conversation preview tab/server is closed, and the site preview
+server is stopped after switching to the published page.
+
+Persist this readback/queue with a normal internal-only commit/push and remote
+verification. These receipt paths trigger no additional configured workflows.
+No full Java suite, benchmark, new index, runtime dependency, release or other hosting
+change is implied by documentation publication. MDB-0036 remains ready.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
