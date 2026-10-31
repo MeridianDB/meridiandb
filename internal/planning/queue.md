@@ -15,15 +15,17 @@ children before implementation rather than treating a whole milestone as one pat
 - **MDB-0048 — Conditional S3 head access** meets its source criteria: separate
   scoped same-GET observations and exact create/replace primitives, explicit write
   outcomes, shared private client/body handling and 70 new head cases. The original
-  46 immutable-object cases are preserved. Source completion commit, normal push,
-  remote ancestry, Java/docs CI and automatic Pages/live readback are pending;
-  the delivery receipt will record actual results before the next invocation.
+  46 immutable-object cases are preserved. Source completion
+  `ed4ba02baf9be8834721870959d80c6515d87ee4` is pushed to origin/main with
+  matching tips/ancestry. Java **41246798775**, docs **41246798793** and automatic
+  Pages **41246798787** pass; live guide/ADR/callers, canonical/search and 57-page
+  sitemap readback are verified in the delivery receipt.
 - Local final clean builds pass **1,016 core / 116 optional tests**, zero failures,
   errors or skips; all fourteen packaged-core examples pass. Core still contains
   143 production classes and depends only on java.base. Fresh metadata confirms
   all fourteen existing Maven selections; no dependency/POM change is required.
 - **MDB-0049 — Verified object checkpoint publication** is the next source-ready
-  item, conditional on delivery checks above. It owns actual graph/journal-prefix
+  item; the preceding delivery checks have passed. It owns actual graph/journal-prefix
   validation, durable expected/pending intent, uncertainty handling and publisher
   integration. MDB-0037 remains expanded. No later implementation starts here.
 - Preserve the documented SDK-visible header normalization and native framing

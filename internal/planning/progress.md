@@ -2965,6 +2965,36 @@ subsequent child implementation is included.
 the actual owned journal, refining it into bounded children before implementation
 if its complete parent acceptance requires more than one reviewable change.
 
+## 2026-10-31 — MDB-0048 Delivery and publication readback
+
+Source completion **`ed4ba02baf9be8834721870959d80c6515d87ee4`** reaches origin/main
+with matching tips, verified ancestry and clean source checkout. Java checks
+**41246798775**, documentation checks **41246798793** and automatic Pages
+**41246798787** all finish successfully. Ubuntu runs **1,016 core / 116 optional**
+cases without failures/errors/skips; Windows runs the same totals without failures/
+errors and retains **228 existing core filesystem capability skips**. Both OSes
+execute all **43 head SDK/API, 27 type/native-stream and 46 original optional**
+cases without skips. Every one of the fourteen example steps succeeds on both
+OSes. No additional provider/durability guarantee follows from this evidence.
+
+Live HTTPS readback verifies the new conditional-head guide and ADR 0024, protocol,
+build research timestamp, roadmap and homepage capability copy. Their canonical
+URLs are correct. Search includes both new titles/routes and the sitemap has
+**57 HTTPS canonical pages**. Browser readback verifies the complete guide. The
+saved `.local-qa/mdb-0048/site-published.png` proof is embedded in the delivery
+update; the tab shows the live deliverable. Temporary viewport/theme changes are
+restored and the owned loopback preview server is stopped.
+
+The queue/card now record verified delivery. This internal-only receipt receives
+a normal commit/push with its own identity and remote verification supplied by
+Git; these paths trigger no additional configured workflows. MDB-0048 is done,
+MDB-0049 is ready and MDB-0037 remains expanded. No further implementation, release,
+real-cloud/account/DNS action or hosting setting change occurs here.
+
+**Next recommendation:** MDB-0049 — verified object checkpoint publication,
+refining its graph/journal verification and durable intent/reconciliation stages
+into bounded children before implementation if needed.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

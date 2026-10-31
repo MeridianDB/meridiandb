@@ -1047,8 +1047,10 @@ write and explicit rollback/ABA limits. Local final clean builds pass 1,016 core
 pass. ADR 0024, the head guide, public callers, navigation and agent rules describe
 implemented primitives and remaining publisher duties; both strict URL builds
 pass 57 pages and desktop/mobile light/dark/search review. All fourteen existing
-Maven selections are freshly verified. Source push, CI and Pages/live verification
-remain pending in this completion receipt. No cloud provider is qualified and no
+Maven selections are freshly verified. Source `ed4ba02baf9be8834721870959d80c6515d87ee4`
+is on origin/main; Java 41246798775, docs 41246798793 and automatic Pages
+41246798787 pass. Live guide/ADR/callers, canonical/search and 57-page sitemap
+readback are verified. No cloud provider is qualified and no
 verified publisher/engine integration or removal is added.
 
 ## MDB-0049 Verified object checkpoint publication
