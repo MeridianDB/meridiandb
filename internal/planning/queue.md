@@ -12,18 +12,23 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0045 — Dedicated MeridianDB sponsorship** passes its source
-  criteria: approved public listing, project-specific bio/introduction, featured
+- No active item. **MDB-0045 — Dedicated MeridianDB sponsorship** is delivered:
+  approved public listing, project-specific bio/introduction, featured
   repository, uploaded logo and matching organization/repository descriptions and
   website links. The actual public Sponsors page shows the new logo and copy;
   independent API reads match the retained profile source exactly (109/250 bio).
 - FUNDING and README now name MeridianDB, with current sponsorship/brand procedures
   reconciled. Earlier MasteryEducation recipients/copy remain dated history, not a
   fallback. Its separate organization and financial settings are unchanged.
+- Source completion `6027538b5d97fe1da3ca61a95bfce52e7977689e` is pushed with
+  matching local/origin tips. Documentation check **41236877168** passes. GraphQL
+  returns enabled Sponsorships and sole GITHUB recipient MeridianDB; the actual
+  header Sponsor link opens the correct public profile, with new avatar/copy/card.
+  README also renders its matching project-specific link. No Pages deploy is
+  triggered by these paths; no Java/Maven inputs change.
 - Funding YAML/README consistency, public metadata, Markdown links, strict docs
-  (unchanged 50-page site), 45-ID queue/card/DAG and diff checks pass. Commit/push
-  normally, verify remote ancestry/tips and README-triggered docs CI, then inspect
-  the actual repository Sponsor destination. These paths trigger no Pages deploy.
+  (unchanged 50-page site), 45-ID queue/card/DAG and diff checks pass. Retain the
+  delivery receipt in progress history; Git owns its commit/push evidence.
 - Starting clean main `ac70cfd2833f7680d31cacae81fade095523a830` matches fetched
   origin/main; its delivered logo/CI/Pages and earlier sponsorship receipts remain
   in progress history. No Maven, paid transaction, tier promise or engine change.

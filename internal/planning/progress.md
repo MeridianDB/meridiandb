@@ -2498,6 +2498,29 @@ checks, starting with optional packaging, a controlled real SDK/HTTP fixture and
 fresh Maven artifact/compatibility research. The engine cursor remains ready;
 this scoped setup starts no implementation work.
 
+## 2026-10-31 — MDB-0045 Funding cutover readback
+
+Source completion `6027538b5d97fe1da3ca61a95bfce52e7977689e` is pushed to
+origin/main with matching tips and a clean checkout. Documentation check
+**41236877168** completes successfully. No Pages/Java workflow is triggered for
+these README/FUNDING/internal-only paths. Independent repository GraphQL readback
+confirms hasSponsorshipsEnabled=true and the sole GITHUB funding recipient
+`https://github.com/MeridianDB`.
+
+Open the actual repository page, allow its initially disabled server-rendered
+Sponsor control to hydrate, then click its enabled **Sponsor MeridianDB/meridiandb**
+link. It opens `https://github.com/sponsors/MeridianDB`, headed **Become a sponsor
+to MeridianDB**, with the new logo, published project introduction and featured
+repository/card description. The README's **MeridianDB on GitHub Sponsors** link
+renders the same URL, and the Sponsor this project section names @MeridianDB.
+Overwrite the ignored public screenshot proof with this actual-click destination.
+Close the duplicate agent-created tab and retain the main public Sponsors result.
+No payment is initiated and the older organization is untouched.
+
+Persist this receipt/queue with a normal internal-only commit/push and verify its
+remote ancestry/tips. That record triggers no additional configured workflows.
+MDB-0036 remains ready; it starts only on a later invocation.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
