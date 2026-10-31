@@ -32,6 +32,7 @@ permanent commitment.
 | [0020: Persistence and replication boundaries](0020-persistence-and-replication-boundaries.md) | Architecture direction adopted; remote checkpoint integration and replication planned | Local-first bitemporal library, distinct commit/object/checkpoint responsibilities and optional replication |
 | [0021: Bounded immutable-object access](0021-bounded-immutable-object-access.md) | Interface, local adapter and segment consumer implemented; experimental | Exact whole-image identity/length, create-only writes, explicit reuse and verified heap ranges |
 | [0022: Optional S3 object access](0022-optional-s3-object-access.md) | Byte adapter and controlled SDK/HTTP checks implemented; experimental | Separate optional artifact, conditional creation, complete verified reads and explicit response/ownership limits |
+| [0023: Object checkpoint head protocol](0023-object-checkpoint-head-protocol.md) | Format and pure checks implemented; remote selection planned | Fixed head identity, independent revision, predecessor/binding checks and specified conditional publication |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

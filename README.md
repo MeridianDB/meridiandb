@@ -95,8 +95,10 @@ indexing remain planned and unmeasured. The
 [immutable-object interface](docs/development/immutable-objects.md) now includes a
 JDK-only local adapter, complete identity/length validation, explicit identical
 reuse and a segment consumer. The separate `meridiandb-s3` artifact runs the same
-object contract through a real SDK/HTTP fixture. Existing checkpoint and engine
-protocols are unchanged.
+object contract through a real SDK/HTTP fixture. A pure [checkpoint-head codec](docs/architecture/object-checkpoint-protocol.md)
+now defines bounded remote metadata and adjacent-transition checks; actual
+conditional selection and verified publication remain planned. Existing checkpoint
+and engine protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
@@ -154,7 +156,7 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 970 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 1,016 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
@@ -163,7 +165,8 @@ checks, plus 50 durable process/retry/temporal conformance checks,
 publication/integration/process checks, 70 reader protection/identity/cleanup checks,
 69 verified inventory/root/budget/process checks and 93 protected physical
 removal/fault/process checks, plus 46 integrated compaction/reclamation cases and 84 immutable-object/type/local/
-fault/segment-consumer cases. Coverage
+fault/segment-consumer cases and 46 pure object-checkpoint-head format/binding
+cases. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair

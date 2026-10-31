@@ -37,7 +37,10 @@ and orders live-root synchronization and metadata retirement before dependencies
 now verifies explicit retained roots and obsolete-object metadata without removal.
 The [immutable-object interface](immutable-objects.md) adds a JDK-only local
 adapter and segment-codec consumer with complete expected-ID/length checks and
-verified heap ranges, independently of checkpoint selection. No library is published.
+verified heap ranges, independently of checkpoint selection. The pure
+[object-checkpoint-head codec](../architecture/object-checkpoint-protocol.md) adds
+a bounded selection format and metadata checks; conditional remote publication
+remains planned. No library is published.
 
 ## Build and verify
 
@@ -85,7 +88,7 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 970 test invocations include 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md) and 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 1,016 core test invocations include 46 [object-checkpoint-head format/metadata checks](../architecture/object-checkpoint-protocol.md), 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md), 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
@@ -175,9 +178,9 @@ canonical temporal and query test fixtures. The [Jackson project](https://github
 documents its 3.x `tools.jackson` packages and Java 17 baseline. Its tree model lets
 the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
-dependency. The local adapter also uses only JDK file I/O. All twelve existing metadata
-sources and official Maven/JUnit/Jackson compatibility information were rechecked
-on October 31 at 16:44:49 EDT / 20:44:49 UTC; those selected versions remain
+dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
+sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
+on October 31 at 17:18:58 EDT / 21:18:58 UTC; the listed selections remain
 unchanged. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

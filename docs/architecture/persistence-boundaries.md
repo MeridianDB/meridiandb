@@ -80,6 +80,11 @@ records that initial boundary.
 
 ## Object storage and checkpoints
 
+A fixed [checkpoint-head format and pure metadata checks](object-checkpoint-protocol.md)
+are available. Their specification separates head revision, manifest generation,
+predecessor identity and actual journal-prefix agreement. Conditional head access
+and verified publication remain unimplemented.
+
 An object-store checkpoint is planned as an optional companion to the local
 journal. First upload or verify all immutable dependencies, then publish immutable
 manifest bytes and conditionally select the complete generation. The exact head

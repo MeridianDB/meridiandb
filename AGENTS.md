@@ -240,6 +240,16 @@ so a new session can work correctly without relying on earlier conversations.
   Scope fixture evidence precisely; protocol checks establish no live-provider
   qualification, checkpoint selection, distributed ownership or stronger local
   acknowledgement. Run core and adapter verification on both CI platforms.
+- Follow [ADR 0023](docs/decisions/0023-object-checkpoint-head-protocol.md) and the
+  [object checkpoint protocol](docs/architecture/object-checkpoint-protocol.md)
+  for remote selection work. Preserve exact head/predecessor/manifest identity,
+  independent revision/generation/cutoff and the full canonical lineage domain.
+  Distinguish pure metadata checks from actual graph/owner-journal verification
+  and conditional selection. Preserve exact intent/preconditions across uncertain
+  replies; an old-head observation alone proves no completed failure. Require
+  durable expected/pending state and explicit single-publisher placement before
+  publication. Copied IDs and metadata CAS supply no distributed fencing; reject
+  observed conflicts and retain uncertain objects without cleanup.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

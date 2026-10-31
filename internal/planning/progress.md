@@ -2743,6 +2743,112 @@ its own SHA and remote ancestry/tip evidence. MDB-0037 remains
 ready; no checkpoint publisher, live-cloud validation, release or subsequent
 implementation step starts during this delivery receipt.
 
+## 2026-10-31 — MDB-0047 Bounded object checkpoint head
+
+**Selection/refinement:** start clean on main
+`cafefdec67b8cf68663377dc4233e39016832485`, matching fetched origin/main and the
+prior delivered S3 source `b16c9d160eb25bfbe928512bb28fff09e5411b66` with successful
+Java/docs/Pages checks. Refine broad MDB-0037 into required children **MDB-0047**
+(protocol/pure head metadata), **MDB-0048** (real SDK conditional head access) and
+**MDB-0049** (verified graph/actual-owner-prefix publication, durable intent and
+reconciliation/integration). Preserve the parent's original acceptance, all
+external prerequisites and downstream references. Complete only the first child;
+parent MDB-0037/MDB-0011 remain expanded. No later implementation begins here.
+
+**Outcome:** add four core production sources for an immutable head declaration,
+fixed v1 codec, typed failures and pure metadata verifier. The exact 256-byte
+big-endian image contains namespace/publisher/publication UUIDs, canonical journal
+header SHA-256, remote selection revision, exact manifest reference, original
+journal-prefix metadata, exact complete predecessor reference and payload footer.
+Complete-image identity includes the footer; it is not the footer or provider
+ETag. Revision 1 has canonical absent predecessor; later revisions identify the
+whole 256-byte predecessor and advance exactly once. Reject overflow, changed
+bindings, adjacent publication identity reuse, prefix regression and changed
+same-cutoff evidence. Bind complete manifest bytes/identity/length/lineage/prefix,
+including exact empty-header length, without fetching dependencies or journal I/O.
+Manifest generation and temporal cutoff remain independent from remote revision.
+
+**Protocol/decisions:** public object-checkpoint protocol and ADR 0023 define the
+wire offsets, namespaced flat keys, bounds, three-coordinate distinction, expected
+binding provenance and required future graph/publication sequence. Hash exact
+JournalCodec header bytes to retain the existing **32,768 UTF-16 code units** /
+**65,556-byte maximum header**, including unpaired surrogates, rather than narrowing
+lineage to fit a small text head. The pure type is declaration, not selected state.
+Actual graph/owned-journal agreement, local durable expected/pending intent,
+conditional SDK I/O, reconciliation, engine recovery and removal remain separate.
+A lost-reply read of the predecessor alone cannot resolve a request still in
+flight; preserve candidate bytes, publication identity and original precondition.
+No automatic rebase, fall back to older graphs or cleanup follows uncertainty.
+Copied bindings/local locks and metadata CAS supply no distributed admission;
+observed prefix/predecessor conflicts must fail closed, while unseen clones and
+external rollback/deletion remain explicit deployment assumptions. Future CAS
+fixtures must pair GET bytes/token and model changing strong ETags, preserving
+existing immutable-object constant-ETag cases separately.
+
+**Research:** fresh Central metadata at **21:18:58 UTC / 17:18:58 EDT** reconfirms
+all fourteen existing runtime/wrapper/plugin/direct selections as latest stable;
+SDK s3/URLConnection remain **2.57.8**. No POM/dependency/format migration occurs.
+Official S3 conditional-write/consistency/GET/ETag/versioning documentation and
+RFC 9110 support the dated protocol facts; separate application design choices
+from provider guarantees. Actual SDK source confirms both conditional PUT fields.
+S3 metadata SHA-256
+`a821c5586fd7e2ee72668bc3def61e27d88dc84449b0d39ec27b7b28448e23b6`,
+URLConnection metadata
+`211308639aacbf2f4a204a22ddc187b61aa19bb5bf432ca5f9c07cb330fd3b15`;
+actual s3 2.57.8 source JAR
+`8b031931d0247e905e91fd1356ae2380bd521f60ef81e2938a177ca8c11819da`.
+The public build guide owns current pins and primary links; working raw evidence
+is under ignored `.local-qa/mdb-0047/research-helper/`.
+
+**Verification:** an independent helper builds Python struct/hashlib golden images
+and literal Java expectations; no shared production algorithm generates expected
+bytes. Revision-1 complete ID
+`51d39de57bc442d01e3bd6ffdb69e42b47405f7e69a00de5e680b8db019fc66b`;
+revision-2 ID
+`105b3638d6ca7fbda71139d696bba5157e48cb38543cdc91e6b368c78f9891e8`.
+**28 codec tests** cover every shorter length, payload/footer corruption, exact
+version/flags/reserved/predecessor forms, expected references, numeric/domain
+limits, null/nil IDs and copy lifetime. **18 verifier tests** cover independent
+bindings, adjacent transitions/stale/overflow, exact manifest wire identity and
+metadata, independent manifest generation, empty/large/unpaired lineage, missing
+segments and a pair of divergent self-consistent same-lineage graphs that proves
+coordinate-only checks cannot establish extension. This boundary is intentionally
+visible rather than presented as copied-writer fencing.
+
+Final `./mvnw -B clean install` passes **1,016 core tests**;
+`./mvnw -B -f adapters/s3/pom.xml clean verify` passes **46 optional tests**, with
+zero failures/errors/skips locally. Fourteen examples run using only the packaged
+core JAR. Archive/`jdeps` inspection confirms **143 production classes**, only
+java.base dependency, no SDK/test classes, and unchanged one-class shared test
+classifier. These are pure metadata additions; no head GET/CAS or publication is
+exercised, and no new crash/temporal guarantee is inferred from format checks.
+The existing full suite retains its prior temporal/reference/local failure/
+process/recovery checks; the existing SDK suite still tests immutable byte access.
+
+**Documentation/caller QA:** reconcile README, public homepage/roadmap/build/S3/
+architecture/persistence callers, decision index/navigation and root agent rules.
+Both strict production and project-path builds pass source/HTML/local-link/search/
+sitemap checks for **55 pages**; restore production output. Rendered review covers
+protocol copy and tables in desktop light and 390-pixel dark with no page-wide
+overflow, actual new protocol search results and navigation. Existing diagram
+rules remain unchanged; exact field tables need no generated renderer. Independent
+research/production/protocol review finds no blocker or unsupported capability
+claim. Coordinator owns all production/shared planning/Git writes; helpers own
+only research and their codec-test file. Preserve immutable historical receipts.
+
+**Source completion/delivery:** reconcile queue/card/progress and validate **49
+unique IDs**, references/parent/DAG, eligibility and completed children. Inspect
+working/staged diff and explicit task paths, commit with Step-ID MDB-0047 /
+Step-Result completed, push normally and verify remote ancestry/tips, Java/docs
+CI and automatic Pages. Verify exact live protocol/ADR/build/status, canonical,
+search and 55-page sitemap. Git/final handoff supplies actual source SHA/results;
+a later internal receipt may cite that SHA. No real-cloud use, account/DNS change,
+release/tag/artifact upload or subsequent child implementation is included.
+
+**Next recommendation:** MDB-0048 — conditional S3 head access and real-SDK
+changing-token/failure fixture cases. MDB-0049 still owns complete verified
+publication, durable intent and all remaining parent integration acceptance.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

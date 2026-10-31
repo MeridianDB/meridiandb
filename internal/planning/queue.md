@@ -12,37 +12,36 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0036 — Optional S3-compatible object access** is delivered:
-  a separate `meridiandb-s3` artifact implements conditional immutable
-  creation and bounded verified whole reads using AWS SDK 2.57.8. Core remains
-  independently usable with no external runtime dependency.
-- Fresh Central metadata and official API/compatibility research on October 31 at
-  20:44:49 UTC confirm the selected SDK and unchanged root pins. ADR 0022 records
-  packaging, transport, resource ownership and exact evidence limits. No cloud
-  account, provisioning, deployment, paid operation or artifact release occurs.
-- Clean core install/verification passes **970 tests**; clean optional verification
-  passes **46 tests** (9 shared contract, 29 real SDK/HTTP, 8 stream/guard faults),
-  all without failures/errors/skips locally. Fourteen examples run using only the
-  packaged core JAR; archive/classpath/`jdeps` checks preserve core isolation and
-  exclude the SDK's Apache/Netty/CRT transports. Java CI now verifies both artifacts
-  on Linux/Windows and watches both POMs/adapter sources.
-- Public S3/build/decision/status callers and agent rules are reconciled. The QA
-  checker accepts technical HTTP/provider authorization language while retaining
-  process-narration guards and positive/negative fixtures: **42 QA tests** pass.
-  Both strict URL layouts and restored production build pass for **53 pages**;
-  preview desktop/narrow/light/dark, navigation and S3 search checks pass.
-- Source completion `b16c9d160eb25bfbe928512bb28fff09e5411b66` is on origin/main
-  with matching source tips. Java **41241692651**, documentation checks
-  **41241692527** and automatic Pages **41241692511** all succeed. Both CI OSes
-  pass all 46 optional tests without skips; Windows retains its 228 documented
-  pre-existing core filesystem capability skips. All examples complete.
-- Live HTTPS guide/ADR/build/status content, canonical URLs, search entries and
-  the 53-page sitemap pass readback. Delivery evidence is in progress history;
-  Git owns this internal receipt's own commit/push identity. Existing hosting/DNS
-  observations remain historical dependencies and no setting changes here.
-- **MDB-0037 — Conditional object checkpoint publication** is next source-ready.
-  This adapter selects no checkpoint, changes no local acknowledgement, supplies
-  no distributed writer authority and qualifies no live S3-compatible service.
+- No active item. **MDB-0047 — Bounded object checkpoint head** is source complete:
+  pure 256-byte v1 encoding, complete identity/footer separation, explicit bindings,
+  exact adjacent predecessor/revision checks and complete manifest metadata binding.
+  Conditional remote mutation, graph publication, actual-journal checks and recovery
+  remain unimplemented by this child.
+- **MDB-0037** is expanded into required children MDB-0047/0048/0049, preserving
+  its full acceptance and all downstream dependencies. The protocol distinguishes
+  head revision, physical manifest generation and temporal cutoff. Canonical-header
+  SHA-256 preserves the existing 32,768 UTF-16-unit lineage domain, including
+  unpaired surrogates. Copied IDs/metadata CAS provide no distributed fencing.
+- Independent golden vectors and 46 focused cases (28 codec, 18 metadata/binding)
+  pass. A divergent same-lineage graph intentionally passes coordinate-only checks,
+  making the future actual-owner-prefix requirement explicit. Fresh Central checks
+  at 21:18:58 UTC confirm all 14 selected Maven/SDK artifacts unchanged; no POM or
+  runtime dependency change occurs.
+- Clean core install/verification passes **1,016 tests**, optional S3 verification
+  passes **46 tests**, all without failures/errors/skips locally. Fourteen examples
+  pass with the packaged core JAR; 143 production classes depend only on java.base.
+  The shared test classifier remains one abstract contract class.
+- Public protocol/ADR/status/build callers and agent rules are reconciled. Both
+  strict URL layouts and restored production build pass for **55 pages**. Desktop
+  light and 390-pixel dark table/text, navigation and actual protocol search pass;
+  temporary theme/viewport settings are restored after QA.
+- Source commit/push, remote ancestry/tips, Java/docs CI, automatic Pages and live
+  readback remain delivery checks. Record actual evidence in progress history and
+  verify it before advancing. Start was clean main
+  `cafefdec67b8cf68663377dc4233e39016832485`, matching origin/main.
+- **MDB-0048 — Conditional S3 head access** is next source-ready. Implement the
+  narrow provider primitive and real SDK/changing-token fixture cases next;
+  MDB-0049 retains full verified publication and parent integration criteria.
 
 ## Ordered work
 
@@ -86,7 +85,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0045](roadmap.md#mdb-0045-dedicated-meridiandb-sponsorship) | Configure the approved MeridianDB Sponsors profile and migrate funding links | — | done | MDB-0044 |
 | [MDB-0046](roadmap.md#mdb-0046-temporal-geometry-and-index-research) | Document temporal geometry and reusable Lucene/Solr indexing ideas | — | done | MDB-0009 |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | done | MDB-0010, MDB-0035 |
-| [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | ready | MDB-0010, MDB-0036 |
+| [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | expanded | MDB-0010, MDB-0036 |
+| [MDB-0047](roadmap.md#mdb-0047-bounded-object-checkpoint-head) | Specify and encode bounded object checkpoint heads | MDB-0037 | done | MDB-0010, MDB-0036 |
+| [MDB-0048](roadmap.md#mdb-0048-conditional-s3-head-access) | Implement bounded S3 head reads and conditional replacement | MDB-0037 | ready | MDB-0010, MDB-0036, MDB-0047 |
+| [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | queued | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |

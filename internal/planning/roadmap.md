@@ -977,6 +977,87 @@ without a distributed admission protocol.
 Document uncertain-result reconciliation and separate remote selection from local
 commit acknowledgement; installation selects only verified complete history.
 
+**Required children:** MDB-0047 defines the protocol, pure bounded head codec and
+metadata/transition checks; MDB-0048 implements actual SDK conditional head access;
+MDB-0049 implements verified publication, actual owned-journal prefix/binding,
+durable uncertain-intent reconciliation and parent integration/failure evidence.
+The split preserves this complete acceptance contract. Each child's external
+prerequisites include MDB-0010/MDB-0036; later work may be refined again while
+retaining outcomes. MDB-0038 continues to depend on the complete parent.
+
+## MDB-0047 Bounded object checkpoint head
+
+**Parent:** MDB-0037. **Outcome:** specify remote selection and implement its pure
+bounded head representation, codec and metadata/adjacent-transition checks. Keep
+selection revision, manifest generation and temporal cutoff distinct. Bind exact
+canonical journal lineage by digest, preserving the full existing UTF-16 domain;
+namespace/publisher/publication IDs are identity checks, not distributed ownership.
+
+**Complete when:** a navigable protocol/ADR defines exact wire bytes, predecessor
+identity, genesis/successor rules, naming, bounded work, single-writer deployment
+assumptions, copied-writer/prefix limitations and uncertain-response handling.
+Independent golden bytes/full IDs, strict version/flags/footer/reference and
+length/domain cases pass. Pure checks reject changed bindings, stale/overflowed
+revisions, wrong predecessors, reused adjacent publication identities and regressing
+or changed same-cutoff prefixes. Manifest binding verifies exact encoded identity/
+length/lineage/prefix without claiming dependency or actual-journal validation;
+cover different manifest generations and large/unpaired-UTF-16 lineage. Preserve
+existing codecs/temporal behavior and JDK-only core; run core/optional builds,
+docs/rendered/caller/queue checks and deliver normally. Actual conditional I/O,
+graph publication, engine recovery and deletion remain unimplemented by this child.
+
+**Produced artifacts:** JDK-only ObjectCheckpointHead record, 256-byte v1 codec,
+typed pure failures and verifier for independent binding, exact predecessor/
+adjacent revision and complete manifest metadata. Canonical lineage digest
+preserves the full existing UTF-16 domain; remote revision remains independent
+of manifest generation and cutoff. Protocol/ADR 0023 specify namespace names,
+future conditional selection, durable intent, full actual-journal/graph checks,
+lost-reply handling and copied-writer/ABA limits without claiming implemented I/O.
+Independent vectors and 46 focused checks pass; full core/optional builds pass
+1,016/46 tests and 14 core-JAR examples. Both 55-page URL builds and rendered/
+caller/queue checks pass. Source push, CI/Pages and live readback remain delivery
+checks in source completion. Parent MDB-0037 remains expanded.
+
+## MDB-0048 Conditional S3 head access
+
+**Parent:** MDB-0037. **Outcome:** add a narrow conditional mutable-head boundary
+over the selected maintained SDK, keeping immutable byte access separate. Fetch
+complete bounded head bytes and an opaque CAS token from the same GET response;
+validate response/cleanup before return, preserving explicit absence/error classes.
+Implement create-if-absent and replace-if-observed-token with exact persisted-intent
+bytes and bounded responses; no unconditional replacement or silent retry/rebase.
+
+**Complete when:** real SDK/HTTP cases cover conditional genesis, races/stale tokens,
+409/412/404/permission distinctions, lost replies before/after effects, token/ABA
+faults, malformed/missing tokens/head bytes, limits/timeouts/cleanup and changing
+head ETags. Preserve the existing constant-ETag immutable-object cases separately.
+Research current artifacts and API semantics, preserve optional packaging/core
+independence, document exact fixture/capability limits and deliver normally. These
+primitives grant no graph/prefix validation, distributed fencing, engine recovery
+or removal authority. Full publication stays in MDB-0049.
+
+## MDB-0049 Verified object checkpoint publication
+
+**Parent:** MDB-0037. **Outcome:** compose head access with immutable manifest/
+segment verification and actual exclusively owned local journal evidence. Specify
+and enforce supported namespace/local-publisher placement, durable expected-head/
+pending-intent state and failure/uncertainty poisoning/reopen reconciliation before
+any conditional selection. Verify selected graph and original prefix before
+advancing; install/reuse complete candidate dependencies before head mutation.
+
+**Complete when:** all MDB-0037 criteria pass through real SDK/fixture publication,
+including no fallback from a damaged selected graph, bounded metadata/object/
+identity work, exact predecessor/manifest/prefix checks, genesis/stale/competing
+selections and lost-response/retry outcomes. Test equal-lineage copied stores with
+divergent tails: reject observed predecessor/prefix conflicts and preserve pending/
+old/uncertain objects; state which unseen clones/rollback scenarios remain deployment
+assumptions. An old-head read alone never resolves a still-in-flight write. Retain
+local force-before-publication acknowledgement and complete logical history.
+No cleanup follows stale previews or uncertain selection. Reuse existing manifest/
+actual-prefix fixtures, finish parent integration/docs/delivery and mark MDB-0037
+done only when all required children and parent criteria pass. Engine recovery
+and reader-safe remote reclamation remain the later separate tasks.
+
 ## MDB-0038 Remote checkpoint engine recovery
 
 **Parent:** MDB-0011. **Outcome:** compose the remote checkpoint implementation
