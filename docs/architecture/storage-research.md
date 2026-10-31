@@ -11,7 +11,30 @@ to MeridianDB's temporal storage design.
 
 **Sources checked October 28, 2026.** The linked documentation describes each
 system's guarantees. The MeridianDB implications are design judgments; they do not
-establish dependencies or performance results.
+establish dependencies or performance results. The persistence comparison below
+was checked separately on October 31; later sections identify their own refreshes.
+
+## Persistence, formats and temporal semantics
+
+Systems expose several independent choices: an ingestion source or ordered log,
+a file format, a storage service, physical indexes and a temporal query model.
+Kafka, Parquet and an object store occupy different layers.
+
+Primary sources checked October 31, 2026:
+
+| System | Relevant distinction | MeridianDB implication |
+| --- | --- | --- |
+| ClickHouse | The [Kafka engine](https://clickhouse.com/docs/reference/engines/table-engines/integrations/kafka) consumes a stream, commonly through a materialized view into a MergeTree-family table. Native tables normally use local storage and can use configured [external disks](https://clickhouse.com/docs/concepts/features/configuration/server-config/storing-data). Kafka is not required for native table persistence. | Separate optional ingestion connectors from authoritative storage and commit order. |
+| Hive | [File formats](https://hive.apache.org/docs/latest/user/fileformats/) include text, ORC and Parquet. The [AWS storage guide](https://hive.apache.org/docs/latest/admin/hiveaws/) separates metastore schema definitions from table datasets in HDFS or S3; its older execution examples are not a current execution-engine comparison. | Choose encoding, storage service and metadata publication independently. |
+| Elasticsearch | [Date ranges](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/range) support time-based filtering; [refresh](https://www.elastic.co/docs/manage-data/data-store/near-real-time-search) makes recent changes searchable. A [point-in-time view](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-open-point-in-time) captures search state when opened and has an explicit lifetime. These mechanisms alone do not maintain valid-time corrections and retained system-time history. | Keep search freshness, pinned physical views and native bitemporal semantics distinct. An application can build history above a search engine, but must supply its version and correction model. |
+| XTDB | Its [bitemporal model](https://docs.xtdb.com/intro/what-is-xtdb.html) maintains valid and system time automatically. [Configuration](https://docs.xtdb.com/ops/config.html) separates pluggable transaction logs and object storage, including local implementations. | Use XTDB as the closest temporal design comparator while specifying MeridianDB's own embedded API and persistence guarantees. |
+
+This is a comparison of documented responsibilities, not a feature-completeness
+or throughput ranking. MeridianDB implements a smaller numeric temporal model,
+local forced persistence and eager queries; richer values, remote adapters,
+replication and specialized search indexes remain planned. The
+[persistence boundary specification](persistence-boundaries.md) applies these
+lessons to the local-first library and optional extensions.
 
 ## What the comparable systems teach
 

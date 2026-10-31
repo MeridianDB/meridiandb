@@ -1,15 +1,16 @@
 ---
 title: Temporal storage research
-description: MeridianDB explores an embeddable Java temporal storage engine. Read the concepts, architecture, research plan and project decisions.
+description: Explore MeridianDB's experimental embeddable Java bitemporal database, built-in local persistence, temporal concepts and planned storage and replication extensions.
 ---
 
 # MeridianDB
 
 Explore data through two dimensions of time.
 
-MeridianDB is an experimental storage engine for preserving when facts apply and
-when the database learned about them. Java and in-process JVM embedding are the
-working direction, with a Java 25/Maven build foundation now available.
+MeridianDB is an experimental embeddable Java bitemporal database for preserving
+when facts apply and when the database learned about them. Built-in local
+persistence supports standalone JVM use; additional storage adapters and
+replication are planned extensions. The Java 25/Maven build is available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
 [Explore the architecture](architecture/overview.md) ·
@@ -61,7 +62,9 @@ now recomputes that inventory and synchronizes metadata retirement before unused
 dependencies. [Integrated conformance](development/compaction-conformance.md) checks
 canonical/seeded histories, process stops and named-file lengths across those stages.
 Layout performance experiments remain open.
-SQL, replication and integrations remain open design questions.
+The [persistence design](architecture/persistence-boundaries.md) separates ordered
+commits, immutable storage, checkpoint publication and future replication. SQL,
+network protocols and integration APIs remain open design questions.
 
 ## Why keep both times?
 

@@ -4,8 +4,8 @@ description: Explore MeridianDB's memory engine, journal codec, researched immut
 
 # Architecture overview
 
-MeridianDB has an experimental memory-only engine and
-[local recovery and forced writes](../development/local-database.md). Its API remains
+MeridianDB is an experimental embeddable Java bitemporal database with a memory-only
+engine and [local recovery and forced writes](../development/local-database.md). Its API remains
 unstable; the transaction journal codec has an experimental format, while an
 immutable history-segment codec preserves exact transactions. Query-optimized
 layouts remain open. This page describes the working direction and the questions
@@ -37,6 +37,7 @@ and conditions for revisiting this decision.
 | Logical query operations | Which facts and intervals should a query return? |
 | Physical layout and indexes | How are those facts organized for efficient access? |
 | Persistence backend | Which reads, writes and publication guarantees are available? |
+| Replication and commit authority | Who assigns committed order, and what survives a node or leadership change? |
 
 The [initial temporal contract](temporal-contract.md) defines the first layer,
 with [conceptual examples](../concepts/temporal-data.md) and reusable exact
@@ -44,6 +45,14 @@ expectations. A physical optimization must preserve those answers, including
 after recovery and compaction. The
 [temporal decision](../decisions/0003-initial-temporal-semantics.md) records its
 rationale and alternatives.
+
+The [persistence boundary specification](persistence-boundaries.md) keeps local
+embedding independently usable and separates ordered journal history,
+immutable-object access, checkpoint selection and derived indexes. Optional
+object storage first complements the existing local journal. Replication is a
+separate planned protocol; changing an object adapter does not change transaction
+authority or acknowledgement guarantees. [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md)
+records the direction and alternatives.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
@@ -83,7 +92,9 @@ writable-reopen checks exercise the implemented protocol.
 Group commit, bounded queues and avoiding tiny immutable parts are future throughput
 considerations; there are no MeridianDB performance results yet.
 
-SQL, document APIs, network protocols and replication remain open. Representative
+SQL, document APIs and network protocols remain open. Replication is a planned
+optional extension, beginning with one writer and read-only followers; its
+protocol and implementation remain unspecified. Representative
 logical queries can guide experiments before a public interface is stabilized:
 current-state lookups, historical entity lookups, interval scans and aggregates
 whose answers change after a retroactive correction.

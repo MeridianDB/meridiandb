@@ -54,6 +54,7 @@ nav:
   - Design:
       - Architecture: architecture/overview.md
       - Temporal contract: architecture/temporal-contract.md
+      - Persistence boundaries: architecture/persistence-boundaries.md
       - Immutable storage research: architecture/storage-research.md
       - Journal format: architecture/journal-format.md
       - Immutable segment format: architecture/immutable-segment-format.md
@@ -78,6 +79,7 @@ nav:
       - Reader protection decision: decisions/0017-live-reader-protection.md
       - Reclamation inventory decision: decisions/0018-reclamation-inventory.md
       - Physical reclamation decision: decisions/0019-protected-physical-reclamation.md
+      - Persistence boundaries decision: decisions/0020-persistence-and-replication-boundaries.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

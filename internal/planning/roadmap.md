@@ -7,8 +7,9 @@ description: Build MeridianDB from explicit bitemporal semantics through a teste
 
 This is the technical plan for the first embedded, single-node prototype. Temporal
 types, the test reference, memory-only engine, local journal and immutable segment
-I/O, manifest consistency, checkpoint publication, recovery and forced local writes
-are implemented; process crash conformance and later outcomes remain planned. The
+I/O, manifest consistency, checkpoint publication, recovery, forced local writes
+and integrated crash/compaction/reclamation conformance are implemented. Optional
+object storage, replication and workload measurements remain planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
@@ -25,6 +26,7 @@ initial engine independent of a mandatory application server or service framewor
 | Temporal semantics | Corrections, retractions, interval splitting and historical visibility |
 | Engine | Transaction ordering, commit visibility, read views and lifecycle |
 | Storage | Journal, immutable segments, manifests, checksums and backend capabilities |
+| Optional replication | Original transaction transport, follower progress and separately specified commit/leadership guarantees |
 | Query execution | Logical operations, temporal filtering and later physical access paths |
 | Test reference model | A simpler independent interpreter and reusable histories/expected answers |
 | Experiments | Reproducible workloads and evidence for layout/index decisions |
@@ -33,10 +35,17 @@ These responsibilities do not freeze module boundaries or a public API. The
 single artifact contains temporal types and the [memory-only engine](../../docs/development/embedded-engine.md),
 with reference support in tests under the [build foundation](../../docs/development/build.md).
 The journal and immutable segment codecs have local file adapters. Manifest
-metadata, referenced-object consistency, local publication, recovery and forced
-write publication are implemented; crash conformance and measurements remain planned.
+metadata, referenced-object consistency, local publication, recovery, forced
+write publication and integrated local crash/compaction/reclamation conformance
+are implemented; remote adapters, replication and measurements remain planned.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
+[ADR 0020](../../docs/decisions/0020-persistence-and-replication-boundaries.md) owns
+the local-first bitemporal library direction; the
+[boundary specification](../../docs/architecture/persistence-boundaries.md) separates
+commit authority, ordered journal, immutable objects, checkpoint selection and
+derived indexes. Optional replication remains outside the initial single-node
+prototype's required dependency chain.
 
 ## MDB-0001 Planning workflow
 
@@ -709,6 +718,177 @@ local emulator or controlled test fixture.
 reopen and reclamation have tested contracts and failure cases. Local and object
 backends agree on promised engine semantics. Keep real-cloud spending, credentials
 and infrastructure deployment outside this step unless separately authorized.
+
+**Required children:** MDB-0034 records the persistence/replication boundary and
+refined plan; MDB-0035 implements bounded immutable-object access with local
+conformance; MDB-0036 adds the optional provider adapter; MDB-0037 implements
+conditional checkpoint publication; MDB-0038 integrates local-journal/remote-
+checkpoint recovery and acknowledgement; MDB-0039 adds protected remote
+reclamation; MDB-0040 closes the original common engine/storage conformance gate.
+Keep this parent expanded until every child and all original criteria pass.
+
+**Scope reconciliation, October 31, 2026:** remote objects first complement the
+existing exclusively owned local journal. Preserve original formats, temporal
+history, retry identity and local force-before-publication acknowledgement.
+Conditional object metadata is not database leadership or a replicated commit.
+Provider integration stays optional for local consumers. Record unsupported
+cross-host writer/reader modes and required capability failures explicitly.
+MDB-0041 tracks a separate deferred replication protocol; it is not a child or an
+implicit prototype-release prerequisite. Safe remote reclamation remains required
+here; listing candidates or deferring every cleanup case cannot close the parent.
+
+## MDB-0034 Bitemporal persistence boundaries
+
+**Parent:** MDB-0011. **Outcome:** establish the local-first embeddable bitemporal
+direction, separate persistence responsibilities and expand the backend milestone
+without weakening its original acceptance criteria. Record optional replication
+as a staged protocol separate from storage adapters.
+
+**Complete when:** a public ADR and architecture specification distinguish valid
+time, committed knowledge, physical generations and search freshness; make local
+standalone use and adapter guarantees explicit; address journal/prefix alignment,
+remote-tail loss, immutable identity, checkpoint uncertainty, reader-safe cleanup
+and follower identity/order. Reconcile README, architecture, public roadmap,
+research, navigation, agent rules and queue with dated primary evidence. Validate
+public source/rendered/link/search/sitemap quality and queue IDs/dependencies/DAG.
+This decision step changes no production code, Maven input, temporal fixture or
+implemented guarantee; it leaves the first interface implementation ready.
+
+**Produced artifacts:** [ADR 0020](../../docs/decisions/0020-persistence-and-replication-boundaries.md),
+[persistence boundaries](../../docs/architecture/persistence-boundaries.md), refreshed
+ClickHouse/Hive/Elasticsearch/XTDB comparison, reconciled public entry points and
+agent rules, and required child/deferred replication cards. Both site layouts
+pass the shared strict build for 47 pages, all 41 documentation QA tests pass and
+41 queue IDs/parents/dependencies form a valid DAG. Independent review added the
+same-lineage/divergent-tail clone case and the distinction between enforceable
+namespace checks and exclusive-placement assumptions. No Java behavior or Maven
+inputs changed; MDB-0035 is next after remote delivery and documentation CI.
+
+## MDB-0035 Bounded immutable-object access
+
+**Parent:** MDB-0011. **Outcome:** define and implement the smallest immutable-object
+access interface needed by the checkpoint work, backed by a local implementation
+and reusable contract tests. Retain explicit journal ownership and backend-specific
+checkpoint publication; introduce no provider SDK or network protocol. Document
+the proposed operations, capabilities, budgets and lifetime/error types before
+refactoring concrete consumers, preserving existing local APIs and formats.
+
+**Complete when:** create-only writes, verified identical reuse, expected length/
+content ID, missing/conflicting/corrupt objects, exact bounded reads and range
+boundaries have independent tests through actual local I/O. Preserve complete-
+object validation before returning history records; range bytes alone grant no
+whole-object integrity claim. Check allocation/overflow/short-read bounds,
+immutable returned data, closed-reader behavior, ownership/alias safety and cleanup
+failures. Reuse existing local force/namespace contracts without claiming a
+portable publication protocol. Run affected local/engine/reference and full Maven
+verification, fresh artifact research under AGENTS, documentation and a runnable
+consumer example. Expand further if extracting byte access and migrating a consumer
+cannot remain one bounded change; keep MDB-0036 and later gates required.
+
+## MDB-0036 Optional S3-compatible object access
+
+**Parent:** MDB-0011. **Outcome:** implement immutable object creation and bounded
+reads with a maintained provider library, using MDB-0035's contract. Decide optional
+adapter packaging in a focused ADR so local embedding has no mandatory cloud SDK;
+research current artifact versions and compatibility before every Maven change.
+Use a pinned local emulator or controlled protocol fixture, with no real-cloud
+credentials, provisioning, deployment or spending.
+
+**Complete when:** the same object-access cases pass locally and against the
+provider implementation, including conditional create races, conflict/absence
+classification, verified same-content retry after a lost response, changed objects,
+opaque ETags distinct from SHA-256, short/unexpected range responses, transport
+failure and response/resource limits. A controlled fixture must exercise the real
+SDK and HTTP requests; an in-memory fake is not provider conformance. Document the
+exact verified capabilities and fixture limits. This step publishes no selected
+checkpoint and changes no acknowledgement guarantee.
+
+## MDB-0037 Conditional object checkpoint publication
+
+**Parent:** MDB-0011. **Outcome:** specify a versioned remote selection protocol,
+including immutable manifest identity, predecessor binding and conditional head
+selection, then implement it over the provider adapter. Verify the full dependency
+graph and actual exclusively owned local journal prefix before selection. Declare
+the supported single-writer namespace binding and reject unsupported modes;
+metadata CAS is not distributed writer ownership.
+
+**Complete when:** genesis, competing/stale selections, dependency absence/corruption,
+lost responses before/after effects, retries, token/ABA hazards and corrupt selected
+metadata have exact outcomes. Never fall back silently from a damaged selected
+graph. Bound metadata/object/identity work and retain old/pending/uncertain objects.
+Test the real SDK/fixture protocol and reuse existing manifest/prefix fixtures.
+Include copied stores with equal lineage but divergent journal tails: lineage
+alone is not ownership. Specify which checks are enforced, which exclusive-placement
+conditions are deployment assumptions and how observed predecessor/prefix conflicts
+refuse publication and later cleanup. Do not imply detection of every unseen clone
+without a distributed admission protocol.
+Document uncertain-result reconciliation and separate remote selection from local
+commit acknowledgement; installation selects only verified complete history.
+
+## MDB-0038 Remote checkpoint engine recovery
+
+**Parent:** MDB-0011. **Outcome:** compose the remote checkpoint implementation
+with the existing local journal and temporal engine, preserving local durability,
+lineage, original request identity, atomic publication and supported historical
+cutoffs. Keep all-local operation available without initializing provider code.
+
+**Complete when:** canonical and seeded histories recover through verified remote
+checkpoints plus exact contiguous local tails; queries and retries agree with the
+independent reference and local backend. Cover foreign/stale/missing/corrupt prefix
+and suffix evidence, startup failure cleanup, uncertain remote selection and lost
+acknowledgements. Tests demonstrate the actual coverage of a remote checkpoint
+and explicitly handle a missing uncheckpointed local tail without inventing data
+or claiming replicated durability. Preserve existing force-before-query-publication
+acknowledgement, explicit ownership and full journal/history retention. Document
+supported access modes, offline behavior and local-storage-loss limits.
+
+## MDB-0039 Reader-safe object reclamation
+
+**Parent:** MDB-0011. **Outcome:** define and implement a supported remote cleanup
+protocol covering reader admission, checkpoint publishers, selected and explicit
+retained/backup roots. Preserve all logical history, full journal and unknown or
+diagnostic evidence. Retain objects when coverage or liveness is uncertain; local
+file locks do not establish protection for readers on another host.
+
+**Complete when:** at least the documented supported mode safely removes proven
+obsolete remote metadata/dependencies while actual live readers and concurrent
+publication are protected. Exercise admission/removal races, stale plans, retained
+roots, interruption before/after each effect, uncertain deletes and complete safe
+reopen with real SDK/fixture calls. Recompute selection/roots under the protocol;
+order metadata retirement before unused dependencies and bound verification work.
+Keep unsupported cross-host admission/leadership modes explicit. A preview or
+universal no-op deferral alone does not satisfy the original reclamation gate.
+
+## MDB-0040 Local and object backend conformance
+
+**Parent:** MDB-0011. **Outcome:** close the original backend milestone with common
+storage/engine conformance through local and S3-compatible implementations.
+
+**Complete when:** original MDB-0011 visibility, retries, uncertainty, capabilities,
+reopen, reclamation and promised engine semantics criteria pass through actual
+provider calls and local files. Reuse independent canonical/seeded query and request
+expectations through publication, recovery and cleanup; cover protocol interruption
+and lost responses without overstating device or real-provider evidence. Check
+optional packaging with a local consumer fixture, bounded default execution,
+clean reproducibility and complete documentation. Close MDB-0011 only after all
+required children pass; retain cloud-spending, local-tail and supported-mode limits.
+
+## MDB-0041 Replication protocol and staged plan
+
+**State:** deferred, outside the single-node prototype and MDB-0011. Admit as an
+executable iteration separately; no implementation or library selection follows
+from recording this direction. **Outcome:** specify one authoritative writer and
+read-only followers with original identity/order, verified checkpoint bootstrap,
+contiguous tail replay, bounded lag/backpressure and explicit durable/query progress.
+
+**Complete when admitted:** an ADR and executable conformance plan define duplicate,
+gap/conflict, reconnect and uncertain acknowledgement behavior; distinguish local,
+asynchronous and quorum commitment; state failure/promotion/data-loss boundaries;
+and split transport, follower recovery and any leadership work into bounded steps.
+Evaluate maintained consensus implementations with current primary evidence before
+quorum/failover adoption. Preserve the existing temporal contract or record an
+explicit semantic revision with fixtures. This planning outcome alone implements
+no replication and provides no automatic failover or multiwriter guarantee.
 
 ## MDB-0012 Reproducible workload baseline
 

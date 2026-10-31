@@ -2038,6 +2038,91 @@ checks. Refine that broad card into bounded protocol/library/emulator steps befo
 implementation; keep real-cloud spending, credentials and infrastructure changes
 outside implicit source-work authority. This recommendation starts no backend work.
 
+
+## 2026-10-31 — MDB-0034 Bitemporal persistence boundaries
+
+**Outcome:** adopt the embedded Java bitemporal library direction with built-in
+local persistence, optional narrow adapters and a separate future replication
+protocol. Add ADR 0020 and the public persistence boundary specification. Preserve
+all temporal cutoffs, request identity, existing formats and local forced
+acknowledgement. The second temporal dimension remains commit order; calendar-time
+mapping, remote adapters, replication and search-latency claims remain unimplemented.
+
+**Architecture and scope:** separate commit authority/ordered journal, immutable
+objects, checkpoint selection, derived indexes and protected reclamation. Remote
+checkpoints first complement the exclusively owned local journal. Specify bounded
+range/whole-object identity, opaque provider tokens, uncertain write/selection
+reconciliation, actual journal-prefix recovery and local-tail loss. Checkpoint CAS
+is neither distributed writer authority nor replicated durability. Cover reader/
+publisher/backup protection before remote cleanup. One-writer/read-only-follower
+replication preserves original identity/order; local, asynchronous and quorum
+acknowledgements, catch-up, fencing and failover require their own protocol.
+
+**Planning:** expand MDB-0011 without changing its original outcome/acceptance
+criteria into seven required children, MDB-0034–MDB-0040: boundary decision,
+local immutable-object contract, optional S3-compatible adapter, conditional
+checkpoint publication, engine recovery, protected object reclamation and common
+conformance. Complete only MDB-0034 and leave MDB-0035 ready. Add MDB-0041 as a
+separate deferred replication-planning task outside the single-node prototype
+chain. Preserve parent criteria, including real provider/HTTP fixture evidence,
+optional SDK packaging, exact engine answers and a supported safe remote-removal
+path rather than a preview/universal no-op. No cloud credentials, spending or
+infrastructure work is started.
+
+**Research/review:** refresh primary evidence on October 31 for ClickHouse Kafka
+consumption/native storage, Hive formats/metastore/dataset separation, Elasticsearch
+ranges/refresh/temporary PIT, XTDB bitemporality/log-object separation, S3 single-key
+consistency/conditional writes and the Raft paper. Date the new evidence separately
+from earlier research. Compare responsibilities without claiming performance or
+feature parity. Independent read-only review finds no blocking design issue and
+adds a concrete cloned-store case: equal lineage does not rule out divergent
+local tails. Require observed prefix/predecessor conflicts to fail closed and
+separate enforceable checks from exclusive-placement assumptions; do not promise
+unseen-clone detection without distributed admission.
+
+**Documentation QA:** reconcile current callers in README, homepage, architecture,
+public roadmap, research, ADR index, navigation, AGENTS and internal roadmap/queue.
+Replace stale current roadmap statements that process conformance remains planned;
+retain dated receipts. Public content describes technical behavior and plans,
+with no chat/owner/agent/task narration. Run:
+
+- `.venv/bin/python -m unittest discover -s scripts/tests -p 'test_*.py'`: all
+  **41 existing QA tests pass**.
+- `.venv/bin/python scripts/build_docs.py` and the project-path variant using
+  `DOCS_SITE_URL=https://meridiandb.github.io/meridiandb/`: shared strict source,
+  rendered HTML, links, search and exact sitemap checks pass for **47 pages**.
+  Restore and recheck the production build after the project-path build.
+- Queue/card/reference/parent/dependency/eligibility checks: **41 unique IDs**,
+  no cycles, completed parents' children done, no active executable row and only
+  MDB-0035 ready; MDB-0011 expanded and MDB-0041 deferred. Changed Markdown local
+  target checks and `git diff --check` pass.
+- Local HTTP/browser preview verifies the responsibility and comparison tables,
+  desktop light/dark rendering, 390-pixel table scrolling, navigation, the new ADR,
+  search results for `quorum` and final cloned-store/local-tail wording. Reset the
+  temporary viewport and close the temporary preview at handoff.
+
+**Verification boundary:** this is documentation/planning work. No production,
+Maven/POM/wrapper/dependency, fixture, test implementation or storage-format change
+is made. No Maven research/build or rerun of the 886-test Java baseline is needed;
+its prior completion remains evidenced independently. The initial queue checker
+scratch script shadowed a path variable; correct the ignored script and rerun all
+queue checks successfully. Scratch work stays in `.local-qa/mdb-0034/`.
+
+**Delivery:** starting tree is clean main at
+`4c255e2689870c45bddfea1496f3a43e5983d09f`, matching fetched origin/main. Its Java
+41210455116, docs 41210455122 and Pages 41210455167 runs are all successful.
+Commit this source outcome with `Step-ID: MDB-0034` / `Step-Result: completed`,
+normal-push origin/main, verify remote ancestry/tips and inspect triggered docs/
+automatic Pages plus exact live content/search/sitemap. No Java workflow is expected
+for these inputs. Git and the final handoff supply this completion SHA and actual
+publication outcome; this receipt makes no preemptive deployment claim.
+
+**Next recommendation:** MDB-0035 — implement bounded immutable-object access and
+local conformance. Define the smallest concrete consumer boundary with local
+ownership/integrity/budget tests and fresh Maven artifact research; preserve the
+separate journal, checkpoint publication and future provider/replication gates.
+This recommendation starts no next-step implementation.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -76,6 +76,19 @@ so a new session can work correctly without relying on earlier conversations.
 - Separate temporal semantics, logical query operations, physical layout and
   backend capabilities. Delay public syntax and broad integration commitments
   while using explicit queries to evaluate storage decisions.
+- Follow [ADR 0020](docs/decisions/0020-persistence-and-replication-boundaries.md)
+  and the [persistence boundaries](docs/architecture/persistence-boundaries.md)
+  for backend work: keep local Java embedding independently usable, introduce
+  narrow adapters with concrete consumers, and separate journal/commit authority,
+  immutable objects, checkpoint selection, indexes and reclamation. Optional SDK
+  packaging must preserve local use without a cloud runtime requirement. Preserve
+  the temporal contract and existing acknowledgement; verify actual journal
+  lineage/prefix and backend-specific failure/capability behavior. An object-store
+  head update provides no distributed writer authority or replicated durability.
+  Replication follows its separately admitted task, with original transaction
+  order/identity, explicit progress and acknowledgement modes; it adds no implicit
+  prerequisite to the current single-node prototype. Keep unimplemented adapter,
+  network and near-real-time capabilities clearly identified in public copy.
 - Record material decisions and alternatives in `docs/decisions/`. Distinguish a
   working hypothesis from a measured result or an owner requirement. Use primary
   project documentation for current external technology claims and date the check.

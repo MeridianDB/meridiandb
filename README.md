@@ -1,9 +1,10 @@
 # MeridianDB
 
-MeridianDB is an early-stage project exploring an embeddable temporal storage
-engine. Java and in-process JVM embedding are the initial working direction;
-broader host requirements remain open. Its focus is bitemporal data: preserving
-both when a fact applies in the domain and when the database recorded that knowledge.
+MeridianDB is an experimental embeddable Java bitemporal database. It preserves
+both when a fact applies in the domain and when the database recorded that
+knowledge. Built-in local persistence is the foundation; optional storage adapters
+and replication are planned extensions. Local use requires no external database,
+streaming service or application server.
 
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
@@ -76,7 +77,14 @@ The initial investigation will focus on:
 - Immutable persistent segments, explicit commit visibility and reliable recovery.
 - Persistence contracts that can support both local files and object storage,
   including S3-compatible services, without depending on one cloud vendor.
+- Optional replication with explicit ordering, follower progress and durability
+  guarantees, developed separately from storage adapters.
 - Storage layouts and indexes evaluated against representative temporal queries.
+
+The [persistence boundaries](docs/architecture/persistence-boundaries.md) separate
+commit authority, ordered journal history, immutable objects, checkpoint selection
+and derived search indexes. Local persistence is implemented; additional adapters,
+replication and near-real-time indexing remain planned and unmeasured.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are

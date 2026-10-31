@@ -5,7 +5,9 @@ description: See MeridianDB's implemented memory engine and journal codec, the p
 
 # Development roadmap
 
-MeridianDB's initial target is an embedded, single-node Java temporal engine.
+MeridianDB's initial target is an embedded, single-node Java bitemporal database
+with built-in local persistence. Optional adapters and replication extend that
+foundation under the [persistence boundary design](architecture/persistence-boundaries.md).
 The memory engine, local journal, immutable history files and manifest consistency
 checks, local checkpoint publication, recovery and forced local writes establish
 a correctness baseline, including process-exit/retry and seeded writable-reopen
@@ -85,10 +87,24 @@ now combines full fixture/seed histories, richer process exits and exact named-f
 space accounting. Earlier cutoffs, lazy readers, recovery and backup roots
 remain part of that safety contract.
 
-An object-storage backend needs its own immutable-object publication, conditional
-update and recovery protocol. A common API cannot make object storage behave like
-a local filesystem. [Comparable-system research](architecture/storage-research.md)
-informs these boundaries without selecting another database's semantics.
+The object-storage work proceeds through bounded immutable-object access and a
+local implementation, an optional S3-compatible adapter, conditional checkpoint
+publication, engine recovery, protected reclamation and common conformance.
+It retains the existing local journal and acknowledgement contract. Each stage
+needs capability and failure evidence; the backend is not implemented today.
+A common API cannot make object storage behave like a local filesystem.
+[Comparable-system research](architecture/storage-research.md) informs these
+boundaries without selecting another database's semantics.
+
+## Optional replication
+
+Replication is a separate future extension, beginning with one authoritative
+writer and read-only followers. The design must preserve original transaction
+identity and order through checkpoint bootstrap and journal catch-up, and expose
+durable and query-visible follower progress. Local, asynchronous and quorum
+acknowledgements need distinct guarantees. Automatic failover additionally needs
+leadership fencing and committed-history agreement; it is not a storage-adapter
+feature. No replication mode or network protocol is implemented.
 
 ## Performance evaluation
 
@@ -100,8 +116,8 @@ under equivalent semantics and durability.
 
 ## Open interface choices
 
-SQL, document APIs, network protocols, replication, multiple writer processes and
-additional language bindings remain open. Concrete integration requirements and
-workload evidence will guide those decisions. The
+SQL, document APIs, network protocols, distributed leadership, multiple writer
+processes and additional language bindings remain open. Concrete integration
+requirements and workload evidence will guide those decisions. The
 [architectural records](decisions/index.md) explain current choices and conditions
 for revisiting them.
