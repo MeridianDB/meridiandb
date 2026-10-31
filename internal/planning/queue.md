@@ -16,15 +16,17 @@ children before implementation rather than treating a whole milestone as one pat
   criteria: caller byte budget, preflight before framing/body reads and payload
   allocation, typed policy-limit failure without poisoning, unchanged unlimited
   behavior, exact owner/counter semantics and 26 new boundary/fault/real-file cases.
-  Source completion commit, push/remote ancestry, Java/docs CI and automatic
-  Pages/live readback are pending; the delivery receipt will record actual results.
+  Source `28eec44b952e854a383f4ae11c8560eec1ce31f8` is pushed to origin/main
+  with matching tips and verified ancestry. Java **41247796505**, docs
+  **41247796460** and automatic Pages **41247796542** pass; live guide/spec/ADR/
+  protocol/build copy, canonical/search and 57-page sitemap checks pass.
 - Final local checks pass **1,042 core / 116 optional tests**, zero failures,
   errors or skips, and all fourteen packaged-core examples. Core has 144 production
   classes and depends only on java.base. Both strict documentation URL builds pass
   57 pages; rendered desktop/mobile/light/dark and search review passes. Fresh
   research reconfirms all fourteen existing Maven pins; no POM change is needed.
-- **MDB-0051 — Verified object checkpoint graphs** is next, conditional on the
-  delivery checks above. MDB-0049 remains expanded into required children
+- **MDB-0051 — Verified object checkpoint graphs** is next; its preceding delivery
+  checks have passed. MDB-0049 remains expanded into required children
   MDB-0050/0051/0052/0053; MDB-0037 also remains expanded. Original graph/publication,
   durable expected/pending intent and reconciliation acceptance is retained.
 - A byte-cap result verifies neither unread history nor a selected remote graph.

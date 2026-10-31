@@ -1116,9 +1116,11 @@ uses a 64 KiB budget. Final local core/optional checks pass 1,042/116 tests and
 all fourteen packaged-core examples; core has 144 production classes and no
 external dependency beyond java.base. Fresh research keeps all fourteen pins.
 Guide/spec/ADR/README/build/S3 counts and agent rules are reconciled; both 57-page
-URL builds and rendered/search checks pass. Source push, CI and automatic
-Pages/live readback remain pending in this completion receipt. No publication
-or startup-recovery budget is implemented by this child.
+URL builds and rendered/search checks pass. Source
+`28eec44b952e854a383f4ae11c8560eec1ce31f8` reaches origin/main; Java 41247796505,
+docs 41247796460 and automatic Pages 41247796542 pass. Live guide/spec/ADR/
+protocol/build copy, canonical/search and 57-page sitemap are verified. No remote
+publisher or startup-recovery byte cap is implemented by this child.
 
 ## MDB-0051 Verified object checkpoint graphs
 

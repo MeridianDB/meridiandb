@@ -3078,6 +3078,38 @@ real-cloud/account/DNS or other hosting change is included.
 actual owned journal, sharing bounded object/prefix/record/identity work budgets
 before durable intent and conditional publisher integration.
 
+## 2026-10-31 — MDB-0050 Delivery and publication readback
+
+Source completion **`28eec44b952e854a383f4ae11c8560eec1ce31f8`** reaches origin/main
+with matching tips, verified ancestry and clean source checkout. Java checks
+**41247796505**, docs checks **41247796460** and automatic Pages **41247796542**
+all finish successfully. Ubuntu runs **1,042 core / 116 optional tests** without
+failures/errors/skips; Windows runs the same totals without failures/errors and
+retains **228 pre-existing core filesystem capability skips**. All **26 new
+bounded-prefix** and **116 optional** cases run without skips on both platforms;
+every one of the fourteen example steps succeeds on each. The new real-file
+ownership case introduces no capability bypass.
+
+Live HTTPS readback verifies the journal guide/new bounded-prefix section,
+journal format, ADR 0008, object-head protocol, current build research/test counts
+and conditional-head guide. Canonicals are correct, search includes the section
+heading/content/anchor and the sitemap remains **57 HTTPS canonical pages**.
+Browser readback confirms the live section and example. Screenshot
+`.local-qa/mdb-0050/site-published.png` is embedded in the delivery update. Temporary
+viewport/theme changes are restored; the preview tab now shows the live deliverable
+and the owned loopback static server is stopped.
+
+Queue/card delivery state is reconciled. This internal-only receipt receives a
+normal commit/push with its own identity/remote verification supplied by Git; these
+paths trigger no additional configured workflows. MDB-0050 is done and MDB-0051
+ready. Expanded MDB-0049/MDB-0037 still require complete graph verification, durable
+expected/pending state and conditional publisher/reconciliation integration.
+No further implementation, release, real-cloud/account/DNS or hosting-setting
+operation occurs in this receipt.
+
+**Next recommendation:** MDB-0051 — verified object checkpoint graphs against the
+actual owned journal, with shared aggregate object/prefix/record/identity budgets.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
