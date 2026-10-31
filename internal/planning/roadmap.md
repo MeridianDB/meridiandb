@@ -1252,7 +1252,10 @@ directory I/O remains an actual failure. The original state codec/core remain un
 271 optional tests and fourteen packaged-core examples. Public guide/ADR 0027,
 callers/agent rules and strict 63-page builds are reconciled. Local capacity and
 no-external-rollback/single-placement assumptions remain explicit. Git/CI/Pages/
-live delivery identities follow in its receipt.
+live delivery is verified for source `f20939b8e73ce36e230cb6fbb85456d08f849c02`:
+Java 41253545589, docs 41253545552 and Pages 41253545496 pass. Windows explicitly
+skips 55 unsupported local-placement optional cases; Ubuntu executes all cases.
+The delivery receipt records live canonical/search/63-page sitemap verification.
 
 ## MDB-0053 Verified conditional publisher
 

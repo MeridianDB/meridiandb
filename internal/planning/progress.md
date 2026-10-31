@@ -3475,6 +3475,41 @@ No later implementation, release, cloud/account/DNS or other hosting action star
 graph/owned-prefix checks, forced exact local intent and conditional requests with
 original-precondition reconciliation after uncertain outcomes.
 
+## 2026-10-31 — MDB-0056 Delivery and publication readback
+
+Source completion **`f20939b8e73ce36e230cb6fbb85456d08f849c02`** reaches origin/main
+with matching tips, verified ancestry and clean source checkout. Java checks
+**41253545589**, documentation checks **41253545552** and automatic Pages
+**41253545496** all finish successfully. Ubuntu runs **1,092 core / 271 optional**
+tests with zero failures/errors/skips, including every **34 API / 31 fault /
+21 process** invocation. Windows runs the same totals with zero failures/errors,
+**228 pre-existing core skips** and **55 explicit unsupported-local-placement
+optional skips** (32 API, two native fault, 21 process); its 185 pre-existing
+optional cases and remaining pure/injected checks run without skips. These results
+supply no Windows local-placement durability claim. All fourteen example steps
+succeed on both platforms. Both docs URL builds pass the unchanged 42 QA fixtures.
+
+Live HTTPS readback verifies the local state guide/ADR 0027, pure format guide,
+head protocol, current build research timestamp, conditional-head counts, roadmap
+and homepage. Canonical URLs are correct, search includes both new routes/titles
+and sitemap has **63 unique HTTPS canonical pages**. Browser readback confirms the
+live guide; `.local-qa/mdb-0056/site-published.png` is saved and embedded in the
+user-facing delivery update. Temporary theme/viewport overrides are restored.
+The preview tab now displays the live deliverable; the owned loopback static server
+is stopped.
+
+Reconcile queue/card delivery state and commit/push this internal-only receipt
+normally; Git supplies its identity/remote verification, and these paths trigger
+no further configured workflows. MDB-0056 and parent MDB-0052 are done; MDB-0053
+is ready. MDB-0049/MDB-0037 remain expanded and retain full verified conditional
+publisher/reconciliation criteria. MDB-0054 remains separately queued. No later
+implementation, release/artifact upload, cloud/account/DNS or hosting-setting
+operation occurs in this receipt.
+
+**Next recommendation:** MDB-0053 — verified conditional publisher, composing
+actual graph/owned-prefix checks, forced exact local intent and conditional
+requests with original-precondition reconciliation after uncertain outcomes.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

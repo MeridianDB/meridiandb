@@ -12,9 +12,11 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0056 source acceptance passes from clean main/origin
-  `8df2b69e4179a12d0639efd230a755d6550f8ead`. Completion commit/push, remote
-  ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- MDB-0056 source `f20939b8e73ce36e230cb6fbb85456d08f849c02` is verified on
+  origin/main with matching tips/ancestry. Java **41253545589**, docs **41253545552**
+  and automatic Pages **41253545496** pass; live guide/ADR/callers/canonical/search
+  and the **63-page** sitemap are verified. Windows explicitly skips unsupported
+  local placement (55 optional cases); Ubuntu runs every optional case.
 - **MDB-0056 — Durable local publication state** is done. Its 86 new API/fault/
   process cases and clean 1,092 core / 271 optional cases pass without local skips;
   fourteen packaged-core examples, artifact inspection and both strict 63-page
@@ -23,8 +25,8 @@ children before implementation rather than treating a whole milestone as one pat
   and durable dedicated local placement, force/atomic installation, fail-closed
   reopen, ownership/alias/cleanup and real process-exit evidence. This supplies no
   remote selection or graph/actual-journal publisher integration by itself.
-- **MDB-0053 — Verified conditional publisher** is source-ready, subject to the
-  delivery gate above. Keep MDB-0049/MDB-0037 expanded until full integration passes.
+- **MDB-0053 — Verified conditional publisher** is ready after verified delivery.
+  Keep MDB-0049/MDB-0037 expanded until full integration passes.
   Preserve exact pending/preconditions, actual graph/prefix checks and uncertainty;
   MDB-0054 remains independently queued outside the publication parents.
 
