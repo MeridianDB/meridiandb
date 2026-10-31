@@ -71,7 +71,9 @@ and binding checks are available. Separate [conditional S3 head access](developm
 now supplies bounded GET/conditional PUT. JDK-only
 [object graph verification](development/object-checkpoint-graphs.md) checks complete
 history against the owned journal under aggregate budgets. Verified remote
-publication remains planned. Existing journal/checkpoint protocols remain explicit.
+publication remains planned. An optional [publication-state format](development/s3-publication-state.md)
+preserves exact expected/pending metadata; its local durable installation is still
+planned. Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

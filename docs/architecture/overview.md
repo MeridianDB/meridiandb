@@ -73,7 +73,9 @@ selection format and metadata/transition checks. Separate
 head bytes/tokens and issues exact conditional writes. JDK-only
 [object graph verification](../development/object-checkpoint-graphs.md) checks full
 dependencies and actual owned-journal prefixes with shared budgets. Verified remote
-publication remains planned.
+publication remains planned. The optional [publication-state codec](../development/s3-publication-state.md)
+now preserves exact expected/pending metadata; durable local installation remains
+planned.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one

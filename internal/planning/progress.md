@@ -3263,6 +3263,85 @@ implementation, release, real-cloud/account/DNS or hosting-setting change occurs
 exact expected/pending observations and original preconditions across process exit
 before conditional publisher/reconciliation integration.
 
+## 2026-10-31 — MDB-0055 Bounded S3 publication state
+
+**Selection and refinement:** start from clean main/origin
+`422f7a73995b4ac0abfca113b8329a1e3b5b1a2f`; verify preceding source
+`5d0255b2f2a6ebef468f26f7366f4ae0d2ac65ec`, Java/docs/Pages and live delivery.
+Expand MDB-0052 into required MDB-0055 (pure format/transitions) and MDB-0056
+(durable supported local placement). Preserve the original parent acceptance and
+MDB-0053's dependency on complete MDB-0052. Independent MDB-0054 remains separate.
+
+**Outcome:** add immutable S3PublicationState, S3PublicationStateCodec and typed
+failures in the optional artifact. Preserve exact endpoint URI spelling, explicit
+region ID, bucket, namespace/publisher/lineage, original expected image/opaque
+quoted token and at most one exact pending candidate. Creation derives literal
+unquoted `*`; replacement derives the original quoted expected ETag. No credentials,
+clients, filesystem/network operations or core/dependency changes are introduced.
+Pure fresh/prepare/exact-candidate recognition increments an independent positive
+local generation and rejects overflow, wrong scope/binding, nonadjacent candidates
+and another prepare while pending. Old/missing heads or errors supply no clearing,
+adoption, cancellation or rebase API. Recognition proves no GET provenance, complete
+graph, force, durable installation or selection. Decoding restores declarations,
+not authenticated transition history; generation has no revision/parity coupling.
+
+Version 1 is big-endian with magic MRDNSPST, exact total length, flags/reserved,
+independent generation, raw bindings, length-prefixed bounded ASCII target/token,
+optional complete 256-byte expected/pending images and explicit conditional operation.
+SHA-256 protects all preceding bytes; the complete reference also includes that
+footer. Enforce 4,096 total bytes before copying and per-field caps before allocation;
+all legal fields together fit 3,923 bytes. Reject extra/truncated/corrupt/unsupported
+or contradictory state and preserve nested causes. Keep full UTF-16 lineage identity
+through its canonical digest. Durable local ownership/force/poisoning/reopen and
+conditional publisher/reconciliation remain required future work.
+
+**Research:** current Central metadata at **23:00:33 UTC / 19:00:33 EDT**, official
+compatibility refreshed at 23:00:34 UTC, reconfirms all fourteen pins as latest
+stable: Maven 3.10.0, wrapper 3.3.4, clean/resources 3.5.0, compiler 3.16.0,
+Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and
+optional SDK s3/URLConnection 2.57.8. No POM edit is needed. Metadata summary SHA-256
+`fe00fe114a7489c2f020bf0aa17c0440d6ac834fc9bd03bfefa32a13804f5a15`;
+compatibility summary `8c7440bc629af48783d0b5cdca7497a5364c81739f9b7508c181e1b0018c1a8f`;
+research report `67de9b5d4a89d2dabdbb68d69b1a7a696c3db27a39eadd96ef6e3469fe7b575a`.
+Ignored raw evidence lives under `.local-qa/mdb-0055/research-helper/`; public build
+copy owns dated coordinates/primary links and retains project-tested Java 25 wording.
+
+**Verification:** 36 state/transition invocations cover four states, original tokens,
+exact lexical scope/configuration, bindings/images, copies, caps, lineage and overflow.
+29 codec cases include four independent Python struct/hashlib literal golden vectors
+(176/436/443/703 bytes), all 1,758 shorter images and all 1,758 single-byte mutations,
+re-signed framing/field/nested faults, full reference versus footer, maximum image
+and ownership. Existing 70 head regression cases pass. Final serial
+`./mvnw -B clean install` and `./mvnw -B -f adapters/s3/pom.xml clean verify`
+pass **1,092 core / 185 optional tests**, zero local failures/errors/skips.
+All fourteen examples run using only the packaged core JAR. Archive/jdeps inspection
+retains 153 core production classes, java.base-only external modules, no SDK/test
+classes and the unchanged one-class conformance test classifier.
+
+**Documentation and review:** add the format guide and ADR 0026; reconcile README,
+homepage, roadmap, build/S3/graph guides, architecture/persistence/head protocol,
+nav/decision index and root rules. Independent production review finds no actionable
+issue; doc review corrects the precondition wording so only replacement is quoted.
+Both strict project-path and production builds pass source/rendered/links/search/
+sitemap checks for **61 pages**, restoring production output. Rendered desktop
+light and 390-pixel dark tables have no page-wide overflow; search finds both new
+routes and decision navigation works. No diagram/renderer is needed. Helpers own
+bounded research/review and assigned test files; coordinator owns production,
+documentation, shared planning and Git.
+
+**Source completion/delivery:** mark MDB-0055 done, clear active ownership and mark
+MDB-0056 ready, subject to normal delivery. Validate 56 unique IDs, cards, references,
+parent/dependency DAG and eligibility; inspect explicit task-owned staged paths.
+Commit with Step-ID MDB-0055 / Step-Result completed, push normally, verify remote
+ancestry/tips, Java/docs CI, automatic Pages and live guide/ADR/callers/canonical/
+search/sitemap. Git and the later delivery receipt supply actual SHA/check identities.
+No next implementation, release/tag/artifact upload, real-cloud/account/DNS or other
+hosting action is included.
+
+**Next recommendation:** MDB-0056 — durable local publication state, preserving exact
+expected/pending bytes and preconditions through supported exclusive placement,
+ordered force/atomic installation, poisoning and real process-exit/reopen.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

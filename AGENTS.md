@@ -273,6 +273,16 @@ so a new session can work correctly without relying on earlier conversations.
   Test aggregate limits, copied divergent histories and native actual-read bounds
   as well as local/SDK consumers. Verification supplies no selected-head token,
   force barrier, durable intent, lease or cleanup authority.
+- Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
+  [S3 publication-state format](docs/development/s3-publication-state.md) for exact
+  expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing
+  region, bindings, complete original candidate and original conditional
+  precondition. Bound before copying/variable allocation and test independent
+  vectors/nested failures.
+  Recognize only the exact pending candidate observation in pure transitions;
+  old/missing heads and errors grant no reset/adopt/clear/rebase. Keep local
+  generations independent and distinguish decoded declarations from observation,
+  graph, ownership, force, durable installation and remote selection evidence.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

@@ -102,8 +102,10 @@ defines bounded remote metadata and adjacent-transition checks. A separate
 bytes/tokens and issues exact conditional writes. JDK-only
 [object graph verification](docs/development/object-checkpoint-graphs.md) now checks
 complete dependencies and actual owned-journal prefixes under shared budgets.
-Verified checkpoint publication remains planned; existing checkpoint and engine
-protocols are unchanged.
+An optional [publication-state codec](docs/development/s3-publication-state.md)
+preserves exact expected/pending metadata with pure checked transitions. Durable
+local state installation and verified checkpoint publication remain planned;
+existing checkpoint and engine protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are

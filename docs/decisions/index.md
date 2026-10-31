@@ -35,6 +35,7 @@ permanent commitment.
 | [0023: Object checkpoint head protocol](0023-object-checkpoint-head-protocol.md) | Format and pure checks implemented; verified publication planned | Fixed head identity, independent revision, predecessor/binding checks and specified conditional publication |
 | [0024: Conditional S3 head access](0024-conditional-s3-head-access.md) | Conditional primitive implemented; verified publisher planned | Same-response opaque tokens, scoped exact intents, one-attempt writes and explicit uncertainty/native-header limits |
 | [0025: Object checkpoint graph verification](0025-object-checkpoint-graph-verification.md) | Implemented, experimental | Bounded full graph and actual-prefix verification, separate from selection and durable intent |
+| [0026: Bounded S3 publication state](0026-bounded-s3-publication-state.md) | Format and pure transitions implemented; durable installation planned | Exact target/expected/pending snapshots without local I/O or selection proof |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

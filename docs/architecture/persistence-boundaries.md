@@ -85,7 +85,9 @@ are available. Their specification separates head revision, manifest generation,
 predecessor identity and actual journal-prefix agreement. Separate
 [conditional S3 head access](../development/s3-checkpoint-heads.md) and read-only
 [object graph verification](../development/object-checkpoint-graphs.md) are implemented.
-The verified publisher, durable intent/reconciliation and recovery remain planned.
+A bounded [publication-state representation](../development/s3-publication-state.md)
+and pure transitions are available. Its durable local installation, the verified
+publisher, reconciliation and recovery remain planned.
 
 An object-store checkpoint is planned as an optional companion to the local
 journal. First upload or verify all immutable dependencies, then publish immutable

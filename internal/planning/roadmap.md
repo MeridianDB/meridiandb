@@ -1176,6 +1176,63 @@ precondition and single-placement assumptions without distributed-fencing claims
 No automatic graph cleanup or engine recovery follows. Finish documentation and
 normal delivery without weakening MDB-0049's durable-state criteria.
 
+**Required children:** MDB-0055 implements a bounded exact S3-specific state/
+intent representation and pure legal transitions without I/O. MDB-0056 installs
+that state with supported local ownership/capabilities, force ordering, poisoning,
+fail-closed reopen and process-exit evidence. All original durable-state acceptance
+remains required; format success is neither a force nor a remote selection receipt.
+MDB-0053 continues to depend on the complete MDB-0052 parent.
+
+## MDB-0055 Bounded S3 publication state
+
+**Parent:** MDB-0052. **Outcome:** specify and encode a bounded versioned S3 target/
+binding, independent local state generation, exact expected observation and one
+pending create/replace intent in the optional artifact. Preserve original endpoint
+URI spelling, signing-region ID, bucket, namespace/publisher/lineage, complete
+head images and quoted opaque token without credentials or normalization.
+
+**Complete when:** pure fresh/prepare/exact-selected-candidate metadata transitions
+preserve original intent/precondition, reject another prepare while pending, wrong
+scope/bindings/images and generation overflow, and expose immutable values/copies.
+No reset/adopt/clear/rebase or old-head/absence/error transition clears pending.
+Independent golden vectors, every truncation, malformed length/version/flags/
+checksum/nested state and expected full-reference checks pass; cap before variable
+allocation and preserve token/UTF-16-lineage domain policies. Research Maven pins,
+reconcile public format/API/agent/queue docs and run core/optional/website checks
+before normal delivery. Pure decoded state proves no authenticated observation,
+verified graph, supported ownership, local force, durable installation or selection.
+
+**Produced artifacts:** optional `S3PublicationState`, `S3PublicationStateCodec`
+and typed failures; 36 state/transition plus 29 independent-vector codec cases;
+public format guide/ADR 0026, reconciled callers/navigation/agent rules and the
+completion receipt. Version 1 has a 4,096-byte ceiling (3,923 maximum legal image),
+exact lexical target/configuration and original conditional preconditions, positive
+independent generation, complete references and no pending-clear/rebase operation.
+Final local verification passes 1,092 core / 185 optional cases without skips,
+all fourteen packaged-core examples, unchanged core artifact inspection and both
+strict 61-page site builds with rendered desktop/mobile/search/decision review.
+Maven research freshly reconfirms all fourteen pins. Source/Git/CI/Pages/live
+identities follow in the delivery receipt; durable installation remains MDB-0056.
+
+## MDB-0056 Durable local publication state
+
+**Parent:** MDB-0052. **Outcome:** install the exact bounded publication-state image
+under exclusive supported local publisher placement and trusted durably named
+paths. Specify create/open/admission, stable file identity and cross-adapter alias
+checks, directory capabilities, staged write/force/atomic selection ordering,
+capacity/size limits, poisoning and failure/cleanup/reopen behavior.
+
+**Complete when:** every original MDB-0052 criterion passes with the actual state
+codec, including fresh/initialized/missing/damaged newest state, stale/competing
+local owners, before/after-effect I/O, uncertain close and real process-exit/reopen.
+Persist exact expected/pending bytes and original preconditions before a later
+conditional request may be attempted. Reopen neither silently adopts missing/old
+remote state nor clears pending intent. Preserve candidates/evidence and explicit
+single-placement/no-external-rollback assumptions without distributed fencing.
+No automatic cleanup, remote publication or engine recovery follows. Complete
+local durable-state integration and documentation/delivery before marking MDB-0052
+done; MDB-0053 retains full graph/force/conditional reconciliation criteria.
+
 ## MDB-0053 Verified conditional publisher
 
 **Parent:** MDB-0049. **Outcome:** compose graph/actual-prefix verification, ordered

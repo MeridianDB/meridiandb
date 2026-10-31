@@ -18,7 +18,9 @@ uncertain-result reconciliation is **not yet implemented**. Transaction
 acknowledgement, engine recovery, reader protection and reclamation are unchanged.
 Separate JDK-only [graph verification](object-checkpoint-graphs.md) now checks
 complete referenced history and actual journal prefixes; it does not compose
-those checks with conditional selection or durable intent.
+those checks with conditional selection or durable intent. The separate
+[publication-state codec](s3-publication-state.md) represents exact expected/pending
+metadata and pure transitions; it adds no local durable installation.
 [ADR 0024](../decisions/0024-conditional-s3-head-access.md) records this boundary.
 
 ## Build and configuration
@@ -35,9 +37,10 @@ Run the same two builds from the repository root:
 
 Use `mvnw.cmd` on Windows. Core verification installs the core JAR and its small
 shared test classifier locally; the optional build verifies both immutable and
-conditional-head APIs. The optional build runs **120 tests**: 46 immutable-object
-cases, 43 conditional-head SDK/API cases, 27 token/observation/native-stream cases
-and four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md).
+conditional-head APIs. The optional build runs **185 tests**: 46 immutable-object
+cases, 43 conditional-head SDK/API cases, 27 token/observation/native-stream cases,
+four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md) and 65 pure
+[publication-state codec/transition cases](s3-publication-state.md).
 Core runs its separate 1,092 tests. No cloud service or account is used by these tests.
 
 Construct `S3CheckpointHeads` with an explicit endpoint origin, signing region,

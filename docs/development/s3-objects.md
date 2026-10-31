@@ -46,8 +46,9 @@ uses the JDK HTTP implementation and JVM-managed connection pooling.
 
 The immutable adapter's 46 tests comprise nine shared object-contract cases, 29 actual
 SDK/HTTP protocol and integration cases, and eight focused native-stream/guard
-fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md)
-and four [complete graph-consumer cases](object-checkpoint-graphs.md).
+fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md),
+four [complete graph-consumer cases](object-checkpoint-graphs.md) and 65 pure
+[publication-state cases](s3-publication-state.md), for 185 optional tests in total.
 Core's separate 1,092 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.
 The fixture binds only `127.0.0.1`, uses fixed test credentials and needs no service

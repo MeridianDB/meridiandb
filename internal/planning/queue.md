@@ -12,32 +12,23 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0051 — Verified object checkpoint graphs** meets its source criteria:
-  JDK-only complete manifest/segment verification against the owned journal,
-  exact header-range preflight, aggregate pair budgets, immutable complete results
-  and local/SDK/failure evidence. Source
-  `5d0255b2f2a6ebef468f26f7366f4ae0d2ac65ec` reaches origin/main with matching
-  tips/verified ancestry. Java **41249949891**, docs **41249949945** and automatic
-  Pages **41249949841** pass; live new guide/ADR/callers, canonical/search and
-  59-page sitemap readback are verified.
-- Final clean builds pass **1,092 core / 120 optional tests**, zero failures,
-  errors or skips locally, plus all fourteen packaged-core examples. Core contains
-  153 production classes and depends only on java.base. All fourteen existing
-  Maven pins are freshly rechecked and unchanged. Both strict documentation URL
-  builds pass 59 pages; desktop/mobile/light/dark/navigation/search review passes.
-- **MDB-0052 — Durable object publication intent** is next; preceding delivery
-  checks have passed. Expanded MDB-0049/MDB-0037 still require durable expected/pending
-  state and complete conditional publisher/reconciliation integration. Original
-  acceptance and exclusive-placement assumptions are preserved.
-- **MDB-0054** separately tracks early range/count validation in legacy bounded
-  consumers, starting with compaction. Their unchanged raw path can decode more
-  records than a malformed manifest reserved before refusing the range; wire
-  limits still apply and no invalid plan escapes. This maintenance follow-up is
-  outside the publication parents and does not block the new checked graph API.
-- Verification is read-only evidence, not a selected-head token, force receipt,
-  writer lease or removal authority. Budgets count repeated object/prefix/record
-  work within one operation, not initial recovery, exact heap/CPU or arbitrary
-  repeated invocations. No later implementation or cloud qualification starts here.
+- MDB-0055 source acceptance passes from clean main/origin
+  `422f7a73995b4ac0abfca113b8329a1e3b5b1a2f`. Its completion commit, normal push,
+  remote ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- **MDB-0052** is expanded into required children **MDB-0055** bounded S3
+  publication state/intent format and pure transitions, then **MDB-0056** durable
+  local ownership/installation/poisoning/process reopen. Preserve all original
+  MDB-0052/MDB-0049/MDB-0037 criteria; this split does not satisfy local durability.
+- **MDB-0055 — Bounded S3 publication state** is done: exact target/bindings,
+  expected observation and pending intent have bounded v1 encoding and pure legal
+  transitions. All 65 new cases, 1,092 core and 185 optional cases pass locally;
+  fourteen examples, artifact inspection and both strict 61-page site builds pass.
+  Core and dependency pins remain unchanged. No active executable claim remains.
+- **MDB-0056 — Durable local publication state** is source-ready, conditional on
+  verified MDB-0055 delivery. Implement exclusive supported local placement,
+  staged force/atomic installation, poisoning and process-exit/reopen next.
+  Pure metadata recognition supplies no graph/selection/force/durable evidence;
+  preserve exact pending intent/preconditions and all parent acceptance criteria.
 
 ## Ordered work
 
@@ -87,7 +78,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | expanded | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0050](roadmap.md#mdb-0050-bounded-owned-journal-prefix) | Bound actual owned-journal prefix reads before allocation | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0051](roadmap.md#mdb-0051-verified-object-checkpoint-graphs) | Verify bounded object checkpoint graphs against the owned journal | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0050 |
-| [MDB-0052](roadmap.md#mdb-0052-durable-object-publication-intent) | Persist expected head and exact pending publication intent | MDB-0049 | ready | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
+| [MDB-0052](roadmap.md#mdb-0052-durable-object-publication-intent) | Persist expected head and exact pending publication intent | MDB-0049 | expanded | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
+| [MDB-0055](roadmap.md#mdb-0055-bounded-s3-publication-state) | Encode bounded S3 publication state and exact pending intent | MDB-0052 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
+| [MDB-0056](roadmap.md#mdb-0056-durable-local-publication-state) | Install local publication state under durable exclusive ownership | MDB-0052 | ready | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0055 |
 | [MDB-0053](roadmap.md#mdb-0053-verified-conditional-publisher) | Integrate verified conditional publication and reconciliation | MDB-0049 | queued | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | queued | MDB-0010, MDB-0051 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |

@@ -30,6 +30,7 @@ There is no release date or stable API commitment.
 | [Object checkpoint heads](architecture/object-checkpoint-protocol.md) | Fixed 256-byte format, exact predecessor/manifest binding and pure transition checks |
 | [Conditional S3 heads](development/s3-checkpoint-heads.md) | Same-response bytes/token observations, scoped exact conditional writes, response/resource checks and real SDK/HTTP tests; no verified checkpoint publisher |
 | [Object graph verification](development/object-checkpoint-graphs.md) | Complete namespace-scoped manifest/segment checks and actual owned-journal comparisons under shared byte/fetch/record-work budgets; no selection or durable intent |
+| [S3 publication state](development/s3-publication-state.md) | Bounded exact target/expected/pending snapshot and pure checked transitions; no local I/O, durable installation or remote selection |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |

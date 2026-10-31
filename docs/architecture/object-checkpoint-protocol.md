@@ -196,6 +196,10 @@ actual owner-journal comparison and reserves object bytes/fetches, prefix bytes
 and graph/journal record work across both graphs, including repeated dependencies.
 It checks segment header ranges before record decoding. Those read-only results
 still supply no durable intent, conditional publication or recovery protocol.
+A separate [S3 state format](../development/s3-publication-state.md) now represents
+exact target/bindings, expected observation and one pending intent with pure checked
+transitions. Its durable local installation and complete conditional publisher
+remain unimplemented; serializing the snapshot does not establish step 5.
 
 ## Failure and retry outcomes
 
