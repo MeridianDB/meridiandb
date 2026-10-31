@@ -37,3 +37,4 @@ docs/.vitepress/
 
 # Maven build output
 /target/
+/adapters/s3/target/

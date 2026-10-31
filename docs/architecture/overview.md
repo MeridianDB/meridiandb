@@ -65,6 +65,8 @@ provides a small JDK-only interface and local implementation. `SegmentObjects`
 consumes it to reopen the unchanged history format after complete identity/length
 and format checks. Verified heap ranges and explicit identical reuse do not
 select checkpoints or establish another durability policy.
+The separate optional [S3 adapter](../development/s3-objects.md) implements that
+byte contract through the AWS SDK, with controlled HTTP conformance checks.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
@@ -83,8 +85,8 @@ rebuilds historical interval state and request identity from checkpoint plus jou
 tail before exposing queries. Writable mode prepares complete immutable state,
 appends and forces its journal record, then atomically publishes that state before
 acknowledging success. [Process crash/retry conformance](../development/durability-conformance.md)
-checks those boundaries and exact recovery. Object storage and optimized query
-layouts remain planned.
+checks those boundaries and exact recovery. Remote checkpoint/engine integration
+and optimized query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 

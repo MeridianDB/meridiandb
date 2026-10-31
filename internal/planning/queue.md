@@ -12,36 +12,32 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0046 — Temporal geometry and index research** is delivered:
-  public architecture note, direct SVG, precise overlap/visibility
-  explanation, dated Lucene/Solr candidates and measured-experiment guidance.
-  Knowledge order resolves applicable assertions; this is not global coordinate
-  precedence or an adopted spatial index. Existing temporal semantics are preserved.
-- Lucene Central metadata/source artifact checks identify 10.6.0 as latest stable;
-  source/API and Solr/XTDB evidence is retained. No dependency is selected or added.
-  The existing future MDB-0013 experiment card links these candidates without
-  adding a mandatory optimization or changing the implementation order.
-- The worked numeric example passes 24 literal engine checks at three retained
-  cutoffs. Direct SVG content/self-containment and rendered desktop/narrow/light/
-  dark inspection pass; both strict URL layouts and restored production build
-  pass for **51 pages**, with source/HTML/links/search/sitemap checks. Reconcile
-  diagram rules in AGENTS, the public guide and site operations: direct SVG is
-  committed source; first PlantUML/Mermaid use must add pinned build conversion.
-- Source completion `aa5f1ee6427151ef76d601cb423be942ad5aba44` reaches origin/main
-  with matching tips. Documentation checks **41239726551** and automatic Pages
-  **41239726446** succeed. The live note/navigation and diagram procedure render;
-  the live SVG exactly matches source, search contains the page and the sitemap
-  has 51 HTTPS canonical entries. Retain the delivery receipt in progress history;
-  Git supplies its own commit/push evidence.
-- The 46-ID queue/card/DAG and task-owned diff checks pass. Prior delivered
-  sponsorship/branding evidence stays in progress history. No Java/Maven
-  implementation, benchmark or next engine item starts.
-- Separate existing hosting observation: Pages reports https_enforced=false and
-  certificate state dns_changed. The canonical HTTPS site works, while the project
-  host redirects to HTTP. This documentation step changes no DNS/HTTPS setting.
-- **MDB-0036 — Optional S3-compatible object access** remains ready and is the next
-  engine item. Refine optional packaging and a controlled SDK/HTTP fixture with
-  fresh Maven artifact research. No engine/Maven work or next item starts here.
+- No active item. **MDB-0036 — Optional S3-compatible object access** is source
+  complete: a separate `meridiandb-s3` artifact implements conditional immutable
+  creation and bounded verified whole reads using AWS SDK 2.57.8. Core remains
+  independently usable with no external runtime dependency.
+- Fresh Central metadata and official API/compatibility research on October 31 at
+  20:44:49 UTC confirm the selected SDK and unchanged root pins. ADR 0022 records
+  packaging, transport, resource ownership and exact evidence limits. No cloud
+  account, provisioning, deployment, paid operation or artifact release occurs.
+- Clean core install/verification passes **970 tests**; clean optional verification
+  passes **46 tests** (9 shared contract, 29 real SDK/HTTP, 8 stream/guard faults),
+  all without failures/errors/skips locally. Fourteen examples run using only the
+  packaged core JAR; archive/classpath/`jdeps` checks preserve core isolation and
+  exclude the SDK's Apache/Netty/CRT transports. Java CI now verifies both artifacts
+  on Linux/Windows and watches both POMs/adapter sources.
+- Public S3/build/decision/status callers and agent rules are reconciled. The QA
+  checker accepts technical HTTP/provider authorization language while retaining
+  process-narration guards and positive/negative fixtures: **42 QA tests** pass.
+  Both strict URL layouts and restored production build pass for **53 pages**;
+  preview desktop/narrow/light/dark, navigation and S3 search checks pass.
+- Source commit/push, remote ancestry/tips, Java/docs CI, automatic Pages and live
+  readback remain delivery checks. Record actual results in progress history;
+  verify those checks before advancing. Existing hosting/DNS observations remain
+  historical administrative dependencies and no setting changes here.
+- **MDB-0037 — Conditional object checkpoint publication** is next source-ready.
+  This adapter selects no checkpoint, changes no local acknowledgement, supplies
+  no distributed writer authority and qualifies no live S3-compatible service.
 
 ## Ordered work
 
@@ -84,8 +80,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0044](roadmap.md#mdb-0044-meridiandb-visual-identity) | Create SVG identity and GitHub/website PNG assets | — | done | — |
 | [MDB-0045](roadmap.md#mdb-0045-dedicated-meridiandb-sponsorship) | Configure the approved MeridianDB Sponsors profile and migrate funding links | — | done | MDB-0044 |
 | [MDB-0046](roadmap.md#mdb-0046-temporal-geometry-and-index-research) | Document temporal geometry and reusable Lucene/Solr indexing ideas | — | done | MDB-0009 |
-| [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
-| [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
+| [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | done | MDB-0010, MDB-0035 |
+| [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | ready | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |

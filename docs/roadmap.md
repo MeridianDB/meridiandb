@@ -26,6 +26,7 @@ There is no release date or stable API commitment.
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |
 | [Local immutable files](development/local-segments.md) | Create-only file writes, bounded expected-ID verification and explicit heap-reader lifetimes |
 | [Immutable byte access](development/immutable-objects.md) | Small interface, JDK-only local adapter, complete expected-ID/length checks, explicit identical reuse, verified heap ranges and segment-codec consumer |
+| [Optional S3 byte access](development/s3-objects.md) | Separate SDK artifact, conditional creation, complete verified reads, controlled real-SDK/HTTP conformance and response limits; no remote checkpoint selection |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
@@ -90,11 +91,13 @@ remain part of that safety contract.
 
 Bounded [immutable-object access](development/immutable-objects.md) and a local
 implementation are available, with reusable conformance and a segment consumer.
-Existing checkpoint/engine paths are unchanged. The remaining object-storage work
-proceeds through an optional S3-compatible adapter, conditional checkpoint
-publication, engine recovery, protected reclamation and common conformance.
-It retains the existing local journal and acknowledgement contract. Each stage
-needs capability and failure evidence; a remote backend is not implemented today.
+An optional [S3-compatible byte adapter](development/s3-objects.md) now implements
+that interface, verified against a controlled real-SDK HTTP fixture. Existing
+checkpoint/engine paths are unchanged. Remote conditional checkpoint publication,
+engine recovery, protected reclamation and common backend conformance remain open.
+Those stages retain the existing local journal and acknowledgement contract and
+need their own capability and failure evidence. No integrated remote database
+backend or live-provider qualification is available today.
 A common API cannot make object storage behave like a local filesystem.
 [Comparable-system research](architecture/storage-research.md) informs these
 boundaries without selecting another database's semantics.

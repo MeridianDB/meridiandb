@@ -135,10 +135,20 @@ nav:
             "Implemented in MDB-0016.", "Step-ID: MDB-0016", "Step-Result: completed",
             "The workflow state is active.", "Next queue iteration.",
             "Source-ready changes.", "Authorization is pending.", "Delivery handoff.",
+            "Standing authorization covers this work.", "Push authorization is recorded.",
+            "This is authorized work.", "Authorization boundaries are internal.",
         ):
             with self.subTest(sentence=sentence):
                 self.write("docs/guide.md", original + "\n" + sentence)
                 self.assertSourceError("contains")
+
+    def test_technical_http_authorization_is_public_content(self):
+        text = "The HTTP Authorization header carries SigV4 signing data. Provider authorization is not modeled by the fixture."
+        self.append("docs/guide.md", text)
+        self.assertEqual([], qa.validate_sources(self.root))
+        self.render()
+        self.append("site/guide/index.html", f"<p>{text}</p>")
+        self.assertEqual([], qa.validate_site(self.root, self.root / "site", "https://meridiandb.org/"))
 
     def test_unlisted_markdown_is_rejected(self):
         self.write("docs/unlisted.md", self.source("Unlisted", "A separate description.", "An unlisted page."))

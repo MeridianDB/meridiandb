@@ -942,6 +942,19 @@ SDK and HTTP requests; an in-memory fake is not provider conformance. Document t
 exact verified capabilities and fixture limits. This step publishes no selected
 checkpoint and changes no acknowledgement guarantee.
 
+**Produced artifacts:** separate optional `adapters/s3` Maven artifact using AWS SDK
+2.57.8 and URLConnection, conditional signed fixed-length writes, whole-image
+length/hash reads, strict conflict/absence and uncertain-result handling, bounded
+control/error bodies, explicit timeouts/one attempt, and observed response cleanup
+with caller-owned credentials. Core attaches only its reusable abstract test
+contract and gains no runtime dependency. ADR 0022/S3 guide/build/status/agent
+callers document exact configuration, limits and fixture scope. Clean verification
+passes 970 core and 46 optional cases; fourteen core-JAR examples, dependency/archive
+checks, 42 documentation QA tests and both 53-page URL builds pass. Linux/Windows
+CI now checks both builds. Source push, CI/Pages and live readback remain delivery
+checks in the completion receipt. No remote selection/engine/deletion guarantee
+or live-service qualification is introduced.
+
 ## MDB-0037 Conditional object checkpoint publication
 
 **Parent:** MDB-0011. **Outcome:** specify a versioned remote selection protocol,

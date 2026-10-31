@@ -82,6 +82,7 @@ nav:
       - Physical reclamation decision: decisions/0019-protected-physical-reclamation.md
       - Persistence boundaries decision: decisions/0020-persistence-and-replication-boundaries.md
       - Immutable object access decision: decisions/0021-bounded-immutable-object-access.md
+      - Optional S3 access decision: decisions/0022-optional-s3-object-access.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -93,6 +94,7 @@ nav:
       - Local journal: development/local-journal.md
       - Local immutable segments: development/local-segments.md
       - Immutable byte objects: development/immutable-objects.md
+      - Optional S3 byte objects: development/s3-objects.md
       - Local checkpoints: development/local-checkpoints.md
       - Reader protection: development/reader-protection.md
       - Reclamation inventory: development/reclamation-inventory.md

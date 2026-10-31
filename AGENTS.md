@@ -25,6 +25,8 @@ so a new session can work correctly without relying on earlier conversations.
   history plus the journal suffix. Explicit create/writable modes now force before
   atomic commit publication. Process crash/retry and canonical/seeded writable-reopen
   conformance exercise this protocol; see the [durability guide](docs/development/durability-conformance.md).
+  The optional [S3 byte adapter](docs/development/s3-objects.md) is a separate Maven
+  artifact: verify/install core, then verify `adapters/s3/pom.xml`; CI runs both.
   The independent Zensical docs build uses Python 3.13, `.venv/` and pinned requirements.
 - Continue authorized, reversible work using reasonable engineering judgment.
   Resolve material ambiguity about behavior or scope with the owner; routine
@@ -230,6 +232,14 @@ so a new session can work correctly without relying on earlier conversations.
   evidence across providers; a directory conflict may be access denied on Windows.
   Keep exact existing-object conflict checks for regular files, and never translate
   an arbitrary permission failure into absence or verified reuse.
+- Follow [ADR 0022](docs/decisions/0022-optional-s3-object-access.md) and the
+  [S3 adapter guide](docs/development/s3-objects.md) for SDK changes. Keep cloud
+  dependencies in the optional artifact, test the shared contract through the real
+  SDK/HTTP fixture and preserve response-body, timeout, cleanup and credential
+  ownership checks. SDK close must leave caller-owned credential providers usable.
+  Scope fixture evidence precisely; protocol checks establish no live-provider
+  qualification, checkpoint selection, distributed ownership or stronger local
+  acknowledgement. Run core and adapter verification on both CI platforms.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

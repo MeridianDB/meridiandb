@@ -5,8 +5,9 @@ description: Build MeridianDB's Java 25 foundation with its checksum-pinned Mave
 
 # Java and Maven development
 
-The repository contains one experimental Java artifact,
-`org.meridiandb:meridiandb-core:0.1.0-SNAPSHOT`. It contains immutable experimental
+The root build produces `org.meridiandb:meridiandb-core:0.1.0-SNAPSHOT`.
+A separate optional [S3 byte adapter](s3-objects.md) produces `meridiandb-s3`;
+ordinary local embedding requires only core. Core contains immutable experimental
 command, query, interval, result and commit-position types in
 `org.meridiandb.temporal`. A [test-only reference model](reference-model.md) executes
 the canonical contract histories and seeded checks alongside the
@@ -65,8 +66,11 @@ shell, `unzip` and either `sha256sum` or `shasum`; it can download through `curl
 
 Verification compiles production/test code, runs JUnit Jupiter and produces the
 local `target/meridiandb-core-0.1.0-SNAPSHOT.jar`. Reports are under
-`target/surefire-reports/`. `target/` is ignored. The artifact has no external
-runtime dependencies; JUnit and Jackson are test-only. The command does not
+`target/surefire-reports/`. `target/` is ignored. The core artifact has no external
+runtime dependencies; JUnit and Jackson are test-only. A small attached test-support
+JAR contains only the reusable abstract object conformance suite. The optional S3
+build uses it in test scope and resolves its SDK separately; follow the
+[S3 build commands](s3-objects.md#build-and-verify) to verify both artifacts. The command does not
 install a library into a remote repository or publish a release.
 
 To remove stale output before verifying:
@@ -117,7 +121,9 @@ exact contract expectations and focused failure cases. The build fails when no
 tests are discovered. Production code compiles with `--release 25`, `-Xlint:all`
 and `-Werror`; preview features are not enabled.
 
-Start with one JAR and introduce another module only for an actual deliverable.
+Keep the root core JAR independent of optional integrations. The separate S3
+artifact is the first additional deliverable; [ADR 0022](../decisions/0022-optional-s3-object-access.md)
+explains its standalone POM and local-install prerequisite.
 The group/artifact coordinates are project conventions, not a Maven Central
 publication or verified-namespace claim. No release repository is configured.
 The records and their nullable unbounded endpoints are experimental Java syntax;
@@ -169,11 +175,16 @@ canonical temporal and query test fixtures. The [Jackson project](https://github
 documents its 3.x `tools.jackson` packages and Java 17 baseline. Its tree model lets
 the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
-dependency. The local adapter also uses only JDK file I/O. All twelve metadata
+dependency. The local adapter also uses only JDK file I/O. All twelve existing metadata
 sources and official Maven/JUnit/Jackson compatibility information were rechecked
-for immutable-object access on October 31 at 13:38:43 EDT / 17:38:43 UTC; the selected versions remain
-unchanged. The segment and manifest codecs use standard JDK SHA-256/CRC32C and
-the local adapters use JDK file I/O, with no new dependency.
+on October 31 at 16:44:49 EDT / 20:44:49 UTC; those selected versions remain
+unchanged. The optional adapter adds AWS SDK 2.57.8, released October 30, as
+confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
+and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
+is Java 8 or later; project tests supply Java 25 compatibility evidence rather
+than an AWS certification claim. The segment/manifest codecs and local adapters
+continue to use JDK SHA-256/CRC32C and file I/O; the new SDK stays in the optional
+artifact.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |
@@ -189,6 +200,8 @@ the local adapters use JDK file I/O, with no new dependency.
 | `org.apache.maven.plugins:maven-deploy-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/maven-metadata.xml) |
 | `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.1.3 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
 | `tools.jackson.core:jackson-databind` | 3.2.4 | 3.2.4 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
+| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.57.8 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
+| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.57.8 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
 
 All selected entries are the latest stable releases found. Newer metadata entries
 in the Maven/plugin 4.x series are RC/beta releases, so they are not selected for

@@ -29,8 +29,9 @@ permanent commitment.
 | [0017: Live checkpoint reader protection](0017-live-reader-protection.md) | Shared barrier implemented; protected removal separate | Independent lazy-reader lifetime, cross-process exclusion and fail-closed cleanup |
 | [0018: Verified reclamation inventory](0018-reclamation-inventory.md) | Inventory implemented; protected removal separate | Explicit retained roots, complete owner-bound verification, conservative diagnostic handling and bounded candidate accounting |
 | [0019: Protected physical reclamation](0019-protected-physical-reclamation.md) | Local removal and integrated local conformance implemented | Recompute under both owners, force live roots, retire metadata before dependencies and preserve interrupted orphans |
-| [0020: Persistence and replication boundaries](0020-persistence-and-replication-boundaries.md) | Architecture direction adopted; extensions planned | Local-first bitemporal library, distinct commit/object/checkpoint responsibilities and optional replication |
+| [0020: Persistence and replication boundaries](0020-persistence-and-replication-boundaries.md) | Architecture direction adopted; remote checkpoint integration and replication planned | Local-first bitemporal library, distinct commit/object/checkpoint responsibilities and optional replication |
 | [0021: Bounded immutable-object access](0021-bounded-immutable-object-access.md) | Interface, local adapter and segment consumer implemented; experimental | Exact whole-image identity/length, create-only writes, explicit reuse and verified heap ranges |
+| [0022: Optional S3 object access](0022-optional-s3-object-access.md) | Byte adapter and controlled SDK/HTTP checks implemented; experimental | Separate optional artifact, conditional creation, complete verified reads and explicit response/ownership limits |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

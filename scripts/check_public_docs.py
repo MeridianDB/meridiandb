@@ -44,7 +44,11 @@ _INTERNAL_MARKERS = (
     ("owner narration", r"\bowner(?:[’']s)?\s+(?:prompts?|instructions?|directions?|preferences?|approvals?|requests?|asked|asks?|approved|approves?|authorized|required|requires?|requested|directed|prefers?|preferred|instructed|specified|wants?|decided|agreed|said|chose|selected|recommended|suggested)\b"),
     ("conversation narration", r"\bthis\s+(?:chat|conversation)\b|\bas\s+we\s+(?:discussed|agreed)\b"),
     ("agent process narration", r"\b(?:coding|AI)\s+agents?\b|\bagentic\b|\bCodex\b|\bagent\s+(?:workflow|instructions?|handoff)\b"),
-    ("authorization or handoff narration", r"\bauthori[sz](?:ation|ations|ed)\b|\bhand[ -]?offs?\b"),
+    ("authorization or handoff narration",
+     r"\b(?:owner|execution|task|deployment|publication|release|push|spending|standing|source[- ]push)\s+authori[sz](?:ation|ations|ed)\b"
+     r"|\bauthori[sz]ation\s+(?:(?:is|remains)\s+pending|boundaries|scope)\b"
+     r"|\bauthori[sz]ed\s+(?:work|tasks?|push|deployment|release|spending|scope)\b"
+     r"|\bhand[ -]?offs?\b"),
     ("workflow state narration", r"\bworkflow\s+(?:state|checkpoint|iteration|cursor)\b|\bqueue\s+iteration\b|\bsource[ -]ready\b"),
     ("internal task identifier", r"\bMDB-\d{4}\b|\bStep-(?:ID|Result)\s*:"),
 )

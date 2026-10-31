@@ -9,8 +9,8 @@ Explore data through two dimensions of time.
 
 MeridianDB is an experimental embeddable Java bitemporal database for preserving
 when facts apply and when the database learned about them. Built-in local
-persistence supports standalone JVM use; additional storage adapters and
-replication are planned extensions. The Java 25/Maven build is available.
+persistence supports standalone JVM use. Optional [S3 byte access](development/s3-objects.md)
+is available separately; remote checkpoints and replication remain planned. The Java 25/Maven build is available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
 [Explore the architecture](architecture/overview.md) ·
@@ -64,7 +64,9 @@ canonical/seeded histories, process stops and named-file lengths across those st
 Layout performance experiments remain open.
 The [immutable byte-object interface](development/immutable-objects.md) now has a
 local adapter, complete content/length validation, verified heap ranges and a
-segment-codec consumer. Existing journal/checkpoint protocols remain explicit.
+segment-codec consumer. The optional [S3 adapter](development/s3-objects.md) runs
+the same object expectations through a real SDK/HTTP fixture; it does not select
+remote checkpoints. Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

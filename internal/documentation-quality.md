@@ -15,6 +15,10 @@ generated pages, search and sitemap whenever public documentation changes.
   `internal/` or `AGENTS.md`, outside `docs_dir`. They remain repository records;
   they are not website content. A technical writer's use of queues, checkpoints,
   writer ownership or request identity is legitimate and must remain clear.
+  Technical HTTP `Authorization` headers and provider access control are public
+  subject matter; pattern checks target execution-approval narration in context,
+  rather than banning the technical word itself. Preserve positive technical and
+  negative process fixtures when changing those patterns.
 - `docs/` contains only deliberate public material. Every Markdown page belongs in
   navigation; hiding a page from nav alone does not prevent indexing or publication.
   Keep internal files outside the build input, not merely excluded from a menu.

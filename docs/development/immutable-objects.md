@@ -9,7 +9,8 @@ description: Use MeridianDB's immutable byte-object interface and local adapter 
 checkpoint publisher. The JDK-only `LocalObjectStore` implements it in an existing
 trusted directory. `SegmentObjects` is a concrete consumer of that interface: it
 encodes or decodes the existing history-segment format without changing its bytes.
-The interfaces remain experimental.
+A separate [S3 adapter](s3-objects.md) implements the same byte contract using an
+optional SDK artifact and real HTTP protocol tests. The interfaces remain experimental.
 
 ## Types and operations
 
@@ -126,5 +127,7 @@ to retain output; failed candidates remain available for inspection.
 The reusable byte-store conformance suite runs against actual local files, with
 separate type/range/lifetime, injected I/O/cleanup and segment-consumer checks.
 The full Java suite retains independent temporal/reference, recovery, process
-crash and compaction/reclamation verification. No object-service SDK, remote
-checkpoint or performance result is introduced.
+crash and compaction/reclamation verification. Core and the local adapter remain
+JDK-only at runtime. The separate [S3 build](s3-objects.md) runs the same byte
+contract through a provider SDK and controlled HTTP fixture; remote checkpoint
+integration and performance measurements remain open.

@@ -7,8 +7,9 @@
 
 MeridianDB is an experimental embeddable Java bitemporal database. It preserves
 both when a fact applies in the domain and when the database recorded that
-knowledge. Built-in local persistence is the foundation; optional storage adapters
-and replication are planned extensions. Local use requires no external database,
+knowledge. Built-in local persistence is the foundation. Optional S3 byte access is
+available separately; remote checkpoints and replication remain planned. Local
+use requires no external database,
 streaming service or application server.
 
 **Status:** project foundation and architectural research. The documentation site
@@ -88,11 +89,14 @@ The initial investigation will focus on:
 
 The [persistence boundaries](docs/architecture/persistence-boundaries.md) separate
 commit authority, ordered journal history, immutable objects, checkpoint selection
-and derived search indexes. Local persistence is implemented; additional adapters,
-replication and near-real-time indexing remain planned and unmeasured. The
+and derived search indexes. Local persistence and an optional [S3 byte adapter](docs/development/s3-objects.md)
+are implemented. Remote checkpoint/engine integration, replication and near-real-time
+indexing remain planned and unmeasured. The
 [immutable-object interface](docs/development/immutable-objects.md) now includes a
 JDK-only local adapter, complete identity/length validation, explicit identical
-reuse and a segment consumer. Existing checkpoint and engine protocols are unchanged.
+reuse and a segment consumer. The separate `meridiandb-s3` artifact runs the same
+object contract through a real SDK/HTTP fixture. Existing checkpoint and engine
+protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
@@ -131,8 +135,9 @@ verifies retained roots and reports obsolete physical objects without deletion.
 verified obsolete metadata before unused dependencies, retaining full logical history.
 [Integrated conformance](docs/development/compaction-conformance.md) now checks
 canonical/seeded histories, richer process stops and exact named-file space accounting
-through actual publication and removal. Planned work covers object storage and
-reproducible workload measurements. The initial target is an embedded, single-node
+through actual publication and removal. The optional S3 byte adapter is available;
+planned work covers remote checkpoint integration and reproducible workload
+measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
 ## Build the Java foundation
@@ -168,6 +173,10 @@ It creates the local experimental
 [reference model](docs/development/reference-model.md) and fixture parser remain
 test-only. See the [Java/Maven guide](docs/development/build.md) for setup, version
 research, wrapper verification and Linux/Windows CI.
+
+The optional [S3 adapter guide](docs/development/s3-objects.md) gives the separate
+core-install and adapter-verification commands. Its SDK is not required for the
+root core build or local embedding.
 
 Run the memory-only embedding example after verification:
 

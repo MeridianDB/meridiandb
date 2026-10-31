@@ -10,6 +10,7 @@ on:
       - '.java-version'
       - '.gitattributes'
       - 'src/**'
+      - 'adapters/**'
       - 'examples/**'
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
@@ -31,6 +32,7 @@ on:
       - '.java-version'
       - '.gitattributes'
       - 'src/**'
+      - 'adapters/**'
       - 'examples/**'
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
@@ -59,9 +61,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            command: ./mvnw -B verify
+            command: ./mvnw -B install
+            adapter-command: ./mvnw -B -f adapters/s3/pom.xml verify
           - os: windows-latest
-            command: .\mvnw.cmd -B verify
+            command: .\mvnw.cmd -B install
+            adapter-command: .\mvnw.cmd -B -f adapters/s3/pom.xml verify
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -74,9 +78,13 @@ jobs:
           java-version-file: .java-version
           check-latest: true
           cache: maven
-          cache-dependency-path: pom.xml
+          cache-dependency-path: |
+            pom.xml
+            adapters/s3/pom.xml
       - name: Verify with the pinned Maven Wrapper
         run: ${{ matrix.command }}
+      - name: Verify the optional S3 adapter through loopback HTTP
+        run: ${{ matrix.adapter-command }}
       - name: Run the embedded Java example
         run: java --class-path target/classes examples/EmbeddedExample.java
       - name: Run the local journal example

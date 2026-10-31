@@ -7,8 +7,8 @@ description: MeridianDB's local-first bitemporal library design separates commit
 
 MeridianDB's design centers on an embeddable Java bitemporal database with its own
 local persistence. Applications can use the experimental local engine without
-Kafka, an object-storage service or an application server. Additional storage
-implementations and replication are planned extensions. They must preserve the
+Kafka, an object-storage service or an application server. Optional [S3 byte access](../development/s3-objects.md) is implemented separately;
+remote checkpoints and replication remain planned extensions. They must preserve the
 same temporal answers and declare their own durability and coordination guarantees.
 
 [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md) records this
@@ -17,8 +17,9 @@ test, rather than a stable Java service-provider API.
 
 The first [immutable-byte interface and local adapter](../development/immutable-objects.md)
 are implemented, with a segment-codec consumer and bounded whole-object reads.
-Existing local checkpoint and engine APIs retain their current protocols. Remote
-adapters and replication remain planned.
+The optional S3 adapter passes the same byte contract through a controlled SDK/HTTP
+fixture. Existing local checkpoint and engine APIs retain their current protocols.
+Remote checkpoint selection, engine integration and replication remain planned.
 
 ## Bitemporal history is the core contract
 

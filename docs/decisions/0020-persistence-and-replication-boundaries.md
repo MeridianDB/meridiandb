@@ -6,7 +6,7 @@ description: Keep MeridianDB's bitemporal engine independently usable with local
 # ADR 0020: Persistence and replication boundaries
 
 - **Date:** October 31, 2026
-- **Status:** Architecture direction adopted; additional adapters and replication planned
+- **Status:** Architecture direction adopted; local/S3 byte adapters implemented, remote checkpoint integration and replication planned
 - **Scope:** Embedded library positioning and persistence responsibilities
 
 ## Context
@@ -21,6 +21,10 @@ Time-based search, storage snapshots and native bitemporal history solve differe
 problems. MeridianDB's core contract preserves valid intervals and committed
 knowledge, including retroactive corrections and original retry identity. Its
 current knowledge coordinate is commit order, with no calendar-time mapping.
+
+The subsequent [optional S3 decision](0022-optional-s3-object-access.md) implements
+bounded byte access. Remote checkpoint selection, engine recovery and reclamation
+remain separate work under these boundaries.
 
 ## Decision
 

@@ -78,6 +78,13 @@ Revisit the JDK baseline for a concrete consumer requirement; add modules, plugi
 or dependencies only for a demonstrated need. A future library release needs
 namespace, compatibility, packaging and publication work.
 
+## Additional optional artifact
+
+[ADR 0022](0022-optional-s3-object-access.md) introduces a separate S3 byte adapter
+as the first additional deliverable. The root build and local core runtime remain
+independent of its SDK. The one-artifact foundation above describes the initial
+packaging; current optional-build commands are in the build and S3 guides.
+
 ## Related implementation decisions
 
 [ADR 0005](0005-reference-model.md) records the test reference and canonical

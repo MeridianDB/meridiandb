@@ -11,7 +11,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 /** Backend-independent observable contract; another real adapter can run this same suite. */
-abstract class AbstractImmutableObjectStoreConformance {
+public abstract class AbstractImmutableObjectStoreConformance {
     protected static final byte[] ABC = {97, 98, 99};
     protected static final ObjectReference ABC_REFERENCE = new ObjectReference(new ObjectId(
             "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"), 3);
@@ -20,7 +20,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     protected abstract ImmutableObjectStore store() throws IOException;
 
     @Test
-    void exactExpectedIdentityAndBytesSurviveAnIndependentOpen() throws IOException {
+    protected void exactExpectedIdentityAndBytesSurviveAnIndependentOpen() throws IOException {
         var key = new ObjectKey("known-vector.bin");
         assertEquals(ABC_REFERENCE, store().createNew(key, ABC));
         try (var reader = store().read(key, ABC_REFERENCE)) {
@@ -31,7 +31,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void createOnlyRejectsBothIdenticalAndConflictingNames() throws IOException {
+    protected void createOnlyRejectsBothIdenticalAndConflictingNames() throws IOException {
         var backend = store();
         var key = new ObjectKey("create-only.bin");
         backend.createNew(key, ABC);
@@ -41,7 +41,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void explicitReuseDistinguishesCreationFromWholeObjectVerification() throws IOException {
+    protected void explicitReuseDistinguishesCreationFromWholeObjectVerification() throws IOException {
         var key = new ObjectKey("reuse.bin");
         var first = store().createOrVerify(key, ABC);
         var second = store().createOrVerify(key, ABC);
@@ -52,7 +52,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void conflictingReuseNeverOverwritesOrRepairsTheOriginal() throws IOException {
+    protected void conflictingReuseNeverOverwritesOrRepairsTheOriginal() throws IOException {
         var key = new ObjectKey("conflicting.bin");
         store().createNew(key, ABC);
         var wrongId = assertThrows(ObjectIntegrityException.class,
@@ -65,7 +65,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void readsRequireIndependentLengthAndIdentity() throws IOException {
+    protected void readsRequireIndependentLengthAndIdentity() throws IOException {
         var key = new ObjectKey("expected.bin");
         var backend = store();
         backend.createNew(key, ABC);
@@ -79,7 +79,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void missingReadHasNoCreationSideEffect() throws IOException {
+    protected void missingReadHasNoCreationSideEffect() throws IOException {
         var backend = store();
         var key = new ObjectKey("missing.bin");
         assertThrows(IOException.class, () -> backend.read(key, ABC_REFERENCE));
@@ -87,7 +87,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void emptyObjectsAreCompleteImagesWithAnExactEofRange() throws IOException {
+    protected void emptyObjectsAreCompleteImagesWithAnExactEofRange() throws IOException {
         var backend = store();
         var key = new ObjectKey("empty.bin");
         var empty = new ObjectReference(new ObjectId(
@@ -103,7 +103,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void inputAndReturnedCopiesCannotChangeStoredContent() throws IOException {
+    protected void inputAndReturnedCopiesCannotChangeStoredContent() throws IOException {
         var backend = store();
         var key = new ObjectKey("copies.bin");
         byte[] supplied = ABC.clone();
@@ -120,7 +120,7 @@ abstract class AbstractImmutableObjectStoreConformance {
     }
 
     @Test
-    void readersHaveIndependentLifetimesAndReturnedCopiesSurviveClose() throws IOException {
+    protected void readersHaveIndependentLifetimesAndReturnedCopiesSurviveClose() throws IOException {
         var backend = store();
         var key = new ObjectKey("readers.bin");
         backend.createNew(key, ABC);

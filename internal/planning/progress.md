@@ -2621,6 +2621,102 @@ verification. These receipt paths trigger no additional configured workflows.
 No full Java suite, benchmark, new index, runtime dependency, release or other hosting
 change is implied by documentation publication. MDB-0036 remains ready.
 
+## 2026-10-31 — MDB-0036 Optional S3-compatible object access
+
+**Outcome:** implement the bounded byte adapter in a separate experimental
+`org.meridiandb:meridiandb-s3:0.1.0-SNAPSHOT` artifact under `adapters/s3/`.
+Root core packaging/build paths remain intact; its attached test classifier
+contains only the shared abstract object contract. The optional POM depends on
+core and that test-only classifier; ordinary embedding remains JDK-only. ADR 0022
+records the standalone-POM/local-install choice, alternatives and revisit criteria.
+
+**Provider behavior:** use the real maintained AWS v2 SDK and explicit URLConnection
+transport, excluding default Apache 5/Netty and optional CRT. Use signed conditional
+PUT, exact binary length and precalculated SHA-256 transfer checksum; disable
+chunked AWS framing. Strict existing-object classification requires 412 plus
+PreconditionFailed; 409, permission, bucket and transport failures remain errors.
+GET absence requires 404 plus NoSuchKey. Lost responses retain uncertainty and
+explicit createOrVerify retries perform complete expected-content readback.
+
+GET validates status/range/length before bounded allocation, consumes the whole
+image inside the SDK operation/attempt timer, explicitly observes cleanup and
+then verifies SHA-256. ETags remain opaque. Heap ranges prove no physical partial
+object. A transport guard caps other/error bodies at 64 KiB before XML parsing,
+rejects every nonempty successful PUT body and preserves cleanup failures. Calls
+serialize with close; a non-closeable resolution delegate preserves caller-owned
+credential-provider lifetime. Explicit SDK one-attempt and operation/attempt/
+connection/socket timeouts replace defaults. No bucket setup/list/delete/mutable
+head or new engine acknowledgement is added.
+
+**Fresh artifact research:** at **20:44:49 UTC / 16:44:49 EDT**, current Central
+metadata plus official SDK/Maven/JUnit/Jackson compatibility/release information
+confirm AWS s3 and url-connection-client **2.57.8**, released October 30, and all
+12 existing selected root pins unchanged. Direct upstream service POMs identify
+apache5-client/netty-nio-client exclusions; exact SDK source confirms conditional
+fields, transformer wrapping, timeout/quiet-cleanup and credential-close behavior.
+Metadata SHA-256: s3 `a821c5586fd7e2ee72668bc3def61e27d88dc84449b0d39ec27b7b28448e23b6`,
+url-connection-client `211308639aacbf2f4a204a22ddc187b61aa19bb5bf432ca5f9c07cb330fd3b15`.
+Actual s3 2.57.8 source JAR SHA-256
+`8b031931d0247e905e91fd1356ae2380bd521f60ef81e2938a177ca8c11819da`.
+The public build guide owns current coordinates/version/source links; ignored
+`.local-qa/mdb-0036/` retains working raw evidence and logs. Java 25 compatibility
+is project-tested, not described as a vendor certification.
+
+**Verification:** final `./mvnw -B clean install` passes **970 core tests**;
+`./mvnw -B -f adapters/s3/pom.xml clean verify` passes **46 optional tests**, with
+zero failures/errors/skips locally. Of those, **nine** are the exact shared core
+contract, **29** execute real SDK serialization/signing/HTTP/unmarshalling, and
+**eight** inject native stream/guard failures. Cover two-client create races,
+lost replies before/after effects, conflict/hash/length changes with unchanged
+ETags, precise absence/error classes, short/truncated/oversized/chunked/unexpected
+range bodies, oversized error/PUT-success responses, one-attempt handling, body
+operation timeout with a longer socket timeout, 32 MiB transfer/preflight bounds,
+reader lifetime, shared credential ownership and exact segment history.
+Fourteen examples pass using only the packaged core JAR. Core still contains
+**137 production classes** and `jdeps --recursive` reports only java.base; test
+support contains exactly one abstract class. The resolved adapter classpath uses
+URLConnection 2.57.8 without Apache/Netty/CRT. Java CI now watches adapters and
+both POMs and runs verified core local install then adapter checks on both OSes.
+
+**Review/corrections:** independent research and fixture helpers have bounded
+ownership; the coordinator serializes shared planning/Git writes. Real SDK checks
+exposed AWS upload framing despite an explicit transfer checksum; disable it and
+verify literal signed binary requests. Independent SDK source review and a
+reproduction show closing a client could close a caller-owned credential provider
+twice; the delegate and regression now preserve ownership. Reject unexpected 200
+PUT bodies rather than allowing SDK body-ignore behavior. Explicitly abort after
+native close failure, preserving primary/suppressed failures. Final clean builds
+verify the corrected source. The fixture checks signature shape, not authentication;
+no TLS/live authorization/provider durability/throughput/service qualification is
+claimed. Underlying header allocation and JVM-managed connection pooling remain
+explicit limits, as do namespace immutability assumptions after external deletion.
+
+**Documentation QA:** update README, public homepage/roadmap/architecture/build/
+object-access/ADR indexes, new S3 guide/ADR 0022, active older-decision callers and
+root agent rules. Fix the concrete checker false positive on technical HTTP
+Authorization/provider authorization wording by matching execution-approval
+narration in context, retaining negative tests and a positive source/rendered
+fixture. Reconcile its internal editorial procedure. **42 documentation QA tests**
+pass. Both strict production and project-path builds pass source/HTML/local-link/
+search/sitemap checks for **53 pages**, restoring production output. Rendered
+review covers desktop light, 390-pixel dark text/code/table with no page-wide
+overflow, the decision/nav and actual S3 search results. Restore theme/viewport.
+No new diagram renderer or visual artifact is needed for this byte adapter.
+
+**Source completion/delivery:** start from clean main
+`b4e7ad16fa80a258d1ffbeb27b8cc569a1d365c5`, matching fetched origin/main.
+Update queue/card/progress together; validate 46 unique IDs and references, DAG,
+eligibility/completed children, task-owned diff, POM/workflow syntax and staged
+scope. Commit with Step-ID MDB-0036 / Step-Result completed, push normally and
+verify remote ancestry/tips, Java/docs CI and automatic Pages. Verify exact live
+S3/decision/build/status content, canonical, search and 53-page sitemap before
+recording delivery readback. Git/final handoff supplies actual source SHA/results.
+No release/tag/Maven Central upload, paid infrastructure or account/DNS change.
+
+**Next recommendation:** MDB-0037 — conditional object checkpoint publication,
+including verified actual journal-prefix binding and the separately specified
+single-writer/uncertain-selection protocol. This task starts none of that work.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
