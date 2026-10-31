@@ -75,7 +75,10 @@ so a new session can work correctly without relying on earlier conversations.
   prerelease metadata entry is not evidence of the latest stable compatible release.
 - Separate temporal semantics, logical query operations, physical layout and
   backend capabilities. Delay public syntax and broad integration commitments
-  while using explicit queries to evaluate storage decisions.
+  while using explicit queries to evaluate storage decisions. Follow the
+  [temporal geometry guide](docs/architecture/temporal-geometry.md) when evaluating
+  multidimensional indexes; its Lucene/Solr candidates do not select a dependency
+  or change the existing temporal contract.
 - Follow [ADR 0020](docs/decisions/0020-persistence-and-replication-boundaries.md)
   and the [persistence boundaries](docs/architecture/persistence-boundaries.md)
   for backend work: keep local Java embedding independently usable, introduce
@@ -368,10 +371,13 @@ so a new session can work correctly without relying on earlier conversations.
   does not change that policy.
 - Keep `.venv/`, `.cache/`, `site/`, Python caches and `.local-qa/` untracked.
   Store durable review evidence in tracked documentation when it adds lasting value.
-- Mermaid and PlantUML are permitted for useful diagrams. Preserve editable
-  sources and follow the website guide's SVG conventions. The first actual
-  diagram must add and verify a pinned renderer in a shared build command used
-  locally and by both workflows; the current site has no diagram renderer.
+- Follow [the diagram procedure](docs/contributing/documentation.md#tooling-and-diagrams).
+  Owner clarification, October 31, 2026: direct SVG is permitted alongside
+  PlantUML/Mermaid sources. Commit hand-authored SVG masters under
+  `docs/assets/illustrations/` with accessible text and inspect mobile/light/dark
+  readability. Introducing PlantUML or Mermaid sources must add a pinned SVG
+  renderer to the shared site build used locally and by both workflows. The
+  current illustration is direct SVG; no generated-diagram renderer is installed.
 - Follow [brand artwork maintenance](internal/brand.md) for logos: edit the SVG
   masters, regenerate committed PNG/dark variants with the pinned exporter, and
   verify small icons, circular crop, README and light/dark/mobile website use.

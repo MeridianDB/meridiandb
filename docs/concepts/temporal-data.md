@@ -25,6 +25,11 @@ contract.
 A bitemporal question identifies both dimensions: “What salary applied on
 February 15, using the knowledge committed by February 20?”
 
+This also gives state a [two-dimensional geometric interpretation](../architecture/temporal-geometry.md).
+The axes have different temporal roles: commit order resolves overlapping
+assertions that apply at the requested valid instant. A multidimensional index can
+help locate candidates while the temporal contract defines their visible meaning.
+
 ## A correction received in March
 
 Suppose a record committed on January 5 says an employee's annual salary is

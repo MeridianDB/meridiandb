@@ -105,6 +105,11 @@ those exact transaction frames. Query-optimized layouts remain open. The
 RocksDB, Lucene/Elasticsearch, Quickwit and ClickHouse, keeping durable append,
 index publication and query visibility distinct.
 
+The [temporal geometry guide](docs/architecture/temporal-geometry.md) explains
+bitemporal state as two-dimensional regions with explicit temporal rules, and
+evaluates reusable Lucene/Solr indexing ideas. Specialized indexes remain candidates
+for measured experiments.
+
 SQL, document APIs, network protocols and streaming integrations remain open.
 Replication is a separate planned optional extension. Public interface implementation can wait while query semantics and
 workloads guide the storage experiments. Current-state lookups, historical entity

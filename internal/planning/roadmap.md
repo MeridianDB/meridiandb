@@ -898,6 +898,32 @@ website links match the experimental project. Funding/metadata/strict-doc and
 45-ID queue checks pass. Remote source delivery, docs CI and the actual repository
 Sponsor link remain delivery checks; no new tier, account deletion or engine work.
 
+## MDB-0046 Temporal geometry and index research
+
+**Outcome:** explain bitemporal state as two-dimensional geometry with asymmetric
+temporal roles, distinct from geospatial topology and distance. Research reusable
+Lucene/Solr primitives without treating a point/range index as temporal semantics.
+
+**Complete when:** a navigable public architecture note and precise direct SVG
+explain points versus regions/four endpoints, raw assertions versus resolved state,
+overlap/retraction/predicate correctness, query-visible prefix and coordinate limits.
+Include dated primary evidence and candidate experiments in the existing measured
+index item. Reconcile README/concept/architecture/research links and SVG versus
+generated PlantUML/Mermaid rules in active callers. Validate source/rendered docs,
+both site layouts, SVG and light/dark/mobile use, queue/DAG and diff; commit/push
+and verify CI/automatic Pages/live content. This task changes no engine behavior,
+Maven dependency, temporal promise or implementation cursor.
+
+**Produced artifacts:** [temporal geometry/indexing note](../../docs/architecture/temporal-geometry.md)
+and directly authored SVG. Explain asymmetric axes without global precedence,
+two logical dimensions/four bounds, original assertions versus derived regions,
+retraction/predicate suppression and index publication. Record current primary
+research and future experiment criteria; reconcile diagram-format guidance and
+public callers/navigation. The illustrated history passes 24 literal existing-
+engine checks; both URL builds pass for 51 pages and rendered narrow/theme use is
+reviewed. No index/dependency adoption, temporal change or new benchmark follows.
+Remote CI/Pages/live content remain delivery checks in source completion.
+
 ## MDB-0036 Optional S3-compatible object access
 
 **Parent:** MDB-0011. **Outcome:** implement immutable object creation and bounded
@@ -1019,6 +1045,14 @@ small default fixture; larger or paid runs need an explicit environment/budget.
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped
 physical index or layout change against MDB-0012 under equivalent semantics and
 durability. Candidate formats and organizations require independent evidence.
+
+Use [temporal geometry and indexing](../../docs/architecture/temporal-geometry.md)
+as candidate research, including generic Lucene numeric points/ranges/BKD and Solr
+region/date-range lessons. Compare an entity-first ordered/interval structure with
+a multidimensional candidate only when the selected workload warrants it. Check
+coordinate precision/unbounded bounds, assertion identity, overwrites/retractions,
+predicate visibility and exact indexed prefix before measuring. This is experiment
+guidance, not an admitted dependency or another mandatory optimization.
 
 **Complete when:** correctness/reference/recovery/compaction checks still pass,
 measurements include resource and regression tradeoffs, and an ADR adopts or

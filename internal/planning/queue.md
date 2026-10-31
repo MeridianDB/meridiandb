@@ -12,26 +12,26 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No active item. **MDB-0045 — Dedicated MeridianDB sponsorship** is delivered:
-  approved public listing, project-specific bio/introduction, featured
-  repository, uploaded logo and matching organization/repository descriptions and
-  website links. The actual public Sponsors page shows the new logo and copy;
-  independent API reads match the retained profile source exactly (109/250 bio).
-- FUNDING and README now name MeridianDB, with current sponsorship/brand procedures
-  reconciled. Earlier MasteryEducation recipients/copy remain dated history, not a
-  fallback. Its separate organization and financial settings are unchanged.
-- Source completion `6027538b5d97fe1da3ca61a95bfce52e7977689e` is pushed with
-  matching local/origin tips. Documentation check **41236877168** passes. GraphQL
-  returns enabled Sponsorships and sole GITHUB recipient MeridianDB; the actual
-  header Sponsor link opens the correct public profile, with new avatar/copy/card.
-  README also renders its matching project-specific link. No Pages deploy is
-  triggered by these paths; no Java/Maven inputs change.
-- Funding YAML/README consistency, public metadata, Markdown links, strict docs
-  (unchanged 50-page site), 45-ID queue/card/DAG and diff checks pass. Retain the
-  delivery receipt in progress history; Git owns its commit/push evidence.
-- Starting clean main `ac70cfd2833f7680d31cacae81fade095523a830` matches fetched
-  origin/main; its delivered logo/CI/Pages and earlier sponsorship receipts remain
-  in progress history. No Maven, paid transaction, tier promise or engine change.
+- No active item. **MDB-0046 — Temporal geometry and index research** passes its
+  source criteria: public architecture note, direct SVG, precise overlap/visibility
+  explanation, dated Lucene/Solr candidates and measured-experiment guidance.
+  Knowledge order resolves applicable assertions; this is not global coordinate
+  precedence or an adopted spatial index. Existing temporal semantics are preserved.
+- Lucene Central metadata/source artifact checks identify 10.6.0 as latest stable;
+  source/API and Solr/XTDB evidence is retained. No dependency is selected or added.
+  The existing future MDB-0013 experiment card links these candidates without
+  adding a mandatory optimization or changing the implementation order.
+- The worked numeric example passes 24 literal engine checks at three retained
+  cutoffs. Direct SVG content/self-containment and rendered desktop/narrow/light/
+  dark inspection pass; both strict URL layouts and restored production build
+  pass for **51 pages**, with source/HTML/links/search/sitemap checks. Reconcile
+  diagram rules in AGENTS, the public guide and site operations: direct SVG is
+  committed source; first PlantUML/Mermaid use must add pinned build conversion.
+- Validate the 46-ID queue/card/DAG and final diffs, commit/push, then verify remote
+  ancestry/tips, docs CI, automatic Pages and exact live note/SVG/search/sitemap.
+  Starting clean main `f42c1157018f5a7c40185354cdd755dcd4b6e10c` matches fetched
+  origin/main. Prior delivered sponsorship/branding evidence stays in progress
+  history. No Java/Maven implementation, benchmark or next engine item starts.
 - Separate existing hosting observation: Pages reports https_enforced=false and
   certificate state dns_changed. The canonical HTTPS site works, while the project
   host redirects to HTTP. This sponsorship setup changes no DNS/HTTPS setting.
@@ -79,6 +79,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0043](roadmap.md#mdb-0043-sponsors-profile-description) | Refresh the central Sponsors bio and introduction | — | done | MDB-0042 |
 | [MDB-0044](roadmap.md#mdb-0044-meridiandb-visual-identity) | Create SVG identity and GitHub/website PNG assets | — | done | — |
 | [MDB-0045](roadmap.md#mdb-0045-dedicated-meridiandb-sponsorship) | Configure the approved MeridianDB Sponsors profile and migrate funding links | — | done | MDB-0044 |
+| [MDB-0046](roadmap.md#mdb-0046-temporal-geometry-and-index-research) | Document temporal geometry and reusable Lucene/Solr indexing ideas | — | done | MDB-0009 |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | ready | MDB-0010, MDB-0035 |
 | [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | queued | MDB-0010, MDB-0036 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |

@@ -46,6 +46,12 @@ after recovery and compaction. The
 [temporal decision](../decisions/0003-initial-temporal-semantics.md) records its
 rationale and alternatives.
 
+The [temporal geometry and indexing guide](temporal-geometry.md) models those
+answers in a valid-time/committed-knowledge plane. It separates geometric
+point/rectangle primitives from temporal resolution and identifies Lucene/Solr
+ideas for later measured indexing experiments. No physical index is selected by
+that analogy.
+
 The [persistence boundary specification](persistence-boundaries.md) keeps local
 embedding independently usable and separates ordered journal history,
 immutable-object access, checkpoint selection and derived indexes. Optional

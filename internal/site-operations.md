@@ -96,16 +96,13 @@ preference, not an indexing guarantee. See
 
 ## Architecture diagrams
 
-Mermaid and PlantUML remain options for useful diagrams. Preserve editable `.mmd`
-or `.puml` sources under `docs/diagrams/mermaid/` or `docs/diagrams/plantuml/` when
-introduced. Prefer SVG output with useful image descriptions in Markdown for
-portability across documentation generators.
+Owner clarification, October 31, 2026: direct SVG is permitted as well as PlantUML
+and Mermaid. The public [diagram procedure](../docs/contributing/documentation.md#tooling-and-diagrams)
+owns source/output locations, self-containment, accessibility, render integration
+and visual QA. Root agent rules and operational callers follow that procedure.
 
-There is currently no diagram renderer. Add the first actual diagram together with
-a pinned local renderer integrated into `python scripts/build_docs.py`, before
-strict generation and rendered QA. Both Actions workflows use this shared command.
-Generate SVGs under `docs/assets/diagrams/`, ignore that generated directory, fail
-on rendering errors, and inspect labels, mobile sizing and both themes.
+The current temporal-plane illustration is hand-authored SVG. No PlantUML/Mermaid
+renderer is installed; a code fence or source file alone enables no conversion.
 
 ## Initial hosting and publication
 

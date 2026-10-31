@@ -36,6 +36,16 @@ replication and specialized search indexes remain planned. The
 [persistence boundary specification](persistence-boundaries.md) applies these
 lessons to the local-first library and optional extensions.
 
+## Multidimensional indexing research
+
+The [temporal geometry guide](temporal-geometry.md) adds an October 31, 2026
+comparison of generic two-dimensional regions, bitemporal resolution and geographic
+topology. It examines Lucene numeric points/ranges and BKD pruning, Solr bounding
+boxes, spatial prefix trees and date ranges, with dated primary sources. These
+are candidate access paths rather than adopted dependencies. Preserve whole
+assertion identity, retractions, exact coordinates and the requested committed
+view when testing them; a geometric match alone does not resolve temporal state.
+
 ## What the comparable systems teach
 
 | System and primary evidence | Observed approach | MeridianDB implication |

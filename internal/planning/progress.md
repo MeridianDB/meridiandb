@@ -2521,6 +2521,86 @@ Persist this receipt/queue with a normal internal-only commit/push and verify it
 remote ancestry/tips. That record triggers no additional configured workflows.
 MDB-0036 remains ready; it starts only on a later invocation.
 
+## 2026-10-31 — MDB-0046 Temporal geometry and index research
+
+**Outcome:** fulfill the architecture-documentation request without starting an
+index implementation. Add `docs/architecture/temporal-geometry.md`, linked from
+navigation, concepts, architecture, storage research and README. Explain that
+bitemporal and geographic models specialize generic geometry with different
+semantics; knowledge order resolves only assertions applicable to the requested
+entity/valid instant and cutoff. Distinguish a query point from effective regions,
+two dimensions from four endpoints, raw assertions from materialized visibility,
+and query geometry from index-cell shape. Retain the existing commit-position
+axis, half-open microsecond domain, operation order and retraction behavior.
+Cover safe predicate placement, coordinate correlation, stable identity, exact
+index prefix/reader publication and separate persistence/retention obligations.
+
+**Reuse research:** inspect Lucene LongPoint/LongRange/BKD, Solr spatial bounds/
+prefix trees/date ranges and XTDB bitemporal resolution using dated primary
+sources. Central metadata identifies **org.apache.lucene:lucene-core 10.6.0** as
+latest stable on October 31. Inspect its source artifact's numeric point/range
+contracts, including inclusive numeric range queries. Source archive SHA-256:
+`8823917dc8bf648570bebb282d18e46ad93186ff15878532862d9fd766a34f8c`.
+Retain exact metadata/source evidence under ignored `.local-qa/mdb-0046/`.
+The current-release Javadoc URLs are unavailable through the lookup tool; the
+note labels its published 9.12.2 API references explicitly and cross-checks the
+numeric classes against current source. Solr's retrieved latest guide identifies
+10.1. These are structure/semantic references, not dependency pins. No POM,
+Wrapper, runtime dependency or Maven verification input changes. Add candidate
+comparators/semantic checks to the existing MDB-0013 card, preserving its baseline,
+adopt/reject gate and queue order; add no mandatory optimization or index subtask.
+
+**Diagram choice and rule reconciliation:** the owner explicitly permits direct
+SVG and reminds that PlantUML can convert to SVG during a site build. Use direct
+SVG for the temporal plane, with a 640 × 400 viewBox, nine labeled state regions,
+hatching/empty-set notation for absence, accessible title/description/alt text
+and a self-contained contrasting background. The SVG is its own committed master
+under `docs/assets/illustrations/`. Make the public documentation guide the
+authoritative diagram procedure and reconcile root AGENTS/site operations:
+direct masters are copied assets; first Mermaid/PlantUML source must introduce a
+pinned renderer in the shared build before link validation/generation, with explicit
+hash/bootstrap/runtime requirements. Generated outputs belong in their separate
+ignored directory when introduced. No generated renderer or such source is added
+here, and no conversion pipeline is claimed to exist. A caller scan finds no
+remaining conflicting first-diagram rule among active guidance/ADR entry points.
+
+**Verification:** the example uses C1 put 100 on [Jan 1, Feb 1), C2 put 200 on
+[Jan 10, Jan 20), and C3 retract [Jan 14, Jan 17), all UTC in 2026. Run an ignored
+JDK 25 consumer against existing compiled production classes: **24 literal checks**
+cover three retained cutoffs, boundaries/outside dates and suppression of older
+matching values at January 15. This validates the documentation example; it is
+not a new full engine/reference/durability run. Parse/check the SVG's nine region
+labels, title/description and lack of scripts/external resources. Rasterize only
+for ignored visual QA with the already installed rsvg-convert, not as a new site
+dependency. The production build copies the exact source SVG bytes.
+
+Both strict documentation layouts pass, then restore production output:
+**51 pages**, source/HTML/local-link/search/sitemap checks succeed. Preview the
+figure/caption/events in desktop light and 390-pixel dark views with no page-wide
+overflow, inspect navigation and find the new title through search. Restore
+theme/viewport after inspection. The separate conversation-only explainer stays
+outside the repository in the thread visualization directory; verify its four
+cutoff/correction/retraction/outside-date interactions and 736/360-pixel light/dark
+layout. Correct a query-marker/value-label overlap before final preview. Native
+select value setting works for the sandboxed controls after DOM frame selectors
+miss them; initial preview invocation used an unsupported destination+serve pair,
+then the documented serve mode works. These are preview tooling corrections.
+
+**Source completion/delivery:** local Markdown targets/anchors, the 46-ID
+queue/card/parent/dependency DAG and task-owned working/staged diffs receive final
+review. Starting clean main `f42c1157018f5a7c40185354cdd755dcd4b6e10c` matches
+fetched origin/main; prior sponsorship source/docs CI and public readback pass.
+Commit source/docs/guidance/planning with `Step-ID: MDB-0046` and
+`Step-Result: completed`, push normally, verify ancestry/tips and documentation
+CI/automatic Pages, then check the exact live note/SVG, canonical, search and
+51-page sitemap. Git/final handoff provide the actual SHA/publication outcome.
+No release, Cloudflare, paid infrastructure, engine change or indexing adoption.
+
+**Next recommendation:** MDB-0036 — optional S3-compatible object access and provider
+checks, with fresh Maven version/compatibility research and optional packaging/
+controlled real SDK-HTTP fixture design. Index experiments remain in MDB-0013 after
+the existing workload baseline; neither starts here.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

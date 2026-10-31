@@ -104,10 +104,22 @@ resolved versions and installation hashes. Configuration and plugin support must
 be checked against the pinned Zensical version. Arbitrary MkDocs hooks and plugins
 are not supported merely because they work in MkDocs.
 
-Mermaid and PlantUML are options for useful diagrams. Preserve editable sources
-and publish readable SVGs with useful descriptions. The first diagram must add a
-pinned renderer to the shared build so local checks and CI produce the same assets.
-Check labels, contrast and sizing in both themes.
+Direct SVG, Mermaid and PlantUML are options for useful diagrams. A hand-authored
+SVG is its own editable source: commit it under `docs/assets/illustrations/`, add
+an SVG title/description and meaningful Markdown alternative text, and keep it
+self-contained without scripts or external resources. The site copies these
+assets without a separate renderer.
+
+For Mermaid or PlantUML, preserve editable sources under `docs/diagrams/mermaid/`
+or `docs/diagrams/plantuml/`. Introducing the first generated diagram requires a
+pinned renderer in `scripts/build_docs.py`, before source link validation, so
+local checks, documentation CI and publication all produce the same SVG output.
+Generate output under `docs/assets/diagrams/`; ignore that generated directory
+when introduced and fail the build on renderer errors. Record renderer version,
+artifact hash, bootstrap and runtime requirements in the build instructions.
+A Markdown code fence alone is not a configured conversion pipeline. Check labels,
+contrast and sizing in both themes and at narrow widths. Direct illustrations use
+a self-contained background where needed to preserve contrast across themes.
 
 When changing the documentation checks themselves, run their fixture suite:
 

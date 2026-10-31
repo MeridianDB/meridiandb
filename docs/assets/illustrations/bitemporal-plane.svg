@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400" role="img" aria-labelledby="title desc">
+  <title id="title">One entity across valid time and committed knowledge</title>
+  <desc id="desc">Three retained commit views over January 2026. C1 has value 100 from January 1 to February 1. C2 corrects January 10 to January 20 to 200. C3 retracts January 14 to January 17. Earlier committed views are unchanged. All intervals include their start and exclude their end. Absent regions use diagonal hatching and the empty-set symbol.</desc>
+  <defs>
+    <pattern id="absent" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#f4f6f8"/>
+      <path d="M0 10L10 0" stroke="#a9b7be" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="400" fill="#fff"/>
+  <g fill="none" stroke="#718790" stroke-width="1.5">
+    <path d="M110 54H620V278H110Z"/>
+    <path d="M110 282V290M258 282V290M423 282V290M620 282V290"/>
+  </g>
+  <g>
+    <path d="M110 57H258V127H110Z" fill="#dcecf7"/>
+    <path d="M258 57H324V127H258Z" fill="#c9eee4"/>
+    <path d="M324 57H373V127H324Z" fill="url(#absent)"/>
+    <path d="M373 57H423V127H373Z" fill="#c9eee4"/>
+    <path d="M423 57H620V127H423Z" fill="#dcecf7"/>
+    <path d="M110 131H258V201H110Z" fill="#dcecf7"/>
+    <path d="M258 131H423V201H258Z" fill="#c9eee4"/>
+    <path d="M423 131H620V201H423Z" fill="#dcecf7"/>
+    <path d="M110 205H620V275H110Z" fill="#dcecf7"/>
+  </g>
+  <g font-family="system-ui, sans-serif" font-size="26" fill="#15323f" text-anchor="middle">
+    <text x="184" y="101">100</text>
+    <text x="291" y="101">200</text>
+    <text x="349" y="101">∅</text>
+    <text x="398" y="101">200</text>
+    <text x="521" y="101">100</text>
+    <text x="184" y="175">100</text>
+    <text x="340" y="175">200</text>
+    <text x="521" y="175">100</text>
+    <text x="365" y="249">100</text>
+    <text x="94" y="101" text-anchor="end">C3</text>
+    <text x="94" y="175" text-anchor="end">C2</text>
+    <text x="94" y="249" text-anchor="end">C1</text>
+    <text x="110" y="320" text-anchor="start">Jan 1</text>
+    <text x="258" y="320">Jan 10</text>
+    <text x="423" y="320">Jan 20</text>
+    <text x="620" y="320" text-anchor="end">Feb 1</text>
+    <text x="365" y="359">Valid time (2026 dates, UTC)</text>
+    <text transform="translate(28 166) rotate(-90)">Knowledge cutoff</text>
+    <text x="365" y="392">∅ = absent · intervals [start, end)</text>
+  </g>
+</svg>
