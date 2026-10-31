@@ -120,13 +120,15 @@ range compaction under a separately verified contract.
 [ADR 0018](0018-reclamation-inventory.md) now implements a bounded inventory of
 verified obsolete physical objects under explicit retained roots and exclusive
 reader protection. It removes no files and preserves this decision's complete
-logical-history contract. Ordered removal and its integrated conformance remain
-required before claiming physical reclamation.
+logical-history contract. Ordered removal is implemented separately and
+[integrated conformance](../development/compaction-conformance.md) now exercises
+these stages together.
 
 ## Protected removal integration
 
 [ADR 0019](0019-protected-physical-reclamation.md) implements the separate remover:
 fresh inventory under both owners, retained-file/journal/namespace synchronization,
 metadata retirement before unused dependencies and conservative interrupted-orphan
-retention. This record's stage remains distinct; full integrated temporal/crash/space
-conformance is separately required.
+retention. The stages remain distinct; [integrated conformance](../development/compaction-conformance.md)
+now exercises full temporal histories, process recovery and named-file lengths
+across them. Evidence checked October 31, 2026.

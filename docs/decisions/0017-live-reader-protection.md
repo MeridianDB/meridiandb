@@ -98,5 +98,6 @@ cleanup requirements above continue to apply.
 [ADR 0019](0019-protected-physical-reclamation.md) implements the separate remover:
 fresh inventory under both owners, retained-file/journal/namespace synchronization,
 metadata retirement before unused dependencies and conservative interrupted-orphan
-retention. This record's stage remains distinct; full integrated temporal/crash/space
-conformance is separately required.
+retention. The stages remain distinct; [integrated conformance](../development/compaction-conformance.md)
+now exercises full temporal histories, process recovery and named-file lengths
+across them. Evidence checked October 31, 2026.

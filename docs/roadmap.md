@@ -32,6 +32,7 @@ There is no release date or stable API commitment.
 | [Live reader protection](development/reader-protection.md) | Shared cross-process barrier independent of store lifetime; any live lazy reader excludes future removal |
 | [Reclamation inventory](development/reclamation-inventory.md) | Bounded complete graph/owner-prefix checks, explicit retained roots and immutable obsolete-object metadata; no deletion |
 | [Protected physical reclamation](development/physical-reclamation.md) | Fresh owner-bound inventory, durable live roots, metadata retirement before dependency removal and conservative interruption recovery |
+| [Integrated compaction conformance](development/compaction-conformance.md) | Actual fixture/seed publication and removal, historical queries/retries, richer process stops and named-file length accounting |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 
 `InMemoryEngine` retains state only in memory. `LocalDatabase` recovers stored
@@ -79,8 +80,9 @@ same-cutoff replacement through the checkpoint protocol. Shared cross-process
 reader protection now outlives store close. A bounded [inventory](development/reclamation-inventory.md)
 verifies selected/retained roots and reports obsolete dependencies. [Protected removal](development/physical-reclamation.md) now holds store ownership
 and exclusive protection, establishes retained roots and synchronizes metadata
-retirement before unused dependencies. Full integrated temporal/crash/space
-conformance remains separate. Earlier cutoffs, lazy readers, recovery and backup roots
+retirement before unused dependencies. [Integrated local conformance](development/compaction-conformance.md)
+now combines full fixture/seed histories, richer process exits and exact named-file
+space accounting. Earlier cutoffs, lazy readers, recovery and backup roots
 remain part of that safety contract.
 
 An object-storage backend needs its own immutable-object publication, conditional

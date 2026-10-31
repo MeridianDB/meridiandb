@@ -102,8 +102,9 @@ those objects and selects the next generation at the same cutoff. A shared [read
 access across store lifetimes/processes. A bounded [reclamation inventory](../development/reclamation-inventory.md)
 now verifies retained roots and candidate metadata without deletion. The separate
 [remover](../development/physical-reclamation.md) recomputes under both owners and
-orders durable metadata retirement before unused dependencies. Full integrated
-reclamation conformance remains separate.
+orders durable metadata retirement before unused dependencies. The
+[integrated conformance suite](../development/compaction-conformance.md) now checks
+fixture/seed histories, process recovery and named-file space accounting together.
 
 ## Establish correctness before optimizing
 

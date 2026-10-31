@@ -222,7 +222,7 @@ so a new session can work correctly without relying on earlier conversations.
   with lazy opens. Keep the guard permanent, reserve its absent slot during object
   creation/publication, share one JVM channel, require actual shared-lock support
   and retain uncertain cleanup reservations. Reader close invalidates access first
-  and retries release; database cleanup must still attempt every owner. Future
+  and retries release; database cleanup must still attempt every owner. Physical
   removal holds both store ownership and exclusive protection through checks/removal/sync;
   any live reader defers all deletion. All participating readers use the protocol
   and one loaded adapter copy per JVM; quiesce legacy unprotected readers first.
@@ -252,7 +252,14 @@ so a new session can work correctly without relying on earlier conversations.
   names by reopen. Preserve orphaned dependencies after interrupted retirement;
   no stale preview, filename sweep or automatic intent replay grants permission.
   Test per-object/boundary interruption, cross-process admission/reader deferral,
-  cleanup and capacity; keep full integrated conformance separately required.
+  cleanup and capacity. Follow [integrated conformance](docs/development/compaction-conformance.md)
+  when changing compaction/reclamation: preserve canonical literal outcomes and
+  original Head/named-view cutoffs, run real publication/removal with historical
+  reference/dense and retry checks, and cover representative process boundaries.
+  Reconcile exact remaining names/encoded lengths against removal receipts. Use
+  metadata-only attributes for retained-reader stages; capture raw journal/control
+  images only after all owners close. Distinguish named bytes from freed blocks/performance.
+  Keep pending candidates and interrupted orphans within their inspected policy.
 
 ## Verification and experiments
 

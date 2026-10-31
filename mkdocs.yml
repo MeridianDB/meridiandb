@@ -91,6 +91,7 @@ nav:
       - Reader protection: development/reader-protection.md
       - Reclamation inventory: development/reclamation-inventory.md
       - Physical reclamation: development/physical-reclamation.md
+      - Compaction conformance: development/compaction-conformance.md
       - History compaction: development/history-compaction.md
       - Local database: development/local-database.md
       - Durability conformance: development/durability-conformance.md

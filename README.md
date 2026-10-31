@@ -108,7 +108,9 @@ A bounded [reclamation inventory](docs/development/reclamation-inventory.md) now
 verifies retained roots and reports obsolete physical objects without deletion.
 [Protected physical removal](docs/development/physical-reclamation.md) now retires
 verified obsolete metadata before unused dependencies, retaining full logical history.
-Planned work covers integrated reclamation conformance, object storage and
+[Integrated conformance](docs/development/compaction-conformance.md) now checks
+canonical/seeded histories, richer process stops and exact named-file space accounting
+through actual publication and removal. Planned work covers object storage and
 reproducible workload measurements. The initial target is an embedded, single-node
 Java engine built with Maven.
 
@@ -126,15 +128,15 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 840 JUnit test invocations: 71 temporal/engine, 29 journal codec,
+This runs 886 JUnit test invocations: 71 temporal/engine, 29 journal codec,
 58 local journal I/O/process/prefix, 27 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
 37 local database recovery and 49 commit preparation/initialization/publication
 checks, plus 50 durable process/retry/temporal conformance checks,
 55 typed query checks, 57 pure compaction checks, 55 local compaction
-publication/integration/process checks, 70 reader protection/identity/cleanup checks
+publication/integration/process checks, 70 reader protection/identity/cleanup checks,
 69 verified inventory/root/budget/process checks and 93 protected physical
-removal/fault/process checks. Coverage
+removal/fault/process checks, plus 46 integrated compaction/reclamation cases. Coverage
 includes all 84 contract expectations against
 both engine and reference, 16 seeded histories with 512 new transactions applied to
 each, lifecycle/concurrency, golden journal bytes, short/failed I/O, repair

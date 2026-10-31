@@ -113,7 +113,7 @@ The standard [Java verification](build.md) command is:
 ./mvnw -B verify
 ```
 
-The current default suite has **840 JUnit test invocations**: 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
+The current default suite has **886 JUnit test invocations**: 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50
 [durable conformance checks](durability-conformance.md), 49
 [commit preparation/initialization/publication checks](local-database.md), 37
 [local database recovery checks](local-database.md), 39
@@ -156,5 +156,6 @@ The separate local compaction suite verifies installation/reuse/publication agai
 actual journal bytes, a checkpoint plus uncheckpointed tail, historical queries and
 request identities after writable reopen. Its four process exits select only the
 old or new complete graph while retaining old files. It supplements the pure
-fixture/seed comparisons; full canonical/seeded replacement plus physical-removal
-conformance remains planned with protected reclamation.
+fixture/seed comparisons. The [integrated suite](compaction-conformance.md) adds
+full canonical/seeded histories through actual publication/removal and both reopen
+modes, plus richer process stops and exact named-file space accounting.

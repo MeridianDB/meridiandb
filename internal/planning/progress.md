@@ -1926,6 +1926,118 @@ and query histories, original retry identities, interruption/reopen and measured
 retained-space evidence. Keep MDB-0010 open until all original integration criteria
 pass; no object-store or performance work starts from this recommendation.
 
+## 2026-10-31 — MDB-0029 Integrated compaction/reclamation conformance
+
+**Outcome:** reconcile clean main with remote
+`9607a5b78c526aaa071f69b11b1507251846d0f5`; Java 41163288077, documentation
+41163288024 and Pages 41163288011 passed, with prior exact 44-page live QA.
+Add six test-only files joining actual durable writes/checkpoint source installation,
+pure compaction, verified replacement publication, source-reader/backup retention,
+physical removal and read-only/writable reopen. Preserve all original canonical
+fixtures, seed values/generator draw order, formats, logical history and request IDs.
+No production code, runtime dependency, POM or wrapper change is needed.
+
+**Semantic matrix:** `LocalCompactionFixtureConformanceTest` runs all eight unchanged
+histories (five temporal/84 steps plus three query/90 steps) in full-checkpoint and
+checkpoint-tail shapes: **16 dynamic cases, 348 honest real literal steps and the
+same 348 independent-reference steps**. Every one of 48 actual accepted new writes
+completes maintenance before later literal steps. Capture original Head/named-view
+positions; never manufacture replay flags by replaying literals into recovered
+state. Additional every-cutoff query and original request sweeps run at each stage.
+
+`LocalCompactionPropertiesConformanceTest` preserves all **16 persisted seeds**,
+32 new writes per seed (**512 total**) and historical/retry random draw order.
+Each seed has two maintenance cycles: head16/checkpoint8/target1024, then head32/
+checkpoint32/default target (**32 cycles**). Compare every available historical
+cutoff, including all 33 final cutoffs, against independent backward ReferenceModel
+and forward dense cells for Get/Scan/Sum/Select/FilterScan and signed predicates.
+Check pinned engine-view behavior, actual writable reopen between new writes,
+read-only/writable query/lookup sweeps, identical/conflicting retries and unchanged
+head. `LocalCompactionConformanceSupport` verifies/reuses existing whole content IDs,
+pins a nonempty just-published source across replacement/owner close, proves deferral
+and lazy access, applies explicit source retention, then performs actual unretained
+removal. Journal images are read only after every owner/source pin closes.
+
+**Richer storage/process matrix:** `LocalCompactionPipelineHistory` supplies
+`pipeline-12-v1`, 12 acknowledged records, checkpoint8+tail4, corrections/retractions,
+no-ops, Unicode/extreme values and original retries. Its independent ReferenceModel
+checks **259 query cases at each of 13 cutoffs**, plus literal anchors and every
+original request/retry/conflict. Three layout cases combine8→1, split1→3 at512bytes,
+and verify unchanged1→1 reuse. Old source readers, explicit backup roots and returned
+heap snapshots remain valid through real publication/removal.
+
+`LocalCompactionPipelineCrashTest` adds **11 bounded child-JVM halts**: four actual
+publication boundaries and seven removal stops (including first/last manifest and
+segment effects). Verify exact complete new segment images/IDs even when unselected,
+exact candidate manifest bytes/ID, remaining filename sets, all surviving graphs
+and actual owner prefix, acknowledged historical results and retries. A pending
+candidate refuses reclamation with bytes unchanged; interrupted retirement preserves
+new orphans without stale-list deletion. Logs stay outside store homes. Capability
+skips are only explicit unsupported directory sync, not ordinary I/O/permissions;
+process exit while the OS runs is distinct from device power loss.
+
+**Space evidence:** compare exact names and regular-file lengths at baseline,
+source, replacement, backup-retained cleanup and final cleanup. Metadata-only
+attributes may observe retained-reader stages; raw snapshots wait for all OS-backed
+owners to close. The unchanged 1,518-byte journal, two empty controls, 33-byte note
+and three-byte diagnostic segment are preserved. Named-byte totals are:
+
+| Layout | Baseline | Source | Published | Backup retained | Reclaimed | Final receipt bytes |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Combine | 1,714 | 4,344 | 5,686 | 5,526 | 2,896 | 2,630 |
+| Split | 1,714 | 3,056 | 4,766 | 4,606 | 3,264 | 1,342 |
+| Unchanged | 1,714 | 3,056 | 3,272 | 3,112 | 2,896 | 216 |
+
+Each backup cleanup removes 160 genesis bytes; final differences exactly match
+receipts. Prefix encoded input/output is 2,022/1,126 (combine), 1,126/1,382 (split),
+1,126/1,126 (unchanged). Split overhead is explicitly larger, so no universal
+space-saving claim. The committed public JSON records all 15 layout/stage category
+measurements and receipt byte totals; focused and full-run outputs agree exactly.
+These are file lengths, not allocated/freed blocks or throughput/latency evidence.
+
+**Research/review:** fresh no-cache fetch of all twelve Central metadata sources at
+**October 31, 10:11:30 Toronto / 14:11:30 UTC**, plus official Maven/plugin/JUnit/Jackson
+compatibility. Existing pins remain latest stable: Maven 3.10.0 (metadata 4.0.0-rc-7),
+wrapper distribution/plugin 3.3.4, clean/resources 3.5.0, compiler 3.16.0,
+surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4;
+Maven/plugin 4 entries remain prereleases. Record exact coordinates/URLs in build.md.
+No new external durability decision is needed. Independent review checks all six
+Java files and the guide, driving explicit nonempty-source pin admission, both reopen
+modes and metadata-only-versus-raw observation precision. No material finding remains.
+
+**Verification:** focused
+`./mvnw -B -ntp -Dtest=LocalCompactionFixtureConformanceTest,LocalCompactionPropertiesConformanceTest,LocalCompactionPipelineConformanceTest,LocalCompactionPipelineCrashTest test`
+passes **46 tests**, zero failures/errors/skips. Full `./mvnw -B -ntp verify` passes
+**886 tests**, zero failures/errors/skips locally on macOS/arm64. All **13 examples**
+pass. JAR inspection retains **124 Java 25 classes**, major 69, with no test oracle,
+fixture, seed, JUnit or Jackson contents; unchanged production SHA-256:
+`6e222a32fae1aaaf00846f70b96f34a99b43d0cf7d3f45c7fa77b96d05ad5a35`.
+No library release/upload. CI retains its existing 13 example steps on both platforms.
+
+**Documentation/planning:** add central conformance guide, measured tables/static
+JSON and navigation; replace pending integration statements at existing README/home/
+architecture/research/roadmap, build/engine/reference/durability, compaction/removal/
+inventory guides and ADR 0016–0019/index callers. Persist fixture/cutoff/oracle/raw-
+handle/space evidence standards in AGENTS. Public copy contains technical behavior,
+not workflow narration. Both URL layouts pass shared source/HTML/links/search/
+sitemap QA for **45 pages**. Browser inspection verifies tables, exact measured-
+fixture search anchor and navigation; theme/assets unchanged with no new dark/mobile
+claim. Validate 33 unique IDs, dependencies/parents/DAG, completed children, no active
+row and only MDB-0011 ready; reconcile Markdown paths and task-owned staged diff.
+Scratch receipts remain ignored in `.local-qa/mdb-0029/`.
+
+**Closure/delivery:** complete MDB-0029 and close MDB-0010 against every original
+parent criterion; all required children are done. Use completion trailers
+`Step-ID: MDB-0029` / `Step-Result: completed`, normal push to origin/main and
+remote ancestry/tip/clean-tree verification. Git supplies this commit's SHA; final
+handoff reports actual Java/docs/automatic Pages and exact live-page/search/sitemap/
+structured-evidence checks. No Cloudflare/infrastructure or artifact deployment.
+
+**Next recommendation:** MDB-0011 — add the object-storage backend and conformance
+checks. Refine that broad card into bounded protocol/library/emulator steps before
+implementation; keep real-cloud spending, credentials and infrastructure changes
+outside implicit source-work authority. This recommendation starts no backend work.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

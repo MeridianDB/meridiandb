@@ -141,6 +141,7 @@ removal and selected-history reopen. Focused tests:
 Unit faults check before/after effects, ordering, root forces, poisoning and cleanup.
 Real process tests check cooperating reader exclusion and termination at removal
 boundaries, preserving complete selected graphs and safe retry. These cases cover
-the local removal protocol; full canonical/seeded compaction-removal conformance and
-space measurements remain separate from this evidence. See
+the local removal protocol. [Integrated conformance](compaction-conformance.md)
+adds full canonical/seeded publication/removal histories, richer process exits and
+named-file space measurements. See
 [ADR 0019](../decisions/0019-protected-physical-reclamation.md).

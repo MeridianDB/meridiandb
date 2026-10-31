@@ -6,7 +6,7 @@ description: Recompute retention under both local owners, establish durable live
 # ADR 0019: Protected physical reclamation
 
 - **Date:** October 30, 2026
-- **Status:** Local removal protocol implemented; integrated conformance remains separate
+- **Status:** Local removal protocol and integrated local conformance implemented
 - **Scope:** Explicit physical cleanup with complete logical history retained
 
 ## Context
@@ -80,6 +80,7 @@ remain separate choices rather than prerequisites for this conservative remover.
 
 Coarse reader protection can indefinitely defer cleanup. Retained roots and bounded
 inspection can prevent progress near namespace limits. Receipts count synchronized
-names and encoded lengths, not freed blocks. Full temporal/reference integration,
-crash/recovery and physical-space evidence must still be evaluated together before
-claiming broader compaction/reclamation conformance.
+names and encoded lengths, not freed blocks. [Integrated conformance](../development/compaction-conformance.md)
+now combines canonical/seeded temporal and retry histories, richer process stops
+and exact named-file length accounting. This bounded evidence supplies local
+conformance coverage without a device power-loss or performance claim.

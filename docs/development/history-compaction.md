@@ -253,6 +253,7 @@ Real-file checks retain old lazy readers, exclude engine writers and reopen exac
 history. Child JVMs halt at the four dependency/candidate/rename/directory boundaries
 and verify the selected old or new complete graph with journal-tail recovery and
 original request retries. These process exits do not simulate device power loss.
-Full canonical/seeded publication with protected physical removal and retained-space
-accounting remains a required integrated conformance check alongside the
-implemented [removal protocol](physical-reclamation.md).
+[Integrated conformance](compaction-conformance.md) now exercises full canonical/seeded
+publication with the actual [removal protocol](physical-reclamation.md), richer
+process stops and exact retained-file length/count accounting. These results do
+not measure freed blocks or performance.

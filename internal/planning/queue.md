@@ -12,34 +12,31 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- No executable item is active. **MDB-0033's source criteria pass**: `reclaim`
-  recomputes complete owner-bound inventory under both owners, forces journal and
-  retained manifest/segment names, retires/synchronizes obsolete metadata before
-  unused dependencies, then syncs and releases protection before a receipt.
-- Close **MDB-0031** (inventory plus removal) and **MDB-0028** (reader protection
-  plus reclamation): original reader/alias/retention/interruption/capacity criteria
-  pass. **MDB-0010 remains expanded** until required MDB-0029 integrates canonical/
-  seeded semantics, actual compaction/removal, crash/recovery and space evidence.
-- Next source-ready item: **MDB-0029 — Verify compaction, reclamation, crash and
-  temporal conformance**. Confirm this completion on remote main and inspect Java,
-  documentation and automatic Pages outcomes before claiming it. Preserve all
-  original parent criteria; an implementation receipt is not the integrated gate.
-- All **840 local tests** and **thirteen examples** pass without skips. New removal
-  coverage is 71 unit/fault, 15 real integration and seven child-JVM halt cases.
-  Both URL layouts pass documentation QA for **44 pages**.
-- Known live-reader contention defers all removal. Explicit retained/backup IDs
-  must exist; unknown/orphan/diagnostic objects and full journal/controls stay retained.
-  Pending candidates refuse cleanup. Reopen recomputes; interrupted metadata
-  retirement can leave preserved orphan segments, with no stale-preview sweep or
-  persistent intent. Post-delete-attempt IO/runtime failure is explicitly uncertain;
-  native-close quarantine and independent protection/publisher cleanup remain intact.
-- Inventory graph budgets remain separate from owner-journal I/O and repeated
-  per-delete identity checks. Removal uses no new object slot besides the previously
-  reserved permanent guard. A full-entry case recovers publication headroom, but
-  retained-root/diagnostic/comparison pressure can still prevent cleanup progress.
-- Prior `2ffdfef3101b5cbd1c322a5863162ba5300c6cd0` matched origin/main; Java
-  40941178083, docs 40941178045 and Pages 40941177915 passed. Its handoff verified
-  exact 42-page live content/search/sitemap. Git/workflows own current delivery state.
+- No executable item is active. **MDB-0029's source criteria pass**, closing
+  **MDB-0010** against its original compaction/reclamation integration criteria.
+  Actual durable fixture/seed histories now pass through source publication,
+  replacement publication, source-reader/backup retention, removal and read-only/
+  writable reopen, with exact historical queries and request identity preserved.
+- All **886 local tests** and **thirteen examples** pass without skips. The 46 new
+  cases are 16 canonical full/tail streams, 16 persisted seeds, three space layouts
+  and eleven richer-history process stops. No production code, fixture/seed corpus,
+  format, runtime dependency or POM/wrapper change is required.
+- New evidence includes 348 real literal steps plus independent reference literals,
+  512 seeded writes/32 maintenance cycles, every final cutoff zero through 32,
+  exact pending/output bytes/IDs, protected lazy readers, unchanged full journal and
+  conservative diagnostic/orphan retention. Named-file lengths/counts reconcile
+  with receipts across five stages; they are not freed blocks or performance.
+- Next source-ready item: **MDB-0011 — Add an object-storage backend and conformance
+  checks**. Verify this completion on remote main and Java/docs/automatic Pages
+  before claiming it. Refine the broad backend card into bounded work as needed;
+  keep real-cloud spending/credentials/infrastructure outside implicit authority.
+- Public conformance guide and structured three-layout evidence are added; both
+  URL layouts pass shared source/HTML/link/search/sitemap QA for **45 pages**.
+  Required capabilities/provider assumptions, complete logical history and the
+  absence of device-power-loss or performance evidence remain explicit.
+- Prior `9607a5b78c526aaa071f69b11b1507251846d0f5` matched origin/main; Java
+  41163288077, docs 41163288024 and Pages 41163288011 passed. Its handoff verified
+  exact 44-page live content/search/sitemap. Git/workflows own this delivery state.
 
 ## Ordered work
 
@@ -65,7 +62,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0024](roadmap.md#mdb-0024-durable-commit-publication) | Add forced commit publication and acknowledgement | MDB-0008 | done | MDB-0007, MDB-0023 |
 | [MDB-0025](roadmap.md#mdb-0025-durable-crash-and-retry-conformance) | Verify durable crash, retry and temporal conformance | MDB-0008 | done | MDB-0007, MDB-0024 |
 | [MDB-0009](roadmap.md#mdb-0009-temporal-query-operators) | Implement temporal query operators and interval scans | — | done | MDB-0008 |
-| [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | expanded | MDB-0009 |
+| [MDB-0010](roadmap.md#mdb-0010-compaction-and-retention) | Add history-preserving compaction and reclamation | — | done | MDB-0009 |
 | [MDB-0026](roadmap.md#mdb-0026-bounded-history-compaction) | Define retention and implement bounded pure history compaction | MDB-0010 | done | MDB-0009 |
 | [MDB-0027](roadmap.md#mdb-0027-local-compaction-publication) | Install and publish verified local compaction replacements | MDB-0010 | done | MDB-0009, MDB-0026 |
 | [MDB-0028](roadmap.md#mdb-0028-reader-safe-physical-reclamation) | Protect readers and reclaim obsolete physical objects safely | MDB-0010 | done | MDB-0009, MDB-0027 |
@@ -73,8 +70,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0031](roadmap.md#mdb-0031-protected-physical-reclamation) | Reclaim obsolete objects under exclusive reader protection | MDB-0028 | done | MDB-0009, MDB-0027, MDB-0030 |
 | [MDB-0032](roadmap.md#mdb-0032-verified-reclamation-inventory) | Inspect retained roots and verified obsolete objects | MDB-0031 | done | MDB-0009, MDB-0027, MDB-0030 |
 | [MDB-0033](roadmap.md#mdb-0033-ordered-protected-removal) | Remove verified obsolete objects with ordered synchronization | MDB-0031 | done | MDB-0009, MDB-0027, MDB-0030, MDB-0032 |
-| [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | ready | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
-| [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | queued | MDB-0010 |
+| [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | done | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
+| [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | ready | MDB-0010 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013 |

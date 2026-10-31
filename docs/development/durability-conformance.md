@@ -143,3 +143,12 @@ Primary sources checked October 28, 2026 support this distinction:
 No throughput, bounded-total-memory, automatic checkpoint, compaction or
 reclamation result follows from conformance. Recovery retains and reconstructs
 full history; see the [local database costs](local-database.md#cost-and-verification).
+
+## Compaction and reclamation integration
+
+The [integrated conformance suite](compaction-conformance.md) now carries the full
+literal fixture/seed histories through actual replacement publication, reader/
+backup protection and physical removal. A richer 12-transaction process matrix
+checks publication/removal stops against every historical cutoff and original
+request identity. Named-file length accounting reconciles exact removal receipts;
+it makes no allocated-block, throughput or device power-loss claim.

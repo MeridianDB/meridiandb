@@ -58,8 +58,9 @@ holds a shared barrier across store close and cooperating processes. A bounded
 [reclamation inventory](development/reclamation-inventory.md) now verifies retained
 roots and obsolete-object metadata without deletion. [Protected physical removal](development/physical-reclamation.md)
 now recomputes that inventory and synchronizes metadata retirement before unused
-dependencies. Full integrated conformance and layout performance experiments need
-their own evidence.
+dependencies. [Integrated conformance](development/compaction-conformance.md) checks
+canonical/seeded histories, process stops and named-file lengths across those stages.
+Layout performance experiments remain open.
 SQL, replication and integrations remain open design questions.
 
 ## Why keep both times?

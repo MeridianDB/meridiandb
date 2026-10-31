@@ -133,5 +133,5 @@ The tests cover roots and shared dependencies, exact bounds, invalid old/new sta
 actual journal binding, immutable results, diagnostic evidence, alias rejection,
 protection cleanup and cross-process reader lifetime. They establish inventory
 behavior. Actual removal and interrupted deletion have their own
-[protocol checks](physical-reclamation.md); full integrated temporal/crash/space
-conformance remains separate. See [ADR 0018](../decisions/0018-reclamation-inventory.md).
+[protocol checks](physical-reclamation.md); [integrated conformance](compaction-conformance.md)
+now joins full temporal histories, process recovery and named-file space accounting. See [ADR 0018](../decisions/0018-reclamation-inventory.md).

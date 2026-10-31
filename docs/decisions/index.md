@@ -28,7 +28,7 @@ permanent commitment.
 | [0016: History-preserving compaction](0016-history-preserving-compaction.md) | Pure repacking/publication implemented; protected removal separate | Retain all transactions and request IDs; bound repacking and separate publication from protected physical reclamation |
 | [0017: Live checkpoint reader protection](0017-live-reader-protection.md) | Shared barrier implemented; protected removal separate | Independent lazy-reader lifetime, cross-process exclusion and fail-closed cleanup |
 | [0018: Verified reclamation inventory](0018-reclamation-inventory.md) | Inventory implemented; protected removal separate | Explicit retained roots, complete owner-bound verification, conservative diagnostic handling and bounded candidate accounting |
-| [0019: Protected physical reclamation](0019-protected-physical-reclamation.md) | Local removal implemented; integrated conformance remains separate | Recompute under both owners, force live roots, retire metadata before dependencies and preserve interrupted orphans |
+| [0019: Protected physical reclamation](0019-protected-physical-reclamation.md) | Local removal and integrated local conformance implemented | Recompute under both owners, force live roots, retire metadata before dependencies and preserve interrupted orphans |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

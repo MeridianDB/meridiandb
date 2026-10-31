@@ -500,6 +500,13 @@ all original temporal/recovery/crash/space criteria together. Preserve the origi
 criteria and keep this parent expanded until all children and integration pass.
 Pure plans and durable replacement publication grant no deletion permission.
 
+**Completion evidence:** all required children now pass. MDB-0029 connects the
+unchanged literal/seed corpora to actual durable publication, protected retention,
+physical removal and both reopen modes, with richer process stops and exact
+named-file lengths/counts. All 886 tests and thirteen examples pass locally; original
+query/recovery/reader/crash/space criteria are satisfied within stated provider/
+process-failure limits. No history pruning, performance or freed-block claim follows.
+
 ## MDB-0026 Bounded history compaction
 
 **Outcome:** distinguish logical history retention from physical object retention,
@@ -678,6 +685,18 @@ active views/lazy readers remain valid, interrupted publication/removal has only
 specified complete outcomes and no dangling selected graph. Compare actual retained
 bytes/counts to encoded plan figures without claiming query speedups. Preserve
 failing seeds and provider/device assumptions; close MDB-0010 only with this evidence.
+
+**Produced artifacts:** six new test-only files (four suites/two helpers),
+[integrated conformance guide](../../docs/development/compaction-conformance.md) and
+[structured space evidence](../../docs/development/evidence/compaction-space-v1.json).
+Sixteen literal cases execute 348 real steps/48 maintenance cycles; sixteen seeds
+supply 512 actual new writes/32 cycles with every historical cutoff, read-only and
+writable reopen, independent reference/dense queries and request identity. Three
+layouts reconcile five-stage exact names/lengths; eleven process exits verify
+richer history and complete object evidence. All 886 local tests and thirteen
+examples pass without skips. No production/format/dependency changes. Original
+MDB-0010 criteria now pass; close that parent and make MDB-0011 source-ready after
+remote delivery/CI, preserving provider/device and non-performance limits.
 
 ## MDB-0011 Object-storage backend
 

@@ -129,7 +129,8 @@ protect cooperating lazy readers. [Verified inventory](../development/reclamatio
 now applies explicit retained roots and bounded complete owner-journal checks without
 deletion. [Protected removal](../development/physical-reclamation.md) now recomputes
 that inventory and durably retires metadata before unused dependencies. Full
-integrated conformance remains separate required work. No per-generation cleanup-progress guarantee is implied.
+[integrated conformance](../development/compaction-conformance.md) now checks
+canonical/seeded histories, process recovery and named-file lengths together. No per-generation cleanup-progress guarantee is implied.
 
 [ADR 0018](../decisions/0018-reclamation-inventory.md) refreshes Lucene commit-file,
 retention and snapshot documentation alongside JDK deletion/locking and namespace
