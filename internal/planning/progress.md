@@ -4040,6 +4040,94 @@ library release/upload or cloud/account/DNS/hosting action begins here.
 owned startup, complete local journal validation and prefix-once/suffix-only replay
 before exposing the read-only temporal engine.
 
+
+## 2026-10-31 — MDB-0060 Core pinned checkpoint recovery
+
+**Preflight/ownership:** start clean main/origin at
+`54dbe439e2c9b38bea4de495e1a8636e2452faf5`; verify previous source
+`c8d3778f495f971f1a4073e69d0cdb69ddab3133` ancestry and successful Java
+41263069120, docs 41263069123 and Pages 41263069096. Claim only MDB-0060.
+The coordinator owns production, public documentation, planning and Git; two
+bounded helpers supply independent focused/conformance tests and a third supplies
+Maven/ownership/documentation review. No helper advances shared planning or Git.
+
+**Implementation/decision:** add six/seven-argument LocalDatabase object-checkpoint
+factories and private ObjectSource; no provider dependency or arbitrary backend/
+restore callback. Validate arguments before effects, acquire concrete local owners,
+freeze observed H, reject H below optional minimum before object reads, and load
+History inside that same ownership. Reuse private reconstruction: restore prefix
+once, validate complete journal order/cardinality through H, apply only the suffix
+and expose no database before success. Preserve primary/suppressed failures and
+independently release owners; never close the caller adapter. Ownership lasts until
+database close; views invalidate first. Transactions remain rejected, including
+exact retries. Ordinary local create/open/writable selection and acknowledgement
+are unchanged. Explicit pins intentionally ignore unrelated newer/damaged local
+manifests and provider current-head selection; invalid pins never fall back.
+
+ADR 0031/guide/rules explain full matching local journal requirements, genesis C=0,
+optional minimum as a sequence floor rather than content/ack proof, unknown clean
+lost tails, resource lifetimes and graph limits versus initial journal scanning,
+full replay and retained heap. Managed S3 admission, writable remote recovery,
+replication and remote deletion remain their separate steps. Preserve all 62 IDs
+and every original MDB-0038 criterion; no new item is admitted.
+
+**Research:** all fourteen pinned Maven coordinates freshly checked at
+**November 1 02:39:05 UTC /October 31 22:39:05 EDT**, official compatibility
+02:39:06 UTC. All remain latest stable: Maven 3.10.0, wrapper distribution/plugin
+3.3.4, clean/resources 3.5.0, compiler 3.16.0, Surefire 3.6.1, jar 3.5.1,
+install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and optional S3/HTTP SDK 2.57.8.
+Exclude Maven 4 RC/plugin beta lines; no POM/wrapper change. Metadata summary hash
+`fa20566676fa518c2b80a3158505953c07b38f4ff5ea9e909f96e7624c7674b3`,
+compatibility `ad35018de45a1868ab24393eea14b1869663c910597179e0de99937cccece86e`,
+report `9df95b2db28da142d7d1333d25f531dbdbd85955cd917ceb78edccc572904e4c`.
+Reuse MDB-0059's dated XTDB/Lucene primary recovery evidence at 01:46:44 UTC /
+21:46:44 EDT; no new external-behavior claim. Raw research/build/QA files remain
+ignored under `.local-qa/mdb-0060/`.
+
+**Verification:** 29 focused invocations cover cutoff shapes, empty genesis,
+Unicode/interval extremes, original lookup/no-ops, older explicit pin versus newer
+or damaged local selection, invalid pin without fallback, both local owner locks,
+caller adapter lifetime (including caller close after startup), preflight and
+independent bindings, missing/corrupt/digest/divergent graphs, original I/O/runtime/
+Error propagation, private post-reconstruction failure, strict incomplete/corrupt/
+gapped/reused-ID tails, absent journal, exact/below minimum coverage and budget
+failure cleanup. Raw file assertions occur after native owners close.
+
+Forty conformance invocations preserve all five temporal/eight-total histories:
+24 genesis/split/full canonical cases run all 174 original literal steps in each
+shape (522 total); all canonical reads use the new factory. Sixteen unchanged
+persisted seeds commit 32 transactions each through the existing local writer,
+then recover each of three pin shapes and compare all 33 historical cutoffs against
+the independent reference, dense forward cells and ordinary local reopen.
+Get/Scan/Sum/all predicates/FilterScan, absence/extremes and every original request
+position agree; raw journal frames remain unchanged. Write/retry acceptance belongs
+to the existing local baseline, not a writable object API. Native cases skip only
+explicit unavailable directory synchronization.
+
+The initial focused command (new two classes plus LocalDatabaseTest) passes 90
+cases before one additional adapter-close case. Final serial `./mvnw -B clean install`
+and `./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,206 core /409 optional**,
+zero failures/errors/skips locally. Fourteen examples run with only the packaged
+core JAR; archive has 155 production classes and only java.base module dependencies,
+no SDK/test classes, and the unchanged one-class test conformance classifier.
+Forty-two documentation-rule fixtures and both strict production/project-path
+builds pass with 70 pages. Desktop-light/mobile-dark layout has no page overflow;
+new guide/ADR navigation and both search results work; normal light viewport is restored.
+Independent production review finds no actionable defect; documentation review
+corrects stale integration status and distinguishes record cardinality from exact
+retained heap costs. Full affected callers and staged diff are reviewed.
+
+**Completion/delivery:** mark MDB-0060 done, clear the claim and make MDB-0061 ready
+subject to remote delivery checks; MDB-0038 stays expanded. Validate 62 IDs/cards/
+DAG/eligibility, commit task-owned source/docs/rules/planning with Step-ID MDB-0060 /
+Step-Result completed, push normally and confirm ancestry/tips. Verify Java/docs/
+automatic Pages plus live guide/ADR/callers/canonical/search/sitemap, then record
+actual delivery evidence separately. No later child, release/upload or cloud/account/
+DNS/hosting action starts.
+
+**Next recommendation:** MDB-0061 — Managed S3 recovery admission, binding actual
+client scope and durable publication state to a fresh exact selection before recovery.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

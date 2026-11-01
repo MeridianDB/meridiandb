@@ -6,7 +6,7 @@ description: Select exact durable checkpoint intent with original conditional pr
 # ADR 0029: Verified S3 checkpoint publication
 
 Date: October 31, 2026. Status: implemented, experimental optional checkpoint
-publisher; remote engine recovery, replication and reclamation remain planned.
+publisher; managed S3 startup, writable recovery, replication and reclamation remain planned.
 
 ## Context
 

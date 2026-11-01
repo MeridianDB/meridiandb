@@ -11,7 +11,9 @@ MeridianDB is an experimental embeddable Java bitemporal database for preserving
 when facts apply and when the database learned about them. Built-in local
 persistence supports standalone JVM use. Optional [S3 byte access](development/s3-objects.md)
 and [verified checkpoint publication](development/s3-checkpoint-publication.md) are
-available separately. Remote engine recovery and replication remain planned.
+available separately. [Pinned checkpoint read recovery](development/object-checkpoint-recovery.md)
+uses object history with the complete local journal. Managed S3 startup, writable
+recovery using object checkpoints and replication remain planned.
 The Java 25/Maven build is available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
@@ -74,12 +76,14 @@ now supplies bounded GET/conditional PUT. JDK-only
 [object graph verification](development/object-checkpoint-graphs.md) checks complete
 history against the owned journal under aggregate budgets. Its [pinned history loader](development/object-checkpoint-graphs.md#load-pinned-history)
 returns original immutable checkpoint records from those same verified reads;
-engine reconstruction and local-tail replay remain planned. An optional [publication-state format](development/s3-publication-state.md)
+[read-only core recovery](development/object-checkpoint-recovery.md) now reconstructs
+the engine from that prefix and the existing complete local journal under factory
+ownership. An optional [publication-state format](development/s3-publication-state.md)
 preserves exact expected/pending metadata. [Durable local state](development/local-s3-publication-state.md)
 now installs it under exclusive ownership. [Verified preparation](development/s3-publication-preparation.md)
 combines client scope, graph/owned-journal checks and exact durable pending intent;
 [verified publication](development/s3-checkpoint-publication.md) adds exact conditional
-submission and durable reconciliation. Remote engine recovery remains planned.
+submission and durable reconciliation. Managed S3 startup and writable recovery remain planned.
 Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,

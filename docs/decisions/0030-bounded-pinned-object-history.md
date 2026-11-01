@@ -6,7 +6,8 @@ description: Materialize original checkpoint transactions during the same bounde
 # ADR 0030: Bounded pinned object history
 
 Date: October 31, 2026. Status: implemented, experimental history loader;
-remote engine recovery remains planned.
+[core pinned recovery](0031-pinned-checkpoint-engine-recovery.md) is now implemented
+separately; managed S3 startup and writable recovery remain planned.
 
 ## Context
 
@@ -35,7 +36,7 @@ owns API usage, retained-memory costs, failure behavior and scope.
 
 Loading is evidence about that head and owner during that operation. It neither
 observes the current remote head nor supplies a transferable certificate for a
-different or reopened journal. A future engine factory must load within its own
+different or reopened journal. An engine factory must load within its own
 verified startup ownership and separately validate/replay the contiguous tail.
 Keep engine reconstruction, managed S3 startup, writable acknowledgement and remote
 reclamation separate from this loader. There is no fallback, repair or remote write.

@@ -96,8 +96,9 @@ costs. Initial journal opening, full tail replay and eventual engine state remai
 outside this operation. The result is evidence about the actual owner at load
 time, without a continuing lease or proof for another reopened journal.
 
-Remote engine recovery remains planned: its startup must load within owned
-storage, validate complete journal ordering and apply only the contiguous suffix.
+The [core read-only recovery factory](object-checkpoint-recovery.md) now loads
+within owned startup, validates complete journal ordering and applies only the
+contiguous suffix. Managed S3 startup and writable recovery remain planned.
 A checkpoint alone cannot detect or reconstruct fully lost uncheckpointed local
 transactions. See [ADR 0030](../decisions/0030-bounded-pinned-object-history.md).
 

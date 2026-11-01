@@ -288,9 +288,20 @@ so a new session can work correctly without relying on earlier conversations.
   after all checks and reader cleanup. Keep metadata verification free of retained record lists;
   charge repeated invocations separately and document retained-list heap costs.
   Test exact original records, cutoff/suffix separation, late failure privacy,
-  immutable lifetime and actual local/SDK consumers. Load within the future engine
+  immutable lifetime and actual local/SDK consumers. Load within the engine
   factory's owned startup scope; a History value grants no journal lease, current
   selection, tail recovery, acknowledgement or permission to substitute another owner.
+- Follow [ADR 0031](docs/decisions/0031-pinned-checkpoint-engine-recovery.md) and
+  [pinned engine recovery](docs/development/object-checkpoint-recovery.md) for
+  explicit object-checkpoint opens. Preflight arguments, acquire/retain concrete
+  local store/journal owners and freeze H before loading history. Admit an optional
+  independent minimum before object I/O; restore the pinned prefix once, validate
+  the complete journal through H and apply only its suffix. Keep the adapter
+  caller-owned, reject transactions, release every owned resource on failure and
+  invalidate views before close. Test canonical/seeded historical/reference/dense
+  answers, original request lookup, strict evidence, coverage loss and actual owner
+  cleanup. Preserve ordinary local selection; explicit pinned authority grants no
+  current S3 selection, writable acknowledgement or missing-tail reconstruction.
 - Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
   [S3 publication-state format](docs/development/s3-publication-state.md) for exact
   expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing

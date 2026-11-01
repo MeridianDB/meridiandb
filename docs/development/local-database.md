@@ -24,6 +24,7 @@ its memory-only write contract.
 | `create(directory, databaseId)` | Initialize a fresh existing directory, select genesis generation one and return a writable database |
 | `open(directory)` | Recover existing history for queries and request lookup; reject transactions |
 | `openWritable(directory)` | Recover existing history, synchronize journal and namespace, then enable transactions |
+| `openFromObjectCheckpoint(...)` | Recover read-only from an explicitly pinned object checkpoint and the complete local journal; retain both local owners |
 
 The directory must be trusted, stable and already durably named by its creator.
 Creation allows only an existing checkpoint-store lock file; it refuses a journal,
@@ -32,6 +33,11 @@ lineage/format validation precedes store mutation. Creation failures retain file
 for inspection; inspect or reopen valid existing history instead of retrying
 creation blindly. Incomplete journals require the separately documented explicit
 repair policy; these APIs never repair automatically.
+
+The [pinned checkpoint mode](object-checkpoint-recovery.md) uses a supplied object
+head as its checkpoint authority and can require an independent minimum journal
+sequence. It does not consult local checkpoint selection or the provider's current
+head. Normal local modes retain their existing selection protocol.
 
 ## Create and write
 

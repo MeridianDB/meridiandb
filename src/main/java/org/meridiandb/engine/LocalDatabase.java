@@ -7,12 +7,16 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalLong;
+import java.util.UUID;
 import java.util.function.Consumer;
 import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.manifest.LocalCheckpointReader;
 import org.meridiandb.storage.manifest.LocalCheckpointStore;
+import org.meridiandb.storage.manifest.ObjectCheckpointGraphs;
+import org.meridiandb.storage.manifest.ObjectCheckpointHead;
+import org.meridiandb.storage.object.ImmutableObjectStore;
 import org.meridiandb.temporal.CommitPosition;
 import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
@@ -93,6 +97,57 @@ public final class LocalDatabase implements AutoCloseable {
     /** Recover and synchronize all complete history before enabling new or retry acknowledgements. */
     public static LocalDatabase openWritable(Path directory) throws IOException {
         return open(directory, true, null);
+    }
+
+    /**
+     * Recover read-only from an explicitly pinned object checkpoint and the complete local journal.
+     * Owns the acquired store/journal until close, but never owns the supplied object adapter.
+     * Does not inspect local checkpoint selection or observe the provider's current-head key.
+     */
+    public static LocalDatabase openFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits) throws IOException {
+        return openFromObjectCheckpoint(directory, objects, namespace, publisher, head, limits, 0);
+    }
+
+    /** Require independently known local coverage; a checkpoint alone cannot reveal a lost clean tail. */
+    public static LocalDatabase openFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits,
+            long minimumJournalSequence) throws IOException {
+        return openFromObjectCheckpoint(directory, objects, namespace, publisher, head, limits, minimumJournalSequence, null);
+    }
+
+    static LocalDatabase openFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits,
+            long minimumJournalSequence, BoundaryProbe probe) throws IOException {
+        Objects.requireNonNull(directory, "directory");
+        Objects.requireNonNull(objects, "objects");
+        requireIdentity(namespace, "namespace");
+        requireIdentity(publisher, "publisher");
+        Objects.requireNonNull(head, "head");
+        Objects.requireNonNull(limits, "limits");
+        if (minimumJournalSequence < 0) { throw new IllegalArgumentException("Minimum journal sequence must be nonnegative"); }
+        var store = LocalCheckpointStore.open(directory);
+        LocalJournal journal = null;
+        final ObjectSource source;
+        try {
+            journal = LocalJournal.open(store.journalPath());
+            long journalHead = journal.appendedSequence();
+            if (journalHead < minimumJournalSequence) { throw new IOException("Local journal is shorter than required recovery coverage"); }
+            var history = new ObjectCheckpointGraphs(objects, journal, namespace, publisher).loadHistory(head, limits);
+            source = new ObjectSource(store, journal, history, journalHead);
+        } catch (IOException | RuntimeException | Error failure) {
+            closeAfterFailure(journal, failure);
+            closeAfterFailure(store, failure);
+            throw failure;
+        }
+        return rebuild(source, null, probe);
+    }
+
+    private static void requireIdentity(UUID value, String name) {
+        Objects.requireNonNull(value, name);
+        if (value.getMostSignificantBits() == 0 && value.getLeastSignificantBits() == 0) {
+            throw new IllegalArgumentException(name + " must not be nil");
+        }
     }
 
     /** Initialize an existing fresh durably named directory; failures retain storage for inspection. */
@@ -301,6 +356,25 @@ public final class LocalDatabase implements AutoCloseable {
         if (failure instanceof RuntimeException runtime) { throw runtime; }
         if (failure instanceof Error error) { throw error; }
         if (failure != null) { throw new IOException("Local database cleanup failed", failure); }
+    }
+
+    private static final class ObjectSource implements RecoverySource {
+        private final LocalCheckpointStore store;
+        private final LocalJournal journal;
+        private final ObjectCheckpointGraphs.History history;
+        private final long journalHead;
+        ObjectSource(LocalCheckpointStore store, LocalJournal journal, ObjectCheckpointGraphs.History history, long journalHead) {
+            this.store = store;
+            this.journal = journal;
+            this.history = history;
+            this.journalHead = journalHead;
+        }
+        @Override public DatabaseId databaseId() { return journal.databaseId(); }
+        @Override public OptionalLong checkpointSequence() { return OptionalLong.of(history.graph().actualPrefix().sequence()); }
+        @Override public long journalSequence() { return journalHead; }
+        @Override public void replayCheckpoint(Consumer<? super JournalRecord> consumer) { history.records().forEach(consumer); }
+        @Override public void replayJournal(Consumer<? super JournalRecord> consumer) throws IOException { journal.replay(consumer); }
+        @Override public void close() throws IOException { closeResources(journal, store); }
     }
 
     private static final class LocalSource implements WriteSource {

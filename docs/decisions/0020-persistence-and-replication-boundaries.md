@@ -6,7 +6,7 @@ description: Keep MeridianDB's bitemporal engine independently usable with local
 # ADR 0020: Persistence and replication boundaries
 
 - **Date:** October 31, 2026
-- **Status:** Architecture direction adopted; local/S3 byte adapters implemented, checkpoint publication implemented separately, remote engine recovery and replication planned
+- **Status:** Architecture direction adopted; local/S3 byte adapters implemented, checkpoint publication implemented separately, managed S3 startup, writable recovery and replication planned
 - **Scope:** Embedded library positioning and persistence responsibilities
 
 ## Context
@@ -23,8 +23,10 @@ knowledge, including retroactive corrections and original retry identity. Its
 current knowledge coordinate is commit order, with no calendar-time mapping.
 
 The subsequent [optional S3 decision](0022-optional-s3-object-access.md) implements
-bounded byte access. Remote checkpoint selection, engine recovery and reclamation
-remain separate work under these boundaries.
+bounded byte access. Checkpoint publication and
+[pinned core read recovery](0031-pinned-checkpoint-engine-recovery.md) are implemented
+separately. Managed S3 startup, writable recovery and remote reclamation remain
+separate work under these boundaries.
 
 ## Decision
 

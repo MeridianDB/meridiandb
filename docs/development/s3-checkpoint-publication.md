@@ -10,8 +10,10 @@ without a remote head PUT. Reconciliation still writes and synchronizes local
 expected state. A result requires a fresh observation of the exact candidate,
 complete graph verification against the actual owned journal, and synchronized
 local expected-state installation. The optional `meridiandb-s3` artifact now
-supports this experimental checkpoint publication protocol. Remote checkpoint
-engine recovery, replication and remote object reclamation remain planned.
+supports this experimental checkpoint publication protocol. Core
+[pinned checkpoint read recovery](object-checkpoint-recovery.md) is separate;
+managed S3 startup, writable recovery, replication and remote object reclamation
+remain planned.
 
 The publisher operates on already installed immutable dependencies and the pending
 state produced by [verified preparation](s3-publication-preparation.md). It does

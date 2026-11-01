@@ -13,8 +13,9 @@ and conditional PUT. JDK-only [graph verification](../development/object-checkpo
 now validates complete dependencies and actual owned-journal prefixes under shared
 operation limits. [Durable local expected/pending state](../development/local-s3-publication-state.md)
 is available separately. [Verified conditional publication](../development/s3-checkpoint-publication.md)
-and durable candidate reconciliation are implemented experimentally. Remote database
-recovery remains planned. The existing
+and durable candidate reconciliation are implemented experimentally. Core
+[pinned checkpoint read recovery](../development/object-checkpoint-recovery.md)
+is available; managed S3 startup and writable recovery remain planned. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
 This specification defines the selection protocol those implementations must

@@ -52,7 +52,7 @@ four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md) and 65 pure
 [pinned-history SDK/HTTP cases](object-checkpoint-graphs.md#load-pinned-history).
 Native local cases explicitly skip unsupported placement; pure and injected checks
 remain independent of those capabilities.
-Core runs its separate 1,137 tests. No cloud service or account is used by these tests.
+Core runs its separate 1,206 tests. No cloud service or account is used by these tests.
 
 Construct `S3CheckpointHeads` with an explicit endpoint origin, signing region,
 existing bucket, caller-owned credentials and a `Binding` containing the expected

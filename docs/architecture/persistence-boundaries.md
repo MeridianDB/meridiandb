@@ -9,7 +9,9 @@ MeridianDB's design centers on an embeddable Java bitemporal database with its o
 local persistence. Applications can use the experimental local engine without
 Kafka, an object-storage service or an application server. Optional [S3 byte access](../development/s3-objects.md) is implemented separately;
 [verified checkpoint publication](../development/s3-checkpoint-publication.md) is
-now experimental. Remote engine recovery and replication remain planned extensions. They must preserve the
+now experimental. [Pinned checkpoint read recovery](../development/object-checkpoint-recovery.md)
+uses the complete owned local journal. Managed S3 startup, writable recovery and
+replication remain planned extensions. They must preserve the
 same temporal answers and declare their own durability and coordination guarantees.
 
 [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md) records this
@@ -20,7 +22,8 @@ The first [immutable-byte interface and local adapter](../development/immutable-
 are implemented, with a segment-codec consumer and bounded whole-object reads.
 The optional S3 adapter passes the same byte contract through a controlled SDK/HTTP
 fixture. Existing local checkpoint and engine APIs retain their current protocols.
-Remote checkpoint selection, engine integration and replication remain planned.
+Verified checkpoint publication and explicit pinned read recovery are implemented
+separately. Managed S3 startup, writable recovery and replication remain planned.
 
 ## Bitemporal history is the core contract
 
@@ -93,7 +96,7 @@ A bounded [publication-state representation](../development/s3-publication-state
 and pure transitions are available. [Durable local state](../development/local-s3-publication-state.md)
 installs exact snapshots under exclusive ownership. The
 [verified publisher](../development/s3-checkpoint-publication.md) now adds exact
-conditional submission and durable candidate reconciliation; engine recovery remains planned.
+conditional submission and durable candidate reconciliation; managed S3 startup and writable recovery remain planned.
 [Verified preparation](../development/s3-publication-preparation.md) now combines
 actual client admission, complete graph/owned-prefix checks, journal/name barriers,
 immutable intent and durable pending state without mutating the selection key.
@@ -101,8 +104,8 @@ immutable intent and durable pending state without mutating the selection key.
 An object-store checkpoint is an optional companion to the local journal. First upload or verify all immutable dependencies, then publish immutable
 manifest bytes and conditionally select the complete generation. The implemented
 publisher rechecks the actual journal, uses original durable pending intent and
-reconciles exact selection across uncertain replies. Aggregate remote engine
-recovery remains planned. Listing objects is not by itself a commit protocol.
+reconciles exact selection across uncertain replies. Managed S3 startup and writable
+recovery remain planned. Listing objects is not by itself a commit protocol.
 
 Amazon S3 documents strong object consistency and conditional writes using
 `If-None-Match` and `If-Match`. These are useful building blocks, but updates to

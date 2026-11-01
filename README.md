@@ -8,9 +8,10 @@
 MeridianDB is an experimental embeddable Java bitemporal database. It preserves
 both when a fact applies in the domain and when the database recorded that
 knowledge. Built-in local persistence is the foundation. Optional S3 byte access is
-available separately. Verified remote checkpoint publication is experimental;
-remote engine recovery and replication remain planned. Local
-use requires no external database,
+available separately. [Pinned checkpoint read recovery](docs/development/object-checkpoint-recovery.md)
+uses object history with the complete local journal. Verified remote checkpoint
+publication is experimental; managed S3 startup, writable recovery using object
+checkpoints and replication remain planned. Local use requires no external database,
 streaming service or application server.
 
 **Status:** project foundation and architectural research. The documentation site
@@ -92,8 +93,8 @@ The initial investigation will focus on:
 The [persistence boundaries](docs/architecture/persistence-boundaries.md) separate
 commit authority, ordered journal history, immutable objects, checkpoint selection
 and derived search indexes. Local persistence and an optional [S3 byte adapter](docs/development/s3-objects.md)
-are implemented. Remote checkpoint/engine integration, replication and near-real-time
-indexing remain planned and unmeasured. The
+are implemented. Managed S3 startup, writable recovery using object checkpoints,
+replication and near-real-time indexing remain planned and unmeasured. The
 [immutable-object interface](docs/development/immutable-objects.md) now includes a
 JDK-only local adapter, complete identity/length validation, explicit identical
 reuse and a segment consumer. The separate `meridiandb-s3` artifact runs the same
@@ -105,7 +106,9 @@ bytes/tokens and issues exact conditional writes. JDK-only
 complete dependencies and actual owned-journal prefixes under shared budgets.
 Its [pinned history loader](docs/development/object-checkpoint-graphs.md#load-pinned-history)
 now returns original immutable checkpoint records from the same verified reads;
-engine reconstruction and local-tail replay remain separate planned work.
+[read-only core recovery](docs/development/object-checkpoint-recovery.md) now
+reconstructs the engine from that prefix and the existing complete local journal
+under factory ownership.
 An optional [publication-state codec](docs/development/s3-publication-state.md)
 preserves exact expected/pending metadata with pure checked transitions.
 [Durable local state](docs/development/local-s3-publication-state.md) now installs
@@ -113,9 +116,9 @@ those snapshots under exclusive local ownership.
 [Verified preparation](docs/development/s3-publication-preparation.md) now composes
 actual client scope, graph/journal checks and exact durable pending intent without
 selecting a remote head. [Verified publication](docs/development/s3-checkpoint-publication.md)
-now adds exact conditional submission and durable candidate reconciliation; remote
-engine recovery remains planned. Existing local checkpoint and engine protocols
-are unchanged.
+now adds exact conditional submission and durable candidate reconciliation.
+Managed S3 startup and writable recovery remain planned. Existing local
+checkpoint and write protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are
@@ -173,7 +176,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,137 JUnit test invocations: 22 pinned object-history loading checks,
+This runs 1,206 JUnit test invocations: 69 pinned checkpoint recovery checks,
+22 pinned object-history loading checks,
 23 bounded compaction/reclamation preflight checks,
 34 object graph/actual-prefix checks,
 71 temporal/engine, 29 journal codec,

@@ -13,8 +13,8 @@ pending intent. It performs **no mutable selection PUT**.
 
 The class lives in `org.meridiandb.storage.s3` in the optional artifact. Preparation
 is implemented and experimental. The separate [verified publisher](s3-checkpoint-publication.md) now supplies
-conditional submission and uncertain-result reconciliation. Remote checkpoint
-engine recovery remains planned. The result
+conditional submission and uncertain-result reconciliation. Managed S3 startup
+and writable recovery remain planned. The result
 is historical evidence of preparation, not remote selection, a continuing lease,
 transaction acknowledgement or permission to delete objects.
 [ADR 0028](../decisions/0028-verified-s3-publication-preparation.md) records the decision.

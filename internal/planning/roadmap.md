@@ -1482,6 +1482,21 @@ Document that a cleanly missing uncheckpointed suffix cannot be inferred without
 independent minimum/expected head. Preserve full journal/history and existing local
 API behavior; writable acknowledgement remains MDB-0062's required work.
 
+**Produced artifacts:** LocalDatabase.openFromObjectCheckpoint owns concrete local
+startup through close, uses the same private reconstruction path and preserves
+caller-owned immutable adapters. Explicit pins bypass local manifest/current-head
+selection without changing ordinary open modes. Frozen H and optional independent
+minimum distinguish available coverage from unknown lost tails. Twenty-nine focused
+cases plus 24 unchanged canonical/query shape cases and 16 persisted-seed cases
+verify private startup, all historical cutoffs, original identities, no-ops,
+strict evidence, actual owner cleanup and post-adapter-close queries. Full clean
+1,206 core /409 optional checks pass locally without skips; fourteen packaged-core
+examples, 155-class JDK-only archive/jdeps, 42 docs-rule fixtures and strict 70-page
+production/project-path builds pass. ADR 0031, the new guide and current callers/rules
+record explicit authority, complete-journal requirements and retained heap/replay
+costs. Source/CI/Pages delivery verification follows before MDB-0061 starts; MDB-0038
+remains expanded and writable remote recovery remains MDB-0062.
+
 ## MDB-0061 Managed S3 recovery admission
 
 **Parent:** MDB-0038. **Outcome:** compose actual S3 client scope, independent binding,

@@ -7,7 +7,8 @@ description: Install exact publication metadata with exclusive local ownership, 
 
 Date: October 31, 2026. Status: implemented, experimental local primitive;
 [ADR 0029](0029-verified-s3-checkpoint-publication.md) adds complete checkpoint
-publication/reconciliation. Remote engine integration remains planned.
+publication/reconciliation. Managed S3 startup and writable object recovery remain planned;
+[ADR 0031](0031-pinned-checkpoint-engine-recovery.md) adds core pinned read-only recovery.
 
 ## Context
 

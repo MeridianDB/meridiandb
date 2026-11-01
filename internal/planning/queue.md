@@ -12,26 +12,26 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0059 source `c8d3778f495f971f1a4073e69d0cdb69ddab3133` is verified on
-  origin/main with matching tips/ancestry. Java **41263069120**, docs **41263069123**
-  and automatic Pages **41263069096** pass. Ten current public pages, canonical
-  URLs, new guide-heading/ADR search entries and the **68-page** sitemap are verified.
-- **MDB-0059 — Bounded pinned object history** is done. Original immutable records
-  return only after the same complete graph/actual-prefix pass and reader cleanup;
-  metadata-only verification and budgets remain intact. All 22 new core and seven
-  SDK cases run on both CI platforms. Ubuntu runs all 1,137 core /409 optional
-  cases with no skips; Windows reports 230 core and 185 optional capability skips.
-  Fourteen examples pass on each. No active claim remains.
+- Previous MDB-0059 source `c8d3778f495f971f1a4073e69d0cdb69ddab3133` and delivery
+  receipt `54dbe439e2c9b38bea4de495e1a8636e2452faf5` were verified on origin/main
+  before this iteration. Java 41263069120, docs 41263069123 and Pages 41263069096 pass.
+- **MDB-0060 — Core pinned checkpoint recovery** is source-complete. The concrete
+  JDK-only read-only factory acquires and retains local store/journal ownership,
+  freezes H, loads the pinned prefix once and validates the complete journal while
+  applying only its suffix. An optional independent minimum rejects known missing
+  coverage before object I/O. The adapter stays caller-owned; ordinary local modes
+  retain their selection and write contracts. No active claim remains.
+- All **1,206 core /409 optional** cases pass locally without skips, including
+  29 focused and 40 canonical/seeded pinned-recovery cases. Fourteen packaged-core
+  examples, JAR/jdeps checks, 42 docs-rule fixtures and strict production/project-path
+  **70-page** builds pass. Source push, CI, automatic Pages and live readback must be
+  verified before another step starts; record their actual results in the delivery receipt.
 - **MDB-0038 — Remote checkpoint engine recovery** remains expanded into required
-  MDB-0059 history loading (done), MDB-0060 core read-only recovery, MDB-0061 managed
-  S3 startup and MDB-0062 writable/full parent conformance. Preserve every original
-  parent criterion and keep remote reclamation in MDB-0039.
-- **MDB-0060 — Core pinned checkpoint recovery** is ready after verified delivery.
-  Specify factory ownership/cleanup and frozen journal-head handling, then rebuild
-  the read-only temporal engine from verified prefix plus exact local suffix.
-  Load inside actual owned startup; a History value is no journal lease or proof
-  for a reopened/different owner. S3 current-head admission and writable recovery
-  remain separate required children.
+  MDB-0059/0060 (done), MDB-0061 managed S3 startup and MDB-0062 writable/full parent
+  conformance. Preserve every original criterion; remote reclamation remains MDB-0039.
+- **MDB-0061 — Managed S3 recovery admission** is next, ready after delivery checks.
+  Bind actual client scope and durable expected/pending state to a fresh exact head
+  observation before core recovery. Planning this child does not start it.
 
 ## Ordered work
 
@@ -90,8 +90,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | done | MDB-0010, MDB-0051 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | expanded | MDB-0010, MDB-0037 |
 | [MDB-0059](roadmap.md#mdb-0059-bounded-pinned-object-history) | Load immutable history from one fully verified pinned object graph | MDB-0038 | done | MDB-0010, MDB-0037 |
-| [MDB-0060](roadmap.md#mdb-0060-core-pinned-checkpoint-recovery) | Recover a read-only temporal engine from pinned history and the actual local tail | MDB-0038 | ready | MDB-0010, MDB-0037, MDB-0059 |
-| [MDB-0061](roadmap.md#mdb-0061-managed-s3-recovery-admission) | Bind S3 recovery startup to actual scope and durable publication state | MDB-0038 | queued | MDB-0010, MDB-0037, MDB-0060 |
+| [MDB-0060](roadmap.md#mdb-0060-core-pinned-checkpoint-recovery) | Recover a read-only temporal engine from pinned history and the actual local tail | MDB-0038 | done | MDB-0010, MDB-0037, MDB-0059 |
+| [MDB-0061](roadmap.md#mdb-0061-managed-s3-recovery-admission) | Bind S3 recovery startup to actual scope and durable publication state | MDB-0038 | ready | MDB-0010, MDB-0037, MDB-0060 |
 | [MDB-0062](roadmap.md#mdb-0062-writable-remote-recovery-conformance) | Preserve forced writes after remote recovery and complete parent conformance | MDB-0038 | queued | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |

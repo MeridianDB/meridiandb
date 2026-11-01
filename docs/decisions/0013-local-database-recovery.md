@@ -46,6 +46,11 @@ prepare/append/force/atomic publication with uncertain-outcome tests. Plain `ope
 retains this read-only contract without implying a write acknowledgement guarantee. The [recovery guide](../development/local-database.md)
 owns API usage, lifetimes, failure handling and costs.
 
+[ADR 0031](0031-pinned-checkpoint-engine-recovery.md) now reuses this private
+reconstruction algorithm for an explicit object-checkpoint mode with factory-owned
+local storage. It preserves normal local selection and adds no writable object
+recovery acknowledgement.
+
 ## Primary evidence and design inference
 
 Sources checked October 28, 2026:
