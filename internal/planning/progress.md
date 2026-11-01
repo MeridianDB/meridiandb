@@ -4867,6 +4867,45 @@ the fresh binding/complete root registration, reader/publisher protection and du
 per-attempt hazard boundary before any reclamation effect is possible.
 
 
+## 2026-11-01 — MDB-0066 Delivery verification
+
+Source **`b883d420923a164c2545980322447abe43253b55`** carries Step-ID MDB-0066 /
+Step-Result completed, including protocol/ADR/current callers/rules and the required
+MDB-0039 expansion into five children with source queue/card/progress acceptance.
+Normal push and fresh fetch confirm source ancestry, matching main/origin tips and
+a clean checkout before this internal-only receipt.
+
+- [Docs 41341579887](https://github.com/MeridianDB/meridiandb/actions/runs/41341579887)
+  passes strict production/project-path builds and all 42 docs-rule fixtures on each.
+  [Automatic Pages 41341579894](https://github.com/MeridianDB/meridiandb/actions/runs/41341579894)
+  passes its 42 fixtures, strict build and actual deployment of the same source SHA.
+- Java/POM/SDK/workflow inputs remain unchanged and no Java workflow is triggered.
+  Prior source Java 41327286700 was rechecked successful before selecting this
+  documentation-only step; do not claim new Java test execution or deletion coverage.
+- Live HTTPS readback verifies the new protocol/ADR 0036, persistence boundaries,
+  architecture overview, object-head protocol, roadmap, decisions, build and home:
+  **nine pages** with exact canonical URLs and accepted/unimplemented, root/hazard,
+  ordering/research wording. Both new titles/routes appear in search; sitemap
+  contains **80 unique production HTTPS pages**. Browser confirms the published
+  protocol's explicit accepted-design/implementation-pending status and canonical.
+  The session showed `.local-qa/mdb-0066/site-published.png`. Local protocol/ADR/back
+  and title search navigation plus desktop-light/mobile-dark layout pass without
+  page overflow. Normal light viewport is restored and exact task-owned local
+  server 96540 is stopped. Ignored evidence retains fresh source/version research,
+  independent reviews, docs build/CI, readback and browser logs/screenshots.
+
+Only queue/card/history follow verified public source. Validate all 70 IDs/cards/
+DAG/eligibility, inspect/stage these three paths, commit/push normally and reconfirm
+source ancestry, clean checkout and matching tips. Internal-only receipt paths
+trigger no workflow under existing filters. MDB-0066 is complete; MDB-0039/0011 stay
+expanded with all four implementation children required. No child implementation,
+library release/upload, real-provider mutation or account/DNS/hosting change starts.
+
+**Next recommendation:** MDB-0067 — Coordinated S3 namespace admission: fresh bound
+placement, complete root registration, shared reader/publisher protection and durable
+individual mutation hazards before any reclamation effect is offered.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

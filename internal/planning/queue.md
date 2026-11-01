@@ -32,11 +32,13 @@ children before implementation rather than treating a whole milestone as one pat
   protocol/ADR/back/search navigation, desktop-light/mobile-dark QA and nine local
   page/content/canonical readbacks pass. Both new search entries and the 80-page
   sitemap pass. Fresh primary S3/SDK and Maven research plus independent design/
-  public-doc review support the protocol. Source push, exact-source docs/Pages and
-  live readback remain to verify before the delivery receipt. No Java, POM,
-  workflow, bucket configuration or remote object changed.
-- **MDB-0067 — Coordinated S3 namespace admission** is next, conditional on source
-  delivery. MDB-0039 and MDB-0011 remain expanded; MDB-0067/0068/0069/0070 are still
+  public-doc review support the protocol. Source
+  `b883d420923a164c2545980322447abe43253b55` is verified on origin/main. Docs
+  **41341579887** and automatic Pages **41341579894** pass, including actual
+  deployment. Nine live page/content/canonical readbacks, both new search entries
+  and the 80-page sitemap pass. Java/POM/workflow inputs are unchanged; no Java
+  workflow is triggered and no bucket or S3 object changed.
+- **MDB-0067 — Coordinated S3 namespace admission** is next. MDB-0039 and MDB-0011 remain expanded; MDB-0067/0068/0069/0070 are still
   required for actual protected deletion and integrated conformance.
 
 ## Ordered work

@@ -1770,9 +1770,13 @@ versioned modes remain separate. Fresh primary sources and independent design/pu
 reviews pass; 42 docs fixtures, strict 80-page production/project builds, nine local
 readbacks/search/sitemap and light/dark/mobile QA pass. Current callers/rules and
 Maven research evidence are reconciled, including stale public roadmap wording about
-already completed writable conformance. Source/docs/Pages/live delivery follows in
-its receipt. No Java/POM/runtime deletion change occurs. MDB-0067 is ready; MDB-0039
-remains expanded until all four implementation children and its original criteria pass.
+already completed writable conformance. Source
+`b883d420923a164c2545980322447abe43253b55` is verified on remote main. Docs
+41341579887 and Pages 41341579894 pass; nine live pages/canonicals, both new search
+entries and the 80-page sitemap pass. No Java/POM/runtime deletion change occurs
+and no Java workflow is triggered. MDB-0066 is complete; MDB-0067 is ready and
+MDB-0039 remains expanded until all four implementation children and its original
+criteria pass.
 
 ## MDB-0067 Coordinated S3 namespace admission
 
