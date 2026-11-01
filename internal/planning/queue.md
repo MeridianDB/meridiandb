@@ -12,37 +12,26 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0054 source `d2a30b950fad629ef38cb4bce4d367cb277b2dd3` is verified on
-  origin/main with matching tips/ancestry. Java **41261721808**, docs **41261721797**
-  and automatic Pages **41261721814** pass. Seven changed public pages, canonical
-  URLs, the new search heading and the **67-page** sitemap are verified.
-- **MDB-0054 — Legacy bounded segment preflight** is done. Pure compaction and
-  protected inventory/removal bind reserved ranges before body hashing/record
-  allocation/decoding. Public raw verification and ordinary publication/load keep
-  their behavior. All 23 new cases, 1,115 core / 402 optional cases, fourteen
-  packaged-core examples, artifact inspection and both strict builds pass locally
-  without skips. Ubuntu runs every case; Windows reports 230 core and 185 optional
-  capability skips, including the two new native local cases. No active claim remains.
-- Publication parents MDB-0053/MDB-0049/MDB-0037 remain complete. MDB-0011 stays
-  expanded for remote engine recovery, reader-safe reclamation and common backend
-  conformance. Current local acknowledgement and placement limits persist.
-- **MDB-0038 — Remote checkpoint engine recovery** is expanded into required
-  MDB-0059 bounded pinned history loading, MDB-0060 core pinned-checkpoint engine
-  recovery, MDB-0061 managed S3 startup admission and MDB-0062 writable recovery/
-  full parent conformance. Preserve every original parent criterion.
-- **MDB-0059 — Bounded pinned object history** is done from clean main/origin
-  `d1a441fa6d063bec137a4b0c5ec06e548cd706d9`. Immutable original records now return
-  only after the same complete graph/actual-prefix pass and reader cleanup.
-  Metadata-only verification and existing budgets remain intact. All 22 new core
-  and seven new SDK cases, 1,137 core / 409 optional cases, fourteen packaged-core
-  examples, artifact inspection and both strict 68-page builds pass locally without
-  skips. Completion push, remote ancestry/tips, CI/Pages and live readback remain
-  the delivery gate. No active claim remains.
-- **MDB-0060 — Core pinned checkpoint recovery** is source-ready, conditional on
-  verified delivery. Specify factory ownership/cleanup and frozen journal-head
-  handling, then reconstruct a read-only temporal engine from the loaded prefix
-  plus exact local suffix. Current-head admission and writable recovery remain
-  required later children; a History value is no ownership certificate.
+- MDB-0059 source `c8d3778f495f971f1a4073e69d0cdb69ddab3133` is verified on
+  origin/main with matching tips/ancestry. Java **41263069120**, docs **41263069123**
+  and automatic Pages **41263069096** pass. Ten current public pages, canonical
+  URLs, new guide-heading/ADR search entries and the **68-page** sitemap are verified.
+- **MDB-0059 — Bounded pinned object history** is done. Original immutable records
+  return only after the same complete graph/actual-prefix pass and reader cleanup;
+  metadata-only verification and budgets remain intact. All 22 new core and seven
+  SDK cases run on both CI platforms. Ubuntu runs all 1,137 core /409 optional
+  cases with no skips; Windows reports 230 core and 185 optional capability skips.
+  Fourteen examples pass on each. No active claim remains.
+- **MDB-0038 — Remote checkpoint engine recovery** remains expanded into required
+  MDB-0059 history loading (done), MDB-0060 core read-only recovery, MDB-0061 managed
+  S3 startup and MDB-0062 writable/full parent conformance. Preserve every original
+  parent criterion and keep remote reclamation in MDB-0039.
+- **MDB-0060 — Core pinned checkpoint recovery** is ready after verified delivery.
+  Specify factory ownership/cleanup and frozen journal-head handling, then rebuild
+  the read-only temporal engine from verified prefix plus exact local suffix.
+  Load inside actual owned startup; a History value is no journal lease or proof
+  for a reopened/different owner. S3 current-head admission and writable recovery
+  remain separate required children.
 
 ## Ordered work
 

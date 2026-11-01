@@ -1456,8 +1456,12 @@ actual histories, late failures and cleanup without publication effects. Clean
 1,137 core / 409 optional cases, fourteen packaged-core examples, archive/jdeps and
 strict 68-page production/project-path builds pass locally without skips. ADR 0030,
 guide/callers/rules and current Maven/recovery research document retained-memory
-and ownership limits. Source/CI/Pages/live identities follow in its receipt;
-MDB-0038 remains expanded and MDB-0060 is next.
+and ownership limits. Source `c8d3778f495f971f1a4073e69d0cdb69ddab3133` is verified
+on remote main; Java 41263069120, docs 41263069123 and Pages 41263069096 pass.
+Ten public pages/canonical URLs, new search entries and the 68-page sitemap are
+verified. All 29 new cases run on both platforms; Windows retains 230 core and
+185 optional capability skips, while Ubuntu runs all. MDB-0038 remains expanded
+and MDB-0060 is next.
 
 ## MDB-0060 Core pinned checkpoint recovery
 

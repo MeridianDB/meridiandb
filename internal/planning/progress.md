@@ -4003,6 +4003,43 @@ account/DNS/hosting change starts.
 loaded prefix inside owned startup and applying only the exact contiguous local
 suffix before exposing a read-only temporal engine.
 
+## 2026-10-31 — MDB-0059 Delivery verification
+
+Source **`c8d3778f495f971f1a4073e69d0cdb69ddab3133`** carries
+`Step-ID: MDB-0059` / `Step-Result: completed`, including production/tests,
+documentation/rules and required MDB-0038 expansion into four children. Normal
+push succeeds; fresh fetch confirms source ancestry, matching main/origin tips and
+a clean working tree before this internal receipt.
+
+- [Java 41263069120](https://github.com/MeridianDB/meridiandb/actions/runs/41263069120)
+  passes both platforms and all fourteen examples on each. Ubuntu runs all
+  1,137 core /409 optional cases with zero failures/errors/skips. Windows reports
+  zero failures/errors with 230 core and 185 optional explicit capability skips.
+  All 22 new core and seven SDK cases run without skips on both platforms.
+- [Docs 41263069123](https://github.com/MeridianDB/meridiandb/actions/runs/41263069123)
+  passes production and project-path strict builds plus all 42 QA-rule fixtures
+  on each. [Automatic Pages 41263069096](https://github.com/MeridianDB/meridiandb/actions/runs/41263069096)
+  passes its strict build, 42 fixtures and deployment.
+- Live HTTPS readback verifies the guide/new ADR 0030 and updated ADR 0025, build,
+  both S3 guides, persistence boundaries, roadmap, decisions index and home page,
+  each with its own canonical URL and current scope/count/source wording. The new
+  guide-heading anchor and ADR title/route appear in search; sitemap has 68 unique
+  production HTTPS pages. Browser inspection confirms the published guide and
+  canonical URL; `.local-qa/mdb-0059/site-published.png` captures the result.
+  Local light/mobile-dark rendering and guide/ADR navigation evidence share that
+  ignored directory with research/build/CI/readback logs. Normal light viewport
+  is restored and the owned local HTTP server is stopped.
+
+Only queue/card/history follow the verified public source. Their internal-only
+receipt push triggers no new workflow under existing filters. Validate all 62
+IDs/cards/DAG/eligibility, stage these three paths, commit/push normally and verify
+matching tips plus source ancestry again. MDB-0038 remains expanded; no later child,
+library release/upload or cloud/account/DNS/hosting action begins here.
+
+**Next recommendation:** MDB-0060 — Core pinned checkpoint recovery, with concrete
+owned startup, complete local journal validation and prefix-once/suffix-only replay
+before exposing the read-only temporal engine.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
