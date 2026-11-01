@@ -4531,6 +4531,36 @@ the unchanged canonical/seeded SDK corpus and cross-publication interruption che
 before closing the broader remote recovery parents.
 
 
+## 2026-11-01 — MDB-0064 Windows argument-preflight follow-through
+
+Initial source `4a3e14884c8cf11be3c0757b18592624ff279ff7` reached remote main.
+Java 41324730342, docs 41324730429 and automatic Pages 41324730394 all pass.
+Ubuntu runs all 1,272 core /546 optional cases with no skips; Windows reports
+363 core /319 optional capability skips, including all 74 new invocations. Both
+platforms pass fourteen packaged examples. Docs run 42 fixtures under both URL
+configurations; Pages runs 42 fixtures, strict build and successful deployment.
+Seventeen live page/content/canonical readbacks, both new search entries and the
+76-page sitemap pass. Browser confirms the new live guide and its canonical;
+`.local-qa/mdb-0064/site-published.png` was shown in the session. Normal light
+viewport is restored and exact task-owned local server 45343 is stopped.
+
+Inspection of actual Windows skips finds that the pure writable argument test
+unnecessarily initializes durable metadata through the shared fixture. Refactor
+that same invocation to ordinary directories with sentinel evidence and independently
+configured actual SDK clients. Its seven null-argument checks, negative minimum
+and same-directory rejection must finish before any metadata admission, network
+request, credential ownership or file mutation. No native-force capability or
+assumption is needed for this case; durable cases retain their explicit guard.
+This is test-fixture follow-through, with no production/public-doc change and no
+new invocation or protocol. All 546 optional tests pass again locally with zero failures/errors/skips
+(`./mvnw -B -f adapters/s3/pom.xml verify`). Verify the repair's Java CI on
+Ubuntu/Windows before closing delivery; expected Windows
+optional capability skips fall to 318 while the pure case actually runs. Preserve
+the original source's completed docs/Pages evidence instead of claiming a second
+deployment for internal/test-only paths. MDB-0065 remains the sole next ready
+item; MDB-0062/0038 stay expanded.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

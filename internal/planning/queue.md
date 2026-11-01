@@ -44,8 +44,11 @@ children before implementation rather than treating a whole milestone as one pat
   production/project-path **76-page** builds pass locally without skips. Local
   guide/ADR/search and desktop-light/mobile-dark layout pass; seventeen page/content/
   canonical readbacks, both new search entries and the 76-page sitemap pass.
-  Source commit/push and automatic Java/docs/Pages/live readback remain to verify
-  before the internal delivery receipt. **MDB-0065 — Remote writable recovery
+  Source `4a3e14884c8cf11be3c0757b18592624ff279ff7` is verified on remote main;
+  Java 41324730342, docs 41324730429 and Pages 41324730394 pass, as do seventeen
+  live readbacks/search/sitemap. Actual Windows skips reveal the pure argument
+  invocation used the durable fixture; test-only follow-through removes that
+  requirement. Verify its repair commit and Java CI before final delivery receipt. **MDB-0065 — Remote writable recovery
   conformance** is next, subject to this source's remote delivery. Full SDK corpus,
   cross-publication and remaining parent criteria belong there; MDB-0062/0038 stay
   expanded and neither parent closes here.

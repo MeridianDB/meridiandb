@@ -470,26 +470,36 @@ class S3DatabaseWritableTest {
     }
 
     @Test void writablePureArgumentsFailBeforeMetadataAdmissionOrAnyProviderRequest() throws IOException {
-        try (var env = environment(2)) {
-            var beforeDatabase = snapshot(env.databaseDirectory);
-            var beforeMetadata = snapshot(env.stateDirectory);
-            int before = env.fixture.requests().size();
-            for (int index = 0; index < 7; index++) {
-                int missing = index;
-                assertThrows(NullPointerException.class, () -> S3Database.openWritable(
-                        missing == 0 ? null : env.databaseDirectory, missing == 1 ? null : env.stateDirectory,
-                        missing == 2 ? null : env.target, missing == 3 ? null : BINDING,
-                        missing == 4 ? null : env.objects, missing == 5 ? null : env.heads,
-                        missing == 6 ? null : LIMITS, 4));
+        // Argument admission needs ordinary directories and clients, not a durable-placement fixture.
+        var databaseDirectory = Files.createDirectory(directory.resolve("database"));
+        var stateDirectory = Files.createDirectory(directory.resolve("publication"));
+        Files.write(databaseDirectory.resolve("evidence"), new byte[] {1, 2, 3});
+        Files.write(stateDirectory.resolve("evidence"), new byte[] {4, 5, 6});
+        var beforeDatabase = snapshot(databaseDirectory);
+        var beforeMetadata = snapshot(stateDirectory);
+        try (var fixture = new S3PublicationProtocolFixture(); var credentials = new CallerCredentials()) {
+            var target = new Target(fixture.endpoint(), "us-east-1", S3PublicationProtocolFixture.BUCKET);
+            try (var objects = objects(target, credentials); var heads = heads(target, BINDING, credentials)) {
+                for (int index = 0; index < 7; index++) {
+                    int missing = index;
+                    assertThrows(NullPointerException.class, () -> S3Database.openWritable(
+                            missing == 0 ? null : databaseDirectory, missing == 1 ? null : stateDirectory,
+                            missing == 2 ? null : target, missing == 3 ? null : BINDING,
+                            missing == 4 ? null : objects, missing == 5 ? null : heads,
+                            missing == 6 ? null : LIMITS, 4));
+                }
+                assertThrows(IllegalArgumentException.class, () -> S3Database.openWritable(databaseDirectory,
+                        stateDirectory, target, BINDING, objects, heads, LIMITS, -1));
+                assertThrows(IllegalArgumentException.class, () -> S3Database.openWritable(databaseDirectory,
+                        databaseDirectory, target, BINDING, objects, heads, LIMITS));
+                assertEquals(0, fixture.requests().size());
+                assertEquals(0, credentials.closes);
             }
-            assertThrows(IllegalArgumentException.class, () -> env.open(-1));
-            assertThrows(IllegalArgumentException.class, () -> S3Database.openWritable(env.databaseDirectory,
-                    env.databaseDirectory, env.target, BINDING, env.objects, env.heads, LIMITS));
-            assertEquals(before, env.fixture.requests().size());
-            assertReleased(env, env.savedState);
-            assertImages(beforeDatabase, snapshot(env.databaseDirectory));
-            assertImages(beforeMetadata, snapshot(env.stateDirectory));
+            assertEquals(0, credentials.closes);
+            assertTrue(fixture.violations().isEmpty(), () -> fixture.violations().toString());
         }
+        assertImages(beforeDatabase, snapshot(databaseDirectory));
+        assertImages(beforeMetadata, snapshot(stateDirectory));
     }
 
     private Environment environment(int cutoff) throws IOException {

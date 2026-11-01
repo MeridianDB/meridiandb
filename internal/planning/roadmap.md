@@ -1631,8 +1631,13 @@ guide, current callers/rules and fresh unchanged Maven pins document local-only
 acknowledgement and remaining full remote corpus/cross-publication qualification.
 Local guide/ADR/search and desktop-light/mobile-dark rendering pass without page
 overflow; seventeen page/canonical readbacks, search entries and sitemap pass.
-Source/automatic CI/Pages/live delivery verification follows in its receipt.
-MDB-0065 is ready; MDB-0062/0038 remain expanded with every original criterion.
+Initial source `4a3e14884c8cf11be3c0757b18592624ff279ff7` is on remote main;
+Java 41324730342, docs 41324730429 and Pages 41324730394 pass. Both platforms pass
+fourteen examples; seventeen live readbacks/search/sitemap pass. Windows initially
+skips all 74 new cases because the pure argument invocation unnecessarily uses a
+durable fixture; test-only follow-through removes that capability dependency.
+Verify repair Java CI before final delivery receipt. MDB-0065 is ready;
+MDB-0062/0038 remain expanded with every original criterion.
 
 ## MDB-0065 Remote writable recovery conformance
 
