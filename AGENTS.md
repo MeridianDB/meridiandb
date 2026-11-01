@@ -176,6 +176,14 @@ so a new session can work correctly without relying on earlier conversations.
   retaining the journal header and exact original frames; account for the growing
   request-ID set. No consistency result is a force/publication receipt or permits
   reclamation. Local publication must verify stored bytes and namespace guarantees.
+- For aggregate record-budgeted compaction and inventory/removal, follow
+  [bounded consumer admission](docs/architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission):
+  reserve manifest record/byte work before retrieval and use expected header ranges
+  before body hashing or record allocation/decoding. Fetch once per graph and keep
+  results private through full verification/cleanup. Test CRC-valid range conflicts
+  with body/footer traps, exact limits and no removal effects. Preserve the public
+  raw verifier and ordinary publication/load error order; document bounded-path
+  `INVALID_HISTORY` precedence rather than silently broadening it.
 - Follow the [local checkpoint protocol](docs/development/local-checkpoints.md):
   require an existing trusted stable durably named directory, probe directory
   open/force before creating files, and reserve capacity before publication effects.

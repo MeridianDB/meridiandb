@@ -3797,6 +3797,87 @@ upload, cloud/account/DNS or hosting-setting change occurs.
 **Next recommendation:** MDB-0054 — Legacy bounded segment preflight. No active
 claim remains; the next invocation starts that independent maintenance step.
 
+## 2026-10-31 — MDB-0054 Legacy bounded segment preflight
+
+**Selection:** start clean on main/origin
+`809f669728646d911351dc43949e70996f3ff0a9`; verify previous source
+`9e07766de3ae79bbcd52af048e72099e86c7840d` ancestry and successful Java
+41259110096, docs 41259110074 and Pages 41259110065 before claiming MDB-0054.
+No new IDs or scope expansion. Independent helpers own fresh version research,
+read-only production/caller review and the two new test files; coordinator owns
+production/docs/planning/Git and all builds.
+
+**Outcome:** add package-private CheckpointVerifier.verifyBounded sharing existing
+missing/exact-length admission and the complete-history verifier. Select the
+existing independently expected header-range decode before body hashing, record
+list allocation and nested decoding. HistoryCompactor uses it after record/byte
+reservation; LocalCheckpointStore protected inspection uses it after all root
+reservations and exact declared segment reads. Reclaim shares that inspection
+before force/removal. Factor actual-journal prefix comparison without changing
+ordering. Every matching image still needs complete integrity, identity, lineage,
+request uniqueness and reconstructed/actual-prefix verification as applicable.
+
+The caller audit finds only those two legacy aggregate record-budget paths.
+ObjectCheckpointGraphs already uses checked ranges; public raw CheckpointVerifier,
+ordinary local publish/load/publishCompaction verification and standalone segment
+readers retain raw order. A bounded mismatching header now reports SegmentFormatException
+INVALID_HISTORY before body/footer/expected-ID failures, instead of spending
+unreserved body work and discovering a later manifest mismatch. Update the existing
+shifted-range compactor assertion accordingly; preserve valid results, formats,
+public APIs, local acknowledgement and retention. No new decoder or dependency.
+
+**Research:** fresh Central and official compatibility sources at **November 1,
+01:28:26 UTC / October 31, 21:28:26 EDT** retain all fourteen latest stable pins:
+Maven 3.10.0; wrapper distribution/plugin 3.3.4; clean/resources 3.5.0; compiler
+3.16.0; Surefire 3.6.1; jar 3.5.1; install/deploy 3.2.0; JUnit 6.1.3; Jackson 3.2.4;
+optional SDK s3/URLConnection 2.57.8. No POM/wrapper change. Metadata summary SHA-256
+`2984e201f0cee0763e0fd068a3d6299985c2bba2559475bd741273783dbc0285`, compatibility
+`b8e85594f1ca6abb69232899d2663b532f4fe3c894faa28ae4fc7c1ca5d725a6`, report
+`4b05e9929d1c1f9fc2423e0948b9564105f20658404bee4aca648751152bd6df`.
+Raw evidence remains in `.local-qa/mdb-0054/research-helper/`; build guidance retains
+primary links and the new check time. This step changes no external backend claim.
+
+**Verification:** 15 pure cases use independently laid-out v1 images/CRC32C/hash
+anchors, maximum valid count/range against one reserved record, equal-count shifted
+ranges, nested 65,537-operation and footer traps. Confirm bounded-versus-raw
+precedence, matching-range corruption/ID checks, exact records/prefix/byte totals,
+header checksum before range trust, metadata budget before reads, missing/length
+guards, unchanged I/O identity, late dependency stopping/no plan escape and genesis.
+Eight local cases cover inspect/removal with nested/footer traps and exact byte/
+record budgets, oversized stored images rejected within declared read caps, no
+force/write/delete/move effects, immediate protection release and store poisoning.
+Two supported real-file cases reacquire protection before poisoned-store close,
+reopen to the same refusal and preserve every image/name except optional empty
+permanent guard admission. Six other local boundary cases run without filesystem
+capability skips. Existing fault/process/temporal conformance remains intact.
+
+159 focused invocations pass with zero failures/errors/skips. Then serial
+`./mvnw -B clean install` and
+`./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,115 core / 402 optional**,
+zero local failures/errors/skips. Fourteen examples run with only the packaged core
+JAR. Archive/jdeps retain 153 production classes, java.base-only external modules,
+no SDK/test classes and the unchanged one-class object-conformance classifier.
+Independent production/caller review finds no actionable defect. No new process
+halt test is needed for this pure admission change; existing crash/recovery and
+reclamation process suites run in the full core verification.
+
+**Documentation/completion:** the manifest guide owns bounded admission and failure
+precedence; reconcile segment, compaction, inventory/removal guides, ADR 0025 current
+status, root rules, README/build counts/commands and planning. Public content keeps
+execution history outside docs. Both strict production/project-path builds pass
+source/HTML/link/search/sitemap checks for 67 pages; no new route, diagram, renderer
+or theme change. Desktop-light and 390-pixel dark checks have no page overflow.
+Mark MDB-0054 done, clear its active claim, mark MDB-0038 ready subject to delivery
+and validate all 58 IDs/cards/DAG/eligibility. Commit source/docs/rules/planning with
+Step-ID MDB-0054 / Step-Result completed, push normally, verify remote ancestry/tips,
+CI, automatic Pages and live changed pages/search/sitemap before handing off.
+
+**Next recommendation:** MDB-0038 — Remote checkpoint engine recovery. Refine that
+integration card before implementation in the next invocation; preserve temporal
+history, original retry identity, actual local journal and acknowledgement semantics.
+This receipt starts no later implementation, release, artifact upload or cloud/
+account/DNS/hosting-setting change.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

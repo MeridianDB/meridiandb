@@ -29,10 +29,18 @@ children before implementation rather than treating a whole milestone as one pat
   process stops, native result failures and retained evidence. MDB-0011 stays
   expanded: remote engine recovery, reader-safe reclamation and common backend
   conformance remain required. Local acknowledgement and placement limits persist.
-- **MDB-0054 — Legacy bounded segment preflight** is ready after verified delivery.
-  Keep this independent maintenance task outside the
-  publication parents; apply expected-range admission before payload materialization
-  in legacy bounded consumers, preserving their valid results and existing errors.
+- **MDB-0054 — Legacy bounded segment preflight** is done from clean main/origin
+  `809f669728646d911351dc43949e70996f3ff0a9`. Pure compaction and protected local
+  inventory/removal bind reserved ranges before body hashing/record allocation/
+  decoding, retaining public raw verifier and ordinary publication/load behavior.
+  All 23 new cases, 1,115 core / 402 optional cases, fourteen packaged-core examples,
+  artifact inspection and both strict 67-page builds pass locally without skips.
+  Completion commit/push, remote tips/ancestry, CI/Pages and live readback remain
+  the delivery gate. No active claim remains and no new IDs were allocated.
+- **MDB-0038 — Remote checkpoint engine recovery** is source-ready, conditional
+  on verified delivery above. Refine its integration/recovery acceptance before
+  implementation; preserve actual-journal, temporal/retry and local acknowledgement
+  contracts. Remote reader-safe reclamation and common conformance remain separate.
 
 ## Ordered work
 
@@ -88,8 +96,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0053](roadmap.md#mdb-0053-verified-conditional-publisher) | Integrate verified conditional publication and reconciliation | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0057](roadmap.md#mdb-0057-verified-durable-s3-preparation) | Prepare verified exact S3 intent durably without selecting it | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0058](roadmap.md#mdb-0058-conditional-submission-and-reconciliation) | Submit/reconcile exact pending intent and complete publisher conformance | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052, MDB-0057 |
-| [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | ready | MDB-0010, MDB-0051 |
-| [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
+| [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | done | MDB-0010, MDB-0051 |
+| [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | ready | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |

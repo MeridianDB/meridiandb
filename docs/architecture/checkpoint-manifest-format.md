@@ -140,6 +140,27 @@ propagates `IOException`. Verification reports success only after the whole grap
 passes. Source calls made before a failure are not rolled back, and no transaction
 consumer receives a partially accepted history.
 
+### Bounded consumer range admission
+
+[Pure compaction](../development/history-compaction.md) and
+[protected inventory/removal](../development/reclamation-inventory.md) reserve
+aggregate record work from manifest ranges before loading segments. They also
+bind each segment's CRC-checked header to its expected first/last sequence before
+body hashing, record-list allocation or nested transaction decoding. A reference
+reserving one record cannot admit a header declaring two, even when the body or
+footer would fail a later check. Exact byte-length checks still precede decoding,
+and each dependency is fetched once per graph verification.
+
+These bounded paths report a mismatching header as
+`SegmentFormatException(INVALID_HISTORY)` before body/footer or expected-ID
+failures. A matching header still undergoes complete integrity, identity, lineage,
+history and reconstructed-prefix checks. No private partial result is returned.
+The public `CheckpointVerifier.verify` retains its complete raw-decoding order:
+its later manifest-range mismatch remains `ManifestFormatException(INVALID_CHECKPOINT)`.
+Ordinary local checkpoint publication/load and raw segment APIs retain that order.
+The [object graph verifier](../development/object-checkpoint-graphs.md) already
+uses early range admission under its own operation budgets.
+
 This establishes that supplied immutable objects reconstruct the declared prefix.
 The separate [local checkpoint store](../development/local-checkpoints.md) compares
 the **actual stored journal prefix**, forces the owner journal and referenced

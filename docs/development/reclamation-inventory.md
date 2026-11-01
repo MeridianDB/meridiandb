@@ -94,6 +94,15 @@ actual prefix may require more journal bytes than the graph declares.
 The current same-file checks can be costly in a large directory; exceeding a
 budget fails inspection without partial results.
 
+After exact image-length admission, each CRC-checked segment header must match
+its reserved manifest range before body hashing, record-list allocation or nested
+decoding. A mismatch reports `SegmentFormatException(INVALID_HISTORY)` before
+body/footer or expected-ID failures. This [bounded consumer check](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission)
+also applies when the remover recomputes inventory; it runs before retained-root
+forcing or any deletion. The public raw verifier and ordinary checkpoint
+publication/load preserve their existing error order. Matching ranges still
+require complete graph and actual journal-prefix verification.
+
 Read, validation, identity, protection or cleanup failure poisons the store.
 Close and reopen before another operation. If protection release fails, store
 close retries it and independently attempts publisher cleanup. Uncertain native
@@ -126,7 +135,7 @@ object until its successful temporary-example cleanup after all handles close.
 Focused tests:
 
 ```bash
-./mvnw -B -Dtest=LocalReclamationInventoryTest,LocalReclamationInventoryIntegrationTest test
+./mvnw -B -Dtest=LocalBoundedSegmentPreflightTest,LocalReclamationInventoryTest,LocalReclamationInventoryIntegrationTest test
 ```
 
 The tests cover roots and shared dependencies, exact bounds, invalid old/new state,

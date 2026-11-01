@@ -75,7 +75,7 @@ public final class HistoryCompactor {
             inputBytes += reference.byteLength();
         }
         var builder = new Builder(manifest, limits);
-        CheckpointVerifier.verify(manifest, source, builder::accept);
+        CheckpointVerifier.verifyBounded(manifest, source, builder::accept);
         builder.finish();
         var replacement = new CheckpointManifest(manifest.databaseId(), manifest.generation() + 1,
                 manifest.journalPrefix(), builder.references);

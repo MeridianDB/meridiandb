@@ -574,7 +574,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
         for (String name : segmentLengths.keySet()) { checkInventoryAliases(name, entries, checked); }
         for (var value : decoded.values()) {
-            verify(value.manifest(), journal, id -> {
+            verifyBounded(value.manifest(), journal, id -> {
                 String name = segmentName(id);
                 // A corrupt oversized stored file must not bypass the metadata work budget.
                 return namespace.read(name, Math.toIntExact(segmentLengths.get(name)));
@@ -662,12 +662,18 @@ public final class LocalCheckpointStore implements AutoCloseable {
     }
 
     private void verify(CheckpointManifest manifest, JournalAccess journal) throws IOException {
-        verify(manifest, journal, id -> namespace.read(segmentName(id), SegmentCodec.MAX_SEGMENT_BYTES));
+        if (!manifest.databaseId().equals(journal.databaseId())) { throw new IOException("Checkpoint and journal lineage differ"); }
+        CheckpointVerifier.verify(manifest, id -> namespace.read(segmentName(id), SegmentCodec.MAX_SEGMENT_BYTES));
+        verifyJournalPrefix(manifest, journal);
     }
 
-    private void verify(CheckpointManifest manifest, JournalAccess journal, CheckpointVerifier.SegmentSource source) throws IOException {
+    private void verifyBounded(CheckpointManifest manifest, JournalAccess journal, CheckpointVerifier.SegmentSource source) throws IOException {
         if (!manifest.databaseId().equals(journal.databaseId())) { throw new IOException("Checkpoint and journal lineage differ"); }
-        CheckpointVerifier.verify(manifest, source);
+        CheckpointVerifier.verifyBounded(manifest, source, record -> { });
+        verifyJournalPrefix(manifest, journal);
+    }
+
+    private void verifyJournalPrefix(CheckpointManifest manifest, JournalAccess journal) throws IOException {
         var actual = journal.prefix(manifest.journalPrefix().sequence());
         var expected = manifest.journalPrefix();
         if (actual.sequence() != expected.sequence() || actual.byteLength() != expected.byteLength()

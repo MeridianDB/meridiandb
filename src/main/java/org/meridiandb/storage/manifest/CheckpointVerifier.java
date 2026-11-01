@@ -42,15 +42,27 @@ public final class CheckpointVerifier {
                        Consumer<? super JournalRecord> collector) throws IOException {
         Objects.requireNonNull(source, "source");
         Objects.requireNonNull(collector, "collector");
-        verifyDecoded(manifest, reference -> {
-            byte[] image = source.read(reference.id());
-            if (image == null) { throw invalid("Missing referenced segment"); }
-            if (image.length != reference.byteLength()) { throw invalid("Referenced segment byte length differs"); }
-            return SegmentCodec.decode(image, reference.id());
-        }, collector);
+        verifyDecoded(manifest, reference -> SegmentCodec.decode(readImage(source, reference), reference.id()), collector);
     }
 
-    // The object consumer binds exact range/count before decoding records. Reuse the same
+    // Callers reserve record work from manifest ranges before entering this path. Bind those
+    // ranges before body hashing/allocation/decoding, while retaining the public raw path above.
+    static void verifyBounded(CheckpointManifest manifest, SegmentSource source,
+                              Consumer<? super JournalRecord> collector) throws IOException {
+        Objects.requireNonNull(source, "source");
+        Objects.requireNonNull(collector, "collector");
+        verifyDecoded(manifest, reference -> SegmentCodec.decode(readImage(source, reference), reference.id(),
+                reference.firstSequence(), reference.lastSequence()), collector);
+    }
+
+    private static byte[] readImage(SegmentSource source, CheckpointManifest.SegmentReference reference) throws IOException {
+        byte[] image = source.read(reference.id());
+        if (image == null) { throw invalid("Missing referenced segment"); }
+        if (image.length != reference.byteLength()) { throw invalid("Referenced segment byte length differs"); }
+        return image;
+    }
+
+    // Range-aware consumers bind exact range/count before decoding records. Reuse the same
     // whole-history algorithm without fetching or decoding each segment a second time.
     static void verifyDecoded(CheckpointManifest manifest, DecodedSegmentSource source) throws IOException {
         verifyDecoded(manifest, source, record -> { });

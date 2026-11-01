@@ -43,6 +43,11 @@ the actual owned journal. Unknown files, unreferenced segments and diagnostic
 objects stay outside the candidate set. Any `pending-` name refuses reclamation
 until separate explicit inspection resolves its role.
 
+Inventory reserves record work before loading dependencies and checks each
+segment header against that range before decoding its body. A mismatch fails
+before retained-root force or removal; see [bounded admission and failure order](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission).
+Existing protection release, store poisoning and evidence retention still apply.
+
 When candidates exist, the protocol is:
 
 1. Force the actual owned journal and every retained manifest image and segment.
@@ -135,7 +140,7 @@ The example demonstrates reader deferral, explicit retained roots, actual name
 removal and selected-history reopen. Focused tests:
 
 ```bash
-./mvnw -B -Dtest=LocalReclamationRemovalTest,LocalReclamationRemovalIntegrationTest,LocalReclamationRemovalCrashTest test
+./mvnw -B -Dtest=LocalBoundedSegmentPreflightTest,LocalReclamationRemovalTest,LocalReclamationRemovalIntegrationTest,LocalReclamationRemovalCrashTest test
 ```
 
 Unit faults check before/after effects, ordering, root forces, poisoning and cleanup.

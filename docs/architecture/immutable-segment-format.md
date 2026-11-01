@@ -124,6 +124,13 @@ Imports come from `org.meridiandb.storage.segment` and the existing temporal/jou
 packages. `consume` is application scan logic. The decoded list is a simple ordered
 scan baseline, not an engine query implementation.
 
+`SegmentCodec.decode(image, expected, firstSequence, lastSequence)` additionally
+checks the CRC-validated header range before body hashing and record allocation/
+decoding. Bounded graph consumers use this overload after reserving their declared
+record work. The [manifest guide](checkpoint-manifest-format.md#bounded-consumer-range-admission)
+describes the consumers and deliberate early `INVALID_HISTORY` precedence;
+the raw overloads above retain their existing order and format limits.
+
 The segment defensively copies its list and retains immutable transactions. Each
 encode returns a new caller-owned byte array. Decode does not mutate or retain the
 input array; the caller must not change it concurrently while validation runs.

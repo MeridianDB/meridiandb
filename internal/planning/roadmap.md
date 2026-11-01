@@ -1386,6 +1386,21 @@ focused/core/optional checks and deliver docs/planning/CI normally. This indepen
 maintenance step is not a missing prerequisite or acceptance relaxation for the
 new object graph verifier or expanded publication parents.
 
+**Produced artifacts:** package-private bounded verification shares exact image
+admission and the existing complete-history algorithm, using the already checked
+segment-range overload before body work. HistoryCompactor and protected inventory/
+removal select it; public raw verification, ordinary local publication/load and
+standalone segment readers retain their previous behavior. The object graph path
+already performs early range checks. No format, API, acknowledgement or retention
+change is introduced. Deliberate bounded-path INVALID_HISTORY precedence is public.
+Fifteen independent pure cases and eight local boundary/native cases pass, including
+one-record reservation versus a CRC-valid larger range with payload/footer traps,
+exact byte limits, no force/delete, protection release, poisoning and retained
+reopen evidence. Clean 1,115 core / 402 optional tests, fourteen packaged-core
+examples, archive/jdeps and both strict 67-page builds pass locally without skips.
+Current fourteen-coordinate research leaves all pins unchanged. Source/CI/Pages/
+live delivery identities follow in its receipt; MDB-0038 is next.
+
 ## MDB-0038 Remote checkpoint engine recovery
 
 **Parent:** MDB-0011. **Outcome:** compose the remote checkpoint implementation

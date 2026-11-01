@@ -338,7 +338,9 @@ class HistoryCompactorTest {
         var declared = new CheckpointManifest(DATABASE, 1,
                 new JournalPrefix(1, prefix.byteLength(), prefix.sha256()),
                 List.of(new SegmentReference(id, image.length, 1, 1)));
-        assertInvalid(() -> HistoryCompactor.compact(declared, ignored -> image, HistoryCompactor.Limits.DEFAULT));
+        var failure = assertThrows(SegmentFormatException.class,
+                () -> HistoryCompactor.compact(declared, ignored -> image, HistoryCompactor.Limits.DEFAULT));
+        assertEquals(SegmentFormatException.Code.INVALID_HISTORY, failure.code());
     }
 
     @ParameterizedTest

@@ -6,8 +6,9 @@ description: Compose exact immutable graph validation and bounded actual-journal
 # ADR 0025: Object checkpoint graph verification
 
 Date: October 31, 2026. Status: read-only graph/owned-prefix verification
-implemented, experimental; durable intent and verified conditional publication
-remain planned.
+implemented, experimental; [durable intent](../development/local-s3-publication-state.md)
+and [verified conditional publication](../development/s3-checkpoint-publication.md)
+are now implemented separately. Remote engine recovery remains planned.
 
 ## Context
 
@@ -43,6 +44,12 @@ the legacy raw-source path and its error behavior. Fetch/decode each segment onc
 per graph; keep all evidence private until the complete operation succeeds and
 readers close.
 
+Pure compaction and protected local inventory/removal now use the same early
+expected-range decode after reserving their aggregate record work. A CRC-valid
+header that disagrees with its manifest fails before body work, deliberately
+changing bounded-path failure precedence while preserving the public raw verifier
+and ordinary local checkpoint publication/load. See [bounded consumer admission](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission).
+
 Return immutable metadata and encoded-work usage, with explicit graph/limit/
 actual-prefix failures. Own no caller resource and expose no selected-head token,
 lease, force receipt, publication permission or removal API. Actual owner I/O and
@@ -64,8 +71,8 @@ identity evidence. Silently sharing a budget-exempt dependency cache would obscu
 the operation's costs. Initial journal recovery, exact heap/CPU accounting and
 repeated independent invocations remain outside these per-operation counters.
 
-Durable expected/pending state and complete conditional publication remain separate
-required work. A successful graph check cannot reconcile a still-in-flight PUT,
+Durable expected/pending state and complete conditional publication are implemented
+by separate consumers. A successful graph check alone cannot reconcile a still-in-flight PUT,
 prove current selection or detect every unseen cloned writer without distributed
 admission. Preserve the existing single-placement and no-external-overwrite
 assumptions rather than implying that this verifier provides fencing.

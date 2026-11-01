@@ -62,8 +62,10 @@ incorrect final prefix hash prevents any plan from being returned.
 1. Validate source metadata against manifest format limits. Reject exhausted
    physical generation, excessive declared aggregate input bytes or too many
    history records before calling the source.
-2. Verify every expected segment ID, complete image, byte length, lineage and
-   range. Require ordered complete coverage from sequence one through the declared
+2. Check exact supplied byte length and bind the CRC-checked segment header to
+   its reserved manifest range before body hashing or record allocation/decoding.
+   Then verify every expected segment ID, complete image and lineage.
+   Require ordered complete coverage from sequence one through the declared
    cutoff, globally unique stored request IDs, and the exact reconstructed journal
    prefix length/hash. This supplies consistency evidence for the supplied graph;
    it does not compare a separately stored journal.
@@ -103,6 +105,13 @@ Resource exhaustion and generation exhaustion use
 `ManifestFormatException.Code.LIMIT_EXCEEDED`. Existing graph/codec corruption
 errors remain explicit, and source `IOException` propagates. There is no partial
 plan or automatic fallback to a smaller history prefix.
+
+The [bounded range check](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission)
+reports a mismatching segment header as `SegmentFormatException(INVALID_HISTORY)`
+before body/footer or expected-ID failures. This closes the gap between declared
+record reservation and actual decoding; matching images still receive complete
+validation. The public raw verifier and ordinary local publication/load retain
+their existing error order. Neither path returns a partial plan.
 
 These budgets count serialized segment bytes and records, **not exact JVM heap
 bytes**. A source may allocate its own image; the verifier decodes one input at a
@@ -200,7 +209,7 @@ performs deletion.
 ## Verify and run the example
 
 ```bash
-./mvnw -B -Dtest=HistoryCompactorTest,CompactionConformanceTest,SegmentCodecTest,CheckpointVerifierTest test
+./mvnw -B -Dtest=BoundedSegmentPreflightTest,HistoryCompactorTest,CompactionConformanceTest,SegmentCodecTest,CheckpointVerifierTest test
 ```
 
 ```bash

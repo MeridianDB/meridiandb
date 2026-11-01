@@ -170,7 +170,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,092 JUnit test invocations: 34 object graph/actual-prefix checks,
+This runs 1,115 JUnit test invocations: 23 bounded compaction/reclamation preflight checks,
+34 object graph/actual-prefix checks,
 71 temporal/engine, 29 journal codec,
 84 local journal I/O/process/prefix, 43 immutable segment codec, 36 local segment
 I/O/lifetime, 45 manifest codec/consistency, 39 local checkpoint publication,
