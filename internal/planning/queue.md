@@ -12,9 +12,11 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0058 source acceptance passes from clean main/origin
-  `e3ea7d248ce3fdcc3d4754f4eb9dda1c1c49a544`. Completion commit/push, remote
-  ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- MDB-0058 source `9e07766de3ae79bbcd52af048e72099e86c7840d` is verified on
+  origin/main with matching tips/ancestry. Java **41259110096**, docs **41259110074**
+  and automatic Pages **41259110065** pass. Live guide/ADR/current callers,
+  canonical URLs/search and the **67-page** sitemap are verified. Ubuntu runs
+  all cases; Windows reports 228 core and 185 optional capability skips.
 - **MDB-0058 — Conditional submission and reconciliation** is done. Exact durable
   pending intent, immutable evidence, actual client/owner admission, total two-pass
   graph reservation, one original-precondition attempt and fresh-candidate durable
@@ -27,8 +29,8 @@ children before implementation rather than treating a whole milestone as one pat
   process stops, native result failures and retained evidence. MDB-0011 stays
   expanded: remote engine recovery, reader-safe reclamation and common backend
   conformance remain required. Local acknowledgement and placement limits persist.
-- **MDB-0054 — Legacy bounded segment preflight** is source-ready, conditional on
-  verified delivery above. Keep this independent maintenance task outside the
+- **MDB-0054 — Legacy bounded segment preflight** is ready after verified delivery.
+  Keep this independent maintenance task outside the
   publication parents; apply expected-range admission before payload materialization
   in legacy bounded consumers, preserving their valid results and existing errors.
 

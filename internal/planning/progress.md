@@ -3758,6 +3758,45 @@ release/artifact upload, cloud/account/DNS or hosting-setting change starts.
 expected ranges before payload materialization while preserving valid compaction
 results, existing error behavior and the independent maintenance scope.
 
+## 2026-10-31 — MDB-0058 Delivery verification
+
+Source completion **`9e07766de3ae79bbcd52af048e72099e86c7840d`** carries
+`Step-ID: MDB-0058` / `Step-Result: completed`, including implementation, public
+documentation, agent rules and planning. Normal push to origin/main succeeds;
+fresh fetch confirms matching tips and source ancestry with a clean working tree
+before this internal delivery receipt.
+
+- [Java checks 41259110096](https://github.com/MeridianDB/meridiandb/actions/runs/41259110096)
+  passes both platforms. Ubuntu runs 1,092 core and 402 optional cases with zero
+  failures/errors/skips, including all 78 new publisher cases. Windows reports
+  zero failures/errors with 228 core and 185 optional explicit capability skips,
+  including the 78 new local-placement-dependent cases. All fourteen examples
+  pass on both platforms. This does not qualify Windows local publisher placement.
+- [Documentation checks 41259110074](https://github.com/MeridianDB/meridiandb/actions/runs/41259110074)
+  passes both production and project-path strict builds; each runs all 42 QA-rule
+  fixtures and validates source, rendered HTML, links, search and sitemap.
+- [Automatic Pages 41259110065](https://github.com/MeridianDB/meridiandb/actions/runs/41259110065)
+  passes build and deployment, including 42 QA-rule fixtures. HTTPS readback
+  verifies the new publication guide and ADR 0029 plus protocol, build, head,
+  byte-object, preparation, local-state, roadmap and home pages, each with its
+  own canonical URL and current implemented/planned wording. Both new titles/
+  routes appear in search and the sitemap has 67 unique production HTTPS pages.
+  Browser inspection confirms the published guide and saves
+  `.local-qa/mdb-0058/site-published.png`; local desktop-light/mobile-dark table,
+  search and ADR-navigation evidence is retained in the same ignored directory.
+  The owned local HTTP server is stopped after readback.
+
+CI/log/live readback evidence is under `.local-qa/mdb-0058/`; no public source or
+workflow changes follow the verified completion. This receipt only reconciles
+internal queue/card/history, so its normal push does not trigger another build or
+deployment under the existing path filters. Validate all 58 IDs and completed
+parent criteria again, stage these three internal paths explicitly, and verify
+source ancestry plus matching tips after the receipt push. No release, library
+upload, cloud/account/DNS or hosting-setting change occurs.
+
+**Next recommendation:** MDB-0054 — Legacy bounded segment preflight. No active
+claim remains; the next invocation starts that independent maintenance step.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

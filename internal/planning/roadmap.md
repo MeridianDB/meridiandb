@@ -1359,8 +1359,12 @@ remote PUT but installs local expected state after exact observation/graph/force
 pass; clean builds pass 1,092 core / 402 optional tests without local skips.
 Fourteen packaged-core examples, unchanged core archive/jdeps and strict 67-page
 site builds pass. ADR 0029/guide/current callers/rules/planning are reconciled.
-All publication parents close with original acceptance retained; source/CI/Pages/
-live identities follow in its delivery receipt. Independent MDB-0054 is next.
+All publication parents close with original acceptance retained. Source
+`9e07766de3ae79bbcd52af048e72099e86c7840d` is verified on remote main; Java
+41259110096, docs 41259110074 and Pages 41259110065 pass, with live guide/ADR/
+callers/canonical/search and the 67-page sitemap verified. Windows explicitly
+skips 228 core and 185 optional capability-dependent cases; Ubuntu runs all.
+Independent MDB-0054 is next.
 
 ## MDB-0054 Legacy bounded segment preflight
 
