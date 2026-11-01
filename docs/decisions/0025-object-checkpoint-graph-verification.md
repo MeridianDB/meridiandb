@@ -56,6 +56,11 @@ lease, force receipt, publication permission or removal API. Actual owner I/O an
 corruption retain poisoning; caller policy exhaustion does not poison a healthy
 journal.
 
+The separate [history-loading extension](0030-bounded-pinned-object-history.md)
+now materializes original records from one pinned head during the same complete
+pass. Existing metadata-only operations retain their resource contract; a loaded
+history does not establish current remote selection or recover an engine.
+
 ## Evidence and alternatives
 
 Independent divergent histories and exact budget/read-boundary cases test the

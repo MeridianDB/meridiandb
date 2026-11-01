@@ -30,6 +30,7 @@ becomes verifier-owned; the caller manages both lifetimes and supported placemen
 | --- | --- |
 | `verify(head, limits)` | One complete graph and its actual journal-prefix comparison; no ancestry or selection proof |
 | `verifySuccessor(previous, candidate, limits)` | Exact adjacent metadata transition plus both complete graphs and actual prefix comparisons, in predecessor order |
+| `loadHistory(head, limits)` | Original immutable records from one completely verified pinned graph and actual prefix; no current-selection or engine proof |
 | `manifestKey(namespace, objectId)` | Reserved flat `ns-N-manifest-H.bin` name |
 | `segmentKey(namespace, segmentId)` | Reserved flat `ns-N-segment-H.bin` name |
 
@@ -57,6 +58,48 @@ from that operation, without a continuing lease, force guarantee or current-head
 token. Physical endpoint/bucket scope and durable expected/pending state belong
 to [preparation](s3-publication-preparation.md) and the complete publisher, rather
 than being inferred from this generic byte adapter.
+
+## Load pinned history
+
+`loadHistory` materializes original transactions for a supplied pinned head during
+the **same complete verification pass**. It collects privately, closes each object
+reader, verifies all graph/history checks and compares the actual owned prefix
+before returning. There is no verification-then-refetch gap or public replay visitor.
+
+```java
+var history = verifier.loadHistory(head, ObjectCheckpointGraphs.DEFAULT_LIMITS);
+var originalRecords = history.records();
+var checkedGraph = history.graph();
+var usage = history.usage();
+```
+
+The private-constructed `History` contains an immutable list of original ordered
+`JournalRecord` values and the same `Graph`/`Usage` evidence as one `verify` call.
+Original request identities, operation order, no-op transactions and exact UTF-16
+values remain intact. Genesis returns an empty list. A valid older pinned head can
+be loaded against a complete matching journal, but the result contains no records
+after its checkpoint cutoff. The loader neither reads the remote current-head key
+nor establishes that the supplied head is current.
+
+Records are retained heap values, independent of source arrays and resource close.
+The loader owns and closes none of the supplied adapters or journal. Existing
+per-operation limits and typed failures apply: every graph record and actual-prefix
+record is charged, and each manifest/segment is fetched and decoded once per graph.
+Missing/corrupt late dependencies, divergent actual history or adapter cleanup
+failure return no `History` and no usable partial list. No force, write or repair
+is performed. Metadata-only `verify` and `verifySuccessor` retain no record list.
+
+Materialization retains all checkpoint records and a defensive list copy in
+addition to verification's request-ID set and decoded objects. The record and
+encoded-byte limits bound work/cardinality, not exact heap, CPU or total recovery
+costs. Initial journal opening, full tail replay and eventual engine state remain
+outside this operation. The result is evidence about the actual owner at load
+time, without a continuing lease or proof for another reopened journal.
+
+Remote engine recovery remains planned: its startup must load within owned
+storage, validate complete journal ordering and apply only the contiguous suffix.
+A checkpoint alone cannot detect or reconstruct fully lost uncheckpointed local
+transactions. See [ADR 0030](../decisions/0030-bounded-pinned-object-history.md).
 
 ## Complete verification sequence
 
@@ -148,3 +191,13 @@ verify preflight and complete-decoding behavior. Four optional SDK tests exercis
 the same graph consumer over controlled HTTP object access. They qualify neither a live cloud provider nor
 remote durability, recovery, replication or throughput. Run the core and optional
 builds as described in the [build guide](build.md) and [S3 guide](s3-objects.md).
+
+The history loader adds 22 core cases and seven SDK/HTTP cases: exact original
+records and pinned cutoff, immutable lifetime, one fetch per dependency, exact
+budgets, foreign/divergent/short actual history, late object/cleanup failures and
+early header-range rejection. These verify history materialization, rather than
+engine reconstruction, writable retries or live-provider qualification.
+
+```bash
+./mvnw -B -Dtest=ObjectCheckpointHistoryTest,ObjectCheckpointGraphsTest test
+```

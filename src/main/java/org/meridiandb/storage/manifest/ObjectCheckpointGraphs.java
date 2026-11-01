@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
+import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.object.ImmutableObjectStore;
 import org.meridiandb.storage.object.ObjectId;
@@ -17,7 +19,8 @@ import org.meridiandb.storage.segment.SegmentId;
 
 /**
  * Read-only complete graph/owned-journal verification. Owns neither supplied adapter nor journal.
- * Results are immutable evidence, not a selected head, writer lease, force or cleanup permission.
+ * Results are immutable metadata or original history, not a selected head, writer lease, force
+ * or cleanup permission. Only loadHistory retains checkpoint records after verification.
  */
 public final class ObjectCheckpointGraphs {
     public static final long MAX_BYTES = 256L * 1024 * 1024;
@@ -68,6 +71,21 @@ public final class ObjectCheckpointGraphs {
         public Usage usage() { return usage; }
     }
 
+    /** Heap-owned original history, exposed only after complete graph/actual-prefix verification. */
+    public static final class History {
+        private final Graph graph;
+        private final Usage usage;
+        private final List<JournalRecord> records;
+        private History(Verification verified, List<JournalRecord> records) {
+            this.graph = verified.graphs().getFirst();
+            this.usage = verified.usage();
+            this.records = List.copyOf(records);
+        }
+        public Graph graph() { return graph; }
+        public Usage usage() { return usage; }
+        public List<JournalRecord> records() { return records; }
+    }
+
     private final ImmutableObjectStore objects;
     private final LocalJournal journal;
     private final UUID namespace;
@@ -83,6 +101,16 @@ public final class ObjectCheckpointGraphs {
     /** Verify one supplied declaration; its remote selection/provenance is outside this API. */
     public Verification verify(ObjectCheckpointHead head, Limits limits) throws IOException {
         return verifyHeads(List.of(head), limits);
+    }
+
+    /**
+     * Load original records from one supplied pinned declaration, using the same bounded reads as
+     * verification. No tail replay, current-head observation, engine or continuing journal lease.
+     */
+    public History loadHistory(ObjectCheckpointHead head, Limits limits) throws IOException {
+        var records = new ArrayList<JournalRecord>();
+        var verified = verifyHeads(List.of(head), limits, records::add);
+        return new History(verified, records);
     }
 
     /** Verify both complete graphs in predecessor order under one shared budget, without ancestry traversal. */
@@ -101,6 +129,13 @@ public final class ObjectCheckpointGraphs {
     }
 
     private Verification verifyHeads(List<ObjectCheckpointHead> heads, Limits limits) throws IOException {
+        return verifyHeads(heads, limits, record -> { });
+    }
+
+    // Only private collectors may see records before the final actual-prefix check. No application
+    // visitor can observe partially accepted history or substitute a later unbudgeted fetch.
+    private Verification verifyHeads(List<ObjectCheckpointHead> heads, Limits limits,
+                                     Consumer<? super JournalRecord> collector) throws IOException {
         var budget = new Budget(Objects.requireNonNull(limits, "limits"));
         var lineage = ObjectCheckpointHeadVerifier.lineageId(journal.databaseId());
         for (var head : heads) {
@@ -133,7 +168,7 @@ public final class ObjectCheckpointGraphs {
                     var expected = new ObjectReference(new ObjectId(reference.id().value()), Math.toIntExact(reference.byteLength()));
                     byte[] image = read(segmentKey(namespace, reference.id()), expected);
                     return SegmentCodec.decode(image, reference.id(), reference.firstSequence(), reference.lastSequence());
-                });
+                }, collector);
             } catch (ManifestFormatException | SegmentFormatException invalid) {
                 throw failure(ObjectCheckpointGraphException.Code.INVALID_GRAPH, "Invalid complete checkpoint history", invalid);
             }

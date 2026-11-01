@@ -68,8 +68,8 @@ public final class CheckpointVerifier {
         verifyDecoded(manifest, source, record -> { });
     }
 
-    private static void verifyDecoded(CheckpointManifest manifest, DecodedSegmentSource source,
-                                      Consumer<? super JournalRecord> collector) throws IOException {
+    static void verifyDecoded(CheckpointManifest manifest, DecodedSegmentSource source,
+                              Consumer<? super JournalRecord> collector) throws IOException {
         byte[] lineage = ManifestCodec.checkedLineage(manifest);
         var digest = ManifestCodec.sha256();
         digest.update(lineage);

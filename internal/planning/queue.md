@@ -26,10 +26,23 @@ children before implementation rather than treating a whole milestone as one pat
 - Publication parents MDB-0053/MDB-0049/MDB-0037 remain complete. MDB-0011 stays
   expanded for remote engine recovery, reader-safe reclamation and common backend
   conformance. Current local acknowledgement and placement limits persist.
-- **MDB-0038 — Remote checkpoint engine recovery** is ready after verified
-  delivery. Refine its integration/recovery acceptance before implementation;
-  preserve actual-journal, temporal/retry and local acknowledgement contracts.
-  Remote reader-safe reclamation and common conformance remain separate.
+- **MDB-0038 — Remote checkpoint engine recovery** is expanded into required
+  MDB-0059 bounded pinned history loading, MDB-0060 core pinned-checkpoint engine
+  recovery, MDB-0061 managed S3 startup admission and MDB-0062 writable recovery/
+  full parent conformance. Preserve every original parent criterion.
+- **MDB-0059 — Bounded pinned object history** is done from clean main/origin
+  `d1a441fa6d063bec137a4b0c5ec06e548cd706d9`. Immutable original records now return
+  only after the same complete graph/actual-prefix pass and reader cleanup.
+  Metadata-only verification and existing budgets remain intact. All 22 new core
+  and seven new SDK cases, 1,137 core / 409 optional cases, fourteen packaged-core
+  examples, artifact inspection and both strict 68-page builds pass locally without
+  skips. Completion push, remote ancestry/tips, CI/Pages and live readback remain
+  the delivery gate. No active claim remains.
+- **MDB-0060 — Core pinned checkpoint recovery** is source-ready, conditional on
+  verified delivery. Specify factory ownership/cleanup and frozen journal-head
+  handling, then reconstruct a read-only temporal engine from the loaded prefix
+  plus exact local suffix. Current-head admission and writable recovery remain
+  required later children; a History value is no ownership certificate.
 
 ## Ordered work
 
@@ -86,7 +99,11 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0057](roadmap.md#mdb-0057-verified-durable-s3-preparation) | Prepare verified exact S3 intent durably without selecting it | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0058](roadmap.md#mdb-0058-conditional-submission-and-reconciliation) | Submit/reconcile exact pending intent and complete publisher conformance | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052, MDB-0057 |
 | [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | done | MDB-0010, MDB-0051 |
-| [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | ready | MDB-0010, MDB-0037 |
+| [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | expanded | MDB-0010, MDB-0037 |
+| [MDB-0059](roadmap.md#mdb-0059-bounded-pinned-object-history) | Load immutable history from one fully verified pinned object graph | MDB-0038 | done | MDB-0010, MDB-0037 |
+| [MDB-0060](roadmap.md#mdb-0060-core-pinned-checkpoint-recovery) | Recover a read-only temporal engine from pinned history and the actual local tail | MDB-0038 | ready | MDB-0010, MDB-0037, MDB-0059 |
+| [MDB-0061](roadmap.md#mdb-0061-managed-s3-recovery-admission) | Bind S3 recovery startup to actual scope and durable publication state | MDB-0038 | queued | MDB-0010, MDB-0037, MDB-0060 |
+| [MDB-0062](roadmap.md#mdb-0062-writable-remote-recovery-conformance) | Preserve forced writes after remote recovery and complete parent conformance | MDB-0038 | queued | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |

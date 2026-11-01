@@ -72,7 +72,9 @@ remote checkpoints. A pure [checkpoint-head format](architecture/object-checkpoi
 and binding checks are available. Separate [conditional S3 head access](development/s3-checkpoint-heads.md)
 now supplies bounded GET/conditional PUT. JDK-only
 [object graph verification](development/object-checkpoint-graphs.md) checks complete
-history against the owned journal under aggregate budgets. An optional [publication-state format](development/s3-publication-state.md)
+history against the owned journal under aggregate budgets. Its [pinned history loader](development/object-checkpoint-graphs.md#load-pinned-history)
+returns original immutable checkpoint records from those same verified reads;
+engine reconstruction and local-tail replay remain planned. An optional [publication-state format](development/s3-publication-state.md)
 preserves exact expected/pending metadata. [Durable local state](development/local-s3-publication-state.md)
 now installs it under exclusive ownership. [Verified preparation](development/s3-publication-preparation.md)
 combines client scope, graph/owned-journal checks and exact durable pending intent;

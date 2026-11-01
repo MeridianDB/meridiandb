@@ -103,6 +103,9 @@ defines bounded remote metadata and adjacent-transition checks. A separate
 bytes/tokens and issues exact conditional writes. JDK-only
 [object graph verification](docs/development/object-checkpoint-graphs.md) now checks
 complete dependencies and actual owned-journal prefixes under shared budgets.
+Its [pinned history loader](docs/development/object-checkpoint-graphs.md#load-pinned-history)
+now returns original immutable checkpoint records from the same verified reads;
+engine reconstruction and local-tail replay remain separate planned work.
 An optional [publication-state codec](docs/development/s3-publication-state.md)
 preserves exact expected/pending metadata with pure checked transitions.
 [Durable local state](docs/development/local-s3-publication-state.md) now installs
@@ -170,7 +173,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,115 JUnit test invocations: 23 bounded compaction/reclamation preflight checks,
+This runs 1,137 JUnit test invocations: 22 pinned object-history loading checks,
+23 bounded compaction/reclamation preflight checks,
 34 object graph/actual-prefix checks,
 71 temporal/engine, 29 journal codec,
 84 local journal I/O/process/prefix, 43 immutable segment codec, 36 local segment

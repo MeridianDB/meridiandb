@@ -86,6 +86,9 @@ are available. Their specification separates head revision, manifest generation,
 predecessor identity and actual journal-prefix agreement. Separate
 [conditional S3 head access](../development/s3-checkpoint-heads.md) and read-only
 [object graph verification](../development/object-checkpoint-graphs.md) are implemented.
+The [pinned history loader](../development/object-checkpoint-graphs.md#load-pinned-history)
+also retains original checkpoint records from that same verified pass. It excludes
+the local journal tail and does not yet reconstruct an engine.
 A bounded [publication-state representation](../development/s3-publication-state.md)
 and pure transitions are available. [Durable local state](../development/local-s3-publication-state.md)
 installs exact snapshots under exclusive ownership. The

@@ -3913,6 +3913,96 @@ tips plus source ancestry. Public source remains the CI/Pages-tested completion.
 No later implementation, release, artifact upload or cloud/account/DNS/hosting
 change starts. **Next: MDB-0038 — Remote checkpoint engine recovery.**
 
+## 2026-10-31 — MDB-0059 Bounded pinned object history
+
+**Selection/refinement:** start clean on main/origin
+`d1a441fa6d063bec137a4b0c5ec06e548cd706d9`. Verify prior source
+`d2a30b950fad629ef38cb4bce4d367cb277b2dd3` ancestry and successful Java
+41261721808, docs 41261721797 and Pages 41261721814 before work. Expand MDB-0038
+into required MDB-0059 same-pass bounded history, MDB-0060 core read-only engine,
+MDB-0061 managed S3 startup and MDB-0062 writable/full parent conformance. Preserve
+the original parent outcome/acceptance and all children as required; a loaded
+history does not satisfy engine recovery. Allocate exactly these four IDs.
+
+**Outcome:** add ObjectCheckpointGraphs.loadHistory(head, limits) and private-
+constructed immutable History.graph/usage/records. Collect original JournalRecord
+values privately during the existing complete graph/actual-owned-prefix pass.
+Make the decoded-source collector package-private for this concrete consumer;
+expose no application visitor. Existing verify/verifySuccessor use no-op collectors,
+retaining metadata only. No second fetch/decode, lazy result I/O or budget-exempt
+cache is introduced. Return records only after complete identity/lineage/range/
+request uniqueness/reconstructed-prefix, actual prefix and reader cleanup succeed.
+Records cover only the supplied pinned cutoff, excluding any local tail.
+
+The result preserves original transaction order, no-ops, request identities and
+UTF-16/interval values, with immutable lists independent of source arrays/close.
+It owns no caller journal, adapter or readers and performs no force/create/head
+GET/selection. All limits/error behavior remain: graph plus actual-prefix record
+work, encoded bytes and logical reads, including repeats. Retaining all records
+and list copies adds heap outside exact Usage accounting. Existing full matching
+local journal is required; this is no current-selection/lease, missing-journal or
+tail reconstruction, engine, acknowledgement, cleanup or replicated-durability proof.
+Future core startup must load within its own actual ownership and validate the
+frozen complete local tail; it cannot trust an externally supplied History as a
+certificate for a reopened/different journal.
+
+**Research:** fresh Central at **November 1, 01:45:34 UTC / October 31, 21:45:34 EDT**
+and official compatibility at 01:45:35 UTC retain all fourteen stable pins unchanged:
+Maven 3.10.0; wrapper distribution/plugin 3.3.4; clean/resources 3.5.0; compiler
+3.16.0; Surefire 3.6.1; jar 3.5.1; install/deploy 3.2.0; JUnit 6.1.3; Jackson 3.2.4;
+optional SDK s3/URLConnection 2.57.8. No POM/wrapper change. Metadata summary SHA-256
+`7e2b66d0e9496b07d0d21d6255a3db78e6157ced45adab2d67c49387573ad939`, compatibility
+`8c2e3d809531649667b284cab3af1283708f0a25dda4d96cad4a7057c1c7d32f`, report
+`370bab6dd0f7a9e9e619c9c00d5c782066b001d0e1156711d69cc1bdd5b9e7bd`.
+Eight primary XTDB/Lucene recovery sources refreshed at **01:46:44 UTC /21:46:44 EDT**;
+summary `487874c7c1287726c3d01c263d8f7a618bba454c824b3ef4e6d47ed458d4f643`.
+Keep checkpoint coverage separate from later log entries, explicit out-of-sync
+intervention separate from fallback, and committed snapshots separate from NRT
+reader visibility/full payload integrity. ADR 0030 retains dated primary links
+and distinguishes these comparisons from MeridianDB's own guarantees. Raw evidence
+is ignored in `.local-qa/mdb-0059/research-helper/`.
+
+**Verification:** 22 core invocations cover genesis, exact original frames/no-ops/
+correction/retraction/Unicode/interval extremes, an older explicitly pinned revision
+with valid suffix/newer graph excluded, immutable deep-list lifetime and caller
+ownership, metadata-equivalent Usage and exactly one fetch per dependency. Four
+head-known budget dimensions and both manifest-discovered dependency limits reject
+before excess work; foreign namespace/publisher/actual lineage, divergent/short
+actual prefixes and late missing/corrupt/adapter-cleanup errors return no History.
+CRC-valid maximum range/nested-payload traps retain early admission; actual local
+object/journal integration returns values with no retained native object handles.
+Seven real SDK/HTTP invocations cover immutable GET-only materialization, exact
+usage/order/cutoff, genesis, late missing/corrupt/malformed bodies, explicit retry,
+caller client/credential/journal ownership and immutable post-close lifetime.
+Existing native-stream fault checks remain separate; a final heap reader's close
+is not falsely presented as a throwable native cleanup seam.
+
+85 focused core cases pass, then serial `./mvnw -B clean install` and
+`./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,137 core /409 optional**,
+zero local failures/errors/skips. Fourteen examples run with only the packaged
+core JAR. Archive/jdeps find 154 production classes (one new History class), only
+java.base external modules, no SDK/test classes and unchanged one-class object
+conformance classifier. Independent production/caller and documentation review
+finds no actionable issue. Existing temporal/engine/crash/reclamation suites pass;
+this step adds no engine behavior or process publication boundary.
+
+**Documentation/completion:** add ADR 0030 and navigable index entry, guide API/
+ownership/limits section, root rule and README/homepage/persistence/roadmap/build/
+S3 caller updates. Fix stale S3 guides' core counts alongside current 1,137/409
+counts. Both strict production/project-path builds validate source, rendered HTML,
+links, search and **68 pages**. Desktop-light/mobile-dark checks have no page
+overflow; guide-to-ADR/back navigation passes and normal light viewport is restored.
+Mark MDB-0059 done, clear the claim and make MDB-0060 ready subject to delivery;
+MDB-0038 remains expanded. Validate all 62 IDs/cards/DAG/eligibility, stage explicit
+paths, commit Step-ID MDB-0059 / Step-Result completed and push normally. Confirm
+remote ancestry/tips, CI, automatic Pages and live guide/ADR/callers/canonical/
+search/sitemap before handoff. No later child, library release/upload or cloud/
+account/DNS/hosting change starts.
+
+**Next recommendation:** MDB-0060 — Core pinned checkpoint recovery, using the
+loaded prefix inside owned startup and applying only the exact contiguous local
+suffix before exposing a read-only temporal engine.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

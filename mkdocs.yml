@@ -91,6 +91,7 @@ nav:
       - Durable local S3 state decision: decisions/0027-durable-local-s3-publication-state.md
       - S3 preparation decision: decisions/0028-verified-s3-publication-preparation.md
       - S3 publication decision: decisions/0029-verified-s3-checkpoint-publication.md
+      - Pinned object history decision: decisions/0030-bounded-pinned-object-history.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

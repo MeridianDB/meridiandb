@@ -1422,6 +1422,93 @@ or claiming replicated durability. Preserve existing force-before-query-publicat
 acknowledgement, explicit ownership and full journal/history retention. Document
 supported access modes, offline behavior and local-storage-loss limits.
 
+**Expansion:** required children MDB-0059, MDB-0060, MDB-0061 and MDB-0062 separate
+same-pass verified history materialization, core engine reconstruction, managed
+provider startup and writable/full conformance. All original criteria above remain
+required; a loaded history is not an engine or remote selection receipt.
+
+## MDB-0059 Bounded pinned object history
+
+**Parent:** MDB-0038. **Outcome:** load immutable ordered checkpoint records from
+one supplied pinned head through the same complete graph/actual-owned-prefix
+verification pass. Keep independent namespace/publisher/actual-lineage binding,
+existing limits/failures and metadata-only verify behavior. This concrete payload
+serves MDB-0060's private engine recovery without a public arbitrary replay visitor.
+
+**Complete when:** private records escape only after complete graph identity,
+lineage/ranges/request uniqueness/reconstructed-prefix and actual owned-prefix
+checks plus object-reader cleanup. Fetch/decode each dependency once under the
+existing shared graph budgets; reserve record work before allocation. Immutable
+results outlive caller resources and own no handles. Test genesis, exact ordered
+original frames/no-ops/identity extremes, suffix exclusion, exact limits, missing/
+corrupt/foreign/divergent/late failures and cleanup, through actual local and SDK
+consumers. Preserve wire formats and acknowledgement. Document retained heap costs,
+caller ownership and the absence of current-head, engine, remote-tail or durability
+proof. Research current Maven pins and deliver docs/rules/planning/CI normally.
+
+**Produced artifacts:** ObjectCheckpointGraphs.loadHistory returns private-constructed
+History with immutable original records plus Graph/Usage only after same-pass complete
+graph/actual-prefix verification. Package-private decoded-source collection supplies
+no public visitor; metadata-only verify paths retain no history list. Twenty-two
+core and seven real SDK/HTTP cases cover original values/order/no-ops, pinned cutoff,
+immutable lifetime, exact budgets/one dependency fetch, foreign/divergent/short
+actual histories, late failures and cleanup without publication effects. Clean
+1,137 core / 409 optional cases, fourteen packaged-core examples, archive/jdeps and
+strict 68-page production/project-path builds pass locally without skips. ADR 0030,
+guide/callers/rules and current Maven/recovery research document retained-memory
+and ownership limits. Source/CI/Pages/live identities follow in its receipt;
+MDB-0038 remains expanded and MDB-0060 is next.
+
+## MDB-0060 Core pinned checkpoint recovery
+
+**Parent:** MDB-0038. **Outcome:** add a concrete JDK-only read-only engine recovery
+entry point using MDB-0059's verified immutable prefix and the same actual owned
+local journal. Reuse private LocalDatabase reconstruction; keep backend callbacks
+and InMemoryEngine restore outside the public API. Specify factory ownership and
+cleanup before implementation; all-local use initializes no provider code.
+
+**Complete when:** canonical and seeded histories recover checkpoint prefix once
+and only the contiguous suffix to a frozen observed journal head; every historical
+query, no-op and original request lookup agrees with independent reference/local
+recovery. Validate full journal order/cardinality and reject foreign/missing/corrupt
+prefix/suffix evidence without exposure or fallback. Cover startup/cleanup failures,
+immutable views and resource lifetimes. A valid older explicit checkpoint may recover
+with a complete matching journal; current-selection provenance belongs to MDB-0061.
+Document that a cleanly missing uncheckpointed suffix cannot be inferred without an
+independent minimum/expected head. Preserve full journal/history and existing local
+API behavior; writable acknowledgement remains MDB-0062's required work.
+
+## MDB-0061 Managed S3 recovery admission
+
+**Parent:** MDB-0038. **Outcome:** compose actual S3 client scope, independent binding,
+durable local expected/pending state, exact fresh head observation and core read-only
+recovery. Use narrow implemented provider APIs; do not infer startup authority from
+copied IDs, a metadata Verification value or a token-only response.
+
+**Complete when:** real SDK/HTTP plus supported local placement covers exact expected
+selection, fresh token/body scope, absent/foreign/stale/corrupt state, pending/uncertain
+selection and explicit existing reconciliation before recovery. Preserve all pending
+and failed evidence; never clear/rebase/adopt or silently select another graph. Cover
+acquisition/cleanup/credential ownership and process reopen, local-tail coverage and
+missing-tail limits. Document online/offline access modes and unsupported placement;
+no cross-host fence, missing-data reconstruction or replicated durability is claimed.
+
+## MDB-0062 Writable remote recovery conformance
+
+**Parent:** MDB-0038. **Outcome:** enable supported writable recovery after MDB-0061
+while preserving private prepare, owner append/force, atomic query publication and
+existing local acknowledgement. Complete every original MDB-0038 integration gate.
+
+**Complete when:** actual remote checkpoint plus exact local tail recovers canonical/
+seeded historical queries and request retry behavior, then new and duplicate writes
+match the local backend/reference. Exercise startup barriers, append/force/publication
+faults, lost acknowledgement, pending/late remote selection, process stops and exact
+reopen without fallback, repair or history loss. Account for verification/replay costs
+and retain full journal/evidence. Document actual checkpoint versus tail coverage,
+local-storage-loss and offline behavior. Close MDB-0038 only after all children and
+its original SDK/engine/temporal/cleanup/conformance criteria pass and delivery is
+verified; remote reader-safe reclamation remains MDB-0039's separate requirement.
+
 ## MDB-0039 Reader-safe object reclamation
 
 **Parent:** MDB-0011. **Outcome:** define and implement a supported remote cleanup

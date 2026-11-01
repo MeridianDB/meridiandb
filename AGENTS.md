@@ -281,6 +281,16 @@ so a new session can work correctly without relying on earlier conversations.
   Test aggregate limits, copied divergent histories and native actual-read bounds
   as well as local/SDK consumers. Verification supplies no selected-head token,
   force barrier, durable intent, lease or cleanup authority.
+- Follow [ADR 0030](docs/decisions/0030-bounded-pinned-object-history.md) and
+  [pinned history loading](docs/development/object-checkpoint-graphs.md#load-pinned-history)
+  when supplying original records for recovery. Collect privately during the same
+  bounded graph/actual-owner verification pass and expose immutable records only
+  after all checks and reader cleanup. Keep metadata verification free of retained record lists;
+  charge repeated invocations separately and document retained-list heap costs.
+  Test exact original records, cutoff/suffix separation, late failure privacy,
+  immutable lifetime and actual local/SDK consumers. Load within the future engine
+  factory's owned startup scope; a History value grants no journal lease, current
+  selection, tail recovery, acknowledgement or permission to substitute another owner.
 - Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
   [S3 publication-state format](docs/development/s3-publication-state.md) for exact
   expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing

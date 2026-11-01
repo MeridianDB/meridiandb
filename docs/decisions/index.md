@@ -39,6 +39,7 @@ permanent commitment.
 | [0027: Durable local S3 publication state](0027-durable-local-s3-publication-state.md) | Implemented, experimental | Exclusive local ownership, synchronized immutable generations and fail-closed exact-state reopen |
 | [0028: Verified S3 publication preparation](0028-verified-s3-publication-preparation.md) | Preparation implemented; selection separate | Actual client scope, shared graph/owner checks, barriers, immutable intent and exact durable pending state |
 | [0029: Verified S3 checkpoint publication](0029-verified-s3-checkpoint-publication.md) | Implemented, experimental | Original-precondition submission, shared pre/post graph budget and durable exact-candidate reconciliation |
+| [0030: Bounded pinned object history](0030-bounded-pinned-object-history.md) | Implemented, experimental | Same-pass immutable original records after complete graph and actual owned-prefix verification; no engine or current-head proof |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.
