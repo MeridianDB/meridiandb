@@ -106,6 +106,9 @@ same private reconstruction algorithm, also used by managed S3 read recovery.
 synchronize the owned journal/name before enabling forced local transactions.
 Managed S3 writable recovery is implemented separately; its [conformance suite](../development/s3-recovery-conformance.md)
 checks full SDK histories and publication interruptions. Optimized query layouts remain planned.
+The [remote reclamation protocol](remote-reclamation.md) is an accepted design for
+coordinated admission, complete root accounting and ordered removal; remote delete
+operations remain unimplemented.
 
 ## Learn from immutable ingestion and search systems
 

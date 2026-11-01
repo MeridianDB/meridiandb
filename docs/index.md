@@ -90,6 +90,9 @@ submission and durable reconciliation. Managed S3 read recovery is available sep
 [Remote writable conformance](development/s3-recovery-conformance.md) now checks
 unchanged canonical/seeded SDK histories and interrupted publication with retry continuation.
 Existing journal/checkpoint protocols remain explicit.
+The accepted [remote reclamation design](architecture/remote-reclamation.md) specifies
+coordinated admission, complete roots and durable uncertainty before future deletion;
+its guarded APIs remain unimplemented.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

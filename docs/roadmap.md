@@ -112,9 +112,12 @@ exact adjacent metadata checks. The optional [head-access primitive](development
 now provides paired GET observations and exact conditional writes. The
 [verified publisher](development/s3-checkpoint-publication.md) adds original-intent
 submission, bounded complete graph checks and durable candidate reconciliation.
-Full remote writable conformance, protected reclamation and common backend conformance remain
-open. Those stages retain the existing local journal and acknowledgement contract and
-need their own capability and failure evidence. Core
+[Remote writable conformance](development/s3-recovery-conformance.md) now covers the
+unchanged SDK corpus and publication boundaries. Protected remote reclamation and
+common backend conformance remain open. The accepted [reclamation protocol](architecture/remote-reclamation.md)
+stages namespace admission/durable hazards, complete verified inventory, exact
+conditional deletion and ordered integration. These APIs remain unimplemented and
+retain the existing local journal and acknowledgement contract. Core
 [pinned checkpoint read recovery](development/object-checkpoint-recovery.md) is
 available. [Managed S3 read recovery](development/s3-database.md) adds exact durable
 expected selection admission; live-provider qualification remains planned.

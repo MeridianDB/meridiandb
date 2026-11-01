@@ -4761,6 +4761,112 @@ its explicit remote reader/publisher protection contract and bounded implementat
 retaining selected/backup/reader roots and every original reclamation criterion.
 
 
+## 2026-11-01 — MDB-0066 Remote reclamation protocol and staged plan
+
+**Scope and selection:** resume from clean main/origin
+`f0dd734b693df2de9c1ed6ed394fffb31d873f1c`, rechecking prior source
+`c41b73b6488a2dbd612bcc26f11b32061d561376` ancestry and Java 41327286700,
+docs 41327286721 and Pages 41327286708 success. MDB-0039 combines coordination,
+root inventory, destructive provider effects and integration, so expand it into
+required MDB-0066 protocol, MDB-0067 namespace admission/hazards, MDB-0068 verified
+inventory, MDB-0069 exact conditional deletion and MDB-0070 ordered removal/conformance.
+Preserve every original reader/publisher/root/uncertainty/removal criterion; protocol,
+preview or universal no-op alone never closes the parent. All 70 IDs/cards/DAG remain
+valid; only MDB-0066 executes this invocation. Root owns shared source/planning/Git;
+independent helpers own fresh primary/version research and read-only design/public QA.
+
+**Protocol outcome:** ADR 0036 and architecture/remote-reclamation.md define an
+accepted design, explicitly unimplemented. Initial mode is a fresh cooperating
+namespace, never-versioned general-purpose bucket and one canonical local control
+placement on one host. Old raw clients/pinned readers/publication APIs remain
+independent and cannot enroll automatically. An absent head, client shutdown or
+restart proves neither fresh namespace authority nor absence of unknown historical
+mutations. Keep the permanent guard inode, immutable binding/activity generations,
+common identity reservation, actual shared locks, ordered ownership, invalidation/
+cleanup/suppression and native uncertain-close quarantine. Cross-host/copied-control
+placement, legacy adoption and version-aware removal remain unsupported extensions.
+
+All participating readers/uploaders/publishers retain shared admission; maintenance
+requires exclusive admission through root verification and effects. Root registration
+must be complete before upload/use, including failed/pending candidates' dependencies.
+Retaining an unknown manifest body alone does not protect a segment shared with an
+obsolete candidate. Unregistered roots or uncertain coverage defer deletion; explicit
+candidate lists alone prove no complete liveness. Selected/current intent, catalog,
+retained/backup roots and full journal/history remain protected. Verify complete
+candidate graphs against actual owner journal and pair SHA-256/length/body with the
+original opaque ETag from one GET; no separate HEAD can bind an earlier body.
+Bound aggregate root/fetch/byte/record/identity work before I/O/allocation.
+
+Before every possible remote PUT/DELETE, durably record that individual attempt and
+reserve completion capacity. Only its validated terminal response can supply its
+completion record. Recognize an already installed valid completion on reopen after
+local failure; never manufacture it from observation or fall back past damaged
+newest evidence. Unknown effects remain quarantined across close/restart and block
+new remote activity, cleanup and key resurrection. Logical publication reconciliation,
+GET absence, retry success, TTL and PID/lease assumptions do not settle earlier
+requests. Document the conservative D1-unknown/D2-success/recreate-same-key/D1-late
+delete schedule as an inference, not an observed provider incident or new guarantee.
+Each exact DELETE must settle durably before another mutation. Planned ordering is
+obsolete immutable head metadata, obsolete manifests then unused segments; stop
+immediately on uncertainty and retain remaining/orphan/diagnostic evidence. Reopen
+validates evidence and surviving roots without automatic replay/sweep/repair.
+
+**Research:** fresh fourteen-pin Central metadata checked November 1 at
+**19:10:52 UTC /14:10:52 EST**; official compatibility at **19:10:53 /14:10:53**.
+All selected releases remain latest stable compatible: Maven 3.10.0, Wrapper 3.3.4,
+clean/resources 3.5.0, compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy
+3.2.0, JUnit 6.1.3, Jackson 3.2.4 and SDK s3/url-connection-client 2.57.8. No POM,
+Wrapper, SDK setting or dependency selection changes. Fresh S3/SDK primary set
+started **19:12:05 UTC /14:12:05 EST**: nine documents plus three exact Central
+2.57.8 source JARs. DeleteObject supports exact If-Match for general-purpose buckets;
+size/time predicates are directory-only. Current-only conditions, mismatch412 and
+published concurrency409/404 guidance require future exact outcome qualification.
+Never-versioned deletion differs from enabled/suspended markers/versions. Strong
+single-key consistency and client-side timeout/retry settings provide no cross-key
+fence or operation-drain certificate; exact SDK source exposes ifMatch and the
+existing explicit maxAttempts(1). Distinguish these source facts from protocol
+inferences. All primary links/date are in public protocol; raw evidence remains
+ignored under `.local-qa/mdb-0066/research-helper/`.
+
+SHA-256 metadata `158481afaecd8bf30f1ee72051eccfb3c5e0c166ea661e42ad4c4e66b7ffe3f0`,
+compatibility `fafcebeb585dc0c69def11cac5a9bf2b2cb282d1981c9a5802e81099eb02f1b0`,
+S3 summary `8c7388150e923e7294f1ee0518579340a72c2df001d63db1faa533b471637206`,
+report `2e09ddc0016dc443cb69b7ec2b936fba7e80efd993fb917b5d41b4dedbc834e0`,
+sums `d9922975c378accf6c83c5bceae3c19b6887ecbc3fede0b56853a8bca4c4982c`.
+
+**QA and caller reconciliation:** independent review verifies fresh-only enrollment,
+complete root coverage, immutable/head/DELETE hazards, same-attempt settlement,
+same-GET evidence and ordered effects. Incorporate its root-dependency and per-attempt
+completion clarifications; final review reports no remaining findings or public
+process leakage. Update root rules and README/home/architecture/persistence/object
+protocol/decision index/nav with clear accepted-versus-implemented status. Correct a
+stale lower-roadmap sentence calling already completed full writable conformance
+open; protected reclamation/common backend stages remain open. No public task IDs,
+workflow narrative or runtime/provider/deletion qualification is claimed.
+
+Forty-two docs-rule fixtures and strict production/project-path **80-page** builds
+pass. New protocol/ADR/back navigation and title search entries pass; desktop-light/
+mobile-dark rendering has no page overflow and normal light viewport is restored.
+Nine local page/content/canonical readbacks, both new search routes and 80 unique
+production sitemap URLs pass. Java/POM/workflow inputs are unchanged; do not repeat
+1,272 core /596 optional tests or claim a new Java CI run for this documentation-only
+step. Prior exact-source Java delivery is rechecked above. Public protocol source
+inspection performs no live provider call, bucket/IAM/account mutation or deletion.
+
+**Completion/delivery:** mark MDB-0066 source-done, clear active claim and make
+MDB-0067 ready conditional on source delivery. Keep MDB-0039/0011 expanded and all
+four implementation children required. Validate all 70 IDs/cards/references/DAG,
+inspect/stage task-owned paths and commit Step-ID MDB-0066 / Step-Result completed.
+Push normally; verify exact-source docs/automatic Pages, live protocol/ADR/callers/
+canonical/search/sitemap and matching tips/clean tree before internal-only delivery
+receipt. No child implementation, library release/upload, remote delete or cloud/
+account/DNS/hosting configuration change starts.
+
+**Next recommendation:** MDB-0067 — Coordinated S3 namespace admission, implementing
+the fresh binding/complete root registration, reader/publisher protection and durable
+per-attempt hazard boundary before any reclamation effect is possible.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

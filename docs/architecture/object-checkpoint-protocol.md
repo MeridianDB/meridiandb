@@ -18,6 +18,8 @@ and durable candidate reconciliation are implemented experimentally. Core
 is available, with [managed S3 admission](../development/s3-database.md) implemented
 separately. Managed S3 writable recovery is implemented separately. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
+The separate [reclamation design](remote-reclamation.md) adds proposed namespace
+admission and durable mutation hazards; its guarded removal API is not implemented.
 
 This specification defines the selection protocol those implementations must
 follow. It preserves the existing local journal and force-before-publication

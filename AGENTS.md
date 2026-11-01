@@ -345,6 +345,21 @@ so a new session can work correctly without relying on earlier conversations.
   online-failure limits without fallback or data invention. Retain explicit fixture
   caps, named capability skips and separate live-provider/power-loss/reclamation
   limits. Keep actual tests, fault bridges and optional helpers outside the classifier.
+- For coordinated remote reclamation, follow [ADR 0036](docs/decisions/0036-coordinated-remote-reclamation.md)
+  and the [accepted protocol](docs/architecture/remote-reclamation.md); these are
+  design requirements until their implementation checks pass. Admit a fresh
+  cooperating namespace in one canonical local placement; keep raw/legacy clients
+  outside that mode and make no cross-host fencing claim. Register every root and
+  dependency set before remote use and refuse uncertain catalog coverage. Retain
+  shared reader/publisher protection or exclusive maintenance through cleanup.
+  Force distinct intent before every possible PUT/DELETE, reserve completion
+  capacity and settle only from that attempt's validated terminal evidence.
+  Unknown effects persist across close/restart; absence, later success and logical
+  reconciliation cannot clear them or permit key resurrection. Require same-GET
+  verified body/tag, never-versioned bucket admission, bounded complete roots and
+  head-metadata/manifests-before-segments ordering. Preserve failed/unknown root
+  dependencies, full journal/history and diagnostic evidence. A plan, preview or
+  delete primitive alone does not satisfy protected-removal conformance.
 - Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
   [S3 publication-state format](docs/development/s3-publication-state.md) for exact
   expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing

@@ -56,6 +56,7 @@ nav:
       - Temporal contract: architecture/temporal-contract.md
       - Temporal geometry and indexes: architecture/temporal-geometry.md
       - Persistence boundaries: architecture/persistence-boundaries.md
+      - Remote reclamation design: architecture/remote-reclamation.md
       - Immutable storage research: architecture/storage-research.md
       - Journal format: architecture/journal-format.md
       - Immutable segment format: architecture/immutable-segment-format.md
@@ -97,6 +98,7 @@ nav:
       - Pinned checkpoint writes decision: decisions/0033-pinned-checkpoint-writes.md
       - Managed S3 writes decision: decisions/0034-managed-s3-writable-recovery.md
       - Remote writable conformance decision: decisions/0035-remote-writable-recovery-conformance.md
+      - Remote reclamation decision: decisions/0036-coordinated-remote-reclamation.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

@@ -12,35 +12,32 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Previous MDB-0064 source `4a3e14884c8cf11be3c0757b18592624ff279ff7`, test-fixture
-  follow-through `7e666b3af237c9d1e6ffe6dfa048e3df19769677` and delivery receipt
-  `3849072587c1e0d59063492a768e33668a69bda9` are verified on origin/main. Final
-  Java 41325115865, docs 41324730429 and Pages 41324730394 pass.
-- **MDB-0065 — Remote writable recovery conformance** is source-complete. Forty
-  SDK corpus cases retain every original temporal/query literal, generator draw,
-  seed, historical cutoff and retry identity across genesis/split/full checkpoints.
-  They make 1,536 actual seeded new commits. Ten integration cases cross late or
-  interrupted publication with pending refusal, explicit reconciliation, managed
-  startup, forced writes and exact retry/reopen. Coverage-loss, missing journal,
-  online failure and historical observation limits remain explicit. No active claim
-  remains; production protocols and wire formats are unchanged.
-- Clean **1,272 core /596 optional** checks, all fourteen packaged-core examples,
-  archive/jdeps, 42 docs-rule fixtures and strict **78-page** production/project-path
-  builds pass locally without skips. New guide/ADR/search navigation and desktop-light/
-  mobile-dark layout pass, including the coverage table without page overflow.
-  Fifteen local page/content/canonical readbacks, both new search entries and the
-  78-page unique production sitemap pass. Source
-  `c41b73b6488a2dbd612bcc26f11b32061d561376` is verified on origin/main. Java
-  **41327286700**, docs **41327286721** and Pages **41327286708** pass. Ubuntu
-  runs every case; Windows reports 363 core /368 optional explicit capability
-  skips, including all 50 new native cases. Fourteen examples pass per platform.
-  Fifteen live page/canonical readbacks, both new search entries and the 78-page
-  sitemap pass; the progress receipt records actual delivery evidence.
-- **MDB-0062 and MDB-0038** meet every original source acceptance criterion and all
-  required children; both source and delivery are complete. The progress receipt
-  maps their criteria to existing focused cases and new SDK integration.
-  **MDB-0039 — Reader-safe object reclamation** is next. MDB-0011 remains expanded with remote reclamation and
-  general backend conformance required. All 65 stable IDs are retained.
+- Previous MDB-0065 source `c41b73b6488a2dbd612bcc26f11b32061d561376` and delivery
+  receipt `f0dd734b693df2de9c1ed6ed394fffb31d873f1c` are verified on origin/main.
+  Java 41327286700, docs 41327286721 and Pages 41327286708 pass. Recovery parents
+  MDB-0062/0038 remain complete; no prior delivery is repeated.
+- **MDB-0039 — Reader-safe object reclamation** is expanded into required protocol,
+  coordinated namespace admission/hazards, verified inventory, conditional deletion
+  and ordered removal/conformance children MDB-0066 through MDB-0070. Preserve
+  every original removal/reader/publisher/retained-root/uncertainty criterion; a
+  protocol or preview alone never closes this parent. All seventy IDs are retained.
+- **MDB-0066 — Remote reclamation protocol and staged plan** is source-complete.
+  Accepted public protocol/ADR define fresh single-placement enrollment, complete
+  root registration, shared/exclusive admission, same-attempt durable mutation
+  settlement, persistent uncertainty and exact metadata-before-dependency removal.
+  Unknown effects cannot be cleared by GET, close, restart, later success or logical
+  reconciliation. Existing raw APIs stay separate; guarded reclamation remains
+  unimplemented. No active claim remains.
+- Forty-two docs-rule fixtures, strict production/project-path **80-page** builds,
+  protocol/ADR/back/search navigation, desktop-light/mobile-dark QA and nine local
+  page/content/canonical readbacks pass. Both new search entries and the 80-page
+  sitemap pass. Fresh primary S3/SDK and Maven research plus independent design/
+  public-doc review support the protocol. Source push, exact-source docs/Pages and
+  live readback remain to verify before the delivery receipt. No Java, POM,
+  workflow, bucket configuration or remote object changed.
+- **MDB-0067 — Coordinated S3 namespace admission** is next, conditional on source
+  delivery. MDB-0039 and MDB-0011 remain expanded; MDB-0067/0068/0069/0070 are still
+  required for actual protected deletion and integrated conformance.
 
 ## Ordered work
 
@@ -105,7 +102,12 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0063](roadmap.md#mdb-0063-core-pinned-checkpoint-writes) | Enable forced local writes after explicit pinned checkpoint recovery | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0064](roadmap.md#mdb-0064-managed-s3-writable-recovery) | Admit writable managed S3 recovery with retained ownership | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0063 |
 | [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
-| [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | ready | MDB-0010, MDB-0038 |
+| [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | expanded | MDB-0010, MDB-0038 |
+| [MDB-0066](roadmap.md#mdb-0066-remote-reclamation-protocol-and-staged-plan) | Specify coordinated remote reclamation and staged acceptance | MDB-0039 | done | MDB-0010, MDB-0038 |
+| [MDB-0067](roadmap.md#mdb-0067-coordinated-s3-namespace-admission) | Admit coordinated remote activity with durable mutation hazards | MDB-0039 | ready | MDB-0010, MDB-0038, MDB-0066 |
+| [MDB-0068](roadmap.md#mdb-0068-verified-remote-reclamation-inventory) | Verify bounded remote roots and exact obsolete-object inventory | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067 |
+| [MDB-0069](roadmap.md#mdb-0069-guarded-conditional-s3-deletion) | Implement exact guarded conditional deletion through the SDK | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067, MDB-0068 |
+| [MDB-0070](roadmap.md#mdb-0070-ordered-remote-reclamation-conformance) | Retire obsolete metadata and dependencies with full reclamation conformance | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067, MDB-0068, MDB-0069 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |

@@ -145,6 +145,10 @@ file lock protects cooperating local processes; it does not protect a reader on
 another host. Preserve remote objects until the implemented protocol proves
 exclusive cleanup and complete reader, publisher and backup coverage. Retain
 unknown objects and uncertain publication evidence conservatively.
+The accepted [coordinated reclamation design](remote-reclamation.md) now specifies
+fresh single-placement enrollment, complete root registration, durable per-attempt
+hazards and metadata-before-dependency removal. Its admission and delete APIs remain
+unimplemented; current S3 clients still provide no reclamation permission.
 
 ## Optional replication
 

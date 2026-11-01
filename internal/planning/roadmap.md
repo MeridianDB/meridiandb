@@ -1731,6 +1731,141 @@ order metadata retirement before unused dependencies and bound verification work
 Keep unsupported cross-host admission/leadership modes explicit. A preview or
 universal no-op deferral alone does not satisfy the original reclamation gate.
 
+**Expansion:** required MDB-0066 protocol/staged plan, MDB-0067 coordinated admission/
+durable hazards, MDB-0068 bounded verified inventory, MDB-0069 exact conditional
+SDK delete and MDB-0070 ordered removal/integration implement separate boundaries.
+Every original criterion above remains required. None of protocol, guard, inventory
+or a raw delete primitive alone closes this parent. Downstream MDB-0040 still waits
+for actual protected removal and integration, not a universal no-op or manual sweep.
+
+## MDB-0066 Remote reclamation protocol and staged plan
+
+**Parent:** MDB-0039. **Outcome:** adopt a concrete bounded supported-mode protocol
+and child acceptance plan before adding destructive provider operations. Research
+current primary S3 delete/versioning/condition/uncertainty evidence and relevant
+Maven pins; preserve existing temporal/commit/publication formats and raw APIs.
+
+**Complete when:** public protocol and ADR distinguish proposed guarded access from
+current no-delete APIs; bind one canonical local placement, fresh coordinated
+namespace bootstrap, participating readers/publishers and explicit retained roots.
+Specify shared versus exclusive admission, durable per-attempt remote hazards and
+uncertainty surviving close/restart, same-GET body/tag evidence, unversioned supported
+bucket mode, bounded inventory and metadata-before-dependency effects. Resolve late
+request/key-resurrection races without claiming GET, fresh ETag, retry success, client
+close or process restart proves earlier requests drained. Record fail-closed behavior,
+legacy/cross-host/versioning limits, concrete future tests and all parent criteria
+across required children. Independent review and strict docs/navigation/search/
+responsive QA pass; commit/push and verify automatic docs/Pages normally. No remote
+API, Java behavior, deletion or parent implementation completion is claimed.
+
+**Produced artifacts:** ADR 0036 and the remote-reclamation protocol accept a fresh
+cooperating single-placement/never-versioned mode, permanent guard identity, complete
+root catalog before remote use, shared versus exclusive admission, per-attempt durable
+hazard/completion evidence and sticky unknown outcomes. Same-GET identity/tag evidence,
+bounded root verification and head→manifest→segment ordering precede actual deletion.
+Each terminal result must settle durably before the next mutation. Unknown-root bytes
+alone do not protect shared dependencies; every nonretired/failed root must contribute
+its dependencies or cleanup defers. Existing unguarded APIs and legacy/cross-host/
+versioned modes remain separate. Fresh primary sources and independent design/public
+reviews pass; 42 docs fixtures, strict 80-page production/project builds, nine local
+readbacks/search/sitemap and light/dark/mobile QA pass. Current callers/rules and
+Maven research evidence are reconciled, including stale public roadmap wording about
+already completed writable conformance. Source/docs/Pages/live delivery follows in
+its receipt. No Java/POM/runtime deletion change occurs. MDB-0067 is ready; MDB-0039
+remains expanded until all four implementation children and its original criteria pass.
+
+## MDB-0067 Coordinated S3 namespace admission
+
+**Parent:** MDB-0039. **Outcome:** implement opt-in coordinated single-placement
+namespace binding, shared activity/exclusive maintenance and durable per-attempt
+remote mutation accounting under the accepted protocol. Keep legacy/raw APIs
+separate and production core independently JDK-only.
+
+**Complete when:** fresh explicit create and validated existing open bind exact
+actual target, namespace/publisher/lineage and permanent local control identity;
+missing/corrupt/copied/rolled-back evidence never silently initializes an existing
+namespace. One JVM native channel per guard identity and shared cross-process
+admission protect all participating reader/publisher/upload lifetimes; exclusive
+maintenance defers against any live activity and blocks new activity. Guard inode
+is never renamed/replaced; durable binding/hazard generations live beside it.
+Register every managed root and dependency set durably before remote upload/use;
+pending and failed candidates retain dependency protection until explicit validated
+retirement. Fresh enrollment and all root-writing paths establish complete catalog
+authority; unknown/unregistered roots or uncertain coverage refuse reclamation.
+Before every possible remote mutation, durably record a distinct attempt and its
+exact key/condition/identity; clear only that attempt on a proven terminal outcome
+and successful durable settlement. Unknown effects and local settlement uncertainty
+retain quarantine across processes and prohibit automatic clearing through observation,
+logical publication reconciliation, later retry success, close or restart. No mutable
+client/delegate escapes participation; acquire in one documented order and preserve
+caller credential ownership, invalidation/cleanup/suppression and native-close
+quarantine. Real SDK, local I/O, owner/alias, process and admission-race tests pass;
+preserve existing unguarded behavior and explicitly unsupported legacy/cross-host
+modes. Pin bounded state images/capacities and independent vectors before I/O.
+
+## MDB-0068 Verified remote reclamation inventory
+
+**Parent:** MDB-0039. **Outcome:** compute an immutable bounded inventory only under
+exclusive coordinated admission and clean durable activity evidence, without delete.
+
+**Complete when:** admit the documented never-versioned general-purpose mode and
+actual client scope; freshly validate exact mutable selection plus durable local
+expected/pending state. Pending/unknown activity or inconsistent selection refuses
+cleanup. Protect current selection/immutable intent, selected graph and explicit
+retained/backup roots; validate every supplied obsolete root against the actual
+owned full journal and complete graphs. Include all nonretired catalog roots and
+protect failed/unknown roots' dependencies; candidate lists alone do not prove root
+completeness. Refuse uncertain catalog coverage. Require explicit bounded candidate identity,
+no listing sweep or unbounded ancestry walk, and retain unknown/orphan/diagnostic
+keys. Same-GET full body/SHA-256/length and opaque tag evidence bind exact candidates;
+reserve aggregate roots/fetches/bytes/records/identities before requests/allocation.
+Deduplicate dependency liveness correctly across roots and order head-intent metadata,
+obsolete manifests then unused segments. Preserve all logical history, actual full
+journal and costs outside graph budgets. Real SDK fixtures verify shared dependencies,
+retained roots, stale/foreign/missing/corrupt evidence, limits and no effects; preview
+has no later deletion authority. Existing retention-state binding is durable and
+updated under the same coordination, with retired-root admission explicitly defined.
+
+## MDB-0069 Guarded conditional S3 deletion
+
+**Parent:** MDB-0039. **Outcome:** add the narrow exact conditional-delete effect
+needed by the coordinated executor, without exposing an unguarded sweeping API.
+
+**Complete when:** actual bounded SDK DELETE uses the same verified candidate key/
+original opaque If-Match condition after namespace/scope/capacity admission and
+forced per-attempt intent. Only documented, fully validated terminal outcomes settle
+that same attempt; classify conflict/absence/auth/transport/body/timeout outcomes
+precisely with no silent condition refresh, wildcard or automatic retry. Unknown
+or uncertain native settlement durably blocks reuse/publication/reclamation even
+if a later GET is absent. Versioned/suspended/directory modes remain unsupported;
+no delete markers or arbitrary version deletion count as physical removal. Real
+HTTP tests cover exact request/signature, zero-effect preflight, condition races,
+known results, before/after-effect dropped or delayed replies, bounded cleanup,
+client ownership and same-key resurrection refusal across reopen. No raw delete
+primitive alone closes MDB-0039 or authorizes a live bucket operation.
+
+## MDB-0070 Ordered remote reclamation conformance
+
+**Parent:** MDB-0039. **Outcome:** recompute and remove proven obsolete remote
+metadata/dependencies while all participating readers and publishers are protected.
+
+**Complete when:** hold exclusive namespace maintenance and actual required local
+owners through fresh selection/retained-root/graph verification and all ordered
+remote effects. Retire obsolete immutable head metadata before obsolete manifests,
+then unused segments; retain live/shared/unknown/pending/diagnostic evidence and
+all logical history. Bound complete work, preserve exact per-attempt receipts and
+stop on uncertainty with durable quarantine before releasing admission. Reopen
+establishes validated state without automatic repair/retry. Exercise actual readers
+and concurrent publication/admission/removal races across JVMs, stale previews,
+retained/backup roots, interrupted/uncertain removal and delayed effects, plus real
+canonical/seeded recovery/retry/new-write histories after successful cleanup. Inspect
+remaining exact names/identities/encoded bytes, not promised freed blocks. Demonstrate
+normal supported-mode removal (not universal deferral), audit every original MDB-0039
+criterion, and close it only with integration/source/CI/docs delivery. Preserve
+unsupported host/versioning modes and leave general MDB-0011 backend qualification
+to MDB-0040.
+
+
 ## MDB-0040 Local and object backend conformance
 
 **Parent:** MDB-0011. **Outcome:** close the original backend milestone with common
