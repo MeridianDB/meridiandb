@@ -4406,6 +4406,49 @@ hosting change starts.
 managed expected/client admission with the implemented core startup barrier and
 retaining all metadata/store/journal ownership through transaction uncertainty.
 
+
+## 2026-11-01 — MDB-0063 Delivery verification
+
+Source **`88b81ab705eef51586f6fb1793d277c4c8beec8b`** carries
+`Step-ID: MDB-0063` / `Step-Result: completed`, including production/tests,
+documentation/rules and required MDB-0062 expansion into three children plus
+source queue/card/progress acceptance. Normal push and fresh fetch confirm matching
+main/origin tips, source ancestry and a clean working tree before this receipt.
+
+- [Java 41317159326](https://github.com/MeridianDB/meridiandb/actions/runs/41317159326)
+  passes both platforms and all fourteen examples per platform. Ubuntu runs all
+  1,272 core /472 optional cases with zero failures/errors/skips, including all
+  66 new writable cases. Windows has zero failures/errors with 363 core and 245
+  optional explicit capability skips. The new pure argument preflight runs;
+  25 focused native and 40 canonical/seeded cases skip for required unavailable
+  directory synchronization. This does not qualify that Windows placement for
+  writable pinned recovery; the existing local capability contract remains.
+- [Docs 41317159285](https://github.com/MeridianDB/meridiandb/actions/runs/41317159285)
+  passes strict production and project-path builds plus all 42 docs-rule fixtures
+  on each. [Automatic Pages 41317159286](https://github.com/MeridianDB/meridiandb/actions/runs/41317159286)
+  passes its 42 fixtures, strict build and deployment.
+- Live HTTPS readback verifies new write guide/ADR 0033, local database, read-only
+  guide/ADR 0031, build, S3 byte/head/publication/managed-read guides, persistence
+  boundaries, architecture overview, roadmap, decisions index and home page:
+  fifteen pages with exact canonical URLs and implementation/scope/count/research
+  wording. New guide/ADR title/routes appear in search; sitemap contains 74 unique
+  production HTTPS pages. Browser confirms the published guide/canonical;
+  `.local-qa/mdb-0063/site-published.png` was shown in the session. Local guide/ADR/
+  search navigation and desktop-light/mobile-dark rendering have no page overflow.
+  Normal light viewport is restored and the exact task-owned local server is
+  stopped. Ignored task evidence retains all research/build/CI/readback/browser logs.
+
+Only queue/card/history follow the verified public source. Internal-only receipt
+paths trigger no workflow under existing filters. Validate all 65 IDs/cards/DAG/
+eligibility, inspect/stage these three paths, commit/push normally and reconfirm
+source ancestry and matching tips. MDB-0062 and MDB-0038 remain expanded with
+MDB-0064/0065 required. No managed writable step, library release/upload or cloud/
+account/DNS/hosting change starts.
+
+**Next recommendation:** MDB-0064 — Managed S3 writable recovery, composing exact
+managed admission with the core startup barrier and retaining metadata/store/journal
+ownership through new writes, uncertainty, close and exact reopen.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

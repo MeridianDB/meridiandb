@@ -27,9 +27,13 @@ children before implementation rather than treating a whole milestone as one pat
 - Sixty-six new core invocations, clean **1,272 core /472 optional** checks,
   fourteen packaged-core examples, archive/jdeps, 42 docs-rule fixtures and strict
   production/project-path **74-page** builds pass locally without skips. Source
-  push, CI, automatic Pages and live readback must be verified before another
-  step starts; record actual delivery evidence separately.
-- **MDB-0064 — Managed S3 writable recovery** is next, ready after delivery checks.
+  `88b81ab705eef51586f6fb1793d277c4c8beec8b` is verified on origin/main. Java
+  **41317159326**, docs **41317159285** and Pages **41317159286** pass. Ubuntu runs
+  all cases; Windows reports 363 core /245 optional explicit capability skips,
+  including 65 new native cases. Fourteen examples pass on each. Fifteen live
+  pages/canonicals, new guide/ADR search entries and the 74-page sitemap pass;
+  evidence is in the progress receipt.
+- **MDB-0064 — Managed S3 writable recovery** is next and ready after verified delivery.
   Compose exact managed expected/client admission with the implemented writable
   core barrier; retain all owners, local acknowledgement and pending evidence.
   Planning this child does not begin it or MDB-0065 conformance.

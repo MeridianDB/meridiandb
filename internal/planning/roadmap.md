@@ -1591,8 +1591,12 @@ packaged-core examples, unchanged 155-class JDK-only archive/jdeps, 42 docs-rule
 fixtures and strict 74-page production/project-path builds pass locally without
 skips. ADR 0033, write guide, callers/rules and fresh Maven research document explicit
 pin authority, startup barriers, full journal/costs and managed-writable limits.
-Source/CI/Pages delivery verification follows before MDB-0064 starts. MDB-0062 and
-MDB-0038 remain expanded with all original criteria and required children intact.
+Source `88b81ab705eef51586f6fb1793d277c4c8beec8b` is verified on remote main;
+Java 41317159326, docs 41317159285 and Pages 41317159286 pass. Ubuntu runs all
+1,272 core /472 optional cases; Windows reports 363 core /245 optional capability
+skips (65 new native cases). Fourteen examples pass per platform. Fifteen live
+pages/canonicals, new guide/ADR search entries and the 74-page sitemap pass.
+MDB-0064 is ready; MDB-0062/0038 retain all original criteria and required children.
 
 ## MDB-0064 Managed S3 writable recovery
 
