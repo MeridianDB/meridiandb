@@ -4170,6 +4170,102 @@ no later child, library release/upload or cloud/account/DNS/hosting action start
 client scope and durable expected/pending state to a fresh exact head observation
 before invoking the implemented core read-only recovery factory.
 
+
+## 2026-11-01 — MDB-0061 Managed S3 recovery admission
+
+**Preflight:** clean main/origin at `7caa7cf4e31fb7ed0ba11496f2beaa28afd0d711`.
+Verify MDB-0060 source `7912f2ffa64cfb7469b1a4663f131b77d3127e3f` ancestry and
+successful Java 41266850347, docs 41266850387 and Pages 41266850349 before claim.
+Root owns production/docs/planning/Git. Two bounded helpers supply separate semantic
+and startup test files; another supplies fresh research and independent production/
+public documentation review. No helper advances planning or Git. Preserve all 62
+IDs and all original MDB-0038 criteria; admit no new child or external action.
+
+**Implementation:** add optional S3Database with owned existing publication metadata
+and private LocalDatabase recovery. Validate null/minimum before path access and
+reject canonical database/state directory identity. Open exact independently
+configured metadata; refuse pending/no expected before remote reads. Under metadata,
+head-client and object-client monitors, admit actual target/binding, read a complete
+fresh head and require both expected bytes and original token. Invoke core pinned
+recovery with independent path/minimum; expose only readonly query/lookup APIs and
+immutable historical observation. Retain all local owners through wrapper close;
+mark closed, invalidate views and independently attempt core/metadata cleanup with
+primary/suppressed causes and retry. Caller clients/credentials remain unowned.
+
+No core/wire/POM/SDK configuration or publisher mutation change. State stores no
+local path certificate; actual full journal lineage/prefix binds recovery under
+existing trusted placement/no-rollback assumptions. A head GET is historical, not
+a continuing lease/fence or complete ABA detection. Minimum checks follow head GET
+and precede graph reads. Pending requires explicit existing publisher reconciliation
+before retry; no auto-adopt, rebase, repair, publication or fallback. Online startup
+has no offline fallback; separate explicit local/pinned modes retain their contracts.
+Full matching journal remains mandatory. Writable object recovery and full parent
+conformance stay MDB-0062; remote reclamation/replication retain separate scope.
+
+**Research:** all fourteen Central pins freshly checked November 1 at
+**13:34:35 UTC /08:34:35 EST**, official compatibility 13:34:36 UTC. Toronto's
+current offset is EST after the clock change. All latest stable selections remain
+unchanged: Maven 3.10.0, wrapper distribution/plugin 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4 and SDK S3/HTTP 2.57.8; exclude Maven 4 RC/plugin betas.
+Metadata summary SHA256 `014a8f74948341ab85c598cfc894a6023f2a6a157e9b1c508abdf85f8afac46f`,
+compatibility `06b452fc42e24146456b4ccafde9c7efee478435db434961fe31360ed161a6fb`.
+Official AWS GET/consistency/ETag/versioning/delete-marker evidence refreshed
+**13:35:18 UTC /08:35:18 EST**; summary
+`f9dbe673d8cd44801bbe3e49edf5751c90af740600e4a79519d2051bfea9918c`.
+ADR 0032 links those primary sources and distinguishes exact-match policy from
+provider guarantees. Reviewed report SHA256
+`a76fbfb1ccff33c2cdbbd90b0efd91ede5b0bcab2eac9fe7d6d57eb1183e5fa0`.
+Raw research/build/browser/readback evidence remains ignored in `.local-qa/mdb-0061/`.
+
+**Verification:** 50 SDK/real-local invocations cover genesis/split/full checkpoints,
+representative literal correction/retraction/no-op answers at every cutoff of a
+four-transaction history and original request lookup; fresh exact body/token and one dependency GET under normal transport;
+client close after startup with continued queries; wrapper close preserving clients/
+credentials; absent expected and fresh/old/candidate pending across metadata reopen;
+explicit actual publisher reconciliation then managed open with no selection PUT;
+six configured target/binding and eleven actual client/closed mismatches before GET;
+nine missing/foreign/stale/token-only/corrupt/403/dropped-reply heads; damaged newest
+state without fallback; four missing/corrupt dependencies; seven actual journal/
+coverage/budget failures with specific error types/codes, no repair and exact bytes;
+unknown clean tail loss and independent alternate matching path without a path
+certificate. Native dropped reads may retry only the head; no graph fallback/write.
+
+Thirteen startup invocations cover all pure argument admission, two canonical
+colocation spellings, six HEAD_OBSERVED/RECOVERED I/O/runtime/Error failures with
+no exposed wrapper and exact owner/state cleanup, three-owner lifetime/immutable
+values, two actual child JVM halts/reopen with exact selection/history, and caller
+client close serialization. Concurrency positively observes both close threads
+BLOCKED on the held client monitors before permitting reconstruction, then checks
+queries/credentials after both closes. Native storage skips only named unsupported
+placement/directory synchronization; these are not device-power-loss tests or
+injected native uncertain-close qualification. Raw snapshots follow owner close.
+
+Focused two-class Maven check passes 63 cases. Full serial core `./mvnw -B clean install`
+and optional `./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,206 /472**,
+zero local failures/errors/skips. Fourteen packaged-core examples pass. Archive/
+jdeps confirm unchanged 155 production core classes, java.base only, no SDK/test
+classes and one-class conformance classifier. Optional archive has 49 production
+classes, including only the three new wrapper/boundary/probe classes, no test/reference
+payload. Forty-two docs-rule fixtures and strict production/project-path builds
+pass with 72 pages. Guide/ADR navigation, both search results and desktop-light/
+mobile-dark layout pass; normal light viewport is restored. Independent code
+review finds no actionable issue. Documentation review corrects Windows support
+policy wording and keeps fixed successful head body separate from transport retry/
+wire work. Reconcile affected README/home/architecture/ADR/guide/roadmap callers;
+no stale managed-startup-planned claim remains.
+
+**Completion:** mark MDB-0061 done, clear claim and make MDB-0062 ready subject to
+source delivery; MDB-0038 remains expanded. Validate queue/cards/references/DAG/
+eligibility, stage explicit task-owned source/docs/rules/planning, commit Step-ID
+MDB-0061 / Step-Result completed and push normally. Confirm ancestry/tips, Java/docs/
+automatic Pages and live guide/ADR/current callers/canonical/search/sitemap before
+an internal delivery receipt. No writable child, release/upload or cloud/account/
+DNS/hosting operation begins.
+
+**Next recommendation:** MDB-0062 — Writable remote recovery conformance, retaining
+forced acknowledgement and original temporal/request behavior after managed recovery.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

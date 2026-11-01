@@ -13,8 +13,8 @@ journal suffix. Historical queries and original request lookup become available
 only after startup finishes completely.
 
 This JDK-only core mode is experimental. It requires an existing matching local
-journal, including the checkpoint prefix. Managed S3 current-head admission and
-writable recovery using object checkpoints remain planned. A pinned declaration
+journal, including the checkpoint prefix. Optional [managed S3 read recovery](s3-database.md)
+adds current-head admission separately; writable recovery using object checkpoints remains planned. A pinned declaration
 is an explicit caller choice; it is not evidence of the provider's current head.
 [ADR 0031](../decisions/0031-pinned-checkpoint-engine-recovery.md) records the decision.
 
@@ -133,6 +133,6 @@ and persisted seeded dense histories through genesis, split and full pinned shap
 ./mvnw -B -Dtest=ObjectCheckpointRecoveryTest,ObjectCheckpointRecoveryConformanceTest test
 ```
 
-These tests establish core pinned recovery on supported local placement. S3-managed
-startup, writable retry acknowledgement, replication and local-storage-loss recovery
-require their separate contracts; fixture storage does not qualify a live provider.
+These tests establish core pinned recovery on supported local placement. Managed
+S3 startup has [separate admission tests](s3-database.md). Writable object recovery,
+replication and local-storage-loss recovery require their separate contracts; fixture storage does not qualify a live provider.

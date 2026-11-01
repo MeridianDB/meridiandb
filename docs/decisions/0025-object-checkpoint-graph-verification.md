@@ -8,7 +8,7 @@ description: Compose exact immutable graph validation and bounded actual-journal
 Date: October 31, 2026. Status: read-only graph/owned-prefix verification
 implemented, experimental; [durable intent](../development/local-s3-publication-state.md)
 and [verified conditional publication](../development/s3-checkpoint-publication.md)
-are now implemented separately. Managed S3 startup and writable recovery remain planned.
+are now implemented separately. Managed S3 read recovery is available separately; writable object recovery remains planned.
 
 ## Context
 

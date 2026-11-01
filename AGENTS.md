@@ -302,6 +302,17 @@ so a new session can work correctly without relying on earlier conversations.
   answers, original request lookup, strict evidence, coverage loss and actual owner
   cleanup. Preserve ordinary local selection; explicit pinned authority grants no
   current S3 selection, writable acknowledgement or missing-tail reconstruction.
+- Follow [ADR 0032](docs/decisions/0032-managed-s3-read-recovery.md) and
+  [managed S3 recovery](docs/development/s3-database.md) for optional online startup.
+  Own existing publication metadata through wrapper close; reject pending/absent
+  expected state before remote reads and admit actual client scope before GET.
+  Require exact fresh expected bytes/token, then privately acquire core recovery
+  with the independent journal minimum. Preserve caller clients/credentials and
+  all failed evidence; close every acquired owner on startup failure and invalidate
+  views before retryable cleanup. Test real SDK/state/pending reconciliation,
+  local coverage, ownership and process reopen. State has no durable path binding;
+  historical startup observation supplies no continuing lease, fallback, automatic
+  reconciliation, writable acknowledgement or complete rollback detection.
 - Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
   [S3 publication-state format](docs/development/s3-publication-state.md) for exact
   expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing

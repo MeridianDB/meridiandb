@@ -12,8 +12,9 @@ when facts apply and when the database learned about them. Built-in local
 persistence supports standalone JVM use. Optional [S3 byte access](development/s3-objects.md)
 and [verified checkpoint publication](development/s3-checkpoint-publication.md) are
 available separately. [Pinned checkpoint read recovery](development/object-checkpoint-recovery.md)
-uses object history with the complete local journal. Managed S3 startup, writable
-recovery using object checkpoints and replication remain planned.
+uses object history with the complete local journal. Optional
+[managed S3 read recovery](development/s3-database.md) adds exact durable expected
+selection admission. Writable recovery using object checkpoints and replication remain planned.
 The Java 25/Maven build is available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
@@ -83,7 +84,7 @@ preserves exact expected/pending metadata. [Durable local state](development/loc
 now installs it under exclusive ownership. [Verified preparation](development/s3-publication-preparation.md)
 combines client scope, graph/owned-journal checks and exact durable pending intent;
 [verified publication](development/s3-checkpoint-publication.md) adds exact conditional
-submission and durable reconciliation. Managed S3 startup and writable recovery remain planned.
+submission and durable reconciliation. Managed S3 read recovery is available separately; writable object recovery remains planned.
 Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,

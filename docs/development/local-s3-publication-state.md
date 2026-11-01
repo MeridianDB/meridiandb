@@ -17,7 +17,7 @@ conditional precondition across process exit. It supplies the local storage part
 of the [publication protocol](../architecture/object-checkpoint-protocol.md).
 The separate [verified publisher](s3-checkpoint-publication.md) now composes
 graph/owned-journal checks, conditional submission and remote reconciliation.
-Managed S3 startup and writable recovery remain planned. Local metadata installation alone establishes
+[Managed S3 read recovery](s3-database.md) is available separately; writable object recovery remains planned. Local metadata installation alone establishes
 neither a remote selection nor a transaction acknowledgement.
 [Verified preparation](s3-publication-preparation.md) now adds actual client scope,
 complete graph/owned-journal checks and immutable intent before this local transition.

@@ -6,7 +6,8 @@ description: Reuse private temporal reconstruction with a factory-owned local jo
 # ADR 0031: Pinned checkpoint engine recovery
 
 Date: October 31, 2026. Status: implemented, experimental read-only core recovery;
-managed S3 startup and writable recovery using object checkpoints remain planned.
+[managed S3 read recovery](0032-managed-s3-read-recovery.md) is implemented separately.
+Writable recovery using object checkpoints remains planned.
 
 ## Context
 

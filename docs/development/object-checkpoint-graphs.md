@@ -98,7 +98,7 @@ time, without a continuing lease or proof for another reopened journal.
 
 The [core read-only recovery factory](object-checkpoint-recovery.md) now loads
 within owned startup, validates complete journal ordering and applies only the
-contiguous suffix. Managed S3 startup and writable recovery remain planned.
+contiguous suffix. [Managed S3 read recovery](s3-database.md) is available separately; writable object recovery remains planned.
 A checkpoint alone cannot detect or reconstruct fully lost uncheckpointed local
 transactions. See [ADR 0030](../decisions/0030-bounded-pinned-object-history.md).
 

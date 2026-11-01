@@ -13,9 +13,9 @@ No library is published.
 
 This adapter creates and reads byte objects in an existing bucket. Separate APIs
 provide [verified checkpoint publication](s3-checkpoint-publication.md) and
-[core pinned read-only recovery](object-checkpoint-recovery.md). Managed S3
-startup, writable object recovery and protected remote object deletion remain
-planned; the local journal and commit acknowledgement protocol are unchanged.
+[core pinned read-only recovery](object-checkpoint-recovery.md). Optional
+[managed S3 read recovery](s3-database.md) admits durable expected selection.
+Writable object recovery and protected remote object deletion remain planned; the local journal and commit acknowledgement protocol are unchanged.
 [ADR 0022](../decisions/0022-optional-s3-object-access.md) records the packaging and
 provider-library choice. The [checkpoint-head format](../architecture/object-checkpoint-protocol.md)
 and pure metadata checks are available in core. A separate
@@ -53,7 +53,7 @@ four [complete graph-consumer cases](object-checkpoint-graphs.md) and 65 pure
 [publication-state cases](s3-publication-state.md), plus 86
 [durable local state cases](local-s3-publication-state.md) and 53
 [verified preparation cases](s3-publication-preparation.md) and 78
-[verified publication cases](s3-checkpoint-publication.md), plus seven [pinned-history SDK/HTTP cases](object-checkpoint-graphs.md#load-pinned-history), for 409 optional tests
+[verified publication cases](s3-checkpoint-publication.md), plus seven [pinned-history SDK/HTTP cases](object-checkpoint-graphs.md#load-pinned-history) and 63 [managed recovery cases](s3-database.md), for 472 optional tests
 in total. Native local cases report explicit placement capability skips separately.
 Core's separate 1,206 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.

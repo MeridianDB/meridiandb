@@ -1516,6 +1516,21 @@ acquisition/cleanup/credential ownership and process reopen, local-tail coverage
 missing-tail limits. Document online/offline access modes and unsupported placement;
 no cross-host fence, missing-data reconstruction or replicated durability is claimed.
 
+**Produced artifacts:** optional S3Database owns existing metadata and private core
+recovery until close, admits actual configured clients, requires exact fresh
+expected body/token and refuses pending without network access or adoption.
+Independent path/lineage/prefix and optional minimum preserve complete-journal
+coverage; no mutable owner/delegate escapes and no remote mutation is introduced.
+Fifty SDK/actual-local cases plus thirteen startup/preflight/lifetime/concurrency/
+process cases cover exact/corrupt/stale/missing/foreign evidence, explicit pending
+reconciliation, cleanup and caller resources. Clean 1,206 core /472 optional cases
+pass locally without skips; fourteen packaged-core examples, 155-class JDK-only
+core/49-class optional archives, 42 docs-rule fixtures and strict 72-page builds
+pass. ADR 0032, guide/callers/rules and fresh Maven/AWS research document online
+admission, historical observation, no durable path certificate, missing-tail limits
+and default Windows metadata placement. Delivery verification follows before
+MDB-0062 starts; MDB-0038 stays expanded until all original criteria pass.
+
 ## MDB-0062 Writable remote recovery conformance
 
 **Parent:** MDB-0038. **Outcome:** enable supported writable recovery after MDB-0061

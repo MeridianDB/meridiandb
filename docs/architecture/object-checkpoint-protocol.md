@@ -15,7 +15,8 @@ operation limits. [Durable local expected/pending state](../development/local-s3
 is available separately. [Verified conditional publication](../development/s3-checkpoint-publication.md)
 and durable candidate reconciliation are implemented experimentally. Core
 [pinned checkpoint read recovery](../development/object-checkpoint-recovery.md)
-is available; managed S3 startup and writable recovery remain planned. The existing
+is available, with [managed S3 admission](../development/s3-database.md) implemented
+separately. Writable object recovery remains planned. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
 This specification defines the selection protocol those implementations must

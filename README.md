@@ -10,8 +10,8 @@ both when a fact applies in the domain and when the database recorded that
 knowledge. Built-in local persistence is the foundation. Optional S3 byte access is
 available separately. [Pinned checkpoint read recovery](docs/development/object-checkpoint-recovery.md)
 uses object history with the complete local journal. Verified remote checkpoint
-publication is experimental; managed S3 startup, writable recovery using object
-checkpoints and replication remain planned. Local use requires no external database,
+publication and [managed S3 read recovery](docs/development/s3-database.md) are
+experimental. Writable recovery using object checkpoints and replication remain planned. Local use requires no external database,
 streaming service or application server.
 
 **Status:** project foundation and architectural research. The documentation site
@@ -93,8 +93,9 @@ The initial investigation will focus on:
 The [persistence boundaries](docs/architecture/persistence-boundaries.md) separate
 commit authority, ordered journal history, immutable objects, checkpoint selection
 and derived search indexes. Local persistence and an optional [S3 byte adapter](docs/development/s3-objects.md)
-are implemented. Managed S3 startup, writable recovery using object checkpoints,
-replication and near-real-time indexing remain planned and unmeasured. The
+are implemented. [Managed S3 read recovery](docs/development/s3-database.md) is
+available separately. Writable recovery using object checkpoints, replication and
+near-real-time indexing remain planned and unmeasured. The
 [immutable-object interface](docs/development/immutable-objects.md) now includes a
 JDK-only local adapter, complete identity/length validation, explicit identical
 reuse and a segment consumer. The separate `meridiandb-s3` artifact runs the same
@@ -117,7 +118,8 @@ those snapshots under exclusive local ownership.
 actual client scope, graph/journal checks and exact durable pending intent without
 selecting a remote head. [Verified publication](docs/development/s3-checkpoint-publication.md)
 now adds exact conditional submission and durable candidate reconciliation.
-Managed S3 startup and writable recovery remain planned. Existing local
+Managed S3 read recovery now admits exact durable expected selection before core
+startup; writable object recovery remains planned. Existing local
 checkpoint and write protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;

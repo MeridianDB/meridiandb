@@ -79,8 +79,9 @@ uses exclusive ownership and synchronized immutable generations.
 with client scope and actual-journal checks. [Verified publication](../development/s3-checkpoint-publication.md)
 adds exact conditional selection and durable reconciliation. Core
 [pinned checkpoint read recovery](../development/object-checkpoint-recovery.md)
-uses verified object history and the complete local journal. Managed S3 startup
-and writable recovery remain separate planned work.
+uses verified object history and the complete local journal.
+[Managed S3 read recovery](../development/s3-database.md) adds actual-client and
+durable expected-state admission; writable object recovery remains planned.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
@@ -100,8 +101,8 @@ tail before exposing queries. Writable mode prepares complete immutable state,
 appends and forces its journal record, then atomically publishes that state before
 acknowledging success. [Process crash/retry conformance](../development/durability-conformance.md)
 checks those boundaries and exact recovery. Core pinned read recovery uses the
-same private reconstruction algorithm. Managed S3 startup, writable recovery using
-object checkpoints and optimized query layouts remain planned.
+same private reconstruction algorithm, also used by managed S3 read recovery.
+Writable recovery using object checkpoints and optimized query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 
