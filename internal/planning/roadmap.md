@@ -1309,8 +1309,11 @@ reply/process and two concurrency cases pass, plus clean 1,092 core / 324 option
 cases, fourteen packaged-core examples, unchanged core archive/jdeps and both strict
 65-page builds. ADR 0028/guide/callers/agent rules and planning are reconciled;
 current fourteen-coordinate research retains all pins. Source/CI/Pages/live delivery
-identities follow its receipt. Full conditional submission/reconciliation stays in
-MDB-0058; no publication parent is closed by this child.
+is verified for source `2c2341420f0d54a25606156d19151d30f4c963b8`:
+Java 41257367765, docs 41257367845 and Pages 41257367777 pass. Ubuntu runs all
+cases; Windows has 107 explicit local-placement optional skips. Live canonical/
+search/65-page sitemap readback passes. Full conditional submission/reconciliation
+stays in MDB-0058; no publication parent is closed by this child.
 
 ## MDB-0058 Conditional submission and reconciliation
 

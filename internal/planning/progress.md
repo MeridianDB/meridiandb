@@ -3610,6 +3610,40 @@ implementation, release, real-cloud/account/DNS or hosting-setting action starts
 resuming exact durable pending intent and completing all original publisher parent
 criteria for uncertainty, late effects, retries, process reopen and retained evidence.
 
+## 2026-10-31 — MDB-0057 Delivery and publication readback
+
+Source completion **`2c2341420f0d54a25606156d19151d30f4c963b8`** reaches origin/main
+with matching tips, verified ancestry and clean source checkout. Java checks
+**41257367765**, docs **41257367845** and automatic Pages **41257367777** all pass.
+Ubuntu runs **1,092 core / 324 optional** tests without failures/errors/skips,
+including all **36 API, 15 boundary/process and two concurrency** new cases.
+Windows runs the same totals without failures/errors, retaining **228 pre-existing
+core skips** and **107 explicit unsupported-local-placement optional skips**:
+55 earlier native cases plus 35 new API, 15 boundary/process and two concurrency.
+Its independent exact-key case and existing pure/SDK checks run. No Windows local
+durability claim follows. All fourteen example steps succeed on both platforms;
+both docs URL jobs also pass the unchanged 42 QA-rule fixtures.
+
+Live HTTPS readback verifies the preparation guide/ADR 0028, local-state guide,
+head protocol, current build timestamp, conditional-head counts, roadmap and
+homepage. Correct canonicals, both new search routes/titles and **65 unique HTTPS
+canonical sitemap pages** pass. Browser readback confirms the published guide;
+`.local-qa/mdb-0057/site-published.png` is saved and embedded in the user-facing
+update. Temporary viewport/theme changes are restored; the preview tab displays
+the live deliverable and the owned loopback static server is stopped.
+
+Reconcile queue/card state and commit/push this internal-only receipt normally;
+Git supplies its own identity/remote verification, and these paths trigger no
+further configured workflows. MDB-0057 is done and MDB-0058 ready; MDB-0053,
+MDB-0049 and MDB-0037 remain expanded with all original submission/reconciliation/
+late-effect acceptance intact. MDB-0054 stays independently queued. No later
+implementation, release/artifact upload, real-cloud/account/DNS or hosting-setting
+change occurs in this receipt.
+
+**Next recommendation:** MDB-0058 — conditional submission and reconciliation,
+resuming exact durable pending intent and completing every original publisher
+parent criterion for uncertainty, late effects, retries, process reopen and evidence.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

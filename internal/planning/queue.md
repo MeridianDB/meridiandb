@@ -12,9 +12,11 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0057 source acceptance passes from clean main/origin
-  `52217a78a4fdc057f0b9ba39369e429902b4a0c8`. Completion commit/push, remote
-  ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- MDB-0057 source `2c2341420f0d54a25606156d19151d30f4c963b8` is verified on
+  origin/main with matching tips/ancestry. Java **41257367765**, docs **41257367845**
+  and automatic Pages **41257367777** pass; live guide/ADR/callers/canonical/search
+  and the **65-page** sitemap are verified. Ubuntu runs every optional case;
+  Windows reports 107 explicit unsupported local-placement optional skips.
 - MDB-0053 is expanded into required MDB-0057 verified durable preparation and
   MDB-0058 conditional submission/reconciliation plus complete parent conformance.
   Preserve all original MDB-0053/MDB-0049/MDB-0037 acceptance; parents stay expanded.
@@ -24,8 +26,8 @@ children before implementation rather than treating a whole milestone as one pat
   No mutable selection PUT is sent. All 53 new cases and 1,092 core / 324 optional
   cases pass locally without skips, plus fourteen packaged-core examples, artifact
   inspection and both strict 65-page site builds. No active claim remains.
-- **MDB-0058 — Conditional submission and reconciliation** is source-ready, subject
-  to delivery above. Resume exact pending state without rebase/clearing, integrate
+- **MDB-0058 — Conditional submission and reconciliation** is ready after verified
+  delivery. Resume exact pending state without rebase/clearing, integrate
   SDK conditional selection and uncertain/late effects, and complete all original
   parent conformance before closing publication parents. MDB-0054 remains separate.
 
