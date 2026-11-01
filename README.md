@@ -13,7 +13,8 @@ uses object history with the complete local journal. [Core pinned writes](docs/d
 synchronize that local history before enabling transactions. Verified remote checkpoint
 publication and [managed S3 read recovery](docs/development/s3-database.md) are
 experimental. [Managed S3 writes](docs/development/s3-database-writes.md)
-add forced local transactions; replication remains planned. Local use requires no external database,
+add forced local transactions. [Remote recovery conformance](docs/development/s3-recovery-conformance.md)
+checks the full SDK corpus and publication interruptions; replication remains planned. Local use requires no external database,
 streaming service or application server.
 
 **Status:** project foundation and architectural research. The documentation site

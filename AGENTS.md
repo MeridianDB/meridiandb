@@ -332,8 +332,19 @@ so a new session can work correctly without relying on earlier conversations.
   owner, reject reentrant close before invalidation and keep query capture outside
   the write monitor. Test real SDK admission, actual core boundary/process failures,
   old-state capture, write/close serialization and unchanged metadata/remote evidence.
-  Keep fault openers package-private, test support outside production/classifier,
-  and full remote corpus/cross-publication qualification in its required step.
+  Keep fault openers package-private, fault-injection support outside production/classifier,
+  and preserve the separate [remote writable conformance](docs/development/s3-recovery-conformance.md).
+- Follow [ADR 0035](docs/decisions/0035-remote-writable-recovery-conformance.md)
+  for remote writable conformance. Reuse unchanged canonical/query fixtures,
+  reference classes and persisted seeds through the narrow test-only classifier;
+  keep Jackson test-only and production core JDK-only. Exercise actual SDK
+  publication/admission for each new/retry/read workflow, exact raw frames after
+  owner close and all historical cutoffs against reference/dense/local baselines.
+  Cross late/interrupted publication with pending refusal, explicit reconciliation
+  and subsequent forced writes; verify minimum/default-zero, missing-journal and
+  online-failure limits without fallback or data invention. Retain explicit fixture
+  caps, named capability skips and separate live-provider/power-loss/reclamation
+  limits. Keep actual tests, fault bridges and optional helpers outside the classifier.
 - Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
   [S3 publication-state format](docs/development/s3-publication-state.md) for exact
   expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing

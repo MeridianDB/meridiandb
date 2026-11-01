@@ -43,7 +43,8 @@ permanent commitment.
 | [0031: Pinned checkpoint engine recovery](0031-pinned-checkpoint-engine-recovery.md) | Implemented, experimental read-only core mode | Factory-owned local journal, verified pinned prefix and exact tail reconstruction; managed S3 startup and writable integration remain separate |
 | [0032: Managed S3 read recovery](0032-managed-s3-read-recovery.md) | Implemented, experimental optional read-only mode | Exact durable expected state, fresh scoped head observation and privately owned core recovery |
 | [0033: Writes after pinned checkpoint recovery](0033-pinned-checkpoint-writes.md) | Implemented, experimental core mode | Actual journal/name startup barriers, forced local writes and original retry identity after explicit pinned recovery |
-| [0034: Managed S3 writable recovery](0034-managed-s3-writable-recovery.md) | Implemented, experimental optional mode; full remote writable conformance separate | Exact managed admission, core startup barriers and forced local transactions with concurrent committed-state capture |
+| [0034: Managed S3 writable recovery](0034-managed-s3-writable-recovery.md) | Implemented, experimental optional mode; conformance verified separately | Exact managed admission, core startup barriers and forced local transactions with concurrent committed-state capture |
+| [0035: Remote writable recovery conformance](0035-remote-writable-recovery-conformance.md) | Implemented, experimental verification | Unchanged SDK canonical/seeded histories, publication interruptions, exact retry continuation and local coverage limits |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

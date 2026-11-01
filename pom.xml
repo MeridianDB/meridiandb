@@ -116,6 +116,10 @@
             <configuration>
               <includes>
                 <include>org/meridiandb/storage/object/AbstractImmutableObjectStoreConformance.class</include>
+                <include>org/meridiandb/reference/ContractFixtures*.class</include>
+                <include>org/meridiandb/reference/ReferenceModel*.class</include>
+                <include>contracts/*.json</include>
+                <include>reference-seeds.txt</include>
               </includes>
             </configuration>
           </execution>

@@ -16,6 +16,8 @@ barriers and the existing forced transaction protocol. [Managed S3 read recovery
 selection separately. [Managed S3 writes](../development/s3-database-writes.md) compose exact admission
 with the local commit protocol. Replication remains planned and must preserve the
 same temporal answers while declaring its durability and coordination guarantees.
+[Remote writable conformance](../development/s3-recovery-conformance.md) verifies
+SDK history/retry continuation and explicit local-tail-loss and online-startup limits.
 
 [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md) records this
 direction. The interfaces described here are responsibilities to implement and

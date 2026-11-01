@@ -14,7 +14,8 @@ is returned or any recovered retry can be acknowledged.
 [ADR 0033](../decisions/0033-pinned-checkpoint-writes.md) records the decision.
 [Read-only pinned recovery](object-checkpoint-recovery.md) remains available.
 [Managed S3 writable recovery](s3-database-writes.md) now composes managed admission
-with this core mode; full remote writable conformance remains planned.
+with this core mode; [remote writable conformance](s3-recovery-conformance.md)
+now exercises the unchanged corpus and publication boundaries through the SDK.
 `S3Database.open` retains its read-only contract.
 
 ## Recover and transact
@@ -123,8 +124,9 @@ process cases and 40 canonical/query/seeded cases. They cover exact retries, new
 writes, immutable views, failure poisoning and real process stops/reopen. Unchanged canonical/query
 fixtures and persisted seeded histories exercise writable pinned recovery at
 genesis, split and full checkpoints against independent reference/dense and local
-baselines. Managed S3 writable integration requires its separate SDK and publication
-uncertainty checks; these core tests do not qualify it or a live provider.
+baselines. Separate [managed S3 conformance](s3-recovery-conformance.md) supplies SDK
+and publication uncertainty checks; these core tests alone do not qualify that
+integration or a live provider.
 
 ```bash
 ./mvnw -B -Dtest=ObjectCheckpointWritableTest,ObjectCheckpointWritableConformanceTest test

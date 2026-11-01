@@ -67,5 +67,6 @@ without qualifying a live provider or device power loss. Graph budgets remain
 separate from the fixed head body, local metadata synchronization, initial journal
 scan, full replay and retained engine heap. Reusing the core private reconstruction
 preserves its independent temporal conformance. [Managed writable recovery](0034-managed-s3-writable-recovery.md)
-now supplies the separate integration and focused acknowledgement checks; full remote
-corpus and cross-publication conformance remain required.
+now supplies the separate integration and focused acknowledgement checks.
+[Remote writable conformance](0035-remote-writable-recovery-conformance.md) adds
+the unchanged full corpus and cross-publication evidence.

@@ -34,7 +34,8 @@ There is no release date or stable API commitment.
 | [Pinned checkpoint recovery](development/object-checkpoint-recovery.md) | Read-only temporal engine from a verified explicit object checkpoint plus the complete owned local journal, with optional minimum coverage |
 | [Core pinned writes](development/object-checkpoint-writes.md) | Actual journal/name startup synchronization and forced local transactions after explicit pinned recovery, preserving original retry identity |
 | [Managed S3 read recovery](development/s3-database.md) | Actual client scope, durable expected selection and a fresh exact head observation before privately owned core read recovery |
-| [Managed S3 writable recovery](development/s3-database-writes.md) | Exact managed admission plus core startup synchronization and forced local transactions; full remote writable corpus conformance remains separate |
+| [Managed S3 writable recovery](development/s3-database-writes.md) | Exact managed admission plus core startup synchronization and forced local transactions; full SDK corpus and publication boundaries verified separately |
+| [Remote writable conformance](development/s3-recovery-conformance.md) | Unchanged canonical/query and persisted-seed SDK histories, publication interruptions, retry continuation and explicit tail-loss/offline limits |
 | [S3 publication state](development/s3-publication-state.md) | Bounded exact target/expected/pending snapshot and pure checked transitions; no local I/O, durable installation or remote selection |
 | [Durable local S3 state](development/local-s3-publication-state.md) | Exclusive dedicated local ownership, exact synchronized state generations and process-reopen checks; no remote publisher |
 | [Verified S3 preparation](development/s3-publication-preparation.md) | Actual client scope, shared graph/owned-journal checks, ordered barriers, immutable intent and durable pending state; no mutable selection |

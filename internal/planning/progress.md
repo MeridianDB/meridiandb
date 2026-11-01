@@ -4609,6 +4609,114 @@ unchanged canonical/seeded SDK histories and cross-publication interruption evid
 before auditing and closing the broader remote recovery parents.
 
 
+## 2026-11-01 — MDB-0065 Remote writable recovery conformance
+
+**Scope and ownership:** claim the next bounded item from clean main/origin
+`3849072587c1e0d59063492a768e33668a69bda9`. Recheck MDB-0064 source/follow-through
+ancestry and final Java 41325115865, docs 41324730429 and Pages 41324730394 success.
+Root owns implementation/docs/shared planning/Git. Independent helpers own fresh
+Maven research and read-only parent/generator/lifetime/packaging/public-doc reviews;
+no helper mutates tracked source or runs tests. Preserve all 65 IDs and every
+original MDB-0038/0062 criterion; reclamation/general backend/replication stay separate.
+
+**Implementation and checks:** add S3DatabaseWritableConformanceTest, reusing unchanged
+ContractFixtures/ReferenceModel families and authoritative JSON/seed resources through
+the existing attached test-only classifier. Optional Jackson 3.2.4 remains test scope;
+no production core dependency, API, protocol, wire format or SDK setting changes.
+Actual SDK immutable uploads, verified preparation and conditional publication precede
+managed opens for every write/retry/conflict/read workflow. Preserve all five temporal
+and three query histories, 174 literal steps per shape /522 across genesis/split/full,
+and all sixteen persisted seeds through three independent 32-commit workflows:
+**1,536 actual seeded new commits**. Every historical seeded cutoff (33 per workflow)
+checks independent reference/dense values, all predicate operators, absence/extremes,
+request IDs/no-ops and immutable pinned views; ordinary local reopen is a separate
+baseline. Raw full journal frames remain exact after owners close. Queries/local
+transactions make no remote request or publication-state generation change.
+
+S3DatabasePublicationConformanceTest adds ten real SDK/native integration cases:
+held timed-out original-condition PUT then late effect, pending refusal before GET
+both before/after selection, explicit no-PUT reconciliation and managed retry/new-write
+continuation; actual publisher child halts at WRITE_FINISHED, CANDIDATE_VERIFIED and
+STATE_SYNCED followed by pending resolution or exact durable expected reopen; clean
+tail-loss with C=0/1/3, independent minimum versus default-zero behavior; missing
+complete journal despite full graph; failed online startup without fallback; and
+captured old expected GET versus later selection with no continuing lease/fence.
+Reconciled/synchronized paths preserve historical answers and original retries,
+commit a new request, retain old views and reopen to retry it exactly. Fixture
+budgets remain explicit (32,768 requests, 512 objects, 2 MiB aggregate, unchanged
+4 KiB body/object caps); existing focused defaults remain unchanged. All acquired
+SDK/native resources, held workers and child lifetimes have bounded cleanup.
+
+**Parent acceptance audit:** combine the new cases with existing MDB-0059/0060/0061/
+0063/0064 source and tests; source-level mapping is independently reviewed.
+
+| Original MDB-0038/0062 requirement | Completion evidence |
+| --- | --- |
+| Actual SDK remote prefix plus exact complete local tail, canonical/seeded/local agreement | New 24 literal/shape and sixteen three-shape seed invocations; every observed operation uses managed writable open |
+| New, duplicate, conflict and no-op writes; original identity; all historical answers | Unchanged corpus/reference/dense generator/draw order, all 33 seeded cutoffs, original retry positions, exact raw journal and separate local baseline |
+| Startup barrier, append/force/atomic-publication uncertainty and lost acknowledgement | Existing core writable and 25 managed lifecycle cases, including actual boundary probes and six process stops through ACKNOWLEDGED_RETURN |
+| Pending/late uncertain remote selection and exact original evidence | New held real PUT across caller timeout/reopen; pending blocks before GET before/after effect; reconcile without second PUT then actual engine continuation |
+| Publication interruption and exact reopen | Three new actual publisher child halts; pending refusal/reconcile or durable expected validation, then managed historical/retry/new-write/reopen |
+| Foreign/stale/missing/corrupt/divergent prefix/tail; cleanup | Existing writable scope/body/token/graph/journal refusal matrix and core/read reconstruction checks; unchanged no-fallback/adoption/repair behavior |
+| Actual checkpoint C versus tail H, minimum and local storage loss | New C=0/1/3 clean-loss matrix, known-minimum refusal before graph reads, default-zero surviving head/absent lost ID/future rejection, full-prefix mismatch and missing journal with retained evidence |
+| Ownership, view lifetime, online/local compatibility and costs | Existing retained-owner/poison/concurrency/client-close checks; new online/head-snapshot cases; unchanged JDK-only local runtime; guide separates graph/replay/metadata/startup/force/heap costs |
+
+All original source gates and required children now pass; close MDB-0062 and MDB-0038
+with MDB-0065 source acceptance, then verify delivery. MDB-0011 remains expanded with
+MDB-0039/0040 required. No remote reclamation, general backend/live-provider certification,
+replicated durability, distributed fencing, power-loss or performance claim is added.
+
+**Fresh Maven evidence:** all fourteen selected pins remain latest stable compatible.
+Central checked **November 1, 16:19:29 UTC /11:19:29 EST**; official compatibility
+checked **16:19:30 UTC /11:19:30 EST**. Maven 3.10.0, Wrapper 3.3.4,
+clean/resources 3.5.0, compiler 3.16.0, Surefire 3.6.1, jar 3.5.1,
+install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and SDK s3/url-connection-client
+2.57.8 remain selected; prerelease Maven/plugin 4 entries remain unselected. The
+new adapter test dependency reuses researched Jackson 3.2.4. Twenty-eight fresh
+source responses and report remain in ignored `.local-qa/mdb-0065/research-helper/`.
+SHA-256 metadata `b5643735672e816786448e08caff923ad0fd182c27801a6b111818bdc44cae5c`,
+compatibility `cd94b086715a12efad4d4502ca80129e3470a7c5222360ead4da6cf23f56f6e5`,
+report `5f1bd0faa615fdab0672e8c72587fd27c0806c69df133ee4436d17780983d1ae`,
+sums `c9300c956c00d98efe1838da85665094e3e929c51370edd9de5ac40b23da536a`.
+Existing AWS evidence remains honestly dated 13:35:18 UTC /08:35:18 EST; this
+conformance composition asserts no new external provider behavior.
+
+**Execution/review:** first install core test support without tests as an explicit
+prerequisite; a focused canonical+seed-zero run passes 25 cases, full corpus passes
+40 and focused integration passes ten. Then serial `./mvnw -B clean install` and
+`./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,272 core /596 optional**,
+zero local failures/errors/skips. Fourteen examples pass using only the packaged
+core. XML/archive readback confirms 155 production core classes, java.base only,
+50 optional production classes and no test/reference/fixture/SDK leakage into core.
+Classifier contains exactly ten intended support classes plus three byte-identical
+contract/seed resources; no actual test, fault bridge or optional helper. Independent
+review mechanically confirms request/dense/helper bodies and random draw sequence
+match the original core suite. No actionable code/packaging issue; reconcile the
+older AGENTS classifier prohibition to fault-injection support so it agrees with
+the intentionally shared oracle families.
+
+ADR 0035, conformance guide and current callers/rules describe experimental evidence,
+complete local journal, online/minimum/default-zero limits and remaining separate
+work. Forty-two docs-rule fixtures and strict production/project-path **78-page**
+builds pass. New guide/ADR/back navigation, both title search entries, desktop-light/
+mobile-dark layout and mobile coverage table have no page overflow; restore normal
+light viewport. Fifteen local page/content/canonical readbacks, both new search
+entries and the 78-page unique production sitemap pass. Public documentation review
+finds no process/task leakage or unsupported durability/certification claims.
+
+**Completion:** mark MDB-0065 and parents MDB-0062/0038 source-done, clear active
+claim and make MDB-0039 ready conditional on remote delivery. Validate all 65 IDs/
+cards/references/DAG/eligibility, inspect/stage task-owned paths and commit with
+Step-ID MDB-0065 / Step-Result completed. Push normally; verify exact-source Java/
+docs/automatic Pages, live pages/search/sitemap and matching tips/clean checkout
+before an internal-only delivery receipt. No library release/upload or cloud/
+account/DNS/hosting configuration change starts.
+
+**Next recommendation:** MDB-0039 — Reader-safe object reclamation, beginning with
+its explicit remote reader/publisher protection contract and bounded implementation
+while preserving every admitted reclamation criterion.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

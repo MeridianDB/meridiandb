@@ -87,6 +87,8 @@ now installs it under exclusive ownership. [Verified preparation](development/s3
 combines client scope, graph/owned-journal checks and exact durable pending intent;
 [verified publication](development/s3-checkpoint-publication.md) adds exact conditional
 submission and durable reconciliation. Managed S3 read recovery is available separately; managed S3 writable recovery is implemented separately.
+[Remote writable conformance](development/s3-recovery-conformance.md) now checks
+unchanged canonical/seeded SDK histories and interrupted publication with retry continuation.
 Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,

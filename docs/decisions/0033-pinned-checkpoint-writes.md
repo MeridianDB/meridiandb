@@ -7,7 +7,8 @@ description: Synchronize actual owned local history after complete pinned recons
 
 Date: November 1, 2026. Status: implemented, experimental JDK-only core mode;
 [managed S3 writable admission](0034-managed-s3-writable-recovery.md) is implemented
-separately; complete remote writable conformance remains planned.
+separately; [remote writable conformance](0035-remote-writable-recovery-conformance.md)
+now covers the unchanged corpus and publication boundaries.
 
 ## Context and decision
 
@@ -43,8 +44,9 @@ can reject known missing history but cannot infer unknown clean tail loss.
 Ordinary local selection and read-only factories keep their contracts. Optional
 `S3Database.open` remains read-only; its managed scope/token/metadata admission must
 be composed separately with writable startup, now implemented in
-[ADR 0034](0034-managed-s3-writable-recovery.md). Full remote canonical/seeded and
-publication-interruption conformance remains required before qualifying that mode.
+[ADR 0034](0034-managed-s3-writable-recovery.md).
+[ADR 0035](0035-remote-writable-recovery-conformance.md) now records the separate
+remote canonical/seeded and publication-interruption conformance.
 No remote durability, lease, replication or reclamation claim follows from core writes.
 
 ## Evidence and alternatives

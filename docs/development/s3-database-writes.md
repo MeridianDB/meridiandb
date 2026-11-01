@@ -13,7 +13,8 @@ journal/name synchronization finish before the database is returned.
 
 The optional `meridiandb-s3` mode is experimental. [ADR 0034](../decisions/0034-managed-s3-writable-recovery.md)
 records the composition. Focused SDK, ownership, interruption and concurrency checks
-exercise it; complete remote writable corpus conformance remains planned. Ordinary
+exercise it; [remote writable conformance](s3-recovery-conformance.md) now adds
+the full unchanged corpus and cross-publication checks. Ordinary
 local embedding retains only the JDK-only core dependency.
 
 ## Choose a mode and transact
@@ -130,12 +131,13 @@ Neither this composition nor its checks establish throughput, group commit, a
 continuing remote lease, distributed fencing, replication or reclamation permission.
 Default Windows metadata placement remains explicitly unsupported.
 
-The 74 new invocations comprise 49 writable API/admission cases and 25 lifecycle/
+The 74 focused invocations comprise 49 writable API/admission cases and 25 lifecycle/
 interruption/concurrency cases using real SDK/loopback HTTP, actual local owners
 and the real core boundary probes. They cover exact/invalid admission, retries/new writes, unchanged
 remote/metadata evidence, startup/write uncertainty, process reopen and concurrent
-snapshot capture/close. Full remote canonical/seeded corpus and cross-publication
-conformance remain a separate verification requirement.
+snapshot capture/close. Fifty additional [remote writable conformance cases](s3-recovery-conformance.md)
+now exercise the unchanged canonical/seeded corpus, late/interrupted publication,
+subsequent forced writes, exact reopen and coverage-loss limits.
 
 ```bash
 ./mvnw -B -f adapters/s3/pom.xml -Dtest=S3DatabaseWritableTest,S3DatabaseWritableLifecycleTest test

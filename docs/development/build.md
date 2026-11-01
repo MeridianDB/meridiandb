@@ -77,8 +77,10 @@ Verification compiles production/test code, runs JUnit Jupiter and produces the
 local `target/meridiandb-core-0.1.0-SNAPSHOT.jar`. Reports are under
 `target/surefire-reports/`. `target/` is ignored. The core artifact has no external
 runtime dependencies; JUnit and Jackson are test-only. A small attached test-support
-JAR contains only the reusable abstract object conformance suite. The optional S3
-build uses it in test scope and resolves its SDK separately; follow the
+JAR contains the reusable object contract, unchanged temporal fixture/reference
+classes and authoritative contract/seed resources. The optional S3 build uses it
+and Jackson only in test scope for [managed recovery conformance](s3-recovery-conformance.md),
+and resolves its SDK separately; follow the
 [S3 build commands](s3-objects.md#build-and-verify) to verify both artifacts. The command does not
 install a library into a remote repository or publish a release.
 
@@ -186,8 +188,9 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 1 at 10:50:20 EST / 15:50:20 UTC; the listed selections remain
-unchanged. The optional adapter adds AWS SDK 2.57.8, released October 30, as
+on November 1: metadata at 11:19:29 EST /16:19:29 UTC and compatibility at
+11:19:30 EST /16:19:30 UTC. The listed selections remain unchanged; the adapter
+uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
 is Java 8 or later; project tests supply Java 25 compatibility evidence rather

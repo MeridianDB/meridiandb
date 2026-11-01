@@ -1427,6 +1427,19 @@ same-pass verified history materialization, core engine reconstruction, managed
 provider startup and writable/full conformance. All original criteria above remain
 required; a loaded history is not an engine or remote selection receipt.
 
+
+**Integrated source acceptance:** required MDB-0059/0060/0061/0062 and the latter's
+MDB-0063/0064/0065 children now supply verified history, private recovery, exact
+managed admission, forced writes and complete canonical/seeded SDK conformance.
+MDB-0065 adds 40 corpus and ten publication/coverage cases and audits all original
+criteria above against existing focused admission/fault/owner/process evidence.
+Clean 1,272 core /596 optional checks, fourteen packaged examples, archive/jdeps
+and strict 78-page docs pass locally. Source is done; actual remote Java/docs/Pages
+and live delivery are verified in the later receipt. Complete local journal,
+online startup and local-only newer acknowledgements remain explicit. Remote
+reclamation and general backend qualification remain MDB-0039/0040; MDB-0011 stays
+expanded.
+
 ## MDB-0059 Bounded pinned object history
 
 **Parent:** MDB-0038. **Outcome:** load immutable ordered checkpoint records from
@@ -1558,6 +1571,18 @@ independently testable outcomes. Preserve every original criterion above and in
 MDB-0038. Close both parents only after all required children and integration gates
 pass; a core write factory alone satisfies neither parent.
 
+
+**Integrated source acceptance:** MDB-0063/0064/0065 are source-complete. The actual
+managed SDK corpus now reproduces unchanged canonical/query and persisted-seed
+histories, historical reads, new/retry/conflict/no-op writes and ordinary local
+baselines. Ten new integration cases add late/pending selection, publisher process
+exits, reconciliation then managed forced-write continuation, clean-tail-loss/minimum,
+missing complete journal and online/no-fallback limits. Existing actual core and
+managed native/process/ownership tests supply startup, append/force/publication,
+poisoning and lost acknowledgement evidence. The MDB-0065 progress matrix audits
+every parent criterion. Source is done alongside MDB-0038, conditional on completion
+commit delivery; all remaining remote reclamation/backend work stays separate.
+
 ## MDB-0063 Core pinned checkpoint writes
 
 **Parent:** MDB-0062. **Outcome:** add a concrete JDK-only writable counterpart to
@@ -1656,6 +1681,30 @@ qualify checkpoint/tail/minimum coverage and local-storage-loss/offline behavior
 Check caller/native ownership, costs/limits and optional packaging. Audit all parent
 criteria and close MDB-0062/0038 only with integration and delivery evidence; leave
 remote reclamation in MDB-0039 and general backend qualification in MDB-0040.
+
+
+**Produced artifacts:** S3DatabaseWritableConformanceTest preserves every original
+174 literal step per shape (522 total), all sixteen seeds and generator/draw order
+through three 32-commit workflows: 1,536 actual seeded new commits. All writes,
+retries, conflicts and observed reads use actual managed writable opens after
+SDK immutable uploads/preparation/conditional publication. Check every historical
+cutoff against unchanged reference/dense and ordinary local baselines, original
+request positions, no-ops, pinned views, exact journal frames and unchanged remote/
+metadata transaction evidence. S3DatabasePublicationConformanceTest adds ten cases:
+a real timed-out late conditional PUT, three publisher child halts, three clean-loss
+cutoffs, missing journal, failed online startup and captured-head/no-fence behavior;
+resolved publication continues with temporal answers, original/new retries and
+forced writes. Explicit bounded corpus fixture and narrow test-classifier oracle/
+resource reuse keep production packages unchanged; Jackson remains test-only.
+Independent generator/lifetime/coverage and packaging reviews find no actionable
+issue. Clean 1,272 core /596 optional checks, fourteen examples, JDK-only 155-class
+core, 50-class optional archive, narrow 10-class/three-resource classifier, 42 docs
+fixtures and 78-page production/project builds pass locally without skips. ADR 0035,
+conformance guide, current callers/rules and fresh unchanged Maven research capture
+coverage/costs/placement limits. Fifteen local readbacks, search and responsive QA
+pass. Mark MDB-0065 and parents MDB-0062/0038 source-done after auditing every original
+criterion; source/CI/Pages/live delivery follows in its receipt. MDB-0039 is next;
+MDB-0011 remains expanded.
 
 ## MDB-0039 Reader-safe object reclamation
 

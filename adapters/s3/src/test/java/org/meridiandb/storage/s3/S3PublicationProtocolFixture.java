@@ -36,9 +36,9 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
     static final int HEAD_BYTES = 256;
     static final int MAX_OBJECT_BYTES = 4096;
     private static final int MAX_REQUEST_BYTES = 4096;
-    private static final int MAX_REQUESTS = 256;
-    private static final int MAX_OBJECTS = 32;
-    private static final long MAX_STORED_BYTES = 128 * 1024;
+    private final int maxRequests;
+    private final int maxObjects;
+    private final long maxStoredBytes;
     private static final Duration SLOW_DELAY = Duration.ofSeconds(2);
 
     enum Fault {
@@ -128,6 +128,18 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
     private long serial;
 
     S3PublicationProtocolFixture() throws IOException {
+        this(256, 32, 128 * 1024);
+    }
+
+    /** Larger explicit, still bounded budgets for complete corpus/publication workflows. */
+    S3PublicationProtocolFixture(int maxRequests, int maxObjects, long maxStoredBytes) throws IOException {
+        if (maxRequests < 1 || maxRequests > 32768 || maxObjects < 1 || maxObjects > 512
+                || maxStoredBytes < 1 || maxStoredBytes > 2 * 1024 * 1024) {
+            throw new IllegalArgumentException("Publication fixture limits outside supported bounds");
+        }
+        this.maxRequests = maxRequests;
+        this.maxObjects = maxObjects;
+        this.maxStoredBytes = maxStoredBytes;
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 16);
         try {
             server.setExecutor(workers);
@@ -168,7 +180,7 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
     /** The next GET returns its captured old state/absence, while stored state already advances. */
     synchronized void changeAfterNextGet(String key, byte[] bytes) {
         checkStorage(key, bytes);
-        if (!afterGet.containsKey(key) && afterGet.size() >= MAX_OBJECTS) {
+        if (!afterGet.containsKey(key) && afterGet.size() >= maxObjects) {
             throw new IllegalStateException("Publication fixture pending-change limit");
         }
         afterGet.put(key, bytes.clone());
@@ -181,7 +193,7 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
 
     synchronized void fault(String method, String key, Fault fault) {
         String target = route(method, key);
-        if (!faults.containsKey(target) && faults.size() >= MAX_REQUESTS) {
+        if (!faults.containsKey(target) && faults.size() >= maxRequests) {
             throw new IllegalStateException("Publication fixture fault count limit");
         }
         faults.put(target, Objects.requireNonNull(fault, "fault"));
@@ -194,7 +206,7 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
         Objects.requireNonNull(key, "key");
         if (closed.get()) { throw new IllegalStateException("Publication fixture is closed"); }
         if (putGates.containsKey(key)) { throw new IllegalStateException("A PUT gate already exists for this key"); }
-        if (putGates.size() >= MAX_OBJECTS) { throw new IllegalStateException("Publication fixture PUT gate limit"); }
+        if (putGates.size() >= maxObjects) { throw new IllegalStateException("Publication fixture PUT gate limit"); }
         var gate = new PendingPut();
         putGates.put(key, gate);
         return gate;
@@ -239,7 +251,7 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
 
     private void handle(HttpExchange exchange) throws IOException {
         try (exchange) {
-            if (requestCount.incrementAndGet() > MAX_REQUESTS) {
+            if (requestCount.incrementAndGet() > maxRequests) {
                 error(exchange, 503, "SlowDown", "Publication fixture request limit");
                 return;
             }
@@ -321,10 +333,10 @@ final class S3PublicationProtocolFixture implements AutoCloseable {
         Objects.requireNonNull(key, "key");
         Objects.requireNonNull(bytes, "bytes");
         if (bytes.length > MAX_OBJECT_BYTES) { throw new IllegalArgumentException("Publication fixture image exceeds limit"); }
-        if (!objects.containsKey(key) && objects.size() >= MAX_OBJECTS) { throw new IllegalStateException("Publication fixture object limit"); }
+        if (!objects.containsKey(key) && objects.size() >= maxObjects) { throw new IllegalStateException("Publication fixture object limit"); }
         long total = objects.values().stream().mapToLong(value -> value.bytes.length).sum();
         State previous = objects.get(key);
-        if (total - (previous == null ? 0 : previous.bytes.length) + bytes.length > MAX_STORED_BYTES) {
+        if (total - (previous == null ? 0 : previous.bytes.length) + bytes.length > maxStoredBytes) {
             throw new IllegalStateException("Publication fixture stored-byte limit");
         }
     }

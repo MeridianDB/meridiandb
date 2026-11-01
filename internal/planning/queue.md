@@ -12,48 +12,31 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Previous MDB-0061 source `fc366509873a6a4f48eac27595f6017d6344f4d7` and delivery
-  receipt `5562b1e15cbe31b7c514c270befc6a597fae537b` are verified on origin/main.
-  Java 41313228037, docs 41313228027 and automatic Pages 41313228113 pass.
-- **MDB-0062 — Writable remote recovery conformance** is expanded into required
-  MDB-0063 core pinned writes, MDB-0064 managed S3 writable admission and MDB-0065
-  full remote writable conformance. Preserve every original MDB-0062/0038 criterion;
-  neither parent closes when core writes alone pass. All 65 IDs are retained.
-- **MDB-0063 — Core pinned checkpoint writes** is source-complete. The explicit
-  JDK-only factory completes owned prefix/tail reconstruction, synchronizes actual
-  journal/name and reuses forced local commit/retry publication. Read-only and
-  managed S3 modes retain their contracts; caller adapters remain unowned.
-  No active claim remains.
-- Sixty-six new core invocations, clean **1,272 core /472 optional** checks,
-  fourteen packaged-core examples, archive/jdeps, 42 docs-rule fixtures and strict
-  production/project-path **74-page** builds pass locally without skips. Source
-  `88b81ab705eef51586f6fb1793d277c4c8beec8b` is verified on origin/main. Java
-  **41317159326**, docs **41317159285** and Pages **41317159286** pass. Ubuntu runs
-  all cases; Windows reports 363 core /245 optional explicit capability skips,
-  including 65 new native cases. Fourteen examples pass on each. Fifteen live
-  pages/canonicals, new guide/ADR search entries and the 74-page sitemap pass;
-  evidence is in the progress receipt.
-- **MDB-0064 — Managed S3 writable recovery** is source-complete. The explicit
-  optional factory composes exact managed admission with actual core writable
-  startup; delegated transactions retain all three local owners through uncertainty.
-  Committed-state capture remains available while write/close serialize on the
-  private core owner. Reentrant close rejects before invalidation. No active claim
-  remains; no transaction changes S3 selection or local publication metadata.
-- Seventy-four new optional invocations, clean **1,272 core /546 optional** checks,
-  fourteen packaged-core examples, archive/jdeps, 42 docs-rule fixtures and strict
-  production/project-path **76-page** builds pass locally without skips. Local
-  guide/ADR/search and desktop-light/mobile-dark layout pass; seventeen page/content/
-  canonical readbacks, both new search entries and the 76-page sitemap pass.
-  Source `4a3e14884c8cf11be3c0757b18592624ff279ff7` and test-fixture follow-through
-  `7e666b3af237c9d1e6ffe6dfa048e3df19769677` are verified on remote main. Final
-  Java **41325115865**, docs **41324730429** and Pages **41324730394** pass.
-  Ubuntu runs all cases; Windows reports 363 core /318 optional explicit capability
-  skips, including 73 new native cases, while the pure argument case runs. Fourteen
-  examples pass per platform. Seventeen live readbacks, new search entries and the
-  76-page sitemap pass; the progress receipt records actual delivery evidence.
-  **MDB-0065 — Remote writable recovery conformance** is next. Full SDK corpus,
-  cross-publication and remaining parent criteria belong there; MDB-0062/0038 stay
-  expanded and neither parent closes here.
+- Previous MDB-0064 source `4a3e14884c8cf11be3c0757b18592624ff279ff7`, test-fixture
+  follow-through `7e666b3af237c9d1e6ffe6dfa048e3df19769677` and delivery receipt
+  `3849072587c1e0d59063492a768e33668a69bda9` are verified on origin/main. Final
+  Java 41325115865, docs 41324730429 and Pages 41324730394 pass.
+- **MDB-0065 — Remote writable recovery conformance** is source-complete. Forty
+  SDK corpus cases retain every original temporal/query literal, generator draw,
+  seed, historical cutoff and retry identity across genesis/split/full checkpoints.
+  They make 1,536 actual seeded new commits. Ten integration cases cross late or
+  interrupted publication with pending refusal, explicit reconciliation, managed
+  startup, forced writes and exact retry/reopen. Coverage-loss, missing journal,
+  online failure and historical observation limits remain explicit. No active claim
+  remains; production protocols and wire formats are unchanged.
+- Clean **1,272 core /596 optional** checks, all fourteen packaged-core examples,
+  archive/jdeps, 42 docs-rule fixtures and strict **78-page** production/project-path
+  builds pass locally without skips. New guide/ADR/search navigation and desktop-light/
+  mobile-dark layout pass, including the coverage table without page overflow.
+  Fifteen local page/content/canonical readbacks, both new search entries and the
+  78-page unique production sitemap pass. Source push, exact-source automatic
+  Java/docs/Pages and live readback remain to verify in the delivery receipt.
+- **MDB-0062 and MDB-0038** meet every original source acceptance criterion and all
+  required children; mark both source-done with this completion. The progress
+  receipt maps their criteria to existing focused cases and new SDK integration.
+  **MDB-0039 — Reader-safe object reclamation** is next, conditional on this
+  source's remote delivery. MDB-0011 remains expanded with remote reclamation and
+  general backend conformance required. All 65 stable IDs are retained.
 
 ## Ordered work
 
@@ -110,15 +93,15 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0057](roadmap.md#mdb-0057-verified-durable-s3-preparation) | Prepare verified exact S3 intent durably without selecting it | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0058](roadmap.md#mdb-0058-conditional-submission-and-reconciliation) | Submit/reconcile exact pending intent and complete publisher conformance | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052, MDB-0057 |
 | [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | done | MDB-0010, MDB-0051 |
-| [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | expanded | MDB-0010, MDB-0037 |
+| [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | done | MDB-0010, MDB-0037 |
 | [MDB-0059](roadmap.md#mdb-0059-bounded-pinned-object-history) | Load immutable history from one fully verified pinned object graph | MDB-0038 | done | MDB-0010, MDB-0037 |
 | [MDB-0060](roadmap.md#mdb-0060-core-pinned-checkpoint-recovery) | Recover a read-only temporal engine from pinned history and the actual local tail | MDB-0038 | done | MDB-0010, MDB-0037, MDB-0059 |
 | [MDB-0061](roadmap.md#mdb-0061-managed-s3-recovery-admission) | Bind S3 recovery startup to actual scope and durable publication state | MDB-0038 | done | MDB-0010, MDB-0037, MDB-0060 |
-| [MDB-0062](roadmap.md#mdb-0062-writable-remote-recovery-conformance) | Preserve forced writes after remote recovery and complete parent conformance | MDB-0038 | expanded | MDB-0010, MDB-0037, MDB-0061 |
+| [MDB-0062](roadmap.md#mdb-0062-writable-remote-recovery-conformance) | Preserve forced writes after remote recovery and complete parent conformance | MDB-0038 | done | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0063](roadmap.md#mdb-0063-core-pinned-checkpoint-writes) | Enable forced local writes after explicit pinned checkpoint recovery | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0064](roadmap.md#mdb-0064-managed-s3-writable-recovery) | Admit writable managed S3 recovery with retained ownership | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0063 |
-| [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | ready | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
-| [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
+| [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
+| [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | ready | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |

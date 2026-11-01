@@ -104,7 +104,8 @@ checks those boundaries and exact recovery. Core pinned read recovery uses the
 same private reconstruction algorithm, also used by managed S3 read recovery.
 [Core pinned writes](../development/object-checkpoint-writes.md) additionally
 synchronize the owned journal/name before enabling forced local transactions.
-Managed S3 writable recovery is implemented separately; optimized query layouts remain planned.
+Managed S3 writable recovery is implemented separately; its [conformance suite](../development/s3-recovery-conformance.md)
+checks full SDK histories and publication interruptions. Optimized query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 

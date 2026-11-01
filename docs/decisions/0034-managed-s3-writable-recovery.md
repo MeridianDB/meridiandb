@@ -6,7 +6,8 @@ description: Compose exact managed S3 admission with core writable startup and s
 # ADR 0034: Managed S3 writable recovery
 
 Date: November 1, 2026. Status: implemented, experimental optional writable mode;
-complete remote writable corpus and cross-publication conformance remain planned.
+[remote writable corpus and cross-publication conformance](0035-remote-writable-recovery-conformance.md)
+is now implemented separately.
 
 ## Context and decision
 
@@ -55,11 +56,12 @@ concurrency checks exercise this composition. A test helper in the optional test
 sources accesses the existing package-private core probe; it is excluded from the
 production and shared test-support artifacts. No fake commit protocol substitutes
 for real core append/force/publication. These tests do not establish device power
-loss, a live provider qualification or complete remote writable corpus coverage.
+loss or live-provider qualification. The separate conformance suite adds full
+remote writable corpus coverage.
 
-Full unchanged canonical/query and persisted-seed SDK histories, late/pending selection
-and cross-publication interruption checks remain required before the broader remote
-recovery milestone is complete. Replication and reader-safe remote reclamation retain
+[ADR 0035](0035-remote-writable-recovery-conformance.md) now supplies full unchanged
+canonical/query and persisted-seed SDK histories, late/pending selection and
+cross-publication interruption checks. Replication and reader-safe remote reclamation retain
 separate contracts. Keeping query methods under a wrapper transaction mutex would
 unnecessarily block committed-state capture during force; independently implementing
 write publication here would split the existing acknowledgement and poisoning rules.
