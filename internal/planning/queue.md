@@ -24,12 +24,16 @@ children before implementation rather than treating a whole milestone as one pat
 - All **1,206 core /409 optional** cases pass locally without skips, including
   29 focused and 40 canonical/seeded pinned-recovery cases. Fourteen packaged-core
   examples, JAR/jdeps checks, 42 docs-rule fixtures and strict production/project-path
-  **70-page** builds pass. Source push, CI, automatic Pages and live readback must be
-  verified before another step starts; record their actual results in the delivery receipt.
+  **70-page** builds pass. Source `7912f2ffa64cfb7469b1a4663f131b77d3127e3f` is
+  verified on origin/main. Java **41266850347**, docs **41266850387** and automatic
+  Pages **41266850349** pass; fourteen live pages/canonicals, new guide/ADR search
+  entries and the 70-page sitemap pass. Ubuntu runs all cases; Windows reports
+  298 core /185 optional explicit capability skips, including 68 new native cases.
+  Fourteen examples pass on each platform. Delivery evidence is in the progress receipt.
 - **MDB-0038 — Remote checkpoint engine recovery** remains expanded into required
   MDB-0059/0060 (done), MDB-0061 managed S3 startup and MDB-0062 writable/full parent
   conformance. Preserve every original criterion; remote reclamation remains MDB-0039.
-- **MDB-0061 — Managed S3 recovery admission** is next, ready after delivery checks.
+- **MDB-0061 — Managed S3 recovery admission** is next and ready after verified delivery.
   Bind actual client scope and durable expected/pending state to a fresh exact head
   observation before core recovery. Planning this child does not start it.
 

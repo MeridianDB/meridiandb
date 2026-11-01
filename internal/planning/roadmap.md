@@ -1494,8 +1494,12 @@ strict evidence, actual owner cleanup and post-adapter-close queries. Full clean
 examples, 155-class JDK-only archive/jdeps, 42 docs-rule fixtures and strict 70-page
 production/project-path builds pass. ADR 0031, the new guide and current callers/rules
 record explicit authority, complete-journal requirements and retained heap/replay
-costs. Source/CI/Pages delivery verification follows before MDB-0061 starts; MDB-0038
-remains expanded and writable remote recovery remains MDB-0062.
+costs. Source `7912f2ffa64cfb7469b1a4663f131b77d3127e3f` is verified on remote
+main; Java 41266850347, docs 41266850387 and Pages 41266850349 pass. Ubuntu runs
+all 1,206 core /409 optional cases; Windows has 298 core /185 optional capability
+skips (68 new native cases). Fourteen examples pass per platform. Live guide/ADR,
+fourteen current pages/canonicals, new search entries and the 70-page sitemap pass.
+MDB-0061 is ready; MDB-0038 remains expanded and writable recovery remains MDB-0062.
 
 ## MDB-0061 Managed S3 recovery admission
 

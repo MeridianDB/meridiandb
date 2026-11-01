@@ -4128,6 +4128,48 @@ DNS/hosting action starts.
 **Next recommendation:** MDB-0061 — Managed S3 recovery admission, binding actual
 client scope and durable publication state to a fresh exact selection before recovery.
 
+
+## 2026-10-31 — MDB-0060 Delivery verification
+
+Source **`7912f2ffa64cfb7469b1a4663f131b77d3127e3f`** carries
+`Step-ID: MDB-0060` / `Step-Result: completed`, with production/tests, public
+technical documentation/rules and queue/card/history in one source commit.
+Normal push and fresh fetch confirm matching main/origin tips, source ancestry
+and a clean working tree before this internal receipt.
+
+- [Java 41266850347](https://github.com/MeridianDB/meridiandb/actions/runs/41266850347)
+  passes both platforms and all fourteen examples on each. Ubuntu runs all
+  1,206 core /409 optional cases with zero failures/errors/skips, including all
+  69 new recovery cases. Windows has zero failures/errors with 298 core and
+  185 optional explicit capability skips. Of the new cases, its pure argument
+  preflight runs while 28 focused native and 40 canonical/seeded cases skip for
+  unsupported directory synchronization. This does not qualify that Windows
+  placement for pinned recovery; existing capability requirements stay explicit.
+- [Docs 41266850387](https://github.com/MeridianDB/meridiandb/actions/runs/41266850387)
+  passes production and project-path strict builds plus all 42 documentation-rule
+  fixtures on each. [Automatic Pages 41266850349](https://github.com/MeridianDB/meridiandb/actions/runs/41266850349)
+  passes its 42 fixtures, strict build and deployment.
+- Live HTTPS readback verifies the new recovery guide and ADR 0031, loader/ADR 0030,
+  ADRs 0027/0028, build, both S3 primitive guides, local database, persistence
+  boundaries, roadmap, decisions index and home page: fourteen current pages with
+  exact canonical URLs and changed implementation/scope/count/source wording.
+  The guide and ADR title/route appear in search; sitemap contains 70 unique
+  production HTTPS pages. Browser inspection confirms the published guide and
+  canonical URL. `.local-qa/mdb-0060/site-published.png` captures the published
+  result and was shown in the session; local desktop-light/mobile-dark and guide/
+  ADR/search navigation evidence share the ignored task directory. Normal light
+  viewport is restored and the exact task-owned local HTTP server is stopped.
+
+Only queue/card/history follow the verified source. Their internal-only receipt
+push matches existing workflow path filters and needs no repeated source build.
+Validate all 62 IDs/cards/DAG/eligibility, inspect/stage only those three paths,
+commit/push normally and reconfirm tips/source ancestry. MDB-0038 remains expanded;
+no later child, library release/upload or cloud/account/DNS/hosting action starts.
+
+**Next recommendation:** MDB-0061 — Managed S3 recovery admission, binding actual
+client scope and durable expected/pending state to a fresh exact head observation
+before invoking the implemented core read-only recovery factory.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
