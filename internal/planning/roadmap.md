@@ -1839,7 +1839,11 @@ vectors implemented; 108 new checks (50 state/58 codec) and the 704-case optiona
 suite pass, alongside 1,272 core checks and fourteen packaged examples. Format,
 ADR 0037, current public callers, rules and planning are reconciled; 42 docs fixtures
 and both 82-page builds pass. Native/SDK provenance and parent integration remain
-pending. Delivery and exact-source CI/Pages are recorded in progress history.
+pending. Source `86310645e84a82004c7b2d8f0da5dd8e27671abf` is delivered; Java
+41345469509, docs 41345469586 and automatic Pages 41345469623 pass, including actual
+deployment. All 108 pure cases execute on Linux/Windows; existing native skips
+remain separate. Thirteen live canonical/content routes, both search entries and
+82-page sitemap pass. Progress history retains full delivery evidence.
 
 ## MDB-0072 Local coordination guard and durable ledger
 

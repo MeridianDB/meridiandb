@@ -4992,6 +4992,50 @@ permanent native identity and forced immutable intent/completion generations bef
 participating SDK sessions can use this pure model.
 
 
+
+## 2026-11-01 — MDB-0071 Delivery verification
+
+Source **`86310645e84a82004c7b2d8f0da5dd8e27671abf`** carries Step-ID MDB-0071 /
+Step-Result completed. It includes code, independent literal fixtures/tests,
+format/ADR/current callers/rules and MDB-0067's required four-child expansion with
+source acceptance and next MDB-0072 readiness. Normal push/fresh fetch establish
+source ancestry, matching main/origin tips and a clean checkout before this receipt.
+
+- [Java 41345469509](https://github.com/MeridianDB/meridiandb/actions/runs/41345469509)
+  passes Linux/Windows core and optional builds plus all fourteen examples on each.
+  Linux runs core 1,272 /optional 704 with zero failures/errors/skips. Windows has
+  363 core and 368 optional existing native-capability skips; all **108 new pure
+  coordination cases (50 state/58 codec) actually execute without skips** on both.
+  The fixture CRLF correction and historical-completion/delete/create layouts are
+  verified in this exact-source CI. No new native admission/deletion qualification
+  follows from these pure tests.
+- [Docs 41345469586](https://github.com/MeridianDB/meridiandb/actions/runs/41345469586)
+  passes 42 QA fixtures and strict production/project-path builds. [Automatic Pages
+  41345469623](https://github.com/MeridianDB/meridiandb/actions/runs/41345469623)
+  passes its 42 fixtures, build/upload and deployment of the same full source SHA.
+- Live HTTPS readback verifies format/ADR 0037, protocol/ADR 0036, persistence,
+  overview, roadmap, decisions, build, S3 object/head/conformance guides and home:
+  **thirteen pages** with exact production canonicals and current scope/test/research
+  wording. Both new titles/routes appear in search; sitemap has **82 unique
+  production HTTPS pages**. Browser verifies the published pure-state/pending-native/
+  SDK status and new test count. The session shows
+  `.local-qa/mdb-0071/site-published.png`. Local format/ADR/back/search and desktop-
+  light/mobile-dark checks pass without overflow; normal light viewport is restored.
+  Task-owned preview server 98137 is stopped. Ignored evidence retains fresh Maven
+  research, independent reviews, full CI logs, readbacks and screenshots.
+
+Only queue/card/history change in this delivery receipt. Validate all 74 IDs/cards/
+DAG/eligibility, inspect/stage these three paths, commit/push normally and reconfirm
+source ancestry, clean checkout and matching tips. Existing workflow path filters
+trigger no workflow for this internal-only receipt. MDB-0071 is complete;
+MDB-0067/0039/0011 remain expanded. No next-child implementation, library artifact
+release/upload, real-provider mutation or account/DNS/hosting change starts.
+
+**Next recommendation:** MDB-0072 — Local coordination guard and durable ledger:
+permanent native identity, shared/exclusive local ownership and forced immutable
+intent/completion generations, preserving unknown evidence across reopen.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -25,16 +25,21 @@ children before implementation rather than treating a whole milestone as one pat
   pending state, tombstones and canonical bounded bytes are implemented. Native
   ownership, durable installation, complete liveness and SDK provenance remain
   pending. No active claim remains.
-- Verification passes 1,272 core and 704 optional tests with zero failures/errors/
-  skips, including 108 new pure state/codec cases; all fourteen packaged examples,
-  archive boundaries, 42 docs fixtures and both strict 82-page builds pass.
-  Thirteen local content/canonical routes, new search entries, sitemap and browser
-  navigation/desktop-light/mobile-dark checks pass. Fresh Maven research retains
-  all fourteen pins; independent code/test/vector/public review has no findings.
-- **MDB-0072 — Local coordination guard and durable ledger** is next, conditional
-  on verified source push, exact-source Java/docs CI and automatic Pages delivery.
-  MDB-0067/0039/0011 remain expanded. No native/SDK child, deletion, library release
-  or real-provider/account/hosting mutation starts in this iteration.
+- Verification passes 1,272 core and 704 optional tests locally/Linux with zero
+  failures/errors/skips, including 108 new pure state/codec cases. Windows passes
+  both builds with existing native capability skips (363 core/368 optional); all
+  108 new pure cases run with zero skips. Fourteen examples pass on both CI platforms.
+- Source `86310645e84a82004c7b2d8f0da5dd8e27671abf` is on origin/main. Java
+  **41345469509**, docs **41345469586** and automatic Pages **41345469623** pass
+  for that exact source, including deployment. All 42 docs fixtures and both strict
+  82-page builds pass. Thirteen live content/canonical routes, both new search
+  entries and 82 unique HTTPS sitemap URLs pass. Browser confirms the published
+  format's pure-declaration status; normal light viewport is restored and the
+  task-owned preview server is stopped. Independent reviews have no findings;
+  fresh Maven research retains all fourteen pins.
+- **MDB-0072 — Local coordination guard and durable ledger** is next. No active
+  claim remains. MDB-0067/0039/0011 remain expanded; no later native/SDK child,
+  remote deletion, library release or real-provider/account/hosting mutation starts.
 
 ## Ordered work
 
