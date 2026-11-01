@@ -14,7 +14,8 @@ Core and ordinary local embedding still require no external runtime dependency.
 The [head format](../architecture/object-checkpoint-protocol.md) is implemented
 in core. This adapter adds GET and conditional PUT; a complete checkpoint
 publisher with graph/actual-journal verification, durable pending intent and
-uncertain-result reconciliation is **not yet implemented**. Transaction
+uncertain-result reconciliation is implemented separately by
+[S3CheckpointPublisher](s3-checkpoint-publication.md). Transaction
 acknowledgement, engine recovery, reader protection and reclamation are unchanged.
 Separate JDK-only [graph verification](object-checkpoint-graphs.md) now checks
 complete referenced history and actual journal prefixes; it does not compose
@@ -23,7 +24,8 @@ those checks with conditional selection or durable intent. The separate
 metadata and pure transitions. [Durable local installation](local-s3-publication-state.md)
 is now available separately. [Verified preparation](s3-publication-preparation.md)
 composes actual scope/graph/owner checks and durable pending state without sending
-a selection PUT; the complete publisher remains planned.
+a selection PUT. The [verified publisher](s3-checkpoint-publication.md) now adds
+conditional submission and durable exact-candidate reconciliation.
 [ADR 0024](../decisions/0024-conditional-s3-head-access.md) records this boundary.
 
 ## Build and configuration
@@ -40,12 +42,13 @@ Run the same two builds from the repository root:
 
 Use `mvnw.cmd` on Windows. Core verification installs the core JAR and its small
 shared test classifier locally; the optional build verifies both immutable and
-conditional-head APIs. The optional build runs **324 tests**: 46 immutable-object
+conditional-head APIs. The optional build runs **402 tests**: 46 immutable-object
 cases, 43 conditional-head SDK/API cases, 27 token/observation/native-stream cases,
 four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md) and 65 pure
 [publication-state codec/transition cases](s3-publication-state.md), plus 86
 [local state API/fault/process cases](local-s3-publication-state.md) and 53
-[verified preparation cases](s3-publication-preparation.md).
+[verified preparation cases](s3-publication-preparation.md) and 78
+[verified publication cases](s3-checkpoint-publication.md).
 Native local cases explicitly skip unsupported placement; pure and injected checks
 remain independent of those capabilities.
 Core runs its separate 1,092 tests. No cloud service or account is used by these tests.

@@ -12,8 +12,9 @@ ordinary local embedding remain independent of the optional SDK artifact.
 
 The format and pure transitions are implemented. A separate
 [local state owner](local-s3-publication-state.md) adds exclusive storage, ordered
-forces, atomic installation and fail-closed reopen. Complete remote publication/
-reconciliation remains planned. Encoding or decoding this value is
+forces, atomic installation and fail-closed reopen. The separate
+[verified publisher](s3-checkpoint-publication.md) now composes complete graph checks,
+original-precondition submission and durable candidate reconciliation. Encoding or decoding this value is
 neither a durable intent receipt nor proof of remote selection.
 [ADR 0026](../decisions/0026-bounded-s3-publication-state.md) records the decision.
 

@@ -7,7 +7,8 @@ description: Represent exact target, expected observation and pending conditiona
 
 Date: October 31, 2026. Status: bounded representation and pure transitions
 implemented, experimental. [ADR 0027](0027-durable-local-s3-publication-state.md)
-adds durable local installation; full conditional publisher/reconciliation remains planned.
+adds durable local installation; [ADR 0029](0029-verified-s3-checkpoint-publication.md)
+adds conditional publication and durable reconciliation.
 
 ## Context
 

@@ -12,24 +12,25 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0057 source `2c2341420f0d54a25606156d19151d30f4c963b8` is verified on
-  origin/main with matching tips/ancestry. Java **41257367765**, docs **41257367845**
-  and automatic Pages **41257367777** pass; live guide/ADR/callers/canonical/search
-  and the **65-page** sitemap are verified. Ubuntu runs every optional case;
-  Windows reports 107 explicit unsupported local-placement optional skips.
-- MDB-0053 is expanded into required MDB-0057 verified durable preparation and
-  MDB-0058 conditional submission/reconciliation plus complete parent conformance.
-  Preserve all original MDB-0053/MDB-0049/MDB-0037 acceptance; parents stay expanded.
-- **MDB-0057 — Verified durable S3 preparation** is done: actual client scope,
-  owned journal/path, original expected bytes/token, shared graph limits, local
-  force barriers, immutable intent and exact durable pending state are composed.
-  No mutable selection PUT is sent. All 53 new cases and 1,092 core / 324 optional
-  cases pass locally without skips, plus fourteen packaged-core examples, artifact
-  inspection and both strict 65-page site builds. No active claim remains.
-- **MDB-0058 — Conditional submission and reconciliation** is ready after verified
-  delivery. Resume exact pending state without rebase/clearing, integrate
-  SDK conditional selection and uncertain/late effects, and complete all original
-  parent conformance before closing publication parents. MDB-0054 remains separate.
+- MDB-0058 source acceptance passes from clean main/origin
+  `e3ea7d248ce3fdcc3d4754f4eb9dda1c1c49a544`. Completion commit/push, remote
+  ancestry/tips, Java/docs/Pages and live readback remain the delivery gate.
+- **MDB-0058 — Conditional submission and reconciliation** is done. Exact durable
+  pending intent, immutable evidence, actual client/owner admission, total two-pass
+  graph reservation, one original-precondition attempt and fresh-candidate durable
+  reconciliation now compose the full experimental publisher. All 78 new cases,
+  1,092 core / 402 optional cases, fourteen examples, artifact inspection and both
+  strict 67-page builds pass locally without skips. No active claim remains.
+- Close **MDB-0053**, **MDB-0049** and **MDB-0037** with all required children and
+  original SDK/local integration criteria complete: lost replies, competing writes,
+  stale reads, late effects across reopen, actual divergent history, shared budgets,
+  process stops, native result failures and retained evidence. MDB-0011 stays
+  expanded: remote engine recovery, reader-safe reclamation and common backend
+  conformance remain required. Local acknowledgement and placement limits persist.
+- **MDB-0054 — Legacy bounded segment preflight** is source-ready, conditional on
+  verified delivery above. Keep this independent maintenance task outside the
+  publication parents; apply expected-range admission before payload materialization
+  in legacy bounded consumers, preserving their valid results and existing errors.
 
 ## Ordered work
 
@@ -73,19 +74,19 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0045](roadmap.md#mdb-0045-dedicated-meridiandb-sponsorship) | Configure the approved MeridianDB Sponsors profile and migrate funding links | — | done | MDB-0044 |
 | [MDB-0046](roadmap.md#mdb-0046-temporal-geometry-and-index-research) | Document temporal geometry and reusable Lucene/Solr indexing ideas | — | done | MDB-0009 |
 | [MDB-0036](roadmap.md#mdb-0036-optional-s3-compatible-object-access) | Add optional S3-compatible object access and provider checks | MDB-0011 | done | MDB-0010, MDB-0035 |
-| [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | expanded | MDB-0010, MDB-0036 |
+| [MDB-0037](roadmap.md#mdb-0037-conditional-object-checkpoint-publication) | Implement conditional object checkpoint publication | MDB-0011 | done | MDB-0010, MDB-0036 |
 | [MDB-0047](roadmap.md#mdb-0047-bounded-object-checkpoint-head) | Specify and encode bounded object checkpoint heads | MDB-0037 | done | MDB-0010, MDB-0036 |
 | [MDB-0048](roadmap.md#mdb-0048-conditional-s3-head-access) | Implement bounded S3 head reads and conditional replacement | MDB-0037 | done | MDB-0010, MDB-0036, MDB-0047 |
-| [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | expanded | MDB-0010, MDB-0036, MDB-0048 |
+| [MDB-0049](roadmap.md#mdb-0049-verified-object-checkpoint-publication) | Publish verified object checkpoints against the actual owned journal | MDB-0037 | done | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0050](roadmap.md#mdb-0050-bounded-owned-journal-prefix) | Bound actual owned-journal prefix reads before allocation | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048 |
 | [MDB-0051](roadmap.md#mdb-0051-verified-object-checkpoint-graphs) | Verify bounded object checkpoint graphs against the owned journal | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0050 |
 | [MDB-0052](roadmap.md#mdb-0052-durable-object-publication-intent) | Persist expected head and exact pending publication intent | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
 | [MDB-0055](roadmap.md#mdb-0055-bounded-s3-publication-state) | Encode bounded S3 publication state and exact pending intent | MDB-0052 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051 |
 | [MDB-0056](roadmap.md#mdb-0056-durable-local-publication-state) | Install local publication state under durable exclusive ownership | MDB-0052 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0055 |
-| [MDB-0053](roadmap.md#mdb-0053-verified-conditional-publisher) | Integrate verified conditional publication and reconciliation | MDB-0049 | expanded | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
+| [MDB-0053](roadmap.md#mdb-0053-verified-conditional-publisher) | Integrate verified conditional publication and reconciliation | MDB-0049 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
 | [MDB-0057](roadmap.md#mdb-0057-verified-durable-s3-preparation) | Prepare verified exact S3 intent durably without selecting it | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052 |
-| [MDB-0058](roadmap.md#mdb-0058-conditional-submission-and-reconciliation) | Submit/reconcile exact pending intent and complete publisher conformance | MDB-0053 | ready | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052, MDB-0057 |
-| [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | queued | MDB-0010, MDB-0051 |
+| [MDB-0058](roadmap.md#mdb-0058-conditional-submission-and-reconciliation) | Submit/reconcile exact pending intent and complete publisher conformance | MDB-0053 | done | MDB-0010, MDB-0036, MDB-0048, MDB-0051, MDB-0052, MDB-0057 |
+| [MDB-0054](roadmap.md#mdb-0054-legacy-bounded-segment-preflight) | Apply expected-range preflight to legacy bounded consumers | — | ready | MDB-0010, MDB-0051 |
 | [MDB-0038](roadmap.md#mdb-0038-remote-checkpoint-engine-recovery) | Integrate remote checkpoints with local journal and engine recovery | MDB-0011 | queued | MDB-0010, MDB-0037 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |

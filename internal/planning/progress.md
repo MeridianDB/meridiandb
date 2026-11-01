@@ -3644,6 +3644,120 @@ change occurs in this receipt.
 resuming exact durable pending intent and completing every original publisher
 parent criterion for uncertainty, late effects, retries, process reopen and evidence.
 
+## 2026-10-31 — MDB-0058 Conditional submission and reconciliation
+
+**Selection:** start clean at main/origin `e3ea7d248ce3fdcc3d4754f4eb9dda1c1c49a544`;
+verify MDB-0057 source `2c2341420f0d54a25606156d19151d30f4c963b8`, Java/docs/Pages
+and live delivery. Resume this last required publication child; allocate no new IDs.
+Preserve every original MDB-0053/MDB-0049/MDB-0037 integration criterion.
+
+**Outcome:** add optional S3CheckpointPublisher.submit/reconcile and typed checked
+failure. Both require exact durable pending state, actual client/journal admission,
+complete immutable intent evidence and an available local result generation/slot
+before remote work. Share the existing concrete-resource admission helper with
+preparation without changing its behavior. Hold local/checkpoint/journal/head/object
+monitors throughout; caller ownership and normal local acknowledgement are unchanged.
+
+An exact candidate observation permits complete original graph/owned-prefix checks,
+owner/name force and durable local expected-state installation, with no remote PUT.
+Only original predecessor bytes/token or independently fresh absence permits an
+explicit submit. Verify the full original graph set, reserve an identical second
+pass within the same total budget BEFORE force/PUT, force actual journal/name and
+attempt one original-precondition/candidate SDK write. Require fresh exact-candidate
+readback, the second complete original graph pass using remaining limits and forced
+local result before success. No automatic retry loop, reset/adoption/rebase, fallback,
+new identity, engine acknowledgement or deletion is introduced.
+
+A failed PUT reply may be resolved by exact-candidate observation and complete
+remaining checks; Result records immutable expected metadata, summed Usage, logical
+write attempt/reply and optional known failure code. Old/missing/error readback
+cannot establish that a request finished without effect and leaves original intent.
+After result-installation uncertainty, validated reopen may find pending or already
+installed expected state; an error does not prove rollback. Existing native poisoning/
+quarantine remains. Metadata allowance is four logical SDK calls /1,024 normal body
+bytes for actual submit, or two GETs/512 bytes without PUT, outside total graph usage,
+framing/error caps, local scans/copies/open recovery and suffix-inclusive force work.
+Single placement/no-external-rollback conditions remain assumptions, not fencing.
+
+**Research:** Central at **November 1, 00:39:22 UTC / October 31, 20:39:22 EDT** and
+official compatibility at 00:39:23 UTC reconfirm all fourteen selected pins latest
+stable: Maven 3.10.0, wrapper 3.3.4, clean/resources 3.5.0, compiler 3.16.0,
+Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and
+optional SDK s3/URLConnection 2.57.8. No POM change. Metadata summary SHA-256
+`5d1538d31e3eec06781ffdb8d31639f88ec9fe76e82505c1154fab3a07b52fa0`;
+compatibility `c33b59b586c984cbe784c0ed4ff0276345332ae1ed4ac482022706aed3dd9929`;
+report `2d1e220777f37ca267ef13e3c6dcb898e7fd5b7eb65643c70417c8e9b09bdce2`.
+Six AWS sources at **00:39:23 UTC** have summary
+`13b75da127ba80a310d197ebe2a682fd22e676cb89004a0564ac0d8db8c126f9`.
+They preserve single-key versus multi-key limits, opaque validators/versions,
+permission-dependent absence and original-intent uncertainty. Raw evidence is
+ignored under `.local-qa/mdb-0058/research-helper/`; public build/ADR retain dates,
+primary links and project-tested Java 25 wording.
+
+**Verification:** 39 actual SDK/local API invocations cover empty/nonempty genesis,
+replacement/repacking and exact original headers, changing-token candidate acceptance,
+summed two-pass/pair Usage and one-pass/no-PUT reconciliation. Reject absent pending,
+nine actual client scope/binding variants, wrong journal lineage/path, copied same-
+lineage actual divergence, missing/truncated/changed immutable intent without repair,
+damaged predecessor/candidate dependencies without fallback, old/missing/changed
+head/token and all four second-pass budget dimensions before effects. Real 1,024-
+generation capacity and codec-valid Long.MAX_VALUE pending states refuse before
+remote work while preserving exact stored state and usable owners as applicable.
+
+30 recovery invocations include creation/replacement lost-before explicit retry,
+lost-after exact resolution with FAILED reply evidence,409/412/403, malformed GET,
+small/huge200Error replies and acknowledged PUT with captured old readback. Two
+actual competing heads installed between GET and PUT prove provider conditional
+rejection without clearing or rebasing pending. Two held original requests time
+out, return an actual old-head observation, refuse new preparation, survive local
+owner reopen and later take effect; reconciliation then clears exact pending with
+NO further PUT. Six child-JVM exits cover creation/replacement after write, verified
+candidate and synchronized local result, using a parent-owned server, bounded
+process/log lifetimes and exact state/generation/intent checks.
+
+Nine additional cases inject before/after actual local candidate write/rename/
+directory-force while remote selection has succeeded, check owner poisoning and
+validated exact pending/expected reopen, and reconcile only when still pending.
+Post-PUT graph corruption fails without clearing or fallback. All five cooperating
+closes wait through selection/result installation; reentrant operations issue no
+extra request. The new combined bounded fixture uses real SDK calls, changing
+opaque tags and retained immutable routes. Existing fixtures/tests remain unchanged;
+no TLS/signature authentication, live-provider, device-power-loss or throughput
+qualification is inferred.
+
+Independent review finds and closes a generation-arithmetic admission gap:
+positive codec-valid Long.MAX_VALUE pending state now rejects before I/O, with
+submit/reconcile regressions. Documentation review also clarifies that no remote
+PUT is different from no local write. Initial 76 focused cases and the first clean
+1,092 core/400 optional build pass; add the two explicit conditional race cases,
+then final clean optional verification passes **402 cases**, zero failures/errors/
+skips. Core remains **1,092 cases**, zero local skips. Fourteen examples run with
+only packaged core; archive/jdeps retain 153 production classes, java.base-only
+external modules, no SDK/test classes and unchanged one-class test classifier.
+No core source, dependency, wire format or transaction acknowledgement changes.
+
+**Documentation/completion:** add guide/ADR 0029 and reconcile current implemented/
+planned claims across README/homepage, architecture/persistence/protocol, build,
+head/graph/state/preparation/local guides, earlier ADR statuses, roadmap/nav/index
+and agent rules. Both strict project-path and production builds pass source/HTML/
+links/search/sitemap for **67 pages**, restoring production output. Desktop light
+and 390-pixel dark operations tables have no page overflow; search and ADR navigation
+pass. No diagram/renderer change is needed. Helpers own bounded research/review,
+combined fixture and assigned tests; coordinator owns production/shared docs/Git.
+
+Mark MDB-0058 plus complete parents MDB-0053/MDB-0049/MDB-0037 done, clear active
+ownership and mark independent MDB-0054 ready subject to delivery. MDB-0011 remains
+expanded for engine recovery, reader-safe remote reclamation and common conformance.
+Validate all 58 IDs/cards/DAG/eligibility, inspect explicit staged paths, commit
+Step-ID MDB-0058 / Step-Result completed, push normally and verify remote ancestry/
+tips, Java/docs CI, automatic Pages and live guide/ADR/callers/canonical/search/
+sitemap. Git and the delivery receipt supply actual identities. No later task,
+release/artifact upload, cloud/account/DNS or hosting-setting change starts.
+
+**Next recommendation:** MDB-0054 — legacy bounded segment preflight, admitting
+expected ranges before payload materialization while preserving valid compaction
+results, existing error behavior and the independent maintenance scope.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

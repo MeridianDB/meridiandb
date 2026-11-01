@@ -985,6 +985,13 @@ The split preserves this complete acceptance contract. Each child's external
 prerequisites include MDB-0010/MDB-0036; later work may be refined again while
 retaining outcomes. MDB-0038 continues to depend on the complete parent.
 
+**Completion evidence:** MDB-0058 completes MDB-0037's original integration and
+required children through the actual SDK/combined fixture and supported local
+owners. Exact original preconditions, complete graph/actual-prefix checks, shared
+budgets, conflicts/loss/late effects across reopen, process stops and retained
+native result evidence pass. No remote engine recovery or reclamation is inferred;
+the source/delivery receipt records exact counts and remaining deployment limits.
+
 ## MDB-0047 Bounded object checkpoint head
 
 **Parent:** MDB-0037. **Outcome:** specify remote selection and implement its pure
@@ -1084,6 +1091,13 @@ with real SDK conditional operations and uncertain-result reconciliation, and
 finishes every original parent integration/failure criterion. An old-head GET
 alone never establishes completed failure. All children are required; the split
 does not implement remote publication or weaken the original acceptance criteria.
+
+**Completion evidence:** MDB-0058 completes MDB-0049's original integration and
+required children through the actual SDK/combined fixture and supported local
+owners. Exact original preconditions, complete graph/actual-prefix checks, shared
+budgets, conflicts/loss/late effects across reopen, process stops and retained
+native result evidence pass. No remote engine recovery or reclamation is inferred;
+the source/delivery receipt records exact counts and remaining deployment limits.
 
 ## MDB-0050 Bounded owned journal prefix
 
@@ -1280,6 +1294,13 @@ and all original SDK/HTTP, crash/late-effect and parent integration acceptance.
 Neither child alone weakens or closes MDB-0053/MDB-0049/MDB-0037; downstream remote
 recovery continues to depend on complete publication parents.
 
+**Completion evidence:** MDB-0058 completes MDB-0053's original integration and
+required children through the actual SDK/combined fixture and supported local
+owners. Exact original preconditions, complete graph/actual-prefix checks, shared
+budgets, conflicts/loss/late effects across reopen, process stops and retained
+native result evidence pass. No remote engine recovery or reclamation is inferred;
+the source/delivery receipt records exact counts and remaining deployment limits.
+
 ## MDB-0057 Verified durable S3 preparation
 
 **Parent:** MDB-0053. **Outcome:** bind actual object/head clients to exact durable
@@ -1328,6 +1349,18 @@ still-in-flight late effects, conflicts, missing/damaged/competing state, exact 
 process reopen and retained evidence. Validate aggregate work and native failure
 boundaries, preserve local acknowledgement and remote-recovery/reclamation scope,
 then close publication parents only with full integration/docs/CI/live delivery.
+
+**Produced artifacts:** optional S3CheckpointPublisher and typed publication failure,
+shared actual-resource admission with the preparer and a bounded combined changing-
+ETag fixture. Submission preserves original bytes/token and pre-reserves both full
+graph passes plus local capacity/nonexhausted generation; reconciliation sends no
+remote PUT but installs local expected state after exact observation/graph/force.
+39 API, 30 loss/race/late-effect/process and nine native-result/concurrency cases
+pass; clean builds pass 1,092 core / 402 optional tests without local skips.
+Fourteen packaged-core examples, unchanged core archive/jdeps and strict 67-page
+site builds pass. ADR 0029/guide/current callers/rules/planning are reconciled.
+All publication parents close with original acceptance retained; source/CI/Pages/
+live identities follow in its delivery receipt. Independent MDB-0054 is next.
 
 ## MDB-0054 Legacy bounded segment preflight
 

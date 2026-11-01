@@ -33,6 +33,7 @@ There is no release date or stable API commitment.
 | [S3 publication state](development/s3-publication-state.md) | Bounded exact target/expected/pending snapshot and pure checked transitions; no local I/O, durable installation or remote selection |
 | [Durable local S3 state](development/local-s3-publication-state.md) | Exclusive dedicated local ownership, exact synchronized state generations and process-reopen checks; no remote publisher |
 | [Verified S3 preparation](development/s3-publication-preparation.md) | Actual client scope, shared graph/owned-journal checks, ordered barriers, immutable intent and durable pending state; no mutable selection |
+| [Verified S3 publication](development/s3-checkpoint-publication.md) | Exact durable intent submission, shared complete pre/post graph budgets, original-token retries and durable candidate reconciliation across uncertain/late effects |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
@@ -102,9 +103,11 @@ that interface, verified against a controlled real-SDK HTTP fixture. Existing
 checkpoint/engine paths are unchanged. The pure [head format and protocol](architecture/object-checkpoint-protocol.md)
 now distinguish selection revision, manifest generation and temporal cutoff, with
 exact adjacent metadata checks. The optional [head-access primitive](development/s3-checkpoint-heads.md)
-now provides paired GET observations and exact conditional writes. Verified checkpoint publication,
-engine recovery, protected reclamation and common backend conformance remain open.
-Those stages retain the existing local journal and acknowledgement contract and
+now provides paired GET observations and exact conditional writes. The
+[verified publisher](development/s3-checkpoint-publication.md) adds original-intent
+submission, bounded complete graph checks and durable candidate reconciliation.
+Remote engine recovery, protected reclamation and common backend conformance remain
+open. Those stages retain the existing local journal and acknowledgement contract and
 need their own capability and failure evidence. No integrated remote database
 backend or live-provider qualification is available today.
 A common API cannot make object storage behave like a local filesystem.

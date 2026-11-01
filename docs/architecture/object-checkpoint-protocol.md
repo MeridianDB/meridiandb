@@ -12,8 +12,9 @@ are implemented in the JDK-only core. A separate optional
 and conditional PUT. JDK-only [graph verification](../development/object-checkpoint-graphs.md)
 now validates complete dependencies and actual owned-journal prefixes under shared
 operation limits. [Durable local expected/pending state](../development/local-s3-publication-state.md)
-is available separately. The complete verified publisher, remote reconciliation
-path and remote database recovery are **not yet implemented**. The existing
+is available separately. [Verified conditional publication](../development/s3-checkpoint-publication.md)
+and durable candidate reconciliation are implemented experimentally. Remote database
+recovery remains planned. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
 This specification defines the selection protocol those implementations must
@@ -69,7 +70,7 @@ The specified publisher reserves these flat keys within one configured bucket.
 
 All names fit the existing 128-character flat-key policy. Keeping dependencies
 inside the namespace avoids introducing implicit cross-namespace reclamation
-roots. These names specify the future publisher's protocol; the current generic
+roots. These names specify the verified publisher's protocol; the generic
 byte adapter continues to accept explicitly supplied `ObjectKey` values.
 
 ## Exact v1 wire format
@@ -149,13 +150,15 @@ each graph is insufficient to establish common history.
 
 ## Specified conditional publication
 
-The complete publisher sequence below remains unimplemented. The separate
+The [verified publisher](../development/s3-checkpoint-publication.md) implements
+this sequence over admitted pending state and supported local placement. The separate
 conditional-head adapter supplies its bounded provider operations; it does not
 establish the other stages:
 
 1. Acquire the supported local journal/publisher ownership. Load durable namespace,
    expected-head and pending-intent state. Refuse unsupported shared-writer modes,
-   missing required local evidence or an unresolved earlier publication.
+   missing required local evidence or a new candidate while an earlier publication
+   remains unresolved. Resume/reconcile that exact pending intent first.
 2. Read the mutable head once, obtaining complete bounded bytes and one bounded
    strong ETag from the **same GET response**. Validate status, length, codec,
    independent bindings and response cleanup. A separate HEAD followed by GET
@@ -178,7 +181,7 @@ establish the other stages:
    `If-None-Match: *`. Otherwise use `If-Match` with the original observed strong
    ETag. Never use unconditional replacement, wildcard/list replacement or a token
    reconstructed from the content hash. Refuse missing, weak, malformed or
-   over-limit tokens; the planned bound is 1,024 bytes for one quoted strong tag.
+   over-limit tokens; the bound is 1,024 bytes for one quoted strong tag.
 7. Reconcile success or uncertainty before acknowledging checkpoint selection or
    allowing another publication. Persist the new expected state when established.
    Preserve old, pending and uncertain objects. This selects a checkpoint only;
@@ -204,7 +207,8 @@ now preserves those snapshots under exclusive ownership. Serializing alone does
 not establish step 5. [Verified preparation](../development/s3-publication-preparation.md)
 now composes actual client scope, complete graph/owner checks, synchronization,
 immutable intent and durable pending state. It sends no selection PUT; the complete
-conditional publisher remains unimplemented.
+conditional publisher is implemented separately through
+[exact submission and reconciliation](../development/s3-checkpoint-publication.md).
 
 ## Failure and retry outcomes
 

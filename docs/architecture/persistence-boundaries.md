@@ -8,7 +8,8 @@ description: MeridianDB's local-first bitemporal library design separates commit
 MeridianDB's design centers on an embeddable Java bitemporal database with its own
 local persistence. Applications can use the experimental local engine without
 Kafka, an object-storage service or an application server. Optional [S3 byte access](../development/s3-objects.md) is implemented separately;
-remote checkpoints and replication remain planned extensions. They must preserve the
+[verified checkpoint publication](../development/s3-checkpoint-publication.md) is
+now experimental. Remote engine recovery and replication remain planned extensions. They must preserve the
 same temporal answers and declare their own durability and coordination guarantees.
 
 [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md) records this
@@ -87,18 +88,18 @@ predecessor identity and actual journal-prefix agreement. Separate
 [object graph verification](../development/object-checkpoint-graphs.md) are implemented.
 A bounded [publication-state representation](../development/s3-publication-state.md)
 and pure transitions are available. [Durable local state](../development/local-s3-publication-state.md)
-installs exact snapshots under exclusive ownership; the verified publisher, remote
-reconciliation and engine recovery remain planned.
+installs exact snapshots under exclusive ownership. The
+[verified publisher](../development/s3-checkpoint-publication.md) now adds exact
+conditional submission and durable candidate reconciliation; engine recovery remains planned.
 [Verified preparation](../development/s3-publication-preparation.md) now combines
 actual client admission, complete graph/owned-prefix checks, journal/name barriers,
 immutable intent and durable pending state without mutating the selection key.
 
-An object-store checkpoint is planned as an optional companion to the local
-journal. First upload or verify all immutable dependencies, then publish immutable
-manifest bytes and conditionally select the complete generation. The verified
-publisher, remote reconciliation and aggregate recovery protocol still require
-implementation and failure tests; durable local expected/pending storage is available. Listing objects is not by itself a
-commit protocol.
+An object-store checkpoint is an optional companion to the local journal. First upload or verify all immutable dependencies, then publish immutable
+manifest bytes and conditionally select the complete generation. The implemented
+publisher rechecks the actual journal, uses original durable pending intent and
+reconciles exact selection across uncertain replies. Aggregate remote engine
+recovery remains planned. Listing objects is not by itself a commit protocol.
 
 Amazon S3 documents strong object consistency and conditional writes using
 `If-None-Match` and `If-Match`. These are useful building blocks, but updates to

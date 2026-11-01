@@ -15,8 +15,9 @@ ordinary local embedding and the core artifact are unchanged.
 This experimental primitive preserves the exact pending candidate and original
 conditional precondition across process exit. It supplies the local storage part
 of the [publication protocol](../architecture/object-checkpoint-protocol.md).
-The complete graph-verified conditional publisher, remote reconciliation and
-engine recovery remain planned. Local metadata installation alone establishes
+The separate [verified publisher](s3-checkpoint-publication.md) now composes
+graph/owned-journal checks, conditional submission and remote reconciliation.
+Remote engine recovery remains planned. Local metadata installation alone establishes
 neither a remote selection nor a transaction acknowledgement.
 [Verified preparation](s3-publication-preparation.md) now adds actual client scope,
 complete graph/owned-journal checks and immutable intent before this local transition.

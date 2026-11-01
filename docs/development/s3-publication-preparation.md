@@ -12,8 +12,9 @@ installs or verifies the exact immutable head image, then durably records that
 pending intent. It performs **no mutable selection PUT**.
 
 The class lives in `org.meridiandb.storage.s3` in the optional artifact. Preparation
-is implemented and experimental. Conditional submission, uncertain-result
-reconciliation and remote checkpoint engine recovery remain planned. The result
+is implemented and experimental. The separate [verified publisher](s3-checkpoint-publication.md) now supplies
+conditional submission and uncertain-result reconciliation. Remote checkpoint
+engine recovery remains planned. The result
 is historical evidence of preparation, not remote selection, a continuing lease,
 transaction acknowledgement or permission to delete objects.
 [ADR 0028](../decisions/0028-verified-s3-publication-preparation.md) records the decision.
@@ -89,8 +90,9 @@ var verifiedGraphs = prepared.verification();
 `Preparation` has a private constructor. It exposes immutable pending metadata,
 complete verification/usage, immutable intent reference, `intentCreated()` and
 the observed `forcedSequence()`. It retains no segment images/readers or resource
-ownership. A later complete publisher must reload/validate current state and
-reconcile using the original intent; this value does not grant selection authority.
+ownership. The [verified publisher](s3-checkpoint-publication.md) reloads/validates
+current state and reconciles using the original intent; this value does not grant
+selection authority.
 
 ## Work limits and failures
 

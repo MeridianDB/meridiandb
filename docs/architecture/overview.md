@@ -72,12 +72,13 @@ selection format and metadata/transition checks. Separate
 [conditional S3 head access](../development/s3-checkpoint-heads.md) pairs bounded
 head bytes/tokens and issues exact conditional writes. JDK-only
 [object graph verification](../development/object-checkpoint-graphs.md) checks full
-dependencies and actual owned-journal prefixes with shared budgets. Verified remote
-publication remains planned. The optional [publication-state codec](../development/s3-publication-state.md)
+dependencies and actual owned-journal prefixes with shared budgets. The optional [publication-state codec](../development/s3-publication-state.md)
 preserves exact expected/pending metadata. [Durable local installation](../development/local-s3-publication-state.md)
 uses exclusive ownership and synchronized immutable generations.
 [Verified preparation](../development/s3-publication-preparation.md) composes these
-with client scope and actual-journal checks; full remote selection remains planned.
+with client scope and actual-journal checks. [Verified publication](../development/s3-checkpoint-publication.md)
+adds exact conditional selection and durable reconciliation. Remote engine recovery
+remains separate planned work.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one

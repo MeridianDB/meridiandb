@@ -7,7 +7,8 @@ description: Separate a compact versioned head and pure metadata checks from con
 
 Date: October 31, 2026. Status: format and pure metadata checks implemented,
 experimental. Conditional head access is implemented separately under
-[ADR 0024](0024-conditional-s3-head-access.md); verified publication remains planned.
+[ADR 0024](0024-conditional-s3-head-access.md); verified publication is implemented
+separately under [ADR 0029](0029-verified-s3-checkpoint-publication.md).
 
 ## Context
 

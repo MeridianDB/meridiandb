@@ -6,7 +6,8 @@ description: Compose actual client scope, complete owned-journal graph checks, s
 # ADR 0028: Verified S3 publication preparation
 
 Date: October 31, 2026. Status: preparation implemented, experimental;
-conditional submission/reconciliation and remote engine integration remain planned.
+[ADR 0029](0029-verified-s3-checkpoint-publication.md) adds conditional submission/
+reconciliation. Remote engine integration remains planned.
 
 ## Context
 

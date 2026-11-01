@@ -6,7 +6,7 @@ description: Keep MeridianDB's bitemporal engine independently usable with local
 # ADR 0020: Persistence and replication boundaries
 
 - **Date:** October 31, 2026
-- **Status:** Architecture direction adopted; local/S3 byte adapters implemented, remote checkpoint integration and replication planned
+- **Status:** Architecture direction adopted; local/S3 byte adapters implemented, checkpoint publication implemented separately, remote engine recovery and replication planned
 - **Scope:** Embedded library positioning and persistence responsibilities
 
 ## Context

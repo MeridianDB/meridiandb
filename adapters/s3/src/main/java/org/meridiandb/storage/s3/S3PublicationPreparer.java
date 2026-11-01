@@ -91,14 +91,7 @@ public final class S3PublicationPreparer {
         var proposed = state.prepare(candidate); // Own exact bounded bytes and reject existing pending/invalid transition first.
         var intent = proposed.pending().orElseThrow();
         byte[] image = intent.image();
-        objects.requireTarget(state.target());
-        heads.requireConfiguration(state.target(), state.binding());
-        if (!state.binding().lineageId().equals(ObjectCheckpointHeadVerifier.lineageId(journal.databaseId()))) {
-            throw new IllegalArgumentException("Durable publication lineage differs from actual owned journal");
-        }
-        if (!journal.path().orElseThrow(() -> new IOException("Real owned local journal required")).equals(checkpoints.journalPath())) {
-            throw new IOException("Journal must occupy the owned checkpoint directory's transactions.journal");
-        }
+        requireResources(state, objects, heads, checkpoints, journal);
         local.requirePreparationCapacity(); // Storage failures poison; no force/upload effects precede this admission.
         var observed = heads.read();
         var expected = state.expected();
@@ -128,6 +121,18 @@ public final class S3PublicationPreparer {
         Objects.requireNonNull(id, "id");
         if (namespace.equals(new UUID(0, 0))) { throw new IllegalArgumentException("Namespace must not be nil"); }
         return new ObjectKey("ns-" + namespace.toString().replace("-", "") + "-head-" + id.value() + ".bin");
+    }
+
+    static void requireResources(S3PublicationState state, S3ObjectStore objects, S3CheckpointHeads heads,
+                                 LocalCheckpointStore checkpoints, LocalJournal journal) throws IOException {
+        objects.requireTarget(state.target());
+        heads.requireConfiguration(state.target(), state.binding());
+        if (!state.binding().lineageId().equals(ObjectCheckpointHeadVerifier.lineageId(journal.databaseId()))) {
+            throw new IllegalArgumentException("Durable publication lineage differs from actual owned journal");
+        }
+        if (!journal.path().orElseThrow(() -> new IOException("Real owned local journal required")).equals(checkpoints.journalPath())) {
+            throw new IOException("Journal must occupy the owned checkpoint directory's transactions.journal");
+        }
     }
     private void observe(Boundary boundary) throws IOException { if (probe != null) { probe.reached(boundary); } }
 }

@@ -14,8 +14,8 @@ shared operation budget.
 
 This is verification evidence. It does not observe or select a remote head,
 authenticate its provenance, establish writer admission, force data, persist a
-publication intent or permit reclamation. The complete checkpoint publisher and
-its durable reconciliation remain planned. [ADR 0025](../decisions/0025-object-checkpoint-graph-verification.md)
+publication intent or permit reclamation. The separate [complete checkpoint publisher](s3-checkpoint-publication.md) now
+composes these checks with durable intent and exact-candidate reconciliation. [ADR 0025](../decisions/0025-object-checkpoint-graph-verification.md)
 records the boundary.
 
 ## Configuration and operations
@@ -139,7 +139,8 @@ still requires durable expected/pending intent and reconciliation before selecti
 The optional [state codec](s3-publication-state.md) now represents that metadata
 separately from [durable local installation](local-s3-publication-state.md).
 [Verified preparation](s3-publication-preparation.md) now composes those boundaries
-without conditional submission or reconciliation. None alone implements the full publisher.
+without conditional submission or reconciliation. The separate
+[verified publisher](s3-checkpoint-publication.md) now implements those stages.
 
 The 34 graph/actual-prefix cases use independent histories, bounded fake/native-read
 seams and actual local journal/object adapters. Sixteen checked-range codec cases

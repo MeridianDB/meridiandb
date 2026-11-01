@@ -6,7 +6,8 @@ description: Keep same-response head observations and exact conditional byte wri
 # ADR 0024: Conditional S3 head access
 
 Date: October 31, 2026. Status: optional head-access primitive implemented and
-protocol-tested, experimental; verified checkpoint publication remains planned.
+protocol-tested, experimental. Verified checkpoint publication is implemented
+separately under [ADR 0029](0029-verified-s3-checkpoint-publication.md).
 
 ## Context
 

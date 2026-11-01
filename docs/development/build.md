@@ -43,7 +43,8 @@ a bounded selection format and metadata checks. Optional
 [conditional S3 head access](s3-checkpoint-heads.md) provides same-response
 observations and exact conditional writes. JDK-only
 [object graph verification](object-checkpoint-graphs.md) adds bounded complete
-history and actual-journal comparisons; verified remote publication remains planned. No library is published.
+history and actual-journal comparisons. Optional [verified publication](s3-checkpoint-publication.md)
+composes exact durable intent, conditional selection and reconciliation. No library is published.
 
 ## Build and verify
 
@@ -183,7 +184,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on October 31 at 20:22:56 EDT / November 1 at 00:22:56 UTC; the listed selections remain
+on October 31 at 20:39:22 EDT / November 1 at 00:39:22 UTC; the listed selections remain
 unchanged. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

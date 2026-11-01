@@ -8,7 +8,8 @@
 MeridianDB is an experimental embeddable Java bitemporal database. It preserves
 both when a fact applies in the domain and when the database recorded that
 knowledge. Built-in local persistence is the foundation. Optional S3 byte access is
-available separately; remote checkpoints and replication remain planned. Local
+available separately. Verified remote checkpoint publication is experimental;
+remote engine recovery and replication remain planned. Local
 use requires no external database,
 streaming service or application server.
 
@@ -108,8 +109,10 @@ preserves exact expected/pending metadata with pure checked transitions.
 those snapshots under exclusive local ownership.
 [Verified preparation](docs/development/s3-publication-preparation.md) now composes
 actual client scope, graph/journal checks and exact durable pending intent without
-selecting a remote head. Complete remote publication remains planned;
-existing checkpoint and engine protocols are unchanged.
+selecting a remote head. [Verified publication](docs/development/s3-checkpoint-publication.md)
+now adds exact conditional submission and durable candidate reconciliation; remote
+engine recovery remains planned. Existing local checkpoint and engine protocols
+are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
 MergeTree-like organization is a candidate storage technique. These choices are

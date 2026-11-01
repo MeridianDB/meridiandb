@@ -306,6 +306,18 @@ so a new session can work correctly without relying on earlier conversations.
   order (local state, checkpoint store, journal, head client, object client).
   Preparation supplies no selection PUT, pending clearing, lease or acknowledgement;
   retain all failed evidence and require separately implemented reconciliation.
+- Follow [ADR 0029](docs/decisions/0029-verified-s3-checkpoint-publication.md) and
+  [verified S3 publication](docs/development/s3-checkpoint-publication.md) for exact
+  submission/reconciliation. Require existing immutable intent, original pending
+  bytes/token, actual client/owner admission, local result capacity and nonexhausted
+  generation before effects. Reserve both complete graph passes under one total
+  limit before force/PUT. Attempt one explicit original-precondition write; resolve
+  only a fresh exact candidate after complete original graph/actual-prefix checks,
+  owner/name barriers and durable local result. Old/missing/error states never clear
+  or rebase pending. On result-installation uncertainty inspect validated reopen;
+  a failed call may already have installed expected state. Verify actual SDK late
+  effects across reopen, process exits, native result failures and summed budgets;
+  keep single-placement assumptions and remote engine/reclamation scope explicit.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn

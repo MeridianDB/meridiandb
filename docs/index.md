@@ -10,7 +10,9 @@ Explore data through two dimensions of time.
 MeridianDB is an experimental embeddable Java bitemporal database for preserving
 when facts apply and when the database learned about them. Built-in local
 persistence supports standalone JVM use. Optional [S3 byte access](development/s3-objects.md)
-is available separately; remote checkpoints and replication remain planned. The Java 25/Maven build is available.
+and [verified checkpoint publication](development/s3-checkpoint-publication.md) are
+available separately. Remote engine recovery and replication remain planned.
+The Java 25/Maven build is available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
 [Explore the architecture](architecture/overview.md) ·
@@ -70,12 +72,13 @@ remote checkpoints. A pure [checkpoint-head format](architecture/object-checkpoi
 and binding checks are available. Separate [conditional S3 head access](development/s3-checkpoint-heads.md)
 now supplies bounded GET/conditional PUT. JDK-only
 [object graph verification](development/object-checkpoint-graphs.md) checks complete
-history against the owned journal under aggregate budgets. Verified remote
-publication remains planned. An optional [publication-state format](development/s3-publication-state.md)
+history against the owned journal under aggregate budgets. An optional [publication-state format](development/s3-publication-state.md)
 preserves exact expected/pending metadata. [Durable local state](development/local-s3-publication-state.md)
 now installs it under exclusive ownership. [Verified preparation](development/s3-publication-preparation.md)
 combines client scope, graph/owned-journal checks and exact durable pending intent;
-complete remote publication remains planned. Existing journal/checkpoint protocols remain explicit.
+[verified publication](development/s3-checkpoint-publication.md) adds exact conditional
+submission and durable reconciliation. Remote engine recovery remains planned.
+Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

@@ -6,7 +6,8 @@ description: Install exact publication metadata with exclusive local ownership, 
 # ADR 0027: Durable local S3 publication state
 
 Date: October 31, 2026. Status: implemented, experimental local primitive;
-complete remote publication/reconciliation and engine integration remain planned.
+[ADR 0029](0029-verified-s3-checkpoint-publication.md) adds complete checkpoint
+publication/reconciliation. Remote engine integration remains planned.
 
 ## Context
 
