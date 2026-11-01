@@ -60,6 +60,11 @@ public final class S3ObjectStore implements ImmutableObjectStore, AutoCloseable 
         client = owner.client;
     }
 
+    synchronized void requireTarget(S3PublicationState.Target target) {
+        usable();
+        owner.requireTarget(target);
+    }
+
     @Override public synchronized ObjectReference createNew(ObjectKey key, byte[] image) throws IOException {
         usable();
         Objects.requireNonNull(key, "key");

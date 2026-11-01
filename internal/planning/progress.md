@@ -3510,6 +3510,106 @@ operation occurs in this receipt.
 actual graph/owned-prefix checks, forced exact local intent and conditional
 requests with original-precondition reconciliation after uncertain outcomes.
 
+## 2026-10-31 — MDB-0057 Verified durable S3 preparation
+
+**Selection/refinement:** start from clean main/origin
+`52217a78a4fdc057f0b9ba39369e429902b4a0c8`; verify preceding MDB-0056 source
+`f20939b8e73ce36e230cb6fbb85456d08f849c02`, Java/docs/Pages and live readback.
+Expand MDB-0053 into required MDB-0057 preparation and MDB-0058 submission/
+reconciliation plus all original parent integration acceptance. Preserve expanded
+MDB-0049/MDB-0037 and independent MDB-0054; allocate only new IDs 57/58.
+
+**Outcome:** add optional S3PublicationPreparer over caller-owned concrete object/
+head clients and local state/checkpoint/journal owners. Snapshot the exact candidate
+through existing pure state checks; refuse pending/invalid transitions first.
+Validate actual SDK lexical endpoint, region, bucket and head binding against
+managed local state, plus actual journal lineage/canonical checkpoint path. Add
+narrow package client checks and a local capacity preflight sharing existing slot
+validation. No caller-supplied target can mask a differently configured client.
+
+Hold monitors in local-state/checkpoint/journal/head/object order through preparation.
+Preflight local capacity, issue one bounded current-head GET and compare original
+expected bytes AND token; only independently fresh local state accepts absence.
+Verify the candidate or both adjacent graphs with one shared graph budget and
+actual owned prefixes. Synchronize the actual journal/name through its owners,
+create or fully verify/reuse exact ns-N-head-H.bin, then force the same pending
+image/precondition locally. Recheck local capacity at installation. Return a private-
+constructed immutable Preparation containing pending state, complete graph evidence,
+intent identity/creation and observed forced sequence. Close no caller resources,
+perform no mutable selection PUT, and expose no pending clearing or adoption.
+
+Graph usage stays distinct from fixed metadata allowance: at most one 256-byte head
+GET, one 256-byte immutable PUT and one 256-byte reuse GET (three logical SDK calls /
+768 normal body bytes), excluding existing protocol/error-body caps/transport
+retransmission. Local preflight/installation scans and codec copies are separately
+bounded. File force may flush an appended suffix and is not a prefix-budget/device-
+write-byte or aggregate wall-clock claim. Retain old/pending/failed immutable
+objects; no selection, lease, engine acknowledgement or deletion follows.
+
+**Research:** Central metadata freshly checked **November 1, 00:22:56 UTC /
+October 31, 20:22:56 EDT**, compatibility at 00:22:57 UTC, reconfirms all fourteen
+selected pins as latest stable: Maven 3.10.0, wrapper 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4 and SDK s3/URLConnection 2.57.8. No POM change. Metadata summary
+SHA-256 `423b68b732e21d530a5aade56b39459665141f2cbb7d6e04683b272b8c9313c7`;
+compatibility `3fb00c99609af4e9e690f4b9c45d26fdb81344c79a409d5145978a436365caef`;
+report `666a40a98e155bed6adb180069c392a028748e4b2eb83e78b41f276b2d3d1c6a`.
+Six AWS primary pages checked **November 1, 00:24:54 UTC / October 31, 20:24:54 EDT**
+have summary `2dfcb12420a729ddd92a8e893dbba116d9ffe415f5396b987425fbfce32d4456`.
+They preserve completed-write single-key consistency, no multi-key transaction,
+opaque ETag/delete-marker/permission limits and no old-head proof of a finished
+in-flight request. Ignored raw evidence lives under `.local-qa/mdb-0057/research-helper/`;
+public build/ADR retain dated primary links and tested-Java-25 wording.
+
+**Verification:** 36 actual SDK/local API cases cover empty/nonempty genesis,
+replacement/repacking with pair Usage, exact pending reopen/token/immutable reuse,
+nine actual-client scope/binding variants, actual lineage/path, healthy pure errors
+and early pending rejection. Remote absence/unexpected/changed bytes/token fail
+closed; damaged selected graph has no fallback, and equal-lineage copied divergent
+actual history fails despite candidate agreement. Four head-known budgets and a
+combined pair budget reject before force/intent/pending effects; intent keys match
+the specified exact namespace/full identity.
+
+15 boundary cases cover all four ordered probes for creation and replacement,
+exact force/immutable/local effects, caller resource usability, verified identical
+reuse, corrupt intent conflict, lost immutable replies before/after effect with
+explicit same-byte retry, and real 1,024-generation capacity before requests/force/
+upload. Two child-JVM halts leave exact immutable intent and only durably installed
+pending with original token; before-state halt resumes by explicit verified reuse.
+Logs are outside store directories and child lifetimes bounded. Two concurrency
+cases prove all five cooperating closes block until preparation completes and
+reentrant preparation issues no extra request. Every test asserts no mutable head PUT.
+
+Initial complete adapter run found one incorrect test expectation for a 255-byte
+candidate: the existing snapshot guard uses IllegalArgumentException, not a codec
+INCOMPLETE exception. Correct the fixture to the existing contract. Clean recheck
+passes **324 optional cases**, zero failures/errors/skips; clean core install passes
+**1,092 cases**, also no local skips. All fourteen examples run against only the
+packaged core JAR. Archive/jdeps retain 153 production classes, java.base-only
+external modules, no SDK/test classes and unchanged one-class conformance classifier.
+No core source, wire format, dependency or acknowledgement contract changes.
+
+**Review/docs/completion:** independent production review finds no actionable issue;
+doc review corrects error classification for journal placement versus SDK/lineage
+configuration. Add guide/ADR 0028 and reconcile README/homepage, architecture,
+head protocol, local/graph/S3 guides, build, roadmap/nav/index and root rules.
+Both strict project-path and production builds pass source/rendered/links/search/
+sitemap for **65 pages**, restoring production output. Desktop light and 390-pixel
+dark limits copy have no page overflow; search/new routes and ADR navigation work.
+No diagram/renderer change is needed. Helpers own bounded research/review and
+assigned test files; coordinator owns production/shared docs/planning/Git.
+
+Mark MDB-0057 done, clear active claim and mark MDB-0058 ready subject to delivery.
+Validate 58 IDs/cards/references/DAG/eligibility; inspect explicit owned staged paths,
+commit Step-ID MDB-0057 / Step-Result completed and push normally. Verify remote
+ancestry/tips, Java/docs CI, automatic Pages and live guide/ADR/callers/canonical/
+search/sitemap. Git and the delivery receipt supply actual identities. No later
+implementation, release, real-cloud/account/DNS or hosting-setting action starts.
+
+**Next recommendation:** MDB-0058 — conditional submission and reconciliation,
+resuming exact durable pending intent and completing all original publisher parent
+criteria for uncertainty, late effects, retries, process reopen and retained evidence.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

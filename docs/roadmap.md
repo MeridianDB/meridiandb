@@ -32,6 +32,7 @@ There is no release date or stable API commitment.
 | [Object graph verification](development/object-checkpoint-graphs.md) | Complete namespace-scoped manifest/segment checks and actual owned-journal comparisons under shared byte/fetch/record-work budgets; no selection or durable intent |
 | [S3 publication state](development/s3-publication-state.md) | Bounded exact target/expected/pending snapshot and pure checked transitions; no local I/O, durable installation or remote selection |
 | [Durable local S3 state](development/local-s3-publication-state.md) | Exclusive dedicated local ownership, exact synchronized state generations and process-reopen checks; no remote publisher |
+| [Verified S3 preparation](development/s3-publication-preparation.md) | Actual client scope, shared graph/owned-journal checks, ordered barriers, immutable intent and durable pending state; no mutable selection |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |

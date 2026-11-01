@@ -18,6 +18,8 @@ of the [publication protocol](../architecture/object-checkpoint-protocol.md).
 The complete graph-verified conditional publisher, remote reconciliation and
 engine recovery remain planned. Local metadata installation alone establishes
 neither a remote selection nor a transaction acknowledgement.
+[Verified preparation](s3-publication-preparation.md) now adds actual client scope,
+complete graph/owned-journal checks and immutable intent before this local transition.
 
 ## Placement and admission
 

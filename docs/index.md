@@ -73,7 +73,9 @@ now supplies bounded GET/conditional PUT. JDK-only
 history against the owned journal under aggregate budgets. Verified remote
 publication remains planned. An optional [publication-state format](development/s3-publication-state.md)
 preserves exact expected/pending metadata. [Durable local state](development/local-s3-publication-state.md)
-now installs it under exclusive ownership; complete remote publication remains planned. Existing journal/checkpoint protocols remain explicit.
+now installs it under exclusive ownership. [Verified preparation](development/s3-publication-preparation.md)
+combines client scope, graph/owned-journal checks and exact durable pending intent;
+complete remote publication remains planned. Existing journal/checkpoint protocols remain explicit.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

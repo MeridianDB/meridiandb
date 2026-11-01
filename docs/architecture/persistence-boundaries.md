@@ -89,6 +89,9 @@ A bounded [publication-state representation](../development/s3-publication-state
 and pure transitions are available. [Durable local state](../development/local-s3-publication-state.md)
 installs exact snapshots under exclusive ownership; the verified publisher, remote
 reconciliation and engine recovery remain planned.
+[Verified preparation](../development/s3-publication-preparation.md) now combines
+actual client admission, complete graph/owned-prefix checks, journal/name barriers,
+immutable intent and durable pending state without mutating the selection key.
 
 An object-store checkpoint is planned as an optional companion to the local
 journal. First upload or verify all immutable dependencies, then publish immutable

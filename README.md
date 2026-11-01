@@ -105,7 +105,10 @@ complete dependencies and actual owned-journal prefixes under shared budgets.
 An optional [publication-state codec](docs/development/s3-publication-state.md)
 preserves exact expected/pending metadata with pure checked transitions.
 [Durable local state](docs/development/local-s3-publication-state.md) now installs
-those snapshots under exclusive local ownership. Verified remote publication remains planned;
+those snapshots under exclusive local ownership.
+[Verified preparation](docs/development/s3-publication-preparation.md) now composes
+actual client scope, graph/journal checks and exact durable pending intent without
+selecting a remote head. Complete remote publication remains planned;
 existing checkpoint and engine protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;

@@ -49,7 +49,8 @@ SDK/HTTP protocol and integration cases, and eight focused native-stream/guard
 fault checks. The optional build also runs 70 [conditional-head cases](s3-checkpoint-heads.md),
 four [complete graph-consumer cases](object-checkpoint-graphs.md) and 65 pure
 [publication-state cases](s3-publication-state.md), plus 86
-[durable local state cases](local-s3-publication-state.md), for 271 optional tests
+[durable local state cases](local-s3-publication-state.md) and 53
+[verified preparation cases](s3-publication-preparation.md), for 324 optional tests
 in total. Native local cases report explicit placement capability skips separately.
 Core's separate 1,092 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.

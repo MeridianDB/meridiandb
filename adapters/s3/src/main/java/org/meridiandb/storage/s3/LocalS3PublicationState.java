@@ -141,25 +141,38 @@ public final class LocalS3PublicationState implements AutoCloseable {
         return install(current.recordSelected(observation), false);
     }
 
+    /** Package admission check before a cooperating preparer's force/upload effects; install rechecks it. */
+    synchronized void requirePreparationCapacity() throws IOException {
+        usable();
+        operating = true;
+        try { requireSlot(false); }
+        catch (IOException | RuntimeException | Error failure) { failed = true; throw failure; }
+        finally { operating = false; }
+    }
+
+    private void requireSlot(boolean initial) throws IOException {
+        var entries = namespace.entries();
+        var selected = latest(entries);
+        if (initial ? selected != null : selected == null) { throw new IOException("Unexpected selected publication state"); }
+        if (!initial) {
+            var actual = decode(namespace, selected);
+            if (!S3PublicationStateCodec.reference(actual).equals(S3PublicationStateCodec.reference(current))) {
+                throw new IOException("Selected local publication state changed");
+            }
+        }
+        long count = entries.stream().filter(name -> SELECTED.matcher(name).matches()).count();
+        if (count >= MAX_GENERATIONS || entries.size() >= MAX_DIRECTORY_ENTRIES) {
+            throw new IOException("No capacity for another publication-state generation");
+        }
+    }
+
     private S3PublicationState install(S3PublicationState next, boolean initial) throws IOException {
         byte[] image = S3PublicationStateCodec.encode(next); // Pure preflight precedes storage work.
         ObjectReference reference = ObjectReference.forBytes(image);
         boolean renameAttempted = false;
         operating = true;
         try {
-            var entries = namespace.entries();
-            var selected = latest(entries);
-            if (initial ? selected != null : selected == null) { throw new IOException("Unexpected selected publication state"); }
-            if (!initial) {
-                var actual = decode(namespace, selected);
-                if (!S3PublicationStateCodec.reference(actual).equals(S3PublicationStateCodec.reference(current))) {
-                    throw new IOException("Selected local publication state changed");
-                }
-            }
-            long count = entries.stream().filter(name -> SELECTED.matcher(name).matches()).count();
-            if (count >= MAX_GENERATIONS || entries.size() >= MAX_DIRECTORY_ENTRIES) {
-                throw new IOException("No capacity for another publication-state generation");
-            }
+            requireSlot(initial);
             String pending = "pending-publication-" + next.generation() + "-" + UUID.randomUUID() + ".state";
             String destination = String.format(Locale.ROOT, "publication-%019d-%s.state", next.generation(), reference.id().value());
             namespace.writeNew(pending, image); // Complete write, force and successful close.

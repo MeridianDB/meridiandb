@@ -37,6 +37,7 @@ permanent commitment.
 | [0025: Object checkpoint graph verification](0025-object-checkpoint-graph-verification.md) | Implemented, experimental | Bounded full graph and actual-prefix verification, separate from selection and durable intent |
 | [0026: Bounded S3 publication state](0026-bounded-s3-publication-state.md) | Format and pure transitions implemented; local installation separate | Exact target/expected/pending snapshots without local I/O or selection proof |
 | [0027: Durable local S3 publication state](0027-durable-local-s3-publication-state.md) | Implemented, experimental | Exclusive local ownership, synchronized immutable generations and fail-closed exact-state reopen |
+| [0028: Verified S3 publication preparation](0028-verified-s3-publication-preparation.md) | Preparation implemented; full selection planned | Actual client scope, shared graph/owner checks, barriers, immutable intent and exact durable pending state |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

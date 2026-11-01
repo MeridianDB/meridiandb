@@ -16,6 +16,7 @@ import software.amazon.awssdk.services.s3.S3Configuration;
 final class S3ClientOwner implements AutoCloseable {
     final URI endpoint;
     final String bucket;
+    final String regionId;
     final S3Client client;
     private final BoundedHttpClient http;
 
@@ -24,6 +25,7 @@ final class S3ClientOwner implements AutoCloseable {
         this.endpoint = endpoint;
         this.bucket = bucket;
         Objects.requireNonNull(region, "region");
+        regionId = region.id();
         Objects.requireNonNull(credentials, "credentials");
         Objects.requireNonNull(timeouts, "timeouts");
         http = new BoundedHttpClient(UrlConnectionHttpClient.builder()
@@ -55,6 +57,14 @@ final class S3ClientOwner implements AutoCloseable {
                 || endpoint.getHost() == null || endpoint.getUserInfo() != null || endpoint.getQuery() != null
                 || endpoint.getFragment() != null || !(endpoint.getPath().isEmpty() || endpoint.getPath().equals("/"))) {
             throw new IllegalArgumentException("Endpoint must be an absolute HTTP(S) origin");
+        }
+    }
+
+    void requireTarget(S3PublicationState.Target target) {
+        Objects.requireNonNull(target, "target");
+        if (!endpoint.toString().equals(target.endpoint().toString()) || !bucket.equals(target.bucket())
+                || !regionId.equals(target.regionId())) {
+            throw new IllegalArgumentException("Actual S3 client target differs from durable publication target");
         }
     }
 

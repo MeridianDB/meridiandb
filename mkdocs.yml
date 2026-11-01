@@ -89,6 +89,7 @@ nav:
       - Object graph verification decision: decisions/0025-object-checkpoint-graph-verification.md
       - S3 publication state decision: decisions/0026-bounded-s3-publication-state.md
       - Durable local S3 state decision: decisions/0027-durable-local-s3-publication-state.md
+      - S3 preparation decision: decisions/0028-verified-s3-publication-preparation.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -105,6 +106,7 @@ nav:
       - Object checkpoint graphs: development/object-checkpoint-graphs.md
       - S3 publication state: development/s3-publication-state.md
       - Durable local S3 state: development/local-s3-publication-state.md
+      - Verified S3 preparation: development/s3-publication-preparation.md
       - Local checkpoints: development/local-checkpoints.md
       - Reader protection: development/reader-protection.md
       - Reclamation inventory: development/reclamation-inventory.md

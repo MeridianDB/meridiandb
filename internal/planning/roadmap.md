@@ -1274,6 +1274,58 @@ remote engine recovery and protected reclamation remain later separate tasks.
 Mark both expanded publication parents done only after all children and original
 integration acceptance pass, and deliver documentation/CI/live evidence normally.
 
+**Required children:** MDB-0057 composes verified durable preparation without a
+mutable selection request. MDB-0058 performs exact pending submission/reconciliation
+and all original SDK/HTTP, crash/late-effect and parent integration acceptance.
+Neither child alone weakens or closes MDB-0053/MDB-0049/MDB-0037; downstream remote
+recovery continues to depend on complete publication parents.
+
+## MDB-0057 Verified durable S3 preparation
+
+**Parent:** MDB-0053. **Outcome:** bind actual object/head clients to exact durable
+target and independently managed binding/actual journal lineage; require the real
+owned journal in its owned checkpoint directory. Refuse unresolved pending before
+requests. Preflight local capacity and candidate transition, compare one same-GET
+head/opaque token with original expected state, verify complete candidate or both
+adjacent graphs against the owner under one budget, force journal/name, install/
+verify immutable exact intent and durably store pending. No selection PUT follows.
+
+**Complete when:** actual SDK plus supported local storage cover genesis/replacement,
+changed/missing/competing expected state and token, damaged selected graph without
+fallback, copied equal-lineage divergence, graph/capacity limits before effects,
+immutable intent creation/reuse/conflict/failure, local preparation boundaries and
+exact pending reopen. Serialize cooperating resource operations with fixed lock
+order, retain caller ownership and all old/failed objects; return only immutable
+bounded evidence, not selection/lease/engine acknowledgement. Research pins,
+reconcile docs/rules/queue and verify normal delivery. Preserve complete parent
+submission/reconciliation/late-effect acceptance for MDB-0058.
+
+**Produced artifacts:** optional S3PublicationPreparer with private immutable result,
+actual-client scope checks, shared owned-journal graph verification, ordered local
+barriers, immutable intent creation/verified reuse and forced exact pending state.
+The local owner adds a package capacity preflight, reused during final installation.
+No mutable head PUT or clear/rebase path is exposed. 36 API, 15 boundary/immutable-
+reply/process and two concurrency cases pass, plus clean 1,092 core / 324 optional
+cases, fourteen packaged-core examples, unchanged core archive/jdeps and both strict
+65-page builds. ADR 0028/guide/callers/agent rules and planning are reconciled;
+current fourteen-coordinate research retains all pins. Source/CI/Pages/live delivery
+identities follow its receipt. Full conditional submission/reconciliation stays in
+MDB-0058; no publication parent is closed by this child.
+
+## MDB-0058 Conditional submission and reconciliation
+
+**Parent:** MDB-0053. **Outcome:** compose MDB-0057 with exact durable pending
+submission, original preconditions, fresh bounded head/graph/actual-owner checks
+and durable exact-candidate reconciliation. Explicitly handle uncertainty without
+old-head clearing, rebase, fallback, cleanup or a new publication identity.
+
+**Complete when:** all original MDB-0053/MDB-0049/MDB-0037 criteria pass with actual
+SDK/HTTP and supported local persistence, including lost before/after-effect replies,
+still-in-flight late effects, conflicts, missing/damaged/competing state, exact retry/
+process reopen and retained evidence. Validate aggregate work and native failure
+boundaries, preserve local acknowledgement and remote-recovery/reclamation scope,
+then close publication parents only with full integration/docs/CI/live delivery.
+
 ## MDB-0054 Legacy bounded segment preflight
 
 **Outcome:** use independently expected segment ranges before record allocation/

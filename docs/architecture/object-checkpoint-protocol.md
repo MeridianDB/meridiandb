@@ -201,7 +201,10 @@ A separate [S3 state format](../development/s3-publication-state.md) now represe
 exact target/bindings, expected observation and one pending intent with pure checked
 transitions. [Durable local installation](../development/local-s3-publication-state.md)
 now preserves those snapshots under exclusive ownership. Serializing alone does
-not establish step 5; the complete conditional publisher remains unimplemented.
+not establish step 5. [Verified preparation](../development/s3-publication-preparation.md)
+now composes actual client scope, complete graph/owner checks, synchronization,
+immutable intent and durable pending state. It sends no selection PUT; the complete
+conditional publisher remains unimplemented.
 
 ## Failure and retry outcomes
 

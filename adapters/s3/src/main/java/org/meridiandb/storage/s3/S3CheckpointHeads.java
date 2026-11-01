@@ -64,6 +64,12 @@ public final class S3CheckpointHeads implements AutoCloseable {
         return new ObjectKey("ns-" + namespace.toString().replace("-", "") + "-current.head");
     }
 
+    synchronized void requireConfiguration(S3PublicationState.Target target, Binding expectedBinding) {
+        usable();
+        owner.requireTarget(target);
+        if (!binding.equals(expectedBinding)) { throw new IllegalArgumentException("Actual S3 head client binding differs"); }
+    }
+
     /** Empty means precisely NoSuchKey, not an initialized namespace's permission to create genesis. */
     public synchronized Optional<S3HeadObservation> read() throws IOException {
         usable();

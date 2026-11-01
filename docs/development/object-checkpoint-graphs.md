@@ -55,7 +55,8 @@ They retain no segment records, object image arrays or open object readers. The
 graph list is immutable and remains readable after resource close. It is evidence
 from that operation, without a continuing lease, force guarantee or current-head
 token. Physical endpoint/bucket scope and durable expected/pending state belong
-to the later publisher, rather than being inferred from this generic byte adapter.
+to [preparation](s3-publication-preparation.md) and the complete publisher, rather
+than being inferred from this generic byte adapter.
 
 ## Complete verification sequence
 
@@ -137,7 +138,8 @@ and supplies no distributed fencing. The [publication protocol](../architecture/
 still requires durable expected/pending intent and reconciliation before selection.
 The optional [state codec](s3-publication-state.md) now represents that metadata
 separately from [durable local installation](local-s3-publication-state.md).
-Neither alone implements the full publisher.
+[Verified preparation](s3-publication-preparation.md) now composes those boundaries
+without conditional submission or reconciliation. None alone implements the full publisher.
 
 The 34 graph/actual-prefix cases use independent histories, bounded fake/native-read
 seams and actual local journal/object adapters. Sixteen checked-range codec cases

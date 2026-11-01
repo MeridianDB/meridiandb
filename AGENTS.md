@@ -295,6 +295,17 @@ so a new session can work correctly without relying on earlier conversations.
   Native uncertain close retains reservations until restart; isolate deliberate
   quarantine fixtures in child JVMs and exit before temporary path cleanup. Verify fault and real
   process/ownership cases; local metadata supplies no remote/graph/engine receipt.
+- Follow [ADR 0028](docs/decisions/0028-verified-s3-publication-preparation.md) and
+  [verified S3 preparation](docs/development/s3-publication-preparation.md) when
+  composing client/graph/local state. Check actual client lexical endpoint, region,
+  bucket and head binding against managed local state and actual journal lineage/
+  canonical checkpoint path. Refuse pending, preflight capacity, compare original
+  head bytes/token, verify both graphs under shared limits, synchronize owner/name,
+  create/verify exact immutable intent, then force local pending. Preserve fixed
+  metadata/local-scan/force accounting outside graph limits and resource monitor
+  order (local state, checkpoint store, journal, head client, object client).
+  Preparation supplies no selection PUT, pending clearing, lease or acknowledgement;
+  retain all failed evidence and require separately implemented reconciliation.
 - Follow [history-preserving compaction](docs/development/history-compaction.md) and
   [ADR 0016](docs/decisions/0016-history-preserving-compaction.md). Retain exact
   original transactions, all historical cutoffs and request identities; never turn
