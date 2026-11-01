@@ -8,7 +8,7 @@ description: Reuse private temporal reconstruction with a factory-owned local jo
 Date: October 31, 2026. Status: implemented, experimental read-only core recovery;
 [managed S3 read recovery](0032-managed-s3-read-recovery.md) is implemented separately.
 [Core pinned writes](0033-pinned-checkpoint-writes.md) are now implemented separately;
-managed S3 writable recovery remains planned.
+managed S3 writable recovery is implemented separately.
 
 ## Context
 

@@ -4449,6 +4449,88 @@ account/DNS/hosting change starts.
 managed admission with the core startup barrier and retaining metadata/store/journal
 ownership through new writes, uncertainty, close and exact reopen.
 
+## 2026-11-01 — MDB-0064 Managed S3 writable recovery
+
+**Scope and ownership:** resume the next bounded child from clean main/origin
+`5e17d70e741084d221e03e41836513709f45676b`. Recheck MDB-0063 source ancestry and
+successful Java 41317159326, docs 41317159285 and Pages 41317159286. Root owns
+production, documentation, shared planning and Git; bounded helpers return optional
+test files, fresh version evidence and independent implementation/caller review.
+Keep all 65 IDs and parent criteria; this child does not close MDB-0062/0038.
+
+**Implementation:** explicit S3Database.openWritable routes existing exact managed
+expected-state/client/head admission to LocalDatabase.openWritableFromObjectCheckpoint.
+Actual reconstruction and journal/name synchronization finish before return. Delegate
+public transact to the real core commit/retry protocol; existing open remains read-only
+and rejects new and exact-retry transactions. Keep query capture outside the private
+core write/close monitor, serialize actual writers/close, reject reentrancy before
+invalidation and clear the guard on all outcomes. Core poison rejects wrapper head,
+checkpoint, lookup, view, observation and transactions; retain metadata/store/journal
+owners until independent close cleanup with existing suppression/retry behavior.
+Clients/credentials remain unowned and can close after startup. Local writes change
+neither remote head nor publication-state generation. No core protocol, wire format,
+SDK setting, dependency or public arbitrary restore/backend interface changes.
+
+**Tests:** 49 new writable API/admission invocations cover genesis/split/full graphs,
+real SDK/loopback requests and local owners; original prefix/tail retries, new/no-op
+writes, payload conflicts, historical answers and immutable pinned views; readonly/
+closed calls, independently owned clients, exact scope/body/token, pending/absent
+refusals before network, explicit reconciliation, corrupt graph/journal/state,
+minimum/budget errors and cleanup. Twenty-five lifecycle cases cover actual core
+startup and write I/O/runtime/Error boundaries, unchanged uncertain result evidence,
+poisoned wrappers/views, retained owners, exact managed reopen/retry, two paused-write
+snapshot/close races, serialized writers and reentrant-close/write rejection. Six
+actual child halts include RECOVERED, SYNCHRONIZED, AFTER_APPEND, AFTER_FORCE,
+AFTER_PUBLICATION and ACKNOWLEDGED_RETURN; the last is distinct from publication
+before caller return. Bounded workers/processes clean up. A test-only engine-package
+bridge injects the existing core probe into real native recovery; no fake writer
+substitutes for append/force/publication and no helper enters published artifacts.
+
+**Research:** fresh Central metadata and official compatibility evidence checked
+November 1 at **15:50:20 UTC /10:50:20 EST**. All fourteen selected stable pins remain
+current: Maven 3.10.0, Wrapper 3.3.4, clean/resources 3.5.0, compiler 3.16.0,
+Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and
+SDK s3/url-connection-client 2.57.8; Maven 4 RC/plugin betas remain unselected.
+No POM edit is needed. Ignored `.local-qa/mdb-0064/research-helper/` retains source
+URLs/versions/compatibility and SHA-256 evidence: metadata
+`95e6d4cdcae3ed08e429efd58576dcc92d6b765673e6544a9af9fd9b63ea1c84`, compatibility
+`b0c8e28deaf6f88fa1995b1dba2b169f66fa213996112b178c5e380cf9faac6e`, report
+`70f92e9b044a141d5f9df8ed596300ffc6c12c26a71dc2e43189af5754efb4c4` and sums file
+`f618687b9b650dbb7afd3bdfd5763d95cf09d467edafefebc5f9f3db1a81bb6f`.
+Reuse ADR 0032 AWS evidence checked at 13:35:18 UTC /08:35:18 EST, explicitly dated
+as existing evidence; this composition asserts no new provider-write behavior.
+
+**Acceptance:** focused new tests plus S3DatabaseStartupTest pass **87** cases.
+Serial clean core install and optional verify pass **1,272 core /546 optional**,
+zero local failures/errors/skips. All fourteen examples run with only the packaged
+core. Archive/jdeps preserve 155 core classes, java.base only and the unchanged
+one-class conformance classifier; the optional JAR contains 50 production classes,
+no test bridge/reference classes. Forty-two docs-rule fixtures and strict production/
+project-path 76-page builds pass. Guide/ADR/back navigation, both title search entries
+and desktop-light/mobile-dark rendering pass without page overflow; normal light
+viewport is restored. Seventeen local page/content/canonical readbacks, both new
+search entries and the 76-page unique production sitemap pass. Independent code and
+caller review finds no actionable issue. Root reconciles stale managed-write-planned
+claims and readonly no-transaction-API wording, adds ADR 0034 and the managed-write
+guide, and persists owner/monitor/poison/fault-seam boundaries in agent rules.
+
+**Limits and completion:** full unchanged canonical/seeded SDK histories and remaining
+late-selection/cross-publication parent conformance stay in MDB-0065. This is not
+remote write acknowledgement, replication, device-power-loss qualification or live
+provider certification. Complete matching local journal and online managed startup
+remain required; default Windows metadata placement remains explicitly unsupported.
+Mark MDB-0064 source-done, clear active claim and make MDB-0065 ready conditional on
+source delivery. Keep MDB-0062/0038 expanded. Validate queue/cards/DAG, inspect/stage
+explicit task-owned paths, commit Step-ID MDB-0064 / Step-Result completed and push
+normally. Verify exact-source Java/docs/automatic Pages and live pages before the
+internal-only delivery receipt. No library release/upload or cloud/account/DNS/
+hosting configuration change starts.
+
+**Next recommendation:** MDB-0065 — Remote writable recovery conformance, completing
+the unchanged canonical/seeded SDK corpus and cross-publication interruption checks
+before closing the broader remote recovery parents.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

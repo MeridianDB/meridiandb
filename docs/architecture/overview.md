@@ -81,7 +81,7 @@ adds exact conditional selection and durable reconciliation. Core
 [pinned checkpoint read recovery](../development/object-checkpoint-recovery.md)
 uses verified object history and the complete local journal.
 [Managed S3 read recovery](../development/s3-database.md) adds actual-client and
-durable expected-state admission; managed S3 writable recovery remains planned.
+durable expected-state admission; [managed S3 writable recovery](../development/s3-database-writes.md) is implemented separately.
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
@@ -104,7 +104,7 @@ checks those boundaries and exact recovery. Core pinned read recovery uses the
 same private reconstruction algorithm, also used by managed S3 read recovery.
 [Core pinned writes](../development/object-checkpoint-writes.md) additionally
 synchronize the owned journal/name before enabling forced local transactions.
-Managed S3 writable recovery and optimized query layouts remain planned.
+Managed S3 writable recovery is implemented separately; optimized query layouts remain planned.
 
 ## Learn from immutable ingestion and search systems
 

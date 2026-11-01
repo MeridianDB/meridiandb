@@ -12,8 +12,7 @@ complete graph verification against the actual owned journal, and synchronized
 local expected-state installation. The optional `meridiandb-s3` artifact now
 supports this experimental checkpoint publication protocol. Core
 [pinned checkpoint read recovery](object-checkpoint-recovery.md) is separate;
-[managed S3 read recovery](s3-database.md) is implemented separately. Managed S3 writable
-recovery, replication and remote object reclamation remain planned.
+[managed S3 read recovery](s3-database.md) is implemented separately. Managed S3 writable recovery is implemented separately; replication and remote object reclamation remain planned.
 
 The publisher operates on already installed immutable dependencies and the pending
 state produced by [verified preparation](s3-publication-preparation.md). It does

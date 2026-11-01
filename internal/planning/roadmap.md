@@ -1614,6 +1614,26 @@ fallback/adoption/repair. Document supported modes, original checkpoint cutoff v
 later local head and online/offline/placement limits. Full corpus/cross-boundary parent
 conformance remains MDB-0065; no earlier child alone closes the parent.
 
+**Produced artifacts:** S3Database.openWritable shares exact metadata/client/body/
+token admission, then invokes the concrete core writable factory. Public transact
+reuses actual forced local commits and original retries. Read-only opens reject all
+transactions. Query capture stays outside the private core write/close monitor;
+reentrant close rejects before invalidation, poisoning propagates to every access
+and the three local owners remain held until explicit cleanup. Package-private
+fault wiring exercises actual core recovery; no public backend callback or core
+escape is added. Forty-nine SDK/API/admission and 25 lifecycle/interruption/
+concurrency invocations exercise successful writes/retries, refusals, cleanup,
+uncertainty, real child exits and nonblocking snapshots. Clean 1,272 core /546
+optional checks, fourteen packaged examples, unchanged JDK-only core and test
+classifier, 50-class optional archive, 42 docs-rule fixtures and strict 76-page
+production/project-path builds pass locally without skips. ADR 0034, managed-write
+guide, current callers/rules and fresh unchanged Maven pins document local-only
+acknowledgement and remaining full remote corpus/cross-publication qualification.
+Local guide/ADR/search and desktop-light/mobile-dark rendering pass without page
+overflow; seventeen page/canonical readbacks, search entries and sitemap pass.
+Source/automatic CI/Pages/live delivery verification follows in its receipt.
+MDB-0065 is ready; MDB-0062/0038 remain expanded with every original criterion.
+
 ## MDB-0065 Remote writable recovery conformance
 
 **Parent:** MDB-0062. **Outcome:** complete every original MDB-0062 and MDB-0038 criterion

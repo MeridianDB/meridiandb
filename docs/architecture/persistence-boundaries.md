@@ -13,8 +13,9 @@ now experimental. [Pinned checkpoint read recovery](../development/object-checkp
 uses the complete owned local journal.
 [Core pinned writes](../development/object-checkpoint-writes.md) add local startup
 barriers and the existing forced transaction protocol. [Managed S3 read recovery](../development/s3-database.md) admits durable expected
-selection separately. Managed S3 writable recovery and replication remain planned extensions. They must preserve the
-same temporal answers and declare their own durability and coordination guarantees.
+selection separately. [Managed S3 writes](../development/s3-database-writes.md) compose exact admission
+with the local commit protocol. Replication remains planned and must preserve the
+same temporal answers while declaring its durability and coordination guarantees.
 
 [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md) records this
 direction. The interfaces described here are responsibilities to implement and
@@ -25,7 +26,7 @@ are implemented, with a segment-codec consumer and bounded whole-object reads.
 The optional S3 adapter passes the same byte contract through a controlled SDK/HTTP
 fixture. Existing local checkpoint and engine APIs retain their current protocols.
 Verified checkpoint publication and explicit pinned read recovery are implemented
-separately. Managed S3 read recovery is also available; managed S3 writable recovery and replication remain planned.
+separately. Managed S3 read recovery is also available; managed S3 writable recovery is experimental and replication remains planned.
 
 ## Bitemporal history is the core contract
 
@@ -98,7 +99,7 @@ A bounded [publication-state representation](../development/s3-publication-state
 and pure transitions are available. [Durable local state](../development/local-s3-publication-state.md)
 installs exact snapshots under exclusive ownership. The
 [verified publisher](../development/s3-checkpoint-publication.md) now adds exact
-conditional submission and durable candidate reconciliation; managed S3 read recovery is available separately and managed S3 writable recovery remains planned.
+conditional submission and durable candidate reconciliation; managed S3 read recovery is available separately and managed S3 writable recovery is implemented separately.
 [Verified preparation](../development/s3-publication-preparation.md) now combines
 actual client admission, complete graph/owned-prefix checks, journal/name barriers,
 immutable intent and durable pending state without mutating the selection key.
@@ -106,7 +107,7 @@ immutable intent and durable pending state without mutating the selection key.
 An object-store checkpoint is an optional companion to the local journal. First upload or verify all immutable dependencies, then publish immutable
 manifest bytes and conditionally select the complete generation. The implemented
 publisher rechecks the actual journal, uses original durable pending intent and
-reconciles exact selection across uncertain replies. Managed S3 read recovery is available; managed S3 writable recovery remains planned. Listing objects is not by itself a commit protocol.
+reconciles exact selection across uncertain replies. Managed S3 read recovery is available; managed S3 writable recovery is implemented separately. Listing objects is not by itself a commit protocol.
 
 Amazon S3 documents strong object consistency and conditional writes using
 `If-None-Match` and `If-Match`. These are useful building blocks, but updates to

@@ -5,7 +5,7 @@ description: Recover read-only temporal queries using exact durable S3 expected 
 
 # Managed S3 read recovery
 
-`org.meridiandb.storage.s3.S3Database` opens an experimental read-only database
+`org.meridiandb.storage.s3.S3Database.open` opens an experimental read-only database
 using the optional `meridiandb-s3` artifact. It admits the actual clients and an
 existing durable expected selection, requires a fresh exact head observation,
 then invokes [core pinned recovery](object-checkpoint-recovery.md) with privately
@@ -13,10 +13,12 @@ acquired local storage. The complete matching local journal is required, includi
 the checkpoint prefix. [ADR 0032](../decisions/0032-managed-s3-read-recovery.md)
 records the decision.
 
-This mode is online at startup. It adds no transaction API, automatic publication
-reconciliation, remote deletion or replicated durability. Managed S3 writable recovery remains planned. The separate
+This mode is online at startup. It rejects transactions, including exact retries.
+[Managed S3 writable recovery](s3-database-writes.md) composes the same admission
+with local startup synchronization and forced commits. The separate
 [core pinned write mode](object-checkpoint-writes.md) uses explicit caller authority
-without managed S3 admission. Ordinary local modes remain JDK-only.
+without managed S3 admission. Ordinary local modes remain JDK-only. No managed open
+automatically reconciles publication, deletes objects or supplies replicated durability.
 
 ## Open and query
 

@@ -33,10 +33,22 @@ children before implementation rather than treating a whole milestone as one pat
   including 65 new native cases. Fourteen examples pass on each. Fifteen live
   pages/canonicals, new guide/ADR search entries and the 74-page sitemap pass;
   evidence is in the progress receipt.
-- **MDB-0064 — Managed S3 writable recovery** is next and ready after verified delivery.
-  Compose exact managed expected/client admission with the implemented writable
-  core barrier; retain all owners, local acknowledgement and pending evidence.
-  Planning this child does not begin it or MDB-0065 conformance.
+- **MDB-0064 — Managed S3 writable recovery** is source-complete. The explicit
+  optional factory composes exact managed admission with actual core writable
+  startup; delegated transactions retain all three local owners through uncertainty.
+  Committed-state capture remains available while write/close serialize on the
+  private core owner. Reentrant close rejects before invalidation. No active claim
+  remains; no transaction changes S3 selection or local publication metadata.
+- Seventy-four new optional invocations, clean **1,272 core /546 optional** checks,
+  fourteen packaged-core examples, archive/jdeps, 42 docs-rule fixtures and strict
+  production/project-path **76-page** builds pass locally without skips. Local
+  guide/ADR/search and desktop-light/mobile-dark layout pass; seventeen page/content/
+  canonical readbacks, both new search entries and the 76-page sitemap pass.
+  Source commit/push and automatic Java/docs/Pages/live readback remain to verify
+  before the internal delivery receipt. **MDB-0065 — Remote writable recovery
+  conformance** is next, subject to this source's remote delivery. Full SDK corpus,
+  cross-publication and remaining parent criteria belong there; MDB-0062/0038 stay
+  expanded and neither parent closes here.
 
 ## Ordered work
 
@@ -99,8 +111,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0061](roadmap.md#mdb-0061-managed-s3-recovery-admission) | Bind S3 recovery startup to actual scope and durable publication state | MDB-0038 | done | MDB-0010, MDB-0037, MDB-0060 |
 | [MDB-0062](roadmap.md#mdb-0062-writable-remote-recovery-conformance) | Preserve forced writes after remote recovery and complete parent conformance | MDB-0038 | expanded | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0063](roadmap.md#mdb-0063-core-pinned-checkpoint-writes) | Enable forced local writes after explicit pinned checkpoint recovery | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061 |
-| [MDB-0064](roadmap.md#mdb-0064-managed-s3-writable-recovery) | Admit writable managed S3 recovery with retained ownership | MDB-0062 | ready | MDB-0010, MDB-0037, MDB-0061, MDB-0063 |
-| [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | queued | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
+| [MDB-0064](roadmap.md#mdb-0064-managed-s3-writable-recovery) | Admit writable managed S3 recovery with retained ownership | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0063 |
+| [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | ready | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | queued | MDB-0010, MDB-0038 |
 | [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |

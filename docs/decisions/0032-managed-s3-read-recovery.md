@@ -6,7 +6,7 @@ description: Admit exact durable expected S3 selection and actual client scope b
 # ADR 0032: Managed S3 read recovery
 
 Date: November 1, 2026. Status: implemented, experimental optional read-only mode;
-managed S3 writable recovery remains planned.
+[managed S3 writable recovery](0034-managed-s3-writable-recovery.md) is implemented separately.
 
 ## Context and decision
 
@@ -21,7 +21,7 @@ state before remote reads, check actual client configuration, then require a
 fresh complete head image and its original expected opaque token. Privately invoke
 [core pinned recovery](0031-pinned-checkpoint-engine-recovery.md), retaining local
 store/journal ownership through the wrapper lifetime. Expose queries and original
-request lookup without a writable API or underlying-owner getter. Close invalidates
+request lookup with transactions rejected by this read-only mode and no underlying-owner getter. Close invalidates
 views and attempts every owned resource, preserving suppressed cleanup failures.
 Clients and credential providers remain caller-owned.
 
@@ -66,5 +66,6 @@ Real SDK/HTTP, native ownership/failure and process checks exercise this composi
 without qualifying a live provider or device power loss. Graph budgets remain
 separate from the fixed head body, local metadata synchronization, initial journal
 scan, full replay and retained engine heap. Reusing the core private reconstruction
-preserves its independent temporal conformance; writable remote recovery requires
-its separate integration and acknowledgement checks.
+preserves its independent temporal conformance. [Managed writable recovery](0034-managed-s3-writable-recovery.md)
+now supplies the separate integration and focused acknowledgement checks; full remote
+corpus and cross-publication conformance remain required.

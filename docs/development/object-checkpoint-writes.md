@@ -13,8 +13,9 @@ is returned or any recovered retry can be acknowledged.
 
 [ADR 0033](../decisions/0033-pinned-checkpoint-writes.md) records the decision.
 [Read-only pinned recovery](object-checkpoint-recovery.md) remains available.
-Managed S3 writable admission and full remote writable conformance remain planned;
-`S3Database.open` still exposes only managed read recovery.
+[Managed S3 writable recovery](s3-database-writes.md) now composes managed admission
+with this core mode; full remote writable conformance remains planned.
+`S3Database.open` retains its read-only contract.
 
 ## Recover and transact
 

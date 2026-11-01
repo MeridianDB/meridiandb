@@ -16,7 +16,7 @@ is available separately. [Verified conditional publication](../development/s3-ch
 and durable candidate reconciliation are implemented experimentally. Core
 [pinned checkpoint read recovery](../development/object-checkpoint-recovery.md)
 is available, with [managed S3 admission](../development/s3-database.md) implemented
-separately. Managed S3 writable recovery remains planned. The existing
+separately. Managed S3 writable recovery is implemented separately. The existing
 [S3 byte adapter](../development/s3-objects.md) remains immutable-only.
 
 This specification defines the selection protocol those implementations must

@@ -311,7 +311,7 @@ so a new session can work correctly without relying on earlier conversations.
   Test unchanged canonical/query and seeded reference/dense histories through actual
   writable pinned reopen, original retry identity, startup/failure/owner lifetimes
   and real process interruption. Preserve complete journals, minimum-coverage and
-  explicit-pin limits; core writes grant no managed S3 writable qualification.
+  explicit-pin limits; managed S3 writing uses its separate admission contract.
 - Follow [ADR 0032](docs/decisions/0032-managed-s3-read-recovery.md) and
   [managed S3 recovery](docs/development/s3-database.md) for optional online read-only startup.
   Own existing publication metadata through wrapper close; reject pending/absent
@@ -323,6 +323,17 @@ so a new session can work correctly without relying on earlier conversations.
   local coverage, ownership and process reopen. State has no durable path binding;
   historical startup observation supplies no continuing lease, fallback, automatic
   reconciliation, writable acknowledgement or complete rollback detection.
+- Follow [ADR 0034](docs/decisions/0034-managed-s3-writable-recovery.md) and
+  [managed S3 writes](docs/development/s3-database-writes.md) for explicit writable
+  managed startup. Reuse exact expected/client/head admission and the concrete core
+  writable factory; retain metadata/store/journal ownership through uncertainty.
+  Delegate transaction acknowledgement/poisoning to core and perform no remote or
+  publication-state mutation per commit. Serialize write/close on the private core
+  owner, reject reentrant close before invalidation and keep query capture outside
+  the write monitor. Test real SDK admission, actual core boundary/process failures,
+  old-state capture, write/close serialization and unchanged metadata/remote evidence.
+  Keep fault openers package-private, test support outside production/classifier,
+  and full remote corpus/cross-publication qualification in its required step.
 - Follow [ADR 0026](docs/decisions/0026-bounded-s3-publication-state.md) and the
   [S3 publication-state format](docs/development/s3-publication-state.md) for exact
   expected/pending snapshots. Preserve lexical endpoint spelling, explicit signing
