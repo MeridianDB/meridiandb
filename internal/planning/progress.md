@@ -4561,6 +4561,54 @@ deployment for internal/test-only paths. MDB-0065 remains the sole next ready
 item; MDB-0062/0038 stay expanded.
 
 
+## 2026-11-01 — MDB-0064 Delivery verification
+
+Source **`4a3e14884c8cf11be3c0757b18592624ff279ff7`** and test-fixture follow-through
+**`7e666b3af237c9d1e6ffe6dfa048e3df19769677`** carry Step-ID MDB-0064 / Step-Result
+completed and reached origin/main through normal pushes. Fresh fetch confirms both
+source commits' ancestry, matching local/remote tips and a clean checkout before
+this internal-only receipt. The follow-through changes only its test and internal
+planning; public source is unchanged from the deployed source.
+
+- [Final Java 41325115865](https://github.com/MeridianDB/meridiandb/actions/runs/41325115865)
+  passes both platforms and all fourteen examples per platform. Ubuntu runs all
+  **1,272 core /546 optional** cases without failures/errors/skips, including all
+  74 new cases. Windows has no failures/errors and reports **363 core /318 optional**
+  explicit capability skips. The pure argument-preflight invocation now runs;
+  the remaining 48 new native API and 25 lifecycle cases skip only unavailable
+  directory synchronization. This does not qualify that Windows placement for
+  writable managed recovery. Original Java 41324730342 also passed; its extra
+  fixture-induced skip and same-ID repair remain recorded above rather than
+  misreported as executed coverage.
+- [Docs 41324730429](https://github.com/MeridianDB/meridiandb/actions/runs/41324730429)
+  passes strict production/project-path builds and 42 docs-rule fixtures on each.
+  [Automatic Pages 41324730394](https://github.com/MeridianDB/meridiandb/actions/runs/41324730394)
+  passes 42 fixtures, strict build and deployment of the original public source.
+  No second docs/deployment run is triggered by the test/internal-only follow-through.
+- Live HTTPS readback verifies the managed-write guide/ADR 0034, managed-read/core-write
+  guides, build, S3 byte/head/publication/local-state guides, persistence boundaries,
+  architecture overview/object protocol, ADRs 0032/0033, roadmap, decisions and home:
+  **seventeen pages** with exact canonical URLs and implementation/scope/count/research
+  wording. Both new titles/routes appear in search; sitemap contains **76 unique
+  production HTTPS pages**. Browser confirms the published guide and canonical;
+  `.local-qa/mdb-0064/site-published.png` was shown in the session. Local guide/ADR/
+  search navigation and desktop-light/mobile-dark rendering show no page overflow.
+  Normal light viewport is restored; the exact task-owned local server is stopped.
+  Ignored task evidence retains research, build, XML/archive, both CI rounds,
+  readback and browser logs/screenshots.
+
+Only queue/card/history follow the verified source. Validate all 65 IDs/cards/DAG/
+eligibility, inspect/stage these three paths, commit/push normally and reconfirm
+both source commits' ancestry, matching tips and clean checkout. Internal receipt
+paths trigger no workflow under existing filters. MDB-0064 is complete; MDB-0062/
+0038 remain expanded with MDB-0065 required. No library release/upload or cloud/
+account/DNS/hosting configuration change starts.
+
+**Next recommendation:** MDB-0065 — Remote writable recovery conformance, completing
+unchanged canonical/seeded SDK histories and cross-publication interruption evidence
+before auditing and closing the broader remote recovery parents.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
