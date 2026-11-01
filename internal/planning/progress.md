@@ -3878,6 +3878,41 @@ history, original retry identity, actual local journal and acknowledgement seman
 This receipt starts no later implementation, release, artifact upload or cloud/
 account/DNS/hosting-setting change.
 
+## 2026-10-31 — MDB-0054 Delivery verification
+
+Source **`d2a30b950fad629ef38cb4bce4d367cb277b2dd3`** carries
+`Step-ID: MDB-0054` / `Step-Result: completed`, including implementation, tests,
+public documentation, agent rules and planning. Normal push succeeds; fresh fetch
+confirms source ancestry, matching main/origin tips and a clean working tree before
+this internal delivery receipt.
+
+- [Java 41261721808](https://github.com/MeridianDB/meridiandb/actions/runs/41261721808)
+  passes both platforms and all fourteen examples on each. Ubuntu runs all
+  1,115 core / 402 optional cases with zero failures/errors/skips. Windows has
+  zero failures/errors, with 230 core and 185 optional explicit capability skips.
+  All 15 new pure cases and six platform-independent local cases run on Windows;
+  only the two new real-file directory-sync cases skip there. Ubuntu runs all 23.
+- [Docs 41261721797](https://github.com/MeridianDB/meridiandb/actions/runs/41261721797)
+  passes both production/project-path strict builds and all 42 QA-rule fixtures
+  on each. [Automatic Pages 41261721814](https://github.com/MeridianDB/meridiandb/actions/runs/41261721814)
+  passes its strict build, 42 fixtures and deployment.
+- HTTPS readback verifies current content and own canonical URLs for manifest,
+  segment, compaction, inventory, physical-removal, ADR 0025 and build pages. The
+  bounded-admission heading/anchor and compaction route appear in search, and the
+  sitemap has 67 unique production HTTPS pages. Browser inspection confirms the
+  published section and canonical; screenshot is
+  `.local-qa/mdb-0054/site-published.png`. Local desktop-light/mobile-dark bounds
+  and the remaining build/log/research/readback evidence share that ignored task
+  directory. The normal light viewport is restored and the owned local HTTP server
+  is stopped.
+
+This internal-only receipt reconciles queue/card/history after verified delivery;
+its push triggers no workflow under existing path filters. Revalidate all 58 IDs,
+stage only these three internal paths, commit/push normally and confirm matching
+tips plus source ancestry. Public source remains the CI/Pages-tested completion.
+No later implementation, release, artifact upload or cloud/account/DNS/hosting
+change starts. **Next: MDB-0038 — Remote checkpoint engine recovery.**
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

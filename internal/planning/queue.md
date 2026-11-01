@@ -12,35 +12,24 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0058 source `9e07766de3ae79bbcd52af048e72099e86c7840d` is verified on
-  origin/main with matching tips/ancestry. Java **41259110096**, docs **41259110074**
-  and automatic Pages **41259110065** pass. Live guide/ADR/current callers,
-  canonical URLs/search and the **67-page** sitemap are verified. Ubuntu runs
-  all cases; Windows reports 228 core and 185 optional capability skips.
-- **MDB-0058 — Conditional submission and reconciliation** is done. Exact durable
-  pending intent, immutable evidence, actual client/owner admission, total two-pass
-  graph reservation, one original-precondition attempt and fresh-candidate durable
-  reconciliation now compose the full experimental publisher. All 78 new cases,
-  1,092 core / 402 optional cases, fourteen examples, artifact inspection and both
-  strict 67-page builds pass locally without skips. No active claim remains.
-- Close **MDB-0053**, **MDB-0049** and **MDB-0037** with all required children and
-  original SDK/local integration criteria complete: lost replies, competing writes,
-  stale reads, late effects across reopen, actual divergent history, shared budgets,
-  process stops, native result failures and retained evidence. MDB-0011 stays
-  expanded: remote engine recovery, reader-safe reclamation and common backend
-  conformance remain required. Local acknowledgement and placement limits persist.
-- **MDB-0054 — Legacy bounded segment preflight** is done from clean main/origin
-  `809f669728646d911351dc43949e70996f3ff0a9`. Pure compaction and protected local
-  inventory/removal bind reserved ranges before body hashing/record allocation/
-  decoding, retaining public raw verifier and ordinary publication/load behavior.
-  All 23 new cases, 1,115 core / 402 optional cases, fourteen packaged-core examples,
-  artifact inspection and both strict 67-page builds pass locally without skips.
-  Completion commit/push, remote tips/ancestry, CI/Pages and live readback remain
-  the delivery gate. No active claim remains and no new IDs were allocated.
-- **MDB-0038 — Remote checkpoint engine recovery** is source-ready, conditional
-  on verified delivery above. Refine its integration/recovery acceptance before
-  implementation; preserve actual-journal, temporal/retry and local acknowledgement
-  contracts. Remote reader-safe reclamation and common conformance remain separate.
+- MDB-0054 source `d2a30b950fad629ef38cb4bce4d367cb277b2dd3` is verified on
+  origin/main with matching tips/ancestry. Java **41261721808**, docs **41261721797**
+  and automatic Pages **41261721814** pass. Seven changed public pages, canonical
+  URLs, the new search heading and the **67-page** sitemap are verified.
+- **MDB-0054 — Legacy bounded segment preflight** is done. Pure compaction and
+  protected inventory/removal bind reserved ranges before body hashing/record
+  allocation/decoding. Public raw verification and ordinary publication/load keep
+  their behavior. All 23 new cases, 1,115 core / 402 optional cases, fourteen
+  packaged-core examples, artifact inspection and both strict builds pass locally
+  without skips. Ubuntu runs every case; Windows reports 230 core and 185 optional
+  capability skips, including the two new native local cases. No active claim remains.
+- Publication parents MDB-0053/MDB-0049/MDB-0037 remain complete. MDB-0011 stays
+  expanded for remote engine recovery, reader-safe reclamation and common backend
+  conformance. Current local acknowledgement and placement limits persist.
+- **MDB-0038 — Remote checkpoint engine recovery** is ready after verified
+  delivery. Refine its integration/recovery acceptance before implementation;
+  preserve actual-journal, temporal/retry and local acknowledgement contracts.
+  Remote reader-safe reclamation and common conformance remain separate.
 
 ## Ordered work
 

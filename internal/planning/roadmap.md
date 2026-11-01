@@ -1398,8 +1398,12 @@ one-record reservation versus a CRC-valid larger range with payload/footer traps
 exact byte limits, no force/delete, protection release, poisoning and retained
 reopen evidence. Clean 1,115 core / 402 optional tests, fourteen packaged-core
 examples, archive/jdeps and both strict 67-page builds pass locally without skips.
-Current fourteen-coordinate research leaves all pins unchanged. Source/CI/Pages/
-live delivery identities follow in its receipt; MDB-0038 is next.
+Current fourteen-coordinate research leaves all pins unchanged. Source
+`d2a30b950fad629ef38cb4bce4d367cb277b2dd3` is verified on remote main; Java
+41261721808, docs 41261721797 and automatic Pages 41261721814 pass. Seven changed
+pages, canonical URLs, new search heading and the 67-page sitemap are verified.
+Windows reports 230 core and 185 optional capability skips, including the two new
+native cases; Ubuntu runs all. MDB-0038 is next.
 
 ## MDB-0038 Remote checkpoint engine recovery
 
