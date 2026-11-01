@@ -119,6 +119,35 @@ public final class LocalDatabase implements AutoCloseable {
     static LocalDatabase openFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
             UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits,
             long minimumJournalSequence, BoundaryProbe probe) throws IOException {
+        return openFromObjectCheckpoint(directory, objects, namespace, publisher, head, limits, minimumJournalSequence, false, probe);
+    }
+
+    /**
+     * Recover from an explicit pinned checkpoint, then synchronize the complete actual journal/name
+     * before enabling forced local writes and retry acknowledgements. Publishes no remote state.
+     * The supplied object adapter remains caller-owned and is used only during startup.
+     */
+    public static LocalDatabase openWritableFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits) throws IOException {
+        return openWritableFromObjectCheckpoint(directory, objects, namespace, publisher, head, limits, 0);
+    }
+
+    /** Require independently known local coverage before object reads, with the same pinned authority. */
+    public static LocalDatabase openWritableFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits,
+            long minimumJournalSequence) throws IOException {
+        return openWritableFromObjectCheckpoint(directory, objects, namespace, publisher, head, limits, minimumJournalSequence, null);
+    }
+
+    static LocalDatabase openWritableFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits,
+            long minimumJournalSequence, BoundaryProbe probe) throws IOException {
+        return openFromObjectCheckpoint(directory, objects, namespace, publisher, head, limits, minimumJournalSequence, true, probe);
+    }
+
+    private static LocalDatabase openFromObjectCheckpoint(Path directory, ImmutableObjectStore objects,
+            UUID namespace, UUID publisher, ObjectCheckpointHead head, ObjectCheckpointGraphs.Limits limits,
+            long minimumJournalSequence, boolean writable, BoundaryProbe probe) throws IOException {
         Objects.requireNonNull(directory, "directory");
         Objects.requireNonNull(objects, "objects");
         requireIdentity(namespace, "namespace");
@@ -140,7 +169,7 @@ public final class LocalDatabase implements AutoCloseable {
             closeAfterFailure(store, failure);
             throw failure;
         }
-        return rebuild(source, null, probe);
+        return rebuild(source, writable ? source : null, probe);
     }
 
     private static void requireIdentity(UUID value, String name) {
@@ -358,7 +387,7 @@ public final class LocalDatabase implements AutoCloseable {
         if (failure != null) { throw new IOException("Local database cleanup failed", failure); }
     }
 
-    private static final class ObjectSource implements RecoverySource {
+    private static final class ObjectSource implements WriteSource {
         private final LocalCheckpointStore store;
         private final LocalJournal journal;
         private final ObjectCheckpointGraphs.History history;
@@ -372,6 +401,9 @@ public final class LocalDatabase implements AutoCloseable {
         @Override public DatabaseId databaseId() { return journal.databaseId(); }
         @Override public OptionalLong checkpointSequence() { return OptionalLong.of(history.graph().actualPrefix().sequence()); }
         @Override public long journalSequence() { return journalHead; }
+        @Override public void synchronize() throws IOException { store.synchronizeJournal(journal); }
+        @Override public void append(JournalRecord record) throws IOException { journal.append(record); }
+        @Override public void force() throws IOException { journal.force(); }
         @Override public void replayCheckpoint(Consumer<? super JournalRecord> consumer) { history.records().forEach(consumer); }
         @Override public void replayJournal(Consumer<? super JournalRecord> consumer) throws IOException { journal.replay(consumer); }
         @Override public void close() throws IOException { closeResources(journal, store); }

@@ -6,7 +6,7 @@ description: Admit exact durable expected S3 selection and actual client scope b
 # ADR 0032: Managed S3 read recovery
 
 Date: November 1, 2026. Status: implemented, experimental optional read-only mode;
-writable recovery using object checkpoints remains planned.
+managed S3 writable recovery remains planned.
 
 ## Context and decision
 

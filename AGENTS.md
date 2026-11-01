@@ -293,7 +293,7 @@ so a new session can work correctly without relying on earlier conversations.
   selection, tail recovery, acknowledgement or permission to substitute another owner.
 - Follow [ADR 0031](docs/decisions/0031-pinned-checkpoint-engine-recovery.md) and
   [pinned engine recovery](docs/development/object-checkpoint-recovery.md) for
-  explicit object-checkpoint opens. Preflight arguments, acquire/retain concrete
+  explicit read-only object-checkpoint opens. Preflight arguments, acquire/retain concrete
   local store/journal owners and freeze H before loading history. Admit an optional
   independent minimum before object I/O; restore the pinned prefix once, validate
   the complete journal through H and apply only its suffix. Keep the adapter
@@ -302,8 +302,18 @@ so a new session can work correctly without relying on earlier conversations.
   answers, original request lookup, strict evidence, coverage loss and actual owner
   cleanup. Preserve ordinary local selection; explicit pinned authority grants no
   current S3 selection, writable acknowledgement or missing-tail reconstruction.
+- Follow [ADR 0033](docs/decisions/0033-pinned-checkpoint-writes.md) and
+  [pinned checkpoint writes](docs/development/object-checkpoint-writes.md) for the
+  explicit core writable factory. Complete owned prefix/tail reconstruction before
+  synchronizing the actual journal/name and exposing any new/retry acknowledgement.
+  Reuse existing prepare/append/force/publication, poisoning and close protocols;
+  keep read-only routes without a writer and caller object adapters unowned.
+  Test unchanged canonical/query and seeded reference/dense histories through actual
+  writable pinned reopen, original retry identity, startup/failure/owner lifetimes
+  and real process interruption. Preserve complete journals, minimum-coverage and
+  explicit-pin limits; core writes grant no managed S3 writable qualification.
 - Follow [ADR 0032](docs/decisions/0032-managed-s3-read-recovery.md) and
-  [managed S3 recovery](docs/development/s3-database.md) for optional online startup.
+  [managed S3 recovery](docs/development/s3-database.md) for optional online read-only startup.
   Own existing publication metadata through wrapper close; reject pending/absent
   expected state before remote reads and admit actual client scope before GET.
   Require exact fresh expected bytes/token, then privately acquire core recovery

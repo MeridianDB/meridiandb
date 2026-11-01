@@ -1552,6 +1552,81 @@ local-storage-loss and offline behavior. Close MDB-0038 only after all children 
 its original SDK/engine/temporal/cleanup/conformance criteria pass and delivery is
 verified; remote reader-safe reclamation remains MDB-0039's separate requirement.
 
+**Expansion:** required MDB-0063 core pinned writable ownership/barriers, MDB-0064
+managed S3 writable admission and MDB-0065 full remote writable conformance separate
+independently testable outcomes. Preserve every original criterion above and in
+MDB-0038. Close both parents only after all required children and integration gates
+pass; a core write factory alone satisfies neither parent.
+
+## MDB-0063 Core pinned checkpoint writes
+
+**Parent:** MDB-0062. **Outcome:** add a concrete JDK-only writable counterpart to
+explicit pinned checkpoint recovery. Keep all acquisition, binding, full journal,
+minimum coverage and caller-adapter contracts. After complete private reconstruction,
+synchronize the actual owned journal and its name before exposing a writable engine
+or acknowledging any retry. Reuse existing prepare/append/force/publication and
+uncertain-outcome handling without public arbitrary restore/backend callbacks.
+
+**Complete when:** original canonical/query fixtures and seeded dense histories
+exercise new and duplicate writes through actual pinned writable reopen at genesis,
+split and full checkpoints. Historical answers, no-ops, original identity and request
+lookup agree with independent reference/local baselines; exact retries append nothing.
+Cover startup barriers and failure cleanup, old views versus hidden/prepared writes,
+post-attempt poisoning, actual process stops/reopen, owners and caller adapter
+lifetimes. Preserve readonly/local APIs, full journal/history and all failed evidence.
+Document local force assumptions, explicit authority, costs and missing-tail limits.
+Research current Maven pins and deliver source/docs/rules/planning/CI normally.
+Managed S3 writable admission and full remote parent qualification remain required.
+
+**Produced artifacts:** LocalDatabase.openWritableFromObjectCheckpoint shares owned
+pinned startup with read-only mode, then invokes the actual journal/name barrier
+before returning a writer. Private ObjectSource delegates synchronization/append/
+force to existing concrete owners; transaction preparation/publication/poisoning is
+unchanged and read-only routes retain a null writer. Twenty-six focused cases plus
+40 unchanged canonical/query/seeded invocations cover retries, new/no-op commits,
+original identities, old views, owner/adapter lifetimes, failure cleanup and five
+real process halt/reopen points. Default seeded workflows make 1,536 actual new
+commits through the new factory. Clean 1,272 core /472 optional checks, fourteen
+packaged-core examples, unchanged 155-class JDK-only archive/jdeps, 42 docs-rule
+fixtures and strict 74-page production/project-path builds pass locally without
+skips. ADR 0033, write guide, callers/rules and fresh Maven research document explicit
+pin authority, startup barriers, full journal/costs and managed-writable limits.
+Source/CI/Pages delivery verification follows before MDB-0064 starts. MDB-0062 and
+MDB-0038 remain expanded with all original criteria and required children intact.
+
+## MDB-0064 Managed S3 writable recovery
+
+**Parent:** MDB-0062. **Outcome:** compose existing exact managed expected-state/client
+admission with core pinned writable startup, while retaining all local metadata/store/
+journal owners through close. Delegate new/exact retry transactions only after actual
+startup synchronization. Keep S3 read-only APIs and caller client/credential ownership.
+
+**Complete when:** real SDK/HTTP plus supported local placement exercises exact expected
+selection and pending refusal/reconciliation, complete graph/actual tail validation,
+startup/write failure cleanup, poisoned views, retry lookup/reopen and explicit force
+acknowledgement. Local transactions do not mutate S3 expected/head selection or supply
+remote durability. Preserve original scope/token/body/uncertainty evidence and reject
+fallback/adoption/repair. Document supported modes, original checkpoint cutoff versus
+later local head and online/offline/placement limits. Full corpus/cross-boundary parent
+conformance remains MDB-0065; no earlier child alone closes the parent.
+
+## MDB-0065 Remote writable recovery conformance
+
+**Parent:** MDB-0062. **Outcome:** complete every original MDB-0062 and MDB-0038 criterion
+through actual managed SDK recovery plus local forced writes, without changing the
+temporal contract or local acknowledgement protocol.
+
+**Complete when:** unchanged canonical/query fixtures, persisted-seed reference/dense
+histories and local backend comparisons cover complete remote checkpoint plus exact
+local tail, new/duplicate/conflicting requests, all historical cutoffs and no-ops.
+Exercise pending/late remote selection, lost replies/acknowledgements, startup and
+append/force/publication boundaries, actual child-process stops and exact reopen.
+Reject foreign/stale/missing/corrupt/divergent evidence, no fallback/repair/data invention;
+qualify checkpoint/tail/minimum coverage and local-storage-loss/offline behavior.
+Check caller/native ownership, costs/limits and optional packaging. Audit all parent
+criteria and close MDB-0062/0038 only with integration and delivery evidence; leave
+remote reclamation in MDB-0039 and general backend qualification in MDB-0040.
+
 ## MDB-0039 Reader-safe object reclamation
 
 **Parent:** MDB-0011. **Outcome:** define and implement a supported remote cleanup

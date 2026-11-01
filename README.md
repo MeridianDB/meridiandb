@@ -9,9 +9,10 @@ MeridianDB is an experimental embeddable Java bitemporal database. It preserves
 both when a fact applies in the domain and when the database recorded that
 knowledge. Built-in local persistence is the foundation. Optional S3 byte access is
 available separately. [Pinned checkpoint read recovery](docs/development/object-checkpoint-recovery.md)
-uses object history with the complete local journal. Verified remote checkpoint
+uses object history with the complete local journal. [Core pinned writes](docs/development/object-checkpoint-writes.md)
+synchronize that local history before enabling transactions. Verified remote checkpoint
 publication and [managed S3 read recovery](docs/development/s3-database.md) are
-experimental. Writable recovery using object checkpoints and replication remain planned. Local use requires no external database,
+experimental. Managed S3 writable recovery and replication remain planned. Local use requires no external database,
 streaming service or application server.
 
 **Status:** project foundation and architectural research. The documentation site
@@ -94,7 +95,7 @@ The [persistence boundaries](docs/architecture/persistence-boundaries.md) separa
 commit authority, ordered journal history, immutable objects, checkpoint selection
 and derived search indexes. Local persistence and an optional [S3 byte adapter](docs/development/s3-objects.md)
 are implemented. [Managed S3 read recovery](docs/development/s3-database.md) is
-available separately. Writable recovery using object checkpoints, replication and
+available separately. Managed S3 writable recovery, replication and
 near-real-time indexing remain planned and unmeasured. The
 [immutable-object interface](docs/development/immutable-objects.md) now includes a
 JDK-only local adapter, complete identity/length validation, explicit identical
@@ -119,7 +120,7 @@ actual client scope, graph/journal checks and exact durable pending intent witho
 selecting a remote head. [Verified publication](docs/development/s3-checkpoint-publication.md)
 now adds exact conditional submission and durable candidate reconciliation.
 Managed S3 read recovery now admits exact durable expected selection before core
-startup; writable object recovery remains planned. Existing local
+startup; managed S3 writable recovery remains planned. Existing local
 checkpoint and write protocols are unchanged.
 
 Parquet is a candidate file format; an object store is a persistence service;
@@ -178,7 +179,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,206 JUnit test invocations: 69 pinned checkpoint recovery checks,
+This runs 1,272 JUnit test invocations: 66 pinned checkpoint write checks,
+69 pinned read recovery checks,
 22 pinned object-history loading checks,
 23 bounded compaction/reclamation preflight checks,
 34 object graph/actual-prefix checks,

@@ -25,6 +25,7 @@ its memory-only write contract.
 | `open(directory)` | Recover existing history for queries and request lookup; reject transactions |
 | `openWritable(directory)` | Recover existing history, synchronize journal and namespace, then enable transactions |
 | `openFromObjectCheckpoint(...)` | Recover read-only from an explicitly pinned object checkpoint and the complete local journal; retain both local owners |
+| `openWritableFromObjectCheckpoint(...)` | Recover from an explicit pin, synchronize actual journal/name and enable forced local writes |
 
 The directory must be trusted, stable and already durably named by its creator.
 Creation allows only an existing checkpoint-store lock file; it refuses a journal,
@@ -37,7 +38,9 @@ repair policy; these APIs never repair automatically.
 The [pinned checkpoint mode](object-checkpoint-recovery.md) uses a supplied object
 head as its checkpoint authority and can require an independent minimum journal
 sequence. It does not consult local checkpoint selection or the provider's current
-head. Normal local modes retain their existing selection protocol.
+head. The [writable pinned mode](object-checkpoint-writes.md) additionally establishes
+the local startup barrier before new or retry acknowledgements. Normal local modes
+retain their existing selection protocol.
 
 ## Create and write
 

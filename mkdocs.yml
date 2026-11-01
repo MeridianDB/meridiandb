@@ -94,6 +94,7 @@ nav:
       - Pinned object history decision: decisions/0030-bounded-pinned-object-history.md
       - Pinned engine recovery decision: decisions/0031-pinned-checkpoint-engine-recovery.md
       - Managed S3 recovery decision: decisions/0032-managed-s3-read-recovery.md
+      - Pinned checkpoint writes decision: decisions/0033-pinned-checkpoint-writes.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -109,6 +110,7 @@ nav:
       - Conditional S3 heads: development/s3-checkpoint-heads.md
       - Object checkpoint graphs: development/object-checkpoint-graphs.md
       - Pinned checkpoint recovery: development/object-checkpoint-recovery.md
+      - Writes after pinned recovery: development/object-checkpoint-writes.md
       - Managed S3 read recovery: development/s3-database.md
       - S3 publication state: development/s3-publication-state.md
       - Durable local S3 state: development/local-s3-publication-state.md

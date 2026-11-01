@@ -4309,6 +4309,103 @@ No later child, library release/upload or cloud/account/DNS/hosting operation be
 forced append/publication, original retry identity and canonical/seeded/fault/process
 behavior before closing the remote recovery parent.
 
+
+## 2026-11-01 — MDB-0063 Core pinned checkpoint writes
+
+**Preflight/expansion:** start clean main/origin at
+`5562b1e15cbe31b7c514c270befc6a597fae537b`. Verify MDB-0061 source
+`fc366509873a6a4f48eac27595f6017d6344f4d7` ancestry and successful Java
+41313228037, docs 41313228027 and Pages 41313228113 before advancing.
+MDB-0062 covers independently useful core writing, managed S3 writable admission
+and full SDK writable conformance. Preserve its original card/parent criteria,
+mark it expanded and add required MDB-0063/0064/0065 in order with inherited
+prerequisites; execute only MDB-0063. Unique IDs grow from 62 to 65, with no recycled
+identity or prematurely closed parent. Root owns production/docs/planning/Git;
+two bounded helpers supply separate focused/conformance files and a third supplies
+fresh research plus independent production/public documentation review.
+
+**Implementation:** add explicit six/seven-argument writable object-checkpoint
+factories plus existing package-private per-instance probe route. Both modes share
+pure preflight, concrete store/journal acquisition, frozen H and optional minimum,
+owned same-pass history loading and private prefix-once/full-journal/suffix-only
+reconstruction. ObjectSource implements private WriteSource by delegating startup
+synchronization, append and force to existing concrete owners. Only the writable
+route passes a non-null writer to existing rebuild; complete private reconstruction
+then actual journal/name synchronization precede any exposed database or new/retry
+acknowledgement. Frozen H bounds startup only; live writes use the actual journal.
+No public restore/backend callback, new production class, wire/POM/dependency or
+commit-protocol change. Existing prepare/encoding/append/force/atomic publication,
+uncertainty poisoning and independent close remain unchanged.
+
+Caller object adapters remain unowned and unused after startup, including after
+caller close while new local writes continue. Complete matching local journal,
+explicit pinned authority, minimum sequence floor, unknown clean tail loss,
+no fallback/repair/reclamation and force/device assumptions remain explicit.
+Ordinary local selection and all read-only modes, including S3Database, retain
+contracts. Managed writable startup and full parent conformance remain separately
+required; no local write uploads/selects a checkpoint or supplies remote durability.
+
+**Research:** all fourteen Central pins and official compatibility freshly checked
+November 1 **14:22:37 UTC /09:22:37 EST**. All selected stable releases remain current:
+Maven 3.10.0, wrapper distribution/plugin 3.3.4, clean/resources 3.5.0, compiler
+3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson
+3.2.4 and optional SDK S3/HTTP 2.57.8. Reject Maven 4 RC/plugin betas; no pin changes.
+Metadata summary SHA256 `1615c5345fe82eed53da77ff1772d185cf7c5b64d7a117d914a34c76dd681038`,
+compatibility `d50af36dd61eb547e63dbeb899f44f091189a2a17170b799c28e14de56f4e054`,
+reviewed report `4b739bc9b89bd1ca1e24fa45fd3e3ae63cf94f020cf29249e3c14c9575d5dd2f`.
+Reuse existing local durability/temporal research and MDB-0061's AWS sources checked
+13:35:18 UTC /08:35:18 EST explicitly; no new external write-equivalence claim.
+Raw research/build/browser/readback evidence remains ignored in `.local-qa/mdb-0063/`.
+
+**Verification:** 26 focused invocations cover pure argument/minimum admission,
+unchanged read-only RECOVERED-only/no transactions, exact writable RECOVERED then
+SYNCHRONIZED startup, prefix/tail exact retries without write boundaries, new no-op
+and correction commits, original lookup, old views and fixed checkpoint cutoff,
+caller adapter close with continued writes, held/released actual owners, six
+startup I/O/runtime/Error failures and three source failures without exposure.
+Eight conservative before/after append/force/publication failures poison views,
+retain owners and resolve by actual writable reopen; five bounded child JVM halts
+at RECOVERED/SYNCHRONIZED/AFTER_APPEND/AFTER_FORCE/AFTER_PUBLICATION verify exact
+journal bytes, original retry position and unchanged object bytes. These are real
+process/probe boundaries, not injected native force failure or device power loss;
+existing generic native durability/transaction suites remain unchanged and pass.
+
+Forty default conformance invocations run 24 unchanged canonical temporal/query
+history/shape cases (all 174 original literal steps per shape, 522 total) and 16
+persisted seeds, each through three independent 32-commit workflows: **1,536 actual
+seeded new commits**. Every fixture/seed new write, retry, conflict and observed
+read reopens the new writable factory; LocalDatabase.create only initializes empty
+genesis, and ordinary local reopen supplies a separate final baseline. Preserve
+original generator text/random draw order and seeds. Check all 33 historical seeded
+cutoffs, dense/reference predicates/Select/FilterScan, original IDs and no-ops,
+immutable pinned views and exact raw frames after owners close. Retry/conflict/read
+operations append nothing. Native tests skip only explicit directory capability.
+
+Focused two new classes plus existing ObjectCheckpointRecoveryTest pass **95** cases.
+Then serial `./mvnw -B clean install` and optional
+`./mvnw -B -f adapters/s3/pom.xml clean verify` pass **1,272 core /472 optional**,
+zero local failures/errors/skips. Fourteen examples pass with only the packaged
+core JAR. Archive/jdeps retain 155 production classes, java.base only, no SDK/test
+classes and the unchanged one-class test classifier. Forty-two docs-rule fixtures
+and strict production/project-path builds pass with 74 pages. New guide/ADR and
+search navigation, desktop-light/mobile-dark layout and normal viewport restoration
+pass without page overflow. Independent code/documentation review finds no actionable
+issue; link implemented writable mode from ADR 0031 and qualify existing broad
+'writable object recovery planned' callers as managed S3 scope.
+
+**Completion/delivery:** mark MDB-0063 done, clear active claim and make MDB-0064
+ready subject to source delivery. Keep MDB-0062/0038 expanded and preserve all original
+criteria. Validate 65 IDs/cards/references/DAG/eligibility, inspect/stage explicit
+task-owned source/docs/rules/planning, commit Step-ID MDB-0063 / Step-Result completed
+and push normally. Verify source ancestry/tips, Java/docs/automatic Pages and live
+guide/ADR/current callers/canonicals/search/sitemap before an internal delivery
+receipt. No managed writable child, library release/upload or cloud/account/DNS/
+hosting change starts.
+
+**Next recommendation:** MDB-0064 — Managed S3 writable recovery, composing exact
+managed expected/client admission with the implemented core startup barrier and
+retaining all metadata/store/journal ownership through transaction uncertainty.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

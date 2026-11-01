@@ -14,8 +14,9 @@ the checkpoint prefix. [ADR 0032](../decisions/0032-managed-s3-read-recovery.md)
 records the decision.
 
 This mode is online at startup. It adds no transaction API, automatic publication
-reconciliation, remote deletion or replicated durability. Writable recovery using
-object checkpoints remains planned. Ordinary local modes remain JDK-only.
+reconciliation, remote deletion or replicated durability. Managed S3 writable recovery remains planned. The separate
+[core pinned write mode](object-checkpoint-writes.md) uses explicit caller authority
+without managed S3 admission. Ordinary local modes remain JDK-only.
 
 ## Open and query
 

@@ -7,7 +7,7 @@ description: Materialize original checkpoint transactions during the same bounde
 
 Date: October 31, 2026. Status: implemented, experimental history loader;
 [core pinned recovery](0031-pinned-checkpoint-engine-recovery.md) is now implemented
-separately; [managed S3 read recovery](0032-managed-s3-read-recovery.md) is available separately and writable object recovery remains planned.
+separately; [managed S3 read recovery](0032-managed-s3-read-recovery.md) is available separately and managed S3 writable recovery remains planned.
 
 ## Context
 

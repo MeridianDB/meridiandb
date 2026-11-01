@@ -7,7 +7,7 @@ description: Compose actual client scope, complete owned-journal graph checks, s
 
 Date: October 31, 2026. Status: preparation implemented, experimental;
 [ADR 0029](0029-verified-s3-checkpoint-publication.md) adds conditional submission/
-reconciliation. [Managed S3 read recovery](0032-managed-s3-read-recovery.md) is now available separately; writable object recovery remains planned;
+reconciliation. [Managed S3 read recovery](0032-managed-s3-read-recovery.md) is now available separately; managed S3 writable recovery remains planned;
 [ADR 0031](0031-pinned-checkpoint-engine-recovery.md) adds core pinned read-only recovery.
 
 ## Context

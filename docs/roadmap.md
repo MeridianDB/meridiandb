@@ -32,6 +32,7 @@ There is no release date or stable API commitment.
 | [Object graph verification](development/object-checkpoint-graphs.md) | Complete namespace-scoped manifest/segment checks and actual owned-journal comparisons under shared byte/fetch/record-work budgets; no selection or durable intent |
 | [Pinned object history](development/object-checkpoint-graphs.md#load-pinned-history) | Original immutable checkpoint records collected during the same complete verification pass; local tail and engine reconstruction remain separate |
 | [Pinned checkpoint recovery](development/object-checkpoint-recovery.md) | Read-only temporal engine from a verified explicit object checkpoint plus the complete owned local journal, with optional minimum coverage |
+| [Core pinned writes](development/object-checkpoint-writes.md) | Actual journal/name startup synchronization and forced local transactions after explicit pinned recovery, preserving original retry identity |
 | [Managed S3 read recovery](development/s3-database.md) | Actual client scope, durable expected selection and a fresh exact head observation before privately owned core read recovery |
 | [S3 publication state](development/s3-publication-state.md) | Bounded exact target/expected/pending snapshot and pure checked transitions; no local I/O, durable installation or remote selection |
 | [Durable local S3 state](development/local-s3-publication-state.md) | Exclusive dedicated local ownership, exact synchronized state generations and process-reopen checks; no remote publisher |
@@ -109,7 +110,7 @@ exact adjacent metadata checks. The optional [head-access primitive](development
 now provides paired GET observations and exact conditional writes. The
 [verified publisher](development/s3-checkpoint-publication.md) adds original-intent
 submission, bounded complete graph checks and durable candidate reconciliation.
-Writable object recovery, protected reclamation and common backend conformance remain
+Managed S3 writable recovery, protected reclamation and common backend conformance remain
 open. Those stages retain the existing local journal and acknowledgement contract and
 need their own capability and failure evidence. Core
 [pinned checkpoint read recovery](development/object-checkpoint-recovery.md) is

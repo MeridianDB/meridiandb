@@ -7,7 +7,8 @@ description: Reuse private temporal reconstruction with a factory-owned local jo
 
 Date: October 31, 2026. Status: implemented, experimental read-only core recovery;
 [managed S3 read recovery](0032-managed-s3-read-recovery.md) is implemented separately.
-Writable recovery using object checkpoints remains planned.
+[Core pinned writes](0033-pinned-checkpoint-writes.md) are now implemented separately;
+managed S3 writable recovery remains planned.
 
 ## Context
 
@@ -38,7 +39,8 @@ restore callback. This explicit mode does not read local checkpoint selection or
 the provider's current-head key; it is not automatic fallback from a failed local
 open. Invalid pinned evidence fails even when another valid checkpoint exists.
 Normal local modes retain their contracts. Read-only transactions remain rejected;
-writable prepare/append/force/publication is a separate integration requirement.
+the separate [writable pinned mode](0033-pinned-checkpoint-writes.md) now adds
+startup synchronization and the existing forced commit protocol.
 
 The [recovery guide](../development/object-checkpoint-recovery.md) owns APIs,
 admission order, minimum coverage, supported placement, lifetime and cost limits.

@@ -14,9 +14,11 @@ only after startup finishes completely.
 
 This JDK-only core mode is experimental. It requires an existing matching local
 journal, including the checkpoint prefix. Optional [managed S3 read recovery](s3-database.md)
-adds current-head admission separately; writable recovery using object checkpoints remains planned. A pinned declaration
+adds current-head admission separately; managed S3 writable recovery remains planned. A pinned declaration
 is an explicit caller choice; it is not evidence of the provider's current head.
 [ADR 0031](../decisions/0031-pinned-checkpoint-engine-recovery.md) records the decision.
+A separate [writable pinned factory](object-checkpoint-writes.md) now synchronizes
+actual local history before enabling local transactions.
 
 ## Open and query
 
@@ -134,5 +136,5 @@ and persisted seeded dense histories through genesis, split and full pinned shap
 ```
 
 These tests establish core pinned recovery on supported local placement. Managed
-S3 startup has [separate admission tests](s3-database.md). Writable object recovery,
+S3 startup has [separate admission tests](s3-database.md). Managed S3 writable recovery,
 replication and local-storage-loss recovery require their separate contracts; fixture storage does not qualify a live provider.
