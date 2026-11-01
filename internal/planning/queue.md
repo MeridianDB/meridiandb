@@ -24,13 +24,17 @@ children before implementation rather than treating a whole milestone as one pat
 - Sixty-three new SDK/native/probe/concurrency/process cases pass. Full clean
   **1,206 core /472 optional** checks, fourteen packaged-core examples, archive/
   jdeps, 42 docs-rule fixtures and strict production/project-path **72-page** builds
-  pass locally without skips. Source push, CI, automatic Pages and live readback
-  must be verified before another step starts; record their actual delivery results.
+  pass locally without skips. Source `fc366509873a6a4f48eac27595f6017d6344f4d7`
+  is verified on origin/main. Java **41313228037**, docs **41313228027** and Pages
+  **41313228113** pass. Ubuntu runs all cases; Windows reports 298 core and 245
+  optional explicit placement/capability skips (60 new native cases). Fourteen
+  examples pass on each. Fourteen live pages/canonicals, new guide/ADR search
+  entries and the 72-page sitemap are verified; evidence is in the progress receipt.
 - **MDB-0038 — Remote checkpoint engine recovery** remains expanded. Required
   MDB-0059/0060/0061 are done; MDB-0062 preserves writable acknowledgement and
   completes all original parent conformance. Remote reclamation remains MDB-0039.
-- **MDB-0062 — Writable remote recovery conformance** is next, ready after delivery
-  checks. Preserve forced append/publication, original retry identity and full
+- **MDB-0062 — Writable remote recovery conformance** is next and ready after verified
+  delivery. Preserve forced append/publication, original retry identity and full
   canonical/seeded/fault/process evidence. Planning this child does not start it.
 
 ## Ordered work

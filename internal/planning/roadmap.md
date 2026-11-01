@@ -1528,8 +1528,13 @@ pass locally without skips; fourteen packaged-core examples, 155-class JDK-only
 core/49-class optional archives, 42 docs-rule fixtures and strict 72-page builds
 pass. ADR 0032, guide/callers/rules and fresh Maven/AWS research document online
 admission, historical observation, no durable path certificate, missing-tail limits
-and default Windows metadata placement. Delivery verification follows before
-MDB-0062 starts; MDB-0038 stays expanded until all original criteria pass.
+and default Windows metadata placement. Source
+`fc366509873a6a4f48eac27595f6017d6344f4d7` is verified on remote main; Java
+41313228037, docs 41313228027 and Pages 41313228113 pass. Ubuntu runs all
+1,206 core /472 optional cases; Windows reports 298 core /245 optional explicit
+capability skips, including 60 new native cases. Fourteen examples pass on each.
+Live guide/ADR, fourteen current pages/canonicals, new search entries and the
+72-page sitemap pass. MDB-0062 is ready; MDB-0038 retains all original criteria.
 
 ## MDB-0062 Writable remote recovery conformance
 

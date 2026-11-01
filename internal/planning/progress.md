@@ -4266,6 +4266,49 @@ DNS/hosting operation begins.
 **Next recommendation:** MDB-0062 — Writable remote recovery conformance, retaining
 forced acknowledgement and original temporal/request behavior after managed recovery.
 
+
+## 2026-11-01 — MDB-0061 Delivery verification
+
+Source **`fc366509873a6a4f48eac27595f6017d6344f4d7`** carries
+`Step-ID: MDB-0061` / `Step-Result: completed`, including optional production/tests,
+public technical documentation/rules and the queue/card/progress source outcome.
+Normal push and fresh fetch confirm matching main/origin tips, source ancestry
+and a clean working tree before this internal receipt.
+
+- [Java 41313228037](https://github.com/MeridianDB/meridiandb/actions/runs/41313228037)
+  passes both platforms and all fourteen examples per platform. Ubuntu runs all
+  1,206 core /472 optional cases with zero failures/errors/skips, including all
+  63 new cases. Windows has zero failures/errors, 298 core and 245 optional explicit
+  placement/capability skips. Three new pure argument/colocation invocations run;
+  50 SDK/native plus ten startup/concurrency/process invocations skip for unsupported
+  metadata placement. This does not qualify default Windows filesystem placement
+  for managed S3 recovery; current adapter policy remains explicit.
+- [Docs 41313228027](https://github.com/MeridianDB/meridiandb/actions/runs/41313228027)
+  passes production and project-path strict builds plus all 42 docs-rule fixtures
+  on each. [Automatic Pages 41313228113](https://github.com/MeridianDB/meridiandb/actions/runs/41313228113)
+  passes its 42 fixtures, strict build and deployment.
+- Live HTTPS readback verifies new managed guide/ADR 0032, core guide/ADR 0031,
+  build, both S3 primitive guides, local metadata, publisher, persistence boundaries,
+  architecture overview, roadmap, decisions index and home page: fourteen pages
+  with exact canonical URLs and updated implementation/scope/count/research wording.
+  Guide/ADR title/routes appear in search; sitemap contains 72 unique production
+  HTTPS pages. The new ADR row is inside the decisions table. Browser confirms
+  published guide/canonical; `.local-qa/mdb-0061/site-published.png` was shown in
+  the session. Local guide/ADR/search navigation and desktop-light/mobile-dark
+  layout pass without page overflow. Normal light viewport is restored; the exact
+  task-owned local HTTP server is stopped. Ignored task evidence retains all logs.
+
+Only queue/card/history follow the verified public source; internal-only receipt
+paths trigger no workflow under existing filters. Validate all 62 IDs/cards/DAG/
+eligibility, inspect/stage those three files, commit/push normally and verify
+source ancestry and matching tips again. MDB-0038 remains expanded, with MDB-0062
+still required for writable acknowledgement and complete parent conformance.
+No later child, library release/upload or cloud/account/DNS/hosting operation begins.
+
+**Next recommendation:** MDB-0062 — Writable remote recovery conformance, preserving
+forced append/publication, original retry identity and canonical/seeded/fault/process
+behavior before closing the remote recovery parent.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
