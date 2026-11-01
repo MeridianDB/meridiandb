@@ -17,7 +17,8 @@ add forced local transactions. [Remote recovery conformance](docs/development/s3
 checks the full SDK corpus and publication interruptions; replication remains planned. Local use requires no external database,
 streaming service or application server.
 [Coordinated remote reclamation](docs/architecture/remote-reclamation.md) now has
-an accepted protocol; namespace admission and remote deletion remain unimplemented.
+an accepted protocol and a [bounded pure state/codec](docs/architecture/s3-coordination-state.md);
+native namespace admission and remote deletion remain unimplemented.
 
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.

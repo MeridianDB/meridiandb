@@ -148,7 +148,9 @@ unknown objects and uncertain publication evidence conservatively.
 The accepted [coordinated reclamation design](remote-reclamation.md) now specifies
 fresh single-placement enrollment, complete root registration, durable per-attempt
 hazards and metadata-before-dependency removal. Its admission and delete APIs remain
-unimplemented; current S3 clients still provide no reclamation permission.
+unimplemented. The [pure state/codec](s3-coordination-state.md) checks bounded
+declarations without native ownership, durable receipts or terminal provenance;
+current S3 clients still provide no reclamation permission.
 
 ## Optional replication
 

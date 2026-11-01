@@ -92,7 +92,8 @@ unchanged canonical/seeded SDK histories and interrupted publication with retry 
 Existing journal/checkpoint protocols remain explicit.
 The accepted [remote reclamation design](architecture/remote-reclamation.md) specifies
 coordinated admission, complete roots and durable uncertainty before future deletion;
-its guarded APIs remain unimplemented.
+its [bounded state/codec](architecture/s3-coordination-state.md) is implemented,
+while durable coordination and guarded SDK APIs remain unimplemented.
 The [persistence design](architecture/persistence-boundaries.md) separates ordered
 commits, immutable storage, checkpoint publication and future replication. SQL,
 network protocols and integration APIs remain open design questions.

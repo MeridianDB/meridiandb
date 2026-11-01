@@ -80,7 +80,9 @@ runtime dependencies; JUnit and Jackson are test-only. A small attached test-sup
 JAR contains the reusable object contract, unchanged temporal fixture/reference
 classes and authoritative contract/seed resources. The optional S3 build uses it
 and Jackson only in test scope for [managed recovery conformance](s3-recovery-conformance.md),
-and resolves its SDK separately; follow the
+and resolves its SDK separately. The optional build also verifies the
+[pure coordination state/codec](../architecture/s3-coordination-state.md), with no
+new runtime dependency, native lease or SDK operation; follow the
 [S3 build commands](s3-objects.md#build-and-verify) to verify both artifacts. The command does not
 install a library into a remote repository or publish a release.
 
@@ -188,8 +190,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 1: metadata at 14:10:52 EST /19:10:52 UTC and compatibility at
-14:10:53 EST /19:10:53 UTC. The listed selections remain unchanged; the adapter
+on November 1: metadata at 14:48:14 EST /19:48:14 UTC and compatibility at
+14:48:15 EST /19:48:15 UTC. The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

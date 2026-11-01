@@ -108,7 +108,8 @@ Managed S3 writable recovery is implemented separately; its [conformance suite](
 checks full SDK histories and publication interruptions. Optimized query layouts remain planned.
 The [remote reclamation protocol](remote-reclamation.md) is an accepted design for
 coordinated admission, complete root accounting and ordered removal; remote delete
-operations remain unimplemented.
+operations remain unimplemented. The [pure coordination state/codec](s3-coordination-state.md)
+now checks bounded root metadata and exact attempt declarations without I/O or admission.
 
 ## Learn from immutable ingestion and search systems
 

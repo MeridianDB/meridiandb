@@ -4906,6 +4906,92 @@ placement, complete root registration, shared reader/publisher protection and du
 individual mutation hazards before any reclamation effect is offered.
 
 
+
+## 2026-11-01 — MDB-0071 Bounded S3 coordination state and codec
+
+**Selection and refinement:** reconcile clean main/origin at prior receipt
+`1e412c5ab7baf4cf0771051126833dde583c3358`. Recheck prior source
+`b883d420923a164c2545980322447abe43253b55`, docs 41341579887 and Pages
+41341579894 as successful and reachable. Expand MDB-0067 into required
+MDB-0071/0072/0073/0074, preserving its original criteria and prerequisites;
+execute only the pure state/codec child. All 74 stable IDs/cards/dependencies
+remain; MDB-0067/0039/0011 stay expanded.
+
+**Implementation:** optional S3CoordinationState/Codec/Exception provide immutable
+exact target/binding/placement, full head/manifest roots, canonical ordering,
+typed dependencies, shared-key consistency, retention and permanent tombstones.
+One unresolved compound placement/contiguous ordinal/nonce attempt preserves exact
+operation/key/content, original condition and replacement original head. Pending
+freezes catalog/new attempts; settlement requires full original equality and
+schema terminal 200/204/412. Retain exact last completion/watermark and reject
+foreign placement, gaps and exhaustion. Reserve two generations before begin.
+Caps are 32 roots, 16 KiB manifests, 4,096 aggregate reference occurrences and
+1 MiB whole image. A conservative 537,715-byte maximum includes two maximum
+attempts; canonical v1 SHA-256 integrity differs from full-image identity.
+
+Public fresh/inspection/codec are declarations; transitions stay package-private.
+No native admission, fresh enrollment, path/copy/rollback detection, selected-root
+authority, actual journal/full remote coverage, SDK dispatch, terminal provenance
+or durable installation follows. Future MDB-0072 retains full immutable receipt
+history; MDB-0073 qualifies original responses. No actual S3 call, remote deletion,
+release/upload, bucket/account/DNS or hosting configuration changes occur.
+
+**Verification:** `./mvnw -B clean install` passes 1,272 core invocations.
+Optional clean verify passes 701 before review adds three cases; final
+`./mvnw -B -f adapters/s3/pom.xml verify` passes **704**, all with zero failures,
+errors or skips. The 108 new pure cases comprise 50 state and 58 codec checks.
+Five frozen coordination images use independent Python struct/hashlib assembly
+from existing literal head/manifest inputs; expected lengths/full hashes are
+separate. Reject every prefix and single-byte mutation, checksum-valid malformed
+fields/nested bounds, ordering, identity/status/condition mismatch, pending
+changes, live shared deletion, tombstone reuse and numeric/capacity boundaries.
+Successful CREATE_HEAD, DELETE 204/412 and completion→retirement roundtrips protect
+distinct layouts and historical validation. Review fixes CRLF fixture parsing;
+final tests accept both line endings. Test-resource provenance is retained.
+
+All fourteen examples pass against the packaged core. Archives retain core 155
+classes, unchanged classifier 10 classes/three contract-seed resources, optional
+61 production classes, no tests/helper/hex resources and unchanged runtime scopes.
+Core JAR SHA-256 `62c61ebe40871912f79f2f98c6705f0301e8ca78b3aa374b14f860a9e2a0aad9`,
+classifier `080ff20a9ecc9303b72889741e7cb448e05a848c9b6d65923e118645cf6d80d1`,
+optional `8f3fd612c7eff19be0062621bfc955fd1df552d7addfb09cd6239db81bef2a55`.
+
+**Research:** all fourteen Central metadata sources freshly checked November 1,
+19:48:14 UTC /14:48:14 EST, compatibility at 19:48:15 UTC /14:48:15 EST.
+Selected stable pins remain Maven 3.10.0, Wrapper 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4 and SDK s3/url-connection-client 2.57.8. No POM/Wrapper/SDK setting
+changes. Metadata SHA `73970419008986fe17469e441a2d5393a61c5aaa56253329ae1e195b9fa3e96b`,
+compatibility `96e2516b8b214a5862ba54925b7b28488177091cd7e476dc45547b7c99d84be1`,
+report `e9b0e78fb8a1fc94e82f8b0a0bbab1ce5b60a02b3beb1f453df1e53b2239ed0c`,
+sums `eab342b542fafd1938ac4f9028a3b7e1fd7b0f069a913c9a8af9514d4211fd00`.
+Reuse MDB-0066 provider evidence with its original 19:12:05 UTC /14:12:05 EST
+check; summary `8c7388150e923e7294f1ee0518579340a72c2df001d63db1faa533b471637206`.
+Pure code introduces no new provider-operation claim. Raw evidence stays ignored
+under `.local-qa/mdb-0071/` and the linked prior protocol research.
+
+**Documentation and review:** add format/ADR 0037; reconcile README/home,
+architecture/persistence/protocol/ADR 0036/decisions/roadmap/build/S3 object/head/
+conformance callers and nav. Persist declaration/provenance rules in AGENTS.md.
+Independent implementation and final test/vector/public review have no remaining
+findings. Both production/project-path **82-page** strict builds and 42 docs-rule
+fixtures pass. Browser verifies new format/ADR/back links, title search results,
+desktop-light/mobile-dark and restored normal viewport; no page overflow.
+Thirteen local page/content/canonical routes, both new search routes and 82 unique
+production HTTPS sitemap URLs pass. Public copy contains no task/process narration.
+
+**Source completion/delivery:** mark MDB-0071 source-done, clear active claim and
+make MDB-0072 ready conditional on delivery. Validate all 74 IDs/cards/DAG/eligibility,
+inspect/stage task-owned paths and commit Step-ID MDB-0071 / Step-Result completed.
+Normal push, exact-source Java/docs/automatic Pages, live content/canonical/search/
+sitemap and clean matching tips precede the internal-only delivery receipt.
+No later child starts.
+
+**Next recommendation:** MDB-0072 — Local coordination guard and durable ledger:
+permanent native identity and forced immutable intent/completion generations before
+participating SDK sessions can use this pure model.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

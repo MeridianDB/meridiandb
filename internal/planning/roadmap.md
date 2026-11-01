@@ -1807,6 +1807,92 @@ quarantine. Real SDK, local I/O, owner/alias, process and admission-race tests p
 preserve existing unguarded behavior and explicitly unsupported legacy/cross-host
 modes. Pin bounded state images/capacities and independent vectors before I/O.
 
+**Expansion:** required MDB-0071 pure bounded state/codec, MDB-0072 permanent guard/
+durable ledger, MDB-0073 participating SDK sessions/root registration and MDB-0074
+integrated admission/uncertainty conformance separate wire declarations, native
+ownership and effect provenance. Preserve every original criterion above; neither
+pure metadata nor a native lease alone closes MDB-0067 or authorizes cleanup.
+
+## MDB-0071 Bounded S3 coordination state and codec
+
+**Parent:** MDB-0067. **Outcome:** implement immutable exact namespace/placement,
+root/dependency and individual remote-attempt declarations plus a bounded versioned
+canonical codec before native or SDK integration.
+
+**Complete when:** exact lexical target and independent namespace/publisher/lineage/
+placement identity survive encoding; root head/manifest metadata bind exact identity,
+lineage and prefix and expose immutable dependency declarations. Bound root images,
+counts and aggregate reference work before allocation; reject conflicting shared-key
+references, duplicate/reused retired roots and noncanonical ordering. Track one
+unresolved attempt with compound placement/contiguous ordinal/nonce identity, exact
+operation/key/content/condition and exact last terminal declaration. Reject gaps,
+overflow, foreign or changed-attempt settlement, arbitrary status/condition refresh
+and catalog changes while unresolved. Retain retirement tombstones and capacities.
+No decoded state, pure transition or caller-supplied completion proves actual remote
+provenance, force, complete root liveness, rollback detection, admission or deletion.
+Independent byte/hash vectors, malformed/truncated/nested/limit/immutability and
+transition checks pass. Research latest Maven pins; deliver code/tests/docs/rules/
+planning/CI normally, keeping all native/SDK and parent qualification pending.
+
+**Source outcome, November 1:** pure immutable model/codec and independent literal
+vectors implemented; 108 new checks (50 state/58 codec) and the 704-case optional
+suite pass, alongside 1,272 core checks and fourteen packaged examples. Format,
+ADR 0037, current public callers, rules and planning are reconciled; 42 docs fixtures
+and both 82-page builds pass. Native/SDK provenance and parent integration remain
+pending. Delivery and exact-source CI/Pages are recorded in progress history.
+
+## MDB-0072 Local coordination guard and durable ledger
+
+**Parent:** MDB-0067. **Outcome:** install and reopen the bounded coordination
+state through permanent native guard identity and durable immutable generations.
+
+**Complete when:** explicit fresh create versus existing open bind independent
+actual configuration and canonical placement, retain one registered native channel
+per JVM identity and shared cross-process activity versus exclusive maintenance.
+Guard inode is never replaced; state lives beside it. Reserve identity/capacity
+before effects, force actual files/names, fail closed on newest damage/missing
+state, preserve unknown evidence and uncertain native-close quarantine. Acquire
+in the accepted monitor order, invalidate before independent cleanup and test
+cross-JVM admission/alias/close/startup/failure/process boundaries. Persist intent
+before any future remote mutation and validate exact matching durable terminal
+records on reopen; no observation/restart/reset clears an unresolved attempt.
+Document state/history/force costs and unsupported placement; no SDK activity or
+root liveness provenance follows from the ledger alone.
+
+## MDB-0073 Participating S3 sessions and root registration
+
+**Parent:** MDB-0067. **Outcome:** compose concrete namespace-owned SDK read/upload/
+publication sessions and complete root registration with the actual ledger/leases.
+
+**Complete when:** all participating root-writing paths register complete metadata
+before remote use and all mutating wire attempts force exact individual intent
+before dispatch, with original condition and capacity reserved. Only that exact
+request's qualified terminal response can construct completion; transport/body/
+timeout/Error/local uncertainty retains durable quarantine. Actual client scope,
+shared/exclusive lifetime, caller credential ownership and no unguarded delegate
+escape hold through cleanup. Existing raw APIs remain outside coordinated mode.
+Real SDK/HTTP checks cover complete/failed roots, shared dependencies, no-effects
+preflight, exact attempts, conditions and unknown outcomes. Logical publication
+reconciliation cannot manufacture older physical completion. Keep current metadata/
+actual journal/temporal protocols coherent and independently usable; no deletion
+or native lease alone claims full admission conformance.
+
+## MDB-0074 Coordinated admission and hazard conformance
+
+**Parent:** MDB-0067. **Outcome:** verify all original coordinated-namespace criteria
+through integrated actual native ownership and participating SDK operations.
+
+**Complete when:** fresh/create/open identity, complete roots, actual shared readers/
+uploaders/publishers and exclusive maintenance races work across processes; stale/
+foreign/copied/missing/corrupt state and native failure preserve evidence. Exercise
+intent/dispatch/terminal/settlement/close process boundaries, late held PUTs, unresolved
+attempts across restart, same-key reuse refusal and exact-known durable completion
+recognition. Preserve reference/temporal/local client behavior, budgets, lifetime/
+cleanup and unsupported-host/placement limits. Audit every original MDB-0067 criterion
+and close it only with all required children plus source/CI/docs delivery; MDB-0039
+still requires verified inventory, conditional delete and ordered removal/conformance.
+
+
 ## MDB-0068 Verified remote reclamation inventory
 
 **Parent:** MDB-0039. **Outcome:** compute an immutable bounded inventory only under

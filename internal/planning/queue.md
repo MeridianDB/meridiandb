@@ -12,34 +12,29 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Previous MDB-0065 source `c41b73b6488a2dbd612bcc26f11b32061d561376` and delivery
-  receipt `f0dd734b693df2de9c1ed6ed394fffb31d873f1c` are verified on origin/main.
-  Java 41327286700, docs 41327286721 and Pages 41327286708 pass. Recovery parents
-  MDB-0062/0038 remain complete; no prior delivery is repeated.
-- **MDB-0039 — Reader-safe object reclamation** is expanded into required protocol,
-  coordinated namespace admission/hazards, verified inventory, conditional deletion
-  and ordered removal/conformance children MDB-0066 through MDB-0070. Preserve
-  every original removal/reader/publisher/retained-root/uncertainty criterion; a
-  protocol or preview alone never closes this parent. All seventy IDs are retained.
-- **MDB-0066 — Remote reclamation protocol and staged plan** is source-complete.
-  Accepted public protocol/ADR define fresh single-placement enrollment, complete
-  root registration, shared/exclusive admission, same-attempt durable mutation
-  settlement, persistent uncertainty and exact metadata-before-dependency removal.
-  Unknown effects cannot be cleared by GET, close, restart, later success or logical
-  reconciliation. Existing raw APIs stay separate; guarded reclamation remains
-  unimplemented. No active claim remains.
-- Forty-two docs-rule fixtures, strict production/project-path **80-page** builds,
-  protocol/ADR/back/search navigation, desktop-light/mobile-dark QA and nine local
-  page/content/canonical readbacks pass. Both new search entries and the 80-page
-  sitemap pass. Fresh primary S3/SDK and Maven research plus independent design/
-  public-doc review support the protocol. Source
-  `b883d420923a164c2545980322447abe43253b55` is verified on origin/main. Docs
-  **41341579887** and automatic Pages **41341579894** pass, including actual
-  deployment. Nine live page/content/canonical readbacks, both new search entries
-  and the 80-page sitemap pass. Java/POM/workflow inputs are unchanged; no Java
-  workflow is triggered and no bucket or S3 object changed.
-- **MDB-0067 — Coordinated S3 namespace admission** is next. MDB-0039 and MDB-0011 remain expanded; MDB-0067/0068/0069/0070 are still
-  required for actual protected deletion and integrated conformance.
+- MDB-0066 source `b883d420923a164c2545980322447abe43253b55` and delivery receipt
+  `1e412c5ab7baf4cf0771051126833dde583c3358` are verified on origin/main. Docs
+  41341579887 and Pages 41341579894 pass; prior Java source remains unchanged.
+- MDB-0067 is expanded into required MDB-0071 bounded pure coordination state/codec,
+  MDB-0072 permanent guard/durable ledger, MDB-0073 participating SDK activity/root
+  catalog and MDB-0074 admission/uncertainty integration. Preserve every original
+  criterion and parent relationship; pure metadata alone provides no admission or
+  terminal-response provenance. All 74 IDs remain tracked.
+- **MDB-0071 — Bounded S3 coordination state and codec** is source-complete.
+  Immutable bound root/dependency declarations, exact individual attempts, sticky
+  pending state, tombstones and canonical bounded bytes are implemented. Native
+  ownership, durable installation, complete liveness and SDK provenance remain
+  pending. No active claim remains.
+- Verification passes 1,272 core and 704 optional tests with zero failures/errors/
+  skips, including 108 new pure state/codec cases; all fourteen packaged examples,
+  archive boundaries, 42 docs fixtures and both strict 82-page builds pass.
+  Thirteen local content/canonical routes, new search entries, sitemap and browser
+  navigation/desktop-light/mobile-dark checks pass. Fresh Maven research retains
+  all fourteen pins; independent code/test/vector/public review has no findings.
+- **MDB-0072 — Local coordination guard and durable ledger** is next, conditional
+  on verified source push, exact-source Java/docs CI and automatic Pages delivery.
+  MDB-0067/0039/0011 remain expanded. No native/SDK child, deletion, library release
+  or real-provider/account/hosting mutation starts in this iteration.
 
 ## Ordered work
 
@@ -106,7 +101,11 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
 | [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | expanded | MDB-0010, MDB-0038 |
 | [MDB-0066](roadmap.md#mdb-0066-remote-reclamation-protocol-and-staged-plan) | Specify coordinated remote reclamation and staged acceptance | MDB-0039 | done | MDB-0010, MDB-0038 |
-| [MDB-0067](roadmap.md#mdb-0067-coordinated-s3-namespace-admission) | Admit coordinated remote activity with durable mutation hazards | MDB-0039 | ready | MDB-0010, MDB-0038, MDB-0066 |
+| [MDB-0067](roadmap.md#mdb-0067-coordinated-s3-namespace-admission) | Admit coordinated remote activity with durable mutation hazards | MDB-0039 | expanded | MDB-0010, MDB-0038, MDB-0066 |
+| [MDB-0071](roadmap.md#mdb-0071-bounded-s3-coordination-state-and-codec) | Encode bounded namespace, root and exact-attempt declarations | MDB-0067 | done | MDB-0010, MDB-0038, MDB-0066 |
+| [MDB-0072](roadmap.md#mdb-0072-local-coordination-guard-and-durable-ledger) | Retain shared/exclusive local coordination and durable hazard evidence | MDB-0067 | ready | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
+| [MDB-0073](roadmap.md#mdb-0073-participating-s3-sessions-and-root-registration) | Compose actual guarded SDK activity and complete root registration | MDB-0067 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072 |
+| [MDB-0074](roadmap.md#mdb-0074-coordinated-admission-and-hazard-conformance) | Complete process, ownership, SDK and uncertainty admission conformance | MDB-0067 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072, MDB-0073 |
 | [MDB-0068](roadmap.md#mdb-0068-verified-remote-reclamation-inventory) | Verify bounded remote roots and exact obsolete-object inventory | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067 |
 | [MDB-0069](roadmap.md#mdb-0069-guarded-conditional-s3-deletion) | Implement exact guarded conditional deletion through the SDK | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067, MDB-0068 |
 | [MDB-0070](roadmap.md#mdb-0070-ordered-remote-reclamation-conformance) | Retire obsolete metadata and dependencies with full reclamation conformance | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067, MDB-0068, MDB-0069 |

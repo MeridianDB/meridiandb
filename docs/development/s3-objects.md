@@ -55,8 +55,9 @@ four [complete graph-consumer cases](object-checkpoint-graphs.md) and 65 pure
 [verified preparation cases](s3-publication-preparation.md) and 78
 [verified publication cases](s3-checkpoint-publication.md), plus seven [pinned-history SDK/HTTP cases](object-checkpoint-graphs.md#load-pinned-history) and 63 [managed read recovery cases](s3-database.md), plus 74
 [managed writable cases](s3-database-writes.md), plus 40 corpus and ten
-[publication/recovery conformance cases](s3-recovery-conformance.md), for 596 optional tests
-in total. Native local cases report explicit placement capability skips separately.
+[publication/recovery conformance cases](s3-recovery-conformance.md), plus 108 [coordination state/codec cases](../architecture/s3-coordination-state.md), for 704 optional tests
+in total. The coordination cases are pure checks; actual durable coordination and
+SDK participation remain unimplemented. Native local cases report explicit placement capability skips separately.
 Core's separate 1,272 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.
 The fixture binds only `127.0.0.1`, uses fixed test credentials and needs no service

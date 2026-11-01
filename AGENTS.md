@@ -345,6 +345,18 @@ so a new session can work correctly without relying on earlier conversations.
   online-failure limits without fallback or data invention. Retain explicit fixture
   caps, named capability skips and separate live-provider/power-loss/reclamation
   limits. Keep actual tests, fault bridges and optional helpers outside the classifier.
+- Follow [ADR 0037](docs/decisions/0037-bounded-s3-coordination-state.md) and the
+  [bounded coordination state format](docs/architecture/s3-coordination-state.md)
+  for root/attempt metadata. Preserve exact lexical target and independent binding/
+  placement, complete head/manifest identity, typed dependencies, tombstones and
+  aggregate limits before allocation. Keep original compound attempt identity,
+  content and conditions; freeze catalog/new attempts while pending, reserve both
+  intent/completion generations and settle only the exact original record. Public
+  declarations and package-private transitions provide no selected-root authority,
+  complete liveness, native lease, durability, rollback detection or actual terminal
+  provenance. Future concrete owners must retain immutable receipt history and
+  qualify the same attempt's actual response before durable settlement; a decoded
+  watermark or status cannot establish those facts.
 - For coordinated remote reclamation, follow [ADR 0036](docs/decisions/0036-coordinated-remote-reclamation.md)
   and the [accepted protocol](docs/architecture/remote-reclamation.md); these are
   design requirements until their implementation checks pass. Admit a fresh
