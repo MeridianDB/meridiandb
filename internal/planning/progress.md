@@ -4717,6 +4717,50 @@ its explicit remote reader/publisher protection contract and bounded implementat
 while preserving every admitted reclamation criterion.
 
 
+## 2026-11-01 — MDB-0065 Delivery verification and recovery parent closure
+
+Source **`c41b73b6488a2dbd612bcc26f11b32061d561376`** carries Step-ID MDB-0065 /
+Step-Result completed, including tests/test packaging, public docs/rules and source
+queue/card/progress acceptance. Normal push and fresh fetch confirm source ancestry,
+matching main/origin tips and a clean checkout before this internal-only receipt.
+All original MDB-0038/0062 criteria are audited above and all required children are
+done; their remote source, CI and publication gates now pass. **MDB-0065, MDB-0062
+and MDB-0038 are complete.** MDB-0011 remains expanded for MDB-0039/0040.
+
+- [Java 41327286700](https://github.com/MeridianDB/meridiandb/actions/runs/41327286700)
+  passes both platforms and all fourteen examples per platform. Ubuntu runs all
+  **1,272 core /596 optional** cases with no failures/errors/skips, including all
+  40 new corpus and ten integration invocations. Windows has no failures/errors
+  and reports **363 core /368 optional** explicit capability skips, including all
+  50 new native cases. Pure argument admission remains exercised independently.
+  The Windows result does not qualify its unsupported directory-sync placement.
+- [Docs 41327286721](https://github.com/MeridianDB/meridiandb/actions/runs/41327286721)
+  passes strict production/project-path builds and 42 docs-rule fixtures on each.
+  [Automatic Pages 41327286708](https://github.com/MeridianDB/meridiandb/actions/runs/41327286708)
+  passes 42 fixtures, strict build and actual deployment of the same source SHA.
+- Live HTTPS readback verifies the new conformance guide/ADR 0035, managed-write/
+  core-write/build/S3 byte/head guides, ADRs 0032/0033/0034, persistence boundaries,
+  architecture overview, roadmap, decisions and home: **fifteen pages** with exact
+  canonical URLs and implementation/count/research/scope wording. Both new title/
+  route entries appear in search; sitemap has **78 unique production HTTPS pages**.
+  Browser confirms the published guide and its canonical; the session showed
+  `.local-qa/mdb-0065/site-published.png`. Local guide/ADR/back and title search
+  navigation, desktop-light/mobile-dark rendering and mobile coverage table have
+  no page overflow. Normal light viewport is restored and exact task-owned local
+  server 80169 is stopped. Ignored evidence retains fresh research, independent
+  reviews, build/XML/archive, CI and readback/browser logs/screenshots.
+
+Only queue/card/history follow verified public source. Validate all 65 IDs/cards/
+DAG/eligibility, inspect/stage those three paths, commit/push normally and reconfirm
+source ancestry, clean checkout and matching tips. Internal receipt paths trigger
+no workflow under existing filters. No next engine step, library release/upload,
+cloud/account/DNS/hosting change or replication work starts.
+
+**Next recommendation:** MDB-0039 — Reader-safe object reclamation, beginning with
+its explicit remote reader/publisher protection contract and bounded implementation,
+retaining selected/backup/reader roots and every original reclamation criterion.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

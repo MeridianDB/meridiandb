@@ -1434,8 +1434,9 @@ managed admission, forced writes and complete canonical/seeded SDK conformance.
 MDB-0065 adds 40 corpus and ten publication/coverage cases and audits all original
 criteria above against existing focused admission/fault/owner/process evidence.
 Clean 1,272 core /596 optional checks, fourteen packaged examples, archive/jdeps
-and strict 78-page docs pass locally. Source is done; actual remote Java/docs/Pages
-and live delivery are verified in the later receipt. Complete local journal,
+and strict 78-page docs pass locally. Source `c41b73b6488a2dbd612bcc26f11b32061d561376`
+is verified on remote main; Java 41327286700, docs 41327286721 and Pages 41327286708
+pass. Fifteen live readbacks/search/sitemap pass; source and delivery are complete. Complete local journal,
 online startup and local-only newer acknowledgements remain explicit. Remote
 reclamation and general backend qualification remain MDB-0039/0040; MDB-0011 stays
 expanded.
@@ -1580,8 +1581,10 @@ exits, reconciliation then managed forced-write continuation, clean-tail-loss/mi
 missing complete journal and online/no-fallback limits. Existing actual core and
 managed native/process/ownership tests supply startup, append/force/publication,
 poisoning and lost acknowledgement evidence. The MDB-0065 progress matrix audits
-every parent criterion. Source is done alongside MDB-0038, conditional on completion
-commit delivery; all remaining remote reclamation/backend work stays separate.
+every parent criterion. Source and delivery are complete alongside MDB-0038:
+`c41b73b6488a2dbd612bcc26f11b32061d561376` is verified on remote main, Java/docs/
+Pages pass and fifteen live readbacks/search/sitemap pass. All remaining remote
+reclamation/backend work stays separate.
 
 ## MDB-0063 Core pinned checkpoint writes
 
@@ -1703,8 +1706,13 @@ fixtures and 78-page production/project builds pass locally without skips. ADR 0
 conformance guide, current callers/rules and fresh unchanged Maven research capture
 coverage/costs/placement limits. Fifteen local readbacks, search and responsive QA
 pass. Mark MDB-0065 and parents MDB-0062/0038 source-done after auditing every original
-criterion; source/CI/Pages/live delivery follows in its receipt. MDB-0039 is next;
-MDB-0011 remains expanded.
+criterion. Source `c41b73b6488a2dbd612bcc26f11b32061d561376` is verified on remote
+main; Java 41327286700, docs 41327286721 and Pages 41327286708 pass. Ubuntu runs all
+1,272 core /596 optional cases; Windows has 363 core /368 optional explicit capability
+skips (all 50 new native cases). Fourteen examples pass per platform. Fifteen live
+page/canonical readbacks, both new search entries and the 78-page sitemap pass.
+MDB-0065 and parents MDB-0062/0038 are complete; MDB-0039 is next and MDB-0011 stays
+expanded.
 
 ## MDB-0039 Reader-safe object reclamation
 

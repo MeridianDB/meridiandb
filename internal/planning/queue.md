@@ -29,13 +29,17 @@ children before implementation rather than treating a whole milestone as one pat
   builds pass locally without skips. New guide/ADR/search navigation and desktop-light/
   mobile-dark layout pass, including the coverage table without page overflow.
   Fifteen local page/content/canonical readbacks, both new search entries and the
-  78-page unique production sitemap pass. Source push, exact-source automatic
-  Java/docs/Pages and live readback remain to verify in the delivery receipt.
+  78-page unique production sitemap pass. Source
+  `c41b73b6488a2dbd612bcc26f11b32061d561376` is verified on origin/main. Java
+  **41327286700**, docs **41327286721** and Pages **41327286708** pass. Ubuntu
+  runs every case; Windows reports 363 core /368 optional explicit capability
+  skips, including all 50 new native cases. Fourteen examples pass per platform.
+  Fifteen live page/canonical readbacks, both new search entries and the 78-page
+  sitemap pass; the progress receipt records actual delivery evidence.
 - **MDB-0062 and MDB-0038** meet every original source acceptance criterion and all
-  required children; mark both source-done with this completion. The progress
-  receipt maps their criteria to existing focused cases and new SDK integration.
-  **MDB-0039 — Reader-safe object reclamation** is next, conditional on this
-  source's remote delivery. MDB-0011 remains expanded with remote reclamation and
+  required children; both source and delivery are complete. The progress receipt
+  maps their criteria to existing focused cases and new SDK integration.
+  **MDB-0039 — Reader-safe object reclamation** is next. MDB-0011 remains expanded with remote reclamation and
   general backend conformance required. All 65 stable IDs are retained.
 
 ## Ordered work
