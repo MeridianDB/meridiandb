@@ -5130,6 +5130,43 @@ fresh/existing bound state, separately serialized immutable receipt generations
 and fail-closed force/reopen, preserving the permanent native guard.
 
 
+
+## 2026-11-01 — MDB-0075 Windows delivery repair
+
+Initial source `917f52c5987464a80821da526d84e40eef50661d` reaches remote main.
+Java 41387827680 passes Linux but fails Windows: BasicFileAttributes.fileKey is
+null on that placement. Production correctly rejects it, while injected registry
+tests incorrectly relied on real provider keys and two native cases bypassed
+capability preflight. Docs 41387827682 and Pages 41387827689 pass for that initial
+source; retain failed Windows evidence in ignored java-windows-initial-ci.log.
+
+Add a package-private IdentityReader seam beside the existing injected Handle;
+both production Registry constructors and PROCESS retain the unchanged strict
+real identity reader. All 43 registry checks use controlled identities with real
+regular/empty-name validation. Replacement controls use the same real-parent/
+final-name canonicalization; three failing local replacement cases verify that
+correction. Native cross-adapter/overlap tests preflight the actual required
+capability before their assertions. Unsupported identity skips native checks only,
+never the 43 fault checks. Update public guide and root rules with the actual
+Windows limitation and portable injected-test requirement; no production fallback.
+
+Repaired focused 58 and full optional 762 cases pass locally with zero failures,
+errors or skips. Reuse unchanged core 1,272/example evidence and exact core/
+classifier hashes from the source receipt. Optional main now has 71 classes
+(IdentityReader is the additional interface), SHA `fab87dc8530edbd4348643b930dfdbac78bda7f2d31cde9a2ba5d2430e48d959`; no fault helpers,
+ChildMain, tests or vectors enter main/classifier. Repaired strict production/
+project-path 84-page builds and fifteen local canonical/content readbacks pass,
+including the new Windows paragraph; search/sitemap remain correct. Existing 42
+QA fixture evidence is reused and exact-source CI will execute those fixtures.
+Independent repair review has no findings. Same-invocation Maven/JDK research
+remains applicable with no dependency or provider requirement change.
+
+Inspect/stage repair code/tests/guide/rules plus these queue/card/history paths;
+commit Step-ID MDB-0075 /Step-Result completed and push normally. Verify exact
+repair Java/docs/Pages and updated live content before delivery completion.
+No next item or parent completion starts; MDB-0076 remains conditional on delivery.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

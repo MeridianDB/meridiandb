@@ -122,6 +122,13 @@ Only an explicit missing shared-lock/file-key or link capability may skip the
 applicable native check; ordinary permission and I/O failures fail it. Follow the
 [optional build commands](s3-objects.md#build-and-verify).
 
+The November 1 Windows CI placement returned null file keys. The native guard
+therefore refuses that placement, and applicable native checks report the missing
+identity capability. The 43 registry/fault checks use controlled identities and
+handles so they still execute independently of native file-key availability.
+This preserves the production identity requirement rather than substituting
+path spelling or silently weakening checks on that platform.
+
 The next integration boundary must compose this guard with explicit fresh/existing
 state, exact independent binding, immutable forced intent/completion generations,
 complete receipt history and fail-closed reopen. Shared activity admission does

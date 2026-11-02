@@ -367,7 +367,10 @@ so a new session can work correctly without relying on earlier conversations.
   quarantine every thrown close even when the channel reports closed. Unexpected
   overlap retains the duplicate channel/reservation until process restart. Keep
   fresh creation/directory force, exact enrollment, durable receipt generations
-  and SDK participation separate; the guard supplies none of those permissions.
+  and SDK participation separate; the guard supplies none of those permissions. Keep
+  injected registry/fault identity independent of provider file-key availability;
+  use controlled identities for those checks and explicit capability preflights
+  for native checks. Missing native identity skips no logical fault coverage.
 - For coordinated remote reclamation, follow [ADR 0036](docs/decisions/0036-coordinated-remote-reclamation.md)
   and the [accepted protocol](docs/architecture/remote-reclamation.md); these are
   design requirements until their implementation checks pass. Admit a fresh

@@ -24,7 +24,7 @@ class LocalS3CoordinationGuardTest {
     @TempDir Path directory;
 
     @Test void sharedLeasesUseOneChannelAndOnlyFinalCloseReleasesNativeOwnership() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("shared");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("shared");
         var first = registry.acquire(path, true).orElseThrow();
         var second = registry.acquire(path.getParent().resolve(".").resolve(path.getFileName()), true).orElseThrow();
         assertEquals(1, opener.handles.size()); var handle = opener.last();
@@ -43,7 +43,7 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @ValueSource(booleans = {false, true})
     void exclusiveLeaseDefersBothModesBeforeAnyAdditionalOpen(boolean requestedShared) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("exclusive");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("exclusive");
         try (var lease = registry.acquire(path, false).orElseThrow()) {
             assertTrue(registry.acquire(path, requestedShared).isEmpty()); assertEquals(1, opener.handles.size()); lease.checkValid();
         }
@@ -52,7 +52,7 @@ class LocalS3CoordinationGuardTest {
 
     @Test void knownExternalContentionCleansTheUnusedChannelAndAllowsAnotherAttempt() throws Exception {
         var opener = new TestOpener(); opener.configure = h -> h.lockResult = false;
-        var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("busy");
+        var registry = registry(opener); Path path = guard("busy");
         assertTrue(registry.acquire(path, true).isEmpty());
         assertEquals(0, opener.last().releases); assertEquals(1, opener.last().closes);
         opener.configure = h -> { };
@@ -62,7 +62,7 @@ class LocalS3CoordinationGuardTest {
     @ParameterizedTest @ValueSource(booleans = {false, true})
     void wrongActualLockModeIsRejectedAndKnownCleanupReleasesTheSlot(boolean requestedShared) throws Exception {
         var opener = new TestOpener(); opener.configure = h -> h.convert = true;
-        var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("converted");
+        var registry = registry(opener); Path path = guard("converted");
         var failure = assertThrows(IOException.class, () -> registry.acquire(path, requestedShared));
         if (requestedShared) { assertInstanceOf(LocalS3CoordinationGuard.SharedLockUnsupportedException.class, failure); }
         assertEquals(1, opener.last().releases); assertEquals(1, opener.last().closes);
@@ -72,7 +72,7 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @ValueSource(strings = {"missing", "directory", "nonempty"})
     void invalidGuardNamesFailBeforeOpenAndAreNeverCreatedOrRepaired(String kind) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener);
+        var opener = new TestOpener(); var registry = registry(opener);
         Path path = directory.resolve(kind);
         if (kind.equals("directory")) { Files.createDirectory(path); }
         if (kind.equals("nonempty")) { Files.write(path, new byte[] {42}); }
@@ -83,10 +83,10 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @ValueSource(strings = {"missing", "nonempty", "replacement"})
     void changedNameInvalidatesAllLeasesAndNeverOpensAReplacement(String kind) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard(kind);
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard(kind);
         var lease = registry.acquire(path, true).orElseThrow();
         if (kind.equals("nonempty")) { Files.write(path, new byte[] {9}); }
-        else { Files.move(path, path.resolveSibling("old")); if (kind.equals("replacement")) { Files.createFile(path); } }
+        else { Files.move(path, path.resolveSibling("old")); if (kind.equals("replacement")) { Files.createFile(path); opener.identities.replace(path); } }
         assertThrows(IOException.class, lease::checkValid);
         assertThrows(IOException.class, () -> registry.acquire(path, true));
         assertThrows(IOException.class, lease::force); assertEquals(0, opener.last().forces);
@@ -95,7 +95,7 @@ class LocalS3CoordinationGuardTest {
     }
 
     @Test void missingNameObservationRemainsPoisonedEvenIfTheOriginalNameReturns() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("rename-back");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("rename-back");
         var lease = registry.acquire(path, true).orElseThrow(); Path saved = path.resolveSibling("saved");
         Files.move(path, saved); assertThrows(IOException.class, () -> registry.acquire(path, true)); Files.move(saved, path);
         assertThrows(IOException.class, lease::checkValid); assertThrows(IOException.class, () -> registry.acquire(path, true));
@@ -105,15 +105,15 @@ class LocalS3CoordinationGuardTest {
 
     @Test void nameReplacementDuringNativeAcquisitionNeverExposesALease() throws Exception {
         var opener = new TestOpener(); Path path = guard("startup-race");
-        opener.configure = h -> h.afterLock = () -> { Files.move(path, path.resolveSibling("original")); Files.createFile(path); };
-        var registry = new LocalS3CoordinationGuard.Registry(opener);
+        opener.configure = h -> h.afterLock = () -> { Files.move(path, path.resolveSibling("original")); Files.createFile(path); opener.identities.replace(path); };
+        var registry = registry(opener);
         assertThrows(IOException.class, () -> registry.acquire(path, true));
         assertEquals(1, opener.last().releases); assertEquals(1, opener.last().closes);
     }
 
     @ParameterizedTest @ValueSource(booleans = {false, true})
     void nativeInvalidityPoisonsTheEntryUntilEveryLeaseCloses(boolean closeRaw) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("invalid");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("invalid");
         var lease = registry.acquire(path, true).orElseThrow(); var handle = opener.last();
         if (closeRaw) { handle.open = false; } else { handle.valid = false; }
         assertThrows(IOException.class, lease::checkValid); handle.open = true; handle.valid = true;
@@ -123,7 +123,7 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @ValueSource(strings = {"io", "runtime", "error"})
     void forceFailurePoisonsEverySharedLeaseWithoutReleasingTheirProtection(String type) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("force");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("force");
         var first = registry.acquire(path, true).orElseThrow(); var second = registry.acquire(path, true).orElseThrow();
         var failure = failure(type); opener.last().forceFailure = failure;
         assertSame(failure, assertThrows(Throwable.class, first::force));
@@ -133,7 +133,7 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @CsvSource({"runtime,false", "runtime,true", "error,false", "error,true"})
     void uncertainNativeHealthInspectionCannotBecomeHealthyOnAnotherCheck(String type, boolean openAccessor) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("health-throw");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("health-throw");
         var lease = registry.acquire(path, true).orElseThrow(); var handle = opener.last();
         var failure = failure(type); handle.healthFailure = failure; handle.failOpenHealth = openAccessor;
         assertSame(failure, assertThrows(Throwable.class, lease::checkValid)); handle.healthFailure = null;
@@ -143,7 +143,7 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @ValueSource(strings = {"io", "runtime", "error"})
     void releaseFailureStillAttemptsKnownCloseAndAllowsFreshAcquisition(String type) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("release");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("release");
         var lease = registry.acquire(path, true).orElseThrow(); var handle = opener.last();
         var failure = failure(type); handle.releaseFailure = failure;
         assertSame(failure, assertThrows(Throwable.class, lease::close)); assertEquals(1, handle.closes);
@@ -153,7 +153,7 @@ class LocalS3CoordinationGuardTest {
 
     @ParameterizedTest @CsvSource({"io,false", "io,true", "runtime,false", "runtime,true", "error,false", "error,true"})
     void thrownCloseIsQuarantinedEvenWhenTheHandleReportsClosed(String type, boolean closedAfterThrow) throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("close");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("close");
         var lease = registry.acquire(path, true).orElseThrow(); var handle = opener.last();
         var failure = failure(type); handle.closeFailure = failure; handle.closedAfterThrow = closedAfterThrow;
         assertSame(failure, assertThrows(Throwable.class, lease::close));
@@ -164,7 +164,7 @@ class LocalS3CoordinationGuardTest {
     }
 
     @Test void failedReleaseIsPrimaryAndFailedCloseIsSuppressedWhileBothRemainEvidence() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("both");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("both");
         var lease = registry.acquire(path, false).orElseThrow(); var handle = opener.last();
         var release = new IOException("release"); var close = new IllegalStateException("close");
         handle.releaseFailure = release; handle.closeFailure = close;
@@ -173,7 +173,7 @@ class LocalS3CoordinationGuardTest {
     }
 
     @Test void returnedCloseWithoutActuallyClosingAlsoQuarantinesTheEntry() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("no-close");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("no-close");
         var lease = registry.acquire(path, false).orElseThrow(); opener.last().ignoreClose = true;
         assertThrows(IOException.class, lease::close); assertThrows(IOException.class, lease::close);
         assertEquals(1, opener.last().closes); assertThrows(IOException.class, () -> registry.acquire(path, true));
@@ -182,7 +182,7 @@ class LocalS3CoordinationGuardTest {
     @ParameterizedTest @ValueSource(strings = {"io", "runtime", "error"})
     void lockFailureCleansItsSoleChannelAndPreservesTheOriginalFailure(String type) throws Exception {
         var opener = new TestOpener(); var original = failure(type); opener.configure = h -> h.lockFailure = original;
-        var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("lock");
+        var registry = registry(opener); Path path = guard("lock");
         assertSame(original, assertThrows(Throwable.class, () -> registry.acquire(path, true))); assertEquals(1, opener.last().closes);
         opener.configure = h -> { }; try (var next = registry.acquire(path, true).orElseThrow()) { next.checkValid(); }
     }
@@ -190,7 +190,7 @@ class LocalS3CoordinationGuardTest {
     @Test void failedConflictCleanupCannotBeReportedAsSafeDeferral() throws Exception {
         var opener = new TestOpener(); var failure = new IOException("unused close uncertain");
         opener.configure = h -> { h.lockResult = false; h.closeFailure = failure; h.closedAfterThrow = true; };
-        var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("conflict-close");
+        var registry = registry(opener); Path path = guard("conflict-close");
         assertSame(failure, assertThrows(IOException.class, () -> registry.acquire(path, false)));
         assertThrows(IOException.class, () -> registry.acquire(path, false)); assertEquals(1, opener.last().closes);
     }
@@ -199,7 +199,7 @@ class LocalS3CoordinationGuardTest {
         var calls = new java.util.concurrent.atomic.AtomicInteger(); var expected = new IOException("open failed");
         var registry = new LocalS3CoordinationGuard.Registry(path -> {
             if (calls.getAndIncrement() == 0) { throw expected; } return new TestHandle();
-        }, 1);
+        }, 1, new TestIdentities());
         Path path = guard("open-failure");
         assertSame(expected, assertThrows(IOException.class, () -> registry.acquire(path, true)));
         try (var lease = registry.acquire(path, true).orElseThrow()) { lease.checkValid(); }
@@ -207,15 +207,15 @@ class LocalS3CoordinationGuardTest {
     }
 
     @Test void forceRechecksTheOriginalNameBeforeReturning() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("force-name");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("force-name");
         var lease = registry.acquire(path, true).orElseThrow();
-        opener.last().onForce = () -> { Files.move(path, path.resolveSibling("old")); Files.createFile(path); };
+        opener.last().onForce = () -> { Files.move(path, path.resolveSibling("old")); Files.createFile(path); opener.identities.replace(path); };
         assertThrows(IOException.class, lease::force); assertEquals(1, opener.last().forces);
         assertThrows(IOException.class, lease::checkValid); assertThrows(IOException.class, () -> registry.acquire(path, true)); lease.close();
     }
 
     @Test void cleanupInvalidatesBeforeBothNativeActionsAndRejectsReentrantRelease() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("cleanup-order");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("cleanup-order");
         var lease = registry.acquire(path, true).orElseThrow();
         Action check = () -> {
             assertThrows(IOException.class, lease::checkValid); assertThrows(IOException.class, lease::force);
@@ -226,7 +226,7 @@ class LocalS3CoordinationGuardTest {
     }
 
     @Test void nativePlacementAndSharedReferenceCapacitiesAreReservedBeforeOpening() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener, 2);
+        var opener = new TestOpener(); var registry = registry(opener, 2);
         Path firstPath = guard("one"), secondPath = guard("two"), thirdPath = guard("three");
         var first = registry.acquire(firstPath, true).orElseThrow(); var second = registry.acquire(secondPath, true).orElseThrow();
         assertThrows(IOException.class, () -> registry.acquire(thirdPath, false)); assertEquals(2, opener.handles.size());
@@ -238,7 +238,7 @@ class LocalS3CoordinationGuardTest {
     }
 
     @Test void forceSerializesWithCloseAndRejectsReentrantOwnerOperations() throws Exception {
-        var opener = new TestOpener(); var registry = new LocalS3CoordinationGuard.Registry(opener); Path path = guard("serial");
+        var opener = new TestOpener(); var registry = registry(opener); Path path = guard("serial");
         var lease = registry.acquire(path, true).orElseThrow();
         var entered = new CountDownLatch(1); var release = new CountDownLatch(1);
         opener.last().onForce = () -> {
@@ -258,6 +258,25 @@ class LocalS3CoordinationGuardTest {
         assertEquals(1, opener.last().forces); assertEquals(1, opener.last().closes); assertThrows(IOException.class, lease::checkValid);
     }
 
+    private static LocalS3CoordinationGuard.Registry registry(TestOpener opener) {
+        return registry(opener, LocalS3CoordinationGuard.MAX_PLACEMENTS);
+    }
+    private static LocalS3CoordinationGuard.Registry registry(TestOpener opener, int limit) {
+        return new LocalS3CoordinationGuard.Registry(opener, limit, opener.identities);
+    }
+    // Controlled identities keep registry/fault tests independent of native file-key capability.
+    static final class TestIdentities implements LocalS3CoordinationGuard.IdentityReader {
+        private final java.util.Map<Path, Object> values = new java.util.HashMap<>();
+        @Override public Object read(Path path) throws IOException {
+            var attributes = Files.readAttributes(path, java.nio.file.attribute.BasicFileAttributes.class, java.nio.file.LinkOption.NOFOLLOW_LINKS);
+            if (!attributes.isRegularFile() || attributes.size() != 0) { throw new IOException("Invalid test guard name"); }
+            return values.computeIfAbsent(path, ignored -> new Object());
+        }
+        void replace(Path path) throws IOException {
+            Path absolute = path.toAbsolutePath();
+            values.put(absolute.getParent().toRealPath().resolve(absolute.getFileName()), new Object());
+        }
+    }
     private Path guard(String name) throws IOException { return Files.createFile(Files.createDirectory(directory.resolve(name)).resolve(LocalS3CoordinationGuard.NAME)); }
     private static Throwable failure(String type) { return switch (type) {
         case "io" -> new IOException(type); case "runtime" -> new IllegalStateException(type); case "error" -> new AssertionError(type);
@@ -271,6 +290,7 @@ class LocalS3CoordinationGuardTest {
     @FunctionalInterface interface Action { void run() throws IOException; }
     static final class TestOpener implements LocalS3CoordinationGuard.Opener {
         final List<TestHandle> handles = new ArrayList<>();
+        final TestIdentities identities = new TestIdentities();
         Consumer<TestHandle> configure = handle -> { };
         @Override public LocalS3CoordinationGuard.Handle open(Path path) {
             var handle = new TestHandle(); handles.add(handle); configure.accept(handle); return handle;

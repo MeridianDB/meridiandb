@@ -50,6 +50,14 @@ children before implementation rather than treating a whole milestone as one pat
   84-page builds pass. Fifteen local page/content/canonical checks, both new search
   entries, sitemap and desktop-light/mobile-dark navigation checks pass. Fresh
   Maven/JDK research and independent source/test/public review have no findings.
+- Initial source `917f52c5987464a80821da526d84e40eef50661d` is pushed. Docs
+  41387827682 and Pages 41387827689 pass; Java 41387827680 passes Linux but Windows
+  exposed null provider file keys in injected tests and two missing native
+  capability preflights. Production correctly refuses the unsupported identity.
+  Repair keeps native requirements unchanged, injects controlled identity into all
+  43 fault checks and adds the missing native preflights. Focused 58 and full 762
+  optional checks plus repaired strict builds/readbacks pass locally; exact repair
+  push/CI/Pages verification is pending. No next child starts before it passes.
 - **MDB-0076 — Durable S3 coordination generations** is next, conditional on exact
   source push, Java/docs CI and automatic Pages delivery. MDB-0072/0067/0039/0011
   remain expanded. Guard creation/enrollment, durable ledger, SDK participation,

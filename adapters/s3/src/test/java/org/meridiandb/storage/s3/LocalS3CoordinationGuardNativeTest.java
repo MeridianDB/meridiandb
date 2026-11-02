@@ -78,6 +78,7 @@ class LocalS3CoordinationGuardNativeTest {
 
     @Test void aGuardAlreadyReservedByAnotherAdapterIsRejectedBeforeNativeOpen() throws Exception {
         Path home = home("cross-owner");
+        try (var supported = acquire(home, false)) { supported.checkValid(); }
         try (var owned = LocalFileOwnership.openControl(home.resolve(LocalS3CoordinationGuard.NAME), StandardOpenOption.READ, StandardOpenOption.WRITE)) {
             var failure = assertThrows(IOException.class, () -> LocalS3CoordinationGuard.acquire(home, true));
             assertTrue(failure.getMessage().startsWith("Path is already owned")); assertTrue(owned.channel().isOpen());
@@ -101,6 +102,7 @@ class LocalS3CoordinationGuardNativeTest {
 
     @Test void anUnexpectedUnregisteredOverlapRetainsItsChannelAndQuarantineUntilProcessExit() throws Exception {
         Path home = home("overlap");
+        try (var supported = acquire(home, false)) { supported.checkValid(); }
         try (var child = start("overlap", home, false)) {
             child.line("QUARANTINED");
             assertTrue(LocalS3CoordinationGuard.acquire(home, false).isEmpty(), "Rejected duplicate channel must not release the raw owner's POSIX lock");

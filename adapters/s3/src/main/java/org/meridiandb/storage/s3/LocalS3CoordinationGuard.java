@@ -40,6 +40,7 @@ final class LocalS3CoordinationGuard {
         @Override void close() throws IOException;
     }
     @FunctionalInterface interface Opener { Handle open(Path path) throws IOException; }
+    @FunctionalInterface interface IdentityReader { Object read(Path path) throws IOException; }
 
     private static final Registry PROCESS = new Registry(path -> {
         var owned = LocalFileOwnership.openControl(path, StandardOpenOption.READ, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS);
@@ -61,11 +62,14 @@ final class LocalS3CoordinationGuard {
     /** One loaded adapter copy per JVM; all participants must use the same trusted stable placement. */
     static final class Registry {
         private final Opener opener;
+        private final IdentityReader identities;
         private final int placementLimit;
         private final Map<Path, Entry> entries = new HashMap<>();
         Registry(Opener opener) { this(opener, MAX_PLACEMENTS); }
-        Registry(Opener opener, int placementLimit) {
+        Registry(Opener opener, int placementLimit) { this(opener, placementLimit, LocalS3CoordinationGuard::identity); }
+        Registry(Opener opener, int placementLimit, IdentityReader identities) {
             this.opener = Objects.requireNonNull(opener, "opener");
+            this.identities = Objects.requireNonNull(identities, "identities");
             if (placementLimit < 1 || placementLimit > MAX_PLACEMENTS) { throw new IllegalArgumentException("Invalid placement cap"); }
             this.placementLimit = placementLimit;
         }
@@ -76,7 +80,7 @@ final class LocalS3CoordinationGuard {
             Path absolute = requested.toAbsolutePath();
             Path path = absolute.getParent().toRealPath().resolve(absolute.getFileName());
             final Object identity;
-            try { identity = identity(path); }
+            try { identity = Objects.requireNonNull(identities.read(path), "identity"); }
             catch (IOException | RuntimeException | Error failure) {
                 var existing = entries.get(path);
                 if (existing != null) { existing.failed = true; }
@@ -129,7 +133,7 @@ final class LocalS3CoordinationGuard {
             }
             try {
                 if (!entry.handle.isOpen() || !entry.handle.isValid()) { throw new IOException("Coordination native ownership was lost"); }
-                if (!entry.identity.equals(identity(entry.path))) { throw new IOException("Coordination guard name was replaced"); }
+                if (!entry.identity.equals(identities.read(entry.path))) { throw new IOException("Coordination guard name was replaced"); }
             } catch (IOException | RuntimeException | Error failure) { entry.failed = true; throw failure; }
         }
         private synchronized void check(Lease lease) throws IOException {
