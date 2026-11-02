@@ -34,14 +34,22 @@ children before implementation rather than treating a whole milestone as one pat
   observed dataset metadata and physical measurement. Fourteen current Maven
   artifact pins were freshly researched and remain unchanged. Independent final
   review has no actionable findings; full evidence is in progress history.
-- This source completion must be pushed normally and verified through exact-source
-  Java/docs/automatic Pages plus live readback before further execution. The new
-  Linux qualification inventory must pass with zero skips; macOS local results
-  do not establish Linux or production qualification. The preceding observed Linux
-  CI profile remains correctness-only with unknown backing device/cache and
-  `productionQualified: false`; MDB-0080 retains production gaps.
+- Completion `1b41bd397dbe28de4db8fa7f712d3b097f4cdd5b` is pushed to origin/main.
+  Exact-source Java **41485888694**, docs **41485888464** and automatic Pages
+  **41485888491** pass. Linux run `9d224b6cdf9a405580814d93ca473c67` passes all 71
+  suites /1,309 cases with zero skips plus 762 optional cases and 14 examples.
+  Windows passes with 368 core /381 optional explicit capability skips and 14 examples.
+- The observed Linux profile remains correctness-only: ext4, kernel 7.0.0-1017-azure,
+  x86_64, Temurin 25.0.5+8-LTS, same recognized flags including `nobarrier` and
+  `data=writeback`, one unreported option and unknown backing device/cache. Keep
+  `productionQualified: false`; MDB-0080 retains production gaps. Test artifact
+  **13161617264** retains JSON/XML/logs until November 16 at 16:54:28 UTC; exact
+  digest/source/run details remain in durable progress history.
+- Twelve live HTTPS page/content/canonical checks, both new search entries and 90
+  unique sitemap URLs pass. Published browser screenshot is embedded in commentary;
+  light theme/normal viewport are restored and local server 8790 is stopped.
 - **MDB-0082 — Local workload measurement runner** is source-ready after MDB-0081;
-  execution waits for successful remote delivery/CI. No next implementation starts
+  remote delivery/CI is verified. No next implementation starts
   in this invocation. MDB-0012 remains expanded until all required children and
   original integration criteria pass.
 

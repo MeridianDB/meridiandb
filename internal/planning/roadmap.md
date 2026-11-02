@@ -2246,11 +2246,17 @@ observed effect/entity/query counts, independent backward/forward expectations,
 actual memory execution and repeated native local reopen. Full macOS rooted core
 run passes 1,309 cases /71 suites with zero skips; all previous inventory counts
 are preserved. Qualification inventory adds only the three new suites. Optional
-762 regressions, fourteen examples, Python40/docs42, artifact/jdeps and both90-page
-URL builds pass. Guide/ADR0041 and rules preserve bounded finite single-operation
-scope, seed-stage validation, Random48 aliases and logical-versus-physical bytes.
-Exact-source Linux/Windows CI and automatic publication are delivery checks after
-normal source push; keep the parent expanded and do not start MDB-0082 here.
+762 regressions, fourteen examples, Python 40/docs 42, artifact/jdeps and both 90-page
+URL builds pass. Guide/ADR 0041 and rules preserve bounded finite single-operation
+scope, seed-stage validation, Random 48 aliases and logical-versus-physical bytes.
+Completion `1b41bd397dbe28de4db8fa7f712d3b097f4cdd5b` is pushed; Java 41485888694,
+docs 41485888464 and automatic Pages 41485888491 pass. Actual Linux run
+`9d224b6cdf9a405580814d93ca473c67` passes all 1,309 cases /71 suites with zero
+skips and the exact reviewed inventory/source binding; Windows pure checks pass
+with four new explicit native skips. Both platforms retain 762 optional invocations
+and 14 examples. Live 12-page/canonical, search and 90-URL sitemap verification passes.
+Hosted Linux remains correctness-only with unknown device/cache and known mount
+limits. Keep the parent expanded; MDB-0082 is the next recommendation.
 
 ## MDB-0082 Local workload measurement runner
 
