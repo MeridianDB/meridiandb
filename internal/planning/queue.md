@@ -17,9 +17,11 @@ children before implementation rather than treating a whole milestone as one pat
   S3 as-is and defer its unfinished work. Kafka-topic storage and other persistence
   integrations remain later work. A specialized bitemporal layout is a research
   hypothesis to measure, not a universal performance claim.
-- **MDB-0078 — Linux local storage priority and format research** has complete source
-  acceptance in this planning-only iteration; remote/CI/Pages delivery is pending. ADR 0039 and the Linux storage design own the public
-  direction and dated Parquet/RocksDB/Lucene/Linux/Hadoop evidence. No engine,
+- **MDB-0078 — Linux local storage priority and format research** is complete.
+  Source `4ba55629490c8fd49e5d351af3b9c43cbdf9aa35` is pushed to origin/main; Java
+  **41454600048**, docs **41454600128** and automatic Pages **41454600658** pass,
+  including actual deployment. This remains a planning-only iteration. ADR 0039
+  and the Linux storage design own the public direction and dated Parquet/RocksDB/Lucene/Linux/Hadoop evidence. No engine,
   format, Maven, CI or SDK behavior changes; no next implementation starts.
 - Prior MDB-0075 repair `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd` and receipt
   `a7cf4c09c5af7ebd27b3f07f478e72532a466cea` are verified on origin/main.
@@ -39,9 +41,14 @@ children before implementation rather than treating a whole milestone as one pat
   pass; fifteen local content/canonical readbacks, both new search entries and
   sitemap pass. Browser checks guide/decision/return/search and desktop-light/
   mobile-dark tables without page overflow; normal light viewport is restored.
-  Independent source/planning review has no findings. No Maven/runtime inputs
-  changed, so previous Java acceptance evidence is retained without a redundant run.
-- Next after this planning delivery: **MDB-0079 — Linux storage contract and
+  Independent source/planning review has no findings. Fifteen live HTTPS content/
+  canonical readbacks, both new search entries and the 86-URL sitemap also pass;
+  the browser verifies the published roadmap and its Linux priorities. The local
+  server is stopped. Automatic CI reran both Maven builds and fourteen examples
+  per platform: Linux 1,272 core /762 optional, zero failures/errors/skips; Windows
+  passes with unchanged 363 core /381 optional capability skips. No Maven/runtime
+  inputs changed, and this evidence supplies no production qualification.
+- **Next ready item:** **MDB-0079 — Linux storage contract and
   qualification harness**. No native binding, replacement file format, release,
   real-provider/account/hosting mutation or paid environment is started here.
 

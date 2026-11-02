@@ -2095,7 +2095,13 @@ ready and MDB-0080 closes later operational gaps, yielding 80 stable IDs. Forty-
 docs fixtures, both strict 86-page URL builds, fifteen local content/canonical
 readbacks, new search/sitemap and light/dark/mobile browser checks pass. Independent
 review has no findings. No code, format, Maven dependency or CI behavior changed;
-exact-source docs CI and automatic Pages delivery remain pending until push.
+source `4ba55629490c8fd49e5d351af3b9c43cbdf9aa35` is verified on origin/main.
+Java 41454600048, docs 41454600128 and automatic Pages 41454600658 pass. Linux runs
+1,272 core /762 optional cases without failures/errors/skips; Windows retains
+363 core /381 optional capability skips. Fourteen examples pass per platform.
+Fifteen live content/canonical checks, both new search entries, the 86-URL sitemap
+and published roadmap browser verification pass. The local server is stopped.
+MDB-0079 is ready; no subsequent implementation starts.
 
 ## MDB-0079 Linux storage contract and qualification harness
 

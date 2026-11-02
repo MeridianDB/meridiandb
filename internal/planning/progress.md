@@ -5271,6 +5271,42 @@ next queue step, native/cloud provisioning, library release or account change st
 **Next recommendation:** MDB-0079 — Linux storage contract and qualification harness.
 
 
+## 2026-11-02 — MDB-0078 Delivery verification
+
+Planning source **`4ba55629490c8fd49e5d351af3b9c43cbdf9aa35`**, with Step-ID
+MDB-0078 /Step-Result completed, was normally pushed and verified as an ancestor of
+origin/main with matching clean tips before this internal-only receipt.
+
+- [Java 41454600048](https://github.com/MeridianDB/meridiandb/actions/runs/41454600048)
+  passes both builds and all fourteen examples per platform. Linux job 125307960023
+  runs **1,272 core /762 optional tests**, zero failures/errors/skips. Windows
+  job 125307960648 passes with unchanged 363 core /381 optional capability skips.
+  This automatic run was triggered by the existing storage-format-guide path
+  filter; no Java, Maven, native-format or CI configuration changed. Broad Windows
+  regression coverage does not change its basic compatibility role.
+- [Docs 41454600128](https://github.com/MeridianDB/meridiandb/actions/runs/41454600128)
+  passes production job 125307960545 and project-path job 125307960934. Exact-source
+  logs confirm 42 QA fixtures and strict source/HTML/link/search/sitemap checks.
+- [Automatic Pages 41454600658](https://github.com/MeridianDB/meridiandb/actions/runs/41454600658)
+  passes build 125307961733 and deploy 125308243636 for the full source SHA. Live
+  readback verifies fifteen HTTPS pages, exact production canonicals, both new
+  search routes/titles and **86 unique production sitemap URLs**. The browser
+  verifies the published local-first roadmap. Proof is saved at ignored
+  `.local-qa/mdb-0078/site-published-final.png` and embedded in session commentary.
+  Earlier guide/decision/return/search, desktop-light and 390×844-dark table checks
+  passed; the normal light viewport is restored. Task-owned local server 87972 is
+  stopped with exit 0. Full exact-source CI and readback logs remain ignored scratch.
+
+Only queue/card/history change in this receipt. Validate 80 IDs/cards/DAG and
+preserved deferrals, inspect/stage these three paths and push normally. The
+internal-only receipt matches no workflow filter, so it needs no duplicate CI.
+No Linux qualification or performance result is inferred from these regressions;
+no new format/native dependency, next step, S3 continuation, deployment outside
+Pages or release begins.
+
+**Next recommendation:** MDB-0079 — Linux storage contract and qualification harness.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
