@@ -144,7 +144,9 @@ while missing required durability capabilities must fail explicitly.
    count, history depth, interval overlap, skew and correction rate using saved seeds.
    The test-only [workload corpus](../development/workload-corpus.md) now supplies
    bounded actions, independent expected answers and observed distributions;
-   timing/resource accounting and actual Linux baseline evaluation remain separate.
+   the separate [measurement core](../development/local-measurements.md) now adds
+   checked operation clocks and scoped JVM counters. Supervised evidence, physical
+   storage/I/O accounting and actual Linux baseline evaluation remain separate.
 3. **Compare one layout change.** Hold semantics, acknowledgement and retention
    equal. Report latency distributions, throughput, CPU, allocation/heap, encoded
    and allocated bytes, bytes read, write amplification, replay cost and merge

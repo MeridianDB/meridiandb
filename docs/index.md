@@ -36,7 +36,9 @@ correctness from production and power-loss qualification.
 
 The [deterministic workload corpus](development/workload-corpus.md) prepares bounded
 seeded histories, pinned reads and independent answers, with actual memory and
-local-reopen checks. Performance measurement and Linux baseline evaluation remain
+local-reopen checks. The separate [measurement core](development/local-measurements.md)
+times checked local operation lifecycles and observes scoped JVM counters.
+Supervised evidence, physical accounting and Linux baseline evaluation remain
 subsequent work.
 
 The [initial temporal contract](architecture/temporal-contract.md) now specifies

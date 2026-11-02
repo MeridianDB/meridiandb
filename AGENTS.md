@@ -557,6 +557,17 @@ so a new session can work correctly without relying on earlier conversations.
   timed loops, use fresh stores per repetition and distinguish logical encoded
   bytes from allocated storage and actual I/O. Corpus correctness supplies no
   performance result; retain runner/evaluation work until its own criteria pass.
+- For local operation measurements, follow [ADR 0042](docs/decisions/0042-local-operation-measurements.md)
+  and the [measurement guide](docs/development/local-measurements.md). Preserve fresh
+  namespaces for every warmup/repetition, forced acknowledgement, exact historical
+  checks outside call clocks and native ownership through close. Retain raw samples
+  and separate service, loop-wall, validation and instrumentation scopes. Optional
+  platform-thread CPU/allocation stays unavailable when unsupported/disabled/reset;
+  sampled heap is neither peak, retained heap nor RSS. Do not silently enable
+  counters or request GC/cache eviction. Close newly returned owners if post-call
+  instrumentation fails and retain failed evidence. Keep supervised process bounds,
+  serialized/source/profile admission and physical accounting separate until their
+  own checks pass; in-process correctness supplies no controlled baseline claim.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

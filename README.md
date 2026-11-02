@@ -43,7 +43,9 @@ it does not simulate device power loss.
 There is no published library or stable API.
 The test-only [workload corpus](docs/development/workload-corpus.md) now supplies
 bounded seeded histories, independent expected answers and memory/local-reopen
-checks. Timing, resource accounting and Linux baseline evaluation remain planned.
+checks. A test-only [local measurement core](docs/development/local-measurements.md)
+now measures checked operation lifecycles with scoped JVM telemetry. Supervised
+execution, physical storage/I/O accounting and Linux baseline evaluation remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -192,7 +194,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,309 JUnit test invocations: 36 [workload corpus checks](docs/development/workload-corpus.md),
+This runs 1,335 JUnit test invocations: 26 [local measurement checks](docs/development/local-measurements.md),
+36 [workload corpus checks](docs/development/workload-corpus.md),
 one filesystem qualification probe,
 66 pinned checkpoint write checks,
 69 pinned read recovery checks,

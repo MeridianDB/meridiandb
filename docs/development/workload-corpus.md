@@ -37,9 +37,10 @@ After compiling tests, run their checks from the repository root:
 Preparation validates declared commit sequences, retry identity/payload and
 scheduled read availability against the independent reference model. It exposes
 immutable outcomes and summary maps only after the entire schedule validates.
-Engine execution is separate. A future measurement runner must finish generation
-and expected-answer preparation outside timed loops and use a fresh database for
-each repetition so previous request IDs do not turn writes into retries.
+Engine execution uses the separate [local measurement core](local-measurements.md).
+It finishes generation and expected-answer preparation outside operation timers
+and uses a fresh database for each repetition so previous request IDs do not turn
+writes into retries.
 
 ## Profiles and action order
 
@@ -176,6 +177,8 @@ history fingerprint. Capability-dependent local skips stay separate from pure
 checks; the [Linux qualification gate](linux-storage-qualification.md) requires
 every invocation with zero skips.
 
-Controlled timing, resource and physical I/O counters, repeated fresh-store runs,
-replay/checkpoint/compaction measurements and actual Linux baseline evaluation
-remain subsequent work under the [storage measurement plan](../architecture/linux-storage.md#qualification-and-measurement-order).
+The in-process [measurement core](local-measurements.md) now exercises repeated
+fresh-store writes, queries, recovery and checkpoint/compaction with explicit
+clocks and scoped JVM counters. Supervised evidence, physical storage/I/O accounting,
+controlled measurements and actual Linux baseline evaluation remain subsequent
+work under the [storage measurement plan](../architecture/linux-storage.md#qualification-and-measurement-order).

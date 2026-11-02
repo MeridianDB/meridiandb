@@ -6,7 +6,7 @@ description: Separate bounded reproducible temporal inputs and independently pre
 # ADR 0041: Deterministic workload corpus
 
 - **Date:** November 2, 2026
-- **Status:** Test-only corpus implemented; measurement runner and evaluation pending
+- **Status:** Test-only corpus implemented; operation measurements separate
 - **Scope:** Local workload inputs, independent answers and reproducible identity
 
 ## Context
@@ -58,6 +58,8 @@ guarantee. Larger histories, unbounded windows, multi-operation requests or a ne
 generator/encoding need an explicit compatibility and resource-bound decision.
 
 The corpus provides inputs and correctness evidence, not a benchmark result.
+The separate [operation measurement core](0042-local-operation-measurements.md)
+consumes it; supervised evidence and actual baseline evaluation remain pending.
 Generation and reference preparation belong outside later timed loops. Repeated
 measurements need fresh stores, equivalent acknowledgement, explicit warmup/cache
 conditions and scoped timing/check overhead. Logical encoded bytes cannot stand

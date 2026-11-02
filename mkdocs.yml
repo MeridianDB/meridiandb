@@ -106,6 +106,7 @@ nav:
       - Linux local storage decision: decisions/0039-linux-local-storage-priority.md
       - Linux qualification decision: decisions/0040-linux-qualification-evidence.md
       - Workload corpus decision: decisions/0041-deterministic-workload-corpus.md
+      - Local measurement decision: decisions/0042-local-operation-measurements.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -113,6 +114,7 @@ nav:
       - Java and Maven: development/build.md
       - Linux storage qualification: development/linux-storage-qualification.md
       - Temporal workload corpus: development/workload-corpus.md
+      - Local operation measurements: development/local-measurements.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
       - Temporal queries: development/temporal-queries.md

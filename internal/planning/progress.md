@@ -5635,6 +5635,91 @@ implementation, benchmark run, S3 continuation, native format or release starts.
 **Next recommendation:** MDB-0082 — Local workload measurement runner.
 
 
+## 2026-11-02 — MDB-0084 Local operation measurement core
+
+**Scope:** resumed clean matching main/origin at
+`8b85be23a41823d6e4c1cba4aa976229a26751a9`, with MDB-0081 remotely verified.
+Expanded broad MDB-0082 into required MDB-0084 in-process core and MDB-0085
+supervised Linux evidence/accounting. Original 0082 and 0012 criteria remain;
+0083 still owns actual evaluation. All 85 IDs and S3/replication deferrals remain.
+This invocation executes only MDB-0084, with no CLI, physical/controlled baseline,
+new dependency, native binding, format change, remote provider or release.
+
+**Implementation:** four test-only files add a bounded synchronous runner and
+metrics helper with 26 focused cases. Prepare oracle answers/segment images once;
+use a fresh namespace for each warmup/repetition (0..2 /1..5, at most 20,000 total
+corpus actions). Measure actual forced new commits/retries and pinned queries,
+journal writable reopen, original segment writes, generation-two publication,
+pure supplied-image compaction planning, generation-three publication with one
+old reader pinned, and checkpoint writable reopen. Check independent outcomes,
+original request positions, old/new records and exact closed-journal identity
+outside operation clocks; all old generations/segments remain, without reclamation.
+
+Typed v1 results bind corpus inputs/fingerprints, runtime/configuration and each
+iteration's raw phase/kind samples. Nearest-rank summaries retain min/p50/p95/p99/
+max, counts and service rates separately from all-action loop wall rate, validation
+and other probe/recording/dispatch time. CPU/allocation use already enabled optional
+current-platform-thread counters; missing/reset/virtual values stay null with
+availability counts. Heap samples can fall and are not RSS/retained/peak claims.
+Named lengths are logical bytes; allocated storage, actual I/O/amplification,
+source/mount/device provenance and process supervision remain explicit MDB-0085 gaps.
+
+**Review/fixes:** a compile-time serial warning under Werror was fixed by storing
+the failure-directory identity as String rather than Path. Independent review
+corrected modular nanoTime subtraction (a signed MAX→MIN transition can be 1 ns),
+Windows-only unsupported skips (Linux must fail), and fresh-directory durability.
+Before CREATE, untimed production capability/control preflight closes, then home→
+run-root→already-durably-named scratch parent forces establish child names. Typed
+scope and public guide disclose excluded initial control-file/preflight cost and
+separate namespacePreparationNanos. Post-call instrumentation failure closes a
+newly returned owner; cleanup failures are suppressed on the original exception.
+Final independent source/docs/planning review has no actionable findings.
+
+**Checks:** focused 26 passed, then complete rooted `./mvnw -B clean install`
+passed 1,335. The naming/lifecycle fix justified final complete rerun: **1,335 cases
+in 73 suites**, zero failures/errors/skips, fresh run
+`e259fbd3b4664dfdbdd09f68666ec15f`, Oracle Java 25.0.2 /runtime 25.0.2+10-LTS-69,
+macOS aarch64. Strict report parser confirms every run/root/runtime binding.
+Inventory preserves all previous 71 counts and adds 9 runner +17 metric cases;
+SHA256 `171ca84a854a24bbc76f0673d03fefb405e02ee0ff3ecc47c1065be403c3cb2c`.
+`./mvnw -B -f adapters/s3/pom.xml verify` passes 762 with zero skips, and all 14
+examples pass against the unchanged production JAR. Final archives contain 155
+production /10 classifier classes, no workload/probe/factory leakage; production
+jdeps remains java.base. Python storage guards 40 and docs fixtures 42 pass. Actual
+Linux execution remains exact-source CI; local macOS observations are not Linux
+or production-device evidence. Ignored `.local-qa/mdb-0082/` retains logs/results.
+
+**Research:** freshly fetched all 14 Central sources at **November 2, 23:06:56 UTC /
+18:06:56 EST**, official compatibility at **23:06:57 UTC /18:06:57 EST** and Java 25
+measurement specifications at 23:07:37 UTC /18:07:37 EST. Pins remain latest stable
+compatible: Maven 3.10.0, Wrapper 3.3.4, clean/resources 3.5.0, compiler 3.16.0,
+Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and AWS
+SDK 2.57.8. No POM/Wrapper/version change. Metadata SHA256
+`45252caf9f4b5981e8b7d3c27aa3115971be4084a088f889f0776fb4b6403728`;
+compatibility `075d0ea5b76a8e26a1c95caf2e4ca27895514e435b01868d067a752a5dca49e9`;
+metrics `6b04391a609b1c0a8628abcc1c11f6dfd21d920f1052c3f8c717ae30034627bf`.
+Primary Java 25 CPU/allocation/heap/nanoTime documentation supports the recorded
+limits and clock fix; exact URLs/times remain in research and the public guide.
+
+**Documentation:** new guide/ADR 0042, README/home/roadmap, corpus/ADR 0041,
+Linux design, contribution/build and three S3 current-count callers are reconciled.
+Root rules persist fresh directories, call/check/counter boundaries and failure
+cleanup; no internal owner/chat/queue narrative enters public copy. Both strict
+92-page production/project-path builds pass source/HTML/link/search/sitemap QA.
+Browser verifies desktop light, 390 px mobile dark table containment, search results
+and search→ADR→guide navigation. Normal light/default viewport restored; local
+server 8791 remains until delivery readback, then must stop. No theme/asset changes.
+
+**Completion:** mark MDB-0084 done, MDB-0085 ready, both parents expanded; validate 85 IDs,
+DAG/cards/eligibility and stage only owned files. Commit with Step-ID MDB-0084 /
+Step-Result completed, push normally and verify exact-source Java/docs/Pages/live
+checks before further execution. Record Linux inventory/profile and expected
+Windows 6 additional native skips separately; retain production qualification gaps.
+No supervised runner, benchmark evaluation or other next implementation starts.
+
+**Next recommendation:** MDB-0085 — Supervised Linux workload evidence.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

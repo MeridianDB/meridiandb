@@ -2276,6 +2276,59 @@ larger/paid runs within explicit environment/budget. Avoid hidden GC/cache-reset
 weak acknowledgement changes. Document unavailable counters as gaps, not zeros;
 MDB-0083 owns integrated acceptance and actual Linux evaluation.
 
+**Required children:** MDB-0084 implements bounded in-process measurements and
+correctness-checked local operation lifecycles; MDB-0085 adds supervised CLI,
+versioned serialized evidence/provenance, Linux allocated/process-I/O accounting,
+timeouts and partial/failed outcome admission. Preserve all original criteria.
+The parent stays expanded until both children and the integrated runner pass.
+
+## MDB-0084 Local operation measurement core
+
+**Parent:** MDB-0082. **Outcome:** consume prepared corpus outcomes in a bounded
+test-only in-process runner with fresh warmup/measured namespaces. Measure forced
+commits/retries, pinned queries, journal/checkpoint writable reopen, segment writes,
+checkpoint publication, pure compaction planning and publication with an old reader
+pinned. Check exact answers/history/identity outside operation clocks.
+
+**Complete when:** typed versioned per-iteration evidence binds corpus fingerprints,
+configuration and runtime; records per-phase/kind service latency distributions,
+service rate versus loop wall rate and validation/recording boundaries; reports
+optional current-platform-thread CPU/allocation and sampled heap with precise
+limits. Preserve raw samples, fresh-store resets, explicit unavailable counters,
+retained named-file lengths and fixed synchronous/pinned-reader semantics.
+Literal metric/boundary/failure tests and actual native lifecycle tests pass;
+qualification inventory is reconciled from a complete successful core run. Keep
+helpers outside production/classifier artifacts. No cold-cache, sustained arrival,
+physical I/O, production performance or completed supervised-runner claim follows.
+
+**Source result, November 2, 2026:** the in-process core and 26 new checks meet
+this child scope. Actual four-profile and fresh-repeat lifecycles pass, including
+pinned old/new history, startup synchronization and post-close exact journal
+identity. Final complete rooted macOS verification passes 1,335 cases /73 suites,
+zero skips, with unchanged prior counts and exact new 9/17 inventory. Optional
+762 regressions, fourteen examples, Python 40/docs 42, artifact/jdeps and both 92-page
+URL builds pass. Guide/ADR 0042 and agent rules preserve measurement scope and
+remaining supervised/physical-accounting gaps. Normal source push and exact-source
+Linux/Windows CI/automatic publication remain delivery checks. Keep MDB-0082 and
+MDB-0012 expanded; recommend MDB-0085 without executing it here.
+
+## MDB-0085 Supervised Linux workload evidence
+
+**Parent:** MDB-0082. **Outcome:** wrap MDB-0084 with bounded process execution,
+versioned JSON/provenance and actual Linux file/process accounting. Record exact
+source/workload/runtime/filesystem/mount/cache/heap/profile and telemetry scopes;
+validate fresh result binding, counts and successful/unsupported/failed outcomes.
+
+**Complete when:** a repeatable documented CLI retains bounded fresh output,
+handles deadlines/child-process cleanup and rejects partial/stale/malformed evidence.
+Distinguish journal/named bytes, allocated blocks and accurately scoped process I/O
+with defined denominators and explicit unavailable gaps. Source, environmental
+assumptions and measurement/check overhead are visible. Exercise valid, unsupported,
+failed and interrupted paths and integrate actual CI smoke without comparative
+performance claims. Audit every original MDB-0082 criterion before closing it;
+MDB-0083 remains required for baseline evaluation. No paid environment, privileged
+cache/device action, remote backend or native binding is presumed.
+
 ## MDB-0083 Linux baseline evaluation and conformance
 
 **Parent:** MDB-0012. **Outcome:** run reproducible local baseline workloads in actual

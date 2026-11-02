@@ -64,7 +64,8 @@ runs a reviewed complete inventory with fresh reports and explicit fixture place
 Update its invocation counts only from an evidenced successful complete run when
 changing core tests. The [workload corpus](../development/workload-corpus.md)
 provides bounded generated actions, independent prepared answers and exact
-fingerprints for future measurements. Keep generation/checks outside timed loops
+fingerprints for the [local measurement core](../development/local-measurements.md).
+Keep generation/checks outside operation timers
 and use fresh stores for repetitions. The [reference guide](../development/reference-model.md)
 describes fixture replay, seeded histories and focused reproduction commands. Follow the
 [engine guide](../development/embedded-engine.md) to run the Java example and
