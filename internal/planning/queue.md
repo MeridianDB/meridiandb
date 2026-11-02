@@ -12,44 +12,38 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Linux local storage remains the production target. Windows has a basic
-  compatibility role. All twelve unfinished S3 rows and separately planned
-  replication remain deferred with original IDs, criteria and completed history.
-- **MDB-0079 — Linux storage contract and qualification harness** has satisfied
-  acceptance. Checkpoint source `520b86da523fbea3cf82b83c70e716d05ca8f664` is on
-  origin/main; Java **41470158485**, docs **41470158494** and automatic Pages
-  **41470158499** pass. This completion updates the receipt plus one precise guide
-  clarification about Maven clean replacing target output; production code is unchanged.
-- The actual Linux run `2b00a33982fa4038b7a671108b81d51e` is bound to clean source,
-  the reviewed inventory SHA256 `7b3a2cdb93235cc04ef7dcc0efd1fec00acc4de53e167a6d81c2b400bc90fe8c`,
-  and the same scratch filesystem: ext4, kernel `7.0.0-1017-azure`, x86_64,
-  Temurin `25.0.5+8-LTS`. All eight native capability observations and all
-  **68 suites /1,273 cases** pass with zero failures/errors/skips. Forty Python
-  guard tests, 762 optional regressions and fourteen examples per platform pass.
-  Windows retains 364 core /381 optional explicit capability skips.
-- **CI correctness profile only:** mount flags include `commit=30`,
-  `data=writeback`, `discard`, `errors=remount-ro`, `nobarrier`, `relatime`, `rw`;
-  one option is unreported and all device queue/cache fields are unknown. Keep
-  `productionQualified: false`. MDB-0080 must qualify a reviewed production mount/
-  device/controller profile and its failure assumptions before production claims.
-- Test artifact **13155005925**, 190,231 bytes, digest
-  `bd4d0bdc28e4c58881f424d09d4361861a83ce03b99e25bb39f80f662d439173`,
-  retains JSON/XML/logs until November 16, 2026. Full run/job/source and exact profile
-  facts are in progress history; artifact expiration does not erase the summary.
-- Local 1,273 ordinary/rooted cases, all 68 report bindings, 762 optional cases,
-  fourteen packaged examples, 40 Python guards, 42 docs fixtures and archive/jdeps
-  checks passed. Helpers stay outside 155 production /10 classifier classes.
-  Both 88-page URL builds, fourteen live content/canonical checks, new search and
-  sitemap pass. Browser light/dark/mobile and live verification pass; normal light
-  viewport is restored and local server is stopped. Independent review has no findings.
-- The fourteen Maven pins remain freshly researched/unchanged. No production
-  storage algorithm, acknowledgement, file format, dependency version or S3 API
-  changed. Completion `17a2c0edb37c8dfd723450b53934430aa0ceb073` is pushed;
-  final docs **41471550359** and Pages **41471550376** pass. Fourteen live
-  readbacks/search/sitemap and the published cleanup clarification pass. Java
-  evidence is reused from unchanged runtime source520b86d; no further step started.
-- **Next ready item: MDB-0012 — Reproducible workload baseline.** No benchmark
-  execution, new native binding, S3 continuation or library release starts here.
+- Linux local storage remains the production target; Windows has a basic
+  compatibility role. Twelve unfinished S3 rows and separately planned replication
+  remain deferred with original IDs, acceptance criteria and completed history.
+- MDB-0012 is expanded into required MDB-0081 corpus, MDB-0082 measurement runner
+  and MDB-0083 Linux evaluation/conformance. Preserve every original baseline
+  criterion; the corpus alone does not complete that parent. All 83 IDs remain.
+- **MDB-0081 — Deterministic temporal workload corpus** meets source acceptance:
+  versioned bounded profiles/actions, independent expected answers, observed
+  metadata, binary schedule/history fingerprints and actual memory/local reopen.
+  Workload support is test-only; production code, formats and acknowledgement
+  remain unchanged. No measurement runner or performance result is implemented.
+- Local complete rooted verification passes **71 suites /1,309 tests**, with zero
+  failures/errors/skips, on Oracle JDK25.0.2 macOS aarch64. The reviewed inventory
+  preserves all previous 68 counts and adds 14 corpus, 13 oracle and 9 conformance
+  cases; SHA256 `d84101066178be9e03ac3d0e2eaaf6c0332f29e141acd982954740c5290c0287`.
+  Final focused 36 cases, optional S3 762 cases, fourteen packaged examples,
+  40 storage guards, 42 docs fixtures and archive/jdeps checks pass.
+- Both 90-page strict URL builds, guide/decision navigation and search, desktop
+  light and mobile dark rendering pass. Public copy separates configured rates,
+  observed dataset metadata and physical measurement. Fourteen current Maven
+  artifact pins were freshly researched and remain unchanged. Independent final
+  review has no actionable findings; full evidence is in progress history.
+- This source completion must be pushed normally and verified through exact-source
+  Java/docs/automatic Pages plus live readback before further execution. The new
+  Linux qualification inventory must pass with zero skips; macOS local results
+  do not establish Linux or production qualification. The preceding observed Linux
+  CI profile remains correctness-only with unknown backing device/cache and
+  `productionQualified: false`; MDB-0080 retains production gaps.
+- **MDB-0082 — Local workload measurement runner** is source-ready after MDB-0081;
+  execution waits for successful remote delivery/CI. No next implementation starts
+  in this invocation. MDB-0012 remains expanded until all required children and
+  original integration criteria pass.
 
 ## Ordered work
 
@@ -86,7 +80,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | done | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
 | [MDB-0078](roadmap.md#mdb-0078-linux-local-storage-priority-and-format-research) | Adopt Linux priority and research temporal layouts and native I/O | — | done | MDB-0010, MDB-0034 |
 | [MDB-0079](roadmap.md#mdb-0079-linux-storage-contract-and-qualification-harness) | Define and exercise named Linux storage capability profiles | — | done | MDB-0010, MDB-0078 |
-| [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | ready | MDB-0010, MDB-0079 |
+| [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | expanded | MDB-0010, MDB-0079 |
+| [MDB-0081](roadmap.md#mdb-0081-deterministic-temporal-workload-corpus) | Build bounded deterministic temporal actions and independent expected outcomes | MDB-0012 | done | MDB-0010, MDB-0079 |
+| [MDB-0082](roadmap.md#mdb-0082-local-workload-measurement-runner) | Measure local execution with explicit setup, timing and resource semantics | MDB-0012 | ready | MDB-0010, MDB-0079, MDB-0081 |
+| [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |

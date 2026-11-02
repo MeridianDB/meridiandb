@@ -5476,6 +5476,109 @@ S3 continuation, real-provider mutation or library release starts.
 **Next recommendation:** MDB-0012 — Reproducible workload baseline.
 
 
+## 2026-11-02 — MDB-0081 Deterministic temporal workload corpus
+
+**Scope and planning:** resumed from clean matching main/origin at
+`e1f31b36165bf87110f734452fe82451680c3119`. Expanded MDB-0012 into required
+MDB-0081 corpus, MDB-0082 local measurement runner and MDB-0083 Linux evaluation/
+conformance. Retain all original latency/throughput/CPU/allocation/heap, encoded/
+allocated bytes, actual I/O/amplification, replay/checkpoint/compaction criteria.
+All83 IDs, S3 deferrals and independent replication scope remain. This invocation
+implements only MDB-0081; no timed runner, benchmark result, optimization, native
+binding, release or remote-provider change starts.
+
+**Implementation:** five test-only workload files define bounded v1 immutable
+spec/actions, four16-entity/128-commit/64-query defaults and separate write/read/
+retry Random streams. Explicit setup boundaries, original request IDs, new no-op
+commits, exact retry sequences and read cutoffs are validated before prepared
+answers escape. Preserve UTF-16 identities and exact signed-long/BigInteger values.
+Streaming schedule SHA256 binds spec/actions/typed query fields; separate history
+SHA256 binds the exact journal header and original frames. The literal seed7
+vector has354 encoded bytes, schedule
+`39bd170644930733aef2da90da5ed3d9c1d42bf48c37a42052d19f57e52f2af0`
+and history `cdbb2a26ffde6b13937bf196fa3fe77630c6b65922696e67073d37050be7a211`.
+Random48 aliases are explicit. Constructor admission caps dimensions, reference
+work estimate, action/encoding totals, identities, finite width and query fanout.
+Finite one-operation scope is deliberate and leaves canonical contracts unchanged.
+
+Independent oracle preparation uses the existing backward reference, checks
+actual replay/sequence and cutoff availability, then records realized intent/effect,
+geometric overlap, entity history/skew, query/hit/miss/head/historical counts with
+denominators. Counters overlap; fallback restoration is an actual put even when
+scheduled as a retraction. Separate literal answers/metadata and a forward dense
+cell model avoid treating agreement with production as an independent oracle.
+All four profiles execute actual memory and writable local databases with reopen
+after every16 new commits, pinned read/retry sweeps and closed-journal byte/hash
+comparison. No corpus helper is attached to production/classifier artifacts.
+
+**Validation:** initial focused12 and then34/35 invocations passed as coverage grew;
+a private memory-constructor compile attempt was corrected to use the existing
+public no-argument API and its assigned lineage, without changing production.
+Independent review caught an unreachable extreme-predicate schedule; `(index/5)%5`
+and a behavioral regression fix it. Final review added setup-stage validation and
+its malformed-schedule check; final focused **36** cases pass (14corpus,13oracle,
+9conformance), zero failures/errors/skips. The final tiny-spec fanout boundary
+assertions accept2/reject3. No remaining actionable independent review findings.
+
+Complete `./mvnw -B clean install` with a fresh explicit qualification fixture root,
+report directory, fork tmpdir, test-only factory and run bindings passes **1,309
+cases in71 suites**, zero failures/errors/skips. Local run
+`6e8d8bf87a0242f1bdc3782b83050377` uses Oracle Java25.0.2 /runtime25.0.2+10-LTS-69,
+macOS aarch64. All71 reports pass the strict `read_reports` parser with matching
+run/root/runtime bindings. Prior68 suite counts are unchanged; only new14/13/9
+workload suites are added. Inventory SHA256
+`d84101066178be9e03ac3d0e2eaaf6c0332f29e141acd982954740c5290c0287`.
+The preceding full run with35 new checks passed1,308; the stage-validation change
+justified the final complete rerun. The subsequent fanout assertion strengthening
+passes all36 focused checks. Actual Linux execution remains an exact-source CI
+check; these local results are not Linux/device qualification.
+
+Optional `./mvnw -B -f adapters/s3/pom.xml verify` passes **762**, zero failures/
+errors/skips. All **fourteen** examples run against the packaged core JAR. Archive
+inspection preserves155 production classes and10 classifier classes, no workload/
+probe/factory leakage; `jdeps --print-module-deps` remains `java.base`. No POM,
+Wrapper, dependency version or production source changes. Python storage guards
+pass40; public documentation fixtures pass42. Ignored `.local-qa/mdb-0081/` holds
+research bodies, logs, report bindings, vectors, archive facts and screenshots.
+
+**Fresh Maven research:** all14 current coordinates were checked from current
+Central metadata at **16:19:43UTC /11:19:43EST**, official compatibility at
+**16:19:44UTC /11:19:44EST**, November2. Selections remain Maven3.10.0,
+Wrapper3.3.4, clean/resources3.5.0, compiler3.16.0, Surefire3.6.1, jar3.5.1,
+install/deploy3.2.0, JUnit6.1.3, Jackson3.2.4 and both AWS SDK2.57.8 components.
+All selected releases remain latest stable compatible;4.x preview/beta entries
+are not substitutions. Metadata summary SHA256
+`f6b8d65021a88209ae909d338c7d0fe3f05cded6c65ddaa12d8583b62df23003`;
+compatibility summary
+`0267e49024d25c2ae4c4bfebb95f811c1a1741425ae0da2b98c0636121f5681b`.
+Public build guide updates the actual research times and retains exact source
+links. Java25 Random primary specification confirms the portable48-bit generator;
+its seed aliases are tested rather than treated as independent datasets.
+
+**Documentation and rules:** new public workload guide and ADR0041 describe profiles,
+bounds, fingerprints, literal vectors, observed seed42 metadata, limitations and
+measurement separation. README/home/roadmap/Linux design/contribution/build and
+three S3 current-count callers are reconciled; navigation and decision index link
+both pages. Agent rules persist correct generation/oracle/timing/reset/fingerprint
+and physical-byte boundaries. No chat/owner/task-state narrative enters public
+copy. Both production and project-path strict builds pass for90 public pages,
+including source, HTML, links, search and sitemap. Browser verifies desktop light,
+390px mobile dark table containment (375px scroll width), guide/decision navigation
+and both search results. Normal light viewport is restored. Local server8790
+remains available until delivery verification, then must stop. No renderer/asset
+or theme change is introduced.
+
+**Source completion:** mark MDB-0081 done and MDB-0082 ready, retaining MDB-0012
+expanded. Commit with Step-ID MDB-0081 /Step-Result completed, push normally,
+verify exact-source Java/docs/Pages and live guide/ADR/canonicals/search/sitemap,
+then record actual delivery. New Linux inventory must pass with zero skips;
+Windows retains four additional explicit native-capability skips, pure corpus
+checks remain runnable there. Hosted Linux evidence still has unknown device/
+cache and known mount limitations; MDB-0080 owns production qualification.
+
+**Next recommendation:** MDB-0082 — Local workload measurement runner.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

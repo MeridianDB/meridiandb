@@ -62,8 +62,11 @@ Research latest artifact versions for every Maven change under that procedure.
 The [Linux qualification harness](../development/linux-storage-qualification.md)
 runs a reviewed complete inventory with fresh reports and explicit fixture placement.
 Update its invocation counts only from an evidenced successful complete run when
-changing core tests. The [reference guide](../development/reference-model.md) describes fixture replay,
-seeded histories and focused reproduction commands. Follow the
+changing core tests. The [workload corpus](../development/workload-corpus.md)
+provides bounded generated actions, independent prepared answers and exact
+fingerprints for future measurements. Keep generation/checks outside timed loops
+and use fresh stores for repetitions. The [reference guide](../development/reference-model.md)
+describes fixture replay, seeded histories and focused reproduction commands. Follow the
 [engine guide](../development/embedded-engine.md) to run the Java example and
 understand close semantics, concurrency checks and memory-only limits. Storage
 work also follows the [journal specification](../architecture/journal-format.md)

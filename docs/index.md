@@ -34,6 +34,11 @@ records actual environment/capability evidence while running the complete
 local-core inventory on one explicit filesystem. It separates process/fault
 correctness from production and power-loss qualification.
 
+The [deterministic workload corpus](development/workload-corpus.md) prepares bounded
+seeded histories, pinned reads and independent answers, with actual memory and
+local-reopen checks. Performance measurement and Linux baseline evaluation remain
+subsequent work.
+
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.
 The [Java/Maven build](development/build.md) includes immutable temporal types and

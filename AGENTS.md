@@ -545,6 +545,18 @@ so a new session can work correctly without relying on earlier conversations.
   Record revision, runtime, hardware, dataset/seed, configuration, warmup and cache
   conditions. Include resource use and latency distributions when relevant; label
   estimates and microbenchmarks so they are not presented as engine results.
+- For workload inputs, follow [ADR 0041](docs/decisions/0041-deterministic-workload-corpus.md)
+  and the [corpus guide](docs/development/workload-corpus.md). Preserve versioned
+  binary fingerprints, literal goldens, independent expected answers and actual
+  memory/local-reopen conformance. Validate setup boundaries, retry identity and
+  available pinned cutoffs before execution. Report configured intent probabilities
+  separately from observed effects and counts with their denominators. Keep corpus
+  helpers test-only and out of production/classifier archives; reconcile the Linux
+  inventory from a complete successful run. A generator/encoding change needs an
+  explicit version/golden compatibility decision. Generate and validate outside
+  timed loops, use fresh stores per repetition and distinguish logical encoded
+  bytes from allocated storage and actual I/O. Corpus correctness supplies no
+  performance result; retain runner/evaluation work until its own criteria pass.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

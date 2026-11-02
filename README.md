@@ -41,6 +41,9 @@ The local protocol is experimental. [Durability conformance](docs/development/du
 checks process exits, lost acknowledgements, retries and seeded writable reopen;
 it does not simulate device power loss.
 There is no published library or stable API.
+The test-only [workload corpus](docs/development/workload-corpus.md) now supplies
+bounded seeded histories, independent expected answers and memory/local-reopen
+checks. Timing, resource accounting and Linux baseline evaluation remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -189,7 +192,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,273 JUnit test invocations: one filesystem qualification probe,
+This runs 1,309 JUnit test invocations: 36 [workload corpus checks](docs/development/workload-corpus.md),
+one filesystem qualification probe,
 66 pinned checkpoint write checks,
 69 pinned read recovery checks,
 22 pinned object-history loading checks,

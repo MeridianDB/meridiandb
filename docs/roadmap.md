@@ -39,6 +39,7 @@ future protocol with local persistence on each participant.
 | [Temporal model](architecture/temporal-contract.md) | Ordered whole-value puts and retractions, valid-time intervals and historical commit cutoffs |
 | [Embedded memory engine](development/embedded-engine.md) | Serialized atomic commits, immutable read views, request retries and exact point/scan/aggregate answers |
 | [Independent reference](development/reference-model.md) | Canonical histories and seeded comparisons against a separate dense-state representation |
+| [Workload corpus](development/workload-corpus.md) | Bounded deterministic append/correction/retraction/hot-entity histories, independent answers and memory/local-reopen conformance; no performance measurements |
 | [Journal codec](architecture/journal-format.md) | Versioned transaction frames, exact identity, checksums, allocation bounds and strict byte validation |
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |

@@ -68,6 +68,9 @@
     "org.meridiandb.storage.segment.SegmentRangeDecodeTest": 16,
     "org.meridiandb.temporal.QueryTypesTest": 8,
     "org.meridiandb.temporal.TemporalTypesTest": 8,
-    "org.meridiandb.temporal.ValidTimeIntervalTest": 18
+    "org.meridiandb.temporal.ValidTimeIntervalTest": 18,
+    "org.meridiandb.workload.WorkloadConformanceTest": 9,
+    "org.meridiandb.workload.WorkloadCorpusTest": 14,
+    "org.meridiandb.workload.WorkloadOracleTest": 13
   }
 }

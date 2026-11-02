@@ -2212,6 +2212,82 @@ hosted CI correctness from controlled Linux-device measurements. Use a bounded
 small default; larger or paid runs need an explicit environment/budget. Record
 bottlenecks and candidate experiment decisions without inventing a required gain.
 
+**Required children:** MDB-0081 builds the deterministic bounded action corpus and
+independent answers/realized distributions; MDB-0082 implements the local runner,
+measurement semantics, resource counters, resets/repeats and result schema;
+MDB-0083 evaluates actual Linux runs, failure/evidence integrity and every original
+criterion above. The parent remains expanded until all children and integrated
+latency/throughput/resource/amplification/recovery/checkpoint criteria pass. A pure
+corpus or CI timing smoke alone supplies no complete baseline or optimization claim.
+
+## MDB-0081 Deterministic temporal workload corpus
+
+**Parent:** MDB-0012. **Outcome:** define a versioned bounded workload specification,
+deterministic ordered setup/mixed action stream, explicit historical cutoffs and
+independent expected outcomes before timing. Separate request attempts, unique
+commits, retries, new no-op commits and write operations. Preserve original IDs,
+queries and numerical temporal semantics; canonical correctness fixtures stay unchanged.
+
+**Complete when:** small named append/correction/retraction/hot-entity profiles
+have stable seeded generation and canonical content/write fingerprints, independent
+reference/dense expected-answer checks and actual memory/local-reopen conformance.
+Record configured versus observed distributions, entity touches/history depth,
+geometric overlap versus resolved correction/retraction effects, query types and
+hit/miss/cutoff denominators. Preflight aggregate action/encoding/answer/work
+bounds before materialization; preserve exact UTF-16 and bound representation in
+fingerprints. Include literal golden behavior, extremes, invalid limits and
+isolation/retry/no-op cases. Keep workload support test-only and outside production/
+classifier artifacts. Update qualification inventory from complete evidenced tests.
+No clock, latency, throughput, device I/O/amplification or production claim follows.
+
+**Source result, November 2, 2026:** v1 corpus/oracle and 36 focused workload checks
+meet these criteria. Four defaults have deterministic actions, literal vectors,
+observed effect/entity/query counts, independent backward/forward expectations,
+actual memory execution and repeated native local reopen. Full macOS rooted core
+run passes 1,309 cases /71 suites with zero skips; all previous inventory counts
+are preserved. Qualification inventory adds only the three new suites. Optional
+762 regressions, fourteen examples, Python40/docs42, artifact/jdeps and both90-page
+URL builds pass. Guide/ADR0041 and rules preserve bounded finite single-operation
+scope, seed-stage validation, Random48 aliases and logical-versus-physical bytes.
+Exact-source Linux/Windows CI and automatic publication are delivery checks after
+normal source push; keep the parent expanded and do not start MDB-0082 here.
+
+## MDB-0082 Local workload measurement runner
+
+**Parent:** MDB-0012. **Outcome:** consume MDB-0081's already generated and validated
+actions/answers outside timed loops in a separate developer runner. Define setup,
+load, warmup, measured iterations and fresh-store reset so repeated IDs do not turn
+new-write measurements into retry lookup. Record exact source/workload/runtime,
+profile/durability/cache/memory conditions and unsupported/failed outcomes.
+
+**Complete when:** correctness-checked local writes/queries/recovery/checkpoint/
+compaction produce versioned result evidence with per-kind counts, closed-loop
+service latency distributions and throughput, CPU/allocation/heap, encoded versus
+allocated storage and accurately scoped bytes/I/O/amplification counters. Distinguish
+arrival/end-to-end latency and measurement/check overhead, pinned readers, lag and
+merge backlog. Bound default work, subprocess lifetimes and retained output; keep
+larger/paid runs within explicit environment/budget. Avoid hidden GC/cache-reset or
+weak acknowledgement changes. Document unavailable counters as gaps, not zeros;
+MDB-0083 owns integrated acceptance and actual Linux evaluation.
+
+## MDB-0083 Linux baseline evaluation and conformance
+
+**Parent:** MDB-0012. **Outcome:** run reproducible local baseline workloads in actual
+Linux with complete dataset/profile/runtime/seed evidence, warm/cold definitions,
+independent correctness and explicit measurement limits. Preserve the known hosted
+CI profile as correctness-only; it supplies no production-device durability or
+controlled performance comparison. Reuse existing authorization; no paid environment
+or privileged cache/device operation is presumed.
+
+**Complete when:** saved runs/results can be repeated, failure/partial/stale result
+handling is checked, all original MDB-0012 criteria are audited and latency,
+throughput, CPU/heap, encoded/allocated bytes, actual I/O/amplification, replay and
+checkpoint/compaction evidence is explained with limits. Name gaps and justified
+next experiments from measurements, not a mandatory speed gain. Separate CI smoke,
+observational local runs, controlled device measurements and microbenchmarks. Close
+MDB-0012 only when the required runner/evaluation and original integration criteria
+pass; preserve all child evidence and hardware/production gaps in later work.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

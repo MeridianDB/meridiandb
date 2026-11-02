@@ -57,7 +57,7 @@ four [graph-consumer SDK/HTTP cases](object-checkpoint-graphs.md) and 65 pure
 [native guard cases](s3-coordination-guard.md).
 Native local cases explicitly skip unsupported placement; pure and injected checks
 remain independent of those capabilities.
-Core runs its separate 1,273 tests. No cloud service or account is used by these tests.
+Core runs its separate 1,309 tests. No cloud service or account is used by these tests.
 
 Construct `S3CheckpointHeads` with an explicit endpoint origin, signing region,
 existing bucket, caller-owned credentials and a `Binding` containing the expected

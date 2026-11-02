@@ -50,6 +50,7 @@ permanent commitment.
 | [0038: Permanent S3 coordination guard](0038-permanent-s3-coordination-guard.md) | Internal native primitive implemented; ledger/enrollment pending | Bounded sole-channel shared/exclusive leases, permanent identity and uncertain-close quarantine |
 | [0039: Linux local storage priority](0039-linux-local-storage-priority.md) | Adopted direction; qualification and layouts planned | Linux production target, basic Windows compatibility, deferred S3 expansion and measured temporal-format/I/O experiments |
 | [0040: Linux qualification evidence](0040-linux-qualification-evidence.md) | Development harness implemented; production qualification open | Same-filesystem fixtures, exact inventory, fresh native/runtime/result evidence and bounded failure cleanup |
+| [0041: Deterministic workload corpus](0041-deterministic-workload-corpus.md) | Test-only corpus implemented; measurements pending | Bounded seeded actions, explicit historical cutoffs, independent answers, realized metadata and separate schedule/history fingerprints |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.
