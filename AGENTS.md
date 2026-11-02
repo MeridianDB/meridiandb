@@ -74,6 +74,17 @@ so a new session can work correctly without relying on earlier conversations.
   copy/reflink acceleration supplies neither node replication nor durable publication.
   Record workload-specific gains and regressions; production readiness and universal
   performance superiority require evidence and cannot be inferred from design.
+- For Linux evidence, follow [ADR 0040](docs/decisions/0040-linux-qualification-evidence.md)
+  and the [qualification harness](docs/development/linux-storage-qualification.md).
+  Run the complete reviewed suite inventory on the actual profiled scratch
+  filesystem using the opt-in test-only factory. Require fresh run/root/runtime
+  bindings, exact coherent counts and zero required skips, failures or retry-masked
+  outcomes. Preserve failed evidence and bounded process-group cleanup. Reconcile
+  `scripts/storage/required-suites.json` with an evidenced complete run whenever
+  core-test scope changes; record additions/removals rather than reducing counts
+  to hide failures. Keep probe/factory out of production and the attached classifier.
+  Report actual kernel/filesystem/JDK and unknown device/cache limits; passing CI
+  remains process/capability evidence, not production or power-loss qualification.
 - Follow [the language strategy](docs/decisions/0001-language-strategy.md): use Java
   for initial production code and the reference model. Other languages remain open
   to scoped experiments and evidence-based adoption under that decision.

@@ -5307,6 +5307,78 @@ Pages or release begins.
 **Next recommendation:** MDB-0079 — Linux storage contract and qualification harness.
 
 
+## 2026-11-02 — MDB-0079 Linux qualification harness checkpoint
+
+**Outcome:** implemented a bounded development harness around the unchanged local
+core. `scripts/storage/qualify_linux.py` creates a fresh run-owned scratch child,
+observes real path/st_dev/mountinfo plus limited sysfs queue facts, records source
+commit/dirty state and kernel/architecture, and invokes core clean/install with an
+explicit fixture root, JUnit factory, fork startup temp path, fresh report directory
+and retries disabled. `required-suites.json` preserves all existing core test
+coverage plus the new native metadata/capability probe: 68 suites, 1,273 invocations.
+
+The test-only factory roots every current JUnit fixture; existing process helpers
+receive explicit fixture paths. LocalStorageQualificationTest checks its actual
+placement, the production directory-sync probe, file/directory force, file key,
+actual shared/exclusive locks, atomic move and unchanged identity after rename.
+It emits run-bound Java/JDK/FileStore evidence only in qualification mode. Ordinary
+portable builds retain explicit unsupported-directory handling. No production
+engine, native binding, public API, persisted bytes or acknowledgement changes.
+
+**Evidence guards:** bounded fresh XML/JSON, exact suite/invocation inventory,
+nonempty unique testcase identity, coherent counters, root/run/factory/runtime
+bindings and complete probe capabilities are required. DTDs/entities, non-UTF8,
+duplicate JSON/properties, retry/flaky outcomes, wrong runtime/filesystem, skips,
+partial/missing/oversized reports and nonzero Maven all fail. Timeout/interruption
+and nonzero leader exit clean the dedicated process group, including a TERM-
+resistant fixture child. Failed run-owned evidence remains. Raw mount source/
+overlay paths, credentials, hostnames and serials are not collected; missing or
+virtual device/cache details remain unknown. ProductionQualified stays false.
+
+**Build/CI/research:** POM adds a narrow reports-directory property wired to
+Surefire, defaulting to its ordinary target path. Linux CI runs 40 Python guards,
+the actual-root core harness, unchanged optional regression and all examples;
+Windows retains its ordinary broader regression build/basic support role. Added
+script and Python-version path filters. The officially researched upload-artifact
+v7.0.2 is pinned at cf430e030ddbb5b0abf93d22962f4752f3646cd9; a 14-day test artifact
+retains JSON/XML/Maven logs, separate from library releases. Fresh Central and
+28 official metadata/compatibility sources were checked November 2 at 14:52:53/
+14:52:54 UTC (09:52:53/54 EST); all fourteen selected stable versions remain latest.
+Research hashes: metadata39522c010b319e9ae966b7730e9d662bea2f45633334a10bbc0b95ca09b858db,
+compatibility576b68662bb71e3404de5af2388d317d61af4901fb51e77c83d71f8e75345a58,
+report d73f2eb95a0e1c8c9e2eb78e7db1e9f345b8e434c8a1ff8fc6fabca955eac60c.
+Current Surefire, JUnit factory, Linux mountinfo/sysfs ABI and artifact action inputs
+supply dated primary evidence in public guides. No dependency/Wrapper pin changes.
+
+**Local verification:** ordinary core clean/verify and explicit-root clean/install
+both pass 1,273 cases, zero failures/errors/skips. The rooted run's 68 fresh XML
+reports pass strict parsing and actual fixture/JVM/FileStore binding; it observed
+macOS arm64/APFS with Oracle JDK25.0.2, not Linux qualification. Optional verify
+passes all 762 cases and fourteen packaged-core examples pass. Archive inspection
+confirms 155 production classes, ten contract-support classes and no qualification
+helpers in either; jdeps remains java.base. Forty Python guards pass, including real
+timeout and nonzero-exit grandchild cleanup. Forty-two docs fixtures, both strict
+88-page URL builds, fourteen local HTTP content/canonical readbacks, both new search
+entries and sitemap pass. Browser guide→decision→guide/search and desktop-light/
+390×844-dark tables pass without page overflow; normal light viewport is restored.
+Independent reviews resolved all findings; full exact Linux acceptance remains pending.
+
+**Documentation:** guide and ADR 0040 plus README, home/roadmap, Linux architecture,
+build/contribution/durability guides, decision index/nav and agent rules agree on
+same-filesystem evidence and no production/power-loss claim. Updated five current
+core-test count callers while preserving S3 code and its deferred scope. Maintain
+inventory from reviewed complete results rather than reducing it to mask failures.
+
+**Delivery checkpoint:** commit Step-ID MDB-0079 /Step-Result checkpoint and push
+normally to exercise actual Linux CI. Retain the active item and every original
+acceptance criterion until exact-source Linux profile, full CI, automatic Pages
+and live checks pass. Then record completion and make MDB-0012 ready; this invocation
+starts no benchmark, next implementation, S3 work or library release. Ignored
+`.local-qa/mdb-0079/` holds raw research, all local logs/reports, readbacks and images.
+
+**Next action:** finish MDB-0079 Linux/remote delivery; only then recommend MDB-0012.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

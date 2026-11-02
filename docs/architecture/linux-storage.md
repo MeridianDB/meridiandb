@@ -9,7 +9,10 @@ Linux local persistence is MeridianDB's primary development target for productio
 use. The current implementation is experimental: it has a forced transaction
 journal, immutable history segments and verified checkpoint publication, but no
 production qualification or performance results. [ADR 0039](../decisions/0039-linux-local-storage-priority.md)
-records the platform and storage priorities.
+records the platform and storage priorities. The
+[Linux qualification harness](../development/linux-storage-qualification.md)
+now binds the complete core inventory and native probes to an observed scratch
+filesystem, with fresh per-run environment and result evidence.
 
 S3 remains an optional experimental integration with further development deferred.
 Kafka-topic storage and other persistence adapters are future possibilities.

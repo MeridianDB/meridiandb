@@ -12,45 +12,38 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Owner direction, **November 2, 2026**: prioritize Linux local filesystem storage
-  for production use; Windows needs basic tests rather than native parity. Retain
-  S3 as-is and defer its unfinished work. Kafka-topic storage and other persistence
-  integrations remain later work. A specialized bitemporal layout is a research
-  hypothesis to measure, not a universal performance claim.
-- **MDB-0078 — Linux local storage priority and format research** is complete.
-  Source `4ba55629490c8fd49e5d351af3b9c43cbdf9aa35` is pushed to origin/main; Java
-  **41454600048**, docs **41454600128** and automatic Pages **41454600658** pass,
-  including actual deployment. This remains a planning-only iteration. ADR 0039
-  and the Linux storage design own the public direction and dated Parquet/RocksDB/Lucene/Linux/Hadoop evidence. No engine,
-  format, Maven, CI or SDK behavior changes; no next implementation starts.
-- Prior MDB-0075 repair `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd` and receipt
-  `a7cf4c09c5af7ebd27b3f07f478e72532a466cea` are verified on origin/main.
-  Java 41388769784, docs 41388769816 and Pages 41388769799 passed. Existing
-  1,272 core /762 optional test evidence remains historical acceptance, not Linux
-  production qualification. The checkout was clean and synchronized before this work.
-- Preserve all 77 existing IDs, completed source/delivery evidence and original
-  parent criteria. Defer unfinished S3 parents MDB-0011/0039/0067/0072 and all their
-  unfinished executable children, including former next MDB-0076. Their expansion
-  metadata remains intact; defer does not complete or cancel any requirement.
-- The revised local path is **MDB-0079 → MDB-0012 → MDB-0013 → MDB-0080 → MDB-0014**:
-  Linux contract/qualification, local baseline, measured format/I/O experiments,
-  evidence-led operational hardening and an experimental candidate. MDB-0012 no
-  longer depends on MDB-0011. Replication MDB-0041 remains separately deferred.
-  All 80 stable IDs are tracked. No production readiness is inferred from planning.
-- Verification: 42 documentation QA fixtures and both strict 86-page URL builds
-  pass; fifteen local content/canonical readbacks, both new search entries and
-  sitemap pass. Browser checks guide/decision/return/search and desktop-light/
-  mobile-dark tables without page overflow; normal light viewport is restored.
-  Independent source/planning review has no findings. Fifteen live HTTPS content/
-  canonical readbacks, both new search entries and the 86-URL sitemap also pass;
-  the browser verifies the published roadmap and its Linux priorities. The local
-  server is stopped. Automatic CI reran both Maven builds and fourteen examples
-  per platform: Linux 1,272 core /762 optional, zero failures/errors/skips; Windows
-  passes with unchanged 363 core /381 optional capability skips. No Maven/runtime
-  inputs changed, and this evidence supplies no production qualification.
-- **Next ready item:** **MDB-0079 — Linux storage contract and
-  qualification harness**. No native binding, replacement file format, release,
-  real-provider/account/hosting mutation or paid environment is started here.
+- Linux local filesystem storage remains the production target under the November 2
+  direction. Windows has a basic compatibility role. All twelve unfinished S3 rows
+  remain deferred with original IDs, parents and criteria; replication MDB-0041 is
+  separately deferred. The selected local path remains MDB-0079 → MDB-0012 →
+  MDB-0013 → MDB-0080 → MDB-0014, without an S3 completion dependency.
+- Prior MDB-0078 source `4ba55629490c8fd49e5d351af3b9c43cbdf9aa35` and receipt
+  `56cea31b7973d52f940961207fbabdc1fc8d200d` are verified on origin/main with passing
+  Java 41454600048, docs 41454600128 and Pages 41454600658.
+- **MDB-0079 — Linux storage contract and qualification harness** remains active,
+  owned by the primary coordinator. The driver/probe, exact inventory, test-only
+  fixture factory, isolated reports and Linux CI path are implemented. No
+  production algorithm, acknowledgement, file format or dependency version changes.
+  A checkpoint push is required for the actual Linux run before source completion.
+- Local verification passes 1,273 core cases in both ordinary and explicit-root
+  runs, all 68 fresh bound reports, 762 unchanged optional cases, fourteen packaged
+  examples, 40 Python guard tests and 42 docs fixtures. The new probe is one core
+  case; both helper classes stay outside 155 production /10 classifier classes.
+  Actual-root local observations are macOS/APFS and are not Linux qualification.
+- Both strict 88-page URL builds, fourteen local content/canonical readbacks, both
+  new search entries and sitemap pass. Browser verifies guide/decision/return/
+  search and desktop-light/mobile-dark tables without page overflow; normal light
+  viewport is restored. Independent reviews resolved runtime/capability, retry-
+  masked XML, process cleanup and Python-toolchain path-filter findings.
+- Fresh Central/official compatibility checks on November 2 at 14:52:53/54 UTC
+  (09:52:53/54 EST) confirm all fourteen selected stable pins. The POM adds only an
+  explicit reports-directory property with its existing default. CI uses the
+  researched pinned upload-artifact v7.0.2 for 14-day test evidence, not a release.
+- Pending: inspect/stage the checkpoint, push normally, verify exact-source Linux
+  profile (required cases/skips, kernel/filesystem/JDK and unknown device/cache),
+  remaining CI, automatic Pages and live readbacks. Keep MDB-0079 active until
+  those acceptance criteria pass, then complete it and make MDB-0012 ready. No
+  benchmark, next step, S3 continuation, native binding or library release starts.
 
 ## Ordered work
 
@@ -86,7 +79,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0033](roadmap.md#mdb-0033-ordered-protected-removal) | Remove verified obsolete objects with ordered synchronization | MDB-0031 | done | MDB-0009, MDB-0027, MDB-0030, MDB-0032 |
 | [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | done | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
 | [MDB-0078](roadmap.md#mdb-0078-linux-local-storage-priority-and-format-research) | Adopt Linux priority and research temporal layouts and native I/O | — | done | MDB-0010, MDB-0034 |
-| [MDB-0079](roadmap.md#mdb-0079-linux-storage-contract-and-qualification-harness) | Define and exercise named Linux storage capability profiles | — | ready | MDB-0010, MDB-0078 |
+| [MDB-0079](roadmap.md#mdb-0079-linux-storage-contract-and-qualification-harness) | Define and exercise named Linux storage capability profiles | — | active | MDB-0010, MDB-0078 |
 | [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0010, MDB-0079 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |

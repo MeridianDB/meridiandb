@@ -97,6 +97,10 @@ seed and transaction history; the canonical source and seed corpus stay unchange
 
 ## Reproduce the checks
 
+Use the [Linux qualification harness](linux-storage-qualification.md) for the
+complete core inventory, exact scratch-filesystem binding and fresh environment/
+result evidence. The focused commands below retain their ordinary test scope.
+
 From the repository root with JDK 25:
 
 ```bash

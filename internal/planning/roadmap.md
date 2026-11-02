@@ -2122,6 +2122,19 @@ Windows native parity. Align CI scope only where justified and research Maven
 versions for any Maven work. This harness does not establish power-loss behavior
 or production readiness. No cloud spend or privileged environment is presumed.
 
+**Implemented checkpoint:** the Linux-only driver matches actual scratch device/
+mount and exposed queue facts; an opt-in test-only factory roots all current core
+fixtures and per-run Java evidence checks native capabilities. Fresh reports bind
+run/root/factory/runtime, exact 68-suite/1,273-case inventory and zero skipped or
+failed results; retry/DTD/duplicate/malformed evidence fails closed. Maven process
+cleanup is bounded on timeout/interruption/nonzero exit. POM report output keeps
+its ordinary default; CI supplies a named observed Linux profile and 14-day test
+artifacts. Forty Python guards, 1,273 ordinary/rooted local checks, 762 optional
+checks, fourteen packaged examples, archive/jdeps, 42 docs fixtures and both strict
+88-page builds pass. Guide/ADR 0040/callers/rules/nav are reconciled. Actual Linux
+CI and delivery remain pending, so keep this item active until that acceptance
+is established; local APFS execution is not Linux evidence.
+
 ## MDB-0080 Linux operational hardening and qualification gaps
 
 **Outcome:** use MDB-0079 profiles and MDB-0012/0013 measurements to identify and

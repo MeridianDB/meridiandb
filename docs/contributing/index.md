@@ -59,7 +59,10 @@ Use JDK 25 and the tracked wrapper from the repository root:
 Windows uses `.\mvnw.cmd -B verify`. Follow the [Java/Maven guide](../development/build.md)
 for bootstrap tools, current artifact research, exact version pins and test scope.
 Research latest artifact versions for every Maven change under that procedure.
-The [reference guide](../development/reference-model.md) describes fixture replay,
+The [Linux qualification harness](../development/linux-storage-qualification.md)
+runs a reviewed complete inventory with fresh reports and explicit fixture placement.
+Update its invocation counts only from an evidenced successful complete run when
+changing core tests. The [reference guide](../development/reference-model.md) describes fixture replay,
 seeded histories and focused reproduction commands. Follow the
 [engine guide](../development/embedded-engine.md) to run the Java example and
 understand close semantics, concurrency checks and memory-only limits. Storage

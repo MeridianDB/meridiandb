@@ -100,7 +100,8 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 1,272 core test invocations include 66 [pinned checkpoint write checks](object-checkpoint-writes.md), 69 [pinned checkpoint recovery checks](object-checkpoint-recovery.md), 22 [pinned object-history loading checks](object-checkpoint-graphs.md#load-pinned-history), 23 [bounded compaction/reclamation preflight checks](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission), 34 [object graph/actual-prefix checks](object-checkpoint-graphs.md), 46 [object-checkpoint-head format/metadata checks](../architecture/object-checkpoint-protocol.md), 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md), 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
+The current 1,273 core test invocations include one
+[filesystem qualification probe](linux-storage-qualification.md) and 66 [pinned checkpoint write checks](object-checkpoint-writes.md), 69 [pinned checkpoint recovery checks](object-checkpoint-recovery.md), 22 [pinned object-history loading checks](object-checkpoint-graphs.md#load-pinned-history), 23 [bounded compaction/reclamation preflight checks](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission), 34 [object graph/actual-prefix checks](object-checkpoint-graphs.md), 46 [object-checkpoint-head format/metadata checks](../architecture/object-checkpoint-protocol.md), 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md), 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
 37 [local database recovery checks](local-database.md),
 39 [local checkpoint publication checks](local-checkpoints.md),
 45 [manifest codec/consistency checks](../architecture/checkpoint-manifest-format.md),
@@ -177,7 +178,7 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-11-01
+## Artifact research checked on 2026-11-02
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
@@ -192,8 +193,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 1: metadata at 23:00:22 EST (November 2, 04:00:22 UTC) and
-compatibility at 23:00:23 EST (November 2, 04:00:23 UTC). The listed selections remain unchanged; the adapter
+on November 2: metadata at 09:52:53 EST (14:52:53 UTC) and
+compatibility at 09:52:54 EST (14:52:54 UTC). The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
@@ -262,8 +263,10 @@ Linux filesystem/device profile. The [Linux storage plan](../architecture/linux-
 defines the separate qualification and measurement work.
 
 **Java checks** runs on affected pull requests and pushes to `main`, with read-only
-repository permissions and credentials removed after checkout. Linux runs
-`./mvnw -B verify`; Windows runs `.\mvnw.cmd -B verify`. Both select Temurin from
+repository permissions and credentials removed after checkout. Linux uses the
+[qualification harness](linux-storage-qualification.md) to run core `clean install`
+on one explicit scratch filesystem, with a test-only fixture factory and isolated
+reports. Windows runs `.\mvnw.cmd -B install`. Both select Temurin from
 `.java-version`, checking for the latest patch in that Java line. Action versions
 are pinned by commit; CI prints the actual runtime. Maven dependencies are cached
 by POM content. Changes to the temporal contract, journal format or canonical fixture directory
@@ -280,6 +283,15 @@ directory open/force capability
 explicitly; capability-dependent real-file tests skip on that specific boundary
 while injected checks still run.
 Changes under `examples/` trigger these checks.
+
+The Linux job also runs forty Python evidence/cleanup guard tests, prints the
+observed profile and suite counts, and retains JSON/XML/log evidence for 14 days.
+Its upload-artifact action is pinned to v7.0.2 commit
+`cf430e030ddbb5b0abf93d22962f4752f3646cd9`, checked against the
+[official release](https://github.com/actions/upload-artifact/releases/tag/v7.0.2)
+and action inputs on November 2, 2026. Neither these test artifacts nor the local
+Maven install are library releases. Qualification helpers stay outside both the
+155-class production archive and the ten-class attached contract-support archive.
 
 Documentation checks and automatic Pages publication retain their own workflows.
 For website setup and verification, follow the

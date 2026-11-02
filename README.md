@@ -169,7 +169,11 @@ through actual publication and removal. The optional S3 checkpoint integration
 is experimental, with further work deferred. The next milestones qualify Linux
 storage profiles, establish a local workload baseline, compare file layouts and
 close evidenced operational/resource gaps before an experimental candidate.
-Local work does not depend on completing S3. Java and Maven remain the foundation.
+Local work does not depend on completing S3. The
+[Linux qualification harness](docs/development/linux-storage-qualification.md)
+now runs the complete local-core inventory on one observed filesystem with fresh
+reports and explicit native capabilities. It supplies no production or power-loss
+qualification. Java and Maven remain the foundation.
 
 ## Build the Java foundation
 
@@ -185,7 +189,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,272 JUnit test invocations: 66 pinned checkpoint write checks,
+This runs 1,273 JUnit test invocations: one filesystem qualification probe,
+66 pinned checkpoint write checks,
 69 pinned read recovery checks,
 22 pinned object-history loading checks,
 23 bounded compaction/reclamation preflight checks,

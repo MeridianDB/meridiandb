@@ -29,6 +29,11 @@ direction, the memory-only engine and the local database's recovery and forced-w
 protocol, with [process crash/retry conformance](development/durability-conformance.md).
 A published library and a stable API remain planned.
 
+The [Linux qualification harness](development/linux-storage-qualification.md)
+records actual environment/capability evidence while running the complete
+local-core inventory on one explicit filesystem. It separates process/fault
+correctness from production and power-loss qualification.
+
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.
 The [Java/Maven build](development/build.md) includes immutable temporal types and

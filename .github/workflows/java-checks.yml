@@ -8,10 +8,12 @@ on:
       - 'mvnw'
       - 'mvnw.cmd'
       - '.java-version'
+      - '.python-version'
       - '.gitattributes'
       - 'src/**'
       - 'adapters/**'
       - 'examples/**'
+      - 'scripts/storage/**'
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
@@ -30,10 +32,12 @@ on:
       - 'mvnw'
       - 'mvnw.cmd'
       - '.java-version'
+      - '.python-version'
       - '.gitattributes'
       - 'src/**'
       - 'adapters/**'
       - 'examples/**'
+      - 'scripts/storage/**'
       - 'docs/architecture/fixtures/**'
       - 'docs/architecture/temporal-contract.md'
       - 'docs/architecture/journal-format.md'
@@ -61,7 +65,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            command: ./mvnw -B install
+            command: python scripts/storage/qualify_linux.py --scratch-parent "$RUNNER_TEMP" --label github-ubuntu-java25-local-v1
             adapter-command: ./mvnw -B -f adapters/s3/pom.xml verify
           - os: windows-latest
             command: .\mvnw.cmd -B install
@@ -81,8 +85,28 @@ jobs:
           cache-dependency-path: |
             pom.xml
             adapters/s3/pom.xml
+      - name: Set up Linux qualification tools
+        if: runner.os == 'Linux'
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version-file: '.python-version'
+      - name: Verify Linux qualification report guards
+        if: runner.os == 'Linux'
+        run: python -m unittest discover -s scripts/storage/tests -p 'test_*.py'
       - name: Verify with the pinned Maven Wrapper
         run: ${{ matrix.command }}
+      - name: Retain Linux qualification evidence
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: linux-storage-evidence
+          path: |
+            ${{ runner.temp }}/mdb-linux-*/profile.json
+            ${{ runner.temp }}/mdb-linux-*/java-profile.json
+            ${{ runner.temp }}/mdb-linux-*/maven.log
+            ${{ runner.temp }}/mdb-linux-*/reports/TEST-*.xml
+          retention-days: 14
+          if-no-files-found: warn
       - name: Verify the optional S3 adapter through loopback HTTP
         run: ${{ matrix.adapter-command }}
       - name: Run the embedded Java example
