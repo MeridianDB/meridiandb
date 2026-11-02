@@ -5344,8 +5344,8 @@ v7.0.2 is pinned at cf430e030ddbb5b0abf93d22962f4752f3646cd9; a 14-day test arti
 retains JSON/XML/Maven logs, separate from library releases. Fresh Central and
 28 official metadata/compatibility sources were checked November 2 at 14:52:53/
 14:52:54 UTC (09:52:53/54 EST); all fourteen selected stable versions remain latest.
-Research hashes: metadata39522c010b319e9ae966b7730e9d662bea2f45633334a10bbc0b95ca09b858db,
-compatibility576b68662bb71e3404de5af2388d317d61af4901fb51e77c83d71f8e75345a58,
+Research hashes: metadata 39522c010b319e9ae966b7730e9d662bea2f45633334a10bbc0b95ca09b858db,
+compatibility 576b68662bb71e3404de5af2388d317d61af4901fb51e77c83d71f8e75345a58,
 report d73f2eb95a0e1c8c9e2eb78e7db1e9f345b8e434c8a1ff8fc6fabca955eac60c.
 Current Surefire, JUnit factory, Linux mountinfo/sysfs ABI and artifact action inputs
 supply dated primary evidence in public guides. No dependency/Wrapper pin changes.
@@ -5377,6 +5377,72 @@ starts no benchmark, next implementation, S3 work or library release. Ignored
 `.local-qa/mdb-0079/` holds raw research, all local logs/reports, readbacks and images.
 
 **Next action:** finish MDB-0079 Linux/remote delivery; only then recommend MDB-0012.
+
+
+## 2026-11-02 — MDB-0079 Linux acceptance and completion
+
+**Actual source and Linux evidence:** checkpoint
+**`520b86da523fbea3cf82b83c70e716d05ca8f664`** is verified on origin/main. Its
+Step-Result checkpoint correctly retained the active item until this actual Linux
+run, rather than treating the earlier Mac/APFS binding check as qualification.
+[Java 41470158485](https://github.com/MeridianDB/meridiandb/actions/runs/41470158485)
+passes Linux job 125361299119 and Windows job 125361298186, with fourteen examples
+per platform. Linux passes all 40 Python guards, **68 suites /1,273 core cases**
+with zero failures/errors/skips, then all 762 optional regressions. Windows passes
+1,273 core with 364 explicit capability skips (one new native probe) and 762 optional
+with 381 existing skips. S3 code/scope is unchanged and deferred.
+
+The driver emitted schema 1 status checks_passed, productionQualified false,
+runID **2b00a33982fa4038b7a671108b81d51e**, label
+**github-ubuntu-java25-local-v1**, source commit 520b86d and dirty false. The
+inventory SHA256 **7b3a2cdb93235cc04ef7dcc0efd1fec00acc4de53e167a6d81c2b400bc90fe8c**
+matches the committed required-suites.json; source/report counts and actual fixture/
+runtime/FileStore bindings pass. Native observations: production-directory-probe,
+file-force, directory-force, file-key, actual-shared-lock, exclusive-lock,
+atomic-move and identity-after-move.
+
+**Observed CI profile:** kernel **7.0.0-1017-azure**, machine **x86_64**, Java
+architecture amd64, **Eclipse Adoptium 25.0.5 /25.0.5+8-LTS**, FileStore/mount
+**ext4**, mount ID 28, device 8:1 at `/`. Recognized settings:
+`commit=30,data=writeback,discard,errors=remount-ro,nobarrier,relatime,rw`, with
+one unreported option. Write-cache, logical/physical block size and rotational
+facts are all null; backing device/controller remain unknown. This is explicitly
+**CI process/fault/capability evidence only**, not a production mount profile or
+power-loss/force-to-hardware guarantee. MDB-0080 carries those deployment, mount,
+device/controller/cache and failure-qualification gaps. Benchmarks still need
+controlled environment/cache evidence under MDB-0012.
+
+**Retained test artifact:** ID **13155005925**, name linux-storage-evidence,
+**190,231 bytes**, digest
+**bd4d0bdc28e4c58881f424d09d4361861a83ce03b99e25bb39f80f662d439173**,
+created November 2 at 15:19:05UTC and expires **November 16, 2026 at 15:19:03UTC**.
+The API associates it with run 41470158485, main and the full checkpoint SHA. The
+retained JSON contains every case outcome; XML and full Maven log remain in the
+14-day test artifact. The checked job summary and durable facts above preserve
+scope when that artifact expires. Ignored local copies hold full CI logs and the
+parsed Linux summary; no device serial/hostname/credential data is collected.
+
+**Documentation/publication:** [docs 41470158494](https://github.com/MeridianDB/meridiandb/actions/runs/41470158494)
+passes production job 125361298908 and project-path job 125361298481 with 42 fixtures
+and strict source/HTML/link/search/sitemap checks. [Pages 41470158499](https://github.com/MeridianDB/meridiandb/actions/runs/41470158499)
+build 125361298114 and deploy 125361547047 pass for exact checkpoint SHA. Fourteen
+live HTTPS content/canonical readbacks, both new titles/routes and 88 unique HTTPS
+sitemap URLs pass. Browser verifies published guide/inventory and records
+`.local-qa/mdb-0079/site-published-final.png`, embedded in commentary. Earlier
+local guide→decision→guide/search and desktop-light/mobile-dark tables pass; normal
+light viewport is restored, local server 54593 is stopped with exit 0. Independent
+review confirms every original 0079 criterion with the production gaps explicit.
+
+**Completion delivery:** this commit changes queue/card/history and clarifies the
+public guide's scratch-directory preservation versus Maven clean replacing
+ordinary target output. No runtime/POM/test/CI inputs change; reuse exact-source
+Java evidence above, run affected strict docs checks, push Step-ID MDB-0079 /
+Step-Result completed normally and verify final docs/Pages/live clarification.
+Keep all 80 IDs, S3 deferrals and original parent criteria. MDB-0079 is done;
+MDB-0012 is ready. This invocation starts no benchmark, next implementation,
+format/native optimization, cloud/provider mutation or library release.
+
+**Next recommendation:** MDB-0012 — Reproducible workload baseline.
 
 
 ## Receipt template

@@ -2122,20 +2122,36 @@ Windows native parity. Align CI scope only where justified and research Maven
 versions for any Maven work. This harness does not establish power-loss behavior
 or production readiness. No cloud spend or privileged environment is presumed.
 
-**Implemented checkpoint:** the Linux-only driver matches actual scratch device/
-mount and exposed queue facts; an opt-in test-only factory roots all current core
-fixtures and per-run Java evidence checks native capabilities. Fresh reports bind
-run/root/factory/runtime, exact 68-suite/1,273-case inventory and zero skipped or
-failed results; retry/DTD/duplicate/malformed evidence fails closed. Maven process
-cleanup is bounded on timeout/interruption/nonzero exit. POM report output keeps
-its ordinary default; CI supplies a named observed Linux profile and 14-day test
-artifacts. Forty Python guards, 1,273 ordinary/rooted local checks, 762 optional
-checks, fourteen packaged examples, archive/jdeps, 42 docs fixtures and both strict
-88-page builds pass. Guide/ADR 0040/callers/rules/nav are reconciled. Actual Linux
-CI and delivery remain pending, so keep this item active until that acceptance
-is established; local APFS execution is not Linux evidence.
+**Accepted evidence, November 2, 2026:** checkpoint
+`520b86da523fbea3cf82b83c70e716d05ca8f664` is verified on origin/main. Java
+41470158485 Linux job 125361299119 passes the new driver with source clean,
+run 2b00a33982fa4038b7a671108b81d51e, exact 68-suite/1,273-case inventory and all
+eight native observations. Actual profile: ext4, kernel 7.0.0-1017-azure, x86_64,
+Temurin 25.0.5+8-LTS; required failures/errors/skips are zero. Forty Python guards,
+762 optional cases and fourteen examples per platform also pass. Windows retains
+364 core /381 optional capability skips. Docs 41470158494 and Pages 41470158499
+pass; guide/ADR 0040/callers/rules/nav, 42 docs fixtures, both 88-page builds,
+fourteen live readbacks/search/sitemap and light/dark/mobile browser checks pass.
+
+The driver/probe, exact fresh XML/JSON/runtime/capability guards, test-only fixture
+factory, bounded failed-process cleanup and POM report-directory binding are
+implemented. Local ordinary and rooted tests plus archive/jdeps confirm production
+and classifier isolation. Test artifact 13155005925 retains exact per-case JSON/XML/
+logs for 14 days, with its digest and expiry in the durable progress receipt.
+
+This is a CI correctness profile, not production qualification: `data=writeback`,
+`nobarrier` and `commit=30` are observed mount settings; backing device/controller
+and queue/cache facts remain unknown. Preserve these as MDB-0080 gaps. Step
+acceptance supplies no production/power-loss or performance claim. The completion
+record makes MDB-0012 ready; no workload implementation starts in this invocation.
 
 ## MDB-0080 Linux operational hardening and qualification gaps
+
+**Carried qualification gap:** MDB-0079's first hosted CI profile is ext4 with
+`data=writeback`, `nobarrier`, `commit=30` and unknown device/controller/cache facts.
+Its successful process/fault checks do not select a production mount or establish
+force/power-loss behavior. Qualify reviewed deployment settings and backing storage
+explicitly before a production claim; preserve this CI profile as correctness evidence.
 
 **Outcome:** use MDB-0079 profiles and MDB-0012/0013 measurements to identify and
 close concrete Linux local-library production gaps before an experimental

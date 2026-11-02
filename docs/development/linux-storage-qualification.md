@@ -32,7 +32,8 @@ python3 scripts/storage/qualify_linux.py --scratch-parent .local-qa --label linu
 
 Choose a different scratch parent when the repository is on a different filesystem
 from the intended deployment. The harness creates a fresh private `mdb-linux-*`
-child and retains it. It does not clean, reuse or delete caller directories.
+child and retains it. It never reuses or deletes the scratch parent or older runs.
+Maven clean still replaces ordinary repository build output under `target/`.
 Keep enough free space for compilation, Maven installation and the bounded test
 fixtures. The timeout defaults to 360 seconds and accepts 30–600 seconds; a slow
 machine can select a longer value with `--timeout 600`.
