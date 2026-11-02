@@ -5214,6 +5214,63 @@ fresh/existing bound state, separately serialized immutable intent/completion
 receipts, force/capacity reservation and fail-closed reopen beside the permanent guard.
 
 
+## 2026-11-02 — MDB-0078 Linux local storage priority and format research
+
+**Outcome:** completed planning source for the owner's Linux production-target
+pivot. Java/Maven and the current JDK I/O baseline remain. Windows needs basic
+logical/build/local smoke coverage rather than native parity. Existing S3 source,
+tests, implemented guarantees and incomplete acceptance requirements are retained;
+its unfinished work is deferred. Kafka-topic persistence and other providers stay
+outside the selected local path. Replication remains separately planned.
+
+**Artifacts and research:** ADR 0039 and `docs/architecture/linux-storage.md` own
+the public direction and candidate design. The guide distinguishes ordered durable
+history from temporal query blocks, entity/time ordering, conservative pruning,
+correction-induced region splitting, indexed-cutoff/tail resolution, exact UTF-16
+and unbounded bounds, aggregate memory budgets, block-integrity/versioning and
+compatibility. Dated November 2 primary sources cover Parquet layout/page indexes,
+RocksDB blocks/caching, Lucene release-tagged BKD, Linux synchronization,
+preallocation/advice, reflink/copy/direct/asynchronous I/O and Hadoop native/local
+reads. It records candidate inferences rather than invented gains: specialize for
+measured temporal workloads and report regressions; no universal speed ranking or
+production qualification follows. Reflinks share a failure domain and neither
+cloning nor copying supplies node replication or the database publication protocol.
+
+**Caller and queue reconciliation:** updated root agent rules, README, homepage,
+public roadmap, architecture/persistence/research/segment guides, S3 entry/protocol,
+build/contribution guides, decision index, ADR 0004/0020 and navigation plus internal
+workflow/roadmap/queue. The earlier object-first sequence is explicitly historical.
+All 77 original IDs, completed results and parent/child criteria remain. Twelve
+unfinished S3 rows, including four expanded parents and former ready MDB-0076,
+are deferred. Added MDB-0078 source completion, ready MDB-0079 Linux profile/harness
+and queued MDB-0080 evidence-led operational hardening. Existing MDB-0012 now depends
+on local correctness/MDB-0079, not MDB-0011. The selected path is MDB-0079 →
+MDB-0012 local baseline → MDB-0013 measured layouts/I/O → MDB-0080 hardening →
+MDB-0014 experimental candidate. MDB-0041 remains separately deferred.
+
+**Verification:** queue checker passes 80 unique IDs, exact cards/anchors, parent/
+dependency DAG, ready eligibility and completed children. All original dependency/
+child criteria and source evidence were inspected; independent read-only planning/
+source review has no actionable findings. Forty-two documentation QA fixtures pass;
+strict production and project-path builds pass with 86 public pages. Fifteen local
+HTTP content/canonical readbacks, both new search entries and the 86-URL HTTPS
+sitemap pass. Browser verifies guide→decision→guide, title search and desktop-light/
+390×844-dark table readability without page overflow; normal light viewport is
+restored. Ignored `.local-qa/mdb-0078/` retains research, build/readback logs and
+screenshots. No Java/Maven/runtime/format/CI inputs changed; earlier 1,272 core /
+762 optional acceptance evidence is retained without rerunning unchanged suites or
+misrepresenting it as Linux production qualification. No Maven version is selected
+or changed in this documentation/planning step.
+
+**Delivery:** inspect/stage explicit task-owned documentation/rules/planning paths,
+commit Step-ID MDB-0078 / Step-Result completed and push normally under standing
+authorization. Exact-source documentation CI and automatic Pages deployment/live
+readback remain pending for the delivery receipt. No format/native implementation,
+next queue step, native/cloud provisioning, library release or account change starts.
+
+**Next recommendation:** MDB-0079 — Linux storage contract and qualification harness.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

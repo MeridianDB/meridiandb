@@ -56,6 +56,7 @@ nav:
       - Temporal contract: architecture/temporal-contract.md
       - Temporal geometry and indexes: architecture/temporal-geometry.md
       - Persistence boundaries: architecture/persistence-boundaries.md
+      - Linux storage and file layouts: architecture/linux-storage.md
       - Remote reclamation design: architecture/remote-reclamation.md
       - S3 coordination state format: architecture/s3-coordination-state.md
       - Immutable storage research: architecture/storage-research.md
@@ -102,6 +103,7 @@ nav:
       - Remote reclamation decision: decisions/0036-coordinated-remote-reclamation.md
       - S3 coordination state decision: decisions/0037-bounded-s3-coordination-state.md
       - Permanent S3 guard decision: decisions/0038-permanent-s3-coordination-guard.md
+      - Linux local storage decision: decisions/0039-linux-local-storage-priority.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

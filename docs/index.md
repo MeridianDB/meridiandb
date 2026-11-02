@@ -9,15 +9,14 @@ Explore data through two dimensions of time.
 
 MeridianDB is an experimental embeddable Java bitemporal database for preserving
 when facts apply and when the database learned about them. Built-in local
-persistence supports standalone JVM use. Optional [S3 byte access](development/s3-objects.md)
-and [verified checkpoint publication](development/s3-checkpoint-publication.md) are
-available separately. [Pinned checkpoint read recovery](development/object-checkpoint-recovery.md)
-uses object history with the complete local journal. [Core pinned writes](development/object-checkpoint-writes.md)
-add local startup synchronization and forced transaction acknowledgement. Optional
-[managed S3 read recovery](development/s3-database.md) adds exact durable expected
-selection admission. [Managed S3 writes](development/s3-database-writes.md) add
-forced local transactions; replication remains planned.
-The Java 25/Maven build is available.
+persistence supports standalone JVM use. The Java 25/Maven build is available.
+
+The current focus is [Linux local storage and temporal file layouts](architecture/linux-storage.md):
+qualify concrete deployment profiles, measure the engine and evaluate specialized
+on-disk access paths. Windows has a basic compatibility role. The optional S3
+integration is retained as experimental, with further development deferred;
+replication and other persistence integrations remain planned. Production
+qualification and performance results are not yet available.
 
 [Understand temporal data](concepts/temporal-data.md) ·
 [Explore the architecture](architecture/overview.md) ·

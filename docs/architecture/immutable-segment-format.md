@@ -19,6 +19,9 @@ filesystem verification and generation selection.
 The `InMemoryEngine` write API remains memory-only; valid segment bytes do not establish persistence,
 query visibility or permission to discard journal history.
 [ADR 0009](../decisions/0009-immutable-segment-format.md) records the rationale.
+The [Linux layout experiments](linux-storage.md) compare selective temporal blocks
+with this exact-history baseline; no successor encoding or lazy integrity contract
+is implemented or selected.
 
 ## History and object identity
 

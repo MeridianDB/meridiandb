@@ -254,6 +254,13 @@ evidence and build guidance with a version change.
 
 ## Continuous integration
 
+Linux is the primary production target; Windows has a basic compatibility role
+under [ADR 0039](../decisions/0039-linux-local-storage-priority.md). The existing
+matrix below still runs both full builds as regression coverage. Passing them,
+including capability skips, does not qualify durable Windows operation or any
+Linux filesystem/device profile. The [Linux storage plan](../architecture/linux-storage.md)
+defines the separate qualification and measurement work.
+
 **Java checks** runs on affected pull requests and pushes to `main`, with read-only
 repository permissions and credentials removed after checkout. Linux runs
 `./mvnw -B verify`; Windows runs `.\mvnw.cmd -B verify`. Both select Temurin from

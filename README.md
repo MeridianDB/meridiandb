@@ -7,19 +7,15 @@
 
 MeridianDB is an experimental embeddable Java bitemporal database. It preserves
 both when a fact applies in the domain and when the database recorded that
-knowledge. Built-in local persistence is the foundation. Optional S3 byte access is
-available separately. [Pinned checkpoint read recovery](docs/development/object-checkpoint-recovery.md)
-uses object history with the complete local journal. [Core pinned writes](docs/development/object-checkpoint-writes.md)
-synchronize that local history before enabling transactions. Verified remote checkpoint
-publication and [managed S3 read recovery](docs/development/s3-database.md) are
-experimental. [Managed S3 writes](docs/development/s3-database-writes.md)
-add forced local transactions. [Remote recovery conformance](docs/development/s3-recovery-conformance.md)
-checks the full SDK corpus and publication interruptions; replication remains planned. Local use requires no external database,
-streaming service or application server.
-[Coordinated remote reclamation](docs/architecture/remote-reclamation.md) now has
-an accepted protocol and a [bounded pure state/codec](docs/architecture/s3-coordination-state.md);
-an internal [permanent native guard](docs/development/s3-coordination-guard.md) is also implemented.
-Durable enrollment, participating SDK sessions and remote deletion remain unimplemented.
+knowledge. Built-in local persistence is the foundation; standalone use requires
+no external database, streaming service or application server.
+
+**Development priority:** [Linux local storage](docs/architecture/linux-storage.md),
+production qualification and a workload-specific temporal file layout. Windows
+has a basic compatibility role. The optional [S3 integration](docs/development/s3-objects.md)
+is retained as experimental, with further work deferred. Replication, Kafka-topic
+storage and other persistence integrations remain future work. No production
+readiness or comparative performance result is claimed.
 
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.
@@ -91,11 +87,13 @@ The initial investigation will focus on:
   queries across valid time and system time.
 - A simple reference model against which optimized implementations can be tested.
 - Immutable persistent segments, explicit commit visibility and reliable recovery.
-- Persistence contracts that can support both local files and object storage,
-  including S3-compatible services, without depending on one cloud vendor.
+- Linux filesystem qualification and measured local ingestion, query, recovery
+  and memory behavior before further persistence integrations.
 - Optional replication with explicit ordering, follower progress and durability
   guarantees, developed separately from storage adapters.
-- Storage layouts and indexes evaluated against representative temporal queries.
+- Purpose-built temporal blocks and indexes compared with Parquet and simpler
+  layouts against representative temporal workloads, followed by measured Linux
+  I/O experiments where justified.
 
 The [persistence boundaries](docs/architecture/persistence-boundaries.md) separate
 commit authority, ordered journal history, immutable objects, checkpoint selection
@@ -167,10 +165,11 @@ verifies retained roots and reports obsolete physical objects without deletion.
 verified obsolete metadata before unused dependencies, retaining full logical history.
 [Integrated conformance](docs/development/compaction-conformance.md) now checks
 canonical/seeded histories, richer process stops and exact named-file space accounting
-through actual publication and removal. The optional S3 byte adapter is available;
-planned work covers remote checkpoint integration and reproducible workload
-measurements. The initial target is an embedded, single-node
-Java engine built with Maven.
+through actual publication and removal. The optional S3 checkpoint integration
+is experimental, with further work deferred. The next milestones qualify Linux
+storage profiles, establish a local workload baseline, compare file layouts and
+close evidenced operational/resource gaps before an experimental candidate.
+Local work does not depend on completing S3. Java and Maven remain the foundation.
 
 ## Build the Java foundation
 

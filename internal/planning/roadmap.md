@@ -9,7 +9,9 @@ This is the technical plan for the first embedded, single-node prototype. Tempor
 types, the test reference, memory-only engine, local journal and immutable segment
 I/O, manifest consistency, checkpoint publication, recovery, forced local writes
 and integrated crash/compaction/reclamation conformance are implemented. Optional
-object storage, replication and workload measurements remain planned. The
+S3 byte/checkpoint/recovery paths are experimental, with incomplete coordination/
+reclamation deferred. Linux local qualification, workloads and file-layout work
+now have priority; Windows has a basic compatibility role. Replication remains planned. The
 [live queue](queue.md) owns
 current order and state; the [workflow](index.md) explains how an agent expands,
 executes, commits and pushes one bounded outcome.
@@ -37,7 +39,9 @@ with reference support in tests under the [build foundation](../../docs/developm
 The journal and immutable segment codecs have local file adapters. Manifest
 metadata, referenced-object consistency, local publication, recovery, forced
 write publication and integrated local crash/compaction/reclamation conformance
-are implemented; remote adapters, replication and measurements remain planned.
+are implemented; optional experimental S3 access/publication/recovery is also
+implemented separately. Further S3 work and replication are deferred, while Linux
+qualification and local measurements are the selected path.
 Read the [architecture overview](../../docs/architecture/overview.md) and
 [language strategy](../../docs/decisions/0001-language-strategy.md) before changing them.
 [ADR 0020](../../docs/decisions/0020-persistence-and-replication-boundaries.md) owns
@@ -45,7 +49,10 @@ the local-first bitemporal library direction; the
 [boundary specification](../../docs/architecture/persistence-boundaries.md) separates
 commit authority, ordered journal, immutable objects, checkpoint selection and
 derived indexes. Optional replication remains outside the initial single-node
-prototype's required dependency chain.
+prototype's required dependency chain. [ADR 0039](../../docs/decisions/0039-linux-local-storage-priority.md)
+and the [Linux storage design](../../docs/architecture/linux-storage.md) supersede
+object-backend-first sequencing: local qualification, benchmarks, layout experiments
+and operational hardening do not require MDB-0011 completion.
 
 ## MDB-0001 Planning workflow
 
@@ -708,6 +715,11 @@ MDB-0010 criteria now pass; close that parent and make MDB-0011 source-ready aft
 remote delivery/CI, preserving provider/device and non-performance limits.
 
 ## MDB-0011 Object-storage backend
+
+**Priority state, November 2, 2026:** deferred. Preserve the original outcome,
+expansion metadata, all required-child criteria and completed evidence below.
+The Linux local path proceeds independently; re-admission does not waive any
+unfinished requirement.
 
 **Outcome:** implement an S3-compatible backend against explicit range-read,
 immutable-write and conditional/publication requirements. Reuse a maintained
@@ -1716,6 +1728,11 @@ expanded.
 
 ## MDB-0039 Reader-safe object reclamation
 
+**Priority state, November 2, 2026:** deferred. Preserve the original outcome,
+expansion metadata, all required-child criteria and completed evidence below.
+The Linux local path proceeds independently; re-admission does not waive any
+unfinished requirement.
+
 **Parent:** MDB-0011. **Outcome:** define and implement a supported remote cleanup
 protocol covering reader admission, checkpoint publishers, selected and explicit
 retained/backup roots. Preserve all logical history, full journal and unknown or
@@ -1779,6 +1796,11 @@ MDB-0039 remains expanded until all four implementation children and its origina
 criteria pass.
 
 ## MDB-0067 Coordinated S3 namespace admission
+
+**Priority state, November 2, 2026:** deferred. Preserve the original outcome,
+expansion metadata, all required-child criteria and completed evidence below.
+The Linux local path proceeds independently; re-admission does not waive any
+unfinished requirement.
 
 **Parent:** MDB-0039. **Outcome:** implement opt-in coordinated single-placement
 namespace binding, shared activity/exclusive maintenance and durable per-attempt
@@ -1846,6 +1868,11 @@ remain separate. Thirteen live canonical/content routes, both search entries and
 82-page sitemap pass. Progress history retains full delivery evidence.
 
 ## MDB-0072 Local coordination guard and durable ledger
+
+**Priority state, November 2, 2026:** deferred. Preserve the original outcome,
+expansion metadata, all required-child criteria and completed evidence below.
+The Linux local path proceeds independently; re-admission does not waive any
+unfinished requirement.
 
 **Parent:** MDB-0067. **Outcome:** install and reopen the bounded coordination
 state through permanent native guard identity and durable immutable generations.
@@ -2046,6 +2073,67 @@ optional packaging with a local consumer fixture, bounded default execution,
 clean reproducibility and complete documentation. Close MDB-0011 only after all
 required children pass; retain cloud-spending, local-tail and supported-mode limits.
 
+## MDB-0078 Linux local storage priority and format research
+
+**Outcome:** persist the November 2, 2026 Linux-first direction in agent rules,
+public architecture/README/roadmap and the executable queue. Keep Windows basic,
+retain S3 unchanged and deferred, and separate later Kafka/other providers and
+replication. Research Parquet, specialized temporal blocks and Linux/Hadoop I/O
+from current primary sources; label design inference and unmeasured performance.
+
+**Complete when:** ADR 0039, the Linux storage guide and active callers agree;
+all old IDs/criteria/history are retained, unfinished S3 rows are deferred,
+MDB-0079 is next and local benchmarks/candidate have no remote dependency.
+Source/rendered docs, navigation/search/canonical/sitemap, both URL layouts and
+queue IDs/cards/dependency graph pass. Deliver the planning source normally and
+stop; no Linux implementation, new format/native binding or next item starts.
+
+**Source acceptance:** ADR 0039, the Linux storage guide and active README/home/
+architecture/build/contribution callers now agree. All 77 original IDs/history and
+parent criteria remain; twelve unfinished S3 rows are deferred. New MDB-0079 is
+ready and MDB-0080 closes later operational gaps, yielding 80 stable IDs. Forty-two
+docs fixtures, both strict 86-page URL builds, fifteen local content/canonical
+readbacks, new search/sitemap and light/dark/mobile browser checks pass. Independent
+review has no findings. No code, format, Maven dependency or CI behavior changed;
+exact-source docs CI and automatic Pages delivery remain pending until push.
+
+## MDB-0079 Linux storage contract and qualification harness
+
+**Outcome:** define required local filesystem capabilities and produce a bounded,
+repeatable Linux profile/probe/conformance harness over existing local APIs.
+Record actual kernel, CPU architecture, JDK, filesystem/mount, device/cache and
+lock/identity/rename/file-force/directory-force behavior. Select the first named
+profile from evidence; ext4/XFS are candidates, not universal support promises.
+
+**Complete when:** actual Linux runs exercise create/forced commit, crash/reopen,
+checkpoint and protected reclamation, alongside explicit unsupported-capability
+and ordinary-I/O failure cases. Report every required native case and skip for the
+named profile; any unavailable environment is an explicit qualification gap for
+MDB-0080, not an assumed pass. Preserve existing temporal fixtures and default
+small resource limits. Document local/container/CI versus device evidence, required
+capabilities, known gaps and basic Windows smoke expectations without pursuing
+Windows native parity. Align CI scope only where justified and research Maven
+versions for any Maven work. This harness does not establish power-loss behavior
+or production readiness. No cloud spend or privileged environment is presumed.
+
+## MDB-0080 Linux operational hardening and qualification gaps
+
+**Outcome:** use MDB-0079 profiles and MDB-0012/0013 measurements to identify and
+close concrete Linux local-library production gaps before an experimental
+candidate. Expand into bounded children with explicit criteria before changing
+independent concerns. Preserve exact temporal/transaction identity and durability.
+
+**Complete when:** the selected profile has a reviewed gap ledger with implemented
+or explicitly scoped outcomes for aggregate memory/cache/recovery bounds,
+checkpoint/compaction scheduling and reader lifetimes, error/space diagnostics,
+format compatibility/rebuild, backup/restore and operational examples. Accepted
+production claims require actual supporting qualification; document remaining
+restrictions instead of silently broadening them. Validate adopted changes with
+reference, failure/process recovery, resource and workload regression evidence.
+Reject unhelpful format/native optimizations when measurements support rejection.
+Retain S3 tests/contracts, basic Windows scope and separately planned replication;
+no remote backend or cluster implementation becomes a hidden prerequisite.
+
 ## MDB-0041 Replication protocol and staged plan
 
 **State:** deferred, outside the single-node prototype and MDB-0011. Admit as an
@@ -2065,20 +2153,42 @@ no replication and provides no automatic failover or multiwriter guarantee.
 
 ## MDB-0012 Reproducible workload baseline
 
-**Outcome:** turn the selected workload descriptions into a repeatable measurement
-harness using correctness-checked data and the durable engine. State workloads,
-seeds, sizes, runtime, hardware, revision, warmup, cache conditions and durability.
+**Prerequisites:** completed local correctness MDB-0010 and Linux profile/harness
+MDB-0079. The former MDB-0011 prerequisite is removed under the November 2 priority;
+S3, other providers and replication are not required.
 
-**Complete when:** someone else can repeat the runs and obtain reported throughput,
-latency distributions, memory use, read/write amplification and recovery behavior
-with their limitations. Separate microbenchmarks from engine measurements. Use a
-small default fixture; larger or paid runs need an explicit environment/budget.
+**Outcome:** turn the temporal workload descriptions into independently scaled,
+repeatable local-engine measurements using correctness-checked data. Keep the
+small canonical fixtures as exact correctness gates, not throughput datasets.
+State seeds, sizes, entity skew/history depth/overlap/correction and retraction
+rates, runtime, hardware, filesystem/mount/device profile, revision, warmup,
+cache conditions, memory limits and exact acknowledgement/durability mode.
+
+**Complete when:** another person can repeat the runs and obtain latency
+distributions, throughput, CPU/allocation/heap, encoded/allocated storage, bytes
+read, read/write amplification, replay and checkpoint/compaction behavior with
+limits. Include point/history/interval/aggregate and mixed ingestion/query
+workloads; preserve all historical/retry answers. Separate microbenchmarks and
+hosted CI correctness from controlled Linux-device measurements. Use a bounded
+small default; larger or paid runs need an explicit environment/budget. Record
+bottlenecks and candidate experiment decisions without inventing a required gain.
 
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped
 physical index or layout change against MDB-0012 under equivalent semantics and
 durability. Candidate formats and organizations require independent evidence.
+
+The Linux local baseline is the prerequisite; S3 completion is not. Use the
+[Linux storage design](../../docs/architecture/linux-storage.md) for candidate
+entity-first temporal blocks, column projection/encoding, block pruning/cache and
+Parquet comparisons. Account for full-history heap reconstruction and per-commit
+copying; a byte codec alone does not solve them. Define version/compatibility and
+block-integrity contracts before successor bytes or lazy reads. Evaluate a Linux
+I/O primitive only after profiling demonstrates a relevant limit, with a narrow
+binding/lifetime/capability decision and equivalent force/acknowledgement behavior.
+Reflink/copy is local snapshot acceleration, not node replication. No native library
+or format is selected in advance.
 
 Use [temporal geometry and indexing](../../docs/architecture/temporal-geometry.md)
 as candidate research, including generic Lucene numeric points/ranges/BKD and Solr
@@ -2095,6 +2205,11 @@ an optimization merely to satisfy a feature checklist. Split multiple independen
 experiments into separate queue items.
 
 ## MDB-0014 Prototype release candidate
+
+**Prerequisites:** MDB-0013's measured adoption/rejection and MDB-0080's scoped
+Linux hardening/qualification evidence. S3 completion is no longer required through
+an indirect benchmark dependency. The candidate remains experimental; documented
+qualification gaps do not become production guarantees.
 
 **Outcome:** prepare a reproducible candidate for an experimental embedded library.
 Review supported semantics, API limits, file-format compatibility, recovery,

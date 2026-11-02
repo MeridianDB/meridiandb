@@ -48,6 +48,7 @@ permanent commitment.
 | [0036: Coordinated remote reclamation](0036-coordinated-remote-reclamation.md) | Accepted protocol; pure declarations implemented separately; durable enrollment/SDK integration pending | Single-placement admission, complete root catalog, durable per-attempt hazards and verified ordered conditional removal |
 | [0037: Bounded S3 coordination state](0037-bounded-s3-coordination-state.md) | Pure state/codec implemented; durable coordination pending | Bounded immutable root catalog, exact individual attempts and canonical bytes without native or SDK provenance |
 | [0038: Permanent S3 coordination guard](0038-permanent-s3-coordination-guard.md) | Internal native primitive implemented; ledger/enrollment pending | Bounded sole-channel shared/exclusive leases, permanent identity and uncertain-close quarantine |
+| [0039: Linux local storage priority](0039-linux-local-storage-priority.md) | Adopted direction; qualification and layouts planned | Linux production target, basic Windows compatibility, deferred S3 expansion and measured temporal-format/I/O experiments |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

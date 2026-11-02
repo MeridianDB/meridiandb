@@ -45,6 +45,11 @@ include reproducible evidence for semantic or performance claims.
 
 ## Build and test Java
 
+Linux local storage is the primary deployment target. Windows retains basic
+compatibility coverage; native feature parity is outside the current scope.
+The [Linux storage plan](../architecture/linux-storage.md) separates filesystem
+qualification from ordinary builds and performance experiments.
+
 Use JDK 25 and the tracked wrapper from the repository root:
 
 ```bash

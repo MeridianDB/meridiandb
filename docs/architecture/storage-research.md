@@ -31,8 +31,10 @@ Primary sources checked October 31, 2026:
 
 This is a comparison of documented responsibilities, not a feature-completeness
 or throughput ranking. MeridianDB implements a smaller numeric temporal model,
-local forced persistence and eager queries; richer values, remote adapters,
-replication and specialized search indexes remain planned. The
+local forced persistence, eager queries and optional experimental S3 integration;
+richer values, replication and specialized search indexes remain planned. The
+[Linux storage design](linux-storage.md) adds a November 2, 2026 format/I/O comparison
+and prioritizes local qualification and measurements; further S3 work is deferred. The
 [persistence boundary specification](persistence-boundaries.md) applies these
 lessons to the local-first library and optional extensions.
 

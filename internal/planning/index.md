@@ -8,7 +8,10 @@ description: Execute MeridianDB's Java and Maven plan one bounded queue step at 
 This is the execution procedure for MeridianDB's Java/Maven implementation queue.
 The owner established it on October 28, 2026. The first target is an embedded,
 single-node bitemporal engine, progressing from explicit semantics to a durable,
-measured prototype. The [roadmap](roadmap.md) describes that scope.
+measured prototype. The November 2, 2026 direction prioritizes Linux local storage
+and production qualification; Windows has a basic compatibility role and further
+S3 work is deferred. The [roadmap](roadmap.md) describes that scope. Its local
+qualification, baseline, layout experiments and candidate require no S3 completion.
 
 ## Start here
 

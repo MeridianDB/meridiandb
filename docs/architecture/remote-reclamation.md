@@ -5,6 +5,11 @@ description: Proposed single-placement admission, durable mutation evidence and 
 
 # Coordinated remote reclamation
 
+Further implementation of this protocol is deferred under
+[ADR 0039](../decisions/0039-linux-local-storage-priority.md). Existing declarations
+and the native guard remain experimental; Linux local storage work does not depend
+on completing remote enrollment, SDK participation or deletion.
+
 **Status: accepted protocol; pure state/codec and internal permanent native guard
 implemented; durable enrollment/ledger and SDK participation pending.** The current S3 byte adapter
 has no deletion API. [Checkpoint publication](../development/s3-checkpoint-publication.md)

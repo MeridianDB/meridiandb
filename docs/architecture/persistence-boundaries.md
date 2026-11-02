@@ -5,6 +5,13 @@ description: MeridianDB's local-first bitemporal library design separates commit
 
 # Persistence and replication boundaries
 
+Linux local filesystems are the primary production target under
+[ADR 0039](../decisions/0039-linux-local-storage-priority.md). The
+[Linux storage plan](linux-storage.md) prioritizes qualification, local benchmarks
+and temporal file-layout experiments. Windows has a basic compatibility role;
+further S3 development and additional persistence adapters are deferred. Existing
+optional integrations retain their experimental contracts.
+
 MeridianDB's design centers on an embeddable Java bitemporal database with its own
 local persistence. Applications can use the experimental local engine without
 Kafka, an object-storage service or an application server. Optional [S3 byte access](../development/s3-objects.md) is implemented separately;
@@ -106,7 +113,9 @@ conditional submission and durable candidate reconciliation; managed S3 read rec
 actual client admission, complete graph/owned-prefix checks, journal/name barriers,
 immutable intent and durable pending state without mutating the selection key.
 
-An object-store checkpoint is an optional companion to the local journal. First upload or verify all immutable dependencies, then publish immutable
+An object-store checkpoint is an optional companion to the local journal. This
+integration is retained with further development deferred; local qualification
+and measurement do not depend on completing it. First upload or verify all immutable dependencies, then publish immutable
 manifest bytes and conditionally select the complete generation. The implemented
 publisher rechecks the actual journal, uses original durable pending intent and
 reconciles exact selection across uncertain replies. Managed S3 read recovery is available; managed S3 writable recovery is implemented separately. Listing objects is not by itself a commit protocol.

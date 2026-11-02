@@ -56,6 +56,24 @@ so a new session can work correctly without relying on earlier conversations.
 
 ## Language and architectural decisions
 
+- Owner direction, November 2, 2026: prioritize production-oriented **Linux local
+  filesystem storage** under [ADR 0039](docs/decisions/0039-linux-local-storage-priority.md)
+  and the [Linux storage design](docs/architecture/linux-storage.md). Windows needs
+  basic logical/build/local smoke coverage, not native feature or durability parity.
+  Preserve existing S3 code/tests and defer its unfinished work; Kafka and other
+  persistence options remain later work. Local qualification, benchmarks and the
+  experimental candidate have no remote-backend prerequisite. Existing broader
+  Windows CI may remain as regression coverage without creating a support promise.
+- For Linux layouts and native I/O, establish named deployment/capability profiles
+  and a reproducible local baseline first. Evaluate purpose-built temporal blocks
+  against Parquet and simpler layouts under equivalent semantics, retention and
+  acknowledgement. Preserve exact v1 history and formats until a versioned successor
+  has independent correctness, integrity, recovery and compatibility evidence.
+  Native format means the project's on-disk representation, not a required native
+  language or runtime. Adopt a narrow native binding only for an evidenced need;
+  copy/reflink acceleration supplies neither node replication nor durable publication.
+  Record workload-specific gains and regressions; production readiness and universal
+  performance superiority require evidence and cannot be inferred from design.
 - Follow [the language strategy](docs/decisions/0001-language-strategy.md): use Java
   for initial production code and the reference model. Other languages remain open
   to scoped experiments and evidence-based adoption under that decision.

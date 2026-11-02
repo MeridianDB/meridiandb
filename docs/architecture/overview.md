@@ -9,7 +9,10 @@ engine and [local recovery and forced writes](../development/local-database.md).
 unstable; the transaction journal codec has an experimental format, while an
 immutable history-segment codec preserves exact transactions. Query-optimized
 layouts remain open. This page describes the working direction and the questions
-the storage prototype still needs to resolve.
+the storage prototype still needs to resolve. The current priority is
+[Linux local storage](linux-storage.md): qualify concrete environments, measure
+the existing engine, then compare temporal file layouts and narrow I/O changes.
+S3 extension work is deferred, and Windows has a basic compatibility role.
 
 ## Start with Java and JVM embedding
 
@@ -54,8 +57,8 @@ that analogy.
 
 The [persistence boundary specification](persistence-boundaries.md) keeps local
 embedding independently usable and separates ordered journal history,
-immutable-object access, checkpoint selection and derived indexes. Optional
-object storage first complements the existing local journal. Replication is a
+immutable-object access, checkpoint selection and derived indexes. The retained
+optional object storage implementation complements the local journal. Replication is a
 separate planned protocol; changing an object adapter does not change transaction
 authority or acknowledgement guarantees. [ADR 0020](../decisions/0020-persistence-and-replication-boundaries.md)
 records the direction and alternatives.
@@ -85,8 +88,9 @@ durable expected-state admission; [managed S3 writable recovery](../development/
 
 Parquet is a candidate file format. An object store is a persistence backend.
 A MergeTree-like organization is a candidate storage technique. Selecting one
-does not select the others. Local files and S3-compatible object storage are
-research targets. The [transaction journal codec](journal-format.md) and
+does not select the others. Linux local files and a workload-specific temporal
+layout are the immediate research targets; further S3 work is deferred. The
+[transaction journal codec](journal-format.md) and
 [local file adapter](../development/local-journal.md) are implemented. The
 [immutable history-segment codec](immutable-segment-format.md) adds complete-object
 validation and content identity. Its [local adapter](../development/local-segments.md)

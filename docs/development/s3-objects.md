@@ -5,6 +5,10 @@ description: Build and use MeridianDB's optional S3 byte adapter with conditiona
 
 # Optional S3 immutable objects
 
+Further S3 development is deferred while [Linux local storage](../architecture/linux-storage.md)
+is qualified and measured. Existing code, tests and experimental contracts remain
+available; incomplete coordination/reclamation is not a prerequisite for local work.
+
 `org.meridiandb.storage.s3.S3ObjectStore` implements the
 [immutable-object contract](immutable-objects.md) using the AWS SDK for Java v2.
 It is a separate experimental `org.meridiandb:meridiandb-s3:0.1.0-SNAPSHOT` artifact.

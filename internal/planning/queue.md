@@ -12,36 +12,38 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- Prior MDB-0071 source `86310645e84a82004c7b2d8f0da5dd8e27671abf` and delivery
-  receipt `2dd5766423fe1cc2ca2befa81e44ba3c2a8d26d0` remain verified on origin/main.
-  The pure state/codec is complete; native/durable/SDK boundaries remain separate.
-- MDB-0067 remains expanded into required MDB-0071 (done), MDB-0072 (expanded),
-  MDB-0073 SDK participation and MDB-0074 full admission/hazard integration.
-  MDB-0072 is expanded into MDB-0075 guard (done), MDB-0076 durable generations
-  (ready) and MDB-0077 native/ledger integration (queued). Preserve every original
-  criterion and parent relationship; all 77 stable IDs remain tracked.
-- **MDB-0075 — Permanent local S3 coordination guard** is complete. The internal
-  existing-file primitive implements bounded shared/exclusive native leases,
-  common identity reservation, original identity checks, sole-channel force and
-  uncertain-close/overlap quarantine. It creates no namespace or durable state.
-- Verification passes 1,272 core /762 optional invocations locally and on Linux,
-  including all 43 registry/fault and 15 native/process checks with zero skips.
-  Windows passes both builds: 43 fault checks execute without skips, 13 native
-  guard checks explicitly skip missing file keys; total existing/new capability
-  skips are 363 core /381 optional. All fourteen examples pass on both platforms.
-- Initial source `917f52c5987464a80821da526d84e40eef50661d` exposed Windows test
-  coupling to unavailable file keys. Repair `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd`
-  is pushed; production identity requirements remain strict and controlled fault
-  identities stay independent. Java **41388769784**, docs **41388769816** and
-  automatic Pages **41388769799** pass for the exact repair, including deployment.
-  Forty-two docs fixtures, both strict 84-page builds, fifteen live content/
-  canonical checks, new search routes and sitemap pass. Browser verifies the
-  published Windows clarification; normal light viewport is restored and both
-  task-owned preview servers are stopped. Independent reviews have no findings.
-- **MDB-0076 — Durable S3 coordination generations** is next. No active claim
-  remains. MDB-0072/0067/0039/0011 remain expanded. Fresh creation/enrollment,
-  durable ledger, SDK participation and reclamation remain unimplemented.
-  No later child, library release or real-provider/account/hosting mutation starts.
+- Owner direction, **November 2, 2026**: prioritize Linux local filesystem storage
+  for production use; Windows needs basic tests rather than native parity. Retain
+  S3 as-is and defer its unfinished work. Kafka-topic storage and other persistence
+  integrations remain later work. A specialized bitemporal layout is a research
+  hypothesis to measure, not a universal performance claim.
+- **MDB-0078 — Linux local storage priority and format research** has complete source
+  acceptance in this planning-only iteration; remote/CI/Pages delivery is pending. ADR 0039 and the Linux storage design own the public
+  direction and dated Parquet/RocksDB/Lucene/Linux/Hadoop evidence. No engine,
+  format, Maven, CI or SDK behavior changes; no next implementation starts.
+- Prior MDB-0075 repair `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd` and receipt
+  `a7cf4c09c5af7ebd27b3f07f478e72532a466cea` are verified on origin/main.
+  Java 41388769784, docs 41388769816 and Pages 41388769799 passed. Existing
+  1,272 core /762 optional test evidence remains historical acceptance, not Linux
+  production qualification. The checkout was clean and synchronized before this work.
+- Preserve all 77 existing IDs, completed source/delivery evidence and original
+  parent criteria. Defer unfinished S3 parents MDB-0011/0039/0067/0072 and all their
+  unfinished executable children, including former next MDB-0076. Their expansion
+  metadata remains intact; defer does not complete or cancel any requirement.
+- The revised local path is **MDB-0079 → MDB-0012 → MDB-0013 → MDB-0080 → MDB-0014**:
+  Linux contract/qualification, local baseline, measured format/I/O experiments,
+  evidence-led operational hardening and an experimental candidate. MDB-0012 no
+  longer depends on MDB-0011. Replication MDB-0041 remains separately deferred.
+  All 80 stable IDs are tracked. No production readiness is inferred from planning.
+- Verification: 42 documentation QA fixtures and both strict 86-page URL builds
+  pass; fifteen local content/canonical readbacks, both new search entries and
+  sitemap pass. Browser checks guide/decision/return/search and desktop-light/
+  mobile-dark tables without page overflow; normal light viewport is restored.
+  Independent source/planning review has no findings. No Maven/runtime inputs
+  changed, so previous Java acceptance evidence is retained without a redundant run.
+- Next after this planning delivery: **MDB-0079 — Linux storage contract and
+  qualification harness**. No native binding, replacement file format, release,
+  real-provider/account/hosting mutation or paid environment is started here.
 
 ## Ordered work
 
@@ -76,7 +78,13 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0032](roadmap.md#mdb-0032-verified-reclamation-inventory) | Inspect retained roots and verified obsolete objects | MDB-0031 | done | MDB-0009, MDB-0027, MDB-0030 |
 | [MDB-0033](roadmap.md#mdb-0033-ordered-protected-removal) | Remove verified obsolete objects with ordered synchronization | MDB-0031 | done | MDB-0009, MDB-0027, MDB-0030, MDB-0032 |
 | [MDB-0029](roadmap.md#mdb-0029-compaction-and-reclamation-conformance) | Verify compaction, reclamation, crash and temporal conformance | MDB-0010 | done | MDB-0009, MDB-0026, MDB-0027, MDB-0028 |
-| [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | expanded | MDB-0010 |
+| [MDB-0078](roadmap.md#mdb-0078-linux-local-storage-priority-and-format-research) | Adopt Linux priority and research temporal layouts and native I/O | — | done | MDB-0010, MDB-0034 |
+| [MDB-0079](roadmap.md#mdb-0079-linux-storage-contract-and-qualification-harness) | Define and exercise named Linux storage capability profiles | — | ready | MDB-0010, MDB-0078 |
+| [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0010, MDB-0079 |
+| [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
+| [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
+| [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |
+| [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | deferred | MDB-0010 |
 | [MDB-0034](roadmap.md#mdb-0034-bitemporal-persistence-boundaries) | Define bitemporal persistence boundaries and staged backend work | MDB-0011 | done | MDB-0010 |
 | [MDB-0035](roadmap.md#mdb-0035-bounded-immutable-object-access) | Implement bounded immutable-object access and local conformance | MDB-0011 | done | MDB-0010, MDB-0034 |
 | [MDB-0042](roadmap.md#mdb-0042-repository-sponsorship) | Enable repository sponsorship using the existing verified recipient | — | done | — |
@@ -106,23 +114,20 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0063](roadmap.md#mdb-0063-core-pinned-checkpoint-writes) | Enable forced local writes after explicit pinned checkpoint recovery | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061 |
 | [MDB-0064](roadmap.md#mdb-0064-managed-s3-writable-recovery) | Admit writable managed S3 recovery with retained ownership | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0063 |
 | [MDB-0065](roadmap.md#mdb-0065-remote-writable-recovery-conformance) | Complete remote writable canonical, seeded and interruption conformance | MDB-0062 | done | MDB-0010, MDB-0037, MDB-0061, MDB-0064 |
-| [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | expanded | MDB-0010, MDB-0038 |
+| [MDB-0039](roadmap.md#mdb-0039-reader-safe-object-reclamation) | Protect remote readers and reclaim proven obsolete objects | MDB-0011 | deferred | MDB-0010, MDB-0038 |
 | [MDB-0066](roadmap.md#mdb-0066-remote-reclamation-protocol-and-staged-plan) | Specify coordinated remote reclamation and staged acceptance | MDB-0039 | done | MDB-0010, MDB-0038 |
-| [MDB-0067](roadmap.md#mdb-0067-coordinated-s3-namespace-admission) | Admit coordinated remote activity with durable mutation hazards | MDB-0039 | expanded | MDB-0010, MDB-0038, MDB-0066 |
+| [MDB-0067](roadmap.md#mdb-0067-coordinated-s3-namespace-admission) | Admit coordinated remote activity with durable mutation hazards | MDB-0039 | deferred | MDB-0010, MDB-0038, MDB-0066 |
 | [MDB-0071](roadmap.md#mdb-0071-bounded-s3-coordination-state-and-codec) | Encode bounded namespace, root and exact-attempt declarations | MDB-0067 | done | MDB-0010, MDB-0038, MDB-0066 |
-| [MDB-0072](roadmap.md#mdb-0072-local-coordination-guard-and-durable-ledger) | Retain shared/exclusive local coordination and durable hazard evidence | MDB-0067 | expanded | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
+| [MDB-0072](roadmap.md#mdb-0072-local-coordination-guard-and-durable-ledger) | Retain shared/exclusive local coordination and durable hazard evidence | MDB-0067 | deferred | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
 | [MDB-0075](roadmap.md#mdb-0075-permanent-local-s3-coordination-guard) | Protect existing permanent native guard with bounded shared/exclusive leases | MDB-0072 | done | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
-| [MDB-0076](roadmap.md#mdb-0076-durable-s3-coordination-generations) | Install and reopen exact forced coordination/receipt generations | MDB-0072 | ready | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0075 |
-| [MDB-0077](roadmap.md#mdb-0077-coordination-guard-and-ledger-conformance) | Complete native/ledger creation, ownership, failure and process conformance | MDB-0072 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0075, MDB-0076 |
-| [MDB-0073](roadmap.md#mdb-0073-participating-s3-sessions-and-root-registration) | Compose actual guarded SDK activity and complete root registration | MDB-0067 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072 |
-| [MDB-0074](roadmap.md#mdb-0074-coordinated-admission-and-hazard-conformance) | Complete process, ownership, SDK and uncertainty admission conformance | MDB-0067 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072, MDB-0073 |
-| [MDB-0068](roadmap.md#mdb-0068-verified-remote-reclamation-inventory) | Verify bounded remote roots and exact obsolete-object inventory | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067 |
-| [MDB-0069](roadmap.md#mdb-0069-guarded-conditional-s3-deletion) | Implement exact guarded conditional deletion through the SDK | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067, MDB-0068 |
-| [MDB-0070](roadmap.md#mdb-0070-ordered-remote-reclamation-conformance) | Retire obsolete metadata and dependencies with full reclamation conformance | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067, MDB-0068, MDB-0069 |
-| [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | queued | MDB-0010, MDB-0038, MDB-0039 |
-| [MDB-0012](roadmap.md#mdb-0012-reproducible-workload-baseline) | Establish reproducible workload measurements | — | queued | MDB-0011 |
-| [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
-| [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013 |
+| [MDB-0076](roadmap.md#mdb-0076-durable-s3-coordination-generations) | Install and reopen exact forced coordination/receipt generations | MDB-0072 | deferred | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0075 |
+| [MDB-0077](roadmap.md#mdb-0077-coordination-guard-and-ledger-conformance) | Complete native/ledger creation, ownership, failure and process conformance | MDB-0072 | deferred | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0075, MDB-0076 |
+| [MDB-0073](roadmap.md#mdb-0073-participating-s3-sessions-and-root-registration) | Compose actual guarded SDK activity and complete root registration | MDB-0067 | deferred | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072 |
+| [MDB-0074](roadmap.md#mdb-0074-coordinated-admission-and-hazard-conformance) | Complete process, ownership, SDK and uncertainty admission conformance | MDB-0067 | deferred | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072, MDB-0073 |
+| [MDB-0068](roadmap.md#mdb-0068-verified-remote-reclamation-inventory) | Verify bounded remote roots and exact obsolete-object inventory | MDB-0039 | deferred | MDB-0010, MDB-0038, MDB-0067 |
+| [MDB-0069](roadmap.md#mdb-0069-guarded-conditional-s3-deletion) | Implement exact guarded conditional deletion through the SDK | MDB-0039 | deferred | MDB-0010, MDB-0038, MDB-0067, MDB-0068 |
+| [MDB-0070](roadmap.md#mdb-0070-ordered-remote-reclamation-conformance) | Retire obsolete metadata and dependencies with full reclamation conformance | MDB-0039 | deferred | MDB-0010, MDB-0038, MDB-0067, MDB-0068, MDB-0069 |
+| [MDB-0040](roadmap.md#mdb-0040-local-and-object-backend-conformance) | Verify common local and object backend conformance | MDB-0011 | deferred | MDB-0010, MDB-0038, MDB-0039 |
 | [MDB-0041](roadmap.md#mdb-0041-replication-protocol-and-staged-plan) | Specify optional replication protocol and staged work | — | deferred | MDB-0008, MDB-0034 |
 
 Selection is top to bottom among eligible executable rows. The initial dependency
@@ -149,7 +154,14 @@ execution remains conditional on that completion commit reaching remote `main`
 and on resolution of any relevant CI failure. See the [progress history](progress.md)
 for dated evidence, not for live selection.
 
-## Ideas beyond this prototype
+## Deferred extensions
+
+Unfinished S3 parents retain their original expansion/required-child metadata in
+[the roadmap](roadmap.md). Every unfinished S3 row is deferred under the November 2
+Linux priority; completed children remain done. Re-admission requires a deliberate
+priority decision and the original completion criteria. No local benchmark,
+optimization, qualification or candidate depends on finishing those parents.
+Kafka-topic persistence and other providers have no admitted implementation task.
 
 MDB-0041 records the optional one-writer/read-only-follower replication direction
 and its planning acceptance criteria. It remains deferred, separate from storage

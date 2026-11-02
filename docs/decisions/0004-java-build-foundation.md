@@ -34,10 +34,13 @@ The initial build included half-open valid-time membership and interval validati
 covering explicit unbounded endpoints and finite coordinate limits. The same build
 now verifies the additional temporal types, reference interpreter and engine.
 
-Run the same wrapper verification on Linux and Windows CI using read-only repository
+The current CI runs the same wrapper verification on Linux and Windows using read-only repository
 permissions. Use Java 25 Temurin in CI, resolving current patches within that line;
 record actual local/CI runtime evidence. Keep the Python documentation environment
 independent. Pin archive timestamps for repeatable local packaging.
+[ADR 0039](0039-linux-local-storage-priority.md) defines Linux as the production
+target and Windows as basic compatibility; equal build invocation is not equal
+native filesystem qualification.
 
 ## Rationale and alternatives
 

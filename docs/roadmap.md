@@ -11,8 +11,26 @@ foundation under the [persistence boundary design](architecture/persistence-boun
 The memory engine, local journal, immutable history files and manifest consistency
 checks, local checkpoint publication, recovery and forced local writes establish
 a correctness baseline, including process-exit/retry and seeded writable-reopen
-conformance. Performance evaluation remains planned.
+conformance. Linux local filesystems are the primary production target;
+qualification and performance evaluation remain planned. Windows has a basic
+compatibility role, and further S3 development is deferred under
+[the Linux storage decision](decisions/0039-linux-local-storage-priority.md).
 There is no release date or stable API commitment.
+
+## Current development priorities
+
+1. Qualify named Linux storage profiles and their required durability capabilities.
+2. Establish reproducible local workload, resource and recovery measurements.
+3. Compare purpose-built temporal blocks with established layouts, including Parquet,
+   then evaluate native I/O only for a measured bottleneck.
+4. Close evidenced resource, checkpoint/lifecycle, compatibility and diagnostic
+   gaps before preparing an experimental local-library candidate.
+
+The [Linux storage design](architecture/linux-storage.md) specifies candidate
+layouts, evidence and correctness gates. These milestones do not depend on S3 or
+Kafka. The existing S3 implementation and tests remain available, while incomplete
+coordination and reclamation stay deferred. Node replication remains a separate
+future protocol with local persistence on each participant.
 
 ## Available today
 
@@ -139,7 +157,8 @@ feature. No replication mode or network protocol is implemented.
 
 ## Performance evaluation
 
-A reproducible workload baseline follows durable correctness. Measurements will
+A reproducible local workload baseline follows Linux capability qualification;
+it does not wait for remote-backend completion. Measurements will
 separate ingestion-to-sync latency, ingestion-to-query latency, replay time,
 memory, read/write amplification and merge backlog. Batching, compression,
 fragmentation and specialized indexes will be evaluated against measured limits

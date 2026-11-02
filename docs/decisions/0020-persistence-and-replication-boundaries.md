@@ -30,6 +30,11 @@ Managed S3 writable recovery is implemented separately; remote reclamation remai
 
 ## Decision
 
+**Priority update, November 2, 2026:** [ADR 0039](0039-linux-local-storage-priority.md)
+prioritizes Linux local qualification, measurement and file-layout work and defers
+further S3 development. The separation of responsibilities below remains adopted;
+the earlier object-storage-first extension sequence is historical.
+
 Keep MeridianDB an embeddable Java bitemporal database with a complete local
 persistence implementation. Local use requires neither a cloud SDK nor a service
 framework. Reuse maintained provider libraries for optional integrations rather
@@ -42,8 +47,9 @@ force-before-query-publication acknowledgement and explicit uncertain outcomes.
 The [persistence boundary specification](../architecture/persistence-boundaries.md)
 owns the detailed responsibilities and required extension evidence.
 
-Develop optional object storage alongside the existing local journal first.
-Verify immutable dependencies and their actual journal-prefix binding before
+The initial extension sequence developed optional object storage alongside the
+existing local journal. Its retained protocol must continue to
+verify immutable dependencies and their actual journal-prefix binding before
 backend-specific checkpoint selection. Require exact recovery, capability and
 failure tests. Conditional metadata updates do not authorize a second writer or
 turn local durability into replicated durability. Keep remote reclamation gated
