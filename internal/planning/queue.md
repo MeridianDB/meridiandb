@@ -44,7 +44,10 @@ children before implementation rather than treating a whole milestone as one pat
   viewport is restored and local server is stopped. Independent review has no findings.
 - The fourteen Maven pins remain freshly researched/unchanged. No production
   storage algorithm, acknowledgement, file format, dependency version or S3 API
-  changed. Final completion push/docs publication must be verified before advancing.
+  changed. Completion `17a2c0edb37c8dfd723450b53934430aa0ceb073` is pushed;
+  final docs **41471550359** and Pages **41471550376** pass. Fourteen live
+  readbacks/search/sitemap and the published cleanup clarification pass. Java
+  evidence is reused from unchanged runtime source520b86d; no further step started.
 - **Next ready item: MDB-0012 — Reproducible workload baseline.** No benchmark
   execution, new native binding, S3 continuation or library release starts here.
 

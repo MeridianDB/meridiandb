@@ -5445,6 +5445,37 @@ format/native optimization, cloud/provider mutation or library release.
 **Next recommendation:** MDB-0012 — Reproducible workload baseline.
 
 
+## 2026-11-02 — MDB-0079 Final delivery receipt
+
+Completion **`17a2c0edb37c8dfd723450b53934430aa0ceb073`** carries Step-ID MDB-0079 /
+Step-Result completed and is verified on origin/main. Implementation checkpoint
+**`520b86da523fbea3cf82b83c70e716d05ca8f664`** remains its ancestor and owns the
+actual passing Linux runtime/profile evidence above. Completion changes only
+planning and the public guide's precise cleanup clarification, so Java/runtime
+checks are correctly reused; no new Java workflow is triggered by these paths.
+
+- [Final docs 41471550359](https://github.com/MeridianDB/meridiandb/actions/runs/41471550359)
+  passes project-path job 125366121477 and production job 125366121814, with 42 QA
+  fixtures and strict source/HTML/link/search/sitemap validation at the exact
+  completion SHA.
+- [Final Pages 41471550376](https://github.com/MeridianDB/meridiandb/actions/runs/41471550376)
+  passes build 125366122539 and deploy 125366371164 at the same SHA. Fourteen live
+  HTTPS content/canonical checks, both search routes/titles and 88 sitemap URLs
+  pass. The guide includes the new statement that Maven clean replaces ordinary
+  target output while preserving the scratch parent and older runs. Browser
+  confirms it live; ignored `.local-qa/mdb-0079/site-completion-final.png` is
+  embedded in commentary. Normal light viewport is restored and the local server
+  remains stopped. Full final CI and live-readback logs are saved in ignored QA.
+
+This receipt updates only queue/card/history, validates all 80 IDs/dependencies/
+criteria and preserves all S3/replication deferrals. Commit/push normally and verify
+completion ancestry, matching tips and clean status. These internal-only paths
+trigger no duplicate CI or publication. No benchmark, native/file-format change,
+S3 continuation, real-provider mutation or library release starts.
+
+**Next recommendation:** MDB-0012 — Reproducible workload baseline.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

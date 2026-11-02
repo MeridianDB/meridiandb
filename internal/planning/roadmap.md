@@ -2142,8 +2142,12 @@ logs for 14 days, with its digest and expiry in the durable progress receipt.
 This is a CI correctness profile, not production qualification: `data=writeback`,
 `nobarrier` and `commit=30` are observed mount settings; backing device/controller
 and queue/cache facts remain unknown. Preserve these as MDB-0080 gaps. Step
-acceptance supplies no production/power-loss or performance claim. The completion
-record makes MDB-0012 ready; no workload implementation starts in this invocation.
+acceptance supplies no production/power-loss or performance claim. Completion
+`17a2c0edb37c8dfd723450b53934430aa0ceb073` carries Step-Result completed and is
+verified on origin/main. Final docs 41471550359 /Pages 41471550376 and fourteen live
+readbacks/search/sitemap pass, including the cleanup clarification. Java runtime
+source remains 520b86d with its exact passing Linux evidence above. MDB-0012 is
+ready; no workload implementation starts in this invocation.
 
 ## MDB-0080 Linux operational hardening and qualification gaps
 
