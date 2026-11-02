@@ -2308,9 +2308,14 @@ identity. Final complete rooted macOS verification passes 1,335 cases /73 suites
 zero skips, with unchanged prior counts and exact new 9/17 inventory. Optional
 762 regressions, fourteen examples, Python 40/docs 42, artifact/jdeps and both 92-page
 URL builds pass. Guide/ADR 0042 and agent rules preserve measurement scope and
-remaining supervised/physical-accounting gaps. Normal source push and exact-source
-Linux/Windows CI/automatic publication remain delivery checks. Keep MDB-0082 and
-MDB-0012 expanded; recommend MDB-0085 without executing it here.
+remaining supervised/physical-accounting gaps. Completion `742ea991b6b5298c78ebca31b8b208bd8ca4ef88`
+is pushed. Exact-source Java 41545388930, docs 41545388908 and Pages 41545389042
+pass. Linux run `f5061c7e00e54d94b7531912978eada5` verifies all 1,335 cases
+/73 suites with zero skips and exact inventory/source bindings; Windows passes
+with 374 core capability skips. Both platforms retain 762 optional invocations and
+fourteen examples. Live fourteen-page/canonical/search and 92-URL sitemap checks
+pass. Hosted Linux remains correctness-only; keep MDB-0082 and MDB-0012 expanded.
+MDB-0085 is the next recommendation, with no further implementation started here.
 
 ## MDB-0085 Supervised Linux workload evidence
 

@@ -35,11 +35,22 @@ children before implementation rather than treating a whole milestone as one pat
   directory names are synchronized before timed creation. Independent final review
   has no actionable findings. All fourteen Maven pins were freshly researched and
   remain unchanged; no new dependency or production/POM change.
-- Source completion requires normal push, exact-source Linux/Windows Java/docs/
-  automatic Pages and live verification before execution advances. Hosted Linux
-  remains correctness-only; MDB-0080 retains mount/device/cache/production gaps.
+- Completion `742ea991b6b5298c78ebca31b8b208bd8ca4ef88` is pushed. Exact-source Java
+  **41545388930**, docs **41545388908** and automatic Pages **41545389042** pass.
+  Linux run `f5061c7e00e54d94b7531912978eada5` passes all 73 suites /1,335
+  cases with zero skips, plus 762 optional cases and fourteen examples. Windows
+  passes with 374 core /381 optional capability skips and all fourteen examples.
+- Hosted Linux remains correctness-only: ext4, kernel 7.0.0-1017-azure,
+  x86_64, Temurin 25.0.5+8-LTS; recognized flags include `nobarrier` and
+  `data=writeback`, one option omitted, unknown backing device/cache. Preserve
+  `productionQualified: false` and MDB-0080 production gaps. Artifact
+  **13188392288**, 203,270 bytes, retains evidence until November 16
+  at 23:26:59 UTC; exact digest/source/profile facts remain in progress history.
+- Fourteen live HTTPS content/canonical readbacks, both new search entries and 92
+  unique sitemap URLs pass. Published screenshot is embedded in commentary;
+  light/default viewport restored and local server 8791 stopped with exit zero.
 - **MDB-0085 — Supervised Linux workload evidence** is next source-ready after
-  MDB-0084 delivery. It retains process bounds/cleanup, JSON/source/profile admission,
+  verified MDB-0084 delivery. It retains process bounds/cleanup, JSON/source/profile admission,
   allocated/process-I/O accounting and failure evidence. MDB-0083 still owns actual
   evaluation. No further implementation starts in this invocation.
 

@@ -5720,6 +5720,61 @@ No supervised runner, benchmark evaluation or other next implementation starts.
 **Next recommendation:** MDB-0085 — Supervised Linux workload evidence.
 
 
+## 2026-11-02 — MDB-0084 Verified delivery receipt
+
+Completion **`742ea991b6b5298c78ebca31b8b208bd8ca4ef88`** carries Step-ID MDB-0084 /
+Step-Result completed and is verified on origin/main with matching clean tips.
+All checks use that exact source; production source/POM/dependency versions remain
+unchanged. The parent runner and baseline remain expanded.
+
+- [Java 41545388930](https://github.com/MeridianDB/meridiandb/actions/runs/41545388930)
+  passes Linux job 125619599021 and Windows job 125619598668. Linux runs **1,335
+  core cases /73 suites**, zero failures/errors/skips, **762** optional cases with
+  zero skips, forty Python guards and all fourteen examples. Windows passes 1,335
+  core with 374 explicit capability skips and 762 optional with 381 skips, plus
+  fourteen examples. The new metric 17 and pure runner 3 checks run; six native
+  runner cases skip only on that Windows provider. No retries mask failures.
+- Linux run **`f5061c7e00e54d94b7531912978eada5`**, label `github-ubuntu-java25-local-v1`,
+  binds clean exact source and inventory SHA256
+  `171ca84a854a24bbc76f0673d03fefb405e02ee0ff3ecc47c1065be403c3cb2c`.
+  All 73 suite counts equal the tracked inventory, including new 9 runner and 17
+  metric cases. All eight native observations pass: production directory probe,
+  file/directory force, file identity, actual shared/exclusive locks, atomic move
+  and identity after move. Runtime is Eclipse Adoptium 25.0.5+8-LTS / amd64,
+  kernel 7.0.0-1017-azure, x86_64, ext4 (observed major/minor 8:1). Recognized flags
+  are `commit=30`, `data=writeback`, `discard`, `errors=remount-ro`, `nobarrier`,
+  `relatime`, `rw`; one option omitted. Write cache, logical/physical block size,
+  rotational state and backing controller are unknown. Preserve
+  **productionQualified: false**; hosted correctness does not qualify performance,
+  device power loss or production. MDB-0080 retains those deployment gaps.
+- Test artifact **13188392288**, linux-storage-evidence, **203,270 bytes**,
+  digest **`9580a8edfb77a48d1744500660982bb242e6dc0a0803c0835e7eab079dca38a2`**,
+  is associated with main/full source and run 41545388930. Created November 2 at
+  23:26:59 UTC and expires **November 16, 2026 at 23:26:59 UTC**. JSON/XML/full Maven
+  logs retain 14 days; this durable summary preserves source/runtime/scope/counts
+  after expiration. Ignored QA holds fetched CI logs and parsed profile summary.
+- [Documentation 41545388908](https://github.com/MeridianDB/meridiandb/actions/runs/41545388908)
+  passes project-path job 125619599089 and production job 125619599955, each with 42
+  fixtures and strict source/HTML/link/search/sitemap validation.
+  [Pages 41545389042](https://github.com/MeridianDB/meridiandb/actions/runs/41545389042)
+  build 125619598882 and deploy 125619805055 pass. Fourteen live HTTPS page/content/
+  canonical checks verify both new pages, caller updates, 1,335 core counts and the
+  actual Maven research times. Both new search entries and 92 unique canonical
+  sitemap URLs pass. Browser verifies published guide, 26-check status and excluded
+  namespace-preparation scope; `site-published.png` is embedded in commentary.
+  Earlier desktop light, 390 px mobile dark and search→ADR→guide checks pass.
+  Normal light/default viewport restored; local server 8791 stopped with exit 0.
+
+This receipt updates only queue/card/history, with runtime/public source identical
+to the verified completion. Validate 85 IDs/cards/DAG/eligibility, inspect staged
+diff and commit/push normally. Verify source ancestry, matching tips and clean
+status. Internal-only changes trigger no duplicate CI/publication. MDB-0084 is done,
+MDB-0085 ready, MDB-0082/0012 expanded; no supervised execution, actual baseline, S3 work,
+native binding, format experiment or library release starts in this invocation.
+
+**Next recommendation:** MDB-0085 — Supervised Linux workload evidence.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
