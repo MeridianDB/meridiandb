@@ -5167,6 +5167,53 @@ repair Java/docs/Pages and updated live content before delivery completion.
 No next item or parent completion starts; MDB-0076 remains conditional on delivery.
 
 
+
+## 2026-11-01 — MDB-0075 Final delivery verification
+
+Initial source **`917f52c5987464a80821da526d84e40eef50661d`** and repair
+**`dfdc24d28b0558a93aa4ce8c141a9fc304b828fd`** carry Step-ID MDB-0075 /
+Step-Result completed. Normal pushes/fresh fetches confirm both on origin/main,
+matching tips and clean checkout before this internal-only receipt. Preserve the
+initial Windows failure as repair evidence; its passing docs/Pages did not close
+Java delivery. The exact repaired source supplies completion evidence below.
+
+- [Java 41388769784](https://github.com/MeridianDB/meridiandb/actions/runs/41388769784)
+  passes both Maven builds and fourteen examples on Linux and Windows. Linux runs
+  core 1,272 /optional 762 with zero failures/errors/skips, including all **43
+  injected registry/fault and 15 native/process guard cases**. Windows runs all
+  43 registry/fault cases without skips. Its native guard suite reports 13 explicit
+  missing-file-key skips and two passing pre-identity checks; total capability
+  skips are 363 core /381 optional (368 existing plus 13 guard). No unsupported
+  native placement is represented as successful locking or enrollment.
+- [Docs 41388769816](https://github.com/MeridianDB/meridiandb/actions/runs/41388769816)
+  passes 42 QA fixtures and strict production/project-path builds. [Automatic Pages
+  41388769799](https://github.com/MeridianDB/meridiandb/actions/runs/41388769799)
+  passes its 42 fixtures, build/upload and deployment of full repair SHA
+  `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd`.
+- Live HTTPS checks verify **fifteen pages** with exact production canonicals,
+  current native-versus-durable boundaries, test totals and research times. The
+  guide includes the actual Windows null-key observation and controlled-identity
+  rule. Both new titles/routes are in search; sitemap contains **84 unique HTTPS
+  production URLs**. Browser confirms repaired live wording/canonical and the
+  published verification section; the session shows
+  `.local-qa/mdb-0075/site-published-final.png`. Local guide/ADR/back/search and
+  desktop-light/mobile-dark checks pass without overflow, and normal light viewport
+  is restored. Task-owned servers 29767 and 11308 are stopped. Ignored evidence
+  retains fresh Maven/JDK research, independent reviews, initial failure/repair
+  logs, full exact-source CI logs, archive/XML evidence, readbacks and screenshots.
+
+Only queue/card/history change in this receipt. Validate 77 IDs/cards/DAG/eligibility,
+inspect/stage these three paths, commit/push normally and verify source ancestry,
+matching tips and a clean checkout. Existing workflow filters do not trigger on
+this internal-only receipt. MDB-0075 is complete; MDB-0072/0067/0039/0011 remain
+expanded. No next-child implementation, Maven artifact release/upload, real-provider
+mutation or account/DNS/hosting change starts.
+
+**Next recommendation:** MDB-0076 — Durable S3 coordination generations: explicit
+fresh/existing bound state, separately serialized immutable intent/completion
+receipts, force/capacity reservation and fail-closed reopen beside the permanent guard.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

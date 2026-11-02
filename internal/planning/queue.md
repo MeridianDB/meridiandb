@@ -12,57 +12,36 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- MDB-0066 source `b883d420923a164c2545980322447abe43253b55` and delivery receipt
-  `1e412c5ab7baf4cf0771051126833dde583c3358` are verified on origin/main. Docs
-  41341579887 and Pages 41341579894 pass; prior Java source remains unchanged.
-- MDB-0067 is expanded into required MDB-0071 bounded pure coordination state/codec,
-  MDB-0072 permanent guard/durable ledger, MDB-0073 participating SDK activity/root
-  catalog and MDB-0074 admission/uncertainty integration. Preserve every original
-  criterion and parent relationship; pure metadata alone provides no admission or
-  terminal-response provenance. All 74 IDs remain tracked.
-- **MDB-0071 — Bounded S3 coordination state and codec** is source-complete.
-  Immutable bound root/dependency declarations, exact individual attempts, sticky
-  pending state, tombstones and canonical bounded bytes are implemented. Native
-  ownership, durable installation, complete liveness and SDK provenance remain
-  pending. No active claim remains.
-- Verification passes 1,272 core and 704 optional tests locally/Linux with zero
-  failures/errors/skips, including 108 new pure state/codec cases. Windows passes
-  both builds with existing native capability skips (363 core/368 optional); all
-  108 new pure cases run with zero skips. Fourteen examples pass on both CI platforms.
-- Source `86310645e84a82004c7b2d8f0da5dd8e27671abf` is on origin/main. Java
-  **41345469509**, docs **41345469586** and automatic Pages **41345469623** pass
-  for that exact source, including deployment. All 42 docs fixtures and both strict
-  82-page builds pass. Thirteen live content/canonical routes, both new search
-  entries and 82 unique HTTPS sitemap URLs pass. Browser confirms the published
-  format's pure-declaration status; normal light viewport is restored and the
-  task-owned preview server is stopped. Independent reviews have no findings;
-  fresh Maven research retains all fourteen pins.
-- MDB-0072 is expanded into required MDB-0075 permanent native guard, MDB-0076
-  durable state/receipt generations and MDB-0077 guard/ledger integration. Preserve
-  every original criterion; an isolated guard creates no namespace or durable state.
-- **MDB-0075 — Permanent local S3 coordination guard** is source-complete. The
-  package-private guard owns existing permanent files through bounded native shared/
-  exclusive leases, common identity reservation, repeated original-identity checks,
-  sole-channel force and uncertain-close/overlap quarantine. No active claim remains.
-- Verification passes 1,272 core /762 optional invocations, including 43 registry/
-  fault and 15 native/process guard checks, with zero failures/errors/skips. All
-  fourteen packaged examples, archive boundaries, 42 docs fixtures and both strict
-  84-page builds pass. Fifteen local page/content/canonical checks, both new search
-  entries, sitemap and desktop-light/mobile-dark navigation checks pass. Fresh
-  Maven/JDK research and independent source/test/public review have no findings.
-- Initial source `917f52c5987464a80821da526d84e40eef50661d` is pushed. Docs
-  41387827682 and Pages 41387827689 pass; Java 41387827680 passes Linux but Windows
-  exposed null provider file keys in injected tests and two missing native
-  capability preflights. Production correctly refuses the unsupported identity.
-  Repair keeps native requirements unchanged, injects controlled identity into all
-  43 fault checks and adds the missing native preflights. Focused 58 and full 762
-  optional checks plus repaired strict builds/readbacks pass locally; exact repair
-  push/CI/Pages verification is pending. No next child starts before it passes.
-- **MDB-0076 — Durable S3 coordination generations** is next, conditional on exact
-  source push, Java/docs CI and automatic Pages delivery. MDB-0072/0067/0039/0011
-  remain expanded. Guard creation/enrollment, durable ledger, SDK participation,
-  actual root liveness/provenance and deletion remain unimplemented. No next child,
-  library release or real-provider/account/hosting mutation starts this iteration.
+- Prior MDB-0071 source `86310645e84a82004c7b2d8f0da5dd8e27671abf` and delivery
+  receipt `2dd5766423fe1cc2ca2befa81e44ba3c2a8d26d0` remain verified on origin/main.
+  The pure state/codec is complete; native/durable/SDK boundaries remain separate.
+- MDB-0067 remains expanded into required MDB-0071 (done), MDB-0072 (expanded),
+  MDB-0073 SDK participation and MDB-0074 full admission/hazard integration.
+  MDB-0072 is expanded into MDB-0075 guard (done), MDB-0076 durable generations
+  (ready) and MDB-0077 native/ledger integration (queued). Preserve every original
+  criterion and parent relationship; all 77 stable IDs remain tracked.
+- **MDB-0075 — Permanent local S3 coordination guard** is complete. The internal
+  existing-file primitive implements bounded shared/exclusive native leases,
+  common identity reservation, original identity checks, sole-channel force and
+  uncertain-close/overlap quarantine. It creates no namespace or durable state.
+- Verification passes 1,272 core /762 optional invocations locally and on Linux,
+  including all 43 registry/fault and 15 native/process checks with zero skips.
+  Windows passes both builds: 43 fault checks execute without skips, 13 native
+  guard checks explicitly skip missing file keys; total existing/new capability
+  skips are 363 core /381 optional. All fourteen examples pass on both platforms.
+- Initial source `917f52c5987464a80821da526d84e40eef50661d` exposed Windows test
+  coupling to unavailable file keys. Repair `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd`
+  is pushed; production identity requirements remain strict and controlled fault
+  identities stay independent. Java **41388769784**, docs **41388769816** and
+  automatic Pages **41388769799** pass for the exact repair, including deployment.
+  Forty-two docs fixtures, both strict 84-page builds, fifteen live content/
+  canonical checks, new search routes and sitemap pass. Browser verifies the
+  published Windows clarification; normal light viewport is restored and both
+  task-owned preview servers are stopped. Independent reviews have no findings.
+- **MDB-0076 — Durable S3 coordination generations** is next. No active claim
+  remains. MDB-0072/0067/0039/0011 remain expanded. Fresh creation/enrollment,
+  durable ledger, SDK participation and reclamation remain unimplemented.
+  No later child, library release or real-provider/account/hosting mutation starts.
 
 ## Ordered work
 

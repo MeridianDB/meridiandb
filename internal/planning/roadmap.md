@@ -1893,11 +1893,12 @@ enrollment, durable state, terminal provenance or SDK/reclamation authority foll
 suites, fourteen packaged examples, 42 docs fixtures and both 84-page builds pass.
 ADR 0038/guide/current callers/rules preserve the existing-file-only boundary;
 no durable ledger or enrollment follows. Fresh research and independent review
-are complete. Initial Linux/docs/Pages pass; Windows reports an unsupported null file-key
-capability and exposed injected-test coupling. The delivery repair retains strict
-production identity, uses controlled identities for fault tests and consistent
-native preflights; 58 focused/762 full optional checks and repaired docs pass locally.
-Exact repair push/CI/Pages/live delivery is recorded in progress.
+are complete. Repair `dfdc24d28b0558a93aa4ce8c141a9fc304b828fd` is delivered. Java
+41388769784, docs 41388769816 and Pages 41388769799 pass, including deployment.
+Linux runs all 58 guard checks; Windows executes all 43 injected cases and reports
+13 native identity-capability skips. Production identity stays strict. Fourteen
+examples pass per platform; fifteen live canonical/content routes, search and
+84-page sitemap pass. Progress history preserves initial failure and repair evidence.
 
 ## MDB-0076 Durable S3 coordination generations
 
