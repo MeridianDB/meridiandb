@@ -150,7 +150,10 @@ fresh single-placement enrollment, complete root registration, durable per-attem
 hazards and metadata-before-dependency removal. Its admission and delete APIs remain
 unimplemented. The [pure state/codec](s3-coordination-state.md) checks bounded
 declarations without native ownership, durable receipts or terminal provenance;
-current S3 clients still provide no reclamation permission.
+an internal [permanent native guard](../development/s3-coordination-guard.md)
+separately supplies shared/exclusive leases on an existing control file. Durable
+enrollment and SDK composition remain pending; current clients still provide no
+reclamation permission.
 
 ## Optional replication
 

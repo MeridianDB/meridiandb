@@ -18,7 +18,8 @@ checks the full SDK corpus and publication interruptions; replication remains pl
 streaming service or application server.
 [Coordinated remote reclamation](docs/architecture/remote-reclamation.md) now has
 an accepted protocol and a [bounded pure state/codec](docs/architecture/s3-coordination-state.md);
-native namespace admission and remote deletion remain unimplemented.
+an internal [permanent native guard](docs/development/s3-coordination-guard.md) is also implemented.
+Durable enrollment, participating SDK sessions and remote deletion remain unimplemented.
 
 **Status:** project foundation and architectural research. The documentation site
 is live at [meridiandb.org](https://meridiandb.org/) and can be built locally.

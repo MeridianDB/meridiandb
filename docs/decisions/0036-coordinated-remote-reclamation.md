@@ -8,7 +8,8 @@ description: Stage remote reclamation behind single-placement namespace admissio
 Date: November 1, 2026. Status: accepted design; coordinated admission, inventory,
 conditional deletion and integrated reclamation remain unimplemented.
 [ADR 0037](0037-bounded-s3-coordination-state.md) adds pure bounded declarations
-without native or SDK integration.
+without durable or SDK integration. [ADR 0038](0038-permanent-s3-coordination-guard.md)
+adds the internal existing-file native guard; durable enrollment remains pending.
 
 ## Context
 

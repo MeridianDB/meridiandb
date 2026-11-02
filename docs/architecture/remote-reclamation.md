@@ -5,15 +5,17 @@ description: Proposed single-placement admission, durable mutation evidence and 
 
 # Coordinated remote reclamation
 
-**Status: accepted protocol; pure coordination state/codec implemented, native
-coordination and SDK participation pending.** The current S3 byte adapter
+**Status: accepted protocol; pure state/codec and internal permanent native guard
+implemented; durable enrollment/ledger and SDK participation pending.** The current S3 byte adapter
 has no deletion API. [Checkpoint publication](../development/s3-checkpoint-publication.md)
 and [managed recovery](../development/s3-database-writes.md) are implemented, while
 this page specifies the additional coordination required before remote reclamation
 can be offered. [ADR 0036](../decisions/0036-coordinated-remote-reclamation.md)
 records the decisions and alternatives. The implemented
 [bounded state format](s3-coordination-state.md) validates declarations only;
-it supplies no lock, durable receipt or terminal-response provenance.
+it supplies no lock, durable receipt or terminal-response provenance. The separate
+[permanent native guard](../development/s3-coordination-guard.md) supplies internal
+leases on an existing control file, with no enrollment or durable ledger yet.
 
 Reclamation preserves every logical transaction and the complete local journal.
 It may remove only obsolete physical checkpoint representations after proving

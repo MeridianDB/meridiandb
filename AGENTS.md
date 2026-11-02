@@ -357,6 +357,17 @@ so a new session can work correctly without relying on earlier conversations.
   provenance. Future concrete owners must retain immutable receipt history and
   qualify the same attempt's actual response before durable settlement; a decoded
   watermark or status cannot establish those facts.
+- Follow [ADR 0038](docs/decisions/0038-permanent-s3-coordination-guard.md) and the
+  [permanent guard guide](docs/development/s3-coordination-guard.md) for internal
+  native leases on an existing control file. Preserve canonical parent/default-
+  provider file identity, one common-owned channel, actual shared-mode validation,
+  bounded references/placements and no raw delegate. Recheck original identity
+  around admission/force; poison native health/force/name uncertainty. Invalidate
+  before final independent release/close, preserve primary/suppressed failures and
+  quarantine every thrown close even when the channel reports closed. Unexpected
+  overlap retains the duplicate channel/reservation until process restart. Keep
+  fresh creation/directory force, exact enrollment, durable receipt generations
+  and SDK participation separate; the guard supplies none of those permissions.
 - For coordinated remote reclamation, follow [ADR 0036](docs/decisions/0036-coordinated-remote-reclamation.md)
   and the [accepted protocol](docs/architecture/remote-reclamation.md); these are
   design requirements until their implementation checks pass. Admit a fresh

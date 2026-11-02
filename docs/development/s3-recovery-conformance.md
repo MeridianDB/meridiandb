@@ -107,8 +107,9 @@ Then run the complete adapter suite:
 ./mvnw -B -f adapters/s3/pom.xml verify
 ```
 
-The core has 1,272 invocations; the optional adapter has 704, including 108 pure
-[coordination state/codec checks](../architecture/s3-coordination-state.md). The 50 corpus/
+The core has 1,272 invocations; the optional adapter has 762, including 108 pure
+[coordination state/codec checks](../architecture/s3-coordination-state.md) and 58
+[guard checks](s3-coordination-guard.md). The 50 corpus/
 integration cases need supported native directory synchronization and skip only
 that explicitly unavailable capability. Pure admission checks remain independent
 of native placement. Use `mvnw.cmd` on Windows.

@@ -177,8 +177,9 @@ ordering, immutable lifetimes, exact settlement, shared dependencies, tombstones
 and numeric/capacity boundaries. These are pure checks, with no native capability
 skip or remote service. Follow the [optional build commands](../development/s3-objects.md#build-and-verify).
 
-Permanent native guard ownership, durable state/receipt generations, fresh-only
-namespace admission, complete root registration in every SDK path, actual terminal
+The separate [permanent native guard](../development/s3-coordination-guard.md) now
+provides internal existing-file leases. Durable state/receipt generations, fresh-only
+namespace enrollment, complete root registration in every SDK path, actual terminal
 provenance and integrated process/late-effect conformance remain required.
 Inventory, exact same-GET deletion evidence and ordered removal are also pending.
 No codec result permits reclamation or changes temporal acknowledgement.

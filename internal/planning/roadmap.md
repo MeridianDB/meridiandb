@@ -1863,6 +1863,73 @@ records on reopen; no observation/restart/reset clears an unresolved attempt.
 Document state/history/force costs and unsupported placement; no SDK activity or
 root liveness provenance follows from the ledger alone.
 
+**Expansion:** required MDB-0075 permanent native guard, MDB-0076 durable generations
+and MDB-0077 native/ledger integration preserve every original criterion above.
+The guard alone operates on an existing empty control file; fresh enrollment,
+canonical bound state and durable receipts remain ledger/integration obligations.
+
+## MDB-0075 Permanent local S3 coordination guard
+
+**Parent:** MDB-0072. **Outcome:** implement bounded shared/exclusive native leases
+on one existing permanent guard in a trusted stable local placement, before the
+ledger or participating SDK sessions exist.
+
+**Complete when:** use one registered common-ownership channel per canonical guard
+in a loaded adapter copy/JVM; share only actual shared locks, defer exclusive/reader
+conflicts without another local channel and protect cooperating process admission.
+Check original regular/nonsymlink/empty file identity before opens and while leased;
+reject aliases, missing/replaced paths and unsupported identity/shared capabilities.
+Bound placements and references. Expose no raw channel, lock or delegate; force
+through the sole owner. Close invalidates first, attempts release and close,
+preserves primary/suppressed errors and retains uncertain close/overlap quarantine
+even if Java reports closed. Test injected failure/invalidity/capacity, native
+cross-adapter aliases, real child-process exclusion/shared admission and process
+exit without claiming directory durability or remote fencing. Fresh Maven/JDK
+research, code/tests/docs/rules/planning and exact-source CI/Pages pass. No creation,
+enrollment, durable state, terminal provenance or SDK/reclamation authority follows.
+
+**Source outcome, November 1:** package-private native guard and 58 focused checks
+(43 registry/fault, 15 native/process) implemented. Full 1,272 core /762 optional
+suites, fourteen packaged examples, 42 docs fixtures and both 84-page builds pass.
+ADR 0038/guide/current callers/rules preserve the existing-file-only boundary;
+no durable ledger or enrollment follows. Fresh research and independent review
+are complete. Exact-source push/CI/Pages/live delivery is recorded in progress.
+
+## MDB-0076 Durable S3 coordination generations
+
+**Parent:** MDB-0072. **Outcome:** compose permanent guard ownership with explicit
+fresh creation/existing open, exact bound state and full immutable receipt history.
+
+**Complete when:** independently bind actual lexical target, namespace/publisher/
+lineage/placement and canonical local location; preserve the permanent guard name
+and force it through its owner. Probe directory capability before mutation; reserve
+identity, intent/completion file/name/generation capacities before effects. Retain
+all immutable intent/completion generations, serialize generation writers across
+processes separately from shared activity admission without an implicit lock
+upgrade, validate contiguous exact history and
+highest unique state without fallback, preserve damaged/missing/unknown candidates
+and synchronize actual files/names before admission. Pending remains quarantined
+across reopen; no reset/observation clears it. Inject storage/force/rename/close
+failures, argument/capacity preflight and exact state/reopen cases. Pure state bytes
+or local ownership supplies no actual terminal-response or remote-liveness proof.
+
+## MDB-0077 Coordination guard and ledger conformance
+
+**Parent:** MDB-0072. **Outcome:** verify every original native/ledger criterion
+through concrete integrated creation, ownership, durable transitions and processes.
+
+**Complete when:** fresh/open identity, alias and native quarantine behavior retain
+all original evidence and cleanup ordering; exercise process exits across guard,
+intent/install/force/completion boundaries with exact reopen outcomes. Race shared
+admission/exclusive maintenance across JVMs with ledger ownership; reserve both
+completion and intent capacity, recognize only matching valid durable terminal
+records and never fall back past damaged newest state. Audit all original MDB-0072
+criteria, preserve SDK/raw/local behavior and document costs, supported placement
+and uncertainty. Close MDB-0072 only with all required children and integration/
+source/CI/docs delivery complete. MDB-0073/0074 retain actual SDK participation,
+root registration and full admission/hazard conformance.
+
+
 ## MDB-0073 Participating S3 sessions and root registration
 
 **Parent:** MDB-0067. **Outcome:** compose concrete namespace-owned SDK read/upload/

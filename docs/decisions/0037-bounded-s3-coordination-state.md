@@ -57,8 +57,9 @@ requires its own evidence-preserving design.
 
 The separate pure model makes byte and transition failures testable without
 filesystem capability or cloud service assumptions. It also deliberately lacks
-authority: actual selected/retained-root verification, permanent native ownership,
-durable intent before dispatch, qualified same-attempt completion and process
-hazard conformance still need concrete implementations. Existing raw clients
+authority: actual selected/retained-root verification, durable intent before
+dispatch, qualified same-attempt completion and process
+hazard conformance still need concrete implementations. A separate [internal native guard](0038-permanent-s3-coordination-guard.md)
+is implemented without durable enrollment. Existing raw clients
 remain outside coordinated mode. There is no remote deletion API, admission,
 provider qualification or temporal-semantic change in this decision.

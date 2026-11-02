@@ -45,8 +45,9 @@ permanent commitment.
 | [0033: Writes after pinned checkpoint recovery](0033-pinned-checkpoint-writes.md) | Implemented, experimental core mode | Actual journal/name startup barriers, forced local writes and original retry identity after explicit pinned recovery |
 | [0034: Managed S3 writable recovery](0034-managed-s3-writable-recovery.md) | Implemented, experimental optional mode; conformance verified separately | Exact managed admission, core startup barriers and forced local transactions with concurrent committed-state capture |
 | [0035: Remote writable recovery conformance](0035-remote-writable-recovery-conformance.md) | Implemented, experimental verification | Unchanged SDK canonical/seeded histories, publication interruptions, exact retry continuation and local coverage limits |
-| [0036: Coordinated remote reclamation](0036-coordinated-remote-reclamation.md) | Accepted protocol; pure declarations implemented separately; native/SDK integration pending | Single-placement admission, complete root catalog, durable per-attempt hazards and verified ordered conditional removal |
+| [0036: Coordinated remote reclamation](0036-coordinated-remote-reclamation.md) | Accepted protocol; pure declarations implemented separately; durable enrollment/SDK integration pending | Single-placement admission, complete root catalog, durable per-attempt hazards and verified ordered conditional removal |
 | [0037: Bounded S3 coordination state](0037-bounded-s3-coordination-state.md) | Pure state/codec implemented; durable coordination pending | Bounded immutable root catalog, exact individual attempts and canonical bytes without native or SDK provenance |
+| [0038: Permanent S3 coordination guard](0038-permanent-s3-coordination-guard.md) | Internal native primitive implemented; ledger/enrollment pending | Bounded sole-channel shared/exclusive leases, permanent identity and uncertain-close quarantine |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

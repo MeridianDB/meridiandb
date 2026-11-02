@@ -5036,6 +5036,100 @@ permanent native identity, shared/exclusive local ownership and forced immutable
 intent/completion generations, preserving unknown evidence across reopen.
 
 
+
+## 2026-11-01 — MDB-0075 Permanent local S3 coordination guard
+
+**Selection/refinement:** reconcile clean main/origin at
+`2dd5766423fe1cc2ca2befa81e44ba3c2a8d26d0`. Recheck source
+`86310645e84a82004c7b2d8f0da5dd8e27671abf`, Java 41345469509, docs 41345469586
+and automatic Pages 41345469623 as successful/reachable. Split MDB-0072 into
+required MDB-0075 guard, MDB-0076 durable generations and MDB-0077 integrated
+native/ledger conformance, preserving every original criterion and prerequisite.
+Execute only guard; all 77 stable IDs remain. MDB-0072/0067/0039/0011 stay expanded.
+
+**Implementation:** one new package-private optional-artifact primitive operates
+on an existing empty regular nonsymlink permanent coordination file. Resolve the
+real parent, require default filesystem/nonnull file key, preserve common local
+identity reservations and reject aliases/changed names before another channel.
+One synchronized registry bounds 256 placements and 1,024 shared leases per entry;
+shared local holders reuse one actual shared channel/lock, incompatible admission
+defers before another local open. Native nonblocking shared/exclusive locks cover
+cooperating processes. Check actual shared mode and original identity after lock,
+on validation and before/after sole-channel force. Native health/force/path
+uncertainty poisons all entry leases. No raw lock/channel/delegate escapes.
+
+Close invalidates first; only the final lease attempts native release and close.
+Preserve first/suppressed failures. Known successful channel close can free the
+entry after a release failure; any thrown close, even with isOpen false, retains
+quarantine without raw retry. Unexpected unregistered overlap preserves its
+channel/common reservation until process exit. The future ledger must separately
+serialize generation writers across processes without upgrading a shared lease,
+following guard-before-ledger/publication/checkpoint/journal/SDK order.
+
+No creation, directory force, enrollment, bound durable state/receipt, complete
+root liveness, actual terminal provenance, SDK operation or reclamation authority
+follows. No actual S3 request, library release/upload, bucket/account/DNS or hosting
+configuration change occurs. Existing raw SDK clients remain unchanged/unprotected.
+
+**Tests/builds:** focused 58 cases pass: 43 registry/fault/capacity/lifetime and
+15 native/process invocations. Independent handles cover IO/runtime/Error,
+health accessor uncertainty, wrong lock modes, original name loss/replacement,
+pre/post force identity, bounded holders/placements, reentrant/serialized force,
+invalidation before independent cleanup, failed close after reported closure,
+no-op retry refusal and startup/conflict cleanup. Review identified thrown native
+health accessors bypassing poisoning; fix and four permanent regressions retain
+uncertainty. Real child JVMs cover all mode combinations, last-reader protection,
+rejected same-JVM/cross-adapter aliases, child-isolated overlap quarantine and
+graceful/abrupt exit. Logs live outside guarded placements; no directory-sync
+prerequisite or durability claim. Compile/test warnings are fixed under -Werror.
+
+`./mvnw -B clean install` passes 1,272 core and optional clean verify passes **762**,
+zero failures/errors/skips locally. Fourteen examples pass against packaged core.
+Archive inspection retains core 155 classes and unchanged 10-class/three-resource
+test classifier; optional main has 70 classes, no test/ChildMain/helper/vectors.
+Core SHA `62c61ebe40871912f79f2f98c6705f0301e8ca78b3aa374b14f860a9e2a0aad9`,
+classifier `080ff20a9ecc9303b72889741e7cb448e05a848c9b6d65923e118645cf6d80d1`,
+optional `ce7477db2e344ea34a938fedf855917b422bd8a060011df69f1b04bcad627503`.
+No POM/Wrapper/runtime dependency/SDK setting changes; core remains JDK-only.
+
+**Research:** fresh 14 Central metadata sources at November 1, 23:00:22 EST
+(November 2, 04:00:22 UTC), compatibility at 23:00:23 EST /04:00:23 UTC and five
+JDK 25 primary pages at 23:01:48 EST /04:01:48 UTC. Preserve the differing UTC date.
+Latest stable pins remain Maven 3.10.0, Wrapper 3.3.4, clean/resources 3.5.0,
+compiler 3.16.0, Surefire 3.6.1, jar 3.5.1, install/deploy 3.2.0, JUnit 6.1.3,
+Jackson 3.2.4 and SDK s3/url-connection-client 2.57.8. Primary JDK docs support
+shared-mode inspection, JVM-wide lock coordination, same-file-close hazards,
+optional/reusable file keys and nonfreezing realpath/attribute observations.
+Distinguish these facts from project quarantine/ownership deductions; no new AWS
+provider claim. Evidence in ignored `.local-qa/mdb-0075/research-helper/`:
+metadata `4c213d75c3084b951a82c0557509111b04a21b8f49de4674508c239a2f701015`,
+compatibility `7805debb1d370306f78ba7061177c8059c6f48404821fe536f0f664711c1a336`,
+JDK summary `be6bc5d15dc879d6726cfc60351ab75e1ee57e1ea32a970ecc2ef8ac65b895c3`,
+report `2eb39e21d0ba1fe169267c3445e0307139cf10df60321a16c6f34f85c1e00138`,
+sums `16957ed7983d368552d72b5dee691714b2a733901b663601c7aea90b48f97689`.
+
+**Documentation/review:** add native guide/ADR 0038; reconcile README/home,
+architecture/persistence/protocol/state format/ADR 0036/0037/decisions/roadmap/
+build/S3 object/head/conformance/nav and root rules. Public QA distinguishes
+native exclusion from durable enrollment, future writer serialization, receipt
+provenance and reclamation. Independent source/tests/Windows subprocess/public
+review has no remaining finding. Forty-two docs-rule fixtures and strict
+production/project-path **84-page** builds pass. Browser verifies guide/ADR/back/
+search navigation, desktop-light/mobile-dark without overflow and restored normal
+light viewport. Fifteen local canonical/content routes, both new search entries
+and 84 unique production sitemap URLs pass. No public task/process narrative.
+
+**Source completion/delivery:** mark MDB-0075 source-done, clear active claim and
+make MDB-0076 ready conditional on delivery. Validate 77 IDs/cards/DAG/eligibility;
+inspect/stage task-owned paths and commit Step-ID MDB-0075 /Step-Result completed.
+Normal push, exact-source Java/docs/automatic Pages, live readback/search/sitemap
+and clean matching tips precede the internal-only receipt. No later child starts.
+
+**Next recommendation:** MDB-0076 — Durable S3 coordination generations: explicit
+fresh/existing bound state, separately serialized immutable receipt generations
+and fail-closed force/reopen, preserving the permanent native guard.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

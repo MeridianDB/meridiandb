@@ -82,7 +82,9 @@ classes and authoritative contract/seed resources. The optional S3 build uses it
 and Jackson only in test scope for [managed recovery conformance](s3-recovery-conformance.md),
 and resolves its SDK separately. The optional build also verifies the
 [pure coordination state/codec](../architecture/s3-coordination-state.md), with no
-new runtime dependency, native lease or SDK operation; follow the
+new runtime dependency, native lease or SDK operation. A separate
+[internal native guard](s3-coordination-guard.md) adds existing-file leases without
+enrollment, ledger installation or SDK participation; follow the
 [S3 build commands](s3-objects.md#build-and-verify) to verify both artifacts. The command does not
 install a library into a remote repository or publish a release.
 
@@ -190,8 +192,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 1: metadata at 14:48:14 EST /19:48:14 UTC and compatibility at
-14:48:15 EST /19:48:15 UTC. The listed selections remain unchanged; the adapter
+on November 1: metadata at 23:00:22 EST (November 2, 04:00:22 UTC) and
+compatibility at 23:00:23 EST (November 2, 04:00:23 UTC). The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

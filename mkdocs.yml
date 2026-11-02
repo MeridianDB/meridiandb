@@ -101,6 +101,7 @@ nav:
       - Remote writable conformance decision: decisions/0035-remote-writable-recovery-conformance.md
       - Remote reclamation decision: decisions/0036-coordinated-remote-reclamation.md
       - S3 coordination state decision: decisions/0037-bounded-s3-coordination-state.md
+      - Permanent S3 guard decision: decisions/0038-permanent-s3-coordination-guard.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -120,6 +121,7 @@ nav:
       - Managed S3 read recovery: development/s3-database.md
       - Managed S3 writable recovery: development/s3-database-writes.md
       - Remote writable conformance: development/s3-recovery-conformance.md
+      - Permanent S3 guard: development/s3-coordination-guard.md
       - S3 publication state: development/s3-publication-state.md
       - Durable local S3 state: development/local-s3-publication-state.md
       - Verified S3 preparation: development/s3-publication-preparation.md

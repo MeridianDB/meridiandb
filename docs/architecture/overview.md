@@ -110,6 +110,9 @@ The [remote reclamation protocol](remote-reclamation.md) is an accepted design f
 coordinated admission, complete root accounting and ordered removal; remote delete
 operations remain unimplemented. The [pure coordination state/codec](s3-coordination-state.md)
 now checks bounded root metadata and exact attempt declarations without I/O or admission.
+An internal [permanent guard](../development/s3-coordination-guard.md) separately
+implements native shared/exclusive leases; durable enrollment and SDK composition
+remain pending.
 
 ## Learn from immutable ingestion and search systems
 

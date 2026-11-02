@@ -117,7 +117,8 @@ unchanged SDK corpus and publication boundaries. Protected remote reclamation an
 common backend conformance remain open. The accepted [reclamation protocol](architecture/remote-reclamation.md)
 stages namespace admission/durable hazards, complete verified inventory, exact
 conditional deletion and ordered integration. The [pure coordination state/codec](architecture/s3-coordination-state.md)
-is implemented; native coordination and guarded SDK APIs remain unimplemented and
+is implemented alongside an internal [permanent native guard](development/s3-coordination-guard.md).
+Durable enrollment/ledger and participating SDK APIs remain unimplemented and
 retain the existing local journal and acknowledgement contract. Core
 [pinned checkpoint read recovery](development/object-checkpoint-recovery.md) is
 available. [Managed S3 read recovery](development/s3-database.md) adds exact durable

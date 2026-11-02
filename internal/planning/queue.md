@@ -37,9 +37,24 @@ children before implementation rather than treating a whole milestone as one pat
   format's pure-declaration status; normal light viewport is restored and the
   task-owned preview server is stopped. Independent reviews have no findings;
   fresh Maven research retains all fourteen pins.
-- **MDB-0072 — Local coordination guard and durable ledger** is next. No active
-  claim remains. MDB-0067/0039/0011 remain expanded; no later native/SDK child,
-  remote deletion, library release or real-provider/account/hosting mutation starts.
+- MDB-0072 is expanded into required MDB-0075 permanent native guard, MDB-0076
+  durable state/receipt generations and MDB-0077 guard/ledger integration. Preserve
+  every original criterion; an isolated guard creates no namespace or durable state.
+- **MDB-0075 — Permanent local S3 coordination guard** is source-complete. The
+  package-private guard owns existing permanent files through bounded native shared/
+  exclusive leases, common identity reservation, repeated original-identity checks,
+  sole-channel force and uncertain-close/overlap quarantine. No active claim remains.
+- Verification passes 1,272 core /762 optional invocations, including 43 registry/
+  fault and 15 native/process guard checks, with zero failures/errors/skips. All
+  fourteen packaged examples, archive boundaries, 42 docs fixtures and both strict
+  84-page builds pass. Fifteen local page/content/canonical checks, both new search
+  entries, sitemap and desktop-light/mobile-dark navigation checks pass. Fresh
+  Maven/JDK research and independent source/test/public review have no findings.
+- **MDB-0076 — Durable S3 coordination generations** is next, conditional on exact
+  source push, Java/docs CI and automatic Pages delivery. MDB-0072/0067/0039/0011
+  remain expanded. Guard creation/enrollment, durable ledger, SDK participation,
+  actual root liveness/provenance and deletion remain unimplemented. No next child,
+  library release or real-provider/account/hosting mutation starts this iteration.
 
 ## Ordered work
 
@@ -108,7 +123,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0066](roadmap.md#mdb-0066-remote-reclamation-protocol-and-staged-plan) | Specify coordinated remote reclamation and staged acceptance | MDB-0039 | done | MDB-0010, MDB-0038 |
 | [MDB-0067](roadmap.md#mdb-0067-coordinated-s3-namespace-admission) | Admit coordinated remote activity with durable mutation hazards | MDB-0039 | expanded | MDB-0010, MDB-0038, MDB-0066 |
 | [MDB-0071](roadmap.md#mdb-0071-bounded-s3-coordination-state-and-codec) | Encode bounded namespace, root and exact-attempt declarations | MDB-0067 | done | MDB-0010, MDB-0038, MDB-0066 |
-| [MDB-0072](roadmap.md#mdb-0072-local-coordination-guard-and-durable-ledger) | Retain shared/exclusive local coordination and durable hazard evidence | MDB-0067 | ready | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
+| [MDB-0072](roadmap.md#mdb-0072-local-coordination-guard-and-durable-ledger) | Retain shared/exclusive local coordination and durable hazard evidence | MDB-0067 | expanded | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
+| [MDB-0075](roadmap.md#mdb-0075-permanent-local-s3-coordination-guard) | Protect existing permanent native guard with bounded shared/exclusive leases | MDB-0072 | done | MDB-0010, MDB-0038, MDB-0066, MDB-0071 |
+| [MDB-0076](roadmap.md#mdb-0076-durable-s3-coordination-generations) | Install and reopen exact forced coordination/receipt generations | MDB-0072 | ready | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0075 |
+| [MDB-0077](roadmap.md#mdb-0077-coordination-guard-and-ledger-conformance) | Complete native/ledger creation, ownership, failure and process conformance | MDB-0072 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0075, MDB-0076 |
 | [MDB-0073](roadmap.md#mdb-0073-participating-s3-sessions-and-root-registration) | Compose actual guarded SDK activity and complete root registration | MDB-0067 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072 |
 | [MDB-0074](roadmap.md#mdb-0074-coordinated-admission-and-hazard-conformance) | Complete process, ownership, SDK and uncertainty admission conformance | MDB-0067 | queued | MDB-0010, MDB-0038, MDB-0066, MDB-0071, MDB-0072, MDB-0073 |
 | [MDB-0068](roadmap.md#mdb-0068-verified-remote-reclamation-inventory) | Verify bounded remote roots and exact obsolete-object inventory | MDB-0039 | queued | MDB-0010, MDB-0038, MDB-0067 |
