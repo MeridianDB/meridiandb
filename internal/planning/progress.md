@@ -5846,6 +5846,104 @@ starts. Next action is inspect Linux evidence, resolve any actual failure and
 audit MDB-0082 before completion.
 
 
+## 2026-11-03 — MDB-0085 Linux acceptance and runner integration
+
+**Delivered source:** checkpoint `3c2cd06890b55ff1fcb9d583cec3c406404e7aee` is
+verified on origin/main with matching clean local/remote tips. Exact-source
+[Java 41653893887](https://github.com/MeridianDB/meridiandb/actions/runs/41653893887),
+[docs 41653893965](https://github.com/MeridianDB/meridiandb/actions/runs/41653893965)
+and [Pages 41653894847](https://github.com/MeridianDB/meridiandb/actions/runs/41653894847)
+all pass on their first attempt. No retry-masked success.
+
+**Actual Linux qualification:** run `d5dd72f148204e32923131857ff1855c` passes all
+**1,347 cases /74 suites**, zero failures/errors/skips, exact reviewed inventory
+`b07fbb6592703dad09a37dd7e0b6cd5c12f3931c29430042e61df62dc846012b`, clean
+source and complete run/root/runtime/capability binding. All 86 Python guards pass
+with zero Linux skips, including timeout, zero/nonzero exit, flooded output,
+TERM-ignoring child after successful leader exit, signal restoration and cleanup
+despite process-enumeration failure. Both CI platforms pass 762 optional invocations
+and fourteen examples; Windows retains 374 core /381 optional capability skips.
+
+Placement: kernel 7.0.0-1017-azure, ext4, x86_64, Eclipse Adoptium Java 25.0.5,
+runtime 25.0.5+8-LTS. Recognized flags: commit=30, data=writeback, discard,
+errors=remount-ro, nobarrier, relatime, rw; one option is omitted. Actual probe reports
+directory/file force, file key, shared/exclusive locks, atomic move and moved-file
+identity. Backing device/controller/cache and block sizes remain unknown. This is
+hosted correctness evidence; productionQualified:false and MDB-0080 gaps remain.
+
+**Actual supervised worker:** run `b002d8985eac4495ae577c35d7ff9dcc`, clean
+checkpoint source, CORRECTIONS seed 42, warmups 0, repetitions 1, 256 MiB heap, four
+reported processors. Clean compilation and worker complete under one 300-second
+deadline; actual pre-report elapsed 7.642978 seconds, no observed exhaustion.
+Worker PID 11513/startTicks 14047 exits 0, group settled before result/file admission.
+Source content fingerprint:
+`5fc02ef96c2baffb15b09ccfcc4f378f5ae1985a7dbd1e44a7b532be80ea4272`
+(369 files /4,776,092 bytes); classpath fingerprint:
+`ed01c34cc8b34b564c40398796d751256b4ecd8a5520a997e26a26848fc95910`
+(445 files /3,181,518 bytes). Both remain unchanged through admission.
+
+Corpus v1 fingerprint
+`d773c131a39ef3427e152eecfbd2ae5e6ff67080edfd5eacbb8e13a683ce21a5`;
+history `4cd56d634a2bc44076417e4959e8ef06a1d5524bd17c0e9c0716bffa4f4d6d46`,
+encoded journal 10,306 bytes. Actual counts: 16 entities, 128 new commits, 13 retries,
+64 reads (GET/SCAN/SELECT/FILTER_SCAN 13 each, SUM 12), 49 historical/15 head reads.
+Final ordinary-file inventory: 15 files, 32,898 logical bytes, 69,632 attributed
+allocated bytes. Complete-iteration process deltas: rchar 811,085, wchar 32,898,
+syscr 3,465, syscw 141, read_bytes 0, write_bytes 593,920, cancelled_write_bytes 0.
+Process-write bytes /encoded-journal bytes = 57.6285658839511; read ratio 0.
+These include validation/maintenance/runtime/instrumentation and are not device
+amplification, cold reads, stable-media completion or reclaimed-space evidence.
+Raw worker JSON 46,758 bytes, SHA256
+`db90e9409d9e93ddb9f65b4e40dddab3e73da442d80653a4efa7dded21149da9`.
+The raw artifact retains samples; the compact validated CI summary preserves these
+provenance/accounting facts after artifact expiry. No timings are promoted to a
+controlled or comparative baseline.
+
+**Retained artifacts:** same source/run, fourteen-day retention:
+
+| Artifact | ID | Bytes | Expiry UTC | SHA256 |
+| --- | --- | --- | --- | --- |
+| linux-storage-evidence | 13239380380 | 206,493 | November 17, 14:28:31 | `98d6ad498b2ac9686c308e11c3d62364bf37b7791ccf5c44e48faffd7619add4` |
+| linux-workload-evidence | 13238154587 | 12,024 | November 17, 14:29:49 | `e76652c2c18469870b878a2f6950e2aaf4433127da8f26b93c771624631fa01b` |
+
+**MDB-0082 original acceptance audit:** both required children and integrated
+runner now pass; the parent can close without closing baseline evaluation.
+
+| Original criterion | Evidence and scope |
+| --- | --- |
+| Prepared inputs, setup/load/warmup/reset | Oracle/corpus preparation outside call clocks; fresh stores for every warmup/repeat; exact original requests and answers |
+| Writes, queries, recovery, checkpoint, compaction | Forced commits/retries, all five read kinds, journal/checkpoint writable reopen, 8 original segments, generation 2 then 3 and one pinned old reader |
+| Counts, latency/rates, resource/check overhead | Raw per-phase/kind samples and recomputed nearest-rank summaries; service versus loop wall and validation/other intervals; optional thread CPU/allocation and sampled heap with unavailable gaps |
+| Source/profile/result/storage/I/O | Fresh clean compile and unchanged fingerprints, strict v1 worker binding, actual Linux runtime/mount, exact logical journal/files, st_blocks attribution and explicitly named process-byte ratios |
+| Arrival, lag, readers, backlog and cache | Synchronous closed-loop service; no arrival queue/asynchronous lag/merge backlog measurement; exactly one pinned reader; uncontrolled OS cache, no eviction/forced GC or hidden acknowledgement change |
+| Bounded execution and failure evidence | One deadline, bounded logs/heap/retention, settled private groups, partial/stale/malformed refusal, unsupported distinct from ordinary failure, preserved interruption/export/collision evidence |
+| Repeatable command and verification | Published command/ADR 43/callers/rules, 86 Linux guards, 12 worker tests plus prior 26 metric/runner cases, exact-source supervised smoke and full regression qualification |
+
+MDB-0083 still owns actual baseline evaluation, integrated failure/result review,
+all original MDB-0012 criteria and explained bottlenecks/next experiments. Keep
+MDB-0012 expanded. A correctness-only smoke supplies no controlled performance or
+production-device qualification; no privileged cache operation or paid environment
+is authorized by this receipt.
+
+**Website readback:** fifteen live HTTPS pages pass updated-content and production
+canonical checks; both new search titles and 94 unique canonical sitemap URLs pass.
+Published guide/browser shows the exact command, scratch/source rule and accounting
+limits; screenshot `site-published.png` is embedded in commentary. Earlier desktop
+light, 390 px mobile dark/table containment and search→ADR checks pass. Normal
+light/default viewport restored; local server 8792 stopped with exit 0. Both strict
+URL builds and 42 docs fixtures pass in CI; no internal narrative is published.
+
+This completion changes only queue/card/history. Source and public documentation
+remain identical to the remotely verified checkpoint. Validate 85 IDs/cards/DAG/
+eligibility, inspect the staged diff, commit with Step-ID MDB-0085 /Step-Result
+completed and push normally. Verify source/completion ancestry, matching tips and
+clean status; internal-only changes require no duplicate CI/publication. Close
+MDB-0085 and MDB-0082, make MDB-0083 ready and stop. No next implementation,
+format experiment, native binding, remote provider or release starts here.
+
+**Next recommendation:** MDB-0083 — Linux baseline evaluation and conformance.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

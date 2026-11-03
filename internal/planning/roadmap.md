@@ -2282,6 +2282,19 @@ versioned serialized evidence/provenance, Linux allocated/process-I/O accounting
 timeouts and partial/failed outcome admission. Preserve all original criteria.
 The parent stays expanded until both children and the integrated runner pass.
 
+**Accepted integration, November 3, 2026:** both required children pass. MDB-0084
+supplies prepared inputs, fresh iterations, forced acknowledgement, per-phase/kind
+raw service samples/distributions, separate loop/check overhead, scoped optional
+JVM counters and checked recovery/checkpoint/compaction with one pinned reader.
+MDB-0085 supplies versioned serialized/source/runtime evidence, bounded Linux
+process execution, stale/partial/failure/unsupported admission, allocated blocks
+and explicitly scoped process-I/O ratios. Documented synchronous arrival/lag/merge
+limits are gaps, not fabricated measurements. Exact-source CI at
+`3c2cd06890b55ff1fcb9d583cec3c406404e7aee` passes 1,347 core cases /74 suites,
+86 Python guards and actual supervised CORRECTIONS smoke. Review and documented
+commands pass. Close MDB-0082; MDB-0083 still owns actual baseline evaluation and
+MDB-0012's original integrated acceptance, including controlled-measurement gaps.
+
 ## MDB-0084 Local operation measurement core
 
 **Parent:** MDB-0082. **Outcome:** consume prepared corpus outcomes in a bounded
@@ -2344,6 +2357,24 @@ archive/jdeps and strict 94-page builds pass. Review fixes include create-only
 JSON publication, cleanup despite process-enumeration failure, ambient Maven option
 removal and refusal of success after observed deadline exhaustion. Keep MDB-0085
 active and MDB-0082/0012 expanded until actual Linux smoke and remote delivery pass.
+
+**Accepted completion, November 3, 2026:** checkpoint
+`3c2cd06890b55ff1fcb9d583cec3c406404e7aee` is verified on origin/main. Java
+41653893887, docs 41653893965 and Pages 41653894847 pass. Linux qualification
+run `d5dd72f148204e32923131857ff1855c` verifies all 74 suites /1,347 cases and
+inventory/source/runtime bindings with zero failures/errors/skips. All 86 Python
+guards pass, including native deadline/log/signal/child-cleanup tests. Windows
+retains 374 core skips; both platforms pass 762 optional invocations and 14 examples.
+Supervised run `b002d8985eac4495ae577c35d7ff9dcc` passes fresh clean compilation,
+unchanged source/class fingerprints, settled process group and strict worker/file
+admission on ext4/Temurin 25.0.5+8-LTS with 256 MiB worker heap. One measured seed 42
+CORRECTIONS iteration retains 15 files /32,898 logical /69,632 attributed allocated
+bytes; process counters remain scoped accounting, not hardware amplification.
+Both 94-page builds, 42 docs fixtures and 15 live canonical/content readbacks plus
+search/sitemap/browser verification pass. Precise profile/fingerprints/artifact
+digests and remaining device/cache/production limits are in progress history.
+Close MDB-0085 and parent 0082; keep 0012 expanded and make 0083 ready. No next
+implementation starts here.
 
 ## MDB-0083 Linux baseline evaluation and conformance
 
