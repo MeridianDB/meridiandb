@@ -6,7 +6,7 @@ description: Measure checked local operation calls on fresh stores while preserv
 # ADR 0042: Local operation measurements
 
 - **Date:** November 2, 2026
-- **Status:** In-process core implemented; supervised evidence and evaluation pending
+- **Status:** In-process core implemented; supervised evidence separate
 - **Scope:** Developer timing, resource observations and local storage lifecycles
 
 ## Context
@@ -55,9 +55,10 @@ failure must release acquired owners and preserve primary/cleanup evidence.
 
 Admitted iterations/actions/samples/file inventory are bounded, but in-process
 checks cannot interrupt a blocked native call or authenticate serialized output.
-A separate supervised layer must add process cleanup/deadlines, source and Linux
-environment provenance, versioned JSON validation and scoped allocated/process-I/O
-accounting. Actual baseline evaluation remains a further outcome.
+The separate [supervised layer](0043-supervised-workload-evidence.md) adds process
+cleanup/deadlines, source and Linux environment bindings, versioned JSON admission
+and scoped allocated/process-I/O accounting. Actual baseline evaluation remains
+a further outcome.
 
 Cache state is uncontrolled; warmups exercise the JVM on fresh stores. No forced
 GC or privileged cache operation is introduced. Named file lengths, logical

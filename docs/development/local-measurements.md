@@ -12,10 +12,10 @@ typed results. It provides measurement infrastructure, with no published baselin
 or comparative performance result.
 
 [ADR 0042](../decisions/0042-local-operation-measurements.md) defines this boundary.
-A supervised command-line runner, serialized result validation, Linux mount/source
-provenance, allocated-block/process-I/O accounting and actual baseline evaluation
-remain subsequent work. The current API is developer support, outside both core
-and the attached contract-support JAR.
+The [Linux supervisor](supervised-workloads.md) adds a command-line runner, serialized
+result admission, source/class/mount bindings and scoped allocated-block/process-I/O
+accounting. Controlled baseline evaluation remains separate. The current core API
+is developer support, outside both core and the attached contract-support JAR.
 
 ## Execute a bounded local experiment
 
@@ -144,8 +144,9 @@ owner, that resource is closed and cleanup failures remain suppressed evidence.
 No successful operation sample is created for a failed call. Directory-sync
 unsupported outcomes remain distinct from ordinary I/O; Linux qualification
 requires all required native checks, while Windows keeps its basic compatibility
-role. Process timeouts and partial/stale serialized-result admission still need
-the supervised layer.
+role. The separate [supervisor](supervised-workloads.md) handles process timeouts
+and partial/stale serialized-result admission. Inner-core gaps describe standalone
+use; the supervisor adds bindings and accounting without changing their scope.
 
 The 26 new checks cover literal timing summaries, unavailable/reset telemetry,
 clock/cleanup failures, bounds/immutability, all four actual local profiles and

@@ -5775,6 +5775,77 @@ native binding, format experiment or library release starts in this invocation.
 **Next recommendation:** MDB-0085 — Supervised Linux workload evidence.
 
 
+## 2026-11-03 — MDB-0085 Supervised workload source checkpoint
+
+**Scope:** resumed clean matching main/origin at
+`26d77a46cee9127c3fe9cf390da50cebda5f65dd`. Execute only MDB-0085; preserve
+all 85 IDs, required children and original MDB-0082/0012 criteria. Both parents
+remain expanded. No actual baseline comparison, production qualification, format
+change, native dependency, S3 continuation, provider action or release.
+
+**Implementation:** a test-only JDK worker wraps the existing bounded corpus/runner,
+exports a strict version-one envelope and brackets complete iterations with seven
+raw `/proc/self/io` counters. Preserve reset/missing readings as explicit gaps;
+keep cancelled writes separate. Complete output publishes create-only through a
+closed partial file and hard link, retaining collision/failure evidence. Python
+admission recomputes all sample inventories, nearest-rank summaries, rates and
+counter availability; checks exact run/source/PID/config/runtime/mount bindings;
+reobserves every final ordinary file and closed-journal length/SHA; and separately
+reports logical lengths, Linux st_blocks*512 attribution and process-byte ratios
+with encoded-journal denominators. No device-transfer, reclaimed-space or durability
+claim follows from accounting.
+
+The Linux supervisor synchronizes fresh directory names, uses one overall deadline,
+clean compilation, source/class content fingerprints, explicit Java/classpath/heap
+and scrubbed option injection. Git/build/worker processes all use bounded capture
+and private sessions/groups. Preserve leader identity until cleanup; terminate and
+reap even after zero exit, enumeration error, timeout, signal or output overflow.
+This covers cooperating group members, not arbitrary escaped sessions. Retain
+bounded request/build/worker/report evidence; log a compact validated provenance
+and accounting summary. Final observed deadline exhaustion overrides prior success.
+
+**Checks:** complete rooted `./mvnw -B clean install` passes **1,347 cases /74
+suites**, zero failures/errors/skips, run `ebab475ec28c4e7f8ce23ce5141d6a26`,
+Oracle Java 25.0.2 /runtime 25.0.2+10-LTS-69, macOS aarch64. Strict parser verifies
+every suite's run/root/runtime binding. Reviewed inventory preserves all prior
+73 suite counts and adds `WorkloadWorkerTest: 12`; SHA256
+`b07fbb6592703dad09a37dd7e0b6cd5c12f3931c29430042e61df62dc846012b`.
+Optional S3 verify passes 762, zero skips; fourteen examples pass. Archives remain
+155 production /10 classifier classes with no workload/probe/factory leakage;
+production jdeps remains java.base. Final Python guards pass **86**, with five
+explicit Linux process tests skipped on macOS. Documentation fixtures pass 42;
+both strict URL builds pass 94 pages. Desktop light, 390 px mobile dark/table
+containment and search→ADR navigation pass; normal light/default viewport restored.
+
+**Review:** independent review found and resolved cleanup bypass on process
+enumeration failure, Maven RC/debug/base injection, unbounded Git capture,
+clamped elapsed evidence, atomic-move replacement ambiguity and final deadline
+admission. Dedicated regressions cover these observable boundaries. Final review
+has no remaining correctness finding. Actual Linux process tests and supervised
+worker smoke remain required before completing this step.
+
+**Fresh research:** all fourteen Central sources checked November 3 at
+**13:48:16 UTC /08:48:16 EST**, official compatibility at the same second;
+Linux primary accounting/process specifications checked 13:49:49–13:50:57 UTC.
+Every selected pin remains latest stable compatible: Maven 3.10.0, Wrapper 3.3.4,
+clean/resources 3.5.0, compiler 3.16.0, Surefire 3.6.1, jar 3.5.1,
+install/deploy 3.2.0, JUnit 6.1.3, Jackson 3.2.4 and AWS SDK 2.57.8.
+No version/POM change. Metadata SHA256
+`b3ed168e5dd4ad124102905bbd9e1a15f2438a3509956536a6972278fcfd8bc6`;
+compatibility `6a78ac81d9d39327e8a46d4412ee4f9a828de3811e37d4cd6ed98b871b577c78`;
+Linux primary evidence `7e2558c16b05f4b8b622f01841d458e09fa8f5f0fa1a77fb868102608400be7d`.
+Guide links checked primary proc/stat/signal references and explains non-atomic
+process accounting and shared allocated-block attribution. Ignored
+`.local-qa/mdb-0085/` retains research, test logs, parser summary and screenshots.
+
+**Delivery checkpoint:** normal source push will invoke exact-source Java/Linux,
+docs and automatic Pages checks. Keep MDB-0085 active, MDB-0082/0012 expanded and
+MDB-0083 queued until actual Linux smoke and preceding delivery pass. Source commit
+uses `Step-ID: MDB-0085` /`Step-Result: checkpoint`; no dependent implementation
+starts. Next action is inspect Linux evidence, resolve any actual failure and
+audit MDB-0082 before completion.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

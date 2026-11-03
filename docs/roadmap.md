@@ -40,7 +40,8 @@ future protocol with local persistence on each participant.
 | [Embedded memory engine](development/embedded-engine.md) | Serialized atomic commits, immutable read views, request retries and exact point/scan/aggregate answers |
 | [Independent reference](development/reference-model.md) | Canonical histories and seeded comparisons against a separate dense-state representation |
 | [Workload corpus](development/workload-corpus.md) | Bounded deterministic append/correction/retraction/hot-entity histories, independent answers and memory/local-reopen conformance; no performance measurements |
-| [Local measurement core](development/local-measurements.md) | Checked operation clocks, fresh warmup/repetitions and scoped JVM telemetry; supervised evidence and physical accounting remain pending |
+| [Local measurement core](development/local-measurements.md) | Checked operation clocks, fresh warmup/repetitions and scoped JVM telemetry |
+| [Supervised Linux workloads](development/supervised-workloads.md) | Bounded execution, clean source/class bindings, strict result admission and scoped process-I/O/allocated-file accounting; controlled evaluation remains pending |
 | [Journal codec](architecture/journal-format.md) | Versioned transaction frames, exact identity, checksums, allocation bounds and strict byte validation |
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |

@@ -145,8 +145,10 @@ while missing required durability capabilities must fail explicitly.
    The test-only [workload corpus](../development/workload-corpus.md) now supplies
    bounded actions, independent expected answers and observed distributions;
    the separate [measurement core](../development/local-measurements.md) now adds
-   checked operation clocks and scoped JVM counters. Supervised evidence, physical
-   storage/I/O accounting and actual Linux baseline evaluation remain separate.
+   checked operation clocks and scoped JVM counters. The
+   [supervisor](../development/supervised-workloads.md) adds bounded execution,
+   strict result admission and scoped process/file accounting. Controlled baseline
+   evaluation remains separate.
 3. **Compare one layout change.** Hold semantics, acknowledgement and retention
    equal. Report latency distributions, throughput, CPU, allocation/heap, encoded
    and allocated bytes, bytes read, write amplification, replay cost and merge

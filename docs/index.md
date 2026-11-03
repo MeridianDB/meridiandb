@@ -38,8 +38,9 @@ The [deterministic workload corpus](development/workload-corpus.md) prepares bou
 seeded histories, pinned reads and independent answers, with actual memory and
 local-reopen checks. The separate [measurement core](development/local-measurements.md)
 times checked local operation lifecycles and observes scoped JVM counters.
-Supervised evidence, physical accounting and Linux baseline evaluation remain
-subsequent work.
+The [Linux supervisor](development/supervised-workloads.md) adds bounded execution,
+strict evidence admission and scoped process/file accounting. Controlled baseline
+evaluation and production qualification remain subsequent work.
 
 The [initial temporal contract](architecture/temporal-contract.md) now specifies
 corrections, retractions, committed views and retries, with exact workload fixtures.

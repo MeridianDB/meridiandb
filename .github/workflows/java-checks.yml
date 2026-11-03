@@ -137,3 +137,20 @@ jobs:
         run: java --class-path target/classes examples/ReclamationInventoryExample.java
       - name: Run the physical reclamation example
         run: java --class-path target/classes examples/ReclamationExample.java
+      - name: Verify supervised Linux workload evidence
+        if: runner.os == 'Linux'
+        run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --warmups 0 --repetitions 1 --timeout 300
+      - name: Retain supervised workload evidence
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: linux-workload-evidence
+          path: |
+            ${{ runner.temp }}/mdb-measure-*/request.json
+            ${{ runner.temp }}/mdb-measure-*/report.json
+            ${{ runner.temp }}/mdb-measure-*/worker.json
+            ${{ runner.temp }}/mdb-measure-*/worker.partial.json
+            ${{ runner.temp }}/mdb-measure-*/build.log
+            ${{ runner.temp }}/mdb-measure-*/worker.log
+          retention-days: 14
+          if-no-files-found: warn

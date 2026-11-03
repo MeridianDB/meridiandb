@@ -2334,6 +2334,17 @@ performance claims. Audit every original MDB-0082 criterion before closing it;
 MDB-0083 remains required for baseline evaluation. No paid environment, privileged
 cache/device action, remote backend or native binding is presumed.
 
+**Checkpoint, November 3, 2026:** JDK-only worker/export, strict Python admission,
+Linux process supervisor, source/class bindings, scoped process-I/O and allocated
+file accounting are implemented. CLI/docs/ADR 0043 and continuous Linux smoke are
+prepared. Full macOS rooted install passes 1,347 cases /74 suites without skips;
+inventory adds twelve worker invocations without reducing previous counts. Python
+guards pass 86 (five native Linux cases await CI); optional 762, fourteen examples,
+archive/jdeps and strict 94-page builds pass. Review fixes include create-only
+JSON publication, cleanup despite process-enumeration failure, ambient Maven option
+removal and refusal of success after observed deadline exhaustion. Keep MDB-0085
+active and MDB-0082/0012 expanded until actual Linux smoke and remote delivery pass.
+
 ## MDB-0083 Linux baseline evaluation and conformance
 
 **Parent:** MDB-0012. **Outcome:** run reproducible local baseline workloads in actual

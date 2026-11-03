@@ -44,8 +44,10 @@ There is no published library or stable API.
 The test-only [workload corpus](docs/development/workload-corpus.md) now supplies
 bounded seeded histories, independent expected answers and memory/local-reopen
 checks. A test-only [local measurement core](docs/development/local-measurements.md)
-now measures checked operation lifecycles with scoped JVM telemetry. Supervised
-execution, physical storage/I/O accounting and Linux baseline evaluation remain planned.
+now measures checked operation lifecycles with scoped JVM telemetry. The
+[Linux supervisor](docs/development/supervised-workloads.md) adds bounded execution,
+strict result admission and scoped process/allocated-file accounting. Controlled
+baseline evaluation and production qualification remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -194,7 +196,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,335 JUnit test invocations: 26 [local measurement checks](docs/development/local-measurements.md),
+This runs 1,347 JUnit test invocations: 12 [supervised worker checks](docs/development/supervised-workloads.md),
+26 [local measurement checks](docs/development/local-measurements.md),
 36 [workload corpus checks](docs/development/workload-corpus.md),
 one filesystem qualification probe,
 66 pinned checkpoint write checks,

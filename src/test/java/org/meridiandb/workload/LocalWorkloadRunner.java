@@ -97,6 +97,17 @@ public final class LocalWorkloadRunner {
     private record Inputs(List<JournalRecord> records, List<ImmutableSegment> segments,
                           List<CheckpointManifest.SegmentReference> references, Map<SegmentId, byte[]> images) { }
 
+    /** Supervisor telemetry brackets the complete instrumented iteration, outside every operation timer. */
+    interface IterationObserver {
+        void before(int index, boolean warmup, Path directory) throws IOException;
+        void after(int index, boolean warmup, Path directory) throws IOException;
+    }
+
+    private static final IterationObserver NO_OBSERVER = new IterationObserver() {
+        @Override public void before(int index, boolean warmup, Path directory) { }
+        @Override public void after(int index, boolean warmup, Path directory) { }
+    };
+
     private LocalWorkloadRunner() { }
 
     public static Result run(Path scratchParent, WorkloadCorpus corpus, Config config) throws IOException {
@@ -104,10 +115,16 @@ public final class LocalWorkloadRunner {
     }
 
     static Result run(Path scratchParent, WorkloadCorpus corpus, Config config, Probe probe) throws IOException {
+        return run(scratchParent, corpus, config, probe, NO_OBSERVER);
+    }
+
+    static Result run(Path scratchParent, WorkloadCorpus corpus, Config config, Probe probe,
+                      IterationObserver observer) throws IOException {
         Objects.requireNonNull(scratchParent, "scratchParent");
         Objects.requireNonNull(corpus, "corpus");
         Objects.requireNonNull(config, "config");
         Objects.requireNonNull(probe, "probe");
+        Objects.requireNonNull(observer, "observer");
         if ((long) corpus.actions().size() * (config.warmups() + config.repetitions()) > MAX_ITERATION_ACTIONS) {
             throw new IllegalArgumentException("Aggregate iteration action admission exceeded");
         }
@@ -127,13 +144,17 @@ public final class LocalWorkloadRunner {
             var results = new ArrayList<Iteration>();
             for (int index = 0; index < config.warmups() + config.repetitions(); index++) {
                 Path home = Files.createDirectory(root.resolve("iteration-" + index));
-                results.add(iteration(home, index, index < config.warmups(), corpus, prepared, inputs, probe));
+                boolean warmup = index < config.warmups();
+                observer.before(index, warmup, home);
+                var result = iteration(home, index, warmup, corpus, prepared, inputs, probe);
+                observer.after(index, warmup, home);
+                results.add(result);
             }
             return new Result(VERSION, WorkloadCorpus.VERSION, corpus.spec(), config, corpus.fingerprint(),
                     corpus.historyFingerprint(), corpus.encodedHistoryBytes(), prepared.summary(), runtime, root,
                     preparationNanos, results, List.of(
-                    "In-process developer observations; no supervised process deadline or final serialized evidence yet",
-                    "Source revision and Linux mount/device provenance require the supervised evidence layer",
+                    "Standalone core has no process supervisor or serialized-evidence admission",
+                    "Standalone core does not bind source revision or complete Linux deployment provenance",
                     "OS cache is uncontrolled; warmups exercise the JVM on separate fresh stores, not cold storage",
                     "CREATE excludes namespace/control-file preflight and directory-name synchronization",
                     "CPU/allocation cover the executing platform thread and counter instrumentation, not process/GC totals",

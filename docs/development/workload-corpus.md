@@ -179,6 +179,7 @@ every invocation with zero skips.
 
 The in-process [measurement core](local-measurements.md) now exercises repeated
 fresh-store writes, queries, recovery and checkpoint/compaction with explicit
-clocks and scoped JVM counters. Supervised evidence, physical storage/I/O accounting,
-controlled measurements and actual Linux baseline evaluation remain subsequent
+clocks and scoped JVM counters. The [Linux supervisor](supervised-workloads.md) adds
+bounded execution and scoped process/file accounting. Controlled measurements and
+actual Linux baseline evaluation remain subsequent
 work under the [storage measurement plan](../architecture/linux-storage.md#qualification-and-measurement-order).

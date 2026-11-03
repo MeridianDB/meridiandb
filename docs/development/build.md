@@ -100,7 +100,8 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 1,335 core test invocations include 26
+The current 1,347 core test invocations include 12
+[supervised worker checks](supervised-workloads.md), 26
 [local measurement checks](local-measurements.md), 36
 [workload corpus checks](workload-corpus.md), one
 [filesystem qualification probe](linux-storage-qualification.md) and 66 [pinned checkpoint write checks](object-checkpoint-writes.md), 69 [pinned checkpoint recovery checks](object-checkpoint-recovery.md), 22 [pinned object-history loading checks](object-checkpoint-graphs.md#load-pinned-history), 23 [bounded compaction/reclamation preflight checks](../architecture/checkpoint-manifest-format.md#bounded-consumer-range-admission), 34 [object graph/actual-prefix checks](object-checkpoint-graphs.md), 46 [object-checkpoint-head format/metadata checks](../architecture/object-checkpoint-protocol.md), 84 [immutable-object/type/local/fault/segment-consumer checks](immutable-objects.md), 46 [integrated compaction/reclamation cases](compaction-conformance.md), 93 [protected removal checks](physical-reclamation.md), 69 [reclamation inventory checks](reclamation-inventory.md), 70 [reader protection/identity/cleanup checks](reader-protection.md), 55 [local compaction publication/integration/process checks](history-compaction.md#install-and-publish-locally), 57 [pure compaction checks](history-compaction.md), 55 [typed query checks](temporal-queries.md), 50 [durable conformance checks](durability-conformance.md), 49 [commit preparation/initialization/publication checks](local-database.md),
@@ -195,8 +196,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 2: metadata at 18:06:56 EST (23:06:56 UTC) and
-compatibility at 18:06:57 EST (23:06:57 UTC). The listed selections remain unchanged; the adapter
+on November 3: metadata at 08:48:16 EST (13:48:16 UTC) and
+compatibility at 08:48:16 EST (13:48:16 UTC). The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

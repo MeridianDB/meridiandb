@@ -51,7 +51,8 @@ permanent commitment.
 | [0039: Linux local storage priority](0039-linux-local-storage-priority.md) | Adopted direction; qualification and layouts planned | Linux production target, basic Windows compatibility, deferred S3 expansion and measured temporal-format/I/O experiments |
 | [0040: Linux qualification evidence](0040-linux-qualification-evidence.md) | Development harness implemented; production qualification open | Same-filesystem fixtures, exact inventory, fresh native/runtime/result evidence and bounded failure cleanup |
 | [0041: Deterministic workload corpus](0041-deterministic-workload-corpus.md) | Test-only corpus implemented; operation measurements separate | Bounded seeded actions, explicit historical cutoffs, independent answers, realized metadata and separate schedule/history fingerprints |
-| [0042: Local operation measurements](0042-local-operation-measurements.md) | In-process core implemented; supervised evidence and evaluation pending | Fresh checked lifecycles, direct call clocks, separate validation/loop overhead and scoped optional JVM telemetry |
+| [0042: Local operation measurements](0042-local-operation-measurements.md) | In-process core implemented; supervision separate | Fresh checked lifecycles, direct call clocks, separate validation/loop overhead and scoped optional JVM telemetry |
+| [0043: Supervised workload evidence](0043-supervised-workload-evidence.md) | Developer harness implemented; evaluation pending | Bounded private process groups, clean source/class bindings, strict JSON admission and scoped allocated/process-I/O accounting |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

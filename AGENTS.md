@@ -568,6 +568,17 @@ so a new session can work correctly without relying on earlier conversations.
   instrumentation fails and retain failed evidence. Keep supervised process bounds,
   serialized/source/profile admission and physical accounting separate until their
   own checks pass; in-process correctness supplies no controlled baseline claim.
+- For supervised workload evidence, follow [ADR 0043](docs/decisions/0043-supervised-workload-evidence.md)
+  and the [Linux command guide](docs/development/supervised-workloads.md). Use clean
+  compilation, unchanged source/class fingerprints, explicit JVM environment/heap,
+  fresh run bindings and settled private process groups before admitting JSON.
+  Bound deadlines/logs/retention; preserve interruption/failure/unsupported evidence.
+  Recompute metrics and reobserve exact final files/journal identity. Keep process
+  counters, logical lengths and st_blocks attribution separate; preserve unknown
+  counters and cancellation, with named denominators and no device/durability claim.
+  Group cleanup is a cooperating-process boundary, not arbitrary containment.
+  Run Python evidence/process guards and actual Linux smoke for changed boundaries;
+  controlled evaluation remains separate from CI correctness and source admission.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

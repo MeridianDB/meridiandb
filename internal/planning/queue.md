@@ -49,10 +49,17 @@ children before implementation rather than treating a whole milestone as one pat
 - Fourteen live HTTPS content/canonical readbacks, both new search entries and 92
   unique sitemap URLs pass. Published screenshot is embedded in commentary;
   light/default viewport restored and local server 8791 stopped with exit zero.
-- **MDB-0085 — Supervised Linux workload evidence** is next source-ready after
-  verified MDB-0084 delivery. It retains process bounds/cleanup, JSON/source/profile admission,
-  allocated/process-I/O accounting and failure evidence. MDB-0083 still owns actual
-  evaluation. No further implementation starts in this invocation.
+- **MDB-0085 — Supervised Linux workload evidence** is active, primary
+  coordinator-owned. This invocation implements the bounded Linux supervisor,
+  worker JSON/admission, source/class/runtime/filesystem bindings, process-group
+  cleanup, per-iteration process I/O and allocated-file accounting. Keep both
+  parents expanded until acceptance and remote delivery pass; MDB-0083 still owns
+  actual evaluation. No baseline comparison, cloud/native dependency or release.
+- Current local checkpoint passes 1,347 core cases /74 suites without skips,
+  762 optional cases, fourteen examples, 86 Python guards (five Linux-only skips)
+  and 42 documentation fixtures. Inventory adds twelve worker cases; public site
+  now has 94 pages. Actual Linux supervisor/process checks remain the completion
+  gate; the first source push is a checkpoint, not completed acceptance.
 
 ## Ordered work
 
@@ -93,7 +100,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0081](roadmap.md#mdb-0081-deterministic-temporal-workload-corpus) | Build bounded deterministic temporal actions and independent expected outcomes | MDB-0012 | done | MDB-0010, MDB-0079 |
 | [MDB-0082](roadmap.md#mdb-0082-local-workload-measurement-runner) | Measure local execution with explicit setup, timing and resource semantics | MDB-0012 | expanded | MDB-0010, MDB-0079, MDB-0081 |
 | [MDB-0084](roadmap.md#mdb-0084-local-operation-measurement-core) | Measure and check bounded local operation lifecycles on fresh stores | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081 |
-| [MDB-0085](roadmap.md#mdb-0085-supervised-linux-workload-evidence) | Add supervised execution, result/provenance validation and Linux storage accounting | MDB-0082 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0084 |
+| [MDB-0085](roadmap.md#mdb-0085-supervised-linux-workload-evidence) | Add supervised execution, result/provenance validation and Linux storage accounting | MDB-0082 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0084 |
 | [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |

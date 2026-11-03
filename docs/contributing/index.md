@@ -65,6 +65,8 @@ Update its invocation counts only from an evidenced successful complete run when
 changing core tests. The [workload corpus](../development/workload-corpus.md)
 provides bounded generated actions, independent prepared answers and exact
 fingerprints for the [local measurement core](../development/local-measurements.md).
+The [Linux supervisor](../development/supervised-workloads.md) adds bounded execution,
+source/class/runtime bindings and independent result/accounting checks.
 Keep generation/checks outside operation timers
 and use fresh stores for repetitions. The [reference guide](../development/reference-model.md)
 describes fixture replay, seeded histories and focused reproduction commands. Follow the

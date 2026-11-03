@@ -73,6 +73,7 @@
     "org.meridiandb.workload.WorkloadConformanceTest": 9,
     "org.meridiandb.workload.WorkloadCorpusTest": 14,
     "org.meridiandb.workload.WorkloadMeasurementsTest": 17,
-    "org.meridiandb.workload.WorkloadOracleTest": 13
+    "org.meridiandb.workload.WorkloadOracleTest": 13,
+    "org.meridiandb.workload.WorkloadWorkerTest": 12
   }
 }
