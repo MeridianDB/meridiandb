@@ -25,6 +25,16 @@ var corpus = WorkloadCorpus.generate(spec);
 var prepared = WorkloadOracle.prepare(corpus);
 ```
 
+To select dimensions independently while keeping the named profile's probabilities:
+
+```java
+var spec = WorkloadCorpus.Profile.CORRECTIONS.spec(42, 64, 512, 256, 8);
+```
+
+The arguments are seed, entities, new commits, reads and interval width. The
+[supervised Linux command](supervised-workloads.md#change-dimensions-independently)
+exposes the same choices with flags and checks both corpus and repetition budgets.
+
 `WorkloadCorpus` and `WorkloadOracle` use the existing temporal types. They remain
 outside both the production core JAR and the attached contract-support classifier.
 They are not a released library API, command-line benchmark or timing harness.

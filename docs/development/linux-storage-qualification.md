@@ -61,7 +61,7 @@ temporary allocations do not silently revert to another filesystem. Reports and
 logs live beside the fixture root, outside fresh database namespaces.
 
 The reviewed `scripts/storage/required-suites.json` inventory currently requires
-**74 suites and 1,347 test invocations**. Every suite and invocation must be present
+**74 suites and 1,351 test invocations**. Every suite and invocation must be present
 with coherent counters and zero failures, errors or skips. A capability skip that
 is acceptable in an ordinary portability build fails this Linux evidence gate.
 Ordinary I/O failures also fail; they are not translated into unsupported capability.

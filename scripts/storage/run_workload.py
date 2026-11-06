@@ -20,7 +20,7 @@ import time
 import uuid
 
 from qualify_linux import device_metadata, read_bounded, select_mount
-from workload_evidence import EvidenceError, parse_document, validate_worker
+from workload_evidence import EvidenceError, parse_document, validate_dimensions, validate_request, validate_worker
 
 
 MAX_LOG_BYTES = 2 * 1024 * 1024
@@ -337,12 +337,24 @@ def log_summary(report):
 
 
 def failure_envelope(document, request, worker_pid, code):
+    try:
+        dimensions = validate_request(request)
+    except EvidenceError as error:
+        raise SupervisorError(str(error)) from error
+    version = request.get("schemaVersion", 1)
     expected_fields = {"schemaVersion", "runId", "source", "profile", "seed", "workerPid", "status", "error", "io", "result"}
+    if version == 2:
+        expected_fields.add("dimensions")
+        try:
+            if validate_dimensions(document.get("dimensions"), request["warmups"], request["repetitions"]) != dimensions:
+                raise SupervisorError("Wrong failed/unsupported workload dimensions")
+        except EvidenceError as error:
+            raise SupervisorError(str(error)) from error
     error = document.get("error")
     status = document.get("status")
     expected_code = {"failed": 1, "unsupported": 3}.get(status) if isinstance(status, str) else None
     if (set(document) != expected_fields or type(document.get("schemaVersion")) is not int
-            or document["schemaVersion"] != 1 or document.get("runId") != request["runId"]
+            or document["schemaVersion"] != version or document.get("runId") != request["runId"]
             or document.get("source") != request["source"] or document.get("profile") != request["profile"]
             or type(document.get("seed")) is not int or document["seed"] != request["seed"]
             or type(document.get("workerPid")) is not int or document["workerPid"] != worker_pid
@@ -356,7 +368,7 @@ def failure_envelope(document, request, worker_pid, code):
     return status, error, expected_code
 
 
-def supervise(repo, parent, profile, seed, warmups, repetitions, timeout):
+def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimensions=None):
     if sys.platform != "linux":
         raise SupervisorError("The supervised workload command requires Linux")
     if (profile not in {"APPEND", "CORRECTIONS", "RETRACTIONS", "HOT_ENTITY"}
@@ -365,6 +377,12 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout):
     if (any(type(v) is not int for v in (warmups, repetitions, timeout))
             or not 0 <= warmups <= 2 or not 1 <= repetitions <= 5 or not 30 <= timeout <= 600):
         raise SupervisorError("Invalid bounded workload configuration")
+    try:
+        dimensions = validate_dimensions(
+            {"entities": 16, "commits": 128, "queries": 64, "intervalWidth": 8}
+            if dimensions is None else dimensions, warmups, repetitions)
+    except EvidenceError as error:
+        raise SupervisorError(str(error)) from error
     if not parent.is_dir() or parent.is_symlink():
         raise SupervisorError("Scratch parent must be an existing trusted real directory")
     repo = repo.resolve(); parent = parent.resolve()
@@ -374,9 +392,9 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout):
     stores = root / "stores"; stores.mkdir()
     temporary = root / "tmp"; temporary.mkdir()
     run_id = uuid.uuid4().hex
-    request = {"runId": run_id, "source": None, "profile": profile, "seed": seed,
-               "warmups": warmups, "repetitions": repetitions}
-    report = {"schemaVersion": 1, "runId": run_id, "status": "failed", "productionQualified": False,
+    request = {"schemaVersion": 2, "runId": run_id, "source": None, "profile": profile, "seed": seed,
+               "warmups": warmups, "repetitions": repetitions, "dimensions": dimensions}
+    report = {"schemaVersion": 2, "runId": run_id, "status": "failed", "productionQualified": False,
               "observedAtUtc": datetime.now(timezone.utc).isoformat(), "request": request,
               "runRoot": str(root), "kernel": platform.release(), "architecture": platform.machine(),
               "cache": "uncontrolled; no eviction or forced GC", "heapLimitBytes": 256 * 1024 * 1024,
@@ -393,7 +411,7 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout):
         source = source_snapshot(repo, deadline, environment)
         request["source"] = source["commit"]
         report["source"] = source
-        write_report(root / "request.json", {"schemaVersion": 1, **request})
+        write_report(root / "request.json", request)
         device = stores.stat().st_dev
         major_minor = f"{os.major(device)}:{os.minor(device)}"
         report["mount"] = select_mount(read_bounded("/proc/self/mountinfo", 2 * 1024 * 1024).decode(), stores, major_minor)
@@ -415,7 +433,8 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout):
         command = [executable, "-Xmx256m", f"-Djava.io.tmpdir={temporary}", "--class-path",
                    os.pathsep.join([str(repo / "target/classes"), str(repo / "target/test-classes")]),
                    "org.meridiandb.workload.WorkloadWorker", run_id, source["commit"], profile,
-                   str(seed), str(warmups), str(repetitions), str(stores), str(output)]
+                   str(seed), str(warmups), str(repetitions), str(stores), str(output),
+                   *[str(dimensions[key]) for key in ("entities", "commits", "queries", "intervalWidth")]]
         report["workerCommand"] = command
         report["worker"] = run_group(command, repo, root / "worker.log", deadline, environment)
         if source_snapshot(repo, deadline, environment) != source or class_snapshot(repo, deadline) != classes:
@@ -463,11 +482,17 @@ def main(argv=None):
     parser.add_argument("--warmups", type=int, default=1)
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument("--timeout", type=int, default=300)
+    parser.add_argument("--entities", type=int, default=16)
+    parser.add_argument("--commits", type=int, default=128)
+    parser.add_argument("--queries", type=int, default=64)
+    parser.add_argument("--interval-width", type=int, default=8)
     args = parser.parse_args(argv)
     try:
         with interrupt_handlers():
             return supervise(Path(__file__).resolve().parents[2], args.scratch_parent, args.profile,
-                             args.seed, args.warmups, args.repetitions, args.timeout)
+                             args.seed, args.warmups, args.repetitions, args.timeout,
+                             {"entities": args.entities, "commits": args.commits,
+                              "queries": args.queries, "intervalWidth": args.interval_width})
     except (Exception, KeyboardInterrupt) as failure:
         print(f"Workload supervisor: {type(failure).__name__}: {failure}", file=sys.stderr)
         return 1

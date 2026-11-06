@@ -27,6 +27,10 @@ MAX_FILES = 1024
 MAX_HEAP_BYTES = 256 * 1024 * 1024
 MAX_JOURNAL_BYTES = 16 * 1024 * 1024
 MAX_IO_REASON_UNITS = 1024
+MAX_REFERENCE_WORK = 32_000_000
+MAX_ITERATION_ACTIONS = 20_000
+DIMENSION_FIELDS = ("entities", "commits", "queries", "intervalWidth")
+DEFAULT_DIMENSIONS = dict(zip(DIMENSION_FIELDS, (16, 128, 64, 8)))
 LONG_MAX = (1 << 63) - 1
 LONG_MIN = -(1 << 63)
 PHASES = ("LOAD", "MIXED", "MAINTENANCE")
@@ -65,6 +69,7 @@ RUNTIME_FIELDS = {"javaVersion", "javaRuntimeVersion", "javaVendor", "osName", "
                   "availableProcessors", "maxHeapBytes", "fileStoreType"}
 ENVELOPE_FIELDS = {"schemaVersion", "runId", "source", "profile", "seed", "workerPid", "status", "error", "io", "result"}
 REQUEST_FIELDS = {"runId", "source", "profile", "seed", "warmups", "repetitions"}
+SCALED_REQUEST_FIELDS = REQUEST_FIELDS | {"schemaVersion", "dimensions"}
 CONTROL_NAMES = {".meridiandb-checkpoints.lock", ".meridiandb-readers.lock"}
 MANIFEST_NAME = re.compile(r"checkpoint-([0-9]{19})-([0-9a-f]{64})\.manifest")
 SEGMENT_NAME = re.compile(r"([0-9a-f]{64})\.segment")
@@ -100,6 +105,52 @@ def _object(value, keys, name):
 def _list(value, name, low=0, high=MAX_NODES):
     _require(type(value) is list and low <= len(value) <= high, f"Invalid list: {name}")
     return value
+
+
+def validate_dimensions(dimensions, warmups, repetitions):
+    """Admit a scaled v1 corpus and conservative total work before storage effects."""
+    _object(dimensions, DIMENSION_FIELDS, "dimensions")
+    warmups = _integer(warmups, "warmups", 0, 2)
+    repetitions = _integer(repetitions, "repetitions", 1, 5)
+    entities = _integer(dimensions["entities"], "entities", 1, 1024)
+    commits = _integer(dimensions["commits"], "commits", entities + 1, 4096)
+    queries = _integer(dimensions["queries"], "queries", 0, 1024)
+    width = _integer(dimensions["intervalWidth"], "intervalWidth", 1, 16)
+    work = commits * commits * (width + 1) + commits * queries * (width + min(entities, 16) + 2)
+    _require(work <= MAX_REFERENCE_WORK, "Workload reference-work admission exceeded")
+    _require((2 * commits + queries) * (warmups + repetitions) <= MAX_ITERATION_ACTIONS,
+             "Conservative iteration action admission exceeded")
+    return dict(zip(DIMENSION_FIELDS, (entities, commits, queries, width)))
+
+
+def validate_request(request):
+    """Validate exact legacy/scaled request bindings and return checked dimensions.
+
+    Legacy six-field requests imply envelope schema 1 and the original defaults.
+    Scaled eight-field requests explicitly select schema 2. The inner corpus and
+    measurement result remain version 1 in both cases.
+    """
+    scaled = type(request) is dict and "schemaVersion" in request
+    _object(request, SCALED_REQUEST_FIELDS if scaled else REQUEST_FIELDS, "request")
+    _text(request["runId"], "runId", 32, r"[0-9a-f]{32}")
+    _text(request["source"], "source", 40, r"[0-9a-f]{40}")
+    _require(type(request["profile"]) is str and request["profile"] in PROFILES, "Unknown profile")
+    _integer(request["seed"], "seed", LONG_MIN)
+    warmups = _integer(request["warmups"], "warmups", 0, 2)
+    repetitions = _integer(request["repetitions"], "repetitions", 1, 5)
+    if scaled:
+        _integer(request["schemaVersion"], "scaled request schema", 2, 2)
+        return validate_dimensions(request["dimensions"], warmups, repetitions)
+    return dict(DEFAULT_DIMENSIONS)
+
+
+def _read_counts(queries):
+    return {kind: queries // 5 + (index < queries % 5) for index, kind in enumerate(READ_COUNTS)}
+
+
+def _source_segments(commits):
+    chunk = min(16, (commits + 1) // 2)
+    return (commits + chunk - 1) // chunk
 
 
 def _structure(document):
@@ -211,37 +262,41 @@ def _counts(value, keys, name, maximum=LONG_MAX):
     return value
 
 
-def _workload(value, profile):
+def _workload(value, profile, dimensions):
     _object(value, WORKLOAD_FIELDS, "workload")
+    entities, commits, queries, _width = (dimensions[k] for k in DIMENSION_FIELDS)
+    mixed = commits - entities
+    read_counts = _read_counts(queries)
     for key in WORKLOAD_FIELDS - {"entityTouches", "scheduledIntents", "readOperators"}:
-        _integer(value[key], f"workload.{key}", high=304)
+        _integer(value[key], f"workload.{key}", high=2 * commits - entities + queries)
     w = value
-    _require(w["commits"] == w["writeOperations"] == 128 and w["reads"] == 64, "Wrong workload dimensions")
-    _require(w["retries"] <= 112 and w["attempts"] == 128 + w["retries"], "Wrong request/retry counts")
-    _require(w["putOperations"] >= 16 and w["putOperations"] + w["retractOperations"] == 128, "Wrong write-kind counts")
+    _require(w["commits"] == w["writeOperations"] == commits and w["reads"] == queries, "Wrong workload dimensions")
+    _require(w["retries"] <= mixed and w["attempts"] == commits + w["retries"], "Wrong request/retry counts")
+    _require(w["putOperations"] >= entities and w["putOperations"] + w["retractOperations"] == commits, "Wrong write-kind counts")
     _require(w["noOpCommits"] == w["noOpPuts"] + w["noOpRetractions"], "Wrong no-op counts")
     _require(w["noOpPuts"] <= w["putsReplacingPresent"] <= w["putOperations"], "Wrong present-put counts")
     _require(w["noOpRetractions"] + w["retractionsRemovingPresent"] == w["retractOperations"], "Wrong retraction effects")
-    _require(w["putsReplacingPresent"] + w["retractionsRemovingPresent"] <= w["geometricOverlaps"] <= 112,
+    _require(w["putsReplacingPresent"] + w["retractionsRemovingPresent"] <= w["geometricOverlaps"] <= mixed,
              "Wrong geometric-overlap counts")
-    touches = _counts(w["entityTouches"], {f"e-{i}" for i in range(16)}, "entityTouches", 113)
-    _require(all(touches.values()) and sum(touches.values()) == 128, "Wrong entity-touch counts")
-    intents = _counts(w["scheduledIntents"], INTENTS, "scheduledIntents", 112)
-    _require(intents["SEED"] == 16 and intents["RETRY"] == w["retries"]
+    touches = _counts(w["entityTouches"], {f"e-{i}" for i in range(entities)}, "entityTouches", mixed + 1)
+    _require(all(touches.values()) and sum(touches.values()) == commits, "Wrong entity-touch counts")
+    intents = _counts(w["scheduledIntents"], INTENTS, "scheduledIntents", max(entities, mixed))
+    _require(intents["SEED"] == entities and intents["RETRY"] == w["retries"]
+             and all(intents[k] <= mixed for k in ("APPEND", "CORRECTION", "RETRACTION", "REPEAT"))
              and sum(intents.values()) == w["attempts"], "Wrong intent counts")
-    operators = _counts(w["readOperators"], READ_COUNTS, "readOperators", 64)
-    _require(operators == READ_COUNTS, "Wrong generated query mix")
-    _require(w["historicalReads"] + w["headReads"] == 64 and w["pointHits"] + w["pointMisses"] == 13
-             and w["emptyResults"] + w["nonemptyResults"] == 64, "Wrong read-result denominators")
+    operators = _counts(w["readOperators"], READ_COUNTS, "readOperators", queries)
+    _require(operators == read_counts, "Wrong generated query mix")
+    _require(w["historicalReads"] + w["headReads"] == queries and w["pointHits"] + w["pointMisses"] == read_counts["GET"]
+             and w["emptyResults"] + w["nonemptyResults"] == queries, "Wrong read-result denominators")
     _require(w["pointMisses"] <= w["emptyResults"] and w["pointHits"] <= w["nonemptyResults"], "Wrong point-result counts")
     if profile == "APPEND":
-        _require(intents["APPEND"] == 112 and all(intents[k] == 0 for k in ("CORRECTION", "RETRACTION", "REPEAT"))
+        _require(intents["APPEND"] == mixed and all(intents[k] == 0 for k in ("CORRECTION", "RETRACTION", "REPEAT"))
                  and w["retractOperations"] == w["noOpCommits"] == w["geometricOverlaps"] == 0,
                  "Append profile contains non-append effects")
-    return w["attempts"] + 64
+    return w["attempts"] + queries
 
 
-def _samples_and_summaries(iteration, workload, max_heap):
+def _samples_and_summaries(iteration, workload, max_heap, dimensions, source_segments):
     samples = _list(iteration["samples"], "samples", 1, 100_000)
     groups = defaultdict(list)
     for sample in samples:
@@ -255,19 +310,20 @@ def _samples_and_summaries(iteration, workload, max_heap):
             if sample[key] is not None:
                 _integer(sample[key], f"sample.{key}")
         groups[(sample["phase"], sample["kind"])].append(sample)
-    wanted = {("LOAD", "CREATE"): 1, ("LOAD", "COMMIT"): 16, ("MIXED", "COMMIT"): 112,
-              **{("MIXED", k): v for k, v in READ_COUNTS.items()},
+    entities, commits, queries = (dimensions[k] for k in ("entities", "commits", "queries"))
+    wanted = {("LOAD", "CREATE"): 1, ("LOAD", "COMMIT"): entities, ("MIXED", "COMMIT"): commits - entities,
+              **{("MIXED", k): v for k, v in _read_counts(queries).items() if v},
               **{("MAINTENANCE", k): 1 for k in ("JOURNAL_REOPEN", "CHECKPOINT_PUBLISH", "COMPACTION_PLAN",
                                                  "COMPACTION_PUBLISH", "CHECKPOINT_REOPEN")},
-              ("MAINTENANCE", "SEGMENT_WRITE"): 8}
+              ("MAINTENANCE", "SEGMENT_WRITE"): source_segments}
     if workload["retries"]:
         wanted[("MIXED", "RETRY")] = workload["retries"]
     _require({key: len(value) for key, value in groups.items()} == wanted, "Wrong operation inventory")
     actions = workload["attempts"] + workload["reads"]
     order = [(s["phase"], s["kind"]) for s in samples]
-    _require(order[:17] == [("LOAD", "CREATE")] + [("LOAD", "COMMIT")] * 16, "Wrong setup sample order")
-    _require(all(phase == "MIXED" for phase, _kind in order[17:1 + actions]), "Wrong mixed sample order")
-    tail = ["JOURNAL_REOPEN"] + ["SEGMENT_WRITE"] * 8 + ["CHECKPOINT_PUBLISH", "COMPACTION_PLAN", "COMPACTION_PUBLISH", "CHECKPOINT_REOPEN"]
+    _require(order[:entities + 1] == [("LOAD", "CREATE")] + [("LOAD", "COMMIT")] * entities, "Wrong setup sample order")
+    _require(all(phase == "MIXED" for phase, _kind in order[entities + 1:1 + actions]), "Wrong mixed sample order")
+    tail = ["JOURNAL_REOPEN"] + ["SEGMENT_WRITE"] * source_segments + ["CHECKPOINT_PUBLISH", "COMPACTION_PLAN", "COMPACTION_PUBLISH", "CHECKPOINT_REOPEN"]
     _require(order[1 + actions:] == [("MAINTENANCE", kind) for kind in tail], "Wrong maintenance sample order")
     summaries = _list(iteration["summaries"], "summaries", 1, len(PHASES) * len(KINDS))
     expected_order = sorted(groups, key=lambda k: (PHASES.index(k[0]), KINDS.index(k[1])))
@@ -323,10 +379,11 @@ def _entries(path, maximum):
     return result
 
 
-def _files(home, named, history_hash, history_bytes, seen, device):
+def _files(home, named, history_hash, history_bytes, seen, device, source_segments):
     _object(named, {"fileLengths", "totalBytes"}, "namedStorage")
     lengths = named["fileLengths"]
-    _require(type(lengths) is dict and len(lengths) == 15, "Wrong retained file inventory")
+    file_count = source_segments + 7
+    _require(type(lengths) is dict and len(lengths) == file_count, "Wrong retained file inventory")
     for key, value in lengths.items():
         _text(key, "filename", 128)
         _require(Path(key).name == key and key not in (".", ".."), "Unsafe file name")
@@ -334,7 +391,7 @@ def _files(home, named, history_hash, history_bytes, seen, device):
     manifests = [MANIFEST_NAME.fullmatch(name) for name in lengths if MANIFEST_NAME.fullmatch(name)]
     segments = [name for name in lengths if SEGMENT_NAME.fullmatch(name)]
     _require(len(manifests) == 3 and sorted(int(m[1]) for m in manifests) == [1, 2, 3]
-             and len(segments) == 9 and set(lengths) == CONTROL_NAMES | {"transactions.journal"}
+             and len(segments) == source_segments + 1 and set(lengths) == CONTROL_NAMES | {"transactions.journal"}
              | {m[0] for m in manifests} | set(segments), "Wrong retained object names")
     _require(all(lengths[name] == 0 for name in CONTROL_NAMES)
              and lengths["transactions.journal"] == history_bytes
@@ -342,7 +399,7 @@ def _files(home, named, history_hash, history_bytes, seen, device):
     _integer(named["totalBytes"], "named total", high=MAX_RETAINED_BYTES)
     _require(named["totalBytes"] == sum(lengths.values()), "Named total differs from files")
     try:
-        actual = _entries(home, 15)
+        actual = _entries(home, file_count)
         _require(len(actual) == len(lengths) and {p.name for p in actual} == set(lengths), "On-disk inventory differs")
         files = []
         for path in sorted(actual):
@@ -407,16 +464,19 @@ def _io(observation, index, warmup, directory, denominator):
 def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: dict) -> dict:
     """Validate success evidence and return additional reobserved file/I/O accounting."""
     _structure(doc)
-    _object(request, REQUEST_FIELDS, "request")
-    _text(request["runId"], "runId", 32, r"[0-9a-f]{32}")
-    _text(request["source"], "source", 40, r"[0-9a-f]{40}")
-    _require(type(request["profile"]) is str and request["profile"] in PROFILES, "Unknown profile")
-    _integer(request["seed"], "seed", LONG_MIN)
-    warmups = _integer(request["warmups"], "warmups", 0, 2)
-    repetitions = _integer(request["repetitions"], "repetitions", 1, 5)
+    dimensions = validate_request(request)
+    scaled = "schemaVersion" in request
+    warmups, repetitions = request["warmups"], request["repetitions"]
+    source_segments = _source_segments(dimensions["commits"])
     _integer(worker_pid, "worker PID", 1)
-    _object(doc, ENVELOPE_FIELDS, "worker envelope")
-    _integer(doc["schemaVersion"], "worker schema", 1, 1)
+    _object(doc, ENVELOPE_FIELDS | {"dimensions"} if scaled else ENVELOPE_FIELDS, "worker envelope")
+    version = 2 if scaled else 1
+    _integer(doc["schemaVersion"], "worker schema", version, version)
+    if scaled:
+        actual_dimensions = _object(doc["dimensions"], DIMENSION_FIELDS, "worker dimensions")
+        for key, expected in dimensions.items():
+            _integer(actual_dimensions[key], f"worker dimensions.{key}")
+            _require(actual_dimensions[key] == expected, "Wrong worker dimension binding")
     for key in ("runId", "source", "profile", "seed"):
         _require(type(doc[key]) is type(request[key]) and doc[key] == request[key], f"Wrong worker request binding: {key}")
     _integer(doc["workerPid"], "worker PID", 1)
@@ -426,10 +486,11 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
     for name in ("schemaVersion", "corpusVersion"):
         _integer(result[name], name, 1, 1)
     spec = _object(result["spec"], SPEC_FIELDS, "spec")
-    expected_spec = dict(zip(SPEC_FIELDS, (request["seed"], 16, 128, 64, 8, *PROFILES[request["profile"]])))
+    expected_spec = dict(zip(SPEC_FIELDS, (request["seed"], *(dimensions[k] for k in DIMENSION_FIELDS),
+                                          *PROFILES[request["profile"]])))
     for key, expected in expected_spec.items():
         _integer(spec[key], f"spec.{key}", LONG_MIN if key == "seed" else 0)
-        _require(spec[key] == expected, "Wrong default workload specification")
+        _require(spec[key] == expected, "Wrong requested workload specification")
     config = _object(result["config"], {"warmups", "repetitions"}, "config")
     for key in config:
         _integer(config[key], f"config.{key}")
@@ -438,7 +499,7 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
         _text(result[key], key, 64, r"[0-9a-f]{64}")
     encoded = _integer(result["encodedHistoryBytes"], "encodedHistoryBytes", 1, MAX_JOURNAL_BYTES)
     _integer(result["preparationNanos"], "preparationNanos")
-    action_count = _workload(result["workload"], request["profile"])
+    action_count = _workload(result["workload"], request["profile"], dimensions)
     runtime = _object(result["runtime"], RUNTIME_FIELDS, "runtime")
     for key in RUNTIME_FIELDS - {"availableProcessors", "maxHeapBytes"}:
         _text(runtime[key], f"runtime.{key}", 512)
@@ -484,15 +545,16 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
                     "actionOtherNanos", "totalValidationNanos", "validationTasks", "sourceSegments",
                     "replacementSegments", "pinnedReadersDuringPublication"):
             _integer(iteration[key], key)
-        _require(iteration["sourceSegments"] == 8 and iteration["replacementSegments"] == 1
-                 and iteration["pinnedReadersDuringPublication"] == 1 and iteration["validationTasks"] == action_count + 16,
+        _require(iteration["sourceSegments"] == source_segments and iteration["replacementSegments"] == 1
+                 and iteration["pinnedReadersDuringPublication"] == 1
+                 and iteration["validationTasks"] == action_count + source_segments + 8,
                  "Wrong checked lifecycle counts")
         _require(iteration["actionLoopNanos"] == iteration["actionServiceNanos"] + iteration["actionValidationNanos"]
                  + iteration["actionOtherNanos"] and iteration["totalValidationNanos"] >= iteration["actionValidationNanos"],
                  "Incoherent loop/validation timing")
         _rate(iteration["actionLoopOperationsPerSecond"], action_count, iteration["actionLoopNanos"], "action-loop rate")
-        _samples_and_summaries(iteration, result["workload"], runtime["maxHeapBytes"])
-        observed = _files(home, iteration["namedStorage"], result["historyFingerprint"], encoded, seen, device)
+        _samples_and_summaries(iteration, result["workload"], runtime["maxHeapBytes"], dimensions, source_segments)
+        observed = _files(home, iteration["namedStorage"], result["historyFingerprint"], encoded, seen, device, source_segments)
         total_files += len(observed["files"])
         total_logical += observed["logicalBytes"]
         total_allocated += observed["attributedAllocatedBytes"]

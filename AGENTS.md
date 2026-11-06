@@ -579,6 +579,10 @@ so a new session can work correctly without relying on earlier conversations.
   Group cleanup is a cooperating-process boundary, not arbitrary containment.
   Run Python evidence/process guards and actual Linux smoke for changed boundaries;
   controlled evaluation remains separate from CI correctness and source admission.
+  Configurable dimensions use schema-two request/envelope bindings and preflight
+  corpus/reference-work plus conservative aggregate-action limits before scratch
+  mutation. Preserve exact legacy v1/default identities and derive query/segment/
+  validation/file inventories from admitted dimensions; verify both on Linux.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

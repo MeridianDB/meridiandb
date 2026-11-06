@@ -37,6 +37,14 @@ or explicit unavailability, separate warmups and keep cancellation distinct.
 Reobserve named files, journal identity and Linux attributed allocated blocks after
 all worker owners/processes settle. Name ratio denominators explicitly.
 
+**Dimension extension, November 6, 2026:** expose entity, commit, read and interval
+width choices under existing corpus limits and conservative aggregate-action
+admission before scratch mutation. Bind the complete dimension object in a
+version-two request and worker envelope, including failed/unsupported outcomes.
+Keep legacy eight-argument/version-one admission at its original defaults; preserve
+the inner result/corpus version and default fingerprints. Derive operation,
+validation and file inventories from requested inputs instead of fixed smoke sizes.
+
 ## Consequences and limits
 
 The core remains usable without a supervisor, cloud SDK or native binding. This

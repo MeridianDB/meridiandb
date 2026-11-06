@@ -46,7 +46,8 @@ bounded seeded histories, independent expected answers and memory/local-reopen
 checks. A test-only [local measurement core](docs/development/local-measurements.md)
 now measures checked operation lifecycles with scoped JVM telemetry. The
 [Linux supervisor](docs/development/supervised-workloads.md) adds bounded execution,
-strict result admission and scoped process/allocated-file accounting. Controlled
+strict result admission, independent workload dimensions and scoped process/allocated-file
+accounting. Controlled
 baseline evaluation and production qualification remain planned.
 The broader storage capabilities below remain the intended direction.
 
@@ -196,7 +197,7 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,347 JUnit test invocations: 12 [supervised worker checks](docs/development/supervised-workloads.md),
+This runs 1,351 JUnit test invocations: 16 [supervised worker checks](docs/development/supervised-workloads.md),
 26 [local measurement checks](docs/development/local-measurements.md),
 36 [workload corpus checks](docs/development/workload-corpus.md),
 one filesystem qualification probe,

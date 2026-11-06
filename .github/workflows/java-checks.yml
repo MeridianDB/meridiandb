@@ -140,6 +140,9 @@ jobs:
       - name: Verify supervised Linux workload evidence
         if: runner.os == 'Linux'
         run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --warmups 0 --repetitions 1 --timeout 300
+      - name: Verify scaled Linux workload evidence
+        if: runner.os == 'Linux'
+        run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --entities 32 --commits 257 --queries 127 --interval-width 6 --warmups 0 --repetitions 1 --timeout 300
       - name: Retain supervised workload evidence
         if: always() && runner.os == 'Linux'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

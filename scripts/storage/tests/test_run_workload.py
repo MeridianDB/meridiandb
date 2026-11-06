@@ -60,6 +60,19 @@ class WorkloadSupervisorTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             runner.tree_fingerprint(self.root, [Path("missing.class")], time.monotonic() + 10)
 
+    def test_dimension_admission_refuses_invalid_or_excessive_work_before_scratch_mutation(self):
+        defaults = {"entities": 16, "commits": 128, "queries": 64, "intervalWidth": 8}
+        bad = [dict(defaults, **{key: value}) for key, value in (
+            ("entities", True), ("entities", 0), ("entities", 128), ("commits", 4097),
+            ("queries", -1), ("queries", 1025), ("intervalWidth", 0), ("intervalWidth", 17),
+            ("commits", 2000))]
+        bad += [{}, dict(defaults, unknown=1), {"entities": 1, "commits": 2001, "queries": 0, "intervalWidth": 1}]
+        for dimensions in bad:
+            with self.subTest(dimensions=dimensions), mock.patch.object(runner.sys, "platform", "linux"):
+                with self.assertRaises(runner.SupervisorError):
+                    runner.supervise(self.root, self.root, "CORRECTIONS", 42, 0, 5, 300, dimensions)
+        self.assertEqual([], list(self.root.iterdir()))
+
     def test_fingerprint_rejects_symlink_and_byte_file_or_deadline_exhaustion(self):
         (self.root / "source").write_bytes(b"source")
         (self.root / "alias").symlink_to("source")
@@ -150,6 +163,35 @@ class WorkloadSupervisorTests(unittest.TestCase):
                     runner.failure_envelope(changed, request, 123, 1)
         with self.assertRaises(runner.SupervisorError):
             runner.failure_envelope(unsupported, request, 123, 0)
+
+    def test_scaled_failure_and_unsupported_bind_all_dimensions_and_schema(self):
+        dimensions = {"entities": 7, "commits": 33, "queries": 11, "intervalWidth": 3}
+        request = {"schemaVersion": 2, "runId": "a" * 32, "source": "b" * 40,
+                   "profile": "CORRECTIONS", "seed": 42, "warmups": 0, "repetitions": 1,
+                   "dimensions": dimensions}
+        doc = {key: request[key] for key in ("schemaVersion", "runId", "source", "profile", "seed", "dimensions")}
+        doc.update(workerPid=123, status="failed", error={"type": "IOException", "message": "retained"}, io=[], result=None)
+        for status, code in [("failed", 1), ("unsupported", 3)]:
+            doc["status"] = status
+            self.assertEqual(status, runner.failure_envelope(doc, request, 123, code)[0])
+            for field in dimensions:
+                changed = copy.deepcopy(doc); changed["dimensions"][field] += 1
+                with self.subTest(status=status, field=field), self.assertRaises(runner.SupervisorError):
+                    runner.failure_envelope(changed, request, 123, code)
+            for version in (1, True, 3):
+                changed = dict(doc, schemaVersion=version)
+                with self.assertRaises(runner.SupervisorError):
+                    runner.failure_envelope(changed, request, 123, code)
+            changed = copy.deepcopy(doc); changed["dimensions"]["entities"] = True
+            with self.assertRaises(runner.SupervisorError):
+                runner.failure_envelope(changed, request, 123, code)
+
+    def test_cli_forwards_dimensions_independently_without_changing_other_defaults(self):
+        with mock.patch.object(runner, "supervise", return_value=0) as supervise:
+            self.assertEqual(0, runner.main(["--scratch-parent", str(self.root), "--entities", "7",
+                                           "--commits", "33", "--queries", "0", "--interval-width", "3"]))
+        self.assertEqual(("CORRECTIONS", 42, 1, 3, 300), supervise.call_args.args[2:7])
+        self.assertEqual({"entities": 7, "commits": 33, "queries": 0, "intervalWidth": 3}, supervise.call_args.args[7])
 
     @unittest.skipUnless(sys.platform == "linux", "Linux process-group/proc interface")
     def test_zero_and_nonzero_leaders_preserve_exit_status_and_bound_logs(self):

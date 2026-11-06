@@ -9,12 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -304,8 +307,178 @@ class WorkloadWorkerTest {
         assertEquals(new String(retained, StandardCharsets.UTF_8), Files.readString(output));
     }
 
+    @Test
+    void dimensionOverloadPreservesDefaultProfilesAndTheirExistingHistoryIdentity() {
+        for (var profile : WorkloadCorpus.Profile.values()) {
+            var legacy = profile.spec(42);
+            var explicit = profile.spec(42, 16, 128, 64, 8);
+            assertEquals(legacy, explicit);
+            var original = WorkloadCorpus.generate(legacy);
+            var repeated = WorkloadCorpus.generate(explicit);
+            assertEquals(original.actions(), repeated.actions());
+            assertEquals(original.fingerprint(), repeated.fingerprint());
+            assertEquals(original.historyFingerprint(), repeated.historyFingerprint());
+            assertEquals(original.encodedHistoryBytes(), repeated.encodedHistoryBytes());
+            var scaled = profile.spec(42, 7, 33, 11, 3);
+            assertEquals(List.of(legacy.correctionPercent(), legacy.retractionPercent(), legacy.repeatPercent(),
+                            legacy.retryPercent(), legacy.hotEntityPercent(), legacy.historicalReadPercent()),
+                    List.of(scaled.correctionPercent(), scaled.retractionPercent(), scaled.repeatPercent(),
+                            scaled.retryPercent(), scaled.hotEntityPercent(), scaled.historicalReadPercent()));
+        }
+        var append = WorkloadCorpus.generate(WorkloadCorpus.Profile.APPEND.spec(42));
+        assertEquals("b33801d18462c16e588432baee439948b6aea87d2a8866dfeb6b0d15415150aa", append.fingerprint());
+        assertEquals("0a3b5455dfad2e0ac05cbf95954de3a43f9f95b3b7832b7ab0e20e367e51c8c5", append.historyFingerprint());
+        assertEquals(10432, append.encodedHistoryBytes());
+    }
+
+    @Test
+    void independentDimensionsRespectReferenceAndConservativeRepeatedActionBoundaries() {
+        var profile = WorkloadCorpus.Profile.CORRECTIONS;
+        var one = new LocalWorkloadRunner.Config(0, 1);
+        var five = new LocalWorkloadRunner.Config(0, 5);
+        var minimum = WorkloadWorker.admitSpec(profile, 42, one, 1, 2, 0, 1);
+        assertEquals(1, minimum.entities());
+        assertEquals(2, minimum.commits());
+        assertEquals(0, minimum.queries());
+        assertEquals(1, minimum.intervalWidth());
+        assertEquals(1024, WorkloadWorker.admitSpec(profile, 42, one, 1024, 1025, 0, 16).entities());
+        assertEquals(1024, WorkloadWorker.admitSpec(profile, 42, one, 1, 2, 1024, 1).queries());
+        assertEquals(4000, WorkloadWorker.admitSpec(profile, 42, one, 1, 4000, 0, 1).commits(),
+                "Exactly32,000,000 reference-work units remain admitted without generating a large corpus");
+        assertThrows(IllegalArgumentException.class,
+                () -> WorkloadWorker.admitSpec(profile, 42, one, 1, 4001, 0, 1));
+        assertEquals(2000, WorkloadWorker.admitSpec(profile, 42, five, 1, 2000, 0, 1).commits(),
+                "The conservative repeated action count is exactly20,000");
+        assertThrows(IllegalArgumentException.class,
+                () -> WorkloadWorker.admitSpec(profile, 42, five, 1, 2001, 0, 1));
+        assertThrows(IllegalArgumentException.class,
+                () -> WorkloadWorker.admitSpec(profile, 42, new LocalWorkloadRunner.Config(2, 5), 1, 1500, 0, 1));
+    }
+
+    @Test
+    void extendedArgumentAdmissionRejectsInvalidWorkBeforeFilesystemInspectionOrGeneration() throws IOException {
+        Path missing = directory.resolve("must-not-be-inspected").toAbsolutePath();
+        String[] valid = dimensionedArgs(missing, directory.resolve("worker.json").toAbsolutePath(), 7, 33, 11, 3);
+        for (int length : List.of(9, 10, 11, 13)) {
+            assertTrue(invalidDiagnostic(Arrays.copyOf(valid, length)).contains("Exactly eight legacy or twelve"));
+        }
+        for (int[] dimensions : List.of(new int[] {0, 2, 0, 1}, new int[] {1025, 1026, 0, 1},
+                new int[] {7, 7, 11, 3}, new int[] {1, 4097, 0, 1}, new int[] {1, 2, -1, 1},
+                new int[] {1, 2, 1025, 1}, new int[] {1, 2, 0, 0}, new int[] {1, 2, 0, 17})) {
+            var invalid = dimensionedArgs(missing, directory.resolve("worker.json").toAbsolutePath(),
+                    dimensions[0], dimensions[1], dimensions[2], dimensions[3]);
+            assertTrue(invalidDiagnostic(invalid).contains("Workload dimensions exceed"));
+        }
+        assertTrue(invalidDiagnostic(dimensionedArgs(missing, directory.resolve("worker.json").toAbsolutePath(),
+                1, 4001, 0, 1)).contains("reference-work admission"));
+        var overRepeatedWork = dimensionedArgs(missing, directory.resolve("worker.json").toAbsolutePath(), 1, 1500, 0, 1);
+        overRepeatedWork[4] = "2";
+        overRepeatedWork[5] = "5";
+        assertTrue(invalidDiagnostic(overRepeatedWork).contains("Conservative aggregate iteration action admission"));
+        var integerOverflow = valid.clone();
+        integerOverflow[8] = "2147483648";
+        assertTrue(invalidDiagnostic(integerOverflow).contains("2147483648"));
+        assertFalse(Files.exists(missing));
+        assertFalse(Files.exists(directory.resolve("worker.json")));
+        assertFalse(Files.exists(directory.resolve("worker.partial.json")));
+    }
+
+    @Test
+    void scaledNativeWorkerRetainsExactDimensionsReadsAndNonmultipleSegmentHistory() throws IOException {
+        Path scratch = Files.createDirectory(directory.resolve("scaled-scratch")).toRealPath();
+        Path output = scratch.getParent().resolve("scaled-worker.json");
+        String[] arguments = dimensionedArgs(scratch, output, 7, 33, 11, 3);
+        arguments[2] = "CORRECTIONS";
+        int code = WorkloadWorker.execute(arguments);
+        assertTrue(code == 0 || code == 3, "Ordinary scaled worker failure is not an unsupported success: " + code);
+        Map<?, ?> envelope = JSON.readValue(Files.readAllBytes(output), Map.class);
+        assertEquals(Set.of("schemaVersion", "runId", "source", "profile", "seed", "workerPid",
+                "status", "error", "io", "result", "dimensions"), envelope.keySet());
+        assertEquals(2, ((Number) envelope.get("schemaVersion")).intValue());
+        assertEquals(Map.of("entities", 7, "commits", 33, "queries", 11, "intervalWidth", 3), envelope.get("dimensions"));
+        assertEquals(RUN, envelope.get("runId"));
+        assertEquals(SOURCE, envelope.get("source"));
+        assertEquals("CORRECTIONS", envelope.get("profile"));
+        assertEquals(42, ((Number) envelope.get("seed")).intValue());
+        assertEquals(ProcessHandle.current().pid(), ((Number) envelope.get("workerPid")).longValue());
+        if (code == 3) {
+            assertEquals("unsupported", envelope.get("status"));
+            assertNotNull(envelope.get("error"));
+            assertNull(envelope.get("result"));
+            return;
+        }
+        assertEquals("success", envelope.get("status"));
+        assertNull(envelope.get("error"));
+        Map<?, ?> result = (Map<?, ?>) envelope.get("result");
+        assertEquals(1, ((Number) result.get("schemaVersion")).intValue());
+        assertEquals(1, ((Number) result.get("corpusVersion")).intValue());
+        var corpus = WorkloadCorpus.generate(WorkloadCorpus.Profile.CORRECTIONS.spec(42, 7, 33, 11, 3));
+        assertEquals(corpus.fingerprint(), result.get("fingerprint"));
+        assertEquals(corpus.historyFingerprint(), result.get("historyFingerprint"));
+        assertEquals(corpus.encodedHistoryBytes(), ((Number) result.get("encodedHistoryBytes")).longValue());
+        Map<?, ?> spec = (Map<?, ?>) result.get("spec");
+        for (String name : List.of("entities", "commits", "queries", "intervalWidth")) {
+            assertEquals(((Map<?, ?>) envelope.get("dimensions")).get(name), spec.get(name));
+        }
+        List<?> iterations = (List<?>) result.get("iterations");
+        assertEquals(1, iterations.size());
+        Map<?, ?> iteration = (Map<?, ?>) iterations.getFirst();
+        assertEquals(3, ((Number) iteration.get("sourceSegments")).intValue());
+        assertEquals(1, ((Number) iteration.get("replacementSegments")).intValue());
+        Map<?, ?> named = (Map<?, ?>) iteration.get("namedStorage");
+        assertEquals(10, ((Map<?, ?>) named.get("fileLengths")).size());
+        List<?> samples = (List<?>) iteration.get("samples");
+        var counts = samples.stream().map(sample -> (Map<?, ?>) sample).collect(java.util.stream.Collectors.groupingBy(
+                sample -> sample.get("phase") + ":" + sample.get("kind"), java.util.stream.Collectors.counting()));
+        assertEquals(7L, counts.get("LOAD:COMMIT"));
+        assertEquals(26L, counts.get("MIXED:COMMIT"));
+        assertEquals(3L, counts.get("MIXED:GET"));
+        for (String kind : List.of("SCAN", "SELECT", "FILTER_SCAN", "SUM")) {
+            assertEquals(2L, counts.get("MIXED:" + kind));
+        }
+        List<?> io = (List<?>) envelope.get("io");
+        assertEquals(1, io.size());
+        Map<?, ?> observation = (Map<?, ?>) io.getFirst();
+        assertEquals(false, observation.get("warmup"));
+        assertEquals(iteration.get("directory"), observation.get("directory"));
+
+        Path zeroScratch = Files.createDirectory(directory.resolve("zero-read-scratch")).toRealPath();
+        Path zeroOutput = zeroScratch.getParent().resolve("zero-worker.json");
+        assertEquals(0, WorkloadWorker.execute(dimensionedArgs(zeroScratch, zeroOutput, 1, 2, 0, 1)));
+        Map<?, ?> zeroEnvelope = JSON.readValue(Files.readAllBytes(zeroOutput), Map.class);
+        assertEquals(2, ((Number) zeroEnvelope.get("schemaVersion")).intValue());
+        assertEquals(Map.of("entities", 1, "commits", 2, "queries", 0, "intervalWidth", 1), zeroEnvelope.get("dimensions"));
+        Map<?, ?> zeroResult = (Map<?, ?>) zeroEnvelope.get("result");
+        assertEquals(0, ((Number) ((Map<?, ?>) zeroResult.get("workload")).get("reads")).intValue());
+        Map<?, ?> zeroIteration = (Map<?, ?>) ((List<?>) zeroResult.get("iterations")).getFirst();
+        assertEquals(2, ((Number) zeroIteration.get("sourceSegments")).intValue());
+        assertEquals(1, ((Number) zeroIteration.get("replacementSegments")).intValue());
+        assertTrue(((List<?>) zeroIteration.get("samples")).stream().map(sample -> (Map<?, ?>) sample)
+                .noneMatch(sample -> Set.of("GET", "SCAN", "SELECT", "FILTER_SCAN", "SUM").contains(sample.get("kind"))));
+    }
+
     private static String[] args(Path scratch, Path output) {
         return new String[] {RUN, SOURCE, "APPEND", "42", "0", "1", scratch.toString(), output.toString()};
+    }
+
+    private static String[] dimensionedArgs(Path scratch, Path output, int entities, int commits, int queries, int intervalWidth) {
+        String[] result = Arrays.copyOf(args(scratch, output), 12);
+        result[8] = Integer.toString(entities);
+        result[9] = Integer.toString(commits);
+        result[10] = Integer.toString(queries);
+        result[11] = Integer.toString(intervalWidth);
+        return result;
+    }
+
+    private static String invalidDiagnostic(String[] arguments) throws IOException {
+        var bytes = new ByteArrayOutputStream();
+        PrintStream previous = System.err;
+        try (var capture = new PrintStream(bytes, true, StandardCharsets.UTF_8)) {
+            System.setErr(capture);
+            try { assertEquals(2, WorkloadWorker.execute(arguments)); }
+            finally { System.setErr(previous); }
+        }
+        return bytes.toString(StandardCharsets.UTF_8);
     }
 
     private static String proc(long value) {

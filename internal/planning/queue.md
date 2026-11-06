@@ -47,10 +47,27 @@ children before implementation rather than treating a whole milestone as one pat
   its original criteria and both required children 84/85. Synchronous arrival/lag/
   backlog limits and accounting denominators remain explicit. MDB-0012 stays
   expanded; actual baseline evaluation and its complete integration audit remain.
-- **MDB-0083 — Linux baseline evaluation and conformance** is ready and is the
-  next recommendation. No evaluation, layout experiment, S3 continuation, native
-  binding, release or paid environment starts in this invocation. All 85 stable IDs
-  remain; no active implementation claim remains.
+- **MDB-0083 — Linux baseline evaluation and conformance** is expanded into
+  required MDB-0086 configurable dimensions and MDB-0087 Linux evaluation/audit.
+  The fixed default-only CLI cannot yet supply independently scaled runs required
+  by MDB-0012. Preserve every original criterion; no baseline acceptance follows
+  from exposing dimensions alone.
+- **MDB-0086 — Configurable supervised workload dimensions** is active, owned by
+  the primary coordinator. Preserve legacy v1/default identities while adding an
+  explicitly bound v2 request/envelope for independent entity, commit, read and
+  interval-width dimensions. Validate before scratch mutation and derive operation,
+  validation and file inventories from admitted inputs. All 87 stable IDs remain;
+  MDB-0012/0083 stay expanded. Actual evaluation remains MDB-0087, with no layout,
+  S3 continuation, native binding, paid environment or library release started.
+- Local MDB-0086 checks pass **1,351 core cases /74 suites**, zero skips, fresh
+  rooted run `2ea91ab6b6c74905be6641a4bd3e679f`. Inventory preserves every previous
+  count and increases WorkerTest from 12 to 16; SHA256
+  `6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+  Python guards 105 pass (five Linux-only skips on macOS), docs fixtures 42 and
+  both 94-page strict builds pass. Actual Linux default/scaled CLI remains the
+  completion gate; first source delivery is a checkpoint. Fresh research keeps
+  twelve core/build pins current and records optional SDK 2.57.10 availability
+  versus retained 2.57.8 under the S3 deferral.
 
 ## Ordered work
 
@@ -92,7 +109,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0082](roadmap.md#mdb-0082-local-workload-measurement-runner) | Measure local execution with explicit setup, timing and resource semantics | MDB-0012 | done | MDB-0010, MDB-0079, MDB-0081 |
 | [MDB-0084](roadmap.md#mdb-0084-local-operation-measurement-core) | Measure and check bounded local operation lifecycles on fresh stores | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081 |
 | [MDB-0085](roadmap.md#mdb-0085-supervised-linux-workload-evidence) | Add supervised execution, result/provenance validation and Linux storage accounting | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0084 |
-| [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
+| [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
+| [MDB-0086](roadmap.md#mdb-0086-configurable-supervised-workload-dimensions) | Admit independently scaled dimensions with exact evidence bindings | MDB-0083 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
+| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |

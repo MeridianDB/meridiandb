@@ -33,8 +33,11 @@ public final class WorkloadWorker {
             "write_bytes", "cancelled_write_bytes");
     private static final String PARTIAL_NAME = "worker.partial.json";
 
-    private record Request(String runId, String source, WorkloadCorpus.Profile profile, long seed,
+    private record Request(int schemaVersion, String runId, String source, WorkloadCorpus.Profile profile,
+                           long seed, WorkloadCorpus.Spec spec, Dimensions dimensions,
                            LocalWorkloadRunner.Config config, Path scratch, Path output) { }
+
+    public record Dimensions(int entities, int commits, int queries, int intervalWidth) { }
 
     record IoSnapshot(Map<String, Long> counters, String unavailable) {
         IoSnapshot {
@@ -63,7 +66,7 @@ public final class WorkloadWorker {
         Exception failure = null;
         String status;
         try {
-            var corpus = WorkloadCorpus.generate(request.profile().spec(request.seed()));
+            var corpus = WorkloadCorpus.generate(request.spec());
             result = LocalWorkloadRunner.run(request.scratch(), corpus, request.config(),
                     WorkloadMeasurements.systemProbe(), io);
             status = "success";
@@ -72,7 +75,7 @@ public final class WorkloadWorker {
             status = failureStatus(caught);
         }
         var envelope = new LinkedHashMap<String, Object>();
-        envelope.put("schemaVersion", 1);
+        envelope.put("schemaVersion", request.schemaVersion());
         envelope.put("runId", request.runId());
         envelope.put("source", request.source());
         envelope.put("profile", request.profile().name());
@@ -84,6 +87,7 @@ public final class WorkloadWorker {
                 "message", bounded(failure.getMessage(), 1024)));
         envelope.put("io", io.observations());
         envelope.put("result", result);
+        if (request.dimensions() != null) { envelope.put("dimensions", request.dimensions()); }
         try {
             writeEnvelope(request.output(), envelope);
         } catch (IOException | RuntimeException exportFailure) {
@@ -95,7 +99,9 @@ public final class WorkloadWorker {
     }
 
     private static Request request(String[] args) throws IOException {
-        if (args == null || args.length != 8) { throw new IllegalArgumentException("Eight positional arguments required"); }
+        if (args == null || (args.length != 8 && args.length != 12)) {
+            throw new IllegalArgumentException("Exactly eight legacy or twelve dimensioned arguments required");
+        }
         for (String arg : args) {
             if (arg == null || arg.length() > 4096 || arg.chars().anyMatch(c -> c < 0x20 || c == 0x7f)) {
                 throw new IllegalArgumentException("Argument contains unsupported length or control characters");
@@ -107,6 +113,12 @@ public final class WorkloadWorker {
         var profile = WorkloadCorpus.Profile.valueOf(args[2]);
         long seed = Long.parseLong(args[3]);
         var config = new LocalWorkloadRunner.Config(Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+        boolean dimensioned = args.length == 12;
+        var dimensions = dimensioned ? new Dimensions(Integer.parseInt(args[8]), Integer.parseInt(args[9]),
+                Integer.parseInt(args[10]), Integer.parseInt(args[11])) : null;
+        var spec = dimensioned ? admitSpec(profile, seed, config, dimensions.entities(), dimensions.commits(),
+                dimensions.queries(), dimensions.intervalWidth()) : admitSpec(profile, seed, config, 16, 128, 64, 8);
+        // Admit all reference/action work before inspecting paths, creating storage or generating actions.
         Path suppliedScratch = Path.of(args[6]);
         Path suppliedOutput = Path.of(args[7]);
         if (!suppliedScratch.isAbsolute() || !suppliedOutput.isAbsolute()) {
@@ -125,7 +137,20 @@ public final class WorkloadWorker {
         }
         requireFresh(output);
         requireFresh(output.resolveSibling(PARTIAL_NAME));
-        return new Request(args[0], args[1], profile, seed, config, scratch, output);
+        return new Request(dimensioned ? 2 : 1, args[0], args[1], profile, seed, spec, dimensions,
+                config, scratch, output);
+    }
+
+    static WorkloadCorpus.Spec admitSpec(WorkloadCorpus.Profile profile, long seed, LocalWorkloadRunner.Config config,
+                                        int entities, int commits, int queries, int intervalWidth) {
+        Objects.requireNonNull(profile, "profile");
+        Objects.requireNonNull(config, "config");
+        var spec = profile.spec(seed, entities, commits, queries, intervalWidth);
+        long actions = (2L * commits + queries) * (config.warmups() + config.repetitions());
+        if (actions > LocalWorkloadRunner.MAX_ITERATION_ACTIONS) {
+            throw new IllegalArgumentException("Conservative aggregate iteration action admission exceeded");
+        }
+        return spec;
     }
 
     static String failureStatus(Throwable failure) {

@@ -68,11 +68,15 @@ public final class WorkloadCorpus {
         APPEND, CORRECTIONS, RETRACTIONS, HOT_ENTITY;
 
         public Spec spec(long seed) {
+            return spec(seed, 16, 128, 64, 8);
+        }
+
+        public Spec spec(long seed, int entities, int commits, int queries, int intervalWidth) {
             return switch (this) {
-                case APPEND -> new Spec(seed, 16, 128, 64, 8, 0, 0, 0, 5, 0, 50);
-                case CORRECTIONS -> new Spec(seed, 16, 128, 64, 8, 70, 10, 10, 10, 10, 75);
-                case RETRACTIONS -> new Spec(seed, 16, 128, 64, 8, 20, 60, 10, 10, 10, 50);
-                case HOT_ENTITY -> new Spec(seed, 16, 128, 64, 8, 60, 10, 10, 20, 95, 80);
+                case APPEND -> new Spec(seed, entities, commits, queries, intervalWidth, 0, 0, 0, 5, 0, 50);
+                case CORRECTIONS -> new Spec(seed, entities, commits, queries, intervalWidth, 70, 10, 10, 10, 10, 75);
+                case RETRACTIONS -> new Spec(seed, entities, commits, queries, intervalWidth, 20, 60, 10, 10, 10, 50);
+                case HOT_ENTITY -> new Spec(seed, entities, commits, queries, intervalWidth, 60, 10, 10, 20, 95, 80);
             };
         }
     }

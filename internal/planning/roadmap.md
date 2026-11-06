@@ -2394,6 +2394,58 @@ observational local runs, controlled device measurements and microbenchmarks. Cl
 MDB-0012 only when the required runner/evaluation and original integration criteria
 pass; preserve all child evidence and hardware/production gaps in later work.
 
+**Required children, November 6, 2026:** MDB-0086 exposes admitted independent
+dimensions through the supervised worker and validator, preserving default/v1
+compatibility. MDB-0087 performs repeatable actual Linux runs, failure/result
+review, scoped analysis and the original MDB-0012/0083 integration audit. A fixed
+small correctness smoke cannot satisfy independent scaling. Keep MDB-0083 and
+MDB-0012 expanded until both children and all original criteria pass.
+
+## MDB-0086 Configurable supervised workload dimensions
+
+**Parent:** MDB-0083. **Outcome:** expose entities, commits, reads and interval
+width independently under existing corpus/reference-work and aggregate action
+bounds. Keep profile percentages explicit and preserve the original default
+schedule/history identities, inner result/corpus v1 and legacy worker envelope.
+Use a version-two request/envelope for explicit dimension binding, including
+failed/unsupported outcomes. Preflight before filesystem mutation; derive expected
+query mixes, validation counts, segment writes and final files from admitted inputs.
+
+**Complete when:** legacy and scaled real lifecycle cases pass with exact query,
+history, retry and storage validation; schema/binding/tamper and dimension/work
+boundaries fail closed, including zero/fewer-than-five reads and partial segment
+groups. Core inventory is reconciled from a full successful run without reducing
+prior counts. Public commands/limits, README, decision and agent guidance are
+updated; exact-source Linux CI exercises both default and scaled admission.
+This child supplies repeatable dimensions, not a completed baseline evaluation.
+
+**Checkpoint, November 6, 2026:** the four dimensions are implemented with exact
+v2 request/envelope binding, preflight admission and dynamic query/segment/file
+counts. Default profile generation and legacy v1 remain compatible. Four new Java
+methods exercise defaults/goldens, work boundaries, early argument refusal and
+actual scaled/zero-read native lifecycles; all 1,351 core invocations /74 suites
+pass on rooted macOS without skips. All 105 Python guards pass with five native
+Linux skips; strict docs/build, archive isolation and independent integration
+review pass. Keep MDB-0086 active pending exact-source Linux default/scaled
+supervisor checks and remote delivery. Parents 0083/0012 remain expanded.
+
+## MDB-0087 Linux baseline runs and integration audit
+
+**Parent:** MDB-0083. **Outcome:** use admitted independently scaled workloads to
+save repeatable actual Linux observations across useful temporal profiles and
+document their dataset/source/runtime/mount/cache/heap/acknowledgement context.
+Review stale/partial/failed outcomes, measured distributions/resources/accounting
+and replay/checkpoint/compaction limits. Separate hosted correctness smoke from
+observational runs and controlled-device comparisons. Preserve unknown hardware
+facts; no paid environment or privileged cache operation is presumed.
+
+**Complete when:** independently repeatable runs and evidence support a useful
+bounded evaluation, bottlenecks and justified next experiments; every original
+MDB-0012 and MDB-0083 criterion has an explicit evidenced outcome or separately
+admitted required prerequisite. Retain raw evidence and honest counter/production
+gaps. Close ancestors only when their complete integration criteria pass; expand
+this child further if independently useful outcomes need separate iterations.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

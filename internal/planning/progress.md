@@ -5944,6 +5944,77 @@ format experiment, native binding, remote provider or release starts here.
 **Next recommendation:** MDB-0083 — Linux baseline evaluation and conformance.
 
 
+## 2026-11-06 — MDB-0086 Configurable dimensions source checkpoint
+
+**Scope and refinement:** resumed clean matching main/origin at
+`1194a5c3ad1a91ec9e1fd03e5c6942a06402145a`. Reconfirmed exact-source
+Java 41653893887/docs 41653893965/Pages 41653894847 success before new work.
+Expanded MDB-0083 into required MDB-0086 independently configurable dimensions
+and MDB-0087 actual Linux evaluation/integration audit. The fixed default-only
+command cannot fulfill original MDB-0012 scaling criteria. Preserve all original
+outcomes, every prior ID and S3/replication deferral; 87 IDs now exist. Execute only
+MDB-0086; parents 0083/0012 remain expanded. No actual comparative baseline,
+format/native change, cloud operation, SDK update, paid environment or release.
+
+**Implementation:** named profiles accept explicit entities/commits/queries/width
+under unchanged corpus v1 semantics, percentages and golden identities. Legacy
+eight-argument worker remains v1 with its original envelope. Explicit twelve-arg
+worker and normal Python command use v2 with all four exact dimensions bound in
+request/result/failure/unsupported evidence; nested result/corpus versions stay 1.
+Both languages enforce dimension/reference-work plus conservative aggregate
+`(2*C+Q)*(warmups+repetitions)<=20000` bounds before scratch mutation or corpus
+generation. Python admission derives seed/mixed/read inventories, partial history
+segment groups, validation tasks and exact final files from requested inputs.
+Zero/fewer-than-five reads have accurate zero operator counts and no invented
+sample groups. Existing process cleanup, source/class identities, accounting
+denominators, heap/log/output bounds and force acknowledgement remain intact.
+
+**Checks:** focused WorkloadWorkerTest passes 16 cases without skips (prior 12 + 4).
+Complete rooted `./mvnw -B clean install` passes **1,351 cases /74 suites**,
+zero failures/errors/skips, run `2ea91ab6b6c74905be6641a4bd3e679f`, Oracle
+Java 25.0.2/runtime 25.0.2+10-LTS-69, macOS aarch64. Strict XML parser checks
+every run/root/runtime binding; inventory preserves prior counts and changes only
+WorkerTest 12→16, SHA256
+`6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+Real Java cases exercise 7/33/11/3 plus 1/2/0/1 dimensions, independent historical
+answers/retries, three/two source segments and closed-journal identity. Python
+guards pass 105 (40 qualification, 46 evidence, 19 supervisor), with five Linux
+process skips on macOS; all prior 86 remain. Sixteen new admission/evidence tests
+and three supervisor tests cover schema mixing, all dimensions, requested profile
+probabilities, early refusal and exact reference/action boundaries. Production
+archives remain 155/10 classes with no workload/probe/factory leakage; jdeps remains
+java.base. Optional adapter/examples retain prior evidence locally and execute
+in exact-source CI; no local adapter claim is inferred from core tests.
+
+**Documentation/review:** guide flags/table, reference/action limits, v1/v2
+compatibility, profile overload, ADR 43, README, current counts, roadmap and agent
+rules are reconciled. Both strict 94-page URL builds and 42 docs fixtures pass.
+Desktop light and 390 px mobile dark inspection confirms the dimension command/table
+is readable and contained; normal light/default viewport restored. Independent
+cross-language integration review has no concrete finding. CI will run default
+and 32/257/127/6 scaled correctness smokes, retaining separate fresh output trees.
+These smokes are execution/admission evidence, not baseline evaluation.
+
+**Fresh Maven research:** all fourteen metadata sources retrieved November 6 at
+20:02:18 UTC /15:02:18 EST; official compatibility at 20:02:19 UTC /15:02:19 EST.
+Twelve core/build pins remain latest stable compatible. Both optional AWS SDK
+artifacts have latest stable 2.57.10, released November 5, versus selected 2.57.8.
+Retain 2.57.8 because further S3 work is explicitly deferred; a scoped adapter
+update owns adoption/testing. Public build guide records selected/latest/reason
+and official release link. No POM or version changes. Metadata summary SHA256
+`bfbd310d8fd0b919ccf070cdd71efea23a9911945c3f89c07672164cf27e3029`;
+compatibility `a5ed9ae9308146ecb6f61174686bc96f082795d62f3639bf839145c1306ca87c`;
+research report `d296d77cce18bf5915734f2c94fbb562220001286c6cd7c6fba05233fe54f87e`.
+Ignored `.local-qa/mdb-0086/` retains exact fresh source bodies/hashes, test logs,
+parser binding/summary and screenshots.
+
+**Delivery checkpoint:** commit task-owned source/docs/planning with Step-ID
+MDB-0086 /Step-Result checkpoint and push normally to origin/main. Keep MDB-0086
+active until actual Linux default/scaled v2 CLI and regression qualification pass;
+inspect automatic Pages delivery/live source. Next action is exact-source CI
+readback and completion; no MDB-0087 evaluation starts in this invocation.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

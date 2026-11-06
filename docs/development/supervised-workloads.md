@@ -52,6 +52,44 @@ the corpus's small 16-entity, 128-commit, 64-read defaults. Seeds are signed 64-
 integers. Warmups are 0–2, measured repetitions 1–5, timeout 30–600 seconds.
 These are development workloads, not a production sizing plan.
 
+### Change dimensions independently
+
+The named profile selects intent probabilities. Four options independently select
+entity count, new commits, reads and finite interval width:
+
+```bash
+python3 scripts/storage/run_workload.py \
+  --scratch-parent .local-qa \
+  --profile CORRECTIONS \
+  --entities 64 \
+  --commits 512 \
+  --queries 256 \
+  --interval-width 8
+```
+
+| Option | Default | Admission |
+| --- | --- | --- |
+| `--entities` | 16 | 1–1,024, strictly fewer than commits |
+| `--commits` | 128 | More than entities, at most 4,096 |
+| `--queries` | 64 | 0–1,024; zero permits a write/maintenance run |
+| `--interval-width` | 8 | 1–16 discrete valid-time coordinates per generated window |
+
+All runs also satisfy the corpus's [reference-work bound](workload-corpus.md#bounds-and-conformance).
+Before scratch creation, the command admits at most 20,000 conservative actions
+across warmups and measured repetitions:
+`(2 * commits + queries) * (warmups + repetitions) <= 20000`.
+The factor two reserves one possible retry per commit, so this can reject a
+configuration whose particular seed would perform fewer actions. These limits
+bound preparation and execution scope; they do not guarantee a runtime or heap size.
+
+Read operators cycle through Get, Scan, Select, FilterScan and Sum. Counts follow
+the selected read count, including zero-count operators. Initial history segments
+contain up to sixteen commits, with at least two source segments; a final partial
+group is retained. Validation and file inventories follow those admitted dimensions.
+Defaults preserve their existing schedule/history identities. Changing reads alone
+preserves original write history; changing entity count, commits or width can change
+that history. Record the complete specification and both fingerprints for comparison.
+
 The command always runs `clean test-compile` before launching the worker with an
 explicit Java executable, core/test classpath and `-Xmx256m`. It removes ambient
 JVM/classpath/Maven/debug/native-loader overrides and skips Maven RC files;
@@ -83,6 +121,15 @@ tracked/unignored inputs, compiled classpath identity, kernel/architecture, moun
 recognized options and exposed device facts. Unknown backing device/controller/
 cache behavior remains unknown. Dirty local results are labeled; clean CI is a
 different provenance fact, not a production or hardware guarantee.
+
+New command runs use request/report and worker-envelope schema version two. The
+request and worker envelope bind an exact `dimensions` object containing
+`entities`, `commits`, `queries` and `intervalWidth`, including failure and unsupported
+outcomes. The nested measurement result and corpus remain version one. Legacy
+eight-argument worker invocations still produce the original version-one envelope
+with fixed defaults; the validator continues to admit those exact legacy results.
+Version one cannot carry scaled dimensions, and versions cannot be mixed within
+one requested run.
 
 The supervisor rejects wrong run/source/profile/seed/PID/configuration, missing or
 extra fields, duplicate JSON keys, excessive nesting/size, invalid numeric values,
@@ -146,8 +193,9 @@ hard-real-time guarantees; actual elapsed time and deadline exhaustion are recor
 The limits cover run-owned output, not the Maven download cache. Failed evidence
 is retained for inspection, without publishing a successful partial result.
 
-The Java checks workflow runs the command on Linux after ordinary correctness and
-example checks. It retains `linux-workload-evidence` for 14 days, separately from
+The Java checks workflow runs default and independently scaled correctness smokes
+on Linux after ordinary correctness and example checks. It retains both fresh
+result trees in `linux-workload-evidence` for 14 days, separately from
 the full-suite qualification artifact. Windows retains its ordinary compatibility
 build; this supervisor requires Linux. CI execution proves the checked workload
 ran on that observed placement. Controlled baseline evaluation and production
