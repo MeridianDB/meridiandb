@@ -6015,6 +6015,103 @@ inspect automatic Pages delivery/live source. Next action is exact-source CI
 readback and completion; no MDB-0087 evaluation starts in this invocation.
 
 
+## 2026-11-06 — MDB-0086 Linux acceptance and remote delivery
+
+**Delivered source:** checkpoint `ed0e45b6434280cd9d91f7f6749edb37a84146c2`
+is verified on origin/main with matching clean tips. Exact-source
+[Java 42286467497](https://github.com/MeridianDB/meridiandb/actions/runs/42286467497),
+[docs 42286467525](https://github.com/MeridianDB/meridiandb/actions/runs/42286467525)
+and [Pages 42286467496](https://github.com/MeridianDB/meridiandb/actions/runs/42286467496)
+all pass on their first attempt, without retry-masked acceptance.
+
+Linux qualification run `a4308f0a1129487b8c888c8732df72f1` passes all
+**1,351 cases /74 suites**, zero failures/errors/skips and exact source/run/root/
+runtime/inventory binding. Inventory SHA256
+`6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+All 105 Python guards pass with zero Linux skips. Both platforms pass 762 optional
+invocations and fourteen examples; Windows retains 374 core /381 optional capability
+skips. Local focused 16/full 1,351 runs, parser/archives/jdeps and independent review
+are recorded in the source checkpoint; no further source fixes were needed.
+
+**Actual default and scaled CLI:** both use schema 2 request/report/envelope,
+inner result/corpus 1, CORRECTIONS seed 42, warmups 0/repetitions 1, explicit 256 MiB
+heap and separate fresh output trees. Both verify clean compile, unchanged source/
+class fingerprints, exact metrics/request/history/file counts and settled worker
+groups before admission. Both return checks_passed with no observed deadline
+exhaustion. Hosted placement is ext4, kernel 7.0.0-1017-azure, x86_64, Temurin
+25.0.5+8-LTS, four reported processors. Recognized options: commit=30,
+data=writeback, discard, errors=remount-ro, nobarrier, relatime, rw; one option is
+omitted. Device/controller/cache/block sizes remain unknown; productionQualified
+stays false. These are correctness/admission smokes, not controlled baseline runs.
+
+| Field | Default v2 | Scaled v2 |
+| --- | --- | --- |
+| Run ID | `133738b1bbcf4f91964abdd805827f7b` | `df39c7787098473bbdddcee40a1e54e2` |
+| E/C/Q/W | 16/128/64/8 | 32/257/127/6 |
+| New commits /retries /reads | 128/13/64 | 257/27/127 |
+| Get/Scan/Select/FilterScan/Sum | 13/13/13/13/12 | 26/26/25/25/25 |
+| Original /replacement segments | 8/1 | 17/1 |
+| Final files | 15 | 24 |
+| Encoded journal bytes | 10,306 | 20,974 |
+| Logical retained file bytes | 32,898 | 66,504 |
+| Attributed allocated bytes | 69,632 | 135,168 |
+| Worker export bytes | 46,984 | 84,300 |
+| Pre-report elapsed seconds | 11.512110 | 12.301805 |
+
+Default schedule fingerprint remains
+`d773c131a39ef3427e152eecfbd2ae5e6ff67080edfd5eacbb8e13a683ce21a5`,
+history `4cd56d634a2bc44076417e4959e8ef06a1d5524bd17c0e9c0716bffa4f4d6d46`.
+Scaled schedule `9faae754d3134212b26d26f45bb5cab05caad1ca14e57277255289a8145cbbce`,
+history `7cff3239489e7f24c8b0e753e20a125383c2d1d8d1582471734f261fc4d6a2f3`.
+Worker result hashes: default
+`802099e3bf357f62b0dec67d02c7f0b03cb7c58df490b13d50147029c9dacfbe`;
+scaled `c311f46ecf723a0f24252d6bd489a2ac1800a8075bca03fc5e9c0bfb4ae07c9e`.
+Source tree 369 files /4,834,989 bytes, SHA256
+`26e7f258301f9dac26cde6722bf556317ad17762988f2d6155000b98149f0bae`;
+classpath 446 files /3,196,684 bytes, SHA256
+`7a21d38f854c70630f46fc170ec6e5f6568da135e5069f46fdf6840e23d68e6b`.
+Both runs reproduce those same input fingerprints after their separate clean builds.
+
+Complete-iteration process deltas (default /scaled): rchar 811,086/1,051,182;
+wchar 32,898/66,504; syscr 3,465/6,634; syscw 141/279; read_bytes 0/0;
+write_bytes 593,920/1,179,648; cancelled_write_bytes 0/0. Process write/journal
+ratios 57.6285658839511/56.243348908172024, read ratios 0/0. The bracket includes
+validation/maintenance/runtime/probe overhead; these are not device amplification,
+cold-read, exclusive physical space or stable-media receipts. Elapsed includes
+compilation/source checks; it is not an engine throughput comparison. Raw samples
+remain in the artifact, with compact admission/provenance facts in CI logs.
+
+**Retained artifacts, fourteen days:**
+
+| Artifact | ID | Bytes | Expiry UTC | SHA256 |
+| --- | --- | --- | --- | --- |
+| linux-storage-evidence | 13537916981 | 206,870 | November 20, 20:14:21 | `b0fb71d6cf2756b58c4d6477156e1104d207310a6487ce3f44a3b0b5569164af` |
+| linux-workload-evidence | 13537822522 | 28,591 | November 20, 20:16:26 | `8d115ac196be11d35ba41931e4d838e10a123ab0eee2dc681fe7a0cf00f5b1a2` |
+
+**Website delivery:** both strict 94-page URL builds and 42 docs fixtures pass.
+Nine affected live HTTPS pages pass content and production canonical checks;
+94 unique sitemap URLs and the dimension search entry pass. Browser verifies
+published controls/limits and v2 compatibility; `site-published.png` is embedded
+in commentary. Desktop light, 390 px mobile dark table containment/search pass;
+normal light/default viewport restored and local server 8793 stopped with exit 0.
+The first ignored readback assertion inserted spaces into highlighted code tokens;
+using text without artificial tag separators corrected that assertion, with no
+website-source change or failed CI. Raw logs, profile, summaries, artifact metadata
+and live readbacks remain in ignored `.local-qa/mdb-0086/`.
+
+**Acceptance:** all MDB-0086 criteria pass: independent dimensions and early bounds,
+legacy identities, strict v2 success/failure/unsupported binding, dynamic partial/
+zero-read inventories, exact full-suite reconciliation, public commands/limits,
+rules and actual Linux CLI. This receipt changes only queue/card/history and closes
+MDB-0086. Keep MDB-0083/0012 expanded; all 87 IDs and original baseline criteria
+remain. MDB-0087 is ready. Validate queue/DAG/eligibility, inspect staged diff,
+commit Step-ID MDB-0086 /Step-Result completed, push normally and verify ancestry,
+matching tips and clean status. Internal-only changes need no duplicate CI/Pages.
+No evaluation, layout/native experiment, cloud change, SDK update or release starts.
+
+**Next recommendation:** MDB-0087 — Linux baseline runs and integration audit.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

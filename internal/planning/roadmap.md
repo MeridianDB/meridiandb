@@ -2429,6 +2429,23 @@ Linux skips; strict docs/build, archive isolation and independent integration
 review pass. Keep MDB-0086 active pending exact-source Linux default/scaled
 supervisor checks and remote delivery. Parents 0083/0012 remain expanded.
 
+**Accepted completion, November 6, 2026:** checkpoint
+`ed0e45b6434280cd9d91f7f6749edb37a84146c2` is verified on origin/main. Java
+42286467497, docs 42286467525 and Pages 42286467496 pass. Linux run
+`a4308f0a1129487b8c888c8732df72f1` verifies all 1,351 cases /74 suites with
+zero failures/errors/skips; all 105 Python guards pass without Linux skips.
+Windows retains 374 core skips; both platforms pass 762 optional invocations and
+fourteen examples. Default v2 run `133738b1bbcf4f91964abdd805827f7b` preserves
+the original corpus/history identities. Scaled v2 run
+`df39c7787098473bbdddcee40a1e54e2` verifies E32/C257/Q127/W6, 17 original
+segments and 24 final files under exact request/source/runtime binding. Both
+settle private groups and pass fresh compilation, unchanged class inputs and
+strict complete-evidence admission. Guide/ADR/callers/rules, both 94-page builds,
+42 docs fixtures and nine live canonical/content checks plus sitemap/search and
+desktop/mobile inspection pass. Exact hashes/artifact retention and scope limits
+are in progress history. Close MDB-0086; keep 0083/0012 expanded, make 0087 ready
+and stop. Correctness smokes establish no controlled performance comparison.
+
 ## MDB-0087 Linux baseline runs and integration audit
 
 **Parent:** MDB-0083. **Outcome:** use admitted independently scaled workloads to

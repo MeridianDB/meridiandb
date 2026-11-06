@@ -15,59 +15,46 @@ children before implementation rather than treating a whole milestone as one pat
 - Linux local storage remains the production target; Windows keeps basic compatibility.
   Twelve unfinished S3 rows and planned replication remain deferred with original
   IDs, criteria and completed history. No format or acknowledgement change.
-- **MDB-0085 — Supervised Linux workload evidence** is complete. The worker,
-  bounded supervisor, fresh source/class bindings, strict JSON admission and scoped
-  process-I/O/allocated-file accounting pass local review and actual Linux CI.
-  Source checkpoint `3c2cd06890b55ff1fcb9d583cec3c406404e7aee` is on origin/main.
-- Exact-source Java **41653893887**, documentation **41653893965** and automatic
-  Pages **41653894847** pass. Linux run `d5dd72f148204e32923131857ff1855c`
-  verifies **74 suites /1,347 cases**, zero failures/errors/skips and the reviewed
-  inventory SHA256 `b07fbb6592703dad09a37dd7e0b6cd5c12f3931c29430042e61df62dc846012b`.
-  All 86 Python guards pass on Linux, including five native process tests. Both
-  platforms pass 762 optional invocations and fourteen examples; Windows retains
-  374 core /381 optional capability skips. Local macOS core/optional checks pass
-  without skips; helpers stay outside 155 production /10 classifier classes.
-- Supervised Linux run `b002d8985eac4495ae577c35d7ff9dcc` passes clean compilation,
-  unchanged source/classes, settled worker group and complete result admission.
-  CORRECTIONS seed 42, warmups 0/repetition 1: 128 new commits, 13 retries, 64 reads;
-  15 retained files, 32,898 logical bytes and 69,632 attributed allocated bytes.
-  Actual process I/O remains distinct from device transfers and durability.
-- Observed placement remains correctness-only: ext4, kernel 7.0.0-1017-azure,
-  x86_64, Temurin 25.0.5+8-LTS, worker heap 256 MiB. Mount options include
-  `nobarrier`, `data=writeback`, `commit=30`; one option is omitted and backing
-  device/controller/cache remain unknown. Keep `productionQualified: false` and
-  MDB-0080 production gaps. Both evidence artifacts expire November 17; exact
-  artifact IDs/digests, profile and workload bindings are in progress history.
-- Guide/ADR 0043, callers, rules and both strict 94-page URL builds pass; 42 docs
-  fixtures, desktop light/390 px mobile dark/table containment and search→ADR pass.
-  Fifteen live HTTPS content/canonical readbacks, two new search entries and 94
-  unique sitemap URLs pass. Published screenshot is embedded in commentary;
-  normal light/default viewport restored and local server 8792 stopped with exit 0.
-- **MDB-0082 — Local workload measurement runner** is complete after auditing
-  its original criteria and both required children 84/85. Synchronous arrival/lag/
-  backlog limits and accounting denominators remain explicit. MDB-0012 stays
-  expanded; actual baseline evaluation and its complete integration audit remain.
-- **MDB-0083 — Linux baseline evaluation and conformance** is expanded into
-  required MDB-0086 configurable dimensions and MDB-0087 Linux evaluation/audit.
-  The fixed default-only CLI cannot yet supply independently scaled runs required
-  by MDB-0012. Preserve every original criterion; no baseline acceptance follows
-  from exposing dimensions alone.
-- **MDB-0086 — Configurable supervised workload dimensions** is active, owned by
-  the primary coordinator. Preserve legacy v1/default identities while adding an
-  explicitly bound v2 request/envelope for independent entity, commit, read and
-  interval-width dimensions. Validate before scratch mutation and derive operation,
-  validation and file inventories from admitted inputs. All 87 stable IDs remain;
-  MDB-0012/0083 stay expanded. Actual evaluation remains MDB-0087, with no layout,
-  S3 continuation, native binding, paid environment or library release started.
-- Local MDB-0086 checks pass **1,351 core cases /74 suites**, zero skips, fresh
-  rooted run `2ea91ab6b6c74905be6641a4bd3e679f`. Inventory preserves every previous
-  count and increases WorkerTest from 12 to 16; SHA256
+- **MDB-0086 — Configurable supervised workload dimensions** is complete. Named
+  profiles expose independent entities/commits/reads/width; v2 binds all dimensions
+  through success, failure and unsupported outcomes. Legacy v1/default identities
+  remain intact. Admission precedes scratch mutation and derives operation,
+  validation and final-file inventories from requested dimensions.
+- Source checkpoint `ed0e45b6434280cd9d91f7f6749edb37a84146c2` is on origin/main.
+  Exact-source Java **42286467497**, docs **42286467525** and automatic Pages
+  **42286467496** pass on first attempt. Linux qualification run
+  `a4308f0a1129487b8c888c8732df72f1` verifies **1,351 cases /74 suites** with
+  zero failures/errors/skips and inventory SHA256
   `6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
-  Python guards 105 pass (five Linux-only skips on macOS), docs fixtures 42 and
-  both 94-page strict builds pass. Actual Linux default/scaled CLI remains the
-  completion gate; first source delivery is a checkpoint. Fresh research keeps
-  twelve core/build pins current and records optional SDK 2.57.10 availability
-  versus retained 2.57.8 under the S3 deferral.
+  All 105 Python guards pass on Linux, including five native process cases.
+  Both platforms pass 762 optional invocations and fourteen examples; Windows
+  retains 374 core /381 optional capability skips. Local rooted macOS passes
+  without core skips; helpers remain outside 155 production /10 classifier classes.
+- Default v2 run `133738b1bbcf4f91964abdd805827f7b` preserves original fingerprints
+  and 15 final files. Scaled run `df39c7787098473bbdddcee40a1e54e2` admits
+  E32/C257/Q127/W6, 257 commits/27 retries, 17 original segments and 24 final files.
+  Both pass fresh clean compilation, unchanged source/class identity, settled groups,
+  exact metrics/history/file validation and the overall deadline. These are hosted
+  correctness/admission smokes, not completed baseline evaluations.
+- Observed placement: ext4, kernel 7.0.0-1017-azure, x86_64, Temurin 25.0.5+8-LTS,
+  worker heap 256 MiB. Mount flags include `nobarrier`, `data=writeback`, `commit=30`;
+  one option is omitted and device/controller/cache remain unknown. Preserve
+  `productionQualified: false` and MDB-0080 gaps. Evidence artifacts 13537916981
+  and 13537822522 expire November 20; exact bindings/digests are in progress history.
+- Both strict 94-page URL builds and 42 docs fixtures pass; desktop light/390 px
+  mobile dark dimension-table containment and search pass. Nine live HTTPS page
+  content/canonical checks, 94 unique sitemap URLs and the new dimension search
+  entry pass. Published screenshot is embedded in commentary. Normal light/default
+  viewport restored; local server 8793 stopped with exit 0.
+- Fresh November 6 research confirms twelve current core/build pins and optional
+  AWS SDK 2.57.10 availability; selected 2.57.8 stays under the S3 deferral. No
+  dependency/POM or production-code change. Public docs distinguish the versions.
+- **MDB-0083** remains expanded into completed MDB-0086 and required MDB-0087.
+  **MDB-0012** remains expanded until actual evaluation and all original integrated
+  baseline criteria pass. Preserve all 87 IDs and every parent criterion.
+- **MDB-0087 — Linux baseline runs and integration audit** is ready and is the
+  next recommendation. No evaluation, layout experiment, native binding, S3 work,
+  paid environment or library release starts here; no active implementation remains.
 
 ## Ordered work
 
@@ -110,8 +97,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0084](roadmap.md#mdb-0084-local-operation-measurement-core) | Measure and check bounded local operation lifecycles on fresh stores | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081 |
 | [MDB-0085](roadmap.md#mdb-0085-supervised-linux-workload-evidence) | Add supervised execution, result/provenance validation and Linux storage accounting | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0084 |
 | [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
-| [MDB-0086](roadmap.md#mdb-0086-configurable-supervised-workload-dimensions) | Admit independently scaled dimensions with exact evidence bindings | MDB-0083 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
-| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
+| [MDB-0086](roadmap.md#mdb-0086-configurable-supervised-workload-dimensions) | Admit independently scaled dimensions with exact evidence bindings | MDB-0083 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
+| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |
