@@ -7535,6 +7535,65 @@ release starts. Validate102 IDs/cards/DAG/parents and task-owned staged diff; so
 commit uses Step-ID MDB-0100 /Step-Result checkpoint. Final internal-only receipt
 will record actual CI/publication acceptance and completion push.
 
+## November 7, 2026 — MDB-0100 delivery and completion acceptance
+
+**Source delivery:** normal-push/fetch verifies main/origin matching at
+`f26cdd9a3eaff1d8a0ad8e5073075a24d250109a` with a clean source checkout. Only the
+three internal planning files change after source acceptance; runtime/public/
+inventory/evidence inputs remain those tested and deployed.
+
+**Exact-source CI:** [Java42394971870](https://github.com/MeridianDB/meridiandb/actions/runs/42394971870)
+passes Linux128470275163 and Windows128470275392. Qualification run
+e391c658afb64cfc87fc5742c27ed085 binds clean source to reviewed inventory
+`8ef0ff0d7ccc01af74853934246525363fd232eac0c973ffa82e7eb35a373789`:
+1,567/84suites, zero failures/errors/skips/retries and183 Python guards without
+Linux skips. The10 new comparison cases run natively. Actual filesystem ext4,
+kernel7.0.0-1017-azure/x86_64, Eclipse Adoptium25.0.5+8-LTS. Fixture/run/runtime
+and production capability checks pass. Device/cache/block geometry/controller
+remain unknown; this is process/capability evidence, productionQualified=false.
+Windows reports500 core/381 optional typed capability skips; basic compatibility
+scope remains. Both platforms pass optional762 and fourteen Java examples.
+
+All four unchanged workload/check-report branches pass with clean exact-source
+bindings and no deadline excess: ordinary cf86fbd79ca94f25bda7ff6558a71f43 and
+13db8ac90b7443328a22b197fe231673; attributed c08e2c3d522e4ec1979d9f3ba650cf33
+and dbc495d1d0e84d7aac567e176389779f. Schemas2/2/3/3 and original data remain
+unchanged. Four independent saved readbacks pass, including scaled/max inputs.
+Unexpired regression artifacts13583500391 (linux-storage-evidence,236603bytes)
+and13582903479 (linux-workload-evidence,168148bytes) are observed; these remain
+transient regression retention, not replacement of durable baseline datasets.
+Compact exact-source/CI/workload metadata is saved in ignored ci-summary.json.
+
+**Publication acceptance:** [docs42394971853](https://github.com/MeridianDB/meridiandb/actions/runs/42394971853)
+passes production128470275182/project128470275347. Automatic
+[Pages42394971876](https://github.com/MeridianDB/meridiandb/actions/runs/42394971876)
+passes build128470275152/deploy128470381891. Ten affected live HTTPS pages pass
+content/canonical checks;109 unique sitemap URLs and588 search entries include
+guide/ADR0050. Published guide67,531bytes SHA256
+`b37e80029def5b0875031008e4c457f3f524ae24cb7c2bac21dd0147a013e23f`.
+Project URL reaches it through existing redirect to
+`http://meridiandb.org/development/recovery-comparison/`,200 with correct HTTPS
+canonical; direct production HTTPS checks pass. Browser confirms actual published
+mode/matrix/scope; screenshot is embedded in commentary. Mobile dark tables343px
+fit the390px viewport without horizontal document overflow; normal light/default
+viewport restored. Local8800 preview stops exit0. Hosting unchanged.
+
+**Completion and handoff:**100's admission/equal-image/order/raw-clock/native-work/
+independent-reference/cutoff/retry/state-changing-write/cleanup/limit contracts pass,
+with full reviewed inventory, public docs, persistent rules and actual delivery.
+Mark0100 done, clear claim and prepare **MDB-0101 — Supervised recovery comparison
+evidence** ready after completion push. Keep0099/0097/0013 expanded with all original
+criteria. Refine0101 before execution if bounded memory analysis requires a separate
+required child. Preserve uninstrumented controls alongside captured native runs;
+capture-hook savings alone do not establish production latency improvement.
+Sampled heap/live preparation inputs do not close peak/retained-memory criteria.
+No next supervised experiment, evaluated adoption, default change, remote work or
+release starts. Validate102 IDs/cards/DAG/parents, no active row and only0101 ready,
+then inspect/stage only these3 internal planning files. Commit Step-ID MDB-0100 /
+Step-Result completed, normal-push/fetch and verify matching tips, source ancestry
+and clean tree. Final handoff records actual completion SHA/push; internal-only
+completion requires no repeat source CI or Pages deployment.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

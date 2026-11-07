@@ -3071,12 +3071,27 @@ pass. Separate CORRECTIONS smoke exercises16 opens/all5 query operators. Keep010
 active until exact-source CI/Pages/live acceptance;0101/0102 remain queued and
 parents expanded. These are correctness/scope results, not measured adoption.
 
+**Completion acceptance, November7,2026:** source
+`f26cdd9a3eaff1d8a0ad8e5073075a24d250109a` reaches origin/main. Java42394971870
+passes1,567/84suites and183guards with zero Linux skips/failures, all10 new cases;
+Windows passes with500 core/381 optional capability skips. Both platforms pass
+optional762/fourteen examples. Both ordinary and both attributed/max workloads
+and four source-bound saved reports pass, preserving legacy schemas2/3.
+Docs42394971853 and automatic Pages42394971876 pass;10 live HTTPS pages/canonicals,
+109 sitemap URLs,588 search entries, guide/ADR0050 and published browser QA pass.
+Mark0100 done and prepare0101 ready after completion delivery. Keep0099/0097/0013
+expanded; source supervision/serialized admission, uninstrumented controls,
+peak/retained diagnostics and evaluated adoption retain their original criteria.
+No next implementation or default change starts here.
+
 ## MDB-0101 Supervised recovery comparison evidence
 
 **Parent:** MDB-0099. **Outcome:** supervise bounded comparison workers and retain
 exact-source/runtime/filesystem/class/input/result bindings with independently
 recomputed saved reports. Preserve existing ordinary/attributed schemas and data;
-use an explicitly separate comparison protocol. Report actual warmup/measured AB/BA
+use an explicitly separate comparison protocol. Preserve uninstrumented timing
+controls alongside explicitly instrumented native-work runs; capture-hook savings
+alone cannot establish a production latency gain. Report actual warmup/measured AB/BA
 orders, operation/resource/native scopes and failures rather than aggregated wins.
 Add separately timed/process-isolated, bounded memory diagnostics that distinguish
 sampled used heap, JVM pool high-water marks, process RSS and database-retained

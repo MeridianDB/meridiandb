@@ -12,33 +12,45 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0100 — Equivalent recovery comparison core** is active, owned by the
-  primary agent on November7,2026. Start from clean main/origin
-  `1c4928e82526cbd9832af76c7f91eefd9f8e3b58`; previous source CI/Pages acceptance
-  remains recorded with MDB-0098.
-- Expand MDB-0099 into required0100 comparison core,0101 supervised source-bound
-  evidence/diagnostics and0102 Linux evaluation/adoption. Preserve every original
-  0099/0097/0013 criterion and both immutable baseline datasets. Only0100 executes.
-- Build a separate test-only matrix of ordinary/history-reuse recovery, read-only/
-  writable modes and journal-only/genesis/checkpoint-tail/compacted-tail shapes.
-  Prepare identical initial images outside service clocks, use fresh stores,
-  record actual AB/BA order, validate independent historical/request/retry answers
-  and retain per-open raw clocks, optional thread counters and native I/O.
-- Preserve ordinary/attributed runners, worker/result schemas and public engine
-  behavior. This core supplies no source-supervised performance acceptance.
-  Sampled heap is not peak/retained memory; separate diagnostics and their actual
-  support/limits remain0101 before0102's decision.
-- Research refreshes all14 Central/16 official responses November7 16:47UTC.
-  Twelve core/build pins remain latest stable; optional AWS2.57.8/latest2.57.11
-  stays deferred. Production qualification remains0080, S3 and replication deferred.
-- Local source acceptance passes focused49 and clean rooted1,567/84suites with
-  no skips/failures; inventory8ef0ff0d7ccc01af74853934246525363fd232eac0c973ffa82e7eb35a373789
-  adds only the10-case comparison suite. Both shipped JARs remain byte-identical,
-  core166/JDK-only,classifier10. Python183guards (5 local Linux-only skips),
-  42docsfixtures and both109-page strict builds pass. Source CI/Pages/live delivery
-  remains pending, so0100 stays active.
-- All102 stable IDs are retained; parents0099/0097/0013 stay expanded. No default
-  adoption or evaluated performance gain is accepted by this implementation.
+- **MDB-0100 — Equivalent recovery comparison core** is complete. A separate
+  test-only instrumented matrix compares ordinary/history reuse × read-only/
+  writable × journal-only/genesis/checkpoint-tail/compacted-tail on matching fresh
+  initial images. Raw clocks/native work keep warmup/order/cohorts separate;
+  independent validation, forced state-changing continuation and owned cleanup pass.
+- Source `f26cdd9a3eaff1d8a0ad8e5073075a24d250109a` reaches origin/main.
+  Exact-source Java **42394971870** passes **1,567 core cases/84 suites** and
+  **183 Python guards** with zero Linux skips/failures. All10 new cases execute.
+  Inventory SHA256
+  `8ef0ff0d7ccc01af74853934246525363fd232eac0c973ffa82e7eb35a373789`
+  adds only the comparison suite, preserving all83 previous counts. Local core166/
+  JDK-only and classifier10 remain byte-identical to0098, excluding developer helpers.
+- Linux run e391c658afb64cfc87fc5742c27ed085 binds clean exact source to ext4,
+  kernel7.0.0-1017-azure/x86_64, Temurin25.0.5+8-LTS. Device/cache/controller remain
+  unknown; process/capability evidence is not production qualification. Windows
+  passes with500 core/381 optional capability skips. Both platforms pass optional762
+  and fourteen examples; both ordinary and both attributed/max legacy workloads
+  and four independent saved-report checks pass on exact source.
+- Literal reads journal-only708/708,genesis904/904,checkpoint-tail1972/1572 and
+  compacted-tail1672/1394 distinguish ordinary/history reuse for one original H354/
+  prefix198 fixture. Reader admission adds2forces; writable startup remains3
+  without it. One156-byte forced continuation and zero-I/O retries pass. These are
+  correctness vectors; all timings include capture overhead and supply no adoption.
+- Exact-source docs **42394971853** and automatic Pages **42394971876** pass.
+  Ten affected HTTPS pages/canonicals,109 unique sitemap URLs,588 search entries,
+  new guide/ADR0050 navigation/search and published browser QA pass. Both strict
+  URL builds and42docsfixtures pass. Desktop light/mobile dark tables fit; default
+  viewport/light restored and local8800 preview stopped. Existing project redirect
+  and hosting are unchanged.
+- Fresh November7 research retains twelve latest-stable core/build pins; optional
+  AWS2.57.8/latest2.57.11 remains deferred. Production qualification stays0080;
+  S3/replication remain deferred. No production code/format/schema/data change.
+- Parents **MDB-0099/0097/0013** remain expanded with all original criteria.
+  No executable claim remains. **MDB-0101 — Supervised recovery comparison evidence**
+  is next, ready after completion delivery: source-bound workers/serialized
+  readback, uninstrumented timing controls and separately scoped peak/retained
+  memory diagnostics. Refine required prerequisites before execution when needed.
+  All102 stable IDs remain; no supervised experiment, evaluation or default adoption
+  starts here.
 
 ## Ordered work
 
@@ -96,8 +108,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0097](roadmap.md#mdb-0097-recovery-history-reuse-evaluation) | Integrate and evaluate opt-in recovery history reuse, then adopt or reject it | MDB-0013 | expanded | MDB-0012, MDB-0096 |
 | [MDB-0098](roadmap.md#mdb-0098-explicit-checkpoint-history-recovery) | Integrate explicit bounded history reuse with private recovery and deterministic release | MDB-0097 | done | MDB-0012, MDB-0096 |
 | [MDB-0099](roadmap.md#mdb-0099-recovery-history-comparison-and-decision) | Compare equivalent recovery paths and adopt or reject with durable evidence | MDB-0097 | expanded | MDB-0012, MDB-0096, MDB-0098 |
-| [MDB-0100](roadmap.md#mdb-0100-equivalent-recovery-comparison-core) | Compare fresh equivalent recovery lifecycles with raw clocks and native work | MDB-0099 | active | MDB-0012, MDB-0096, MDB-0098 |
-| [MDB-0101](roadmap.md#mdb-0101-supervised-recovery-comparison-evidence) | Bind recovery comparison and scoped memory diagnostics to supervised exact-source evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100 |
+| [MDB-0100](roadmap.md#mdb-0100-equivalent-recovery-comparison-core) | Compare fresh equivalent recovery lifecycles with raw clocks and native work | MDB-0099 | done | MDB-0012, MDB-0096, MDB-0098 |
+| [MDB-0101](roadmap.md#mdb-0101-supervised-recovery-comparison-evidence) | Bind recovery comparison and scoped memory diagnostics to supervised exact-source evidence | MDB-0099 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |
