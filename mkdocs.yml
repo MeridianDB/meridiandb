@@ -114,6 +114,7 @@ nav:
       - Attributed workload evidence decision: decisions/0047-attributed-workload-evidence.md
       - Bounded local checkpoint history decision: decisions/0048-bounded-local-checkpoint-history.md
       - Explicit checkpoint history recovery decision: decisions/0049-explicit-checkpoint-history-recovery.md
+      - Recovery comparison core decision: decisions/0050-recovery-comparison-core.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -122,6 +123,7 @@ nav:
       - Linux storage qualification: development/linux-storage-qualification.md
       - Temporal workload corpus: development/workload-corpus.md
       - Local operation measurements: development/local-measurements.md
+      - Recovery comparison core: development/recovery-comparison.md
       - Supervised Linux workloads: development/supervised-workloads.md
       - Saved workload reports: development/workload-reports.md
       - Linux workload observations: development/linux-observations.md

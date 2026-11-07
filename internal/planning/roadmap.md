@@ -3027,6 +3027,82 @@ Public docs state workload-specific gains/regressions and remaining qualificatio
 gaps without stronger acknowledgement or omitted verification. Refine before
 execution if harness and measured decision require separate bounded children.
 
+**Required children, November7,2026:** the legacy runner measures genesis/full
+compacted reopen, without equivalent journal-only/partial-checkpoint controls or
+explicit strategy binding.0100 adds a separate test-only comparison core;0101 adds
+supervised exact-source evidence, independent serialized readback and separately
+scoped peak/retained-memory diagnostics;0102 runs Linux comparisons with durable
+raw evidence and completes the original adoption/rejection criteria. Keep this
+parent and0097/0013 expanded. Refine0101 before execution if memory analysis needs
+an independently useful prerequisite; sampled heap cannot close that criterion.
+
+## MDB-0100 Equivalent recovery comparison core
+
+**Parent:** MDB-0099. **Outcome:** separate test-only synchronous comparison of
+ordinary and explicit history reuse on identical fresh original-history images,
+read-only/writable modes and journal-only/genesis/checkpoint-tail/compacted-tail
+shapes. Record actual strategy order per warmup/measured repetition, raw service
+clocks, optional executing-thread CPU/allocation, sampled heap and native counters.
+
+**Complete when:** aggregate fixture/recovery/reference/validation work is admitted
+before path effects; prepare oracle/images outside call clocks; each strategy gets
+the same initial journal/selected/retained objects and control-file presence.
+Use fresh stores, expose successful results only after complete independent history,
+cutoff/request/retry and writable continuation checks and owner cleanup. Retain
+failure roots and close returned owners on post-call telemetry/runtime/Error
+failure. Bind full-journal and selected-prefix/object work separately, preserve
+startup/acknowledgement and explain reader-admission effects. Independent literal
+vectors, admission/failure/timer/counterbalance and native equivalence/compacted-tail
+checks pass, with full inventory, docs/rules and actual source CI/Pages/live delivery.
+Keep helpers out of shipped archives, existing schemas/runners/data unchanged;
+source supervision, serialized admission, peak/retained memory and performance
+adoption remain later children.
+
+**Source checkpoint, November7,2026:** separate instrumented test-only core and10
+independent checks implement equivalent16-open matrices, actual warmup/measured
+order, all original identities, state-changing continuation and exact raw journal
+checks with owned cleanup. Focused49 and rooted clean verify1,567/84suites pass
+without failures/skips; inventory SHA256
+`8ef0ff0d7ccc01af74853934246525363fd232eac0c973ffa82e7eb35a373789`
+adds only one10-case suite. Both shipped JARs remain byte-identical to0098,
+core166/JDK-only and classifier10. Python183guards (5 local Linux-only skips),
+42docsfixtures, both109-page URL builds, mobile/light/dark/search/navigation QA
+pass. Separate CORRECTIONS smoke exercises16 opens/all5 query operators. Keep0100
+active until exact-source CI/Pages/live acceptance;0101/0102 remain queued and
+parents expanded. These are correctness/scope results, not measured adoption.
+
+## MDB-0101 Supervised recovery comparison evidence
+
+**Parent:** MDB-0099. **Outcome:** supervise bounded comparison workers and retain
+exact-source/runtime/filesystem/class/input/result bindings with independently
+recomputed saved reports. Preserve existing ordinary/attributed schemas and data;
+use an explicitly separate comparison protocol. Report actual warmup/measured AB/BA
+orders, operation/resource/native scopes and failures rather than aggregated wins.
+Add separately timed/process-isolated, bounded memory diagnostics that distinguish
+sampled used heap, JVM pool high-water marks, process RSS and database-retained
+objects. State analyzer/root/GC scope and unavailable evidence honestly.
+
+**Complete when:** malformed/stale/incomplete/mixed/failed evidence is rejected;
+complete raw scopes/input identities/denominators and all successful/failure-path
+ownership are verified. Peak/retained-memory evidence has a reviewed scope and
+reproducible bounded implementation, or an explicit required prerequisite is
+admitted before evaluation. Run actual Linux smoke and saved readback on clean
+source with docs/rules/CI delivery; no evaluated adoption starts here.
+
+## MDB-0102 Linux recovery evaluation and adoption
+
+**Parent:** MDB-0099. **Outcome:** run same-revision equivalent controls/candidates
+with balanced measured order, representative dimensions/shapes and justified
+maintenance/compaction regressions. Preserve durable original raw data and checked
+reports with source/runtime/filesystem/device/cache boundaries.
+
+**Complete when:** every original0099/0097/0013 correctness/reference/recovery/
+compaction/resource/regression/durable-evidence criterion passes, including scoped
+allocation/latency/peak/retained memory. An ADR explicitly adopts or rejects default
+use or continued experiment with compatibility/limit decisions. Public docs state
+workload-specific gains/regressions and remaining qualification gaps. Close parents
+only after their original integration criteria; no mandatory speed gain.
+
 ## MDB-0014 Prototype release candidate
 
 **Prerequisites:** MDB-0013's measured adoption/rejection and MDB-0080's scoped

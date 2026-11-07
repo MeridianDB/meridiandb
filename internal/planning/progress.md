@@ -7445,6 +7445,96 @@ Step-ID MDB-0098 /Step-Result completed. Normal-push/fetch and verify matching
 remote tips, source/completion ancestry and clean status. Final handoff records
 actual completion SHA/push; no runtime/public/inventory changes require repeat CI.
 
+## November 7, 2026 — MDB-0100 source checkpoint
+
+**Selection/refinement:** clean main/origin starts at
+`1c4928e82526cbd9832af76c7f91eefd9f8e3b58`, with prior0098 source CI/Pages and
+completion delivery accepted. Expand0099 into required0100 comparison core,
+0101 supervised evidence/diagnostics and0102 Linux evaluation/adoption. Preserve
+all original0099/0097/0013 criteria, existing ordinary/attributed schemas and both
+immutable baseline datasets. Only0100 executes. Root owns queue/Git/builds; helpers
+independently refresh versions, review design and own the focused test file.
+Ownership returns before serialized Maven execution.
+
+**Implementation:** new test-only LocalRecoveryComparison crosses2 strategies ×
+2 access modes ×4 shapes over fresh stores. Shapes are journal-only/genesis/
+checkpoint-tail/actual-compacted-tail, with original complete journal history.
+Prepare oracle/records/images/plans/continuation outside filesystem effects;
+admit whole-matrix validation/squared-commit/initial-image work and every selected
+checkpoint limit before path effects. Initial file-name/hash maps must match for
+each strategy pair, including controls and retained old objects. Measured AB/BA
+order resets independently of warmups; even measured counts balance each cohort.
+Raw observations preserve order/warmup/shape/access/strategy, full journal identity,
+selected prefix/object work, per-operation clocks/native snapshots and separate
+validation/close durations. The mode explicitly includes native capture overhead.
+
+Open, original retry, a fresh state-changing assertion and its retry are separate.
+The new request/entity are deterministic unused identities; unbounded Put17 is
+absent before/at the previous cutoff and visible at the new head. Check head,
+request and value before timing its retry and again afterward. Oracle queries/
+original requests, every cutoff position and exact final journal bytes are checked
+outside call clocks/counters. Final raw hashing contributes to validation duration.
+Captured-owner failures release native owners/captures before propagating; I/O/
+runtime failures report the retained root, Errors propagate with files retained.
+No partial successful result or budget fallback. Production capability probe
+precedes raw directory forces; setup synchronizes journal/name. Bounded raw images
+and512-entry inventory retain evidence on failure. Shipped code, POM and protocols
+are unchanged; compaction/reclamation timing and source supervision remain later.
+
+**Independent checks/review:**10 added JUnit cases cover all16 literal vectors,
+equal initial images/retained objects, selected-vs-full work, closed raw hash/length,
+zero native retry work, one156-byte forced continuation, fresh ordinary reopen and
+new-head17/previous absence. DEFAULT48 observations check fresh placements and
+measured AB/BA independent of warmup; immutable collections, pre-effect admission,
+invalid scratch, post-open Runtime/Error cleanup and unavailable/reset telemetry
+are covered. Review resolves new-head publication and validation-timing scope;
+final review finds no remaining material bug. A separate bounded CORRECTIONS
+correctness smoke(4entities/16commits/10queries/width4) passes16 opens and all5 query
+operators; no timing/allocation/memory conclusion is drawn from that local smoke.
+
+Literal original H354/prefix198: read bytes journal-only708/708,genesis904/904,
+checkpoint-tail1972/1572,compacted-tail1672/1394 (ordinary/history reuse), identical
+for both access modes. Selected ordinary reader admission adds2 forces; writable
+startup remains3 without admission. Retries have zero counted native work;
+continuation writes156bytes/one journal force. These are correctness vectors.
+
+**Fresh research:**14 Central responses November7 16:47:03.598607–16:47:04.133048UTC
+(11:47EST);16 official sources through16:47:04.726948UTC. Twelve core/build pins
+remain latest stable; optional AWS2.57.8/latest2.57.11 stays deferred. Metadata
+SHA256 `33570e180e8853ed477741a8be68b9a98392ba24762db0c7b733a64dbc7155fe`;
+compatibility `f59b33710eb5e54d9fb0c6b63b90d78aadb4dfd7f4125ffef750c4f05c9739a8`.
+Exact coordinates/URLs/check times/raw hashes are in ignored research files under
+`.local-qa/mdb-0100/research/`; no dependency upgrade or Java25 certification inferred.
+
+**Local acceptance:** focused49 invocations pass without failures/skips. Fresh rooted
+clean verify runce7d48e5961c45bc82c53c3806f0f698 passes1,567/84suites without failures,
+errors/skips/retries on macOS/aarch64 Oracle25.0.2+10-LTS-69. Strict shared XML
+readback verifies full run/root/runtime/inventory. Inventory SHA256
+`8ef0ff0d7ccc01af74853934246525363fd232eac0c973ffa82e7eb35a373789`
+adds only LocalRecoveryComparisonTest10; all83 previous suite counts unchanged.
+Core166 is JDK-only (`jdeps` java.base) and classifier10 excludes every workload/
+observation/qualification helper. Both JAR hashes match0098 byte-for-byte:
+core `ed1a5ccf936c90fb008f9ec7e6402fe060a2f1fd14bcfb54127c7ba8dd407abb`,
+classifier `9b1692f0d5e5b1df83dd30ebbe3abb2af618b84d9bd8ecbb1d63bcdbc217c6a4`.
+Python183guards pass with5 Linux-only local skips;42 docs fixtures pass.
+
+**Documentation:** ADR0050/new guide, existing measurement/history guides, current
+README/build/qualification/S3-count callers and agent rules agree. Both strict
+production/project URL builds pass after final edits:109 unique sitemap URLs,
+588 search entries including guide/ADR. Desktop light/mobile dark QA confirms
+readability and contained343px tables; search visibly returns both new pages.
+Default viewport/light restored; local8800 remains running for published QA.
+
+**Pending delivery:** keep0100 active and0101 queued pending actual normal source
+push, exact-source Java/Linux inventory/legacy workload regressions, docs/Pages and
+live readback. Parents0099/0097/0013 remain expanded. Peak/retained memory is still
+required, distinct from sampled gauges and live preparation inputs.0101 must
+supply reviewed bounded diagnostics or admit its concrete prerequisite before0102.
+No supervised comparison/evaluation/default adoption, remote backend, format or
+release starts. Validate102 IDs/cards/DAG/parents and task-owned staged diff; source
+commit uses Step-ID MDB-0100 /Step-Result checkpoint. Final internal-only receipt
+will record actual CI/publication acceptance and completion push.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

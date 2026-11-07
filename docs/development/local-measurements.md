@@ -18,6 +18,10 @@ result admission, source/class/mount bindings and scoped allocated-block/process
 accounting. Controlled baseline evaluation remains separate. The current core API
 is developer support, outside both core and the attached contract-support JAR.
 
+The separate [recovery comparison core](recovery-comparison.md) builds equivalent
+recovery-strategy/shape/access cohorts without changing this runner or its result
+protocol. Its raw samples still require supervised evidence and evaluation.
+
 ## Execute a bounded local experiment
 
 With test sources compiled, Java developer code can call:

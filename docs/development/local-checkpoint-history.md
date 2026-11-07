@@ -220,3 +220,10 @@ journal/name startup barrier. Read-only explicit recovery has only the directory
 capability-probe force. No write bytes are returned during either reopen. These
 literal counter assertions separate adapter work from unmeasured latency,
 allocation and memory tradeoffs.
+
+
+The [recovery comparison core](recovery-comparison.md) now supplies fresh equivalent
+journal-only, genesis, checkpoint-tail and compacted-tail cohorts for both recovery
+strategies and access modes. It retains raw operation/native work and independent
+checks. Source supervision, separate memory diagnostics and measured adoption
+remain pending.

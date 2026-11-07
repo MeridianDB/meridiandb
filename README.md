@@ -37,7 +37,9 @@ atomic rename on supported filesystems. An opt-in
 [bounded checkpoint history loader](docs/development/local-checkpoint-history.md)
 retains verified original records. Explicit read-only/writable recovery factories
 reuse those records once and release their container before complete journal replay;
-ordinary opens remain unchanged, with measured adoption pending.
+ordinary opens remain unchanged, with measured adoption pending. A separate
+[test-only comparison core](docs/development/recovery-comparison.md) supplies fresh
+equivalent recovery cohorts; supervised evidence and evaluation remain pending.
 [Local database recovery](docs/development/local-database.md)
 restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now
@@ -213,7 +215,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,557 JUnit test invocations: 97 additional explicit-history recovery,
+This runs 1,567 JUnit test invocations: ten [recovery comparison core checks](docs/development/recovery-comparison.md),
+97 additional explicit-history recovery,
 canonical/seeded and process-exit checks, plus the existing 38 [bounded local checkpoint-history checks](docs/development/local-checkpoint-history.md),
 34 [attributed lifecycle/bridge/fault checks](docs/development/attributed-local-workloads.md),
 28 [internal I/O counter checks](docs/development/local-io-counters.md),

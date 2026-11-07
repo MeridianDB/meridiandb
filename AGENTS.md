@@ -658,6 +658,16 @@ so a new session can work correctly without relying on earlier conversations.
   seeded histories, native byte/force vectors and real process-exit boundaries.
   Keep default adoption with equivalent measured evidence, accounting separately
   for removed reader-barrier admission work and segment reuse.
+- For the [recovery comparison core](docs/development/recovery-comparison.md) and
+  [ADR 0050](docs/decisions/0050-recovery-comparison-core.md), admit complete matrix
+  fixture/recovery/validation work before path effects, prepare oracle/images
+  outside clocks and compare identical initial file hashes. Keep raw warmup/order/
+  shape/access/strategy cohorts separate; balance measured AB/BA independently of
+  warmups. Preserve open/retry/forced-continuation scopes, owned cleanup and exact
+  closed-journal checks. Existing workload schemas and data remain unchanged.
+  Sampled heap supplies no peak/retained-memory evidence; keep supervised source/
+  serialized readback and separately scoped diagnostics with their required work
+  before adoption. Verify helpers remain outside both shipped archives.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run
