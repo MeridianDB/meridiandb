@@ -111,6 +111,10 @@ answers and request positions before exposing reads. Writable startup forces the
 recovered journal and namespace; new transactions prepare privately, append/force
 and then publish one complete immutable state. Failed append attempts invalidate
 the instance and require reopen to resolve uncertainty.
+[Explicit checkpoint-history recovery](development/local-checkpoint-history.md#recover-with-explicit-history-reuse)
+reuses the verified segment pass and releases its temporary list before complete
+journal replay. Ordinary recovery remains available; equivalent resource/performance
+evaluation is pending.
 [Durability conformance](development/durability-conformance.md) checks publication
 boundaries, lost acknowledgements and repeated writable reopen without duplicate
 effects. These checks do not establish device power-loss behavior.

@@ -6,7 +6,7 @@ description: Retain original checkpoint records from one complete local verifica
 # ADR 0048: Bounded local checkpoint history
 
 - **Date:** November 7, 2026
-- **Status:** Opt-in acquisition core implemented; recovery integration and measured adoption pending
+- **Status:** Opt-in acquisition and explicit recovery implemented; measured adoption pending
 - **Scope:** Local checkpoint history acquisition, without changing default engine opens
 
 ## Context
@@ -56,7 +56,9 @@ consumer but increases transient live references. Encoded-byte/record-work caps
 do not promise an equivalent heap limit. Prior journal open and later full-history
 engine rebuilding remain outside this acquisition budget.
 
-Recovery integration and equivalent Linux comparisons must measure byte, force,
+[Explicit recovery](0049-explicit-checkpoint-history-recovery.md) now consumes and
+releases the transient records before journal replay. Equivalent Linux comparisons
+must measure byte, force,
 allocation, latency and memory tradeoffs before an adoption/rejection decision.
 The heap-only result needs no continuing reader barrier; account for that changed
 admission work while retaining writable startup journal/name barriers. Existing

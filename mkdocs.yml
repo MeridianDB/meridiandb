@@ -113,6 +113,7 @@ nav:
       - Attributed local lifecycle decision: decisions/0046-attributed-local-lifecycle.md
       - Attributed workload evidence decision: decisions/0047-attributed-workload-evidence.md
       - Bounded local checkpoint history decision: decisions/0048-bounded-local-checkpoint-history.md
+      - Explicit checkpoint history recovery decision: decisions/0049-explicit-checkpoint-history-recovery.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

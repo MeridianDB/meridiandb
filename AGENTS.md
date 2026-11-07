@@ -648,8 +648,16 @@ so a new session can work correctly without relying on earlier conversations.
   work excludes prior journal open/later engine rebuilding and is not heap usage.
   Account for one-byte EOF growth probes on failed object reads rather than
   presenting the admitted image length as a strict failure-path native-byte cap.
-  Keep recovery integration/adoption with equivalent measured evidence, including
-  changed reader-barrier admission work and unchanged startup acknowledgement.
+  For [explicit recovery](docs/decisions/0049-explicit-checkpoint-history-recovery.md),
+  complete acquisition in a returning helper before rebuilding, retain only cutoff
+  and transient records, and clear the container on replay success/failure and
+  close. Keep selected-checkpoint budgets distinct from full journal/tail/heap
+  limits, reject before effects and never silently fall back on budget failure.
+  Preserve complete journal scans, private recovery, owned cleanup and writable
+  startup/force acknowledgement. Test deterministic release, independent canonical/
+  seeded histories, native byte/force vectors and real process-exit boundaries.
+  Keep default adoption with equivalent measured evidence, accounting separately
+  for removed reader-barrier admission work and segment reuse.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

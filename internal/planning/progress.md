@@ -7292,6 +7292,92 @@ runtime/public/inventory/evidence change follows exact-source acceptance, so
 internal-only completion requires no repeat CI/Pages publication.
 
 
+## November 7, 2026 — MDB-0098 source checkpoint
+
+**Scope and refinement:** resume from clean main/origin
+`7a80541e9e895c8600a82cbacf21196020f4294f`. Expand MDB-0097 into required
+MDB-0098 explicit engine integration and MDB-0099 equivalent comparison/decision,
+preserving all original MDB-0097/0013 acceptance criteria and original datasets.
+Only0098 executes. Root owns queue/Git; helpers own independent version research,
+read-only design review, reference conformance and one focused engine test file.
+All return ownership before root's serialized Maven runs.
+
+**Implementation:** explicit read-only/writable `LocalDatabase` history factories
+acquire through `loadLatestHistory` and reuse shared private rebuilding/write
+protocols. The acquisition helper returns before rebuild, leaving no live history
+value/Optional frame. The source retains only cutoff/list and a readerless owned
+local delegate; checkpoint replay clears the list in finally and close clears it
+before resource cleanup. Null inputs reject before effects. Acquisition limits
+exclude journal open/full replay/tail/engine heap; zero limits admit journal-only,
+not selected genesis. Budget or corruption failure has no fallback. Complete
+journal passes, actual-prefix verification, exclusive owners, writable journal/name
+startup synchronization and forced acknowledgement remain. Ordinary opens/create,
+object recovery, on-disk formats, POM and original measurements are unchanged.
+Cleanup attempts include runtime/Error paths, without guaranteeing native close
+success under arbitrary resource exhaustion.
+
+**Independent checks:**17 focused cases include10 platform-neutral input/owned-source
+checks and7 native histories/budgets/ownership/boundary-failure/corruption cases.
+25 additional canonical shapes preserve84 literal expectations per shape across
+explicit read-only/writable recovery.48 seeded histories use16 saved seeds ×3 shapes,
+32 real commits per seed/shape, finite dense cells[-3,4), exact sums, separate
+reference checks for all5 operators, pinned views, all historical cutoffs/request
+identities, original retries and conflicting reuse.7 added real child-JVM exits use
+a nonempty checkpoint through the new factory at4 commit and3 startup boundaries,
+then reopen/retry explicitly and ordinarily. These are process exits, not power loss.
+All prior controls and fixture IDs remain.
+
+Literal complete writable reopen: candidate journal1062/manifest266/segments556 =
+1884 returned read bytes versus ordinary2440 with segments1112; no write bytes.
+Force successes3 versus5 explicitly account for removed lazy-reader control+
+directory admission; journal/name startup and store directory probe remain.
+Read-only candidate has only the store directory probe force. All3 journal passes
+remain. This establishes adapter work/correctness, not allocation/latency/memory
+improvement or default adoption. MDB-0099 retains those decisions and compaction/
+maintenance comparison; Linux production qualification remains MDB-0080.
+
+**Fresh versions:**14 Central responses checked November7 16:23:32.869688–
+16:23:33.488837 UTC (11:23 EST);16 official compatibility responses through
+16:23:34.018669 UTC. Twelve core/build pins remain latest stable; Maven3.10.0,
+Wrapper3.3.4, compiler3.16.0, Surefire3.6.1, JUnit6.1.3 and Jackson3.2.4 unchanged.
+Optional AWS2.57.8/latest2.57.11 remains deferred. Metadata SHA256
+`a695a933e781ec4878585c88db5272194aac3ca2090c5fa4f9994b8d543ec48c`,
+compatibility `b99efd0158a7b7dd21ee3cb2ff54aff7440e9be68b66bd9502344bc5d82588d4`;
+exact coordinates/URLs/times/response hashes are saved under ignored
+`.local-qa/mdb-0098/research/`. Compatibility minima are separate from actual
+project Java25 evidence.
+
+**Local verification:** focused133/0fail/0error/0skip passes. Fresh rooted
+`clean verify` run828b6757df134ff9915e001c15cad5f9 passes1,557/83suites without skips,
+failures or retries on macOS/aarch64 Oracle25.0.2+10-LTS-69. Shared strict XML
+readback verifies exact run/root/runtime and complete reviewed inventory. Inventory
+SHA256 `dfcbac8e6f60e6bcd231a313a090960e4cc50cc643bd2c692f9ad70f9f53ea1b`
+adds CheckpointHistoryRecoveryTest17; Crash11→18, DurableFixture10→68 and
+RecoveryFixture15→30, reducing no existing suite. Core166 classes are JDK-only
+(`jdeps` java.base); classifier10 excludes developer helpers. Core JAR SHA256
+`ed1a5ccf936c90fb008f9ec7e6402fe060a2f1fd14bcfb54127c7ba8dd407abb`;
+classifier `9b1692f0d5e5b1df83dd30ebbe3abb2af618b84d9bd8ecbb1d63bcdbc217c6a4`.
+Python183guards pass with5 Linux-only local skips; docs42fixtures pass.
+
+**Documentation and review:** ADR0049, acquisition/recovery/durability guides,
+README/build/current-count callers, technical roadmap, decision navigation and
+agent rules agree. Full source diff design review finds no material bug; list
+release uses deterministic structural assertions rather than GC timing. Both
+strict production/project URL builds pass after final public edits, including
+107 unique sitemap URLs and new guide/ADR search entries. Desktop light/mobile
+dark inspection finds no document overflow; the code example is wrapped and
+mobile code/table overflow stays within its container. Search visibly returns the
+new recovery guide content. Default viewport/light theme restored. Local preview
+remains running for later published comparison.
+
+**Delivery gate:** keep0098 active and0099 queued pending source normal push,
+exact-source Java/Linux inventory/workload regression, docs/Pages success and
+published content/canonical/search/browser checks. Parents0097/0013 stay expanded.
+Commit Step-ID MDB-0098 /Step-Result checkpoint after task-owned diff/99-ID
+DAG/parent checks. The subsequent internal-only receipt will record actual source
+SHA, CI jobs, live acceptance and completion push. No default adoption, next
+comparison, remote backend work or release starts here.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

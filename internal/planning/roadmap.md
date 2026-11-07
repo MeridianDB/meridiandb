@@ -2961,6 +2961,60 @@ or retain an experiment only with explicit compatibility/resource decisions and
 verified cleanup/reference/recovery/compaction behavior. Refine before execution
 if integration and evaluation require separate independently useful children.
 
+**Required children, November 7, 2026:** engine lifetime/conformance integration
+and source-bound measurement are independently useful outcomes. MDB-0098 adds
+explicit recovery selection with deterministic transient-list release and private
+fail-closed rebuilding. MDB-0099 compares equivalent controls/candidates with
+source-bound durable evidence and records adoption/rejection. Keep this parent
+and MDB-0013 expanded until all original criteria pass; integration supplies no
+performance acceptance or default change.
+
+## MDB-0098 Explicit checkpoint history recovery
+
+**Parent:** MDB-0097. **Outcome:** explicit read-only/writable local recovery uses
+bounded verified original checkpoint records once, releasing their container
+before journal replay. Keep ordinary factories and on-disk formats unchanged.
+
+**Complete when:** null/invalid inputs reject before storage effects, checkpoint
+budget failures never silently fall back, and journal-only/genesis/checkpoint-tail
+recovery preserves canonical/seeded historical queries and request/retry identity.
+Keep complete journal scans and actual-prefix verification, private rebuild,
+startup journal/name synchronization, forced acknowledgement, poisoning and owned
+cleanup, including attempted cleanup for runtime/Error paths. No acquired history
+container remains live in the factory/source after checkpoint replay. Independently
+check native reads/forces and explain removed reader-barrier work without a timing
+claim. Full reviewed inventory, docs/rules and exact-source CI/Pages/live acceptance
+pass. Keep performance/memory tradeoffs and adoption with MDB-0099.
+
+**Source checkpoint, November 7, 2026:** explicit factories and deterministic
+record-container release implemented; all97 added invocations and unchanged
+controls pass. Fresh rooted clean verify1,557/83suites has no failures/skips;
+strict inventory SHA256
+`dfcbac8e6f60e6bcd231a313a090960e4cc50cc643bd2c692f9ad70f9f53ea1b`
+only adds or increases reviewed coverage. Literal writable vector1884 vs2440 read
+bytes retains all journal work, and3 vs5 forces separately identifies reader
+admission removal. Core166 remains JDK-only; classifier10 excludes helpers.
+Python183guards (5 Linux-only local skips),42docsfixtures and both107-page URL
+builds pass, with desktop light/mobile dark/search/navigation QA. Keep0098 active
+pending exact-source CI/Pages/live acceptance;0099 remains queued and parents
+expanded. Default adoption and resource/performance comparison remain unstarted.
+
+## MDB-0099 Recovery history comparison and decision
+
+**Parent:** MDB-0097. **Outcome:** compare unchanged default and explicit history
+reuse on equivalent same-revision native workloads, preserving original ordinary
+and attributed schemas/datasets. Bind raw runs to exact source/runtime/filesystem;
+retain durable raw evidence and independent saved readbacks. Account for duplicate
+segment reads, changed reader admission, complete journal work, allocation, latency
+and peak/retained memory over journal-only/genesis/checkpoint-tail and maintenance.
+
+**Complete when:** all original MDB-0097/0013 correctness/reference/recovery/
+compaction and resource/regression criteria pass; an ADR explicitly adopts or
+rejects default use or continued experiment with compatibility/limit decisions.
+Public docs state workload-specific gains/regressions and remaining qualification
+gaps without stronger acknowledgement or omitted verification. Refine before
+execution if harness and measured decision require separate bounded children.
+
 ## MDB-0014 Prototype release candidate
 
 **Prerequisites:** MDB-0013's measured adoption/rejection and MDB-0080's scoped

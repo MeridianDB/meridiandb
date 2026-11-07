@@ -8,16 +8,18 @@ description: Acquire immutable original checkpoint records during one bounded lo
 `LocalCheckpointStore.loadLatestHistory(journal, limits)` returns the original
 checkpoint records retained during complete graph verification. It fetches and
 decodes each selected segment once, then verifies the actual owned-journal prefix
-before exposing an immutable heap value. The experimental API prepares a bounded
-recovery comparison; existing `LocalDatabase` opens and lazy checkpoint readers
-continue to use their current paths.
+before exposing an immutable heap value. Explicit `LocalDatabase` history-reuse
+factories consume those records during private recovery. Ordinary database opens
+and lazy checkpoint readers continue to use their current paths.
 
 The [attributed Linux baseline](linux-attributed-observations.md) found that
 checkpoint writable reopen reads each selected segment during verification and
 again during checkpoint replay. Reusing already verified records can avoid the
 second fetch/decode. Whether the extra retained list improves end-to-end resource
-use still requires a separate recovery integration and measured comparison.
-[ADR 0048](../decisions/0048-bounded-local-checkpoint-history.md) records that scope.
+use still requires an equivalent measured comparison.
+[ADR 0048](../decisions/0048-bounded-local-checkpoint-history.md) records acquisition;
+[ADR 0049](../decisions/0049-explicit-checkpoint-history-recovery.md) defines explicit
+engine integration without default adoption.
 
 ## Acquire a heap-owned history
 
@@ -49,6 +51,56 @@ The result exposes the selected manifest ID/metadata, actual prefix, original
 `JournalRecord` list and successful encoded-work usage. It preserves request IDs,
 new no-op transactions, corrections and retractions. It introduces no replacement
 encoding or rewritten journal frames.
+
+## Recover with explicit history reuse
+
+For an existing local database, choose read-only or writable recovery explicitly:
+
+```java
+var limits = new LocalCheckpointHistory.Limits(
+        8L * 1024 * 1024, 8L * 1024 * 1024, 32_768);
+try (var database = LocalDatabase.openWithCheckpointHistory(
+        directory, limits)) {
+    System.out.println(database.head());
+    System.out.println(database.checkpointPosition());
+}
+try (var database = LocalDatabase.openWritableWithCheckpointHistory(
+        directory, limits)) {
+    System.out.println(database.head());
+}
+```
+
+Imports are `org.meridiandb.engine.LocalDatabase` and
+`org.meridiandb.storage.manifest.LocalCheckpointHistory`; `directory` is an existing
+`java.nio.file.Path` satisfying the [local ownership requirements](local-database.md#ownership-and-checkpoints).
+`Limits.DEFAULT` explicitly selects the maxima below. These experimental methods
+acquire and own the store and journal until database close. Read-only mode rejects
+transactions; writable mode retains the ordinary journal/name startup barrier,
+forced writes, exact retry identity and uncertain-outcome policy.
+
+The engine consumes checkpoint records only after graph and actual-prefix
+verification, then releases the transient record-list container before journal
+replay. It retains the selected cutoff separately. No history value or record list
+is cached for the database lifetime; reconstructed engine state still retains
+history and request payloads. There is no dependency on later lazy file reads or
+shared reader protection. Store/journal ownership continues to exclude cooperating
+checkpoint publication and reclamation.
+
+Journal-only recovery has no selected checkpoint; selected genesis remains a
+checkpoint at zero. Both modes scan the complete journal on open and again during
+replay, including the already checkpointed prefix. When a checkpoint is selected,
+the bounded actual-prefix scan also remains. Only suffix records are restored from
+journal replay. Newest corruption, missing objects or budget exhaustion fail
+closed with no fallback to ordinary recovery or an older checkpoint. No database,
+view or acknowledgement escapes partial recovery. Failure attempts cleanup of all
+acquired owners, including runtime and Error paths; successful resource release
+still depends on the underlying close operations.
+
+Limits apply to **selected-checkpoint acquisition**, not total recovery. Journal
+open, complete replay, an arbitrarily larger uncheckpointed tail and engine heap
+are outside them. Zero limits permit journal-only recovery but reject a selected
+genesis that needs manifest/header bytes. Callers needing a total startup-memory
+or full-journal limit need a separate policy; these methods do not provide one.
 
 ## Admission and integrity
 
@@ -115,12 +167,12 @@ prefix, I/O, runtime or cleanup failure.
 
 Encoded-work bounds are not an exact heap budget. Retained records, identity sets,
 decoded strings and list references have additional costs; separate calls and
-escaped history values accumulate separately. A future recovery consumer should
-release this transient list after replay. The current engine still reconstructs
+escaped history values accumulate separately. Explicit engine recovery releases
+the transient list after checkpoint replay. The engine still reconstructs
 full historical state and copies maps during new-commit preparation.
 
-The heap-only path needs no continuing reader barrier, so recovery integration
-would also change reader-admission force counts compared with a lazy reader.
+The heap-only path needs no continuing reader barrier, so explicit recovery also
+changes reader-admission force counts compared with a lazy reader.
 Compare that effect explicitly while preserving writable startup journal/name
 synchronization. Correct acquisition alone establishes no latency, allocation,
 device-I/O or production improvement.
@@ -130,10 +182,11 @@ device-I/O or production improvement.
 From the repository root:
 
 ```bash
-./mvnw -B '-Dtest=LocalCheckpointHistoryTest,LocalCheckpointHistoryIntegrationTest' test
+./mvnw -B '-Dtest=LocalCheckpointHistoryTest,LocalCheckpointHistoryIntegrationTest,CheckpointHistoryRecoveryTest,LocalDatabaseCrashTest,LocalDurableFixtureTest,LocalRecoveryFixtureTest' test
 ```
 
-The 38 checks include 27 platform-neutral schema/budget/failure cases and eleven
+The acquisition suites contain 38 checks: 27 platform-neutral schema/budget/failure
+cases and eleven
 native acquisition/lifetime cases. Native cases require the store's directory
 capabilities; Windows reports typed unsupported directory synchronization
 separately. Ordinary storage or permission failures are test failures.
@@ -150,3 +203,20 @@ newest state, range/payload traps, cross-segment request reuse, late prefix and
 close failures, bounded EOF growth probes, native journal aliases and caller
 ownership. The heap value survives actual protected reclamation of old files;
 fresh acquisition and ordinary lazy readers continue to observe changed storage.
+
+
+Explicit recovery adds 97 invocations: seventeen structural/failure/native cases,
+25 canonical history shapes, 48 seeded writable histories and seven child-JVM
+exits. The four-record fixture checks complete writable-reopen read bytes:
+
+| Path | Journal | Manifest | Segments | Total |
+| --- | --- | --- | --- | --- |
+| Explicit history reuse | 1,062 | 266 | 556 | 1,884 |
+| Ordinary recovery | 1,062 | 266 | 1,112 | 2,440 |
+
+Writable force calls are three versus five: explicit recovery omits lazy-reader
+control/directory admission while retaining the store capability probe and
+journal/name startup barrier. Read-only explicit recovery has only the directory
+capability-probe force. No write bytes are returned during either reopen. These
+literal counter assertions separate adapter work from unmeasured latency,
+allocation and memory tradeoffs.

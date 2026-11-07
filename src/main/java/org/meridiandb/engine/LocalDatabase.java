@@ -4,6 +4,7 @@ package org.meridiandb.engine;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -13,6 +14,7 @@ import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.manifest.LocalCheckpointReader;
+import org.meridiandb.storage.manifest.LocalCheckpointHistory;
 import org.meridiandb.storage.manifest.LocalCheckpointStore;
 import org.meridiandb.storage.manifest.ObjectCheckpointGraphs;
 import org.meridiandb.storage.manifest.ObjectCheckpointHead;
@@ -97,6 +99,50 @@ public final class LocalDatabase implements AutoCloseable {
     /** Recover and synchronize all complete history before enabling new or retry acknowledgements. */
     public static LocalDatabase openWritable(Path directory) throws IOException {
         return open(directory, true, null);
+    }
+
+    /**
+     * Experimental read-only recovery that reuses verified checkpoint records once, then releases
+     * their container before complete journal replay. Limits bound checkpoint acquisition only;
+     * journal open, the uncheckpointed tail and engine heap remain outside these limits.
+     */
+    public static LocalDatabase openWithCheckpointHistory(Path directory, LocalCheckpointHistory.Limits limits) throws IOException {
+        return openWithCheckpointHistory(directory, limits, false, null);
+    }
+
+    /**
+     * Explicit history reuse with the same complete journal/name startup synchronization and
+     * forced-write acknowledgement as {@link #openWritable(Path)}. No fallback on limit exhaustion.
+     */
+    public static LocalDatabase openWritableWithCheckpointHistory(Path directory, LocalCheckpointHistory.Limits limits) throws IOException {
+        return openWithCheckpointHistory(directory, limits, true, null);
+    }
+
+    static LocalDatabase openWithCheckpointHistory(Path directory, LocalCheckpointHistory.Limits limits,
+            boolean writable, BoundaryProbe probe) throws IOException {
+        var source = acquireHistorySource(directory, limits);
+        return rebuild(source, writable ? source : null, probe);
+    }
+
+    // Return before rebuilding: neither a history value nor its Optional remains in the factory's
+    // active acquisition frame when the source releases its record container at checkpoint replay.
+    private static HistorySource acquireHistorySource(Path directory, LocalCheckpointHistory.Limits limits) throws IOException {
+        Objects.requireNonNull(directory, "directory");
+        Objects.requireNonNull(limits, "limits");
+        var store = LocalCheckpointStore.open(directory);
+        LocalJournal journal = null;
+        try {
+            journal = LocalJournal.open(store.journalPath());
+            var history = store.loadLatestHistory(journal, limits);
+            var cutoff = history.isPresent() ? OptionalLong.of(history.orElseThrow().actualPrefix().sequence())
+                    : OptionalLong.empty();
+            return new HistorySource(new LocalSource(store, journal, null), cutoff,
+                    history.isPresent() ? history.orElseThrow().records() : null);
+        } catch (IOException | RuntimeException | Error failure) {
+            closeAfterFailure(journal, failure);
+            closeAfterFailure(store, failure);
+            throw failure;
+        }
     }
 
     /**
@@ -407,6 +453,39 @@ public final class LocalDatabase implements AutoCloseable {
         @Override public void replayCheckpoint(Consumer<? super JournalRecord> consumer) { history.records().forEach(consumer); }
         @Override public void replayJournal(Consumer<? super JournalRecord> consumer) throws IOException { journal.replay(consumer); }
         @Override public void close() throws IOException { closeResources(journal, store); }
+    }
+
+    // Owned-source seam also proves deterministic release without GC/timing assertions in tests.
+    static final class HistorySource implements WriteSource {
+        private final WriteSource delegate;
+        private final OptionalLong checkpoint;
+        private List<JournalRecord> records;
+
+        HistorySource(WriteSource delegate, OptionalLong checkpoint, List<JournalRecord> records) {
+            this.delegate = Objects.requireNonNull(delegate, "delegate");
+            this.checkpoint = Objects.requireNonNull(checkpoint, "checkpoint");
+            if (checkpoint.isPresent() != (records != null)) {
+                throw new IllegalArgumentException("Selected checkpoint requires its original records");
+            }
+            this.records = records;
+        }
+        boolean retainsRecords() { return records != null; }
+        @Override public DatabaseId databaseId() { return delegate.databaseId(); }
+        @Override public OptionalLong checkpointSequence() { return checkpoint; }
+        @Override public long journalSequence() { return delegate.journalSequence(); }
+        @Override public void synchronize() throws IOException { delegate.synchronize(); }
+        @Override public void append(JournalRecord record) throws IOException { delegate.append(record); }
+        @Override public void force() throws IOException { delegate.force(); }
+        @Override public void replayCheckpoint(Consumer<? super JournalRecord> consumer) {
+            if (records == null) { throw new IllegalStateException("Checkpoint records are unavailable or already released"); }
+            try { records.forEach(consumer); }
+            finally { records = null; }
+        }
+        @Override public void replayJournal(Consumer<? super JournalRecord> consumer) throws IOException { delegate.replayJournal(consumer); }
+        @Override public void close() throws IOException {
+            records = null;
+            delegate.close();
+        }
     }
 
     private static final class LocalSource implements WriteSource {

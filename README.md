@@ -35,7 +35,9 @@ check a complete segment set against its reconstructed journal-prefix binding.
 owned journal prefix and selects immutable generations through ordered forces and
 atomic rename on supported filesystems. An opt-in
 [bounded checkpoint history loader](docs/development/local-checkpoint-history.md)
-retains verified original records for a separate recovery experiment.
+retains verified original records. Explicit read-only/writable recovery factories
+reuse those records once and release their container before complete journal replay;
+ordinary opens remain unchanged, with measured adoption pending.
 [Local database recovery](docs/development/local-database.md)
 restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now
@@ -211,7 +213,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,460 JUnit test invocations: 38 [bounded local checkpoint-history checks](docs/development/local-checkpoint-history.md),
+This runs 1,557 JUnit test invocations: 97 additional explicit-history recovery,
+canonical/seeded and process-exit checks, plus the existing 38 [bounded local checkpoint-history checks](docs/development/local-checkpoint-history.md),
 34 [attributed lifecycle/bridge/fault checks](docs/development/attributed-local-workloads.md),
 28 [internal I/O counter checks](docs/development/local-io-counters.md),
 25 [supervised worker checks](docs/development/supervised-workloads.md),

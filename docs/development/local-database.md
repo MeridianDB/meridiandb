@@ -24,6 +24,8 @@ its memory-only write contract.
 | `create(directory, databaseId)` | Initialize a fresh existing directory, select genesis generation one and return a writable database |
 | `open(directory)` | Recover existing history for queries and request lookup; reject transactions |
 | `openWritable(directory)` | Recover existing history, synchronize journal and namespace, then enable transactions |
+| `openWithCheckpointHistory(directory, limits)` | Explicit experimental read-only recovery using one verified checkpoint-segment pass |
+| `openWritableWithCheckpointHistory(directory, limits)` | Explicit history reuse followed by the ordinary writable startup barrier |
 | `openFromObjectCheckpoint(...)` | Recover read-only from an explicitly pinned object checkpoint and the complete local journal; retain both local owners |
 | `openWritableFromObjectCheckpoint(...)` | Recover from an explicit pin, synchronize actual journal/name and enable forced local writes |
 
@@ -41,6 +43,12 @@ sequence. It does not consult local checkpoint selection or the provider's curre
 head. The [writable pinned mode](object-checkpoint-writes.md) additionally establishes
 the local startup barrier before new or retry acknowledgements. Normal local modes
 retain their existing selection protocol.
+
+The [history-reuse modes](local-checkpoint-history.md#recover-with-explicit-history-reuse)
+select the same newest local checkpoint and release its temporary record container
+before full journal replay. Their limits bound checkpoint acquisition, excluding
+journal open/replay, tail reconstruction and engine heap. They make no measured
+performance promise; ordinary opens retain their existing path.
 
 ## Create and write
 

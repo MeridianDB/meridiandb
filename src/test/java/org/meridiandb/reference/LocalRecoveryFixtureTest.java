@@ -28,6 +28,7 @@ import org.meridiandb.engine.LocalDatabase;
 import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.manifest.CheckpointManifest;
+import org.meridiandb.storage.manifest.LocalCheckpointHistory;
 import org.meridiandb.storage.manifest.LocalCheckpointStore;
 import org.meridiandb.storage.segment.ImmutableSegment;
 import org.meridiandb.storage.segment.SegmentCodec;
@@ -73,9 +74,37 @@ class LocalRecoveryFixtureTest {
         return tests.stream();
     }
 
+    @TestFactory
+    Stream<DynamicTest> explicitCheckpointHistoryRecoversEveryCanonicalHistoryFromAllShapes() throws IOException {
+        var source = ContractFixtures.load();
+        assertEquals("meridiandb-temporal-contract-v0", ContractFixtures.text(source, "format"));
+        var histories = ContractFixtures.field(source, "histories");
+        assertEquals(5, histories.size());
+        int expectations = 0;
+        var tests = new ArrayList<DynamicTest>();
+        for (var history : histories) {
+            String id = ContractFixtures.text(history, "id");
+            var steps = ContractFixtures.field(history, "steps");
+            expectations += steps.size();
+            for (var shape : CheckpointShape.values()) {
+                String label = "checkpoint-history/" + shape.name().toLowerCase(Locale.ROOT) + "/" + id;
+                tests.add(dynamicTest(label, () -> replayHistory(
+                        directory.resolve("history-" + shape.name() + "-" + id), new DatabaseId(id),
+                        shape, steps, label, true)));
+            }
+        }
+        assertEquals(84, expectations, "Explicit history mode preserves every literal canonical expectation");
+        return tests.stream();
+    }
+
     private static void replayHistory(Path directory, DatabaseId database, CheckpointShape mode,
                                       JsonNode steps, String label) {
-        var target = new RecoveringFixtureDatabase(directory, database, mode);
+        replayHistory(directory, database, mode, steps, label, false);
+    }
+
+    private static void replayHistory(Path directory, DatabaseId database, CheckpointShape mode,
+                                      JsonNode steps, String label, boolean explicitHistory) {
+        var target = new RecoveringFixtureDatabase(directory, database, mode, explicitHistory);
         var views = new HashMap<String, CommitPosition>();
         for (var step : steps) {
             Object actual;
@@ -100,13 +129,15 @@ class LocalRecoveryFixtureTest {
         private final Path directory;
         private final DatabaseId database;
         private final CheckpointShape shape;
+        private final boolean explicitHistory;
         private final ReferenceModel reference;
         private final List<JournalRecord> committed = new ArrayList<>();
 
-        RecoveringFixtureDatabase(Path directory, DatabaseId database, CheckpointShape shape) {
+        RecoveringFixtureDatabase(Path directory, DatabaseId database, CheckpointShape shape, boolean explicitHistory) {
             this.directory = directory;
             this.database = database;
             this.shape = shape;
+            this.explicitHistory = explicitHistory;
             reference = new ReferenceModel(database);
             io(() -> {
                 Files.createDirectory(directory);
@@ -200,7 +231,9 @@ class LocalRecoveryFixtureTest {
 
         private <T> T recovered(Function<LocalDatabase, T> action) {
             return io(() -> {
-                try (var recovered = LocalDatabase.open(directory)) {
+                try (var recovered = explicitHistory
+                        ? LocalDatabase.openWithCheckpointHistory(directory, LocalCheckpointHistory.Limits.DEFAULT)
+                        : LocalDatabase.open(directory)) {
                     assertEquals(reference.head(), recovered.head(), "Recovery retains the stored lineage and current head");
                     return action.apply(recovered);
                 }

@@ -57,7 +57,8 @@ permanent commitment.
 | [0045: Internal local I/O counters](0045-local-io-counters.md) | Counters and reporting implemented; bounded Linux observations available | Completed caller-thread adapter bytes and force counters with explicit uncertainty and bounded internal capture |
 | [0046: Attributed local lifecycle](0046-attributed-local-lifecycle.md) | Attribution and reporting implemented; bounded Linux observations available | Explicit operation/auxiliary scopes, logical-history denominators and bounded incomplete evidence without changing ordinary result schemas |
 | [0047: Attributed workload evidence](0047-attributed-workload-evidence.md) | Serialized attribution and reporting implemented; bounded Linux observations available | Explicit mode/source bindings, independent original-history decoding and raw-counter/ratio recomputation with bounded live/saved admission |
-| [0048: Bounded local checkpoint history](0048-bounded-local-checkpoint-history.md) | Opt-in acquisition core implemented; recovery integration/evaluation pending | One verified local segment pass, private original records and actual-prefix binding under per-call encoded-work budgets |
+| [0048: Bounded local checkpoint history](0048-bounded-local-checkpoint-history.md) | Opt-in acquisition and explicit recovery implemented; evaluation pending | One verified local segment pass, private original records and actual-prefix binding under per-call encoded-work budgets |
+| [0049: Explicit checkpoint history recovery](0049-explicit-checkpoint-history-recovery.md) | Explicit experimental factories implemented; evaluation pending | Private same-pass checkpoint replay, transient-list release and unchanged journal verification/startup acknowledgement |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

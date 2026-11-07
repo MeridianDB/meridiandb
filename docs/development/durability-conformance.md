@@ -37,6 +37,12 @@ reconstruction has its own exit check. Fresh creation is also terminated at both
 hidden-recovery boundaries: the selected genesis remains recoverable at sequence
 zero, with its original database identity.
 
+The explicit checkpoint-history factories have seven additional child-JVM cases
+with a nonempty selected checkpoint: four commit boundaries, both writable startup
+boundaries and hidden read-only recovery. Parent checks reopen through explicit
+history reuse and ordinary recovery, retaining exact original retry positions.
+Both implementations keep the same acknowledgement and uncertainty contract.
+
 An additional test constructs a **torn image** by appending a strict partial frame
 after closing the owning database. Strict reopen rejects it and preserves its
 bytes. This is an injected malformed storage image, not a process killed midway
@@ -80,6 +86,13 @@ corrections, retractions, no-ops and retries. Actual transactions determine writ
 acceptance; the test-only reference cannot replace a production write. Every
 successful new write and identical retry is followed by close and writable reopen.
 Final sweeps check every historical cutoff, query form and original request ID.
+The same two canonical shapes also run through explicit writable history reuse;
+read-only canonical recovery covers journal-only, genesis and checkpoint-tail.
+Sixteen saved seeds additionally run 32 actual commits in all three shapes through
+the explicit factories, checking pinned views, reopens, original retries, conflicts,
+all historical cutoffs and request lookup. Independent dense cells on `[-3,4)`
+and exact sums supplement the separate reference over all five query operators.
+These finite histories establish conformance, not resource or throughput results.
 
 `LocalDurablePropertiesTest` reuses the 16 persisted seeds and performs 32 new
 transactions per seed: **512 new durable commits**, plus identical and conflicting

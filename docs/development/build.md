@@ -100,7 +100,8 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 1,460 core test invocations include 38
+The current 1,557 core test invocations include 97 additional explicit-history
+recovery, canonical/seeded and process-exit checks, plus the existing 38
 [bounded local checkpoint-history checks](local-checkpoint-history.md), 34
 [attributed lifecycle/bridge/fault checks](attributed-local-workloads.md), 28
 [internal I/O counter checks](local-io-counters.md), 25

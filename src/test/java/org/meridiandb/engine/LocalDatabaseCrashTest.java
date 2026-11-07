@@ -25,11 +25,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.meridiandb.engine.LocalDatabase.Boundary;
 import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.manifest.LocalCheckpointStore;
+import org.meridiandb.storage.manifest.LocalCheckpointHistory;
+import org.meridiandb.storage.manifest.CheckpointManifest;
+import org.meridiandb.storage.segment.ImmutableSegment;
+import org.meridiandb.storage.segment.SegmentCodec;
 import org.meridiandb.temporal.CommitPosition;
 import org.meridiandb.temporal.CommitResult;
 import org.meridiandb.temporal.DatabaseId;
@@ -122,6 +128,49 @@ class LocalDatabaseCrashTest {
         exerciseCreationBoundary(Boundary.SYNCHRONIZED);
     }
 
+    @ParameterizedTest
+    @EnumSource(value = Boundary.class, names = {"BEFORE_APPEND", "AFTER_APPEND", "AFTER_FORCE", "AFTER_PUBLICATION"})
+    void explicitHistoryRecoveryRetainsCommitCrashAndRetryBoundaries(Boundary boundary) throws Exception {
+        Path home = freshHome();
+        seedAcknowledgedCheckpoint(home);
+        try (var child = start("history-commit", home, boundary)) {
+            assertEquals(HALT_STATUS, child.awaitExit(), child.diagnostics());
+            assertTrue(child.hasLine("OPEN 1"), child.diagnostics());
+            assertTrue(child.hasLine("HALT " + boundary), child.diagnostics());
+            assertFalse(child.hasLine("ACK 2"), child.diagnostics());
+        }
+        boolean candidatePresent = boundary != Boundary.BEFORE_APPEND;
+        assertStoredHistory(home, candidatePresent ? 2 : 1);
+        verifyRecoveredCandidateAndRetries(home, candidatePresent, true, 1);
+        verifyRecoveredCandidateAndRetries(home, true, false, 1);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Boundary.class, names = {"RECOVERED", "SYNCHRONIZED"})
+    void explicitHistoryStartupHaltsBeforeAnyEngineEscapes(Boundary boundary) throws Exception {
+        exerciseHistoryStartupBoundary(boundary, false);
+    }
+
+    @Test
+    void explicitReadOnlyHistoryStartupHaltReleasesOwners() throws Exception {
+        exerciseHistoryStartupBoundary(Boundary.RECOVERED, true);
+    }
+
+    private void exerciseHistoryStartupBoundary(Boundary boundary, boolean readOnly) throws Exception {
+        Path home = freshHome();
+        seedAcknowledgedCheckpoint(home);
+        byte[] before = Files.readAllBytes(home.resolve("transactions.journal"));
+        try (var child = start(readOnly ? "history-readonly" : "history-writable", home, boundary)) {
+            assertEquals(HALT_STATUS, child.awaitExit(), child.diagnostics());
+            assertTrue(child.hasLine("HALT " + boundary), child.diagnostics());
+            assertFalse(child.hasLine("OPEN 1"), child.diagnostics());
+        }
+        assertArrayEquals(before, Files.readAllBytes(home.resolve("transactions.journal")));
+        assertStoredHistory(home, 1);
+        verifyRecoveredCandidateAndRetries(home, false, true, 1);
+        verifyRecoveredCandidateAndRetries(home, true, false, 1);
+    }
+
     @Test
     void externallyInjectedPartialFrameAfterOwnerCloseIsRejectedWithoutRepairOrEvidenceLoss() throws IOException {
         Path home = freshHome();
@@ -209,9 +258,14 @@ class LocalDatabaseCrashTest {
     }
 
     private void verifyRecoveredCandidateAndRetries(Path home, boolean candidatePresent) throws IOException {
-        try (var database = LocalDatabase.openWritable(home)) {
+        verifyRecoveredCandidateAndRetries(home, candidatePresent, false, 0);
+    }
+
+    private void verifyRecoveredCandidateAndRetries(Path home, boolean candidatePresent, boolean history, long checkpoint) throws IOException {
+        try (var database = history ? LocalDatabase.openWritableWithCheckpointHistory(home, LocalCheckpointHistory.Limits.DEFAULT)
+                : LocalDatabase.openWritable(home)) {
             assertEquals(position(candidatePresent ? 2 : 1), database.head());
-            assertEquals(Optional.of(position(0)), database.checkpointPosition());
+            assertEquals(Optional.of(position(checkpoint)), database.checkpointPosition());
             assertEquals(Optional.of(position(1)), database.lookupRequest(FIRST.requestId()));
             assertEquals(candidatePresent ? Optional.of(position(2)) : Optional.empty(), database.lookupRequest(SECOND.requestId()));
             assertSnapshot(database, candidatePresent ? 2 : 1);
@@ -276,6 +330,18 @@ class LocalDatabaseCrashTest {
     private static void seedAcknowledgedFirst(Path home) throws IOException {
         try (var database = LocalDatabase.create(home, DATABASE)) {
             assertEquals(new CommitResult(position(1), false), database.transact(FIRST));
+        }
+    }
+
+    private static void seedAcknowledgedCheckpoint(Path home) throws IOException {
+        seedAcknowledgedFirst(home);
+        try (var store = LocalCheckpointStore.open(home); var journal = LocalJournal.open(store.journalPath())) {
+            var segment = new ImmutableSegment(DATABASE, HISTORY.subList(0, 1));
+            var id = store.writeSegment(segment);
+            var prefix = journal.prefix(1);
+            store.publish(new CheckpointManifest(DATABASE, 2,
+                    new CheckpointManifest.JournalPrefix(1, prefix.byteLength(), prefix.sha256()),
+                    List.of(new CheckpointManifest.SegmentReference(id, SegmentCodec.encode(segment).length, 1, 1))), journal);
         }
     }
 
@@ -367,6 +433,24 @@ class LocalDatabaseCrashTest {
                     });
                     database.close();
                     throw new AssertionError("Requested read-only startup boundary was not reached");
+                }
+                case "history-commit" -> {
+                    var database = LocalDatabase.openWithCheckpointHistory(home, LocalCheckpointHistory.Limits.DEFAULT, true,
+                            boundary -> { if (boundary == target) { haltAt(boundary); } });
+                    if (!database.transact(FIRST).equals(new CommitResult(position(1), true))) {
+                        throw new AssertionError("Original request identity was lost");
+                    }
+                    System.out.println("OPEN 1");
+                    System.out.flush();
+                    acknowledge(database.transact(SECOND), 2);
+                    throw new AssertionError("Requested history commit boundary was not reached");
+                }
+                case "history-writable", "history-readonly" -> {
+                    var database = LocalDatabase.openWithCheckpointHistory(home, LocalCheckpointHistory.Limits.DEFAULT,
+                            mode.equals("history-writable"), boundary -> { if (boundary == target) { haltAt(boundary); } });
+                    System.out.println("OPEN 1");
+                    database.close();
+                    throw new AssertionError("Requested history startup boundary was not reached");
                 }
                 case "create-boundary" -> {
                     var database = LocalDatabase.create(home, DATABASE, boundary -> {
