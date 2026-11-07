@@ -54,7 +54,8 @@ permanent commitment.
 | [0042: Local operation measurements](0042-local-operation-measurements.md) | In-process core implemented; supervision separate | Fresh checked lifecycles, direct call clocks, separate validation/loop overhead and scoped optional JVM telemetry |
 | [0043: Supervised workload evidence](0043-supervised-workload-evidence.md) | Developer harness implemented; evaluation pending | Bounded private process groups, clean source/class bindings, strict JSON admission and scoped allocated/process-I/O accounting |
 | [0044: Recorded workload reports](0044-recorded-workload-reports.md) | Reporting and bounded observations implemented; integrated baseline pending | Recomputed saved evidence, bound producer receipts and separate per-iteration metrics without native reobservation |
-| [0045: Internal local I/O counters](0045-local-io-counters.md) | Counter foundation implemented; workload attribution pending | Completed caller-thread adapter bytes and force counters with explicit uncertainty and bounded internal capture |
+| [0045: Internal local I/O counters](0045-local-io-counters.md) | Counter foundation and in-process attribution implemented; serialized reporting pending | Completed caller-thread adapter bytes and force counters with explicit uncertainty and bounded internal capture |
+| [0046: Attributed local lifecycle](0046-attributed-local-lifecycle.md) | In-process attribution implemented; serialized reporting pending | Explicit operation/auxiliary scopes, logical-history denominators and bounded incomplete evidence without changing ordinary result schemas |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

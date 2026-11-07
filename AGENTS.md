@@ -610,6 +610,16 @@ so a new session can work correctly without relying on earlier conversations.
   segment paths, actual directory probes, controls and tail evidence without double
   counting. Keep activation internal and instrumented workload attribution separate
   until its raw coverage/denominator/evaluation contracts pass.
+- For attributed local lifecycles, follow [ADR 0046](docs/decisions/0046-attributed-local-lifecycle.md)
+  and the [attribution guide](docs/development/attributed-local-workloads.md). Use
+  explicit instrumented results; ordinary runs activate no capture or new schema.
+  Admit complete operation/auxiliary scope capacity before namespace effects and
+  preserve excluded external-I/O coverage rather than interpreting zero adapter
+  bytes as zero file work. Keep snapshot recording outside service clocks, close
+  acquired owners after observation failure, and close existing owners even when
+  teardown capture cannot start. Preserve incomplete raw evidence and original
+  logical denominators. Source-bound serialized admission, checked ratios and
+  evaluated Linux results require their own acceptance before baseline completion.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

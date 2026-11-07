@@ -6586,6 +6586,108 @@ from this internal-only receipt. Next: **MDB-0092 — Attributed workload and re
 integration**, after completion delivery. No dependent implementation starts here.
 
 
+## 2026-11-07 — MDB-0094 Attributed local lifecycle source checkpoint
+
+**Selection and refinement:** continue resumes clean matching main/origin at
+`d166575eaa553588f0544bd897c4d9cdb93c1030`. MDB-0092 spans independently useful
+Java lifecycle attribution and serialized worker/supervisor/saved-reader work.
+Expand it without removing criteria into required MDB-0094 and MDB-0095, retaining
+MDB-0093 actual evaluated Linux acceptance. All 95 stable IDs remain; only
+MDB-0094 is active. Primary coordinator owns runner/trace/docs/planning/Git;
+helpers own the new test-only bridge and native integration test, plus independent
+research/review, returning ownership before builds. No serialized mode, new ratio
+report, layout/native accelerator, S3 continuation or release starts here.
+
+**Implementation:** add test-only `LocalIoObservation` immutable fixed-shape
+exports and strict counter-coherence/completeness checks. Add ordered
+`LocalWorkloadIo` operation and auxiliary scopes around the existing checked
+`LocalWorkloadRunner` lifecycle. Default execution activates no capture and keeps
+schema one. Explicit `LocalAttributedWorkload.run` returns separate mode
+`CALLER_THREAD_LOCAL_IO_INSTRUMENTED`, original lifecycle metrics, raw scopes,
+logical denominators and precise gaps. Capture setup/snapshot/recording surround
+Recorder.measure, outside service clocks; native updates remain inside calls.
+
+Scopes distinguish preparation, namespace, operation, maintenance owner/prefix/
+reader acquisition, validation, external hash, file inventory and teardown.
+Actual directory-name forces use the native hook; engine integrity work remains
+inside its operation and lazy validation reads remain outside it. External raw
+hashing and metadata inventory carry excluded coverage, not false zero-I/O claims.
+No production source, POM, codec, format, acknowledgement or reclamation changes.
+
+Complete successful trace shape is two preparation scopes plus
+`(2*actions + 2*sourceSegments + 32)` per iteration; preflight reserves another
+32 slots per iteration, with maximum 2,048 across the run. Reject oversized,
+insufficient or reused traces before namespace effects. Denominators derive
+original header and seed/mixed non-retry encoded frames before storage, with
+original commit/retry/read counts and exact history consistency. Named ratios,
+source binding and serialized recomputation remain MDB-0095; evaluated evidence
+and ancestor completion remain MDB-0093.
+
+**Review and failure corrections:** independent review caught teardown capture
+setup failing before its close callback, post-acquisition wrapper/attempt-array
+allocation, supplied-trace preflight gaps, denominator count/header mismatches and
+wrong-thread fallback relabeling earlier evidence. Correct all before final
+verification. Fallback closes only when native close was never attempted; it
+never retries a throwing native close. Wrong-thread/reentrant preflight mutates
+neither owners nor prior scopes. Observation failure after acquisition closes the
+returned owner and suppresses cleanup failures; missing/incomplete raw evidence
+is retained with call/observation outcomes. Final independent review is clear.
+An initial compile found the exception's nonserializable diagnostic list under
+Werror; mark it transient, explicitly retaining scope diagnostics in-process.
+No Java-exception serialization is used as a raw-evidence export contract.
+
+**Verification:** focused final run passes 43 cases: bridge9, trace/fault12,
+attributed lifecycle13 and original runner9. Tests use independent four-commit
+literals (header42, frames78, full history354, source segments278 each, replacement
+434) and exact native operation/auxiliary byte/force vectors. Heap queries,
+exact retries and pure planning have zero adapter work. Exact conservative scope
+admission accepts 2,048 and refuses the next configuration before mutation.
+Four scaled profiles, zero-query cases, fresh warmup/repetitions, original history,
+immutability, partial/failure/unknown/overflow and actual post-create owner cleanup
+pass. Existing native counter tests remain unchanged.
+
+Rooted full `clean verify` passes **1,413 invocations /79 suites**, zero failures,
+errors or skips on macOS/Oracle Java 25.0.2+10-LTS-69/aarch64, run
+`d64be43bcf62419486357fa6b4ff29e7`, elapsed 2:19. Fresh XML is reconciled against
+all prior suite counts and source files; only three new suites/34 invocations are
+added. Inventory SHA256
+`a7fa250e9aa2f561c26a22f55c02c7d98813779888393e49059ad290048592e0`;
+prior `c119f1332553d25d24a6d1ffa758afe8a72333d168cbeaba599b1b19d53f735d`.
+Shared qualification parser verifies the fresh run/root/runtime binding; this
+macOS run is wiring evidence, not Linux qualification. Core remains 160 classes
+and jdeps reports only java.base; attached classifier remains ten classes, with
+new observation/workload/qualification helpers excluded. Optional SDK/core
+production code is unchanged; exact-source CI still verifies the optional adapter.
+
+All 135 Python guards pass locally (five Linux-only skips), and 42 docs fixtures
+pass. Both strict 101-page production/project URL builds pass, with source/HTML/
+links/search/sitemap QA. Guide/ADR0046, README/build/count callers, roadmap,
+counter-guide/ADR0045 and agent rules agree on implemented versus pending scope.
+Desktop light and 390 px mobile dark rendering pass: page375, article343,
+table400.64 within a375 px overflow-auto scroll wrapper, no page overflow.
+Search returns the new guide; guide-to-ADR navigation works. A generic dialog
+selector matched two search containers and the input is a combobox, not textbox;
+observed open-dialog/input selectors verify actual results. Restore normal
+light/default viewport. Ignored `.local-qa/mdb-0092/` retains logs, rooted XML,
+runtime bindings and screenshots; no helper remains a writer/build owner.
+
+**Fresh Maven research:** fourteen Central and sixteen official sources checked
+November 7 at 14:18:56 UTC /09:18:56 EST. Twelve non-AWS pins remain latest stable
+compatible; optional AWS selected2.57.8/latest2.57.11 stays deferred. POM unchanged.
+Report SHA256 `c9b71e69b7443ddc92526a7a86aa492292ce88dbc9e2a144dfef3372dcc436a6`;
+metadata `c74a86e84efbde608aea7cb3a046bc167ed5f9b8df25453099e9a9890edb6ad3`;
+compatibility `b30acab6b9ecb07e9c3644fe8308f59f1e64d9b0ee5c044df01fbfbf1ce87738`;
+manifest `880142deb043f132d2a9fbd0e66d30551e7ad087ba891f456707145108009bad`.
+
+**Delivery:** validate task-owned staged diff and all queue/card/DAG references;
+commit code/tests/docs/rules/inventory/planning with Step-ID MDB-0094 /
+Step-Result checkpoint. Push normally, verify ancestry/tips and inspect exact-source
+Linux/Windows/native/guard/workload/optional/example regression plus docs/automatic
+Pages/live readback. Keep MDB-0094 active until acceptance, then record completion
+and ready MDB-0095. MDB-0092/0090/0083/0012 remain expanded. No dependent
+implementation starts in this invocation.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

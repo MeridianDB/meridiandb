@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.meridiandb.workload;
 
+import static org.meridiandb.workload.LocalWorkloadIo.observe;
+import static org.meridiandb.workload.LocalWorkloadIo.operation;
+import static org.meridiandb.workload.LocalWorkloadIo.own;
+
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
@@ -18,6 +22,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import org.meridiandb.engine.LocalDatabase;
+import org.meridiandb.storage.internal.LocalIo;
 import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.manifest.CheckpointManifest;
@@ -35,6 +40,7 @@ import org.meridiandb.workload.WorkloadMeasurements.Kind;
 import org.meridiandb.workload.WorkloadMeasurements.Phase;
 import org.meridiandb.workload.WorkloadMeasurements.Probe;
 import org.meridiandb.workload.WorkloadMeasurements.Recorder;
+import org.meridiandb.workload.LocalWorkloadIo.Category;
 
 /** Test-only synchronous operation measurements. This is not a supervised benchmark CLI. */
 public final class LocalWorkloadRunner {
@@ -120,6 +126,17 @@ public final class LocalWorkloadRunner {
 
     static Result run(Path scratchParent, WorkloadCorpus corpus, Config config, Probe probe,
                       IterationObserver observer) throws IOException {
+        return run(scratchParent, corpus, config, probe, observer, null);
+    }
+
+    static Result runAttributed(Path scratchParent, WorkloadCorpus corpus, Config config,
+                                LocalWorkloadIo trace) throws IOException {
+        return run(scratchParent, corpus, config, WorkloadMeasurements.systemProbe(), NO_OBSERVER,
+                Objects.requireNonNull(trace, "trace"));
+    }
+
+    private static Result run(Path scratchParent, WorkloadCorpus corpus, Config config, Probe probe,
+                              IterationObserver observer, LocalWorkloadIo trace) throws IOException {
         Objects.requireNonNull(scratchParent, "scratchParent");
         Objects.requireNonNull(corpus, "corpus");
         Objects.requireNonNull(config, "config");
@@ -131,8 +148,8 @@ public final class LocalWorkloadRunner {
         var attributes = Files.readAttributes(scratchParent, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
         if (!attributes.isDirectory()) { throw new IOException("Scratch parent must be an existing real directory"); }
         long start = probe.nanoTime();
-        var prepared = WorkloadOracle.prepare(corpus);
-        var inputs = inputs(corpus);
+        var prepared = observe(trace, Category.PREPARATION, () -> WorkloadOracle.prepare(corpus));
+        var inputs = observe(trace, Category.PREPARATION, () -> inputs(corpus));
         long preparationNanos = elapsed(start, probe.nanoTime());
         // All oracle/segment preparation and optional telemetry initialization precede storage execution.
         Path root = Files.createTempDirectory(scratchParent.toRealPath(), "mdb-workload-");
@@ -143,10 +160,11 @@ public final class LocalWorkloadRunner {
                     Files.getFileStore(root).type());
             var results = new ArrayList<Iteration>();
             for (int index = 0; index < config.warmups() + config.repetitions(); index++) {
+                if (trace != null) { trace.iteration(index); }
                 Path home = Files.createDirectory(root.resolve("iteration-" + index));
                 boolean warmup = index < config.warmups();
                 observer.before(index, warmup, home);
-                var result = iteration(home, index, warmup, corpus, prepared, inputs, probe);
+                var result = iteration(home, index, warmup, corpus, prepared, inputs, probe, trace);
                 observer.after(index, warmup, home);
                 results.add(result);
             }
@@ -167,19 +185,29 @@ public final class LocalWorkloadRunner {
     }
 
     private static Iteration iteration(Path home, int index, boolean warmup, WorkloadCorpus corpus,
-                                       WorkloadOracle.Prepared prepared, Inputs inputs, Probe probe) throws IOException {
+                                       WorkloadOracle.Prepared prepared, Inputs inputs, Probe probe,
+                                       LocalWorkloadIo trace) throws IOException {
         var metrics = new Recorder(probe, corpus.actions().size() + inputs.segments().size() + 8);
-        var checks = new Checks(probe);
+        var checks = new Checks(probe, trace);
         long namespaceStart = probe.nanoTime();
         // Bootstrap capability/control ownership before timing. Only the allowed lock file is created.
-        try (var preflight = LocalCheckpointStore.open(home)) { preflight.journalPath(); }
+        try (var owner = own(trace, observe(trace, Category.NAMESPACE, () -> LocalCheckpointStore.open(home)))) {
+            owner.value().journalPath();
+        }
         // The caller durably named the scratch parent; persist each newly introduced child name.
         for (Path directory : List.of(home, home.getParent(), home.getParent().getParent())) {
-            try (var channel = FileChannel.open(directory, StandardOpenOption.READ)) { channel.force(true); }
+            observe(trace, Category.NAMESPACE, () -> {
+                try (var channel = FileChannel.open(directory, StandardOpenOption.READ)) {
+                    LocalIo.force(LocalIo.Role.DIRECTORY, channel, true);
+                }
+                return null;
+            });
         }
         long namespacePreparationNanos = elapsed(namespaceStart, probe.nanoTime());
         long loopNanos, loopService, loopValidation;
-        try (var database = metrics.measure(Phase.LOAD, Kind.CREATE, () -> LocalDatabase.create(home, WorkloadCorpus.DATABASE))) {
+        try (var owner = own(trace, operation(trace, Phase.LOAD, Kind.CREATE, metrics,
+                () -> LocalDatabase.create(home, WorkloadCorpus.DATABASE)))) {
+            var database = owner.value();
             long beforeService = metrics.serviceNanos(), beforeValidation = checks.nanos;
             long loopStart = probe.nanoTime();
             long committed = 0;
@@ -188,13 +216,13 @@ public final class LocalWorkloadRunner {
                     case WorkloadOracle.ExpectedSubmit submit -> {
                         Phase phase = submit.action().stage() == WorkloadCorpus.Stage.SEED ? Phase.LOAD : Phase.MIXED;
                         Kind kind = submit.action().retry() ? Kind.RETRY : Kind.COMMIT;
-                        var actual = metrics.measure(phase, kind, () -> database.transact(submit.action().request()));
+                        var actual = operation(trace, phase, kind, metrics, () -> database.transact(submit.action().request()));
                         checks.check(() -> require(actual.equals(submit.result()), "Commit/retry answer differs"));
                         if (!actual.replayed()) { committed++; }
                     }
                     case WorkloadOracle.ExpectedRead read -> {
                         Phase phase = committed < corpus.spec().entities() ? Phase.LOAD : Phase.MIXED;
-                        var answer = metrics.measure(phase, kind(read.action().query()),
+                        var answer = operation(trace, phase, kind(read.action().query()), metrics,
                                 () -> query(database, read.action()));
                         checks.check(() -> require(answer.equals(read.result()), "Pinned query answer differs"));
                     }
@@ -205,16 +233,18 @@ public final class LocalWorkloadRunner {
             loopValidation = checks.nanos - beforeValidation;
             checks.check(() -> require(database.head().sequence() == corpus.spec().commits(), "Final head differs"));
         }
-        try (var reopened = metrics.measure(Phase.MAINTENANCE, Kind.JOURNAL_REOPEN, () -> LocalDatabase.openWritable(home))) {
-            checks.check(() -> verifyDatabase(reopened, prepared, corpus, false));
+        try (var owner = own(trace, operation(trace, Phase.MAINTENANCE, Kind.JOURNAL_REOPEN, metrics,
+                () -> LocalDatabase.openWritable(home)))) {
+            checks.check(() -> verifyDatabase(owner.value(), prepared, corpus, false));
         }
-        int replacements = checkpoint(home, corpus, inputs, metrics, checks);
-        try (var reopened = metrics.measure(Phase.MAINTENANCE, Kind.CHECKPOINT_REOPEN, () -> LocalDatabase.openWritable(home))) {
-            checks.check(() -> verifyDatabase(reopened, prepared, corpus, true));
+        int replacements = checkpoint(home, corpus, inputs, metrics, checks, trace);
+        try (var owner = own(trace, operation(trace, Phase.MAINTENANCE, Kind.CHECKPOINT_REOPEN, metrics,
+                () -> LocalDatabase.openWritable(home)))) {
+            checks.check(() -> verifyDatabase(owner.value(), prepared, corpus, true));
         }
         // Raw journal access occurs only after every native journal/store/database owner closes.
-        checks.check(() -> verifyJournal(home.resolve("transactions.journal"), corpus));
-        var storage = namedStorage(home);
+        checks.check(Category.EXTERNAL_HASH, () -> verifyJournal(home.resolve("transactions.journal"), corpus));
+        var storage = observe(trace, Category.FILE_INVENTORY, () -> namedStorage(home));
         long other = loopNanos - Math.addExact(loopService, loopValidation);
         require(other >= 0, "Loop wall/service/validation timing is incoherent");
         Double rate = loopNanos == 0 ? null : corpus.actions().size() * 1_000_000_000.0 / loopNanos;
@@ -223,29 +253,35 @@ public final class LocalWorkloadRunner {
                 storage, metrics.samples(), metrics.summaries());
     }
 
-    private static int checkpoint(Path home, WorkloadCorpus corpus, Inputs inputs, Recorder metrics, Checks checks) throws IOException {
-        try (var store = LocalCheckpointStore.open(home); var journal = LocalJournal.open(store.journalPath())) {
-            var prefix = journal.prefix(corpus.spec().commits());
+    private static int checkpoint(Path home, WorkloadCorpus corpus, Inputs inputs, Recorder metrics, Checks checks,
+                                  LocalWorkloadIo trace) throws IOException {
+        try (var storeOwner = own(trace, observe(trace, Category.OWNER_ACQUISITION, () -> LocalCheckpointStore.open(home)));
+             var journalOwner = own(trace, observe(trace, Category.OWNER_ACQUISITION, () -> LocalJournal.open(storeOwner.value().journalPath())))) {
+            var store = storeOwner.value();
+            var journal = journalOwner.value();
+            var prefix = observe(trace, Category.PREFIX_VERIFICATION, () -> journal.prefix(corpus.spec().commits()));
             checks.check(() -> require(prefix.byteLength() == corpus.encodedHistoryBytes()
                     && prefix.sha256().equals(corpus.historyFingerprint()), "Actual journal prefix differs"));
             for (int i = 0; i < inputs.segments().size(); i++) {
                 var segment = inputs.segments().get(i);
                 var expected = inputs.references().get(i).id();
-                var actual = metrics.measure(Phase.MAINTENANCE, Kind.SEGMENT_WRITE, () -> store.writeSegment(segment));
+                var actual = operation(trace, Phase.MAINTENANCE, Kind.SEGMENT_WRITE, metrics, () -> store.writeSegment(segment));
                 checks.check(() -> require(actual.equals(expected), "Installed segment identity differs"));
             }
             var manifest = new CheckpointManifest(WorkloadCorpus.DATABASE, 2,
                     new CheckpointManifest.JournalPrefix(corpus.spec().commits(), prefix.byteLength(), prefix.sha256()), inputs.references());
-            var sourceId = metrics.measure(Phase.MAINTENANCE, Kind.CHECKPOINT_PUBLISH, () -> store.publish(manifest, journal));
-            try (var pinned = store.readLatest(journal).orElseThrow()) {
+            var sourceId = operation(trace, Phase.MAINTENANCE, Kind.CHECKPOINT_PUBLISH, metrics, () -> store.publish(manifest, journal));
+            try (var pinnedOwner = own(trace, observe(trace, Category.READER_ACQUISITION, () -> store.readLatest(journal).orElseThrow()))) {
+                var pinned = pinnedOwner.value();
                 checks.check(() -> require(pinned.manifestId().equals(sourceId) && pinned.manifest().equals(manifest), "Source selection differs"));
-                var plan = metrics.measure(Phase.MAINTENANCE, Kind.COMPACTION_PLAN,
+                var plan = operation(trace, Phase.MAINTENANCE, Kind.COMPACTION_PLAN, metrics,
                         () -> HistoryCompactor.compact(manifest, inputs.images()::get, HistoryCompactor.Limits.DEFAULT));
                 checks.check(() -> require(plan.segments().size() < inputs.segments().size()
                         && plan.replacementManifest().journalPrefix().equals(manifest.journalPrefix()), "Compaction did not preserve/combine history"));
-                var replacementId = metrics.measure(Phase.MAINTENANCE, Kind.COMPACTION_PUBLISH,
+                var replacementId = operation(trace, Phase.MAINTENANCE, Kind.COMPACTION_PUBLISH, metrics,
                         () -> store.publishCompaction(plan, journal));
-                try (var selected = store.readLatest(journal).orElseThrow()) {
+                try (var selectedOwner = own(trace, observe(trace, Category.READER_ACQUISITION, () -> store.readLatest(journal).orElseThrow()))) {
+                    var selected = selectedOwner.value();
                     checks.check(() -> {
                         require(selected.manifestId().equals(replacementId) && selected.manifest().equals(plan.replacementManifest()), "Replacement selection differs");
                         require(selected.manifest().generation() == 3 && selected.manifest().journalPrefix().equals(manifest.journalPrefix()), "Replacement cutoff/generation differs");
@@ -357,10 +393,15 @@ public final class LocalWorkloadRunner {
 
     private static final class Checks {
         final Probe probe;
+        final LocalWorkloadIo trace;
         long nanos, tasks;
-        Checks(Probe probe) { this.probe = probe; }
+        Checks(Probe probe, LocalWorkloadIo trace) { this.probe = probe; this.trace = trace; }
         void check(Check check) throws IOException {
-            long start = probe.nanoTime(); check.run();
+            check(Category.VALIDATION, check);
+        }
+        void check(Category category, Check check) throws IOException {
+            long start = probe.nanoTime();
+            observe(trace, category, () -> { check.run(); return null; });
             nanos = Math.addExact(nanos, elapsed(start, probe.nanoTime())); tasks++;
         }
     }

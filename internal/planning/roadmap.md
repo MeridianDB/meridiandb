@@ -2665,6 +2665,69 @@ Independent raw-vector/schema/ratio tests and actual local lifecycles pass; docs
 agent rules and Linux inventory are reconciled. Actual evaluated Linux attributed
 evidence and original baseline completion remain MDB-0093.
 
+**Required children, November 7, 2026:** MDB-0094 supplies explicit instrumented
+Java lifecycles, bounded typed raw traces, auxiliary coverage and exact logical
+denominators. MDB-0095 integrates those outputs into separately versioned worker,
+supervisor and saved-reader contracts, independently recomputes raw sums/ratios,
+and verifies actual Linux smoke and report readback. Preserve every original
+criterion above; evaluated Linux runs and ancestor acceptance remain MDB-0093.
+
+## MDB-0094 Attributed local lifecycle core
+
+**Parent:** MDB-0092. **Outcome:** execute the same checked native local lifecycle
+through explicit test-only capture, with ordered operation/setup/validation/
+hash/inventory/teardown scopes and typed raw snapshots. The ordinary runner does
+not activate capture or change its existing result schema. Keep instrumented
+results visibly separate from original latency observations.
+
+**Complete when:** count actual adapter transfers and force outcomes once,
+including integrity work within its engine operation and lazy validation outside
+it. Label excluded external file work explicitly rather than presenting zero
+adapter counts as complete physical coverage. Bound the complete trace before
+namespace mutation, retain failed/missing/invalid observations, preserve exceptions
+and close owners acquired before observation failure. Original new-frame/history
+denominators exclude retries and remain independent of observed native counters.
+Independent literal vectors, short/failure/lifetime and real native lifecycle tests
+pass; current inventory, docs, rules and packaging are reconciled. Source binding,
+serialized admission, named-ratio reporting and evaluated data remain required
+MDB-0095/0093 work rather than credit from this in-process core.
+
+**Source checkpoint, November 7, 2026:** share the existing checked lifecycle
+through optional trace hooks; explicit attributed execution returns a separate
+mode-labeled schema-one result. Test-only bridge exports immutable coherent raw
+snapshots. Operation, preparation/namespace, maintenance acquisition/prefix/reader,
+validation, external hash/inventory and teardown scopes retain explicit coverage.
+Admission reserves the full trace plus failure/teardown capacity before namespace
+effects, capped at 2,048 scopes. Original header/seed/mixed-frame denominators
+remain independent of measured native counts. Incomplete/missing/failed evidence
+cannot yield a successful result; acquired-owner cleanup and unavailable teardown
+capture have focused fault coverage.
+
+All 34 new tests pass (bridge9, trace/fault12, native lifecycle13), including
+independent four-commit goldens and the exact admitted scope boundary. Full rooted
+macOS clean verify passes 1,413 cases /79 suites without skips/failures; every
+prior suite/count remains. Inventory SHA256
+`a7fa250e9aa2f561c26a22f55c02c7d98813779888393e49059ad290048592e0`.
+Core remains 160 classes/JDK-only; classifier ten, excluding new developer helpers.
+All 135 Python guards pass locally (five Linux-only skips); 42 docs fixtures and
+both strict 101-page URL builds pass. Keep MDB-0094 active pending exact-source
+CI and automatic Pages/live acceptance. MDB-0092/0090/0083/0012 stay expanded.
+
+## MDB-0095 Attributed serialized evidence integration
+
+**Parent:** MDB-0092. **Outcome:** expose explicit attributed worker/supervisor and
+saved-reader modes, binding source/runtime/config/operation/counter identity while
+preserving original observational schemas and immutable datasets.
+
+**Complete when:** bound scopes, rows, bytes and parser work for maximum admitted
+inputs; reject missing/unknown/failed/overflow/incoherent coverage before named
+ratios. Independently recompute raw sums and exact logical denominators, with
+zero-denominator N/A and explicit zero-I/O heap queries. Preserve failed evidence,
+source/process/native admission and cleanup. Versioned worker, supervisor and
+saved-reader contract tests, actual Linux smoke/readback, docs/rules/inventory and
+original MDB-0092 integration criteria pass. MDB-0093 still owns evaluated useful
+Linux runs, durable raw data and original ancestor acceptance.
+
 ## MDB-0093 Linux attributed work and baseline acceptance
 
 **Parent:** MDB-0090. **Outcome:** execute reproducible bounded attributed Linux

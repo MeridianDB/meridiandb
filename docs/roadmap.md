@@ -13,7 +13,7 @@ checks, local checkpoint publication, recovery and forced local writes establish
 a correctness baseline, including process-exit/retry and seeded writable-reopen
 conformance. Linux local filesystems are the primary production target;
 bounded [workload observations](development/linux-observations.md) are available,
-while attributed file-work measurement and production qualification remain planned.
+while evaluated attributed file work and production qualification remain planned.
 Windows has a basic compatibility role, and further S3 development is deferred under
 [the Linux storage decision](decisions/0039-linux-local-storage-priority.md).
 There is no release date or stable API commitment.
@@ -46,6 +46,7 @@ future protocol with local persistence on each participant.
 | [Saved workload reports](development/workload-reports.md) | Checked request/report/worker records with per-iteration latency, resource and recorded-accounting views; original resources are not reobserved |
 | [Linux workload observations](development/linux-observations.md) | Ten sequential profile/dimension/seed/control cases with checked raw evidence and per-repetition metrics; attributed file-work and controlled-device comparisons remain separate |
 | [Internal local I/O counters](development/local-io-counters.md) | Inactive-by-default caller-thread completed-byte and force counters with native literal/failure checks; operation-attributed workload reports remain pending |
+| [Attributed local lifecycle core](development/attributed-local-workloads.md) | Separate instrumented Java execution with ordered operation/auxiliary scopes and logical denominators; serialized reports and evaluated amplification remain planned |
 | [Journal codec](architecture/journal-format.md) | Versioned transaction frames, exact identity, checksums, allocation bounds and strict byte validation |
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |

@@ -62,7 +62,7 @@ four [complete graph-consumer cases](object-checkpoint-graphs.md) and 65 pure
 [publication/recovery conformance cases](s3-recovery-conformance.md), plus 108 [coordination state/codec cases](../architecture/s3-coordination-state.md), plus 58 [native coordination guard cases](s3-coordination-guard.md), for 762 optional tests
 in total. The 108 state/codec cases are pure checks; durable enrollment/ledger and
 SDK participation remain unimplemented. Native local cases report explicit placement capability skips separately.
-Core's separate 1,379 tests and fourteen runnable examples still
+Core's separate 1,413 tests and fourteen runnable examples still
 verify local behavior. Linux and Windows CI run both builds and those examples.
 The fixture binds only `127.0.0.1`, uses fixed test credentials and needs no service
 emulator, Docker daemon, cloud account or provisioned bucket.

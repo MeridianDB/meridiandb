@@ -10,11 +10,13 @@ actual `FileChannel` transfers and force calls. It records completed file work
 without changing the existing append, ownership, verification or acknowledgement
 protocols. [ADR 0045](../decisions/0045-local-io-counters.md) defines the boundary.
 
-Capture activation is package-private and currently exercised by developer tests.
-There is no public engine configuration switch or attributed workload report yet.
+Capture activation is package-private and exercised through test-only support.
+The [attributed lifecycle core](attributed-local-workloads.md) now assigns operation
+and auxiliary scopes to checked Java runs. There is no public engine configuration
+switch or source-bound serialized attributed report yet.
 The existing [Linux observations](linux-observations.md) retain their original
-source and metric definitions. Operation labels, named amplification denominators
-and evaluated attributed results require separate workload integration.
+source and metric definitions. Source-bound raw-counter admission, named-ratio
+reporting and evaluated attributed results remain separate work.
 
 ## What is counted
 

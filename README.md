@@ -52,8 +52,11 @@ those recorded results and render per-iteration metrics after the original files
 are gone. [Bounded Linux observations](docs/development/linux-observations.md)
 now cover independent dimensions and four temporal profiles. An internal
 [I/O counter foundation](docs/development/local-io-counters.md) records completed
-adapter bytes and force calls in developer tests. Attributed workload reports,
-controlled comparisons and production qualification remain planned.
+adapter bytes and force calls in developer tests. The test-only
+[attributed lifecycle core](docs/development/attributed-local-workloads.md) adds
+ordered operation/auxiliary scopes and logical-history denominators. Serialized
+attributed reports, evaluated amplification, controlled comparisons and production
+qualification remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
@@ -202,7 +205,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,379 JUnit test invocations: 28 [internal I/O counter checks](docs/development/local-io-counters.md),
+This runs 1,413 JUnit test invocations: 34 [attributed lifecycle/bridge/fault checks](docs/development/attributed-local-workloads.md),
+28 [internal I/O counter checks](docs/development/local-io-counters.md),
 16 [supervised worker checks](docs/development/supervised-workloads.md),
 26 [local measurement checks](docs/development/local-measurements.md),
 36 [workload corpus checks](docs/development/workload-corpus.md),

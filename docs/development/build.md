@@ -100,7 +100,8 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 1,379 core test invocations include 28
+The current 1,413 core test invocations include 34
+[attributed lifecycle/bridge/fault checks](attributed-local-workloads.md), 28
 [internal I/O counter checks](local-io-counters.md), 16
 [supervised worker checks](supervised-workloads.md), 26
 [local measurement checks](local-measurements.md), 36
@@ -197,8 +198,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 7: metadata at 08:45:55 EST (13:45:55 UTC) and
-compatibility at 08:45:55 EST (13:45:55 UTC). The listed selections remain unchanged; the adapter
+on November 7: metadata at 09:18:56 EST (14:18:56 UTC) and
+compatibility at 09:18:56 EST (14:18:56 UTC). The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
