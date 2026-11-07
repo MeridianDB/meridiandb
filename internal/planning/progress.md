@@ -6196,6 +6196,86 @@ live+saved report checks, regression qualification and automatic Pages/live read
 pass. No dependent MDB-0089 evaluation starts in this invocation.
 
 
+## 2026-11-07 — MDB-0088 Linux reporting and delivery acceptance
+
+**Delivered source:** `232be154f88f542d94c062829a86031860df8696` was normally
+pushed to origin/main and remote ancestry/tip equality verified. Exact-source
+[Java checks 42376268105](https://github.com/MeridianDB/meridiandb/actions/runs/42376268105),
+[documentation checks 42376268110](https://github.com/MeridianDB/meridiandb/actions/runs/42376268110)
+and [automatic Pages 42376268104](https://github.com/MeridianDB/meridiandb/actions/runs/42376268104)
+all succeed. No source repair was required after this checkpoint.
+
+**Regression:** Linux runs all 135 Python guards with zero skips in 6.053 seconds.
+The unchanged core inventory passes 1,351 cases /74 suites with zero skips,
+failures or errors; inventory SHA256 remains
+`6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+Qualification run `38e281306ef342bdaf81d363707b9c64` binds this source on Linux
+7.0.0-1017-azure x86_64, ext4 and Eclipse Adoptium 25.0.5+8-LTS.
+Windows runs 1,351 core cases with 374 capability skips. Optional loopback adapter
+regression runs 762 invocations per platform (Linux zero skips, Windows 381);
+all fourteen examples per platform pass. These are preserved regression checks,
+not additional S3 implementation. No Java/POM/dependency/inventory change occurred.
+
+**Fresh report acceptance:** Linux's saved-report step succeeds for exactly two
+source-bound observations. Both use CORRECTIONS/seed 42 and a 256 MiB heap.
+Default E16/C128/Q64/W8 run `10c1699278dd4fd0b098d0f08d98a364` has warmup 1
+and measured 2; scaled E32/C257/Q127/W6 run
+`5445ebe4e4b64041aad2a3e91e2f1825` has warmup 0 and measured 1. The clean source
+tree is 373 files /4,931,612 bytes, SHA256
+`dbf5df8f9a9748b2ec8de1da4729f54f54a3e0d47e4a2038b1f2eae3f45dcb5c`;
+compiled classpath 446 files /3,196,684 bytes, SHA256
+`7a21d38f854c70630f46fc170ec6e5f6568da135e5069f46fdf6840e23d68e6b`.
+All build/worker exits and settled-group flags pass; no deadline exhaustion.
+
+Downloaded workload artifact through the GitHub connector, verified the exact
+49,347-byte ZIP against its published SHA256 before bounded extraction of twelve
+ordinary files. Both saved analyses reproduce byte-for-byte on macOS without
+original Linux database paths. Every input byte count/hash matches, every
+iteration summary matches the recomputed worker distribution, and warmups remain
+separate from measured iterations. JSON default: 32,682 bytes, SHA256
+`e4cde3e5daed05ef366c59a43436fc90a051612c79436688f8ef93dcd61a98d9`;
+scaled: 14,948 bytes, SHA256
+`9f852c86735c0e559aca4ac43cb26caa5cfe5a85810fde3341b2888cae06f54b`.
+Markdown default: 12,166 bytes, SHA256
+`7062f7c08f6be36763d0084ed949e138a56a692368a7f9e6a5e98378f5ea068f`;
+scaled: 6,638 bytes, SHA256
+`929e3ac25279861770cdf9f3493b6cd9a830fd6054de8a681f6248c49615e0a3`.
+Raw input hashes and complete metric observations remain in ignored
+`.local-qa/mdb-0088/ci-analysis-readback.json` and the retained artifact.
+
+| Artifact | ID | ZIP bytes | Expiry UTC | SHA256 |
+| --- | --- | --- | --- | --- |
+| linux-storage-evidence | 13575698231 | 206,674 | November 21, 13:18:12 | `4aad1e4f730aae338255e00be7c57ff7fa99a1a57ce92e4d729daeae72d2f0cb` |
+| linux-workload-evidence | 13576160350 | 49,347 | November 21, 13:19:37 | `eeba7662a33122871970fcfc85f1b26bd9397a960ab211cdea95c6e943f507d2` |
+
+**Interpretation:** these runs verify reporting and live admission. Hosted ext4
+mount options include data=writeback, nobarrier and commit=30, with one omitted
+option. Backing device/controller, cache and block details remain unknown. No
+controlled baseline, device durability, power-loss, throughput superiority or
+production qualification is inferred. Recorded consistency does not authenticate
+the producer or reobserve its files/processes/hardware. Actual evaluation remains
+MDB-0089; ancestors MDB-0087/0083/0012 stay expanded.
+
+**Website:** both strict 96-page URL builds and 42 docs fixtures pass. Seven
+affected live HTTPS pages pass expected content and production canonical checks;
+96 unique sitemap URLs and both new search entries pass. Browser inspection of
+the published guide passes; `site-published.png` is embedded in commentary.
+Desktop light/mobile dark/navigation/search checks from the source receipt remain
+valid, normal light/default viewport is restored and local server 8794 stopped
+with exit 0. One ignored readback assertion expected a command name absent from
+the contributing page; it was corrected to the actual saved-report link. No
+website source defect or CI failure resulted.
+
+**Completion:** all MDB-0088 criteria pass. This internal-only completion changes
+queue/card/history, marks MDB-0088 done and MDB-0089 ready, and keeps all 89 IDs
+and parent criteria. Validate the queue/DAG/eligibility and staged diff; commit
+Step-ID MDB-0088 /Step-Result completed, push normally and verify remote ancestry,
+matching tips and clean status. No duplicate CI/Pages is required for these
+internal records. No evaluation, layout/native work, cloud change or release starts.
+
+**Next recommendation:** MDB-0089 — Linux evaluation runs and baseline acceptance.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

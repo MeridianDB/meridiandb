@@ -2497,6 +2497,15 @@ Both 96-page builds, 42 docs fixtures and desktop/mobile/search/navigation pass.
 Java/POM/inventory remain unchanged. Keep MDB-0088 active pending fresh Linux CI
 reports and remote delivery; MDB-0087/0083/0012 remain expanded.
 
+**Accepted, November 7, 2026:** source `232be154f88f542d94c062829a86031860df8696`
+is on origin/main. Exact-source Java 42376268105, docs 42376268110 and automatic
+Pages 42376268104 pass. Linux checks all 135 Python guards and 1,351 core cases
+/74 suites without skips/failures. Default warmup 1/measured 2 and scaled 0/1
+produce two checked saved reports; downloaded artifact ZIP/input hashes pass,
+and local reanalysis after original directories disappear matches both CI outputs
+byte-for-byte. Seven live pages/canonicals, search and 96 sitemap URLs pass.
+MDB-0088 is done; MDB-0089 is ready. Ancestors remain expanded for actual evaluation.
+
 ## MDB-0089 Linux evaluation runs and baseline acceptance
 
 **Parent:** MDB-0087. **Outcome:** execute useful independently scaled temporal
