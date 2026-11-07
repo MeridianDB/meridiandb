@@ -11,6 +11,9 @@ checks. It binds the requested corpus, source, compiled classes, JVM and filesys
 placement to one fresh run. It supplies developer observations, with no published
 comparative baseline or production qualification.
 
+The [Linux observation protocol](linux-observations.md) defines a separate
+sequential evaluation across temporal profiles and independently varied dimensions.
+
 [ADR 0043](../decisions/0043-supervised-workload-evidence.md) explains the evidence
 boundary. The [Linux qualification harness](linux-storage-qualification.md) remains
 the complete correctness gate; this command adds a bounded workload execution.

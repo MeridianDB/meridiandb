@@ -6276,6 +6276,47 @@ internal records. No evaluation, layout/native work, cloud change or release sta
 **Next recommendation:** MDB-0089 — Linux evaluation runs and baseline acceptance.
 
 
+## 2026-11-07 — MDB-0089 Evaluation acquisition checkpoint
+
+**Scope:** clean matching main/origin at
+`d65d62488dc6b33f7967705021e319a9156fa8ec`; previous MDB-0088 source
+`232be154f88f542d94c062829a86031860df8696` and its successful exact-source CI
+remain authoritative. Claim MDB-0089; keep 0012/0083/0087 expanded and all 89 IDs.
+Independent helpers review measurement/integration scope and refresh versions;
+primary coordinator owns queue/source/Git. No engine, format, native, S3 or release change.
+
+**Protocol:** add a ten-row TSV and a separate push-triggered Linux observations
+workflow. Run sequentially on one hosted placement, each fresh JVM/256 MiB with
+warmup 1/measured 3 and separate stores. Four fixed-dimension profile cases, four
+one-dimension-at-a-time contrasts, a seed sensitivity case and an identical final
+control retain raw request/report/worker/log evidence and checked analyses.
+Use existing admission, forced acknowledgement, historical/retry checks and
+90-second per-supervisor bounds; job ceiling twenty minutes, ninety-day artifact.
+Stop on a failed case and retain available failure evidence. The public protocol
+and agent rule distinguish observed service/resources from device/cold-cache/
+arrival/production qualification. No result or parent completion is claimed yet.
+
+**Fresh Maven research:** fourteen Central and sixteen official sources checked
+November 7 at 13:23:41 UTC /08:23:41 EST. All twelve non-AWS latest stable pins
+remain selected; optional AWS latest 2.57.11 versus retained 2.57.8 under S3 deferral.
+No dependency/POM update. Research report SHA256
+`26e183aee255aea1ac316ee46d807f6da3897fe1910a7e832e5809cf539a18b2`;
+metadata `04bf57f8e4cfe6e0ed8213f02c30ebbaa88d4905b29c01de2e508a104246e889`;
+compatibility `30abe8e1500b5166bf9b84156b3985dc4c525fec9b09d2317cd4ecb7c1c64043`;
+manifest `8a507dbf81bb7a65ef0cbf11a10a2020a8c6df55d5ac92aff173deb1fe5e66d3`.
+Ignored `.local-qa/mdb-0089/research/` retains raw bodies, request times and URLs.
+
+**Checks:** all ten cases pass existing dimension/reference/action admission;
+independent-contrast, profile, seed/control, final-newline and YAML/shell syntax
+checks pass. All 89 queue IDs/cards/dependencies/eligibility pass. Strict 97-page
+production-URL documentation generation and source/rendered/link/search/sitemap QA
+pass. No Java/POM source changed; full exact-source regression follows in CI.
+
+**Delivery:** commit a Step-ID MDB-0089 /Step-Result checkpoint and normal push. Obtain actual
+Linux observations, preserve durable checked raw inputs, evaluate metrics and audit
+every original criterion before completion. The current item remains active.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

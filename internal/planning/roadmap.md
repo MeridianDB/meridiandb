@@ -2520,6 +2520,14 @@ useful bottlenecks, limitations and justified next experiments. Close ancestors
 only after every required child and integration criterion passes. Unknown hardware
 facts remain unknown; no paid environment or privileged cache operation is presumed.
 
+**Execution protocol, November 7, 2026:** ten sequential hosted Linux observations,
+one fresh JVM per case, warmup 1/measured 3. Four base profiles, four independently
+varied corrections dimensions, a second seed and an identical final control use
+the existing supervisor/report reader. A dedicated push-triggered workflow retains
+raw evidence for 90 days; durable compressed inputs and a public scoped evaluation
+will preserve reproducibility beyond artifact expiry. Keep this item active and
+all baseline ancestors expanded until actual evidence and the integration audit pass.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

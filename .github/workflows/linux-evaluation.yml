@@ -1,0 +1,70 @@
+name: Linux workload observations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/storage/evaluation.tsv'
+      - '.github/workflows/linux-evaluation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: linux-evaluation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version-file: .java-version
+          check-latest: true
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version-file: '.python-version'
+      - name: Run sequential observations and check saved reports
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/mdb-evaluation/observations" "$RUNNER_TEMP/mdb-evaluation/analysis"
+          evaluation_count=0
+          while IFS=$'\t' read -r case_name profile seed entities commits queries width; do
+            scratch="$RUNNER_TEMP/mdb-evaluation/observations/$case_name"
+            mkdir "$scratch"
+            python scripts/storage/run_workload.py --scratch-parent "$scratch" --profile "$profile" --seed "$seed" --entities "$entities" --commits "$commits" --queries "$queries" --interval-width "$width" --warmups 1 --repetitions 3 --timeout 90
+            case_run_count=0
+            for case_run in "$scratch"/mdb-measure-*; do
+              python scripts/storage/summarize_workload.py --run-dir "$case_run" --expect-source "$GITHUB_SHA" > "$RUNNER_TEMP/mdb-evaluation/analysis/$case_name.json"
+              case_run_count=$((case_run_count + 1))
+            done
+            test "$case_run_count" -eq 1
+            evaluation_count=$((evaluation_count + 1))
+          done < scripts/storage/evaluation.tsv
+          test "$evaluation_count" -eq 10
+      - name: Retain observations and failure evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: linux-workload-observations
+          path: |
+            ${{ runner.temp }}/mdb-evaluation/observations/*/mdb-measure-*/request.json
+            ${{ runner.temp }}/mdb-evaluation/observations/*/mdb-measure-*/report.json
+            ${{ runner.temp }}/mdb-evaluation/observations/*/mdb-measure-*/worker.json
+            ${{ runner.temp }}/mdb-evaluation/observations/*/mdb-measure-*/worker.partial.json
+            ${{ runner.temp }}/mdb-evaluation/observations/*/mdb-measure-*/build.log
+            ${{ runner.temp }}/mdb-evaluation/observations/*/mdb-measure-*/worker.log
+            ${{ runner.temp }}/mdb-evaluation/analysis/*.json
+          retention-days: 90
+          if-no-files-found: warn

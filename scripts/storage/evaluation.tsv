@@ -1,0 +1,10 @@
+corrections-base	CORRECTIONS	42	16	128	64	8
+append-base	APPEND	42	16	128	64	8
+retractions-base	RETRACTIONS	42	16	128	64	8
+hot-base	HOT_ENTITY	42	16	128	64	8
+corrections-history	CORRECTIONS	42	16	512	64	8
+corrections-entities	CORRECTIONS	42	64	128	64	8
+corrections-reads	CORRECTIONS	42	16	128	256	8
+corrections-width	CORRECTIONS	42	16	128	64	16
+corrections-seed	CORRECTIONS	43	16	128	64	8
+corrections-repeat	CORRECTIONS	42	16	128	64	8

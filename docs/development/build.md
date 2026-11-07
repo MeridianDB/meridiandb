@@ -196,8 +196,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 7: metadata at 07:53:51 EST (12:53:51 UTC) and
-compatibility at 07:53:51 EST (12:53:51 UTC). The listed selections remain unchanged; the adapter
+on November 7: metadata at 08:23:41 EST (13:23:41 UTC) and
+compatibility at 08:23:41 EST (13:23:41 UTC). The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)

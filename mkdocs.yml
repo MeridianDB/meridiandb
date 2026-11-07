@@ -119,6 +119,7 @@ nav:
       - Local operation measurements: development/local-measurements.md
       - Supervised Linux workloads: development/supervised-workloads.md
       - Saved workload reports: development/workload-reports.md
+      - Linux workload observations: development/linux-observations.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
       - Temporal queries: development/temporal-queries.md

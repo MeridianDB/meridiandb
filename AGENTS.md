@@ -591,6 +591,12 @@ so a new session can work correctly without relying on earlier conversations.
   warmup/measured iteration's distributions separate; never average percentiles.
   Preserve native file/process/source checks in the live supervisor. Verify real
   saved artifacts without original directories and fresh Linux CI report readback.
+- For baseline evaluation, follow the [Linux observation protocol](docs/development/linux-observations.md)
+  and `scripts/storage/evaluation.tsv`. Keep fixed-input, one-dimension contrasts,
+  profile/seed sensitivity and repeated control runs distinct. Preserve every raw
+  input and its hash beyond temporary CI retention; audit original parent criteria
+  before closing them. Report per-repetition distributions and scoped resources,
+  leaving controlled-device, cold-cache and production claims with their actual gaps.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run
