@@ -2672,6 +2672,17 @@ supervisor and saved-reader contracts, independently recomputes raw sums/ratios,
 and verifies actual Linux smoke and report readback. Preserve every original
 criterion above; evaluated Linux runs and ancestor acceptance remain MDB-0093.
 
+**Integration acceptance, November 7, 2026:** both required children MDB-0094 and
+MDB-0095 are done. Source `62803041ee581f12fd4cce170821b2c715f80a0b` completes
+the versioned worker/supervisor/saved-reader bindings, independent original-byte
+denominators, ordered complete coverage, raw sums and named ratios. Original
+MDB-0092 criteria pass: native lifecycle/failure cleanup, bounded scopes/export/
+parsing, strict missing/unknown/overflow refusal, zero-denominator N/A and separate
+auxiliary/excluded work have independent checks and actual Linux smoke/readback.
+Docs/rules/inventory and exact-source CI/Pages/live verification pass. Close
+MDB-0092 with MDB-0095; keep MDB-0090/0083/0012 expanded for MDB-0093's evaluated
+profiles, durable raw data and original baseline acceptance.
+
 ## MDB-0094 Attributed local lifecycle core
 
 **Parent:** MDB-0092. **Outcome:** execute the same checked native local lifecycle
@@ -2764,6 +2775,19 @@ developer helpers; POM unchanged. Forty-two docs fixtures and both strict 103-pa
 URL builds pass. CI now includes two ordinary and two attributed supervised cases
 with exact-source saved readback. Keep MDB-0095 active pending actual Linux CI and
 Pages/live verification; MDB-0092/0090/0083/0012 remain expanded.
+
+**Completion acceptance, November 7, 2026:** source
+`62803041ee581f12fd4cce170821b2c715f80a0b` reaches origin/main. Exact-source
+Java 42385846700 passes 1,422 core cases /80 suites and 183 Python guards with
+zero Linux skips/failures; 762 optional invocations and fourteen examples pass on
+both platforms, with 394 core/381 optional Windows capability skips. Both ordinary supervised cases
+and both attributed cases pass native/source/process admission and saved readback:
+CORRECTIONS42 warmup1/measured2 and max APPEND42 E1/C100/Q879/W1, including exact
+2,048-scope reservation. Docs 42385846698 and automatic Pages 42385846676 pass;
+fifteen affected live HTTPS pages/canonicals, 103 unique sitemap URLs, new guide/
+ADR search and browser rendering pass. Mark MDB-0095 and parent MDB-0092 done;
+prepare MDB-0093 ready after completion delivery. MDB-0090/0083/0012 remain
+expanded; temporary CI regression evidence supplies no evaluated baseline credit.
 
 ## MDB-0093 Linux attributed work and baseline acceptance
 

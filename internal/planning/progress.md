@@ -6862,6 +6862,91 @@ and close MDB-0095/0092, preparing MDB-0093. Keep MDB-0090/0083/0012 expanded;
 no actual evaluated attributed dataset or downstream implementation starts here.
 
 
+## 2026-11-07 — MDB-0095 CI, publication and parent integration acceptance
+
+**Delivered source:** `62803041ee581f12fd4cce170821b2c715f80a0b` reaches
+origin/main by normal push, with fetch, ancestry and matching tips verified.
+Exact-source [Java 42385846700](https://github.com/MeridianDB/meridiandb/actions/runs/42385846700)
+passes both platforms. Linux job 128442929100 verifies **1,422 core cases /80
+suites**, zero failures/errors/skips, including all nine new worker cases.
+Qualification run `5e9d21866b984a63a7f35c17a31c5409` binds clean source, fresh root,
+Temurin 25.0.5+8-LTS/amd64 and inventory SHA256
+`dc6edb3b4ce83e2f74f577f3037f92c2b8287c89da803d32e7cf4d05d5191fb9`.
+The ext4/kernel 7.0.0-1017-azure/x86_64 profile retains its observed mount options
+and unknown device/cache/controller limits. All **183 Python guards** pass on
+Linux without skips (10.517 seconds); 762 optional loopback cases pass without skips.
+Windows job 128442928960 passes 1,422 core cases with 394 capability skips and
+762 optional cases with 381 skips. All nine new worker cases run, asserting unsupported
+native outcomes where appropriate. Fourteen examples pass on each platform.
+
+**Actual supervised regression:** all four runs bind the exact clean source,
+unchanged source/class fingerprints, native files and settled process cleanup.
+All four saved-report readbacks pass; the job verifies two ordinary/two explicit
+attributed analyses, warmup/measured separation and maximum admitted dimensions.
+
+| Run | Configuration | Worker bytes | Worker SHA256 |
+| --- | --- | ---: | --- |
+| `09eaa19295104365a6591e0f330c5bf5` | Ordinary schema2 CORRECTIONS42 E16/C128/Q64/W8, warmup1/measured2 | 135,050 | `3b209253f67ee497531baf5bb14bd51dfaa5d7c7dcd35ec651252c17b44e012d` |
+| `ae4070b90f734688b9e604aca8e2f737` | Ordinary schema2 CORRECTIONS42 E32/C257/Q127/W6, warmup0/measured1 | 84,190 | `c86334f307fca0cda0de1885d00f9a726c229e1fe8fb4d5589ed0918d1473646` |
+| `9cd65225601a493db70c8b5c8d0b73c0` | Attributed schema3 CORRECTIONS42 E16/C128/Q64/W8, warmup1/measured2 | 861,914 | `b608763f81272f0fb46fd0ff4ab4ba97bafe2d3b1cf19e72e662d912d59107e1` |
+| `410ced2b8c1d431389d9ccc9c01f9b3d` | Attributed schema3 APPEND42 E1/C100/Q879/W1, warmup0/measured1 | 1,222,047 | `7b9d6cda8f3f26c0ae5a81aa4f0da61fa754e9903b99a5a74d27896ea8114679` |
+
+Both attributed runs use `CALLER_THREAD_LOCAL_IO_INSTRUMENTED`. Independent
+source-history recomputation yields header 42/seed 1,274/mixed 8,990/full 10,306 bytes
+for CORRECTIONS (128 originals, 13 retries, 64 queries), and header 42/seed 78/
+mixed 7,906/full 8,026 for max APPEND (100 originals, 5 retries, 879 queries).
+The max case reserves 2,048 scopes and emits 2,016 successful scopes within existing
+parser/output limits. Raw counters and named ratios pass independent admission
+and cached-summary comparison. These are bounded CI regression runs; preserve
+the original evaluated observations without comparing instrumented timings.
+
+Temporary artifacts: `linux-storage-evidence` 13579053618, 223,370 bytes, SHA256
+`78cddacd137dcef6924e33301afa92bd934e74cb82ff4d0ba2c9849e78fb0a9a`,
+expires November 21, 2026 15:20:53 UTC; `linux-workload-evidence` 13579008803,
+167,175 bytes, SHA256
+`85d085c048018469766b087cc91932e9333c3a68f610d019f145b9fc98a5a89a`,
+expires November 21, 2026 15:22:50 UTC. Ignored `.local-qa/mdb-0095/` retains decoded
+logs/profile, local rooted verification, fixture provenance and screenshots.
+Temporary artifacts do not replace MDB-0093's durable evaluated raw data.
+
+**Documentation delivery:** exact-source
+[docs 42385846698](https://github.com/MeridianDB/meridiandb/actions/runs/42385846698)
+passes both production/project URL builds. Automatic
+[Pages 42385846676](https://github.com/MeridianDB/meridiandb/actions/runs/42385846676)
+passes build 128442928640/deploy 128443016162. Fifteen affected HTTPS pages pass
+content/canonical assertions; 103 unique sitemap URLs and guide/ADR 0047 search
+entries pass. Published evidence guide: 63,130 bytes, SHA256
+`4b24200c691f2bf9a5870b50a3836209b5a066b68964725d2071455cef118c46`.
+The project URL returns the same guide through the existing redirect to
+`http://meridiandb.org/development/attributed-workload-evidence/`, status 200 with
+correct HTTPS canonical; direct production HTTPS checks pass. Hosting unchanged.
+Published browser inspection verifies actual content/rendering; the screenshot is
+embedded in commentary. Preview 8798 stops with exit 0; normal light/default viewport
+is restored. Forty-two docs fixtures and both strict 103-page builds pass locally.
+
+**Original MDB-0092 criteria audit:** required child MDB-0094 supplies shared native
+lifecycle scopes, bounded recording and cleanup, original logical denominators
+and explicit auxiliary/excluded work. MDB-0095 supplies versioned source/runtime/
+configuration/operation/counter identity across worker/supervisor/saved reader,
+independent byte/CRC/hash/ratio checks, strict incomplete/unknown/failed/overflow
+refusal, zero-denominator N/A, bounded maximum parsing/export, failure provenance
+and actual Linux smoke/readback. Native and independent fault/schema/ratio tests,
+docs/rules/inventory and publication acceptance pass. All original integration
+criteria are met; evaluated profiles and original baseline acceptance remain
+MDB-0093. No production, power-loss, controlled-device or speed-gain claim follows.
+
+**Completion and handoff:** mark MDB-0095 and parent MDB-0092 done, clear active
+ownership and prepare **MDB-0093 — Linux attributed work and baseline acceptance**
+ready, preserving all 95 IDs. Reconcile roadmap/current queue/baseline audit;
+MDB-0090/0083/0012 stay expanded with the original amplification criterion unmet
+pending actual evaluated data/audit. Validate queue/cards/DAG and task-owned staged
+diff; commit only four internal planning files with Step-ID MDB-0095 /Step-Result
+completed, normal-push and verify source/completion ancestry, matching tips and
+clean status. Git/final handoff supplies the actual completion SHA/push result.
+No runtime/public/POM/inventory changes follow exact-source acceptance; current
+path filters require no repeat CI/Pages build. No MDB-0093 implementation starts.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

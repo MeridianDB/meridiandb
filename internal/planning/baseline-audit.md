@@ -91,3 +91,28 @@ and actual evaluated attributed runs remain MDB-0095/0093. The original
 operation-attributed amplification criterion above remains **unmet** until that
 integration and evaluation pass. Preserve original observational data and all
 expanded ancestors' original criteria.
+
+## Serialized attribution integration checkpoint — November 7, 2026
+
+MDB-0095 source `62803041ee581f12fd4cce170821b2c715f80a0b` completes explicit
+schema-three worker/supervisor/saved-reader integration. Independently decoded,
+CRC32C-checked original header/frame bytes bind exact original-history hashes and
+logical denominators. Ordered operation/auxiliary scopes, raw role counters,
+aggregate sums and named ratio pairs are recomputed; incomplete/failed/unknown/
+overflow evidence is refused. Zero denominators are N/A and excluded/uncaptured
+work remains separate. Ordinary results and the original ten-case dataset stay
+unchanged.
+
+Exact-source Java 42385846700 passes 1,422 core cases /80 suites and 183 Python
+guards with zero Linux skips/failures. Two ordinary plus two attributed native
+supervised cases and all four saved-report readbacks pass, including warmup/
+measured separation and the maximum admitted trace. Documentation/ADR 0047,
+automatic Pages and live verification pass. Both required MDB-0092 children and
+all original integration criteria pass; MDB-0095 and MDB-0092 are done.
+
+The original operation-attributed amplification criterion remains **unmet** until
+MDB-0093 evaluates useful bounded Linux profiles/contrasts, retains durable raw
+evidence and audits all original criteria. Temporary CI smoke is regression and
+source-admission evidence, not that evaluation. Keep MDB-0090/0083/0012 expanded;
+preserve their original criteria and historical findings. Device/controller/cache,
+cold-cache, sustained-arrival and production qualification gaps remain MDB-0080.
