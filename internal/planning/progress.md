@@ -6688,6 +6688,72 @@ and ready MDB-0095. MDB-0092/0090/0083/0012 remain expanded. No dependent
 implementation starts in this invocation.
 
 
+## 2026-11-07 — MDB-0094 CI, publication and completion acceptance
+
+**Delivered source:** `91ae1bc4acedc86708cc7663814260b607ac06ed` reached
+origin/main through normal push, with fetch, matching tips and ancestry verified.
+Exact-source [Java 42382641654](https://github.com/MeridianDB/meridiandb/actions/runs/42382641654)
+passes both platforms. Linux job 128433325332 verifies **1,413 core invocations
+/79 suites** with zero failures/errors/skips. Qualification run
+`98cabc09356445419ff5789446b70fbf` binds clean source, fresh root/runtime and inventory
+SHA256 `a7fa250e9aa2f561c26a22f55c02c7d98813779888393e49059ad290048592e0`.
+The three new suites run all bridge9, trace/fault12 and native lifecycle13 cases.
+Observed ext4/kernel7.0.0-1017-azure/x86_64/Temurin25.0.5+8-LTS preserves recorded
+mount options and unknown device/cache/controller/production/power-loss limits.
+All 135 Python guards pass on Linux without skips. Optional loopback regression
+passes 762 invocations with zero skips. Windows job 128433325111 passes 1,413 core
+invocations with 394 capability skips and 762 optional invocations with 381 skips:
+new bridge9 all run, trace12 skips only its actual directory-sync-dependent case,
+and native lifecycle13 explicitly skip unsupported directory synchronization.
+Fourteen examples pass on each platform.
+
+**Legacy workload regression:** default run `05c22e1818eb40c7806816e459f8a79a`
+(E16/C128/Q64/W8, warmup1/measured2) and scaled run
+`029b2f38b0bc4f82824668991d723b37` (E32/C257/Q127/W6, warmup0/measured1)
+both pass exact-source admission, native lifecycle checks, settled worker cleanup
+and saved-report verification. Worker bytes/hashes respectively:
+135,004 / `32a89e4768307b8e1a49ef5b50210ae89652de133f475cdcc695aae67d7e7bc3`
+and 84,204 / `fd65a658ab90eb9f8bb30915414ea981543d3c4e313aef2d8ff4b51c0c17249a`.
+These smoke runs use the unchanged ordinary schema-two supervisor/worker path,
+not a new attributed serialized mode. Original evaluated observations remain
+immutable; MDB-0095/0093 retain serialized admission/evaluation requirements.
+
+Temporary CI artifacts: `linux-storage-evidence`13578366602, 221,052 bytes,
+SHA256 `d275eb03fb29de61ca0a8cce38827896720e223bb128c4823e5cf8eefb539256`,
+expires November 21, 2026 14:40:58 UTC; `linux-workload-evidence`13577939450,
+49,496 bytes, SHA256
+`2d527536e9d1116ff9fe218589bacdabaf09f2a97edd5dd629288ee3a32739fb`,
+expires November 21, 2026 14:42:45 UTC. Ignored `.local-qa/mdb-0092/` retains
+decoded logs/profile and local rooted test/readback evidence. Temporary regression
+artifacts do not replace future durable evaluated attributed data.
+
+**Documentation delivery:** exact-source
+[docs42382641640](https://github.com/MeridianDB/meridiandb/actions/runs/42382641640)
+passes both production/project URL builds. Automatic
+[Pages42382641651](https://github.com/MeridianDB/meridiandb/actions/runs/42382641651)
+passes build128433324943 and deploy128433438374. Eleven affected HTTPS pages pass
+content and canonical assertions; 101 unique sitemap URLs and new guide/ADR search
+entries pass. Published guide bytes60,780, SHA256
+`e7d9f00007cff0c13b233b589e69cbe44e56664907ba1c6a90cd9ce515a2c223`.
+Project URL returns the same guide through the existing redirect to
+`http://meridiandb.org/development/attributed-local-workloads/`, status200 with
+correct HTTPS canonical; direct production HTTPS checks pass. Hosting settings
+are unchanged. Published browser verifies actual scope/status copy and rendering;
+`site-published.png` is embedded in commentary. Preview server8797 stops with
+exit0; normal light/default viewport is restored.
+
+**Completion:** mark MDB-0094 done, remove its active claim and prepare MDB-0095
+ready, preserving all 95 IDs and queued MDB-0093. Reconcile roadmap/current queue
+and baseline audit without granting amplification/baseline completion. MDB-0092,
+MDB-0090, MDB-0083 and MDB-0012 stay expanded. Validate queue/cards/DAG and
+task-owned staged diff; commit internal completion with Step-ID MDB-0094 /
+Step-Result completed, push normally and verify remote ancestry/tips. No runtime,
+public docs, POM or inventory changes follow the exact-source acceptance, so this
+internal-only receipt triggers no repeat CI/Pages build. Next: **MDB-0095 —
+Attributed serialized evidence integration**, after completion delivery. No
+dependent implementation starts here.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

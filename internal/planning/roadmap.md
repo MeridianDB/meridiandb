@@ -2713,6 +2713,18 @@ All 135 Python guards pass locally (five Linux-only skips); 42 docs fixtures and
 both strict 101-page URL builds pass. Keep MDB-0094 active pending exact-source
 CI and automatic Pages/live acceptance. MDB-0092/0090/0083/0012 stay expanded.
 
+**Completion acceptance, November 7, 2026:** source
+`91ae1bc4acedc86708cc7663814260b607ac06ed` is on origin/main. Exact-source
+Java 42382641654 verifies all 1,413 core cases /79 suites and 135 Python guards
+with zero Linux skips/failures, including every new bridge/fault/native lifecycle
+case. Optional regression and fourteen examples pass on both platforms; Windows
+retains 394 core /381 optional capability skips. Default/scaled supervised smoke
+and saved-report checks pass, preserving old result schemas. Documentation
+42382641640 and automatic Pages 42382641651 pass; eleven affected live HTTPS
+pages/canonicals, 101 sitemap URLs, new search entries and browser rendering pass.
+MDB-0094 is done; MDB-0095 becomes ready after this completion reaches remote
+main. Keep MDB-0092/0090/0083/0012 expanded until their original criteria pass.
+
 ## MDB-0095 Attributed serialized evidence integration
 
 **Parent:** MDB-0092. **Outcome:** expose explicit attributed worker/supervisor and

@@ -75,3 +75,19 @@ automatic Pages delivery are verified. This foundation supplies no operation
 labels, raw attributed workload result or amplification measurement. The unmet
 original requirement above remains **unmet** pending MDB-0092/0093; original
 observational data and accepted criteria are unchanged.
+
+## Attributed lifecycle checkpoint — November 7, 2026
+
+MDB-0092 is expanded into required MDB-0094 Java lifecycle attribution and
+MDB-0095 serialized worker/supervisor/saved-reader integration. MDB-0094 source
+`91ae1bc4acedc86708cc7663814260b607ac06ed` now supplies explicit operation and
+auxiliary scopes, typed raw counters, incomplete/excluded coverage and original
+logical-history denominators. Exact-source Java 42382641654 verifies 1,413 core
+cases /79 suites and 135 Python guards with zero Linux skips/failures, including
+independent literal native lifecycle and ownership-failure checks. Guide/ADR0046
+and automatic Pages/live delivery pass. This is an in-process correctness
+foundation; source-bound serialized admission, independent named-ratio reporting
+and actual evaluated attributed runs remain MDB-0095/0093. The original
+operation-attributed amplification criterion above remains **unmet** until that
+integration and evaluation pass. Preserve original observational data and all
+expanded ancestors' original criteria.
