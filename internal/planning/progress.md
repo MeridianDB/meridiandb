@@ -7078,6 +7078,58 @@ and stop. No Java/parser/workflow/evaluation-plan change follows native acquisit
 there is no new measurement or source CI prerequisite from these results-only paths.
 
 
+## 2026-11-07 — MDB-0093 Publication, integrated acceptance and completion
+
+**Results delivery:** normal-pushed source
+`901d1413ce1a2e99323c2f4549fb6be8f32a8468` is verified on origin/main through
+fetch/matching tips, retaining acquisition source
+`b79a0366fca194dd56f326cd3f0952a31598a958` in ancestry. The latter owns actual
+ten-case Linux42387103000 evaluation and exact-source Java42387102889 regression
+(1,422 core cases/80 suites,183 Python guards, zero Linux skips/failures). Results
+changes affect documentation/raw evidence/planning only; Java, POM, inventory,
+evidence validators, acquisition workflow and TSV remain unchanged. Path filters
+correctly require no duplicate Java or observation run for these results paths.
+
+Exact-source [docs42388143691](https://github.com/MeridianDB/meridiandb/actions/runs/42388143691)
+passes production job128449823847 and project-URL job128449823402. Automatic
+[Pages42388143649](https://github.com/MeridianDB/meridiandb/actions/runs/42388143649)
+passes build128449823508/deploy128449941572. Fifteen affected HTTPS pages pass
+content/canonical checks;104 unique sitemap URLs and results search entries pass.
+Published result page:73,002 bytes, SHA256
+`a156a0f8df6570352a03bd3ed3b8a70aefcf16108c6a552c668710fe90b72975`.
+Project URL returns the same result through the existing redirect to
+`http://meridiandb.org/development/linux-attributed-observations/`,status200 with
+correct HTTPS canonical; direct production HTTPS checks pass. Hosting unchanged.
+Published browser verifies result tables/coverage and the screenshot is embedded
+in commentary. Local8799 stops exit0; default viewport/light scheme restored.
+
+**Original criteria and parent closure:** governing baseline-audit table passes
+every original MDB-0012/0083 requirement using distinct ordinary timing/resource
+and attributed-file-work datasets. MDB-0090's remaining original criterion now
+has useful native contrasts, exact source-history denominators, strict raw
+recomputation, explicit failed/missing/unknown/overflow/N/A and coverage boundaries,
+durable evidence and public interpretation. Independent review verifies50files,
+all histories/CRC/hash identities,14,570 scopes,450 groups/ratios and all ten
+byte-for-byte saved analyses. All MDB-0090 children91/92/93 and MDB-0083 children
+86/87/90, then MDB-0012 children81/82/83, satisfy their original integrated outcomes.
+Close MDB-0093, MDB-0090, MDB-0083 and MDB-0012 without waiving criteria or
+relabelling whole-process/device I/O. Keep controlled-device/cache, cold-cache,
+arrival, power-loss and production qualification with MDB-0080.
+
+**Completion and handoff:** clear the active claim, preserve95 stable IDs and
+make **MDB-0013 — Measured layout and index experiments** ready, conditional on
+this completion reaching remote main. Use observed recovery/full-history
+reconstruction costs to refine one bounded experiment, measuring returned bytes,
+allocation, latency and memory under equivalent history/integrity/actual-prefix/
+ownership/acknowledgement. No optimization or deferred S3/replication work starts.
+Validate queue/cards/DAG/completed children, inspect the task-owned staged diff
+and commit only four internal planning files with Step-ID MDB-0093 /Step-Result
+completed. Normal-push, fetch and verify source/completion ancestry, matching tips
+and clean status; Git/final handoff supplies the actual completion SHA/result.
+No runtime/public/evidence byte changes follow acceptance; internal-only receipt
+does not trigger repeat source checks, observations or Pages publication.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

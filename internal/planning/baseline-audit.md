@@ -7,8 +7,8 @@ outcomes remain in [roadmap.md](roadmap.md). The public technical interpretation
 The separate [attributed evaluation](../../docs/development/linux-attributed-observations.md)
 now supplies the missing scoped file-work evidence. The governing table below
 includes that result; dated checkpoint decisions preserve their historical state.
-Technical criteria pass within the stated bounds; final source/publication
-acceptance remains with the active MDB-0093 queue row until delivery readback.
+Technical and final source/publication acceptance pass within the stated bounds;
+MDB-0093 and its baseline parents are complete under the delivery decision below.
 
 ## Evidence and identity
 
@@ -151,11 +151,16 @@ data and public interpretation are now available (MDB-0093). Original integrity,
 ownership, force/acknowledgement, reference and recovery code is unchanged.
 
 The governing table reconciles every original MDB-0012/0083 requirement with both
-datasets. All required children of MDB-0090, MDB-0083 and MDB-0012 will be done
-once MDB-0093 delivery acceptance passes. This is a bounded observational baseline,
+datasets. All required children of MDB-0090, MDB-0083 and MDB-0012 are done.
+This is a bounded observational baseline,
 not controlled-device/production qualification. Device/controller/cache, cold-cache,
 arrival and power-loss gaps retain MDB-0080 ownership; they were explicitly
 separated in the original criteria and do not create a new remote/paid prerequisite.
-After public review/Pages/live acceptance, close MDB-0093/0090/0083/0012 and make
-MDB-0013 ready for one measured, correctness-preserving experiment. No experiment
-starts in this invocation.
+
+**Final delivery decision:** results source
+`901d1413ce1a2e99323c2f4549fb6be8f32a8468` is on origin/main. Exact-source
+docs42388143691 and automatic Pages42388143649 pass both URL builds/publication.
+Fifteen affected live HTTPS content/canonical checks,104 unique sitemap URLs,
+search and published browser inspection pass. Close MDB-0093/0090/0083/0012 and
+prepare MDB-0013 ready for one measured, correctness-preserving experiment after
+this completion reaches remote main. No experiment starts in this invocation.

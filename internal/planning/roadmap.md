@@ -2227,6 +2227,14 @@ amplification. Whole-process bytes/journal ratios do not satisfy that criterion.
 Keep MDB-0012 expanded; controlled-device and production profile gaps retain
 MDB-0080 ownership without becoming a remote-backend prerequisite.
 
+**Integrated acceptance, November 7, 2026:** MDB-0093 adds actual attributed Linux
+evaluation, durable exact raw counters/denominators and public interpretation to
+the ordinary timing/resource baseline. The [governing audit](baseline-audit.md)
+reconciles every original criterion. Required MDB-0081/0082/0083 and their children
+are done; exact-source correctness and results publication/live checks pass.
+Close MDB-0012 and prepare MDB-0013. Controlled-device/production gaps remain
+MDB-0080; no optimization or production claim follows.
+
 ## MDB-0081 Deterministic temporal workload corpus
 
 **Parent:** MDB-0012. **Outcome:** define a versioned bounded workload specification,
@@ -2413,6 +2421,14 @@ attributed file work and amplification before closing MDB-0083/0012. Actual
 MDB-0089 observations preserve current whole-process ratios with their broader
 scope; they are not relabeled as attributed amplification.
 
+**Integrated acceptance, November 7, 2026:** MDB-0090 and all required descendants
+pass scoped returned-byte measurement/evaluation with unchanged acknowledgement,
+complete historical/retry answers and strict evidence bounds. Separate ordinary
+and attributed datasets, reproducible reports and the governing original-criteria
+audit pass. Results source `901d1413ce1a2e99323c2f4549fb6be8f32a8468` passes docs/
+Pages/live readback. Close MDB-0083 and MDB-0012; retain separately named device,
+cold-cache, arrival and production gaps without another baseline prerequisite.
+
 ## MDB-0086 Configurable supervised workload dimensions
 
 **Parent:** MDB-0083. **Outcome:** expose entities, commits, reads and interval
@@ -2598,6 +2614,15 @@ separate instrumented execution, versioned raw-result/supervisor/report contract
 and exact denominators. MDB-0093 executes useful bounded Linux attributed runs,
 retains durable checked evidence and completes this parent's original criteria
 and the MDB-0083/0012 integration audit. Keep every original criterion above.
+
+**Integrated acceptance, November 7, 2026:** required MDB-0091 counters, MDB-0092
+integration and MDB-0093 actual Linux evaluation are done. Native independent
+literal/failure checks and all183 Python guards pass; ten evaluated cases retain
+exact histories,14,570 scopes,450 groups, integer ratios and fifty durable raw/log
+files. Operation/auxiliary/excluded work stays separate, zero denominators are N/A,
+and original storage/reference/ownership/acknowledgement behavior is unchanged.
+Public interpretation and original MDB-0083/0012 audit pass with successful
+results-source CI/Pages/live delivery. Close MDB-0090 and both baseline ancestors.
 
 ## MDB-0091 Internal local I/O counters
 
@@ -2825,6 +2850,14 @@ separate. Timing still varies. Exact-source Java verifies1,422 core/80suites and
 183guards with zero Linux skips/failures. All original technical criteria pass
 within the defined adapter scope; results/docs/audit delivery remain required
 before closing MDB-0093/0090/0083/0012. No next experiment starts here.
+
+**Completion acceptance, November 7, 2026:** results source
+`901d1413ce1a2e99323c2f4549fb6be8f32a8468` is verified on origin/main.
+Docs42388143691 and automatic Pages42388143649 pass; fifteen live HTTPS content/
+canonical checks,104 sitemap URLs, search and published browser inspection pass.
+Original criteria and all required-child audits pass, closing MDB-0093/0090/0083/
+0012. Prepare MDB-0013 ready after completion delivery. Preserve the evidence,
+ordinary observations and separately scoped production gaps; no optimization starts.
 
 ## MDB-0013 Measured layout and index experiments
 
