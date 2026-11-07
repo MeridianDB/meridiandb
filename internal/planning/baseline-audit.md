@@ -62,3 +62,16 @@ It preserves original integrity, ownership and acknowledgement, with no native
 accelerator, cloud integration, paid environment or privileged cache prerequisite.
 Physical-device/cache/cold-arrival qualification remains separately owned by
 MDB-0080; future layout experiments still depend on completed MDB-0012.
+
+## Counter foundation checkpoint — November 7, 2026
+
+MDB-0090 is expanded into required MDB-0091 counter foundation, MDB-0092 attributed
+workload/result integration and MDB-0093 actual Linux evaluation/integrated
+acceptance. MDB-0091 source `f8b8cf4fd62a7d10845d4592781fbdd14c0813c5` adds inert
+internal native completed-byte/force counters and independent literal/failure/
+lifecycle checks. Exact-source Java 42380298307 verifies 1,379 core cases /76
+suites and 135 Python guards with zero Linux skips/failures; public guide/ADR and
+automatic Pages delivery are verified. This foundation supplies no operation
+labels, raw attributed workload result or amplification measurement. The unmet
+original requirement above remains **unmet** pending MDB-0092/0093; original
+observational data and accepted criteria are unchanged.

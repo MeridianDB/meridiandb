@@ -2634,7 +2634,18 @@ Optional loopback regression passes all 762 invocations without skips. Core has
 160 classes/JDK-only dependencies; classifier remains ten classes without the
 observer/tests/workload/qualification helpers. All 135 Python guards pass locally
 with five Linux-only skips, 42 docs fixtures and both strict 99-page URL builds pass.
-Keep MDB-0091 active pending exact-source Linux inventory/native tests and Pages.
+
+**Completion acceptance, November 7, 2026:** source
+`f8b8cf4fd62a7d10845d4592781fbdd14c0813c5` is delivered to origin/main.
+Exact-source Java 42380298307 passes all 1,379 core cases /76 suites and 135 Python
+guards on Linux with zero skips/failures, including the 17+11 new counter cases.
+Both platforms pass optional regression and fourteen examples; Windows retains
+380 core /381 optional capability skips. Default/scaled Linux workload smoke and
+saved-report verification pass without activating attributed measurement.
+Documentation 42380298321 and automatic Pages 42380298316 pass; nine affected live
+HTTPS pages/canonicals, 99 unique sitemap URLs, new search entries and published
+browser rendering pass. MDB-0091 is done; MDB-0092 becomes ready after completion
+delivery, while MDB-0090/0083/0012 remain expanded with their original criteria.
 
 ## MDB-0092 Attributed workload and result integration
 

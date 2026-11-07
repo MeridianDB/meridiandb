@@ -6521,6 +6521,71 @@ Windows/basic adapter/example checks and automatic Pages/live readback pass.
 MDB-0092 remains queued; no dependent implementation starts here.
 
 
+## 2026-11-07 — MDB-0091 CI, publication and completion acceptance
+
+**Delivered source:** normal push of
+`f8b8cf4fd62a7d10845d4592781fbdd14c0813c5` reached origin/main; fetch, ancestry
+and matching-tip verification pass. Exact-source
+[Java 42380298307](https://github.com/MeridianDB/meridiandb/actions/runs/42380298307)
+succeeds on both platforms. Linux job 128426319245 passes all **1,379 core cases
+/76 suites** with zero failures/errors/skips, including LocalIoTest17 and
+LocalIoIntegrationTest11. Qualification run `651c219e605e4443be0638972aa57e11`
+binds clean source, fresh root/runtime and inventory SHA256
+`c119f1332553d25d24a6d1ffa758afe8a72333d168cbeaba599b1b19d53f735d`.
+Observed ext4/kernel 7.0.0-1017-azure/x86_64 and Temurin 25.0.5+8-LTS retain
+unknown device/cache/controller and production/power-loss gaps. All 135 Python
+guards pass on Linux with zero skips. Optional loopback regression passes all
+762 invocations with zero skips. Windows job 128426319419 passes 1,379 core
+invocations with 380 capability skips and 762 optional invocations with 381 skips;
+all 17 counter unit tests run, six native lifecycle tests skip for explicit
+unsupported directory-sync capability. Fourteen examples pass on each platform.
+
+**Workload regression:** unchanged schema-two default and scaled Linux smoke
+complete successfully with settled worker groups and saved-report verification.
+Default run `085dab94aeb54e2cabed0b308bcf933c` uses E16/C128/Q64/W8,
+warmup1/measured2; scaled run `147c838c4386460982c659f9999b9240` uses
+E32/C257/Q127/W6, warmup0/measured1. Worker results are respectively 134,830 bytes /
+SHA256 `5b02fc0335971b297c0ebfc65a238c9883cffb26117763fc38e4a73322c0a23b`
+and 84,067 bytes /
+`18e1b9595acff8c0fab606c43c8822ccce779817db6af1296cff81ded287be42`.
+These are correctness/regression smoke, without counter activation or attributed
+performance claims. Original MDB-0089 observations remain immutable.
+
+Temporary CI artifacts: `linux-storage-evidence` 13577636441, 212,598 bytes,
+SHA256 `dac3bb1e5743d54ae2bd35dd2692a8ac7b319706f790664d2371de8e40404213`,
+expires November 21, 2026 14:10:48 UTC; `linux-workload-evidence` 13576964897,
+49,422 bytes, SHA256
+`ebc4fbff7754786cb54514255aa91ce7a75acca21d18b5cfe66de01b946a1763`,
+expires November 21, 2026 14:12:12 UTC. Ignored `.local-qa/mdb-0091/` retains
+decoded job logs, parsed profile and local verification evidence. These artifacts
+do not replace the separate durable evaluated-data requirement of MDB-0093.
+
+**Documentation delivery:** exact-source
+[docs 42380298321](https://github.com/MeridianDB/meridiandb/actions/runs/42380298321)
+passes both canonical URL builds;
+[automatic Pages 42380298316](https://github.com/MeridianDB/meridiandb/actions/runs/42380298316)
+passes build 128426319080 and deploy 128426423780. Nine affected HTTPS pages pass
+expected content/canonical checks; 99 unique sitemap URLs and new guide/ADR search
+entries pass. The project URL returns the same guide with status 200 through its
+existing redirect to `http://meridiandb.org/development/local-io-counters/`, with
+the correct HTTPS canonical; direct production HTTPS checks pass. An initial
+extra check assumed an HTTPS final redirect URL; corrected it to record the actual
+redirect/content/canonical rather than misreporting a deployment failure. Hosting
+settings were not changed. Published browser inspection verifies scope, metric
+definitions and pending attribution. `site-published.png` is embedded in commentary.
+Local server 8796 stops successfully; normal light/default viewport is restored.
+
+**Completion and handoff:** mark MDB-0091 done, remove its active claim and prepare
+MDB-0092 as ready, preserving all 93 IDs and queued MDB-0093. Update the original
+baseline audit without crediting operation-attributed amplification. MDB-0090,
+MDB-0083 and MDB-0012 stay expanded. Validate queue/cards/DAG and task-owned diff;
+commit this internal completion receipt with Step-ID MDB-0091 /Step-Result
+completed, push normally and verify remote ancestry/tips. No engine/POM/public
+source changes follow the verified checkpoint; no repeat deployment is expected
+from this internal-only receipt. Next: **MDB-0092 — Attributed workload and result
+integration**, after completion delivery. No dependent implementation starts here.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
