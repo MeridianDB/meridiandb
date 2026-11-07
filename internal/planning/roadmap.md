@@ -2481,6 +2481,12 @@ without requiring vanished scratch files. MDB-0089 runs the actual Linux evaluat
 and original integration audit. Keep live filesystem reobservation distinct from
 recorded consistency. Parent MDB-0087/0083/0012 criteria remain unchanged.
 
+**Accepted, November 7, 2026:** required MDB-0088 and MDB-0089 pass. Ten actual
+sequential Linux observations, durable checked raw evidence, scoped public
+interpretation and the [original-criteria audit](baseline-audit.md) satisfy this
+card's evaluation/audit outcome. Unmet attributed amplification is preserved as
+required MDB-0090 under MDB-0083; MDB-0087 is done while MDB-0083/0012 stay expanded.
+
 ## MDB-0088 Checked saved workload reports
 
 **Parent:** MDB-0087. **Outcome:** read bounded saved request, report and worker
@@ -2547,8 +2553,17 @@ Independent review confirms history-depth allocation/recovery signals and materi
 control-run timing variation; no layout/native optimization is selected. The
 original-criteria audit admits required MDB-0090 because whole-process I/O cannot
 establish operation-attributed amplification. After delivery, close MDB-0089/0087;
-keep MDB-0083/0012 expanded and make MDB-0090 ready. Current item stays active until
-the public results/evidence/queue change passes final checks and publication.
+keep MDB-0083/0012 expanded and make MDB-0090 ready. Acquisition acceptance remained
+pending final results/evidence checks and publication at that checkpoint.
+
+**Accepted, November 7, 2026:** result/evidence source
+`f65ccbd692876b858dbbcdeab30510dd0bc7d699` is on origin/main. Exact-source docs
+42377997373 and automatic Pages 42377997336 pass, with seven live canonical/content
+checks, result search, 97 unique sitemap URLs and published browser inspection.
+All 33 public result rows and fifty original/compressed payloads were independently
+checked; all ten saved analyses reproduce exact CI JSON. MDB-0089 and parent
+MDB-0087 are done. The audit preserves required MDB-0090, now ready, and expanded
+MDB-0083/0012. No attributed-I/O or layout/native implementation starts here.
 
 ## MDB-0090 Operation-attributed file-work accounting
 

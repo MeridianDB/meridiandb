@@ -6394,6 +6394,49 @@ public results pass exact-source docs/automatic Pages and live readback. Then
 record completion and next MDB-0090, preserving expanded MDB-0083/0012.
 
 
+## 2026-11-07 — MDB-0089 Publication and completion acceptance
+
+**Delivered results:** `f65ccbd692876b858dbbcdeab30510dd0bc7d699` reached
+origin/main with normal push, ancestry and matching-tip verification. Exact-source
+[docs 42377997373](https://github.com/MeridianDB/meridiandb/actions/runs/42377997373)
+and [automatic Pages 42377997336](https://github.com/MeridianDB/meridiandb/actions/runs/42377997336)
+both succeed. Seven affected HTTPS pages pass expected final content and canonical
+checks; 97 unique sitemap URLs and new numerical result search entries pass.
+Published browser inspection verifies actual resource tables and findings;
+`site-published.png` is embedded in commentary. The first readback during pending
+deployment correctly saw the older protocol; after successful deployment every
+final assertion passed without a source change. A screenshot during the theme's
+header transition was recaptured after navigation settled. Local server 8795
+stopped with exit 0; browser remains normal light/default viewport.
+
+**Integrity and regression:** public remote manifest readback confirms ten cases
+and fifty files at the committed results revision. Manifest SHA256
+`c47f0254bf740b0897067a99de56f2d6d3f660c878a33b088d23fc73b3d46788`.
+Durable hashes, exact analyses, all 33 numerical result rows, strict builds and
+focused documentation checks are recorded above. Git diff confirms no Java,
+POM, storage-script or observation-workflow byte change from the successful
+acquisition/regression source `fa0a26df9455e1d30f4c5bdb873a22436d52514f`.
+Reuse its actual Linux 1,351-case /74-suite, 135-guard, optional/example and
+ten-observation CI evidence rather than claiming another Maven run.
+
+**Acceptance:** MDB-0089 satisfies its bounded observations/evaluation/audit outcome
+and MDB-0087 has both required children complete. Close MDB-0089/0087; keep
+MDB-0083/0012 expanded for admitted required MDB-0090's operation-attributed file
+work and amplification. Make MDB-0090 ready without starting it. Preserve original
+parent criteria, all ninety stable IDs and separately owned MDB-0080 production
+gaps. The current queue checkpoint is refreshed from obsolete historical smoke/
+version/page-count summaries; prior detailed evidence remains in progress history.
+Update the roadmap and original-criteria audit consistently. No attribution,
+layout/native, cloud, release or paid operation is performed.
+
+**Final delivery:** validate queue/DAG/eligibility and staged diff; commit these
+internal records with Step-ID MDB-0089 /Step-Result completed and push normally.
+Verify both source ancestors, matching remote tip and clean status. No duplicate
+CI or Pages build is required for internal-only completion records.
+
+**Next recommendation:** MDB-0090 — Operation-attributed file-work accounting.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

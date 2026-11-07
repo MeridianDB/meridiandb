@@ -46,9 +46,11 @@ outcomes remain in [roadmap.md](roadmap.md). The public technical interpretation
 
 ## Completion decision
 
-MDB-0089's explicit audit/prerequisite criterion can pass after public results and
-durable evidence are delivered. MDB-0087 has both required children complete at
-that point and may close. Keep MDB-0083 and MDB-0012 **expanded**: required child
+MDB-0089's explicit audit/prerequisite criterion passes with delivered public
+results and durable evidence at `f65ccbd692876b858dbbcdeab30510dd0bc7d699`:
+documentation 42377997373 and automatic Pages 42377997336 pass, with live results,
+canonicals, search and sitemap verified. MDB-0087 has both required children
+complete and is done. Keep MDB-0083 and MDB-0012 **expanded**: required child
 MDB-0090 must establish operation-attributed file-work counters and useful named
 amplification denominators before integrated baseline completion. Preserve all
 original parent criteria rather than relabeling process ratios or accepting zero

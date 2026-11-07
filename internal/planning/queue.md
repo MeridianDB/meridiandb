@@ -15,68 +15,41 @@ children before implementation rather than treating a whole milestone as one pat
 - Linux local storage remains the production target; Windows keeps basic compatibility.
   Twelve unfinished S3 rows and planned replication remain deferred with original
   IDs, criteria and completed history. No format or acknowledgement change.
-- **MDB-0086 — Configurable supervised workload dimensions** is complete. Named
-  profiles expose independent entities/commits/reads/width; v2 binds all dimensions
-  through success, failure and unsupported outcomes. Legacy v1/default identities
-  remain intact. Admission precedes scratch mutation and derives operation,
-  validation and final-file inventories from requested dimensions.
-- Source checkpoint `ed0e45b6434280cd9d91f7f6749edb37a84146c2` is on origin/main.
-  Exact-source Java **42286467497**, docs **42286467525** and automatic Pages
-  **42286467496** pass on first attempt. Linux qualification run
-  `a4308f0a1129487b8c888c8732df72f1` verifies **1,351 cases /74 suites** with
-  zero failures/errors/skips and inventory SHA256
+- **MDB-0089 — Linux evaluation runs and baseline acceptance** and its parent
+  **MDB-0087** are complete. All ten sequential profile/dimension/seed/control cases
+  pass: forty fresh stores, ten warmups, thirty measured repetitions and 6,656
+  original commits across all iterations. Per-repetition latency/resource/storage
+  findings and limits are published; no controlled-device or production claim.
+- Acquisition source `fa0a26df9455e1d30f4c5bdb873a22436d52514f` is on origin/main.
+  Observation run **42377033037** and exact-source Java **42377033009** pass.
+  Linux verifies all **1,351 core cases /74 suites** and **135 Python guards**
+  with zero skips/failures; inventory SHA256
   `6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
-  All 105 Python guards pass on Linux, including five native process cases.
-  Both platforms pass 762 optional invocations and fourteen examples; Windows
-  retains 374 core /381 optional capability skips. Local rooted macOS passes
-  without core skips; helpers remain outside 155 production /10 classifier classes.
-- Default v2 run `133738b1bbcf4f91964abdd805827f7b` preserves original fingerprints
-  and 15 final files. Scaled run `df39c7787098473bbdddcee40a1e54e2` admits
-  E32/C257/Q127/W6, 257 commits/27 retries, 17 original segments and 24 final files.
-  Both pass fresh clean compilation, unchanged source/class identity, settled groups,
-  exact metrics/history/file validation and the overall deadline. These are hosted
-  correctness/admission smokes, not completed baseline evaluations.
-- Observed placement: ext4, kernel 7.0.0-1017-azure, x86_64, Temurin 25.0.5+8-LTS,
-  worker heap 256 MiB. Mount flags include `nobarrier`, `data=writeback`, `commit=30`;
-  one option is omitted and device/controller/cache remain unknown. Preserve
-  `productionQualified: false` and MDB-0080 gaps. Evidence artifacts 13537916981
-  and 13537822522 expire November 20; exact bindings/digests are in progress history.
-- Both strict 94-page URL builds and 42 docs fixtures pass; desktop light/390 px
-  mobile dark dimension-table containment and search pass. Nine live HTTPS page
-  content/canonical checks, 94 unique sitemap URLs and the new dimension search
-  entry pass. Published screenshot is embedded in commentary. Normal light/default
-  viewport restored; local server 8793 stopped with exit 0.
-- Fresh November 6 research confirms twelve current core/build pins and optional
-  AWS SDK 2.57.10 availability; selected 2.57.8 stays under the S3 deferral. No
-  dependency/POM or production-code change. Public docs distinguish the versions.
-- **MDB-0083** remains expanded into completed MDB-0086 and required MDB-0087.
-  **MDB-0012** remains expanded until actual evaluation and all original integrated
-  baseline criteria pass. Preserve all 87 IDs and every parent criterion.
-- **MDB-0087 — Linux baseline runs and integration audit** is expanded into
-  required MDB-0088 checked saved-result reports and MDB-0089 actual Linux runs/
-  integration audit. A reusable report consumer is needed before evaluating raw
-  samples after the original scratch directories disappear. Preserve all criteria.
-- **MDB-0088 — Checked saved workload reports** is complete. Source
-  `232be154f88f542d94c062829a86031860df8696` reached origin/main; exact-source
-  Java 42376268105, docs 42376268110 and Pages 42376268104 all pass. Linux runs
-  all 135 Python guards and 1,351 core cases /74 suites with zero skips/failures;
-  optional adapter regression and all examples pass on both configured platforms.
-  Both fresh source-bound report outputs were downloaded, ZIP/input hashes checked
-  and reproduced byte-for-byte on macOS without original directories. Default
-  warmup 1/measured 2 and scaled warmup 0/measured 1 retain separate distributions.
-  Seven live pages, 96 sitemap URLs, search and published guide inspection pass.
-- **MDB-0089 — Linux evaluation runs and baseline acceptance** is active, owned
-  by the primary coordinator. All ten sequential observations at source
-  `fa0a26df9455e1d30f4c5bdb873a22436d52514f` pass (40 stores, 30 measured
-  iterations); checked raw inputs/logs and original/compressed hashes are preserved
-  under `evidence/linux-observations/2026-11-07/`. Current work publishes the
-  scoped findings and original-criteria audit, then verifies delivery.
-- **MDB-0090 — Operation-attributed file-work accounting** is a required child
-  of MDB-0083, queued after MDB-0089. Whole-process counters do not satisfy the
-  original attributed amplification criterion. Keep MDB-0012/0083 expanded until
-  this admitted prerequisite passes; MDB-0087 can close with its completed report
-  and audit children. All 90 stable IDs remain. No attribution implementation,
-  layout/native experiment, S3 continuation or release starts in this invocation.
+  Windows retains 374 core /381 optional skips; both platforms pass 762 optional
+  invocations and fourteen examples. Java/POM/inventory remain unchanged.
+- Results/evidence source `f65ccbd692876b858dbbcdeab30510dd0bc7d699` is on origin/main.
+  Exact-source docs **42377997373** and automatic Pages **42377997336** pass.
+  Seven live page/canonical checks, 97 unique sitemap URLs and result search pass.
+  Desktop light/mobile dark table containment, navigation and published browser
+  inspection pass. Normal light/default viewport is restored.
+- Durable `evidence/linux-observations/2026-11-07/` preserves fifty exact gzip
+  request/report/worker/log files (311,945 bytes), original/compressed hashes and
+  exercised readback. All ten analyses reproduce CI JSON bytes/hashes. Manifest
+  SHA256 `c47f0254bf740b0897067a99de56f2d6d3f660c878a33b088d23fc73b3d46788`.
+  The temporary observation artifact expires February 5, 2027; durable copies
+  remain in Git. Prior detailed receipts remain in progress history.
+- Observations identify history-depth allocation/reconstruction cost and material
+  control-run timing variation. ext4/kernel 7.0.0-1017-azure/Temurin 25.0.5+8-LTS
+  and 256 MiB heap are recorded; nobarrier/data=writeback/commit=30 and unknown
+  device/controller/cache facts preserve MDB-0080 production gaps.
+- Fresh November 7 Maven research keeps twelve current non-AWS stable pins;
+  latest AWS 2.57.11 versus retained 2.57.8 remains explicitly deferred. No update.
+- **MDB-0090 — Operation-attributed file-work accounting** is ready and is the
+  next recommendation. The [original-criteria audit](baseline-audit.md) keeps
+  **MDB-0083/0012 expanded**: whole-process I/O ratios cannot satisfy attributed
+  amplification. All 90 stable IDs and original criteria remain. No attribution
+  implementation, layout/native experiment, S3 continuation or release starts
+  here; no active implementation remains.
 
 ## Ordered work
 
@@ -120,10 +93,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0085](roadmap.md#mdb-0085-supervised-linux-workload-evidence) | Add supervised execution, result/provenance validation and Linux storage accounting | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0084 |
 | [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
 | [MDB-0086](roadmap.md#mdb-0086-configurable-supervised-workload-dimensions) | Admit independently scaled dimensions with exact evidence bindings | MDB-0083 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
-| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
+| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0088](roadmap.md#mdb-0088-checked-saved-workload-reports) | Recompute and render recorded workload evidence after original files disappear | MDB-0087 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
-| [MDB-0089](roadmap.md#mdb-0089-linux-evaluation-runs-and-baseline-acceptance) | Run and evaluate reproducible Linux workloads and complete baseline integration | MDB-0087 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088 |
-| [MDB-0090](roadmap.md#mdb-0090-operation-attributed-file-work-accounting) | Measure scoped completed file I/O and recomputable amplification denominators | MDB-0083 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
+| [MDB-0089](roadmap.md#mdb-0089-linux-evaluation-runs-and-baseline-acceptance) | Run and evaluate reproducible Linux workloads and complete baseline integration | MDB-0087 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088 |
+| [MDB-0090](roadmap.md#mdb-0090-operation-attributed-file-work-accounting) | Measure scoped completed file I/O and recomputable amplification denominators | MDB-0083 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |
