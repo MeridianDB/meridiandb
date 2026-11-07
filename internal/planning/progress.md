@@ -7318,8 +7318,9 @@ success under arbitrary resource exhaustion.
 
 **Independent checks:**17 focused cases include10 platform-neutral input/owned-source
 checks and7 native histories/budgets/ownership/boundary-failure/corruption cases.
-25 additional canonical shapes preserve84 literal expectations per shape across
-explicit read-only/writable recovery.48 seeded histories use16 saved seeds ×3 shapes,
+25 additional canonical cases cover the same5 histories in2 writable and3 read-only
+shapes:168+252 unchanged literal expectations across explicit recovery.48 seeded
+histories use16 saved seeds ×3 shapes,
 32 real commits per seed/shape, finite dense cells[-3,4), exact sums, separate
 reference checks for all5 operators, pinned views, all historical cutoffs/request
 identities, original retries and conflicting reuse.7 added real child-JVM exits use
@@ -7377,6 +7378,72 @@ Commit Step-ID MDB-0098 /Step-Result checkpoint after task-owned diff/99-ID
 DAG/parent checks. The subsequent internal-only receipt will record actual source
 SHA, CI jobs, live acceptance and completion push. No default adoption, next
 comparison, remote backend work or release starts here.
+
+## November 7, 2026 — MDB-0098 delivery and completion acceptance
+
+**Source delivery:** source checkpoint
+`c72ecfa08709afc8c043cfa3406521d80b592414` normal-pushes from main to origin/main;
+fetch verifies matching tips and clean source checkout. All following verification
+is bound to that exact source; only internal planning changes follow it.
+
+**CI acceptance:** [Java42392433169](https://github.com/MeridianDB/meridiandb/actions/runs/42392433169)
+completes successfully: Linux job128462636215 and Windows128462636056. Linux
+qualification run14ca48570cc743388942df0b328fb239 binds clean source to complete
+reviewed inventory SHA256
+`dfcbac8e6f60e6bcd231a313a090960e4cc50cc643bd2c692f9ad70f9f53ea1b`:
+1,557 core cases/83 suites, zero failures/errors/skips/retries,183 Python guards
+without Linux skips. All97 added cases execute. Actual scratch filesystem ext4,
+kernel7.0.0-1017-azure/x86_64, Eclipse Adoptium25.0.5+8-LTS; fixture/run/runtime,
+file keys/forces/locks/atomic move/identity-after-move checks pass. Device cache,
+block geometry and controller remain unknown; productionQualified=false and
+MDB-0080 retains deployment/power-loss qualification gaps.
+
+Both platforms pass optional762 and fourteen Java examples. Windows reports492
+core/381 optional typed capability skips, preserving basic compatibility scope.
+Exact-source ordinary runs7ee87e5025884a898f43fdf307128e51 and
+2083b3258c644cfaab43347600e938d9, attributed runs6a1bf72cf0dc4bf083034fcdc0d93326
+and b7e5be9a7f6c4221af5826f23899bbd7 all checks_passed with no dirty source or
+deadline excess; schemas2/2/3/3 preserved. Four saved reports pass independent
+readback, including scaled/max input. Regression artifacts13581708711
+(linux-storage-evidence,234020bytes) and13581679193
+(linux-workload-evidence,168050bytes) are unexpired at capture. These are transient
+regression artifacts; original immutable baseline datasets remain unchanged.
+
+**Website acceptance:** exact-source
+[docs42392433114](https://github.com/MeridianDB/meridiandb/actions/runs/42392433114)
+passes project job128462635883 and production128462636039. Automatic
+[Pages42392433091](https://github.com/MeridianDB/meridiandb/actions/runs/42392433091)
+passes build128462635739/deploy128462741211. Twelve affected live HTTPS pages pass
+content/canonical checks;107 unique sitemap URLs and577 search entries include the
+new explicit API and ADR0049. Published history guide74,073bytes SHA256
+`5f9ce8b7c46cec44003fc68915cba417470d90e0eb66e6c383b49dd2f092bc78`.
+Project URL reaches that content through existing redirect to
+`http://meridiandb.org/development/local-checkpoint-history/`,200 with correct
+HTTPS canonical; direct production HTTPS checks pass. Published browser verifies
+actual API/status and embeds its screenshot in commentary. Mobile document width
+390 stays390; the counter table scrolls within its container. Default viewport/
+light theme restored; local8800 preview stops exit0. Hosting unchanged.
+
+**Original acceptance and handoff:** explicit factories, input/effect boundaries,
+no budget fallback, journal-only/genesis/checkpoint-tail canonical+seeded temporal
+and retry identity, complete scans/actual-prefix verification, private recovery,
+startup barriers/forced acknowledgement, deterministic list release and owned
+cleanup all pass. Native literal work/force changes are independently checked and
+separated from performance claims. Full inventory, docs/rules and actual delivery
+complete0098. Mark0098 done, clear its claim and prepare
+**MDB-0099 — Recovery history comparison and decision** ready after completion
+push. Keep0097/0013 expanded with every original allocation/latency/memory/
+maintenance/compaction/durable-evidence/adoption criterion. No default change,
+remote work, new format, next experiment or release starts here.
+
+Clarify the earlier source receipt's canonical count:25 added cases cover5 unchanged
+histories in2 writable/3 read-only shapes,168+252 literal expectations in total;
+84 is per complete five-history storage shape, not per individual case.
+Validate99 IDs/cards/DAG, completed children, no active item and only0099 ready;
+inspect task-owned staged diff and commit only these3 internal planning files with
+Step-ID MDB-0098 /Step-Result completed. Normal-push/fetch and verify matching
+remote tips, source/completion ancestry and clean status. Final handoff records
+actual completion SHA/push; no runtime/public/inventory changes require repeat CI.
 
 ## Receipt template
 

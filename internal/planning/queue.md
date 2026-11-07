@@ -12,32 +12,43 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0098 — Explicit checkpoint-history recovery** is active, owned by the
-  primary agent on November 7, 2026. Source starts from verified completion
-  `7a80541e9e895c8600a82cbacf21196020f4294f`, matching origin/main.
-- MDB-0097 is expanded into engine integration (0098) and equivalent measured
-  evaluation/adoption (0099). Preserve every original MDB-0097/0013 criterion and
-  both immutable baseline datasets. Only 0098 executes in this invocation.
-- Add explicitly selected read-only/writable recovery with checkpoint acquisition
-  limits, deterministic transient-list release before journal replay, complete
-  history/actual-prefix verification, owned cleanup and unchanged writable
-  startup/acknowledgement. Ordinary opens and storage formats remain unchanged.
-- Baseline acceptance remains the MDB-0096 receipt: 1,460 core cases/82 suites,
-  183 Python guards, 42 docs fixtures, exact-source Java42390449514,
-  docs42390449558 and automatic Pages42390449490 all passed. New source must
-  independently pass local verification, exact-source CI and live publication.
-- Fresh November7 research verifies all14 Central/16 official responses: twelve
-  latest-stable core/build pins unchanged; optional AWS2.57.8/latest2.57.11 remains
-  deferred. Linux local storage remains the production target; S3 and replication
-  stay deferred. Production qualification remains MDB-0080.
-- Source verification passes clean rooted1,557/83suites without skips/failures,
-  inventory dfcbac8e6f60e6bcd231a313a090960e4cc50cc643bd2c692f9ad70f9f53ea1b,
-  core166 JDK-only classes/classifier10, Python183guards (5 local Linux-only skips),
-  42docsfixtures and both107-page strict URL builds. All97 new invocations pass.
-  Keep0098 active until exact-source CI/Pages/live delivery is accepted.
-- No performance improvement or default adoption is accepted by integration.
-  Evaluation must account for changed reader-admission forces as well as returned
-  bytes, allocation, latency and memory. All99 stable IDs are retained.
+- **MDB-0098 — Explicit checkpoint-history recovery** is complete. Explicit
+  read-only/writable factories reuse verified records once and release the
+  transient container before complete journal replay. Checkpoint acquisition
+  limits exclude journal open/replay/tail/engine heap; failure has no fallback.
+  Ordinary opens/create, formats, POM and baseline datasets remain unchanged.
+- Source `c72ecfa08709afc8c043cfa3406521d80b592414` is on origin/main.
+  Exact-source Java **42392433169** passes **1,557 core cases/83 suites** and
+  **183 Python guards** with zero Linux skips/failures, including all97 additional
+  input/lifecycle/native/canonical/seeded/process-exit invocations. Inventory SHA256
+  `dfcbac8e6f60e6bcd231a313a090960e4cc50cc643bd2c692f9ad70f9f53ea1b`
+  adds/increases coverage without reducing any suite. Core166 classes remain
+  JDK-only; classifier10 excludes developer helpers.
+- Linux run14ca48570cc743388942df0b328fb239 binds clean exact source to ext4,
+  kernel7.0.0-1017-azure/x86_64 and Temurin25.0.5+8-LTS. Device/cache/controller
+  remain unknown; this is process/capability evidence, not production qualification.
+  Windows passes with492 core/381 optional capability skips. Both platforms pass
+  optional762 and fourteen examples. Both ordinary and both attributed/max
+  workloads plus four saved reports pass on exact source.
+- Literal writable reopen reads1884 versus2440 bytes, retaining all3 journal
+  passes; selected segments556 versus1112. Three versus five force successes
+  separately reflect removed lazy-reader admission, with writable startup intact.
+  Deterministic list release, corruption/budget/cleanup and original temporal/retry
+  contracts pass. These are correctness/work vectors, not performance adoption.
+- Exact-source docs **42392433114** and automatic Pages **42392433091** pass.
+  Twelve affected HTTPS pages/canonicals,107 unique sitemap URLs and new guide/
+  ADR0049 search pass. Both strict URL builds,42docsfixtures, desktop light/mobile
+  dark containment and published browser inspection pass. Default viewport/light
+  restored and local8800 preview stopped. Existing project URL redirect is unchanged.
+- Fresh November7 research retains twelve latest-stable core/build pins; optional
+  AWS2.57.8/latest2.57.11 remains deferred. Twelve unfinished S3 rows and replication
+  stay deferred; production qualification remains MDB-0080.
+- Parents **MDB-0097/0013** remain expanded with every original criterion. No
+  executable claim remains. **MDB-0099 — Recovery history comparison and decision**
+  is next, ready after completion delivery: compare equivalent controls/candidates
+  for bytes/forces/allocation/latency/memory and maintenance, retain durable raw
+  evidence and explicitly adopt or reject. All99 stable IDs remain; no default
+  change, measured decision or next implementation starts here.
 
 ## Ordered work
 
@@ -93,8 +104,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | expanded | MDB-0012 |
 | [MDB-0096](roadmap.md#mdb-0096-bounded-local-checkpoint-history) | Acquire bounded verified local checkpoint records without a second segment fetch | MDB-0013 | done | MDB-0012 |
 | [MDB-0097](roadmap.md#mdb-0097-recovery-history-reuse-evaluation) | Integrate and evaluate opt-in recovery history reuse, then adopt or reject it | MDB-0013 | expanded | MDB-0012, MDB-0096 |
-| [MDB-0098](roadmap.md#mdb-0098-explicit-checkpoint-history-recovery) | Integrate explicit bounded history reuse with private recovery and deterministic release | MDB-0097 | active | MDB-0012, MDB-0096 |
-| [MDB-0099](roadmap.md#mdb-0099-recovery-history-comparison-and-decision) | Compare equivalent recovery paths and adopt or reject with durable evidence | MDB-0097 | queued | MDB-0012, MDB-0096, MDB-0098 |
+| [MDB-0098](roadmap.md#mdb-0098-explicit-checkpoint-history-recovery) | Integrate explicit bounded history reuse with private recovery and deterministic release | MDB-0097 | done | MDB-0012, MDB-0096 |
+| [MDB-0099](roadmap.md#mdb-0099-recovery-history-comparison-and-decision) | Compare equivalent recovery paths and adopt or reject with durable evidence | MDB-0097 | ready | MDB-0012, MDB-0096, MDB-0098 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | deferred | MDB-0010 |

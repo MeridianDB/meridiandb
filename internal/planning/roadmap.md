@@ -2999,6 +2999,18 @@ builds pass, with desktop light/mobile dark/search/navigation QA. Keep0098 activ
 pending exact-source CI/Pages/live acceptance;0099 remains queued and parents
 expanded. Default adoption and resource/performance comparison remain unstarted.
 
+**Completion acceptance, November 7, 2026:** source
+`c72ecfa08709afc8c043cfa3406521d80b592414` reaches origin/main. Exact-source
+Java42392433169 passes1,557/83suites and183guards with zero Linux skips/failures;
+all97 new invocations pass. Both platforms pass optional762/fourteen examples;
+Windows retains492 core/381 optional capability skips. Two ordinary and two
+attributed/max workloads and four saved readbacks pass with clean exact-source
+bindings. Docs42392433114 and automatic Pages42392433091 pass;12 live HTTPS
+pages/canonicals,107 sitemap URLs, guide/ADR0049 search and published browser QA
+pass. Mark0098 done and prepare0099 ready after completion delivery. Keep0097/0013
+expanded; original evaluation/resource/regression/adoption criteria remain.
+No performance/default decision, format replacement or next implementation starts.
+
 ## MDB-0099 Recovery history comparison and decision
 
 **Parent:** MDB-0097. **Outcome:** compare unchanged default and explicit history
