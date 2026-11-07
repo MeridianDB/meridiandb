@@ -6,7 +6,7 @@ description: Observe completed caller-thread local FileChannel work with fixed i
 # ADR 0045: Internal local I/O counters
 
 - **Date:** November 7, 2026
-- **Status:** Counter foundation, in-process attribution and serialized reporting implemented; evaluation pending
+- **Status:** Counter foundation, attribution and reporting implemented; bounded Linux observations available
 - **Scope:** Internal caller-thread observation of local adapter transfers and force
 
 ## Context
@@ -48,4 +48,6 @@ engine/setup/validation/teardown scopes and exports logical denominators. The
 [evidence path](../development/attributed-workload-evidence.md) adds source binding,
 serialized raw-counter admission and checked named-ratio reporting. Instrumented
 runs do not silently replace original latency observations.
-Integrated baseline and production qualification remain pending.
+The [bounded Linux evaluation](../development/linux-attributed-observations.md)
+now quantifies that scoped work with durable raw evidence. Production qualification
+and controlled-device comparisons remain separate.

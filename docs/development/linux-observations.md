@@ -208,8 +208,9 @@ across these three repetitions; it is not engine or device write amplification.
 All thirty measured process `read_bytes` deltas were zero; character reads were
 nonzero. This does not mean the engine performed no reads. It neither isolates
 queries nor establishes cold-cache behavior. Operation-attributed file read/write
-counts and amplification remain unmeasured and are required before the integrated
-baseline is complete.
+counts and amplification are unmeasured by this ordinary timing dataset. The
+separate [attributed evaluation](linux-attributed-observations.md) now supplies
+bounded returned-adapter-byte measurements with its own raw evidence and coverage.
 
 ### Findings and next experiments
 
@@ -229,9 +230,9 @@ treated as reliable gains. More reads increased the loop's operations/s partly
 because its numerator contains more short heap queries; that is not increased
 write throughput.
 
-Next, attribute actual file work to commits, recovery, checkpointing and compaction
-in separately instrumented runs. This can distinguish repeated integrity reads,
-original append bytes and maintenance writes while preserving force/ownership
-semantics. After that, profile the history-depth allocation signal and compare one
+The separate [attributed evaluation](linux-attributed-observations.md) now
+distinguishes repeated integrity reads, original append bytes and maintenance
+writes while preserving force/ownership semantics. Next, profile the history-depth
+allocation and reconstruction signals and compare one
 bounded change against the same corpus and acknowledgement. Controlled device,
 cold-cache, sustained-arrival and production qualification remain separate work.

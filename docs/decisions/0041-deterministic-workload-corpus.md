@@ -59,7 +59,10 @@ generator/encoding need an explicit compatibility and resource-bound decision.
 
 The corpus provides inputs and correctness evidence, not a benchmark result.
 The separate [operation measurement core](0042-local-operation-measurements.md)
-consumes it; supervised evidence and actual baseline evaluation remain pending.
+consumes it; [supervised evidence](0043-supervised-workload-evidence.md),
+[ordinary observations](../development/linux-observations.md) and separate
+[attributed file-work observations](../development/linux-attributed-observations.md)
+now supply bounded measurements.
 Generation and reference preparation belong outside later timed loops. Repeated
 measurements need fresh stores, equivalent acknowledgement, explicit warmup/cache
 conditions and scoped timing/check overhead. Logical encoded bytes cannot stand

@@ -1,9 +1,14 @@
 # Linux baseline acceptance audit — November 7, 2026
 
 This audit reconciles the unchanged original criteria of MDB-0012, MDB-0083,
-MDB-0087 and MDB-0089. Queue state remains in [queue.md](queue.md); exact child
+MDB-0087, MDB-0089, MDB-0090 and MDB-0093. Queue state remains in [queue.md](queue.md); exact child
 outcomes remain in [roadmap.md](roadmap.md). The public technical interpretation is
 [Linux workload observations](../../docs/development/linux-observations.md).
+The separate [attributed evaluation](../../docs/development/linux-attributed-observations.md)
+now supplies the missing scoped file-work evidence. The governing table below
+includes that result; dated checkpoint decisions preserve their historical state.
+Technical criteria pass within the stated bounds; final source/publication
+acceptance remains with the active MDB-0093 queue row until delivery readback.
 
 ## Evidence and identity
 
@@ -28,7 +33,7 @@ outcomes remain in [roadmap.md](roadmap.md). The public technical interpretation
 
 | Original requirement | Evidence and bounded interpretation | Acceptance |
 | --- | --- | --- |
-| Independently scaled, repeatable measurements | TSV fixes four profiles, one-axis E/C/Q/W variants, seed sensitivity and repeated control; each fresh JVM uses warmup 1/measured 3 | Met for bounded hosted observations |
+| Independently scaled, repeatable measurements | Separate TSVs fix four profiles, one-axis E/C/Q/W variants, seed sensitivity and repeated controls; ordinary fresh JVMs use warmup 1/measured 3, attributed JVMs warmup 1/measured 2 | Met for bounded hosted observations |
 | Dataset seed/size/skew/history/overlap/correction/retraction rates | Exact request/spec, observed intent/effect/operator/entity counts, content/history fingerprints and retained raw samples; profile comparisons do not hold transactions identical | Met |
 | Exact source/runtime/hardware/filesystem/cache/memory/ack context | Clean source/class fingerprints, Java/kernel/ext4/mount facts, unknown device/cache properties, explicit uncontrolled cache, 256 MiB heap, unchanged per-new-commit force/acknowledgement | Met with recorded unknowns; production gap stays MDB-0080 |
 | Point/history/interval/aggregate and mixed workloads | All five query operators, head/historical cutoffs, independent expected answers and synchronous interleaved writes/queries; no offered-load queue or concurrent ingestion metric | Met for specified synchronous workload |
@@ -36,15 +41,15 @@ outcomes remain in [roadmap.md](roadmap.md). The public technical interpretation
 | Latency distributions and throughput | Every measured repetition retains raw service samples and nearest-rank distributions plus service and complete-loop rates; p50/p99 tables remain per repetition | Met with closed-loop/small-group/host variation limits |
 | CPU/allocation/heap | Optional platform-thread deltas with availability counts; sampled used-heap gauges and allocation-depth finding; no process-wide CPU, retained heap, RSS or peak claim | Met within documented counter scope |
 | Encoded/allocated storage and bytes read | Exact encoded history, retained logical files, Linux block attribution, seven process-I/O counters/deltas and explicit unknowns | Met for these named scopes; no exclusive-extents/device claim |
-| Read/write amplification attributable to operations | Whole-process counters include validation/maintenance/runtime and cannot isolate commit/query/recovery file work; final lengths cannot establish repeated I/O | **Unmet: required MDB-0090** |
+| Read/write amplification attributable to operations | Separate ten-case attributed evaluation retains raw operation/auxiliary matrices and independently decoded original-history denominators. Base new commits write exactly 1.000/frame byte; operation lifecycle reads 137,612/10,306=13.353 and writes 32,898/10,306=3.192. Every case's matrices repeat across all three iterations; zero-denominator queries/retries are N/A | Met for completed adapter bytes; external/unhooked/metadata/device I/O remains explicitly outside scope |
 | Replay/recovery, checkpoint and compaction behavior | Journal-only writable reopen and full-prefix checkpoint reopen include acquisition/verification/reconstruction/startup; split writes, checkpoint publication and compaction with one pinned old reader measured | Met with no isolated pure-replay or checkpoint-tail-speedup claim |
 | Pinned readers, lag and merge backlog | One old reader remains pinned through verified compaction publication; current runner is synchronous with no asynchronous lag/backlog | Met as explicit supported scope; no fabricated asynchronous metric |
-| Failure, partial/stale evidence and bounded execution | Existing 135 Python guards cover source/class/request drift, partial/mixed/failed evidence, process cleanup, retention, raw-summary/accounting recomputation and no-original-path readback; native correctness remains complete | Met |
+| Failure, partial/stale evidence and bounded execution | All 183 Python guards cover source/class/request drift, partial/mixed/failed/overflow attribution, process cleanup, retention, raw-summary/accounting/ratio recomputation and no-original-path readback; exact-source 1,422 core cases pass on Linux without skips | Met |
 | Bounded defaults and explicit environment/budget | Existing 16/128/64/8 default, admitted dimensions/actions/reference work, one sequential hosted job, 90-second per-supervisor bound/20-minute ceiling, per-case retained-output caps | Met; no paid/privileged operation used |
 | Separate CI/observations/controlled-device measurements | Separate smoke/regression and observational jobs; controls show material run-order variation; cold cache, sustained arrival and actual device qualification remain unmeasured | Met as an explicit distinction; production gaps stay MDB-0080 |
-| Bottleneck findings and next experiments without required gain | History depth raises mixed-commit allocation about 3.1× and checkpoint-reopen allocation about 11.3× for 4× commits; map-copy/full-history reconstruction is a plausible mechanism, not isolated attribution | Met; first add attributable file work, then profile a bounded allocation/layout hypothesis |
+| Bottleneck findings and next experiments without required gain | Ordinary history depth raises allocation; attributed checkpoint reopen reads 3H journal bytes plus twice the compacted segment and selected manifest. Repeated control reproduces bytes despite timing variation. Full-history reconstruction and bounded verified-image reuse are justified experiments, not proven optimizations | Met; preserve integrity/actual-prefix/ownership and compare byte/allocation/latency/memory costs before selecting a change |
 
-## Completion decision
+## Initial ordinary observation decision (historical)
 
 MDB-0089's explicit audit/prerequisite criterion passes with delivered public
 results and durable evidence at `f65ccbd692876b858dbbcdeab30510dd0bc7d699`:
@@ -116,3 +121,41 @@ evidence and audits all original criteria. Temporary CI smoke is regression and
 source-admission evidence, not that evaluation. Keep MDB-0090/0083/0012 expanded;
 preserve their original criteria and historical findings. Device/controller/cache,
 cold-cache, sustained-arrival and production qualification gaps remain MDB-0080.
+
+## Attributed evaluation and current integration audit — November 7, 2026
+
+Actual [Linux evaluation 42387103000](https://github.com/MeridianDB/meridiandb/actions/runs/42387103000)
+runs clean source `b79a0366fca194dd56f326cd3f0952a31598a958` through ten sequential
+cases, thirty fresh stores, ten warmups/twenty measured repetitions and 4,032
+original commits. Exact source/class/runtime/mount/cache context matches across
+cases. Eight unchanged-input cases reproduce original ordinary fingerprints;
+the history/query contrasts use C192/Q128 to preserve uniform warmup1/measured2
+within unchanged scope caps. No ordinary timing or raw data was rewritten.
+
+The [new durable manifest](../../evidence/linux-attributed-observations/2026-11-07/manifest.json)
+binds fifty exact original/gzip files, source/run/request/fingerprints, analysis
+hashes and artifact identity. All ten saved JSON analyses reproduce CI bytes;
+Markdown and documented decompression/readback pass without original Linux paths.
+Independent review parses every original header/frame with CRC32C/sequence/SHA256,
+recomputes 450 operation groups from 14,550 raw iteration scopes, and verifies
+every exact ratio pair. Twenty preparation scopes remain separately accounted.
+Every case's complete matrices/groups are identical across warmup and both
+measured repetitions; the final control reproduces the base attribution exactly.
+
+All remaining original MDB-0090 criteria pass: counters observe completed native
+work with bounded lifetime/overflow/failure semantics (MDB-0091); separate
+operation/auxiliary/export scope identity, exact history/frame denominators,
+source/process/native admission, failure cleanup and independent serialized ratios
+pass (MDB-0094/0095, closing MDB-0092); actual useful Linux contrasts, durable raw
+data and public interpretation are now available (MDB-0093). Original integrity,
+ownership, force/acknowledgement, reference and recovery code is unchanged.
+
+The governing table reconciles every original MDB-0012/0083 requirement with both
+datasets. All required children of MDB-0090, MDB-0083 and MDB-0012 will be done
+once MDB-0093 delivery acceptance passes. This is a bounded observational baseline,
+not controlled-device/production qualification. Device/controller/cache, cold-cache,
+arrival and power-loss gaps retain MDB-0080 ownership; they were explicitly
+separated in the original criteria and do not create a new remote/paid prerequisite.
+After public review/Pages/live acceptance, close MDB-0093/0090/0083/0012 and make
+MDB-0013 ready for one measured, correctness-preserving experiment. No experiment
+starts in this invocation.

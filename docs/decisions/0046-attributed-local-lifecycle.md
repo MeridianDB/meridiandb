@@ -6,7 +6,7 @@ description: Share the checked local lifecycle through explicit test-only operat
 # ADR 0046: Attributed local lifecycle
 
 - **Date:** November 7, 2026
-- **Status:** In-process attribution and separate serialized reporting implemented; evaluated profiles pending
+- **Status:** In-process attribution and serialized reporting implemented; bounded Linux observations available
 - **Scope:** Test-only local workload execution and typed raw evidence
 
 ## Context
@@ -42,6 +42,7 @@ owns exact scope, bounds, denominator meanings and verification commands.
 This adds no production activation API, dependency, data format, acknowledgement
 change or reclamation. Typed in-process evidence is useful for independent literal
 native tests. The separate [serialized evidence path](../development/attributed-workload-evidence.md)
-now adds source-bound supervision and checked ratios. Evaluated amplification
-findings, integrated baseline acceptance and production qualification remain
-separate requirements.
+now adds source-bound supervision and checked ratios. The separate
+[Linux evaluation](../development/linux-attributed-observations.md) retains
+bounded amplification findings and durable raw evidence. Controlled-device and
+production qualification remain separate requirements.

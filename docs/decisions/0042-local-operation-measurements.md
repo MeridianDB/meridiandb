@@ -57,8 +57,10 @@ Admitted iterations/actions/samples/file inventory are bounded, but in-process
 checks cannot interrupt a blocked native call or authenticate serialized output.
 The separate [supervised layer](0043-supervised-workload-evidence.md) adds process
 cleanup/deadlines, source and Linux environment bindings, versioned JSON admission
-and scoped allocated/process-I/O accounting. Actual baseline evaluation remains
-a further outcome.
+and scoped allocated/process-I/O accounting. Separate
+[ordinary](../development/linux-observations.md) and
+[attributed](../development/linux-attributed-observations.md) observations now
+provide bounded baseline measurements with durable raw evidence.
 
 Cache state is uncontrolled; warmups exercise the JVM on fresh stores. No forced
 GC or privileged cache operation is introduced. Named file lengths, logical

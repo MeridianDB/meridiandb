@@ -7000,6 +7000,84 @@ MDB-0093 stays active; MDB-0090/0083/0012 remain expanded. No performance result
 or ancestor completion is claimed by this checkpoint.
 
 
+## 2026-11-07 — MDB-0093 Actual Linux evidence and baseline audit checkpoint
+
+**Native acquisition:** protocol source
+`b79a0366fca194dd56f326cd3f0952a31598a958` reaches origin/main through normal
+push/fetch/matching tips. [Linux evaluation42387103000](https://github.com/MeridianDB/meridiandb/actions/runs/42387103000)
+job128446689341 passes all ten ordered cases/source-bound saved analyses:
+thirty fresh stores, ten warmups/twenty measured repetitions,4,032 original
+commits. Every case shares clean source/class fingerprints and runtime/mount/
+cache context. Class SHA256
+`d564d6a30da747a59fdbcee0a218cc1d9af69bf338915176835715b3e021d7ea`
+binds480 compiled files/3,488,969 bytes. Placement: ext4/Linux7.0.0-1017-azure/
+x86_64/Temurin25.0.5+8-LTS,4CPUs,256MiB worker heap; recognized mount options
+retain data=writeback/nobarrier/commit=30/discard/errors=remount-ro/relatime/rw,
+one omitted option and unknown device/controller/cache/block details. No controlled
+device, power-loss, cold-cache or production evidence is inferred.
+
+**Exact-source regression:** [Java42387102889](https://github.com/MeridianDB/meridiandb/actions/runs/42387102889)
+passes Linux job128446689326 and Windows128446689172. Linux qualification
+`99204085beba49c0bfda574ade385b25` verifies1,422 core cases/80suites, no failures/
+errors/skips, inventory SHA256
+`dc6edb3b4ce83e2f74f577f3037f92c2b8287c89da803d32e7cf4d05d5191fb9`.
+All183 Python guards pass without skips (11.045s). Optional762/fourteen examples
+pass each platform; Windows retains394 core/381 optional capability skips.
+Both ordinary and both attributed/max CI workloads plus saved readback pass.
+Production/test Java, POM, inventory and evidence validators are unchanged.
+Protocol docs42387102911 and automatic Pages42387102885 pass both URL builds and
+publication; results will be delivered by the next checkpoint, not these runs.
+
+**Durable evidence:** verify downloaded artifact13579983154,680,047 bytes, SHA256
+`e27e16da97a293c8dd6f9c225611cdae8e7663089b64e90b340d29e197094f28`,
+expires2027-02-05T15:35:14Z. Preserve exact fifty original/gzip file bindings and
+source/run/request/content/history/analysis identities under immutable
+`evidence/linux-attributed-observations/2026-11-07/`; compressed files total450,633
+bytes with zero gzip timestamps. All ten saved JSON analyses reproduce CI bytes;
+Markdown and exact README decompression/readback commands pass without original
+Linux paths. Direct raw-matrix column sums independently match groups/totals.
+Independent reviewer verifies every header/frame/CRC32C/sequence/SHA256 and exact
+denominator,14,570 scopes (14,550 iteration+20 preparation),450 groups and all
+ratio pairs. Every case's matrices match across warmup+both measured repetitions;
+final control attribution matches base. Eight unchanged-input cases reproduce
+both fingerprints from the earlier ordinary dataset, which remains unchanged.
+
+**Findings:** base seed/mixed commits write exactly1,274/1,274 and8,990/8,990 original
+frame bytes with one force/new commit. Heap queries/retries/pure planning perform
+zero adapter work; query/retry byte ratios remain N/A. Base operation lifecycle
+reads137,612/writes32,898/forces174, versus all captured read222,900/write32,898/
+forces182. Auxiliary reads85,288 (38.3%) stay outside operation ratios; external
+hash/inventory and export/process/supervisor coverage stay excluded/unavailable.
+Checkpoint writable reopen reads3H journal+twice compacted segment+selected
+manifest=51,900 versus journal reopen20,808; history192 gives78,190/31,324.
+All twenty measured proc read_bytes deltas are zero despite positive adapter
+reads. Repeated-control mixed-commit p50 drops18.9%/24.0% despite identical bytes;
+no timing gain follows. Profile full-history reconstruction and evaluate bounded
+verified-image reuse within one acquisition, preserving integrity/actual prefix/
+ownership/history/acknowledgement; no optimization starts now.
+
+**Documentation/audit:** publish protocol/results, operation/auxiliary tables,
+exact metric bases, durable readback and precise limits. Reconcile README,
+roadmap, prior core/counter/evidence guides, ADR0041–0047 and decision-index
+current callers. Keep the earlier ordinary observations' numerical data intact
+while linking the separate study. Governing baseline-audit table now reconciles
+every original criterion; earlier missing-measurement decisions are explicitly
+historical. Technical criteria pass; keep queue ancestors expanded until delivery.
+Independent editorial/numerical/caller review finds no remaining defect.
+Both strict104-page URL builds, links/search/sitemap and diff checks pass. Desktop
+light and390px mobile dark results tables are readable; all four scroll wrappers
+are375px overflow-auto without page overflow. Search finds the page/results and
+keyboard selection navigates to the base breakdown. Restore light/default viewport.
+Ignored `.local-qa/mdb-0093/` retains local readbacks, logs/profile and screenshots.
+
+**Delivery:** commit evaluated raw evidence/docs/audit/planning with Step-ID
+MDB-0093 /Step-Result checkpoint, normal-push and verify remote tips/ancestry.
+Then verify exact-source docs/automatic Pages/live content and retain completion
+acceptance. Only after that close MDB-0093/0090/0083/0012, prepare MDB-0013 ready
+and stop. No Java/parser/workflow/evaluation-plan change follows native acquisition;
+there is no new measurement or source CI prerequisite from these results-only paths.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

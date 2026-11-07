@@ -14,10 +14,10 @@ defines the evidence boundary.
 
 The original schema-one/two workloads and [Linux observations](linux-observations.md)
 retain their formats and data. Attributed timings belong to the instrumented run.
-Evaluated attributed profiles, durable evaluation data and integrated baseline
-acceptance remain separate from this execution/reporting infrastructure.
-The [Linux attributed observation protocol](linux-attributed-observations.md)
-defines bounded profile/dimension contrasts and repeated controls for evaluation.
+The separate [Linux attributed observations](linux-attributed-observations.md)
+now provide evaluated profile/dimension contrasts, repeated controls and durable
+raw evidence. Those bounded findings preserve the coverage limits below;
+controlled-device comparisons and production qualification remain separate.
 
 ## Run on Linux
 

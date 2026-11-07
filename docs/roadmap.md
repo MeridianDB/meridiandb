@@ -12,8 +12,9 @@ The memory engine, local journal, immutable history files and manifest consisten
 checks, local checkpoint publication, recovery and forced local writes establish
 a correctness baseline, including process-exit/retry and seeded writable-reopen
 conformance. Linux local filesystems are the primary production target;
-bounded [workload observations](development/linux-observations.md) are available,
-while evaluated attributed file work and production qualification remain planned.
+bounded [workload observations](development/linux-observations.md) and
+[attributed file-work results](development/linux-attributed-observations.md) are
+available. Production qualification remains planned.
 Windows has a basic compatibility role, and further S3 development is deferred under
 [the Linux storage decision](decisions/0039-linux-local-storage-priority.md).
 There is no release date or stable API commitment.
@@ -21,7 +22,8 @@ There is no release date or stable API commitment.
 ## Current development priorities
 
 1. Qualify named Linux storage profiles and their required durability capabilities.
-2. Establish reproducible local workload, resource and recovery measurements.
+2. Extend the bounded local workload, resource and recovery baseline as deployment
+   and experiment needs grow.
 3. Compare purpose-built temporal blocks with established layouts, including Parquet,
    then evaluate native I/O only for a measured bottleneck.
 4. Close evidenced resource, checkpoint/lifecycle, compatibility and diagnostic
@@ -47,7 +49,8 @@ future protocol with local persistence on each participant.
 | [Linux workload observations](development/linux-observations.md) | Ten sequential profile/dimension/seed/control cases with checked raw evidence and per-repetition metrics; attributed file-work and controlled-device comparisons remain separate |
 | [Internal local I/O counters](development/local-io-counters.md) | Inactive-by-default caller-thread completed-byte and force counters with native literal/failure checks |
 | [Attributed local lifecycle core](development/attributed-local-workloads.md) | Separate instrumented Java execution with ordered operation/auxiliary scopes and logical denominators |
-| [Attributed workload evidence](development/attributed-workload-evidence.md) | Source-bound supervised runs and checked saved reports with original-history decoding and named ratios; evaluated amplification remains planned |
+| [Attributed workload evidence](development/attributed-workload-evidence.md) | Source-bound supervised runs and checked saved reports with original-history decoding and named ratios |
+| [Linux attributed file-work observations](development/linux-attributed-observations.md) | Ten bounded profile/dimension/seed/control cases with durable raw counters, checked operation ratios and separate auxiliary/excluded work |
 | [Journal codec](architecture/journal-format.md) | Versioned transaction frames, exact identity, checksums, allocation bounds and strict byte validation |
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |

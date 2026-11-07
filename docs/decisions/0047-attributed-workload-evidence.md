@@ -6,7 +6,7 @@ description: Bind separately versioned instrumented workers to source and native
 # ADR 0047: Attributed workload evidence
 
 - **Date:** November 7, 2026
-- **Status:** Serialized attribution and reporting implemented; evaluated profiles pending
+- **Status:** Serialized attribution and reporting implemented; bounded Linux observations available
 - **Scope:** Worker, Linux supervisor and saved-reader evidence contracts
 
 ## Context
@@ -43,6 +43,8 @@ schemas, coverage, metric definitions and bounds.
 
 No production engine configuration, data format, dependency or acknowledgement
 changes. Original latency data remain immutable. Literal/parser/failure and
-maximum-input checks complement actual Linux supervisor/readback smoke. Useful
-evaluated profiles, durable raw evaluation data and original integrated baseline
-acceptance remain required before selecting an optimization from these ratios.
+maximum-input checks complement actual Linux supervisor/readback smoke. The
+separate [Linux evaluation](../development/linux-attributed-observations.md)
+now supplies bounded profile/dimension contrasts and durable raw data for choosing
+a next experiment. It establishes no optimization gain, controlled-device result
+or production qualification.

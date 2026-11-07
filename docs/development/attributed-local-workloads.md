@@ -15,7 +15,8 @@ remain unchanged.
 This is an in-process Java developer interface. The separate
 [attributed evidence path](attributed-workload-evidence.md) supplies source-bound
 serialized admission, Linux supervision and checked named-ratio reports.
-Evaluated attributed profiles remain separate. [ADR 0046](../decisions/0046-attributed-local-lifecycle.md)
+[Evaluated Linux profiles](linux-attributed-observations.md) retain their own raw
+data and coverage limits. [ADR 0046](../decisions/0046-attributed-local-lifecycle.md)
 defines that boundary; the [counter guide](local-io-counters.md) defines the native
 transfer and force counters.
 

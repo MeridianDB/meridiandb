@@ -6,7 +6,7 @@ description: Admit Linux workload observations only after bounded process execut
 # ADR 0043: Supervised workload evidence
 
 - **Date:** November 3, 2026
-- **Status:** Supervised harness and bounded observations implemented; attributed file-work evaluation pending
+- **Status:** Supervised harness and bounded ordinary/attributed observations available
 - **Scope:** Linux execution, result admission and storage/process accounting
 
 ## Context
@@ -60,5 +60,6 @@ attestation against a hostile checkout or machine.
 Cleanup covers cooperating children in the dedicated group; it is not arbitrary
 descendant containment or a security sandbox. Keep actual elapsed time, unknown
 hardware/cache facts, parent-operation limits and remaining controlled-evaluation
-gaps explicit. Real baseline evaluation and production-device failure evidence
-remain separately required outcomes.
+gaps explicit. Separate [ordinary](../development/linux-observations.md) and
+[attributed](../development/linux-attributed-observations.md) evaluations now retain
+durable baseline data. Production-device failure evidence remains separate.

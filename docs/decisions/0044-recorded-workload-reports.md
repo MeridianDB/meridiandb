@@ -6,7 +6,7 @@ description: Recompute saved workload evidence separately from live source, proc
 # ADR 0044: Recorded workload reports
 
 - **Date:** November 7, 2026
-- **Status:** Saved-record reporting and bounded observations implemented; integrated baseline pending
+- **Status:** Saved-record reporting and bounded ordinary/attributed observations available
 - **Scope:** Offline consistency and presentation of supervised workload evidence
 
 ## Context
@@ -38,6 +38,8 @@ recorded metadata does not authenticate the producer or qualify hardware. The
 command executes no recorded code and leaves input files unchanged.
 
 Raw results remain authoritative inputs for recomputation; generated reports are
-bounded views of that evidence. Actual Linux evaluation, controlled comparisons
-and production qualification remain separate outcomes. This change adds no engine
+bounded views of that evidence. Separate [ordinary](../development/linux-observations.md)
+and [attributed](../development/linux-attributed-observations.md) evaluations now
+retain durable baseline data; controlled comparisons and production qualification
+remain separate outcomes. This change adds no engine
 dependency or storage-format/acknowledgement change.

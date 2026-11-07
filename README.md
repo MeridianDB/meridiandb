@@ -57,8 +57,9 @@ adapter bytes and force calls in developer tests. The test-only
 ordered operation/auxiliary scopes and logical-history denominators.
 [Attributed evidence](docs/development/attributed-workload-evidence.md) now adds
 separate supervised runs, original-history decoding and checked saved ratios.
-Evaluated amplification, controlled comparisons and production qualification
-remain planned.
+[Evaluated operation file work](docs/development/linux-attributed-observations.md)
+now separates original append bytes from repeated recovery and maintenance reads.
+Controlled comparisons and production qualification remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?

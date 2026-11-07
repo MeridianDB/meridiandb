@@ -16,8 +16,9 @@ and auxiliary scopes to checked Java runs. A separate
 [evidence path](attributed-workload-evidence.md) supplies source-bound serialized
 admission and checked reports. There is no public engine configuration switch.
 The existing [Linux observations](linux-observations.md) retain their original
-source and metric definitions. Evaluated attributed profiles and integrated
-baseline acceptance remain separate work.
+source and metric definitions. Separate [attributed Linux results](linux-attributed-observations.md)
+now quantify bounded operation file work with durable raw data. Production and
+controlled-device qualification remain separate.
 
 ## What is counted
 

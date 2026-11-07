@@ -2812,6 +2812,20 @@ immutable. Publish precise protocol/coverage, retain actual raw evidence after
 native execution, then evaluate useful ratios and audit ancestors. No result or
 baseline acceptance is claimed by this protocol checkpoint.
 
+**Evaluated evidence checkpoint, November 7, 2026:** clean source
+`b79a0366fca194dd56f326cd3f0952a31598a958` passes actual Linux42387103000:
+ten cases/thirty stores/twenty measured repetitions/4,032 original commits.
+Fifty immutable raw/log gzip files and manifest retain450,633 compressed bytes;
+all JSON analyses reproduce CI bytes and Markdown/readme readback passes without
+original paths. Independent review checks all histories,14,570 scopes,450 groups
+and exact ratio pairs. Each case's matrices repeat across all three iterations.
+Base new commits write1.000 per original frame byte; lifecycle operations read
+13.353/write3.192 per original history byte, with auxiliary/excluded coverage
+separate. Timing still varies. Exact-source Java verifies1,422 core/80suites and
+183guards with zero Linux skips/failures. All original technical criteria pass
+within the defined adapter scope; results/docs/audit delivery remain required
+before closing MDB-0093/0090/0083/0012. No next experiment starts here.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

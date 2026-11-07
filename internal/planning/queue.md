@@ -55,6 +55,13 @@ children before implementation rather than treating a whole milestone as one pat
   scope/parser/process bounds. Layout/native acceleration, S3 and releases remain
   separate. Helpers own independent version research and read-only protocol review;
   root owns evaluation, documentation, shared queue and Git operations.
+- MDB-0093 evaluation source `b79a0366fca194dd56f326cd3f0952a31598a958`
+  passes Linux observations42387103000 and exact-source Java42387102889.
+  Ten cases/thirty stores/twenty measured iterations retain fifty immutable gzip
+  files and all checked ratios. Independent raw/history/group/readback review and
+  both strict104-page results builds pass. Original baseline technical criteria
+  are reconciled in the audit; keep MDB-0093 active and its ancestors expanded
+  pending results-source publication and live readback before final acceptance.
 
 ## Ordered work
 
