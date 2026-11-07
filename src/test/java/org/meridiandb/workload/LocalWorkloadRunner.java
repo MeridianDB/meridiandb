@@ -131,7 +131,12 @@ public final class LocalWorkloadRunner {
 
     static Result runAttributed(Path scratchParent, WorkloadCorpus corpus, Config config,
                                 LocalWorkloadIo trace) throws IOException {
-        return run(scratchParent, corpus, config, WorkloadMeasurements.systemProbe(), NO_OBSERVER,
+        return runAttributed(scratchParent, corpus, config, trace, NO_OBSERVER);
+    }
+
+    static Result runAttributed(Path scratchParent, WorkloadCorpus corpus, Config config,
+                                LocalWorkloadIo trace, IterationObserver observer) throws IOException {
+        return run(scratchParent, corpus, config, WorkloadMeasurements.systemProbe(), observer,
                 Objects.requireNonNull(trace, "trace"));
     }
 

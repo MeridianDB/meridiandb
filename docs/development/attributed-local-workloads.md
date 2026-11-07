@@ -12,9 +12,10 @@ instrumented execution and keeps operation counters separate from setup,
 validation and teardown. The original [Linux observations](linux-observations.md)
 remain unchanged.
 
-This is an in-process Java developer interface. Source-bound serialized admission,
-command-line supervision, named-ratio reports and evaluated attributed Linux
-results remain planned. [ADR 0046](../decisions/0046-attributed-local-lifecycle.md)
+This is an in-process Java developer interface. The separate
+[attributed evidence path](attributed-workload-evidence.md) supplies source-bound
+serialized admission, Linux supervision and checked named-ratio reports.
+Evaluated attributed profiles remain separate. [ADR 0046](../decisions/0046-attributed-local-lifecycle.md)
 defines that boundary; the [counter guide](local-io-counters.md) defines the native
 transfer and force counters.
 
@@ -83,9 +84,9 @@ Original commit, exact retry and query counts also remain distinct.
 An append ratio uses new frame bytes, excluding the header and retries. A named
 recovery/lifecycle ratio can use the complete encoded original history when its
 scope is stated. These are logical source lengths, independent of observed native
-counters and final file sizes. The core exports denominators; it does not yet
-produce amplification ratios. Future reporting must retain zero-denominator N/A
-and separate retries or heap-only queries rather than inventing a ratio.
+counters and final file sizes. The core exports denominators. The separate evidence
+path independently decodes original source history and produces named ratios,
+retaining zero-denominator N/A and separate retries or heap-only queries.
 
 ## Bounds and failure evidence
 

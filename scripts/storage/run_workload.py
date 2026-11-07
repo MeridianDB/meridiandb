@@ -21,6 +21,7 @@ import uuid
 
 from qualify_linux import device_metadata, read_bounded, select_mount
 from workload_evidence import EvidenceError, parse_document, validate_dimensions, validate_request, validate_worker
+from attributed_workload import AttributionError, MODE as ATTRIBUTED_MODE, request_budget
 
 
 MAX_LOG_BYTES = 2 * 1024 * 1024
@@ -322,7 +323,7 @@ def finish_report(report, started, deadline, observed, exit_code):
 
 def log_summary(report):
     """Retain compact admission/provenance facts in CI logs without raw samples."""
-    keys = ("schemaVersion", "runId", "status", "productionQualified", "request", "source", "classes",
+    keys = ("schemaVersion", "mode", "runId", "status", "productionQualified", "request", "source", "classes",
             "kernel", "architecture", "mount", "device", "worker", "workload", "workerResultSha256",
             "workerResultBytes", "elapsedSecondsBeforeReport", "deadlineExceededBeforeReport", "error")
     summary = {key: report[key] for key in keys if key in report}
@@ -333,6 +334,13 @@ def log_summary(report):
         summary["accounting"]["iterations"] = [
             {key: item[key] for key in ("index", "warmup", "logicalBytes", "attributedAllocatedBytes", "processIo")}
             for item in accounting["iterations"]]
+    if "attribution" in report:
+        attributed = report["attribution"]
+        summary["attribution"] = {key: attributed[key] for key in ("schemaVersion", "mode", "denominators")}
+        summary["attribution"]["iterations"] = [
+            {"index": item["index"], "warmup": item["warmup"],
+             **{key: item["operationTotals"][key] for key in ("totalReadBytes", "totalWriteBytes", "totalForceSuccesses")}}
+            for item in attributed["iterations"]]
     return summary
 
 
@@ -343,13 +351,23 @@ def failure_envelope(document, request, worker_pid, code):
         raise SupervisorError(str(error)) from error
     version = request.get("schemaVersion", 1)
     expected_fields = {"schemaVersion", "runId", "source", "profile", "seed", "workerPid", "status", "error", "io", "result"}
-    if version == 2:
+    if version in (2, 3):
         expected_fields.add("dimensions")
         try:
             if validate_dimensions(document.get("dimensions"), request["warmups"], request["repetitions"]) != dimensions:
                 raise SupervisorError("Wrong failed/unsupported workload dimensions")
         except EvidenceError as error:
             raise SupervisorError(str(error)) from error
+    if version == 3:
+        expected_fields |= {"mode", "attribution"}
+        payload = document.get("attribution")
+        if document.get("mode") != ATTRIBUTED_MODE or not isinstance(payload, dict) or set(payload) != {
+                "schemaVersion", "mode", "scopes", "denominators", "gaps", "sourceHistory"}:
+            raise SupervisorError("Wrong failed attributed mode/payload")
+        if (type(payload.get("schemaVersion")) is not int or payload["schemaVersion"] != 1
+                or payload.get("mode") != ATTRIBUTED_MODE or not isinstance(payload.get("scopes"), list)
+                or len(payload["scopes"]) > 2048):
+            raise SupervisorError("Wrong failed attributed scope evidence")
     error = document.get("error")
     status = document.get("status")
     expected_code = {"failed": 1, "unsupported": 3}.get(status) if isinstance(status, str) else None
@@ -368,7 +386,7 @@ def failure_envelope(document, request, worker_pid, code):
     return status, error, expected_code
 
 
-def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimensions=None):
+def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimensions=None, attributed=False):
     if sys.platform != "linux":
         raise SupervisorError("The supervised workload command requires Linux")
     if (profile not in {"APPEND", "CORRECTIONS", "RETRACTIONS", "HOT_ENTITY"}
@@ -377,11 +395,15 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimens
     if (any(type(v) is not int for v in (warmups, repetitions, timeout))
             or not 0 <= warmups <= 2 or not 1 <= repetitions <= 5 or not 30 <= timeout <= 600):
         raise SupervisorError("Invalid bounded workload configuration")
+    if type(attributed) is not bool:
+        raise SupervisorError("Explicit attributed selection must be boolean")
     try:
         dimensions = validate_dimensions(
             {"entities": 16, "commits": 128, "queries": 64, "intervalWidth": 8}
             if dimensions is None else dimensions, warmups, repetitions)
-    except EvidenceError as error:
+        if attributed:
+            request_budget(profile, seed, dimensions, warmups, repetitions)
+    except (EvidenceError, AttributionError) as error:
         raise SupervisorError(str(error)) from error
     if not parent.is_dir() or parent.is_symlink():
         raise SupervisorError("Scratch parent must be an existing trusted real directory")
@@ -392,9 +414,10 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimens
     stores = root / "stores"; stores.mkdir()
     temporary = root / "tmp"; temporary.mkdir()
     run_id = uuid.uuid4().hex
-    request = {"schemaVersion": 2, "runId": run_id, "source": None, "profile": profile, "seed": seed,
+    version = 3 if attributed else 2
+    request = {"schemaVersion": version, "runId": run_id, "source": None, "profile": profile, "seed": seed,
                "warmups": warmups, "repetitions": repetitions, "dimensions": dimensions}
-    report = {"schemaVersion": 2, "runId": run_id, "status": "failed", "productionQualified": False,
+    report = {"schemaVersion": version, "runId": run_id, "status": "failed", "productionQualified": False,
               "observedAtUtc": datetime.now(timezone.utc).isoformat(), "request": request,
               "runRoot": str(root), "kernel": platform.release(), "architecture": platform.machine(),
               "cache": "uncontrolled; no eviction or forced GC", "heapLimitBytes": 256 * 1024 * 1024,
@@ -403,6 +426,10 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimens
                        "Process counters are non-atomic instrumented-iteration accounting, not hardware transfers",
                        "Attributed file blocks do not establish exclusive physical or reclaimable space",
                        "Cleanup covers cooperating children in the dedicated group, not escaped sessions/cgroups"]}
+    if attributed:
+        request["mode"] = report["mode"] = ATTRIBUTED_MODE
+        report["evidenceScope"] = "checked instrumented caller-thread local adapter work on one Linux placement"
+        report["gaps"].append("Instrumented timings remain separate from original observational latency data")
     exit_code = 1
     try:
         for directory in (stores, temporary, root, parent, parent.parent):
@@ -432,7 +459,7 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimens
         output = root / "worker.json"
         command = [executable, "-Xmx256m", f"-Djava.io.tmpdir={temporary}", "--class-path",
                    os.pathsep.join([str(repo / "target/classes"), str(repo / "target/test-classes")]),
-                   "org.meridiandb.workload.WorkloadWorker", run_id, source["commit"], profile,
+                   "org.meridiandb.workload.WorkloadWorker", *(["--attributed"] if attributed else []), run_id, source["commit"], profile,
                    str(seed), str(warmups), str(repetitions), str(stores), str(output),
                    *[str(dimensions[key]) for key in ("entities", "commits", "queries", "intervalWidth")]]
         report["workerCommand"] = command
@@ -453,7 +480,10 @@ def supervise(repo, parent, profile, seed, warmups, repetitions, timeout, dimens
         else:
             if report["worker"]["exitCode"] != 0:
                 raise SupervisorError("Nonzero worker cannot supply successful evidence")
-            report["accounting"] = validate_worker(document, request, report["worker"]["pid"], stores, report["mount"])
+            accounting = validate_worker(document, request, report["worker"]["pid"], stores, report["mount"])
+            if attributed:
+                report["attribution"] = accounting.pop("attribution")
+            report["accounting"] = accounting
             report["workload"] = {key: document["result"][key] for key in (
                 "schemaVersion", "corpusVersion", "spec", "config", "fingerprint", "historyFingerprint",
                 "encodedHistoryBytes", "runtime", "workload")}
@@ -486,13 +516,14 @@ def main(argv=None):
     parser.add_argument("--commits", type=int, default=128)
     parser.add_argument("--queries", type=int, default=64)
     parser.add_argument("--interval-width", type=int, default=8)
+    parser.add_argument("--attributed", action="store_true", help="Select separate schema-three instrumented file-work evidence")
     args = parser.parse_args(argv)
     try:
         with interrupt_handlers():
             return supervise(Path(__file__).resolve().parents[2], args.scratch_parent, args.profile,
                              args.seed, args.warmups, args.repetitions, args.timeout,
                              {"entities": args.entities, "commits": args.commits,
-                              "queries": args.queries, "intervalWidth": args.interval_width})
+                              "queries": args.queries, "intervalWidth": args.interval_width}, args.attributed)
     except (Exception, KeyboardInterrupt) as failure:
         print(f"Workload supervisor: {type(failure).__name__}: {failure}", file=sys.stderr)
         return 1

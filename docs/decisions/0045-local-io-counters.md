@@ -6,7 +6,7 @@ description: Observe completed caller-thread local FileChannel work with fixed i
 # ADR 0045: Internal local I/O counters
 
 - **Date:** November 7, 2026
-- **Status:** Native counter foundation and in-process attribution implemented; serialized reporting pending
+- **Status:** Counter foundation, in-process attribution and serialized reporting implemented; evaluation pending
 - **Scope:** Internal caller-thread observation of local adapter transfers and force
 
 ## Context
@@ -44,8 +44,8 @@ bytes, not actual device traffic, metadata bytes or cold-cache behavior.
 
 Native tests can independently verify exact work. A separate
 [attributed lifecycle core](../development/attributed-local-workloads.md) labels
-engine/setup/validation/teardown scopes and exports logical denominators. Source
-binding, serialized raw-counter admission and checked named-ratio reporting remain
-required before producing amplification results. Instrumented runs do not silently
-replace original latency observations.
+engine/setup/validation/teardown scopes and exports logical denominators. The
+[evidence path](../development/attributed-workload-evidence.md) adds source binding,
+serialized raw-counter admission and checked named-ratio reporting. Instrumented
+runs do not silently replace original latency observations.
 Integrated baseline and production qualification remain pending.

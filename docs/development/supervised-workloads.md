@@ -14,6 +14,11 @@ controlled-device comparison or production qualification.
 The [Linux observation protocol](linux-observations.md) defines a separate
 sequential evaluation across temporal profiles and independently varied dimensions.
 
+The commands below retain ordinary schema-two observations. Select `--attributed`
+for separate schema-three operation file work; the
+[attributed evidence guide](attributed-workload-evidence.md) defines its original-
+history decoding, counter coverage, ratio meanings and stricter scope admission.
+
 [ADR 0043](../decisions/0043-supervised-workload-evidence.md) explains the evidence
 boundary. The [Linux qualification harness](linux-storage-qualification.md) remains
 the complete correctness gate; this command adds a bounded workload execution.
@@ -125,7 +130,7 @@ recognized options and exposed device facts. Unknown backing device/controller/
 cache behavior remains unknown. Dirty local results are labeled; clean CI is a
 different provenance fact, not a production or hardware guarantee.
 
-New command runs use request/report and worker-envelope schema version two. The
+Ordinary command runs use request/report and worker-envelope schema version two. The
 request and worker envelope bind an exact `dimensions` object containing
 `entities`, `commits`, `queries` and `intervalWidth`, including failure and unsupported
 outcomes. The nested measurement result and corpus remain version one. Legacy

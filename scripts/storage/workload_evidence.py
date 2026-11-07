@@ -18,6 +18,8 @@ import platform
 import re
 import stat
 
+from attributed_workload import AttributionError, MODE as ATTRIBUTED_MODE, request_budget, validate_attribution
+
 
 MAX_DOCUMENT_BYTES = 16 * 1024 * 1024
 MAX_DEPTH = 32
@@ -71,6 +73,7 @@ RUNTIME_FIELDS = {"javaVersion", "javaRuntimeVersion", "javaVendor", "osName", "
 ENVELOPE_FIELDS = {"schemaVersion", "runId", "source", "profile", "seed", "workerPid", "status", "error", "io", "result"}
 REQUEST_FIELDS = {"runId", "source", "profile", "seed", "warmups", "repetitions"}
 SCALED_REQUEST_FIELDS = REQUEST_FIELDS | {"schemaVersion", "dimensions"}
+ATTRIBUTED_REQUEST_FIELDS = SCALED_REQUEST_FIELDS | {"mode"}
 CONTROL_NAMES = {".meridiandb-checkpoints.lock", ".meridiandb-readers.lock"}
 MANIFEST_NAME = re.compile(r"checkpoint-([0-9]{19})-([0-9a-f]{64})\.manifest")
 SEGMENT_NAME = re.compile(r"([0-9a-f]{64})\.segment")
@@ -128,11 +131,12 @@ def validate_request(request):
     """Validate exact legacy/scaled request bindings and return checked dimensions.
 
     Legacy six-field requests imply envelope schema 1 and the original defaults.
-    Scaled eight-field requests explicitly select schema 2. The inner corpus and
-    measurement result remain version 1 in both cases.
+    Scaled eight-field requests explicitly select schema 2. Schema 3 adds an
+    explicit attributed mode; the inner corpus/measurement result remains v1.
     """
     scaled = type(request) is dict and "schemaVersion" in request
-    _object(request, SCALED_REQUEST_FIELDS if scaled else REQUEST_FIELDS, "request")
+    attributed = scaled and request.get("schemaVersion") == 3
+    _object(request, ATTRIBUTED_REQUEST_FIELDS if attributed else SCALED_REQUEST_FIELDS if scaled else REQUEST_FIELDS, "request")
     _text(request["runId"], "runId", 32, r"[0-9a-f]{32}")
     _text(request["source"], "source", 40, r"[0-9a-f]{40}")
     _require(type(request["profile"]) is str and request["profile"] in PROFILES, "Unknown profile")
@@ -140,8 +144,15 @@ def validate_request(request):
     warmups = _integer(request["warmups"], "warmups", 0, 2)
     repetitions = _integer(request["repetitions"], "repetitions", 1, 5)
     if scaled:
-        _integer(request["schemaVersion"], "scaled request schema", 2, 2)
-        return validate_dimensions(request["dimensions"], warmups, repetitions)
+        _integer(request["schemaVersion"], "scaled request schema", 3 if attributed else 2, 3 if attributed else 2)
+        dimensions = validate_dimensions(request["dimensions"], warmups, repetitions)
+        if attributed:
+            _require(request["mode"] == ATTRIBUTED_MODE, "Wrong attributed request mode")
+            try:
+                request_budget(request["profile"], request["seed"], dimensions, warmups, repetitions)
+            except AttributionError as error:
+                raise EvidenceError(str(error)) from error
+        return dimensions
     return dict(DEFAULT_DIMENSIONS)
 
 
@@ -491,12 +502,18 @@ def validate_recorded_worker(doc, request: dict, worker_pid: int, stores: Path, 
     _structure(doc)
     dimensions = validate_request(request)
     scaled = "schemaVersion" in request
+    attributed = request.get("schemaVersion") == 3
     warmups, repetitions = request["warmups"], request["repetitions"]
     source_segments = _source_segments(dimensions["commits"])
     _integer(worker_pid, "worker PID", 1)
-    _object(doc, ENVELOPE_FIELDS | {"dimensions"} if scaled else ENVELOPE_FIELDS, "worker envelope")
-    version = 2 if scaled else 1
+    expected_fields = ENVELOPE_FIELDS | ({"dimensions"} if scaled else set())
+    if attributed:
+        expected_fields |= {"mode", "attribution"}
+    _object(doc, expected_fields, "worker envelope")
+    version = request.get("schemaVersion", 1)
     _integer(doc["schemaVersion"], "worker schema", version, version)
+    if attributed:
+        _require(doc["mode"] == ATTRIBUTED_MODE, "Wrong attributed worker mode")
     if scaled:
         actual_dimensions = _object(doc["dimensions"], DIMENSION_FIELDS, "worker dimensions")
         for key, expected in dimensions.items():
@@ -577,9 +594,15 @@ def validate_recorded_worker(doc, request: dict, worker_pid: int, stores: Path, 
         accepted.append({"index": index, "warmup": iteration["warmup"], "directory": str(home),
                          "fileLengths": declared["fileLengths"], "logicalBytes": declared["logicalBytes"],
                          "processIo": _io(io[index], index, iteration["warmup"], str(home), encoded)})
-    return {"encodedHistoryBytes": encoded, "historyFingerprint": result["historyFingerprint"],
+    checked = {"encodedHistoryBytes": encoded, "historyFingerprint": result["historyFingerprint"],
             "sourceSegments": source_segments, "retainedFileCount": total_files,
             "totalLogicalBytes": total_logical, "iterations": accepted}
+    if attributed:
+        try:
+            checked["attribution"] = validate_attribution(doc["attribution"], result)
+        except AttributionError as error:
+            raise EvidenceError(str(error)) from error
+    return checked
 
 
 def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: dict) -> dict:
@@ -616,10 +639,13 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
         accepted.append(observed)
     _require(total_files == recorded["retainedFileCount"] and total_logical == recorded["totalLogicalBytes"],
              "Live inventory differs from recorded declarations")
-    return {"schemaVersion": 1, "retainedFileCount": total_files, "totalLogicalBytes": total_logical,
+    checked = {"schemaVersion": 1, "retainedFileCount": total_files, "totalLogicalBytes": total_logical,
             "totalAttributedAllocatedBytes": total_allocated, "iterations": accepted,
             "limits": ["Allocated bytes are per-file st_blocks*512 attribution, not unique physical extents or reclaimable space",
                        "File totals exclude directory metadata, build outputs and supervisor logs",
                        "Process I/O covers each complete iteration, including checks, JVM activity and proc reads; not only timed calls",
                        "Process read/write ratios use encoded journal bytes; they are not device amplification or durability evidence",
                        "cancelled_write_bytes is retained separately and is not subtracted to invent net device traffic"]}
+    if "attribution" in recorded:
+        checked["attribution"] = recorded["attribution"]
+    return checked

@@ -19,7 +19,8 @@ files with the generated report so every displayed value remains traceable.
 ## Read a saved run
 
 Use Python 3.13 on Linux or macOS from the repository root. Copy `request.json`,
-`report.json` and `worker.json` from the same completed schema-two run into one
+`report.json` and `worker.json` from the same completed schema-two or attributed
+schema-three run into one
 directory. The copied directory can have a different location and name; the paths
 inside the evidence retain their original meaning.
 
@@ -49,8 +50,10 @@ for that identity.
 Exit zero means `recorded_consistency_passed`. A nonzero exit refuses incomplete,
 failed, mixed, malformed, excessive or inconsistent evidence. It prints a short
 diagnostic to standard error and emits no successful report. This reader supports
-schema-two supervisor documents; legacy worker validation remains available in
-the live evidence layer.
+schema-two and attributed schema-three supervisor documents; legacy worker
+validation remains available in the live evidence layer. Attributed output is
+explicitly mode-labeled and independently checks original history, raw scopes and
+named ratios; see [attributed workload evidence](attributed-workload-evidence.md).
 
 ## What is checked
 

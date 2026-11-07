@@ -620,6 +620,16 @@ so a new session can work correctly without relying on earlier conversations.
   teardown capture cannot start. Preserve incomplete raw evidence and original
   logical denominators. Source-bound serialized admission, checked ratios and
   evaluated Linux results require their own acceptance before baseline completion.
+- For serialized attributed evidence, follow [ADR 0047](docs/decisions/0047-attributed-workload-evidence.md)
+  and the [evidence guide](docs/development/attributed-workload-evidence.md). Select
+  explicit schema-three/mode bindings on request, worker, command and receipt;
+  preserve ordinary schemas and original data. Admit the exact retry/scope budget
+  before path effects. Independently decode/checksum/hash original history and
+  recompute logical denominators, complete ordered scopes, raw sums and ratio pairs.
+  Refuse incomplete/unknown/failed/overflow evidence; keep zero-denominator N/A,
+  auxiliary totals and excluded/uncaptured counters distinct. Preserve failed raw
+  output and native source/process/file checks, verify maximum-input parsing/output
+  and real Linux attributed/saved readback, and retain evaluation as separate work.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

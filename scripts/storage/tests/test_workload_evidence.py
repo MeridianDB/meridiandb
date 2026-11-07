@@ -10,12 +10,14 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest import mock
 
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 _spec = importlib.util.spec_from_file_location(
     "workload_evidence", Path(__file__).resolve().parents[1] / "workload_evidence.py")
 evidence = importlib.util.module_from_spec(_spec)

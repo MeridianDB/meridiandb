@@ -76,12 +76,26 @@ public final class LocalAttributedWorkload {
 
     static Result run(Path scratchParent, WorkloadCorpus corpus, LocalWorkloadRunner.Config config,
                       LocalWorkloadIo trace) throws IOException {
+        return run(scratchParent, corpus, config, trace, new LocalWorkloadRunner.IterationObserver() {
+            @Override public void before(int index, boolean warmup, Path directory) { }
+            @Override public void after(int index, boolean warmup, Path directory) { }
+        });
+    }
+
+    static Result run(Path scratchParent, WorkloadCorpus corpus, LocalWorkloadRunner.Config config,
+                      LocalWorkloadRunner.IterationObserver observer) throws IOException {
+        return run(scratchParent, corpus, config, new LocalWorkloadIo(admittedCapacity(corpus, config)), observer);
+    }
+
+    static Result run(Path scratchParent, WorkloadCorpus corpus, LocalWorkloadRunner.Config config,
+                      LocalWorkloadIo trace, LocalWorkloadRunner.IterationObserver observer) throws IOException {
         Objects.requireNonNull(scratchParent, "scratchParent");
         Objects.requireNonNull(trace, "trace").admit(admittedCapacity(corpus, config));
+        Objects.requireNonNull(observer, "observer");
         var denominators = denominators(corpus);
         LocalWorkloadRunner.Result workload = null;
         try {
-            workload = LocalWorkloadRunner.runAttributed(scratchParent, corpus, config, trace);
+            workload = LocalWorkloadRunner.runAttributed(scratchParent, corpus, config, trace, observer);
             return new Result(VERSION, MODE, workload, trace.entries(), denominators, List.of(
                     "Explicit caller-thread local adapter instrumentation; original latency data are unchanged",
                     "Counters cover hooked FileChannel transfers/force, not device traffic, metadata or other threads",

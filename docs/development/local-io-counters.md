@@ -12,11 +12,12 @@ protocols. [ADR 0045](../decisions/0045-local-io-counters.md) defines the bounda
 
 Capture activation is package-private and exercised through test-only support.
 The [attributed lifecycle core](attributed-local-workloads.md) now assigns operation
-and auxiliary scopes to checked Java runs. There is no public engine configuration
-switch or source-bound serialized attributed report yet.
+and auxiliary scopes to checked Java runs. A separate
+[evidence path](attributed-workload-evidence.md) supplies source-bound serialized
+admission and checked reports. There is no public engine configuration switch.
 The existing [Linux observations](linux-observations.md) retain their original
-source and metric definitions. Source-bound raw-counter admission, named-ratio
-reporting and evaluated attributed results remain separate work.
+source and metric definitions. Evaluated attributed profiles and integrated
+baseline acceptance remain separate work.
 
 ## What is counted
 

@@ -42,13 +42,22 @@ children before implementation rather than treating a whole milestone as one pat
 - Fresh November 7 Maven research keeps twelve current non-AWS stable pins;
   latest AWS 2.57.11 versus retained 2.57.8 remains explicitly deferred. POM unchanged.
 - **MDB-0092** retains both required children: completed MDB-0094 Java attribution
-  and **MDB-0095 — Attributed serialized evidence integration**, the next ready
-  executable item after this completion reaches origin/main. MDB-0095 owns source-
+  and **MDB-0095 — Attributed serialized evidence integration**, the active
+  executable item, owned by the primary coordinator. MDB-0095 owns source-
   bound worker/supervisor/saved-reader admission and recomputable named ratios;
   MDB-0093 retains evaluated Linux runs, durable data and original baseline audit.
-  All 95 stable IDs remain. MDB-0092/0090/0083/0012 stay expanded; no serialized
-  implementation, attributed evaluation, layout/native accelerator, S3 or release
-  starts in this invocation.
+  All 95 stable IDs remain. MDB-0092/0090/0083/0012 stay expanded.
+  Implement explicit schema-three source-bound attributed evidence and independently
+  checked counters/denominators/ratios; preserve ordinary schemas and original data.
+  Actual evaluated runs, layout/native acceleration, S3 and releases remain separate.
+- MDB-0095 local acceptance passes: explicit schema-three worker/supervisor/saved
+  reports, independent source-history/counter/ratio checks and bounded failed
+  evidence. All 1,422 core cases /80 suites pass rooted macOS verification without
+  skips/failures; 183 Python guards pass (five Linux-only local skips), alongside
+  42 docs fixtures and both strict 103-page URL builds. Inventory SHA256
+  `dc6edb3b4ce83e2f74f577f3037f92c2b8287c89da803d32e7cf4d05d5191fb9`.
+  Keep MDB-0095 active and MDB-0092 expanded until exact-source Linux ordinary+
+  attributed/max smoke/readback and automatic Pages/live acceptance pass.
 
 ## Ordered work
 
@@ -99,7 +108,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0091](roadmap.md#mdb-0091-internal-local-io-counters) | Count completed native file work without changing storage behavior | MDB-0090 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
 | [MDB-0092](roadmap.md#mdb-0092-attributed-workload-and-result-integration) | Bind operation scopes, raw counters and named ratios into separate workload results | MDB-0090 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091 |
 | [MDB-0094](roadmap.md#mdb-0094-attributed-local-lifecycle-core) | Capture typed operation and auxiliary file work on separate local lifecycles | MDB-0092 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091 |
-| [MDB-0095](roadmap.md#mdb-0095-attributed-serialized-evidence-integration) | Admit and report bounded attributed worker/supervisor evidence | MDB-0092 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0094 |
+| [MDB-0095](roadmap.md#mdb-0095-attributed-serialized-evidence-integration) | Admit and report bounded attributed worker/supervisor evidence | MDB-0092 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0094 |
 | [MDB-0093](roadmap.md#mdb-0093-linux-attributed-work-and-baseline-acceptance) | Evaluate checked attributed Linux runs and complete original baseline audit | MDB-0090 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0092 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |

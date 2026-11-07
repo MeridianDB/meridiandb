@@ -72,6 +72,7 @@
     "org.meridiandb.temporal.QueryTypesTest": 8,
     "org.meridiandb.temporal.TemporalTypesTest": 8,
     "org.meridiandb.temporal.ValidTimeIntervalTest": 18,
+    "org.meridiandb.workload.AttributedWorkloadWorkerTest": 9,
     "org.meridiandb.workload.LocalAttributedWorkloadTest": 13,
     "org.meridiandb.workload.LocalWorkloadIoTest": 12,
     "org.meridiandb.workload.LocalWorkloadRunnerTest": 9,

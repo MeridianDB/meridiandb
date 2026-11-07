@@ -6754,6 +6754,114 @@ Attributed serialized evidence integration**, after completion delivery. No
 dependent implementation starts here.
 
 
+## 2026-11-07 — MDB-0095 Attributed serialized evidence source checkpoint
+
+**Selection:** resume clean matching main/origin at
+`57382ba86cf5940bd6b8974f18b8b2bac17586bf`, with prior completion ancestry and
+delivery reconciled. MDB-0095 is the only active executable item; preserve all
+95 IDs and original criteria. Primary coordinator owns Python integration,
+reporting, docs, queue and Git; helpers own Java worker/observer/test changes,
+the new pure Python validator/tests, and independent research/review. All helper
+write/build ownership returns before coordinator builds. Keep actual evaluation,
+durable evaluated data and original baseline acceptance with MDB-0093; no layout,
+native binding, S3 continuation or release starts here.
+
+**Worker and live integration:** add explicit prefix `--attributed` to twelve
+dimensioned worker arguments, and supervisor `--attributed`, selecting schema three
+plus `CALLER_THREAD_LOCAL_IO_INSTRUMENTED` on request, worker and receipt. Preserve
+exact legacy8/schema1 and dimensioned12/schema2 shapes. Reuse the checked Java
+lifecycle with the real process-I/O observer outside capture scopes. Success
+exports the unchanged inner lifecycle result plus typed scopes/denominators/gaps
+and original header/frame hex. Original non-retry sequences/length/hash are checked
+before storage; failed/unsupported outcomes retain partial scopes and never a
+successful result. Existing bounded export, complete/create-only publication,
+source/class stability, native file graph/hash and process cleanup remain intact.
+
+Exact retry PRNG admission runs before paths/effects in worker and supervisor:
+48-bit Java Random seed/salt, signed32 nextInt rejection and extra original-request
+draws. The Python side does not trust producer action counts to select its budget.
+Default CORRECTIONS42 warmup1/measured3 reserves 1,962 scopes and fits; the admitted
+APPEND42 E1/C100/Q879/W1 boundary reserves 2,048 and emits 2,016 successful scopes.
+
+**Independent raw checking/reporting:** new pure `attributed_workload.py` decodes
+v1 header and every original frame, checks both CRC32C boundaries, original request
+sequence/entity/finite-window/count bindings, original-operation metadata and full
+SHA256/length. Source-derived header/seed/mixed lengths establish denominators;
+neither final sizes nor observed counters supply those logical lengths. Require
+the exact operation and auxiliary ordering, fixed eight-role/fourteen-counter
+shape, typed nonnegative/coherent returns/bytes/forces, complete outcomes and
+signed-long sums. Reject missing/unknown/failed/overflow and mode/version mixing.
+
+Derive per-iteration named matrices, operation groups/totals and exact ratio pairs.
+New commits use original seed/mixed frame bytes; retry/query denominators are zero
+with N/A; named lifecycle/recovery ratios use full encoded original history.
+Preparation and auxiliary counts remain separate. External hash/inventory carry
+excluded coverage; export, process telemetry and supervisor validation have
+explicit unavailable counters. Saved reader independently recomputes attribution,
+compares cached producer totals/ratios and binds exact worker bytes. Attributed
+analysis has schema two plus explicit mode; ordinary analysis stays schema one.
+It opens no original paths/commands and supplies no producer authentication.
+Markdown keeps compact per-iteration rows and N/A, not every raw counter cell.
+
+**Tests and bounds:** focused Java worker run passes 25 cases, including nine new
+mode/source-vector/failure/default/max/native/export cases. Full rooted clean
+verify passes **1,422 cases /80 suites**, zero skips/failures/errors on
+macOS/Oracle25.0.2+10-LTS-69/aarch64, run `bfcfafd5e30843bc8d2f51cf5f9890c3`,
+elapsed2:23. Reconcile fresh XML against every prior suite/count and source file;
+only AttributedWorkloadWorkerTest9 is added. New inventory SHA256
+`dc6edb3b4ce83e2f74f577f3037f92c2b8287c89da803d32e7cf4d05d5191fb9`;
+prior `a7fa250e9aa2f561c26a22f55c02c7d98813779888393e49059ad290048592e0`.
+Shared parser verifies fresh run/root/runtime; macOS evidence is not Linux
+qualification. Core JAR remains160 classes and jdeps only java.base; classifier
+ten with new developer helpers excluded. Production source/POM unchanged.
+
+All **183 Python guards** pass locally (five Linux-only skips), including 38
+independent CRC/history/schedule/scope/counter/ratio cases and ten integration
+cases. Corrupted/rebound worker hashes, wrong modes/commands, altered cached
+reports, partial failure and no-original-host readback are exercised. One initial
+assertion expected literal underscores in escaped Markdown; check decoded display
+text and rerun successfully. Maximum serialized fixtures exercise 500,000-node/
+16MiB input and 4MiB output caps with 2,048-scope admission, without changing limits.
+Frozen tiny/max fixtures under scripts/storage/tests/fixtures are actual native
+counter serialization with synthetic recorded Linux paths/PID/context, explicitly
+not qualification/performance data. Tiny:39,832 raw/4,772 gzip bytes, 52 scopes,
+198 history bytes; max:1,222,369 raw/26,768 gzip bytes, 2,016 scopes, 8,026 history
+bytes. README retains exact original/gzip hashes and provenance distinction.
+
+CI adds real attributed CORRECTIONS warmup1/measured2 and max APPEND E1/C100/Q879/W1
+supervised execution alongside both ordinary cases, then requires four checked
+saved reports/two explicit modes, warmup/measured and boundary readback. Existing
+source bindings and retention remain. Independent source/CI review finds no
+remaining issue; actual Linux execution is still pending source delivery.
+
+**Documentation/rules:** add evidence guide/ADR0047, reconcile prior guides/ADRs,
+README/build/test-count callers, public roadmap/navigation and agent rules.
+Independent editorial review catches and fixes a generic “New command runs…”
+schema-two caller to “Ordinary command runs…”. Forty-two docs fixtures and both
+strict103-page URL builds pass, including source/HTML/links/search/sitemap checks.
+Desktop light and390px mobile dark table containment pass:375px page/wrappers,
+343px admission table and464.31px ratio table within overflow-auto wrapper.
+Search returns22 results including guide/ADR; decision navigation works. Restore
+normal light/default viewport. Ignored .local-qa/mdb-0095 retains rooted reports,
+research, logs, native fixture acquisition and screenshots.
+
+**Fresh Maven research:** fourteen Central and sixteen official sources checked
+November7 at14:47:13UTC/09:47:13EST; twelve non-AWS pins remain latest stable
+compatible. AWS selected2.57.8/latest2.57.11 stays deferred; POM unchanged.
+ReportSHA256 `06b061da714772352c104e075876dbc7bcc6ac998302f7ab472d36124b942a00`;
+metadata `edfb0efbb4c84892898f7f7e2c8640f7a57d41886dfb0f04cc4326163527a7b2`;
+compatibility `6e2d7708a204a83087464082f1285139920ee184894500c9cb01c35740a47222`;
+manifest `731090578814fc3d09fbdff617755089cb039c07b4c172881c0b57eed7a77bb7`.
+
+**Delivery:** inspect task-owned staged diff and queue/card/DAG, commit code/tests/
+fixtures/docs/rules/inventory/planning with Step-ID MDB-0095 /Step-Result checkpoint,
+push normally and verify remote ancestry/tips. Keep MDB-0095 active until actual
+exact-source Linux/Windows core/optional/examples,183guards, four supervised
+workload/readback cases and docs/automatic Pages/live acceptance pass. Then audit
+and close MDB-0095/0092, preparing MDB-0093. Keep MDB-0090/0083/0012 expanded;
+no actual evaluated attributed dataset or downstream implementation starts here.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

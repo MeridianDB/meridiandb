@@ -2740,6 +2740,31 @@ saved-reader contract tests, actual Linux smoke/readback, docs/rules/inventory a
 original MDB-0092 integration criteria pass. MDB-0093 still owns evaluated useful
 Linux runs, durable raw data and original ancestor acceptance.
 
+**Source checkpoint, November 7, 2026:** explicit schema-three/mode worker,
+supervisor and saved-reader integration is implemented. Original schemas and
+observational data remain unchanged. Original header/frame hex exports are decoded
+independently with CRC32C, identity/sequence/window checks and full-history hash/
+length binding; seed/mixed/new-frame denominators come from those bytes. Exact
+retry scheduling admits the complete trace before path effects. Ordered scopes,
+coherent bounded role counters, exact sums, cached report comparison and rational
+ratio pairs reject incomplete/failed/unknown/overflow evidence, with zero N/A.
+Preparation/auxiliary/excluded/uncaptured work remains explicit; partial worker
+failure evidence never becomes successful reporting. Native process/source/file
+admission remains in the live supervisor; saved reporting is recorded consistency.
+
+Nine new Java worker cases pass alongside all prior tests: rooted clean verify
+passes 1,422 invocations /80 suites without skips/failures. Inventory SHA256
+`dc6edb3b4ce83e2f74f577f3037f92c2b8287c89da803d32e7cf4d05d5191fb9`.
+All 183 Python guards pass locally (five Linux-only skips), including 38 pure
+attribution and ten integration cases. Native serialized tiny/max fixtures are
+explicitly synthetic recorded-host regression data, not performance evidence.
+They exercise 52/2,016 successful scopes, 2,048 maximum reservation, both JSON
+decoders and output caps. Core remains JDK-only/160 classes, classifier ten without
+developer helpers; POM unchanged. Forty-two docs fixtures and both strict 103-page
+URL builds pass. CI now includes two ordinary and two attributed supervised cases
+with exact-source saved readback. Keep MDB-0095 active pending actual Linux CI and
+Pages/live verification; MDB-0092/0090/0083/0012 remain expanded.
+
 ## MDB-0093 Linux attributed work and baseline acceptance
 
 **Parent:** MDB-0090. **Outcome:** execute reproducible bounded attributed Linux

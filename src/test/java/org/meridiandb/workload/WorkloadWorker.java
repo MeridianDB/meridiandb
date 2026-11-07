@@ -13,15 +13,20 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
+import java.util.HexFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.meridiandb.storage.manifest.LocalCheckpointStore;
+import org.meridiandb.storage.journal.JournalCodec;
+import org.meridiandb.storage.journal.JournalRecord;
 
 /** JDK-only worker for the supervised developer harness; invocation alone is not trusted evidence. */
 public final class WorkloadWorker {
@@ -35,9 +40,39 @@ public final class WorkloadWorker {
 
     private record Request(int schemaVersion, String runId, String source, WorkloadCorpus.Profile profile,
                            long seed, WorkloadCorpus.Spec spec, Dimensions dimensions,
-                           LocalWorkloadRunner.Config config, Path scratch, Path output) { }
+                           LocalWorkloadRunner.Config config, Path scratch, Path output,
+                           WorkloadCorpus attributedCorpus) { }
 
     public record Dimensions(int entities, int commits, int queries, int intervalWidth) { }
+
+    public record SourceHistory(String headerHex, List<String> framesHex) {
+        public SourceHistory {
+            requireHex(headerHex);
+            if (framesHex == null || framesHex.size() > 4096) { throw new IllegalArgumentException("Invalid original frame count"); }
+            framesHex = List.copyOf(framesHex);
+            framesHex.forEach(WorkloadWorker::requireHex);
+        }
+    }
+
+    /** Instrumented evidence is separate from the unchanged inner measurement result. */
+    public record Attribution(int schemaVersion, String mode, List<LocalWorkloadIo.Entry> scopes,
+                              LocalAttributedWorkload.Denominators denominators, List<String> gaps,
+                              SourceHistory sourceHistory) {
+        public Attribution {
+            if (schemaVersion != 1 || !LocalAttributedWorkload.MODE.equals(mode)
+                    || scopes.size() > LocalAttributedWorkload.MAX_SCOPES) {
+                throw new IllegalArgumentException("Invalid attributed evidence shape");
+            }
+            scopes = List.copyOf(scopes);
+            gaps = List.copyOf(gaps);
+        }
+    }
+
+    @FunctionalInterface
+    interface AttributedExecution {
+        LocalAttributedWorkload.Result run(Path scratch, WorkloadCorpus corpus, LocalWorkloadRunner.Config config,
+                                          LocalWorkloadRunner.IterationObserver observer) throws IOException;
+    }
 
     record IoSnapshot(Map<String, Long> counters, String unavailable) {
         IoSnapshot {
@@ -54,6 +89,11 @@ public final class WorkloadWorker {
 
     /** Exit 0 is success; 3 explicit directory-sync unavailability; 1 execution/export failure; 2 invalid input. */
     static int execute(String[] args) {
+        return execute(args, LocalAttributedWorkload::run);
+    }
+
+    // Test-only execution seam preserves the real process observer and actual argument/export paths.
+    static int execute(String[] args, AttributedExecution attributedExecution) {
         final Request request;
         try {
             request = request(args);
@@ -63,16 +103,34 @@ public final class WorkloadWorker {
         }
         var io = new ProcessIoObserver(Path.of("/proc/self/io"));
         LocalWorkloadRunner.Result result = null;
+        List<LocalWorkloadIo.Entry> scopes = List.of();
+        LocalAttributedWorkload.Denominators denominators = null;
+        SourceHistory history = null;
+        List<String> attributedGaps = List.of("Attributed lifecycle did not complete; no successful amplification result");
         Exception failure = null;
         String status;
         try {
-            var corpus = WorkloadCorpus.generate(request.spec());
-            result = LocalWorkloadRunner.run(request.scratch(), corpus, request.config(),
-                    WorkloadMeasurements.systemProbe(), io);
+            var corpus = request.attributedCorpus() == null ? WorkloadCorpus.generate(request.spec()) : request.attributedCorpus();
+            if (request.schemaVersion() == 3) {
+                denominators = LocalAttributedWorkload.denominators(corpus);
+                history = sourceHistory(corpus);
+                var attributed = Objects.requireNonNull(attributedExecution, "attributedExecution")
+                        .run(request.scratch(), corpus, request.config(), io);
+                result = attributed.workload();
+                scopes = attributed.scopes();
+                attributedGaps = attributed.gaps();
+            } else {
+                result = LocalWorkloadRunner.run(request.scratch(), corpus, request.config(),
+                        WorkloadMeasurements.systemProbe(), io);
+            }
             status = "success";
         } catch (Exception caught) {
             failure = caught;
             status = failureStatus(caught);
+            Set<Throwable> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+            for (Throwable current = caught; current != null && seen.add(current); current = current.getCause()) {
+                if (current instanceof LocalAttributedWorkload.RunFailedException attributed) { scopes = attributed.scopes(); break; }
+            }
         }
         var envelope = new LinkedHashMap<String, Object>();
         envelope.put("schemaVersion", request.schemaVersion());
@@ -88,6 +146,11 @@ public final class WorkloadWorker {
         envelope.put("io", io.observations());
         envelope.put("result", result);
         if (request.dimensions() != null) { envelope.put("dimensions", request.dimensions()); }
+        if (request.schemaVersion() == 3) {
+            envelope.put("mode", LocalAttributedWorkload.MODE);
+            envelope.put("attribution", new Attribution(1, LocalAttributedWorkload.MODE, scopes,
+                    denominators, attributedGaps, history));
+        }
         try {
             writeEnvelope(request.output(), envelope);
         } catch (IOException | RuntimeException exportFailure) {
@@ -99,9 +162,11 @@ public final class WorkloadWorker {
     }
 
     private static Request request(String[] args) throws IOException {
-        if (args == null || (args.length != 8 && args.length != 12)) {
-            throw new IllegalArgumentException("Exactly eight legacy or twelve dimensioned arguments required");
+        boolean attributed = args != null && args.length == 13 && "--attributed".equals(args[0]);
+        if (args == null || (!attributed && args.length != 8 && args.length != 12)) {
+            throw new IllegalArgumentException("Exactly eight legacy or twelve dimensioned arguments required; --attributed requires twelve arguments");
         }
+        if (attributed) { args = java.util.Arrays.copyOfRange(args, 1, args.length); }
         for (String arg : args) {
             if (arg == null || arg.length() > 4096 || arg.chars().anyMatch(c -> c < 0x20 || c == 0x7f)) {
                 throw new IllegalArgumentException("Argument contains unsupported length or control characters");
@@ -118,7 +183,8 @@ public final class WorkloadWorker {
                 Integer.parseInt(args[10]), Integer.parseInt(args[11])) : null;
         var spec = dimensioned ? admitSpec(profile, seed, config, dimensions.entities(), dimensions.commits(),
                 dimensions.queries(), dimensions.intervalWidth()) : admitSpec(profile, seed, config, 16, 128, 64, 8);
-        // Admit all reference/action work before inspecting paths, creating storage or generating actions.
+        WorkloadCorpus attributedCorpus = attributed ? admitAttributedCorpus(spec, config) : null;
+        // Reference/action work and the optional generated trace are admitted before inspecting paths or creating storage.
         Path suppliedScratch = Path.of(args[6]);
         Path suppliedOutput = Path.of(args[7]);
         if (!suppliedScratch.isAbsolute() || !suppliedOutput.isAbsolute()) {
@@ -137,8 +203,45 @@ public final class WorkloadWorker {
         }
         requireFresh(output);
         requireFresh(output.resolveSibling(PARTIAL_NAME));
-        return new Request(dimensioned ? 2 : 1, args[0], args[1], profile, seed, spec, dimensions,
-                config, scratch, output);
+        return new Request(attributed ? 3 : dimensioned ? 2 : 1, args[0], args[1], profile, seed, spec, dimensions,
+                config, scratch, output, attributedCorpus);
+    }
+
+    /** Generate deterministic actions and admit their complete trace before any path inspection. */
+    static WorkloadCorpus admitAttributedCorpus(WorkloadCorpus.Spec spec, LocalWorkloadRunner.Config config) {
+        var corpus = WorkloadCorpus.generate(spec);
+        LocalAttributedWorkload.admittedCapacity(corpus, config);
+        return corpus;
+    }
+
+    static SourceHistory sourceHistory(WorkloadCorpus corpus) {
+        final MessageDigest digest;
+        try { digest = MessageDigest.getInstance("SHA-256"); }
+        catch (NoSuchAlgorithmException unavailable) { throw new IllegalStateException("Required SHA-256 unavailable", unavailable); }
+        byte[] header = JournalCodec.encodeHeader(WorkloadCorpus.DATABASE);
+        digest.update(header);
+        long bytes = header.length;
+        var frames = new ArrayList<String>(corpus.spec().commits());
+        for (var action : corpus.actions()) {
+            if (action instanceof WorkloadCorpus.Submit submit && !submit.retry()) {
+                if (submit.sequence() != frames.size() + 1L) { throw new IllegalArgumentException("Nonsequential original history"); }
+                byte[] frame = JournalCodec.encodeRecord(new JournalRecord(submit.sequence(), submit.request()));
+                digest.update(frame);
+                bytes = Math.addExact(bytes, frame.length);
+                frames.add(HexFormat.of().formatHex(frame));
+            }
+        }
+        if (frames.size() != corpus.spec().commits() || bytes != corpus.encodedHistoryBytes()
+                || !HexFormat.of().formatHex(digest.digest()).equals(corpus.historyFingerprint())) {
+            throw new IllegalArgumentException("Original source history binding differs");
+        }
+        return new SourceHistory(HexFormat.of().formatHex(header), frames);
+    }
+
+    private static void requireHex(String value) {
+        if (value == null || value.isEmpty() || (value.length() & 1) != 0
+                || value.length() > 2L * WorkloadCorpus.MAX_ENCODED_BYTES
+                || !value.matches("[0-9a-f]+")) { throw new IllegalArgumentException("Require bounded lowercase original-history hex"); }
     }
 
     static WorkloadCorpus.Spec admitSpec(WorkloadCorpus.Profile profile, long seed, LocalWorkloadRunner.Config config,

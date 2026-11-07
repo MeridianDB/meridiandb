@@ -45,8 +45,9 @@ future protocol with local persistence on each participant.
 | [Supervised Linux workloads](development/supervised-workloads.md) | Independent bounded workload dimensions, clean source/class bindings, strict result admission and scoped process-I/O/allocated-file accounting; controlled evaluation remains pending |
 | [Saved workload reports](development/workload-reports.md) | Checked request/report/worker records with per-iteration latency, resource and recorded-accounting views; original resources are not reobserved |
 | [Linux workload observations](development/linux-observations.md) | Ten sequential profile/dimension/seed/control cases with checked raw evidence and per-repetition metrics; attributed file-work and controlled-device comparisons remain separate |
-| [Internal local I/O counters](development/local-io-counters.md) | Inactive-by-default caller-thread completed-byte and force counters with native literal/failure checks; operation-attributed workload reports remain pending |
-| [Attributed local lifecycle core](development/attributed-local-workloads.md) | Separate instrumented Java execution with ordered operation/auxiliary scopes and logical denominators; serialized reports and evaluated amplification remain planned |
+| [Internal local I/O counters](development/local-io-counters.md) | Inactive-by-default caller-thread completed-byte and force counters with native literal/failure checks |
+| [Attributed local lifecycle core](development/attributed-local-workloads.md) | Separate instrumented Java execution with ordered operation/auxiliary scopes and logical denominators |
+| [Attributed workload evidence](development/attributed-workload-evidence.md) | Source-bound supervised runs and checked saved reports with original-history decoding and named ratios; evaluated amplification remains planned |
 | [Journal codec](architecture/journal-format.md) | Versioned transaction frames, exact identity, checksums, allocation bounds and strict byte validation |
 | [Local journal](development/local-journal.md) | Exclusive writer access, explicit append/force cutoffs, bounded sequential replay and evidence-preserving tail repair |
 | [Immutable history codec](architecture/immutable-segment-format.md) | Exact contiguous transaction ranges, strict complete-object checks and verified SHA-256 content identifiers |

@@ -143,6 +143,12 @@ jobs:
       - name: Verify scaled Linux workload evidence
         if: runner.os == 'Linux'
         run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --entities 32 --commits 257 --queries 127 --interval-width 6 --warmups 0 --repetitions 1 --timeout 300
+      - name: Verify attributed Linux workload evidence
+        if: runner.os == 'Linux'
+        run: python scripts/storage/run_workload.py --attributed --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --warmups 1 --repetitions 2 --timeout 300
+      - name: Verify maximum admitted attributed Linux evidence
+        if: runner.os == 'Linux'
+        run: python scripts/storage/run_workload.py --attributed --scratch-parent "$RUNNER_TEMP" --profile APPEND --entities 1 --commits 100 --queries 879 --interval-width 1 --warmups 0 --repetitions 1 --timeout 300
       - name: Check saved workload reports
         if: runner.os == 'Linux'
         shell: bash
@@ -153,7 +159,17 @@ jobs:
             python scripts/storage/summarize_workload.py --run-dir "$workload_run" --expect-source "$GITHUB_SHA" > "$RUNNER_TEMP/mdb-workload-analysis/$(basename "$workload_run").json"
             workload_analysis_count=$((workload_analysis_count + 1))
           done
-          test "$workload_analysis_count" -eq 2
+          test "$workload_analysis_count" -eq 4
+          python - "$RUNNER_TEMP/mdb-workload-analysis" <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          reports = [json.loads(path.read_bytes()) for path in Path(sys.argv[1]).glob('*.json')]
+          attributed = [report for report in reports if report.get('mode') == 'CALLER_THREAD_LOCAL_IO_INSTRUMENTED']
+          assert len(reports) == 4 and len(attributed) == 2
+          assert any(report['warmupIterations'] and len(report['measuredIterations']) == 2 for report in attributed)
+          assert any(report['request']['dimensions']['queries'] == 879 for report in attributed)
+          PY
       - name: Retain supervised workload evidence
         if: always() && runner.os == 'Linux'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

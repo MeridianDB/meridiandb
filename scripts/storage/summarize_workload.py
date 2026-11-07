@@ -14,6 +14,7 @@ import stat
 import sys
 
 from workload_evidence import EvidenceError, MAX_DOCUMENT_BYTES, MAX_RETAINED_BYTES, parse_document, validate_recorded_worker
+from attributed_workload import MODE as ATTRIBUTED_MODE
 
 
 MAX_INPUT_BYTES = 2 * MAX_DOCUMENT_BYTES + 65536
@@ -117,10 +118,14 @@ def summarize(run_dir, expected_source=None, expected_run=None):
             for name in ("request.json", "report.json", "worker.json")}
     require(sum(map(len, data.values())) <= MAX_INPUT_BYTES, "Aggregate input admission exceeded")
     request, report, worker = (parse_document(data[name]) for name in ("request.json", "report.json", "worker.json"))
-    fields(report, REPORT_FIELDS, "successful report")
-    require(type(report["schemaVersion"]) is int and report["schemaVersion"] == 2
-            and type(request.get("schemaVersion")) is int and request["schemaVersion"] == 2,
-            "Saved reports require schema two")
+    attributed = request.get("schemaVersion") == 3
+    fields(report, REPORT_FIELDS | ({"mode", "attribution"} if attributed else set()), "successful report")
+    version = 3 if attributed else 2
+    require(type(report["schemaVersion"]) is int and report["schemaVersion"] == version
+            and type(request.get("schemaVersion")) is int and request["schemaVersion"] == version,
+            "Saved reports require coherent schema two or attributed schema three")
+    if attributed:
+        require(report["mode"] == request.get("mode") == ATTRIBUTED_MODE, "Wrong recorded attributed mode")
     require(report["status"] == "checks_passed" and report["productionQualified"] is False
             and report["deadlineExceededBeforeReport"] is False, "Report is not a complete admitted observation")
     require(same(report["request"], request) and report["runId"] == request.get("runId"), "Mixed request/report")
@@ -161,12 +166,13 @@ def summarize(run_dir, expected_source=None, expected_run=None):
     wrapper = recorded_path(build[0], "Maven wrapper")
     require(wrapper.name == "mvnw", "Wrong recorded wrapper executable")
     command = report["workerCommand"]
-    require(type(command) is list and len(command) == 18, "Wrong recorded worker command")
+    require(type(command) is list and len(command) == (19 if attributed else 18), "Wrong recorded worker command")
     executable = recorded_path(command[0], "Java executable")
     require(executable.name == "java" and executable.parent.name == "bin", "Wrong recorded Java executable")
     expected_command = [command[0], "-Xmx256m", f"-Djava.io.tmpdir={root}/tmp", "--class-path",
                         f"{wrapper.parent}/target/classes:{wrapper.parent}/target/test-classes",
-                        "org.meridiandb.workload.WorkloadWorker", request.get("runId"), request.get("source"),
+                        "org.meridiandb.workload.WorkloadWorker", *(["--attributed"] if attributed else []),
+                        request.get("runId"), request.get("source"),
                         request.get("profile"), str(request.get("seed")), str(request.get("warmups")), str(request.get("repetitions")),
                         f"{root}/stores", f"{root}/worker.json"]
     dimensions = request.get("dimensions")
@@ -188,6 +194,8 @@ def summarize(run_dir, expected_source=None, expected_run=None):
     text(device["backingDeviceAndController"], "device/controller limit", 512)
     checked = validate_recorded_worker(worker, request, report["worker"]["pid"], Path(str(root / "stores")),
                                        mount, report["kernel"], report["architecture"])
+    if attributed:
+        require(same(report["attribution"], checked["attribution"]), "Recorded attribution differs from independently checked raw scopes")
     result = worker["result"]
     known_nanos = result["preparationNanos"] + sum(
         item["namespacePreparationNanos"] + item["actionLoopNanos"]
@@ -244,7 +252,7 @@ def summarize(run_dir, expected_source=None, expected_run=None):
               "Optional CPU/allocation are platform-thread counters; sampled used heap is not peak heap or RSS",
               "Process I/O includes validation/maintenance/runtime; ratios use encoded journal bytes, not device traffic",
               "Recorded allocated blocks do not establish exclusive physical or reclaimable space"]
-    return {"schemaVersion": 1, "status": "recorded_consistency_passed", "validationScope": SCOPE,
+    summary = {"schemaVersion": 2 if attributed else 1, "status": "recorded_consistency_passed", "validationScope": SCOPE,
             "productionQualified": False, "runId": report["runId"], "observedAtUtc": report["observedAtUtc"],
             "request": request, "source": source, "classes": report["classes"], "runtime": result["runtime"],
             "kernel": report["kernel"], "architecture": report["architecture"], "mount": mount, "device": device,
@@ -254,6 +262,11 @@ def summarize(run_dir, expected_source=None, expected_run=None):
             "warmupIterations": [x for x in iterations if x["warmup"]],
             "measuredIterations": [x for x in iterations if not x["warmup"]],
             "limits": limits, "producerGaps": report["gaps"], "recordedAccountingLimits": accounting["limits"]}
+    if attributed:
+        summary["mode"] = ATTRIBUTED_MODE
+        summary["attribution"] = checked["attribution"]
+        summary["limits"].append("Instrumented operation file work is distinct from original latency observations and device traffic")
+    return summary
 
 
 def cell(value):
@@ -267,7 +280,9 @@ def cell(value):
 
 def render_markdown(summary):
     request = summary["request"]
-    lines = ["# Recorded workload observations", "", SCOPE + ".", "",
+    attributed = summary.get("mode") == ATTRIBUTED_MODE
+    lines = ["# Recorded attributed file work" if attributed else "# Recorded workload observations", "", SCOPE + ".", "",
+             *([f"Execution mode: `{ATTRIBUTED_MODE}`. Timings are from this instrumented run.", ""] if attributed else []),
              "| Context | Recorded value |", "| --- | --- |",
              f"| Run | {summary['runId']} |", f"| Recorded at UTC | {cell(summary['observedAtUtc'])} |",
              f"| Source | {request['source']} |", f"| Recorded source dirty | {summary['source']['dirty']} |",
@@ -286,6 +301,15 @@ def render_markdown(summary):
     lines += ["", "## Recorded environment", "", "```json",
               json.dumps({"mount": summary["mount"], "device": summary["device"], "runtime": summary["runtime"]},
                          indent=2, sort_keys=True, ensure_ascii=True), "```", ""]
+    if attributed:
+        lines += ["## Original logical denominators", "", "| Denominator / count | Value |", "| --- | --- |"]
+        lines += [f"| {cell(key)} | {cell(value)} |" for key, value in summary["attribution"]["denominators"].items()]
+        preparation = summary["attribution"]["preparationTotals"]
+        lines += ["", f"Preparation: {preparation['scopeCount']} separate scopes; captured adapter read/write bytes "
+                  f"{preparation['totalReadBytes']} / {preparation['totalWriteBytes']}; successful forces {preparation['totalForceSuccesses']}.", "",
+                  "Adapter-returned bytes and force outcomes are distinct from metadata, external hashing and device traffic.", ""]
+        lines += ["Uncaptured work: " + ", ".join(cell(entry["category"]) for entry in summary["attribution"]["uncapturedWork"])
+                  + ". Their counters are unavailable, not zero.", ""]
     for label, key in (("Warmup", "warmupIterations"), ("Measured", "measuredIterations")):
         for item in summary[key]:
             lines += [f"## {label} iteration {item['index']}", "",
@@ -304,8 +328,34 @@ def render_markdown(summary):
                 lines.append("| " + " | ".join(cell(x) for x in values) + " |")
             lines += ["", "Process I/O (whole instrumented iteration):", "", "```json",
                       json.dumps(item["processIo"], indent=2, sort_keys=True, ensure_ascii=True), "```", ""]
+            if attributed:
+                observed = summary["attribution"]["iterations"][item["index"]]
+                lines += ["### Operation-attributed local adapter work", "",
+                          "| Phase / operation | Scopes | Read bytes | Write bytes | Successful forces |",
+                          "| --- | --- | --- | --- | --- |"]
+                for group in observed["operationGroups"]:
+                    values = [f"{group['phase']} / {group['kind']}", group["scopeCount"],
+                              group["totalReadBytes"], group["totalWriteBytes"], group["totalForceSuccesses"]]
+                    lines.append("| " + " | ".join(cell(value) for value in values) + " |")
+                lines += ["", "| Operation / ratio | Numerator | Logical denominator | Value |", "| --- | --- | --- | --- |"]
+                for group in observed["operationGroups"]:
+                    for name, ratio in group["ratios"].items():
+                        value = "N/A (zero logical denominator)" if ratio["denominator"] == 0 else ratio["value"]
+                        label = f"{group['phase']} / {group['kind']} / {name}"
+                        lines.append("| " + " | ".join(cell(x) for x in (label, ratio["numerator"], ratio["denominator"], value)) + " |")
+                lines += ["", "### Auxiliary coverage", "",
+                          "| Category | Coverage | Scopes | Captured adapter read bytes | Captured adapter write bytes | Successful forces |",
+                          "| --- | --- | --- | --- | --- | --- |"]
+                for group in observed["auxiliaryGroups"]:
+                    values = [group["category"], group["coverage"], group["scopeCount"], group["totalReadBytes"],
+                              group["totalWriteBytes"], group["totalForceSuccesses"]]
+                    lines.append("| " + " | ".join(cell(x) for x in values) + " |")
+                lines += ["", "Excluded coverage is unavailable filesystem coverage; zero adapter counts do not mean zero external I/O.", ""]
     lines += ["## Interpretation limits", ""]
-    lines += ["- " + cell(value) for value in summary["limits"] + summary["producerGaps"] + summary["recordedAccountingLimits"]]
+    limits = summary["limits"] + summary["producerGaps"] + summary["recordedAccountingLimits"]
+    if attributed:
+        limits += summary["attribution"]["limits"]
+    lines += ["- " + cell(value) for value in limits]
     return "\n".join(lines) + "\n"
 
 
