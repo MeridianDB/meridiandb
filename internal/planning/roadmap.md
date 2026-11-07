@@ -2933,6 +2933,18 @@ both strict106-page builds and desktop/mobile/search/decision navigation pass.
 Keep MDB-0096 active pending exact-source CI/Pages/live acceptance. MDB-0013 stays
 expanded and MDB-0097 queued; no measured recovery adoption starts here.
 
+**Completion acceptance, November 7, 2026:** source
+`2ddf5cd563f45253c582a01fa9952ff370d02486` reaches origin/main. Java42390449514
+passes1,460 core/82suites and183guards with zero Linux skips/failures, including
+all38 new cases. Both platforms pass optional762 and fourteen examples; Windows
+retains405 core/381 optional capability skips. Ordinary/scaled/attributed/max
+Linux workloads and four saved-report readbacks pass. Docs42390449558 and
+automatic Pages42390449490 pass; ten live HTTPS pages/canonicals,106 sitemap URLs,
+guide/ADR search and published browser inspection pass. Mark MDB-0096 done and
+prepare MDB-0097 ready after completion delivery. Parent MDB-0013 stays expanded;
+the acquisition primitive does not satisfy measured adoption or default recovery
+integration. Preserve the original parent criteria and immutable baseline data.
+
 ## MDB-0097 Recovery history reuse evaluation
 
 **Parent:** MDB-0013. **Outcome:** integrate explicitly selected recovery using the

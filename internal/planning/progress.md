@@ -7216,6 +7216,82 @@ preserving expanded13 and original baseline data. No recovery integration,
 optimization adoption, deferred S3 work or release starts here.
 
 
+## 2026-11-07 — MDB-0096 CI, publication and completion acceptance
+
+**Delivered source:** normal-pushed
+`2ddf5cd563f45253c582a01fa9952ff370d02486` is verified on origin/main by fetch,
+matching tips and predecessor ancestry. Exact-source
+[Java42390449514](https://github.com/MeridianDB/meridiandb/actions/runs/42390449514)
+passes both platforms. Linux job128456718282 qualifies **1,460 core cases/82
+suites**, zero failures/errors/skips, including27 new platform-neutral and11
+native history cases. Run `f8a2fd2a578f4c39aee60f0c9cf9782c` binds fresh root/runtime,
+clean source and inventory SHA256
+`908a58cfa1b093323356980d436892c9c13943f3e33e4e5fd46cb1402a4dd785`.
+Observed ext4/Linux7.0.0-1017-azure/x86_64/Temurin25.0.5+8-LTS retains recorded
+mount/capability facts and unknown device/controller/cache/production limits.
+All183 Python guards pass without Linux skips (12.507s). Optional loopback762
+and fourteen examples pass. Windows job128456718002 passes1,460 core with405
+capability skips (all27 new unit cases run;11 native cases skip typed unsupported
+directory force), optional762 with381 skips, and fourteen examples. No scope
+parity or production claim follows from Windows regression coverage.
+
+**Unchanged workload regression:** two ordinary and two attributed cases pass
+source/class/native/process admission and saved reporting on the new revision.
+Default schema2 CORRECTIONS run `3d5b30a6b35b4aaebd909574c60c6eb5`
+(warmup1/measured2) exports135,221 bytes, SHA256
+`df13cb38f834fb2940ca7bbe68e350f421c176b2e8663902e977b280ce39c222`;
+scaled E32/C257/Q127/W6 run `70d991224d4f4d309c6fe5320516d439` exports84,277,
+SHA256 `53d172fcfceb15dbac9f083a5c1339c7b466891553165f7d00be14886b4fa563`.
+Attributed CORRECTIONS warmup1/measured2 `241b1833c90a4832aa5625542c94c669`
+exports862,244, SHA256
+`a2a910e77c475c9ffd12471fce02a88909969780b144c889869f29924b829771`;
+max APPEND E1/C100/Q879/W1 `e1941b09d256426da25de86562a1b321` exports1,222,495,
+SHA256 `14f7b50a6448110200ba24d3f4f79e41533fdeaa9d1fc9bd74b95d53f3dee39e`.
+Four saved reports and maximum-scope bounds pass. These remain regression runs;
+neither ordinary recovery nor experimental comparison selects the new loader yet.
+
+Temporary artifacts: linux-storage-evidence13580449479,229,477 bytes, SHA256
+`71078be47ccfa413bbddb9c3004cdb0897fc0357c87ddc9e8ad43229bd45308a`,
+expires November21,2026 16:17:31UTC; linux-workload-evidence13581127541,
+167,879 bytes, SHA256
+`8499469ed63b565ad8fdd6178af8ec53106dc09416ab34609155581eee02553f`,
+expires November21,2026 16:20:04UTC. Ignored `.local-qa/mdb-0096/` retains decoded
+logs/profile and prior rooted local/native/visual evidence. Original evaluated
+datasets remain unchanged, outside temporary regression retention.
+
+**Documentation delivery:** exact-source
+[docs42390449558](https://github.com/MeridianDB/meridiandb/actions/runs/42390449558)
+passes production128456718349/project128456718695. Automatic
+[Pages42390449490](https://github.com/MeridianDB/meridiandb/actions/runs/42390449490)
+passes build128456718286/deploy128456826657. Ten affected live HTTPS pages pass
+content/canonical checks;106 unique sitemap URLs and guide/ADR0048 search pass.
+Published guide66,207 bytes, SHA256
+`255ef1a98729f6875b5e521d012e45358407e8a5d64fb8e013df7665064061b5`.
+Project URL reaches the guide through the existing redirect to
+`http://meridiandb.org/development/local-checkpoint-history/`,status200 with correct
+HTTPS canonical; direct production HTTPS checks pass. Hosting unchanged. Published
+browser confirms actual API/lifetime/status copy and the screenshot is embedded in
+commentary. Local8800 stops exit0; normal default viewport/light scheme restored.
+
+**Original acceptance and handoff:** all MDB-0096 criteria pass: per-call aggregate
+admission, exact image/range caps with explicit EOF-probe failure overhead,
+single-pass complete verification, private original records until actual prefix,
+newest/alias/ownership/close safety, immutable heap lifetime without a reader pin,
+independent vectors/failures, native reclamation, full regression/inventory,
+docs/rules and source delivery. Mark96 done, clear active ownership and prepare
+**MDB-0097 — Recovery history reuse evaluation** ready after completion delivery.
+Keep13 expanded with all original criteria and97's actual integration/evaluation/
+adoption outcome; a comparison must also account for changed reader-barrier work.
+No integration, default optimization, S3 work or release starts here.
+
+Validate97 IDs/cards/DAG/completed children and task-owned staged diff, then
+commit three internal planning files with Step-ID MDB-0096 /Step-Result completed,
+normal-push/fetch and verify source/completion ancestry, matching tips and clean
+status. Git/final handoff supplies the actual completion SHA/push outcome. No
+runtime/public/inventory/evidence change follows exact-source acceptance, so
+internal-only completion requires no repeat CI/Pages publication.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
