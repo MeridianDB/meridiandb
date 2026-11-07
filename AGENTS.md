@@ -583,6 +583,14 @@ so a new session can work correctly without relying on earlier conversations.
   corpus/reference-work plus conservative aggregate-action limits before scratch
   mutation. Preserve exact legacy v1/default identities and derive query/segment/
   validation/file inventories from admitted dimensions; verify both on Linux.
+- For saved workload reporting, follow [ADR 0044](docs/decisions/0044-recorded-workload-reports.md)
+  and the [report guide](docs/development/workload-reports.md). Recompute bounded
+  serialized evidence and bind request/report/worker bytes before rendering.
+  Label recorded producer facts separately from live reobservation; retain source,
+  input hashes, unknown context and explicit unavailable counters. Keep each
+  warmup/measured iteration's distributions separate; never average percentiles.
+  Preserve native file/process/source checks in the live supervisor. Verify real
+  saved artifacts without original directories and fresh Linux CI report readback.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

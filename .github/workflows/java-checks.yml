@@ -139,10 +139,21 @@ jobs:
         run: java --class-path target/classes examples/ReclamationExample.java
       - name: Verify supervised Linux workload evidence
         if: runner.os == 'Linux'
-        run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --warmups 0 --repetitions 1 --timeout 300
+        run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --warmups 1 --repetitions 2 --timeout 300
       - name: Verify scaled Linux workload evidence
         if: runner.os == 'Linux'
         run: python scripts/storage/run_workload.py --scratch-parent "$RUNNER_TEMP" --profile CORRECTIONS --entities 32 --commits 257 --queries 127 --interval-width 6 --warmups 0 --repetitions 1 --timeout 300
+      - name: Check saved workload reports
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          mkdir "$RUNNER_TEMP/mdb-workload-analysis"
+          workload_analysis_count=0
+          for workload_run in "$RUNNER_TEMP"/mdb-measure-*; do
+            python scripts/storage/summarize_workload.py --run-dir "$workload_run" --expect-source "$GITHUB_SHA" > "$RUNNER_TEMP/mdb-workload-analysis/$(basename "$workload_run").json"
+            workload_analysis_count=$((workload_analysis_count + 1))
+          done
+          test "$workload_analysis_count" -eq 2
       - name: Retain supervised workload evidence
         if: always() && runner.os == 'Linux'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -155,5 +166,6 @@ jobs:
             ${{ runner.temp }}/mdb-measure-*/worker.partial.json
             ${{ runner.temp }}/mdb-measure-*/build.log
             ${{ runner.temp }}/mdb-measure-*/worker.log
+            ${{ runner.temp }}/mdb-workload-analysis/*.json
           retention-days: 14
           if-no-files-found: warn

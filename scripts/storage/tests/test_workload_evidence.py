@@ -1,6 +1,7 @@
 """Pure schema, recomputation and retained-file checks; no Java/build invocation."""
 
 import copy
+from contextlib import ExitStack
 import hashlib
 import importlib.util
 import json
@@ -315,6 +316,31 @@ class WorkerEvidenceTests(unittest.TestCase):
                 self.validate()
         finally:
             self.doc = original
+
+    def recorded(self, doc=None, request=None, kernel=None, architecture=None, stores=None):
+        runtime = self.doc["result"]["runtime"]
+        return evidence.validate_recorded_worker(
+            self.doc if doc is None else doc, self.request if request is None else request,
+            self.pid, self.stores if stores is None else stores, self.mount,
+            runtime["osVersion"] if kernel is None else kernel,
+            runtime["architecture"] if architecture is None else architecture)
+
+    def no_native_observation(self):
+        stack = ExitStack()
+        for target, names in ((evidence, ("_directory", "_files", "_entries", "_path")),
+                              (evidence.platform, ("release", "machine")),
+                              (evidence.os, ("scandir", "stat", "lstat")),
+                              (Path, ("stat", "lstat", "open", "resolve", "iterdir", "is_symlink"))):
+            for name in names:
+                stack.enter_context(mock.patch.object(target, name,
+                    side_effect=AssertionError(f"Recorded validation observed native state: {name}")))
+        return stack
+
+    def recorded_rejects(self, mutation):
+        doc = copy.deepcopy(self.doc)
+        mutation(doc)
+        with self.no_native_observation(), self.assertRaises(evidence.EvidenceError):
+            self.recorded(doc=doc)
 
     def test_acceptance_reobserves_actual_file_allocations_and_keeps_process_ratio_scope(self):
         accepted = self.validate()
@@ -643,6 +669,194 @@ class WorkerEvidenceTests(unittest.TestCase):
                 self.scaled(entities=2, commits=5, queries=2, width=1)
                 self.validate()
                 self.rejects(lambda d: d["result"]["spec"].update(retryPercent=d["result"]["spec"]["retryPercent"] + 1))
+
+    def test_recorded_default_recomputes_exact_declarations_after_original_files_disappear(self):
+        expected_lengths = dict(self.doc["result"]["iterations"][0]["namedStorage"]["fileLengths"])
+        self.doc["result"]["runtime"].update(osVersion="archived-kernel", architecture="amd64")
+        shutil.rmtree(self.stores)
+        with self.no_native_observation():
+            accepted = self.recorded(kernel="archived-kernel", architecture="x86_64")
+        self.assertEqual({"encodedHistoryBytes", "historyFingerprint", "sourceSegments", "retainedFileCount",
+                          "totalLogicalBytes", "iterations"}, set(accepted))
+        self.assertEqual((len(self.journal), hashlib.sha256(self.journal).hexdigest(), 8, 15),
+                         tuple(accepted[k] for k in ("encodedHistoryBytes", "historyFingerprint", "sourceSegments",
+                                                    "retainedFileCount")))
+        iteration = accepted["iterations"][0]
+        self.assertEqual({"index", "warmup", "directory", "fileLengths", "logicalBytes", "processIo"}, set(iteration))
+        self.assertEqual(expected_lengths, iteration["fileLengths"])
+        self.assertEqual(sum(expected_lengths.values()), accepted["totalLogicalBytes"])
+        self.assertEqual(accepted["totalLogicalBytes"], iteration["logicalBytes"])
+        self.assertEqual((0, False, str(self.root / "iteration-0")),
+                         tuple(iteration[k] for k in ("index", "warmup", "directory")))
+        self.assertEqual(5 / len(self.journal), iteration["processIo"]["processReadBytesPerEncodedJournalByte"])
+
+    def test_recorded_scaled_dimensions_and_zero_queries_need_no_original_files(self):
+        for queries, expected_reads in ((11, {"GET": 3, "SCAN": 2, "SELECT": 2, "FILTER_SCAN": 2, "SUM": 2}),
+                                        (0, dict.fromkeys(("GET", "SCAN", "SELECT", "FILTER_SCAN", "SUM"), 0))):
+            with self.subTest(queries=queries):
+                self.scaled(queries=queries)
+                shutil.rmtree(self.stores)
+                with self.no_native_observation():
+                    accepted = self.recorded()
+                self.assertEqual((3, 10), (accepted["sourceSegments"], accepted["retainedFileCount"]))
+                self.assertEqual(expected_reads, self.doc["result"]["workload"]["readOperators"])
+                self.assertEqual(10, len(accepted["iterations"][0]["fileLengths"]))
+                # Recreate only fixture scaffolding for the next independent recorded case.
+                self.root.mkdir(parents=True)
+
+    def test_recorded_warmups_and_repetitions_validate_every_iteration_after_removal(self):
+        self.scaled(warmups=1, repetitions=2)
+        expected = sum(item["namedStorage"]["totalBytes"] for item in self.doc["result"]["iterations"])
+        shutil.rmtree(self.stores)
+        with self.no_native_observation():
+            accepted = self.recorded()
+        self.assertEqual((30, expected), (accepted["retainedFileCount"], accepted["totalLogicalBytes"]))
+        self.assertEqual([0, 1, 2], [i["index"] for i in accepted["iterations"]])
+        self.assertEqual([True, False, False], [i["warmup"] for i in accepted["iterations"]])
+        self.recorded_rejects(lambda d: d["result"]["iterations"][1].update(warmup=True))
+        self.recorded_rejects(lambda d: d["result"]["iterations"][2].update(
+            directory=d["result"]["iterations"][1]["directory"]))
+        self.recorded_rejects(lambda d: d["io"][2].update(index=1))
+
+    def test_recorded_context_is_supplied_and_kernel_architecture_filesystem_and_runtime_are_checked(self):
+        with self.no_native_observation():
+            for kernel, architecture in (("another-kernel", "x86_64"), ("", "x86_64"),
+                                         (False, "x86_64"), ("kernel", ""), ("kernel", 1)):
+                with self.subTest(kernel=kernel, architecture=architecture), self.assertRaises(evidence.EvidenceError):
+                    self.recorded(kernel=kernel, architecture=architecture)
+            with self.assertRaises(evidence.EvidenceError):
+                self.recorded(architecture="unrelated-architecture")
+        for mutation in (lambda d: d["result"]["runtime"].update(osName="Darwin"),
+                         lambda d: d["result"]["runtime"].update(javaVersion="26"),
+                         lambda d: d["result"]["runtime"].update(fileStoreType="xfs"),
+                         lambda d: d["result"]["runtime"].update(maxHeapBytes=evidence.MAX_HEAP_BYTES + 1),
+                         lambda d: d["result"]["runtime"].update(availableProcessors=True)):
+            self.recorded_rejects(mutation)
+        self.doc["result"]["runtime"]["architecture"] = "arm64"
+        with self.no_native_observation():
+            self.recorded(architecture="aarch64")
+
+    def test_recorded_paths_require_absolute_canonical_linux_lexical_topology(self):
+        for stores in ("relative/stores", "/saved/../stores", "//server/stores", "/saved//stores",
+                       "/saved/./stores", "/saved/stores/", "/saved/stores\n"):
+            with self.subTest(stores=stores), self.no_native_observation(), self.assertRaises(evidence.EvidenceError):
+                self.recorded(stores=stores)
+        for root in (str(self.parent), str(self.root) + "/../mdb-workload-other", str(self.root) + "/",
+                     str(self.stores / "wrong-prefix")):
+            self.recorded_rejects(lambda d, root=root: d["result"].update(runRoot=root))
+        for home in (str(self.root / "iteration-1"), str(self.root / "iteration-0") + "/.",
+                     str(self.root / "iteration-0") + "\x00", "iteration-0"):
+            self.recorded_rejects(lambda d, home=home: d["result"]["iterations"][0].update(directory=home))
+        self.recorded_rejects(lambda d: d["io"][0].update(directory=str(self.parent)))
+
+    def test_recorded_bindings_and_dimensions_remain_exact_without_live_observations(self):
+        self.scaled()
+        for key, value in (("runId", "d" * 32), ("source", "d" * 40), ("profile", "APPEND"), ("seed", 43),
+                           ("workerPid", self.pid + 1), ("workerPid", True), ("schemaVersion", 1),
+                           ("status", "failed"), ("error", {"message": "failed"})):
+            self.recorded_rejects(lambda d, key=key, value=value: d.update({key: value}))
+        for name in evidence.DIMENSION_FIELDS:
+            self.recorded_rejects(lambda d, name=name: d["dimensions"].update({name: d["dimensions"][name] + 1}))
+            self.recorded_rejects(lambda d, name=name: d["result"]["spec"].update({name: d["result"]["spec"][name] + 1}))
+        request = copy.deepcopy(self.request)
+        request["dimensions"]["queries"] = 12
+        with self.no_native_observation(), self.assertRaises(evidence.EvidenceError):
+            self.recorded(request=request)
+        self.recorded_rejects(lambda d: d.update(extra=1))
+        self.recorded_rejects(lambda d: d["result"].update(schemaVersion=2))
+
+    def test_recorded_raw_samples_summaries_and_action_timing_are_recomputed(self):
+        mutations = (lambda d: d["result"]["iterations"][0]["samples"].pop(),
+                     lambda d: d["result"]["iterations"][0]["samples"][0].update(kind="COMMIT"),
+                     lambda d: d["result"]["iterations"][0]["samples"][0].update(elapsedNanos=True),
+                     lambda d: d["result"]["iterations"][0]["summaries"][1].update(p50Nanos=9),
+                     lambda d: d["result"]["iterations"][0]["summaries"][1].update(threadCpuNanos=0),
+                     lambda d: d["result"]["iterations"][0]["summaries"].reverse(),
+                     lambda d: d["result"]["iterations"][0].update(actionServiceNanos=1),
+                     lambda d: d["result"]["iterations"][0].update(actionLoopNanos=1),
+                     lambda d: d["result"]["iterations"][0].update(totalValidationNanos=0),
+                     lambda d: d["result"]["iterations"][0].update(actionLoopOperationsPerSecond=0),
+                     lambda d: d["result"]["iterations"][0].update(validationTasks=0),
+                     lambda d: d["result"]["workload"].update(attempts=1),
+                     lambda d: d["result"]["workload"]["readOperators"].update(GET=1))
+        for mutation in mutations:
+            self.recorded_rejects(mutation)
+
+    def test_recorded_exact_named_file_declarations_and_aggregate_caps_are_enforced(self):
+        def rename(doc, old, new):
+            lengths = doc["result"]["iterations"][0]["namedStorage"]["fileLengths"]
+            lengths[new] = lengths.pop(old)
+
+        lengths = self.doc["result"]["iterations"][0]["namedStorage"]["fileLengths"]
+        segment = next(name for name in lengths if name.endswith(".segment"))
+        manifest = next(name for name in lengths if name.startswith("checkpoint-0000000000000000001-"))
+        for mutation in (lambda d: rename(d, segment, "../outside.segment"),
+                         lambda d: rename(d, segment, "d" * 63 + ".segment"),
+                         lambda d: rename(d, manifest, manifest.replace("0000000000000000001", "0000000000000000004")),
+                         lambda d: d["result"]["iterations"][0]["namedStorage"]["fileLengths"].pop(segment),
+                         lambda d: d["result"]["iterations"][0]["namedStorage"]["fileLengths"].update({segment: 0}),
+                         lambda d: d["result"]["iterations"][0]["namedStorage"]["fileLengths"].update({segment: True}),
+                         lambda d: d["result"]["iterations"][0]["namedStorage"]["fileLengths"].update({"transactions.journal": 0}),
+                         lambda d: d["result"]["iterations"][0]["namedStorage"]["fileLengths"].update({next(iter(evidence.CONTROL_NAMES)): 1}),
+                         lambda d: d["result"]["iterations"][0]["namedStorage"].update(totalBytes=0)):
+            self.recorded_rejects(mutation)
+        self.scaled(warmups=1, repetitions=2)
+        total = sum(item["namedStorage"]["totalBytes"] for item in self.doc["result"]["iterations"])
+        with self.no_native_observation(), mock.patch.object(evidence, "MAX_FILES", 30), \
+                mock.patch.object(evidence, "MAX_RETAINED_BYTES", total):
+            self.recorded()
+        for name, limit in (("MAX_FILES", 29), ("MAX_RETAINED_BYTES", total - 1)):
+            with self.no_native_observation(), mock.patch.object(evidence, name, limit), \
+                    self.assertRaises(evidence.EvidenceError):
+                self.recorded()
+
+    def test_recorded_io_is_recomputed_and_missing_reset_counters_remain_explicit(self):
+        for mutation in (lambda d: d["io"][0]["delta"].update(write_bytes=0),
+                         lambda d: d["io"][0]["delta"].update(cancelled_write_bytes=0),
+                         lambda d: d["io"][0]["before"].update(read_bytes=True),
+                         lambda d: d["io"][0].update(unavailable="unknown")):
+            self.recorded_rejects(mutation)
+        original = copy.deepcopy(self.doc["io"][0])
+        cases = ((None, None, "Before snapshot unavailable: NoSuchFileException"),
+                 (original["before"], None, "After snapshot unavailable: AccessDeniedException"),
+                 (original["before"], {**original["after"], "rchar": original["before"]["rchar"] - 1},
+                  "Nonmonotonic process I/O counter: rchar"))
+        for before, after, reason in cases:
+            with self.subTest(reason=reason):
+                self.doc["io"][0].update(before=before, after=after, delta=None, unavailable=reason)
+                with self.no_native_observation():
+                    observed = self.recorded()["iterations"][0]["processIo"]
+                self.assertEqual(reason, observed["unavailable"])
+                self.assertIsNone(observed["delta"])
+                self.assertIsNone(observed["processReadBytesPerEncodedJournalByte"])
+                self.assertIsNone(observed["processWriteBytesPerEncodedJournalByte"])
+                self.recorded_rejects(lambda d: d["io"][0].update(unavailable="unexplained"))
+
+    def test_recorded_return_values_do_not_alias_declared_file_lengths_or_io_deltas(self):
+        with self.no_native_observation():
+            accepted = self.recorded()
+        iteration = accepted["iterations"][0]
+        original_length = iteration["fileLengths"]["transactions.journal"]
+        original_read = iteration["processIo"]["delta"]["read_bytes"]
+        self.doc["result"]["iterations"][0]["namedStorage"]["fileLengths"]["transactions.journal"] = 0
+        self.doc["io"][0]["delta"]["read_bytes"] = 0
+        self.assertEqual(original_length, iteration["fileLengths"]["transactions.journal"])
+        self.assertEqual(original_read, iteration["processIo"]["delta"]["read_bytes"])
+
+    def test_recorded_admission_does_not_claim_live_hash_allocation_or_namespace_verification(self):
+        journal = self.root / "iteration-0" / "transactions.journal"
+        journal.write_bytes(b"x" * len(self.journal))
+        with self.no_native_observation():
+            accepted = self.recorded()
+        self.assertNotIn("totalAttributedAllocatedBytes", accepted)
+        self.assertNotIn("files", accepted["iterations"][0])
+        with self.assertRaisesRegex(evidence.EvidenceError, "journal identity"):
+            self.validate()
+        shutil.rmtree(self.stores)
+        with self.no_native_observation():
+            self.assertEqual(accepted, self.recorded())
+        with self.assertRaises(evidence.EvidenceError):
+            self.validate()
 
 
 if __name__ == "__main__":

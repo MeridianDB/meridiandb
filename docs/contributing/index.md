@@ -138,3 +138,7 @@ choose checks that establish the changed contract.
 Describe what changed, why it helps and which checks actually ran. Update the
 relevant decision record when a material architectural choice changes, preserving
 the rationale for earlier decisions.
+
+The [saved-report reader](../development/workload-reports.md) checks retained
+request/report/worker documents and renders per-iteration metrics after original
+scratch files disappear. It keeps recorded consistency distinct from live checks.

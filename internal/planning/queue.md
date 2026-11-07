@@ -52,9 +52,23 @@ children before implementation rather than treating a whole milestone as one pat
 - **MDB-0083** remains expanded into completed MDB-0086 and required MDB-0087.
   **MDB-0012** remains expanded until actual evaluation and all original integrated
   baseline criteria pass. Preserve all 87 IDs and every parent criterion.
-- **MDB-0087 — Linux baseline runs and integration audit** is ready and is the
-  next recommendation. No evaluation, layout experiment, native binding, S3 work,
-  paid environment or library release starts here; no active implementation remains.
+- **MDB-0087 — Linux baseline runs and integration audit** is expanded into
+  required MDB-0088 checked saved-result reports and MDB-0089 actual Linux runs/
+  integration audit. A reusable report consumer is needed before evaluating raw
+  samples after the original scratch directories disappear. Preserve all criteria.
+- **MDB-0088 — Checked saved workload reports** is active, primary coordinator-
+  owned. Recompute serialized results, bind request/report/worker bytes and report
+  per-iteration latency/resource/accounting scope without requalifying original
+  files, processes, source or hardware. Retain live reobservation in the supervisor.
+  All 89 stable IDs remain; MDB-0012/0083/0087 stay expanded. No actual baseline
+  evaluation, layout/native experiment, S3 continuation or release starts here.
+- Local source checkpoint passes 135 Python guards (five Linux-only process skips
+  on macOS), 42 docs fixtures and both 96-page strict URL builds. Real prior Linux
+  artifact 13537822522 was downloaded, its ZIP SHA256 verified, and both default/
+  scaled v2 runs report successfully after original paths disappear. Java source,
+  POM and 74-suite/1,351-case inventory are unchanged; exact-source CI will recheck
+  them and two fresh saved reports before MDB-0088 completion. Current source
+  delivery remains a checkpoint, with all parents expanded.
 
 ## Ordered work
 
@@ -98,7 +112,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0085](roadmap.md#mdb-0085-supervised-linux-workload-evidence) | Add supervised execution, result/provenance validation and Linux storage accounting | MDB-0082 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0084 |
 | [MDB-0083](roadmap.md#mdb-0083-linux-baseline-evaluation-and-conformance) | Evaluate reproducible Linux workloads and complete baseline acceptance | MDB-0012 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
 | [MDB-0086](roadmap.md#mdb-0086-configurable-supervised-workload-dimensions) | Admit independently scaled dimensions with exact evidence bindings | MDB-0083 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082 |
-| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
+| [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
+| [MDB-0088](roadmap.md#mdb-0088-checked-saved-workload-reports) | Recompute and render recorded workload evidence after original files disappear | MDB-0087 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
+| [MDB-0089](roadmap.md#mdb-0089-linux-evaluation-runs-and-baseline-acceptance) | Run and evaluate reproducible Linux workloads and complete baseline integration | MDB-0087 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |

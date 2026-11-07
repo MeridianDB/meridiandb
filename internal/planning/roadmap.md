@@ -2463,6 +2463,54 @@ admitted required prerequisite. Retain raw evidence and honest counter/productio
 gaps. Close ancestors only when their complete integration criteria pass; expand
 this child further if independently useful outcomes need separate iterations.
 
+**Required children, November 7, 2026:** MDB-0088 adds checked saved-result reports,
+recomputing raw sample arithmetic and binding the producer's recorded admission
+without requiring vanished scratch files. MDB-0089 runs the actual Linux evaluation
+and original integration audit. Keep live filesystem reobservation distinct from
+recorded consistency. Parent MDB-0087/0083/0012 criteria remain unchanged.
+
+## MDB-0088 Checked saved workload reports
+
+**Parent:** MDB-0087. **Outcome:** read bounded saved request, report and worker
+documents; bind exact identities and worker bytes; recompute serialized metrics
+and recorded file/process accounting; render JSON/Markdown with separate warmup
+and measured iterations, service/loop/check clocks and optional-counter gaps.
+Keep exact live native checks in the supervisor. Saved metadata supplies no new
+source/process/filesystem/device qualification or controlled performance claim.
+
+**Complete when:** malformed, mixed, stale-selected, partial, failed, excessive and
+inconsistent evidence is refused; precise units/denominators and provenance survive
+reporting; percentiles are not averaged and warmups are not silently pooled.
+Regression tests preserve the live validator's checks. Actual retained Linux
+artifacts can be reported after their original files are gone, and CI verifies
+fresh default/scaled reports. Public docs, rules and queue evidence are updated.
+This child does not complete actual baseline evaluation or close ancestors.
+
+**Checkpoint, November 7, 2026:** pure recorded validation and bounded JSON/Markdown
+reporting are implemented while native supervisor checks remain intact. All 135
+Python guards pass locally with five native Linux skips (all original 105 retained,
+11 recorded-validation plus 19 reporter cases added). Real downloaded default/
+scaled Linux artifacts report after their original directories disappear; exact
+ZIP/input bindings are retained. Review fixes include full Markdown provenance,
+mount containment, elapsed-time lower bounds and literal metadata escaping.
+Both 96-page builds, 42 docs fixtures and desktop/mobile/search/navigation pass.
+Java/POM/inventory remain unchanged. Keep MDB-0088 active pending fresh Linux CI
+reports and remote delivery; MDB-0087/0083/0012 remain expanded.
+
+## MDB-0089 Linux evaluation runs and baseline acceptance
+
+**Parent:** MDB-0087. **Outcome:** execute useful independently scaled temporal
+workloads in Linux, retain repeatable raw/results/report evidence and explain
+latency, throughput, resource, storage and recovery/checkpoint/compaction behavior
+with exact runtime/cache/mount/acknowledgement context. Preserve failure evidence
+and distinguish hosted smoke, observational runs and controlled-device comparison.
+
+**Complete when:** all original MDB-0012/0083/0087 evaluation/integration criteria
+have evidenced outcomes or separately admitted required prerequisites; report
+useful bottlenecks, limitations and justified next experiments. Close ancestors
+only after every required child and integration criterion passes. Unknown hardware
+facts remain unknown; no paid environment or privileged cache operation is presumed.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

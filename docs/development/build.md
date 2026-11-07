@@ -181,7 +181,7 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-11-06
+## Artifact research checked on 2026-11-07
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
@@ -196,8 +196,8 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 6: metadata at 15:02:18 EST (20:02:18 UTC) and
-compatibility at 15:02:19 EST (20:02:19 UTC). The listed selections remain unchanged; the adapter
+on November 7: metadata at 07:53:51 EST (12:53:51 UTC) and
+compatibility at 07:53:51 EST (12:53:51 UTC). The listed selections remain unchanged; the adapter
 uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
@@ -206,8 +206,8 @@ than an AWS certification claim. The segment/manifest codecs and local adapters
 continue to use JDK SHA-256/CRC32C and file I/O; the SDK stays in the optional
 artifact.
 
-AWS SDK [2.57.10](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.10),
-released November 5, is now the latest stable version of both optional SDK
+AWS SDK [2.57.11](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.11),
+released November 6, is now the latest stable version of both optional SDK
 artifacts. Their selected version remains 2.57.8 while further S3 work is deferred.
 A separately scoped adapter update can adopt and verify the newer SDK; the local
 workload runner introduces no cloud dependency or SDK behavior change.
@@ -226,8 +226,8 @@ workload runner introduces no cloud dependency or SDK behavior change.
 | `org.apache.maven.plugins:maven-deploy-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/maven-metadata.xml) |
 | `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.1.3 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
 | `tools.jackson.core:jackson-databind` | 3.2.4 | 3.2.4 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
-| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.57.10 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
-| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.57.10 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
+| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.57.11 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
+| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.57.11 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
 
 All selected core/build entries are the latest stable releases found. Newer metadata entries
 in the Maven/plugin 4.x series are RC/beta releases, so they are not selected for

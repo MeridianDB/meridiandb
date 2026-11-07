@@ -1,9 +1,10 @@
 """Strict admission of settled, run-bound developer workload evidence.
 
-This module does not launch processes. The supervisor must settle the worker and
-its process group, enforce its deadline, and verify source/bytecode stability
-before calling validate_worker. None of these consistency checks authenticate a
-hostile worker or qualify a storage device.
+This module does not launch processes. Recorded validation recomputes declarations
+using supplied historical context without touching original paths or the current
+platform. Live validation additionally reobserves files after the supervisor has
+settled the worker/group and checked source stability. Neither mode authenticates
+a hostile writer or qualifies a storage device.
 """
 
 from collections import Counter, defaultdict
@@ -12,7 +13,7 @@ from itertools import islice
 import json
 import math
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import platform
 import re
 import stat
@@ -372,6 +373,16 @@ def _path(value, name):
     return path
 
 
+def _recorded_path(value, name):
+    """Canonical Linux path syntax only; existence and native identity are unknown."""
+    value = _text(value, name)
+    _require(not any(ord(char) < 32 or ord(char) == 127 for char in value), f"Control character in path: {name}")
+    path = PurePosixPath(value)
+    _require(path.is_absolute() and path.anchor == "/" and str(path) == value and ".." not in path.parts,
+             f"Noncanonical recorded path: {name}")
+    return path
+
+
 def _entries(path, maximum):
     with os.scandir(path) as entries:
         result = [Path(entry.path) for entry in islice(entries, maximum + 1)]
@@ -379,14 +390,15 @@ def _entries(path, maximum):
     return result
 
 
-def _files(home, named, history_hash, history_bytes, seen, device, source_segments):
+def _file_declaration(named, history_bytes, source_segments):
+    """Check declared names/lengths, without observing files or trusting their bytes."""
     _object(named, {"fileLengths", "totalBytes"}, "namedStorage")
     lengths = named["fileLengths"]
     file_count = source_segments + 7
     _require(type(lengths) is dict and len(lengths) == file_count, "Wrong retained file inventory")
     for key, value in lengths.items():
         _text(key, "filename", 128)
-        _require(Path(key).name == key and key not in (".", ".."), "Unsafe file name")
+        _require(PurePosixPath(key).name == key and key not in (".", ".."), "Unsafe file name")
         _integer(value, "file length", high=MAX_RETAINED_BYTES)
     manifests = [MANIFEST_NAME.fullmatch(name) for name in lengths if MANIFEST_NAME.fullmatch(name)]
     segments = [name for name in lengths if SEGMENT_NAME.fullmatch(name)]
@@ -398,6 +410,13 @@ def _files(home, named, history_hash, history_bytes, seen, device, source_segmen
              and all(lengths[name] > 0 for name in segments + [m[0] for m in manifests]), "Wrong retained object lengths")
     _integer(named["totalBytes"], "named total", high=MAX_RETAINED_BYTES)
     _require(named["totalBytes"] == sum(lengths.values()), "Named total differs from files")
+    return {"fileLengths": dict(sorted(lengths.items())), "logicalBytes": named["totalBytes"]}
+
+
+def _files(home, named, history_hash, history_bytes, seen, device, source_segments):
+    declared = _file_declaration(named, history_bytes, source_segments)
+    lengths = declared["fileLengths"]
+    file_count = source_segments + 7
     try:
         actual = _entries(home, file_count)
         _require(len(actual) == len(lengths) and {p.name for p in actual} == set(lengths), "On-disk inventory differs")
@@ -456,13 +475,19 @@ def _io(observation, index, warmup, directory, denominator):
             _require(delta is None and reason == f"Nonmonotonic process I/O counter: {reset}", "Wrong reset I/O evidence")
         else:
             _require(reason is None and delta == {key: last[key] - first[key] for key in IO_FIELDS}, "Wrong I/O deltas")
-    return {"delta": delta, "unavailable": reason,
+    return {"delta": None if delta is None else dict(delta), "unavailable": reason,
             "processReadBytesPerEncodedJournalByte": None if delta is None else delta["read_bytes"] / denominator,
             "processWriteBytesPerEncodedJournalByte": None if delta is None else delta["write_bytes"] / denominator}
 
 
-def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: dict) -> dict:
-    """Validate success evidence and return additional reobserved file/I/O accounting."""
+def validate_recorded_worker(doc, request: dict, worker_pid: int, stores: Path, mount: dict,
+                             kernel: str, architecture: str) -> dict:
+    """Purely recompute saved success declarations in their recorded Linux context.
+
+    Paths are checked lexically as Linux paths and need not exist. Returned file
+    lengths and fingerprints remain declarations; this function does not verify
+    bytes, filesystem identity, allocation or the execution that produced them.
+    """
     _structure(doc)
     dimensions = validate_request(request)
     scaled = "schemaVersion" in request
@@ -504,10 +529,12 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
     for key in RUNTIME_FIELDS - {"availableProcessors", "maxHeapBytes"}:
         _text(runtime[key], f"runtime.{key}", 512)
     _require(runtime["javaVersion"] == "25" or runtime["javaVersion"].startswith("25."), "Worker must use Java 25")
+    _text(kernel, "recorded kernel", 512)
+    _text(architecture, "recorded architecture", 512)
     aliases = {"amd64": "x86_64", "x86_64": "x86_64", "arm64": "aarch64", "aarch64": "aarch64"}
-    _require(runtime["osName"] == "Linux" and runtime["osVersion"] == platform.release()
+    _require(runtime["osName"] == "Linux" and runtime["osVersion"] == kernel
              and aliases.get(runtime["architecture"].lower(), runtime["architecture"].lower())
-             == aliases.get(platform.machine().lower(), platform.machine().lower()), "Wrong worker OS/runtime placement")
+             == aliases.get(architecture.lower(), architecture.lower()), "Wrong worker OS/runtime placement")
     _require(type(mount) is dict and runtime["fileStoreType"] == mount.get("fileSystem"), "Wrong worker filesystem")
     _integer(runtime["availableProcessors"], "availableProcessors", 1, 1_000_000)
     _integer(runtime["maxHeapBytes"], "maxHeapBytes", 1, MAX_HEAP_BYTES)
@@ -515,32 +542,20 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
     for gap in gaps:
         _text(gap, "gap", 2048)
     _require(len(gaps) == len(set(gaps)), "Duplicate gap text")
-    stores = _directory(Path(stores), "stores")
-    device = stores.lstat().st_dev
-    root = _directory(_path(result["runRoot"], "runRoot"), "runRoot")
+    stores = _recorded_path(str(stores), "stores")
+    root = _recorded_path(result["runRoot"], "runRoot")
     _require(root.parent == stores and root.name.startswith("mdb-workload-"), "Worker run escaped the fresh stores root")
-    _require(root.lstat().st_dev == device, "Run root escaped the profiled filesystem")
-    try:
-        _require(_entries(stores, 1) == [root], "Fresh stores root contains unexpected entries")
-    except OSError as error:
-        raise EvidenceError("Cannot inspect fresh stores root") from error
     iterations = _list(result["iterations"], "iterations", warmups + repetitions, warmups + repetitions)
     io = _list(doc["io"], "io", len(iterations), len(iterations))
-    try:
-        _require({p.name for p in _entries(root, len(iterations))} == {f"iteration-{i}" for i in range(len(iterations))}, "Unexpected run directory entries")
-    except OSError as error:
-        raise EvidenceError("Cannot inspect run directory") from error
     accepted = []
-    seen = set()
-    total_logical = total_allocated = total_files = 0
+    total_logical = total_files = 0
     for index, iteration in enumerate(iterations):
         _object(iteration, ITERATION_FIELDS, "iteration")
         _integer(iteration["index"], "iteration index")
         _require(iteration["index"] == index and type(iteration["warmup"]) is bool
                  and iteration["warmup"] == (index < warmups), "Wrong iteration index/warmup")
-        home = _directory(_path(iteration["directory"], "iteration directory"), "iteration directory")
+        home = _recorded_path(iteration["directory"], "iteration directory")
         _require(home == root / f"iteration-{index}", "Wrong iteration path")
-        _require(home.lstat().st_dev == device, "Iteration escaped the profiled filesystem")
         for key in ("namespacePreparationNanos", "actionLoopNanos", "actionServiceNanos", "actionValidationNanos",
                     "actionOtherNanos", "totalValidationNanos", "validationTasks", "sourceSegments",
                     "replacementSegments", "pinnedReadersDuringPublication"):
@@ -554,15 +569,53 @@ def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: di
                  "Incoherent loop/validation timing")
         _rate(iteration["actionLoopOperationsPerSecond"], action_count, iteration["actionLoopNanos"], "action-loop rate")
         _samples_and_summaries(iteration, result["workload"], runtime["maxHeapBytes"], dimensions, source_segments)
-        observed = _files(home, iteration["namedStorage"], result["historyFingerprint"], encoded, seen, device, source_segments)
+        declared = _file_declaration(iteration["namedStorage"], encoded, source_segments)
+        total_files += len(declared["fileLengths"])
+        total_logical += declared["logicalBytes"]
+        _require(total_files <= MAX_FILES and total_logical <= MAX_RETAINED_BYTES,
+                 "Retained file/byte admission exceeded")
+        accepted.append({"index": index, "warmup": iteration["warmup"], "directory": str(home),
+                         "fileLengths": declared["fileLengths"], "logicalBytes": declared["logicalBytes"],
+                         "processIo": _io(io[index], index, iteration["warmup"], str(home), encoded)})
+    return {"encodedHistoryBytes": encoded, "historyFingerprint": result["historyFingerprint"],
+            "sourceSegments": source_segments, "retainedFileCount": total_files,
+            "totalLogicalBytes": total_logical, "iterations": accepted}
+
+
+def validate_worker(doc, request: dict, worker_pid: int, stores: Path, mount: dict) -> dict:
+    """Validate success declarations, then reobserve the complete live file graph."""
+    recorded = validate_recorded_worker(doc, request, worker_pid, stores, mount,
+                                        platform.release(), platform.machine())
+    stores = _directory(Path(stores), "stores")
+    device = stores.lstat().st_dev
+    root = _directory(_path(recorded["iterations"][0]["directory"], "iteration directory").parent, "runRoot")
+    _require(root.parent == stores and root.lstat().st_dev == device,
+             "Run root escaped the profiled filesystem")
+    try:
+        _require(_entries(stores, 1) == [root], "Fresh stores root contains unexpected entries")
+        _require({p.name for p in _entries(root, len(recorded["iterations"]))}
+                 == {f"iteration-{i}" for i in range(len(recorded["iterations"]))}, "Unexpected run directory entries")
+    except OSError as error:
+        raise EvidenceError("Cannot inspect live run topology") from error
+    accepted = []
+    seen = set()
+    total_logical = total_allocated = total_files = 0
+    for iteration in recorded["iterations"]:
+        home = _directory(_path(iteration["directory"], "iteration directory"), "iteration directory")
+        _require(home.lstat().st_dev == device, "Iteration escaped the profiled filesystem")
+        named = {"fileLengths": iteration["fileLengths"], "totalBytes": iteration["logicalBytes"]}
+        observed = _files(home, named, recorded["historyFingerprint"], recorded["encodedHistoryBytes"], seen,
+                          device, recorded["sourceSegments"])
         total_files += len(observed["files"])
         total_logical += observed["logicalBytes"]
         total_allocated += observed["attributedAllocatedBytes"]
         _require(total_files <= MAX_FILES and total_logical <= MAX_RETAINED_BYTES and total_allocated <= MAX_RETAINED_BYTES,
                  "Retained file/byte admission exceeded")
-        observed.update({"index": index, "warmup": iteration["warmup"], "directory": str(home),
-                         "processIo": _io(io[index], index, iteration["warmup"], str(home), encoded)})
+        observed.update({"index": iteration["index"], "warmup": iteration["warmup"], "directory": str(home),
+                         "processIo": iteration["processIo"]})
         accepted.append(observed)
+    _require(total_files == recorded["retainedFileCount"] and total_logical == recorded["totalLogicalBytes"],
+             "Live inventory differs from recorded declarations")
     return {"schemaVersion": 1, "retainedFileCount": total_files, "totalLogicalBytes": total_logical,
             "totalAttributedAllocatedBytes": total_allocated, "iterations": accepted,
             "limits": ["Allocated bytes are per-file st_blocks*512 attribution, not unique physical extents or reclaimable space",

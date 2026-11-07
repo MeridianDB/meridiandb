@@ -6112,6 +6112,90 @@ No evaluation, layout/native experiment, cloud change, SDK update or release sta
 **Next recommendation:** MDB-0087 — Linux baseline runs and integration audit.
 
 
+## 2026-11-07 — MDB-0088 Saved workload reporting source checkpoint
+
+**Scope:** resumed clean matching main/origin at
+`28b10b55b2adf26a61c00a093ed2e02e9297bcfd`. Reconfirmed prior exact-source
+Java 42286467497/docs 42286467525/Pages 42286467496 success. Expanded MDB-0087
+into required MDB-0088 saved-result reports and MDB-0089 actual Linux evaluation/
+integration audit; all 89 IDs and every parent criterion remain. Execute only
+MDB-0088; MDB-0087/0083/0012 stay expanded. No actual baseline, format/native
+experiment, remote backend, SDK update, paid environment or library release.
+
+**Implementation:** factor pure `validate_recorded_worker` out of live validation.
+Recompute exact request/schema/context/paths, raw summaries/rates/counter availability,
+clock equations, declared file inventory and process I/O from supplied recorded
+Linux context without filesystem/platform calls. The live wrapper retains native
+topology/device/inode/block/journal-hash checks and its existing accounting shape.
+Shared file-declaration checks avoid inconsistent live/recorded rules.
+
+New `scripts/storage/summarize_workload.py` reads three bounded ordinary files,
+binds request/report/worker bytes and selected source/run, verifies exact recorded
+source/class/command/heap/process/deadline context and recomputes recorded accounting.
+JSON/Markdown preserve per-iteration distributions and separate warmup/measured
+lists; unavailable CPU/allocation stay unavailable with sample counts. Provenance
+includes dirty/tree/class/corpus/history/input hashes, unknown mount/device context
+and precise metric units. Recorded observations neither requalify originals nor
+authenticate a producer. Input is 64 KiB request plus 16 MiB report/worker each;
+output 4 MiB. Reads refuse nonregular/symlink/raced inputs without blocking on a FIFO.
+
+**Checks:** all 135 Python guards pass on macOS (40 qualification,19 supervisor,
+57 evidence,19 reporter), with five explicit Linux process skips. Prior 105 checks
+remain; added 11 pure recorded checks and 19 reporter cases. Tests cover absent
+original paths/current-host differences, mixed/stale-selected/partial/failed evidence,
+raw/rehashed metric tampering, typed/bounded bindings, file/accounting deltas,
+zero/scaled/warmup distributions, literal metadata, read limits and CLI output caps.
+An initial test incorrectly banned literals inside safe JSON fences; that test
+expectation was corrected before final acceptance. Independent review found and
+resolved omitted Markdown provenance/clocks, unrelated mount placement, impossible
+recorded elapsed duration and backslash/pipe rendering. Final review has no finding.
+
+Java, POM, production sources and inventory are byte-identical to the verified prior
+step: 1,351 cases /74 suites, inventory
+`6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+No new local Maven run or optional adapter/example run is claimed; exact-source CI
+will run them. Both strict 96-page URL builds and 42 docs fixtures pass. Guide/ADR 44,
+README/callers/navigation/rules explain recorded versus live evidence. Desktop light,
+390 px mobile dark table containment and search→ADR→guide checks pass; normal
+light/default viewport restored. Ignored `.local-qa/mdb-0088/` retains checks/images.
+
+**Actual saved Linux evidence:** downloaded artifact 13537822522 from
+Java 42286467497 using the GitHub artifact tool. Verified ZIP bytes 28,591 and SHA256
+`8d115ac196be11d35ba41931e4d838e10a123ab0eee2dc681fe7a0cf00f5b1a2`
+against its published metadata before bounded safe extraction. Both recorded runs
+from source `ed0e45b6434280cd9d91f7f6749edb37a84146c2` pass on macOS without
+their original `/home/runner/...` database paths. Default run
+`133738b1bbcf4f91964abdd805827f7b`: JSON 14,671 bytes SHA256
+`8ab95c5c3655d1ccc23ccb5d82159ed0bcae23061f4f8306657c8740ae116b63`,
+Markdown 6,638 bytes SHA256
+`13a74e542362749c9756b1a3343b448409d2839c84c05fb676e5308f32d4b26e`.
+Scaled run `df39c7787098473bbdddcee40a1e54e2`: JSON 14,967 bytes SHA256
+`8809b992165a76b6c23a190772d374fa9511b75421031dfd60dd74685d547820`,
+Markdown 6,652 bytes SHA256
+`9adcd7ff90d544da938096497a037f5b0ba2650e1c74fa56df55655312d2db43`.
+These are checked saved observations, not fresh Linux execution or baseline results.
+CI now retains two fresh source-bound analyses outside producer-owned trees,
+including default warmup 1/measured 2 and scaled warmup 0/measured 1.
+
+**Fresh research:** all fourteen Central sources checked November 7,
+12:53:51 UTC /07:53:51 EST; official compatibility checked in the same second.
+Twelve non-AWS pins remain latest stable compatible. Both optional AWS artifacts
+selected 2.57.8 now have latest stable 2.57.11, released November 6; public build
+guide records availability and deliberate retention under the deferred S3 scope.
+No dependency version change. Metadata summary SHA256
+`97b9d72fc618e96370d6c3067bf3d24c33f9c487a815fa968f4037333af4bd0b`;
+compatibility `8843ce886696f1fa18039357c6ba8d84aa03000bfb631f2eb6840d58f0b48185`;
+research report `604d0bd9c0b3f89ecdd97e13aba0b96d23df5bab7a97aa423081819344d3b039`.
+Exact primary URLs, response bodies/check times and hashes remain under ignored
+research/. SDK support still distinguishes Java 8 baseline from project-tested 25.
+
+**Delivery checkpoint:** validate 89 IDs/cards/DAG/eligibility, inspect staged diff,
+commit task-owned source/docs/planning with Step-ID MDB-0088 /Step-Result checkpoint
+and push normally to origin/main. Keep MDB-0088 active until exact-source Linux
+live+saved report checks, regression qualification and automatic Pages/live readback
+pass. No dependent MDB-0089 evaluation starts in this invocation.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

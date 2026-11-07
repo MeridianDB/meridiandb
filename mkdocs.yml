@@ -108,6 +108,7 @@ nav:
       - Workload corpus decision: decisions/0041-deterministic-workload-corpus.md
       - Local measurement decision: decisions/0042-local-operation-measurements.md
       - Supervised workload decision: decisions/0043-supervised-workload-evidence.md
+      - Recorded workload reports decision: decisions/0044-recorded-workload-reports.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -117,6 +118,7 @@ nav:
       - Temporal workload corpus: development/workload-corpus.md
       - Local operation measurements: development/local-measurements.md
       - Supervised Linux workloads: development/supervised-workloads.md
+      - Saved workload reports: development/workload-reports.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
       - Temporal queries: development/temporal-queries.md

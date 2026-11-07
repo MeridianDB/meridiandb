@@ -139,6 +139,11 @@ file name/length and the closed journal's exact length/SHA-256. Returned paths m
 stay in the fresh store tree, with no symlink, nonregular or duplicate-inode surprise.
 This is consistency checking in a trusted checkout, not hostile-machine attestation.
 
+The [saved-report command](workload-reports.md) recomputes the serialized evidence
+and renders per-iteration metrics later. It checks the recorded receipt and worker
+bytes without repeating the original native observations or requiring those paths
+to remain present.
+
 ## Interpret storage and I/O separately
 
 | Observation | Scope and limit |

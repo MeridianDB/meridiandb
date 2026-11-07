@@ -47,8 +47,9 @@ checks. A test-only [local measurement core](docs/development/local-measurements
 now measures checked operation lifecycles with scoped JVM telemetry. The
 [Linux supervisor](docs/development/supervised-workloads.md) adds bounded execution,
 strict result admission, independent workload dimensions and scoped process/allocated-file
-accounting. Controlled
-baseline evaluation and production qualification remain planned.
+accounting. [Saved workload reports](docs/development/workload-reports.md) check
+those recorded results and render per-iteration metrics after the original files
+are gone. Controlled baseline evaluation and production qualification remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?
