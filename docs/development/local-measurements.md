@@ -8,8 +8,9 @@ description: Measure checked local commits, pinned queries, recovery and checkpo
 The test-only in-process runner measures synchronous local operations using the
 [deterministic workload corpus](workload-corpus.md). It checks independent expected
 answers, original request positions and exact persisted history before returning
-typed results. It provides measurement infrastructure, with no published baseline
-or comparative performance result.
+typed results. It provides measurement infrastructure;
+[bounded Linux observations](linux-observations.md) report its current behavior.
+No controlled-device or production performance result is established.
 
 [ADR 0042](../decisions/0042-local-operation-measurements.md) defines this boundary.
 The [Linux supervisor](supervised-workloads.md) adds a command-line runner, serialized

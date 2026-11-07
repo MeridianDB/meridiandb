@@ -597,6 +597,10 @@ so a new session can work correctly without relying on earlier conversations.
   input and its hash beyond temporary CI retention; audit original parent criteria
   before closing them. Report per-repetition distributions and scoped resources,
   leaving controlled-device, cold-cache and production claims with their actual gaps.
+  Keep dated raw datasets under `evidence/` immutable, with original/compressed
+  lengths/hashes and an exercised readback command. Whole-process ratios do not
+  satisfy operation-attributed amplification; retain an explicit prerequisite
+  when the original acceptance criterion remains unmeasured.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

@@ -49,7 +49,9 @@ now measures checked operation lifecycles with scoped JVM telemetry. The
 strict result admission, independent workload dimensions and scoped process/allocated-file
 accounting. [Saved workload reports](docs/development/workload-reports.md) check
 those recorded results and render per-iteration metrics after the original files
-are gone. Controlled baseline evaluation and production qualification remain planned.
+are gone. [Bounded Linux observations](docs/development/linux-observations.md)
+now cover independent dimensions and four temporal profiles. Attributed file-work
+measurement, controlled comparisons and production qualification remain planned.
 The broader storage capabilities below remain the intended direction.
 
 ## Why temporal storage?

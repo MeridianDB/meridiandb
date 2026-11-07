@@ -6,7 +6,7 @@ description: Admit Linux workload observations only after bounded process execut
 # ADR 0043: Supervised workload evidence
 
 - **Date:** November 3, 2026
-- **Status:** Supervised developer harness implemented; baseline evaluation pending
+- **Status:** Supervised harness and bounded observations implemented; attributed file-work evaluation pending
 - **Scope:** Linux execution, result admission and storage/process accounting
 
 ## Context

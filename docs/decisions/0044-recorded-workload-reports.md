@@ -6,7 +6,7 @@ description: Recompute saved workload evidence separately from live source, proc
 # ADR 0044: Recorded workload reports
 
 - **Date:** November 7, 2026
-- **Status:** Saved-record reporting implemented; baseline evaluation pending
+- **Status:** Saved-record reporting and bounded observations implemented; integrated baseline pending
 - **Scope:** Offline consistency and presentation of supervised workload evidence
 
 ## Context

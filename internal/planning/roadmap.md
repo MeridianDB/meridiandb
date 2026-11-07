@@ -2220,6 +2220,13 @@ criterion above. The parent remains expanded until all children and integrated
 latency/throughput/resource/amplification/recovery/checkpoint criteria pass. A pure
 corpus or CI timing smoke alone supplies no complete baseline or optimization claim.
 
+**Integration finding, November 7, 2026:** MDB-0089 supplies repeatable hosted
+observations with honest timing/resource/storage scopes. Its original-criteria
+audit admits MDB-0090 under MDB-0083 for actual operation-attributed file work and
+amplification. Whole-process bytes/journal ratios do not satisfy that criterion.
+Keep MDB-0012 expanded; controlled-device and production profile gaps retain
+MDB-0080 ownership without becoming a remote-backend prerequisite.
+
 ## MDB-0081 Deterministic temporal workload corpus
 
 **Parent:** MDB-0012. **Outcome:** define a versioned bounded workload specification,
@@ -2401,6 +2408,11 @@ review, scoped analysis and the original MDB-0012/0083 integration audit. A fixe
 small correctness smoke cannot satisfy independent scaling. Keep MDB-0083 and
 MDB-0012 expanded until both children and all original criteria pass.
 
+**Required integration child, November 7, 2026:** MDB-0090 measures operation-
+attributed file work and amplification before closing MDB-0083/0012. Actual
+MDB-0089 observations preserve current whole-process ratios with their broader
+scope; they are not relabeled as attributed amplification.
+
 ## MDB-0086 Configurable supervised workload dimensions
 
 **Parent:** MDB-0083. **Outcome:** expose entities, commits, reads and interval
@@ -2527,6 +2539,42 @@ the existing supervisor/report reader. A dedicated push-triggered workflow retai
 raw evidence for 90 days; durable compressed inputs and a public scoped evaluation
 will preserve reproducibility beyond artifact expiry. Keep this item active and
 all baseline ancestors expanded until actual evidence and the integration audit pass.
+
+**Observed, November 7, 2026:** all ten cases and saved-report checks pass at
+`fa0a26df9455e1d30f4c5bdb873a22436d52514f`, with forty fresh stores and thirty
+measured iterations. Durable raw inputs/logs and hashes outlive CI retention.
+Independent review confirms history-depth allocation/recovery signals and material
+control-run timing variation; no layout/native optimization is selected. The
+original-criteria audit admits required MDB-0090 because whole-process I/O cannot
+establish operation-attributed amplification. After delivery, close MDB-0089/0087;
+keep MDB-0083/0012 expanded and make MDB-0090 ready. Current item stays active until
+the public results/evidence/queue change passes final checks and publication.
+
+## MDB-0090 Operation-attributed file-work accounting
+
+**Parent:** MDB-0083. **Outcome:** observe actual completed file reads/writes at
+the existing journal, segment and manifest boundaries, associated with an explicit
+engine operation and file role. Keep the collector internal and inert by default;
+use separate attributed runs so instrumentation does not silently revise the
+observational latency baseline. File/directory-force calls have separate counts,
+without invented metadata-byte estimates. Heap-only queries can have zero file
+reads while still doing engine work.
+
+**Complete when:** versioned counters distinguish setup/validation/hash/export
+from create, commit/retry, queries, recovery and checkpoint/compaction work. Count
+actual partial completions and repeated integrity reads, with explicit missing/
+unavailable coverage and bounded overflow/nesting/lifetime behavior. Use original
+new-frame bytes for append ratios and full encoded original history for named
+lifecycle/recovery ratios; retries and zero denominators remain separate/N/A.
+Do not infer actual bytes from final file lengths or call counts. Independent
+literal byte vectors and failure/short-I/O/zero-I/O cases pass; existing integrity,
+ownership, force/acknowledgement, reference and recovery contracts remain unchanged.
+Bounded Linux attributed executions and strict raw-counter/ratio recomputation
+identify useful amplified work for a justified next experiment. Durable raw data,
+public metric definitions and original baseline acceptance are reconciled before
+closing MDB-0083/0012. Physical device traffic, cold cache, arrival latency and
+production qualification remain separate MDB-0080 gaps; no paid/privileged or
+remote-backend prerequisite. Refine this card into bounded children if needed.
 
 ## MDB-0013 Measured layout and index experiments
 

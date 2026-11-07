@@ -6317,6 +6317,83 @@ Linux observations, preserve durable checked raw inputs, evaluate metrics and au
 every original criterion before completion. The current item remains active.
 
 
+## 2026-11-07 — MDB-0089 Observations, durable evidence and integration audit
+
+**Acquisition:** protocol source `fa0a26df9455e1d30f4c5bdb873a22436d52514f`
+was normally pushed and matching remote ancestry/tips verified. Dedicated
+[Linux observations 42377033037](https://github.com/MeridianDB/meridiandb/actions/runs/42377033037)
+passes all ten sequential cases, each with warmup 1/measured 3: forty fresh stores,
+thirty measured iterations and 6,656 original commits across all iterations.
+The four profile baselines, four independent dimension contrasts, seed 43 and
+identical final seed-42 control all pass live and saved-result admission.
+
+Every case uses the same clean source tree (376 files /4,950,141 bytes, SHA256
+`501641fdf0f1cff12efdb420167039f1bd59ad0115537bc2cfa15883d5c3a629`),
+compiled classpath (446 files /3,196,684 bytes, SHA256
+`7a21d38f854c70630f46fc170ec6e5f6568da135e5069f46fdf6840e23d68e6b`),
+Java 25.0.5+8-LTS/Temurin, Linux 7.0.0-1017-azure x86_64/ext4, four processors,
+256 MiB heap and uncontrolled cache. Device/controller/cache/block facts remain
+unknown; mount includes data=writeback, nobarrier, commit=30 and one omitted option.
+These facts do not qualify a production placement or controlled device comparison.
+
+**Durable evidence:** downloaded artifact 13576033241, 401,169 bytes, SHA256
+`76c23534b79f3aa09117bee94dae6883e8f11333a6fe82f82f8f8e1cef5e4880`,
+expires February 5, 2027 at 13:27:20 UTC. Verified ZIP digest/size before bounded
+safe extraction. Ten reports reproduce CI JSON byte-for-byte on macOS without
+original Linux paths. Retain immutable `evidence/linux-observations/2026-11-07/`:
+fifty exact request/report/worker/log gzip files totaling 311,945 bytes, zero gzip
+timestamps, manifest with original/compressed lengths/SHA256, identities/requests/
+fingerprints and analysis SHA256, plus exercised decompression/report commands.
+Replaying all fifty retained files verifies both hash layers and reproduces all
+ten source/run-selected analysis hashes. The repeated control matches both corpus
+fingerprints; changing reads alone preserves the original history fingerprint.
+
+**Findings:** independent review verifies every one of 33 public result rows
+against raw summaries/selectors and rounding, with three repetitions kept separate.
+History 128→512 increases mixed-commit allocation about 3.1× (16.7 kB→51.8–52.1 kB
+per call) and checkpoint-reopen allocation about 11.25× (2.3→25.9 MiB). These are
+scoped allocation observations, not proof that one algorithm caused them. Growing
+history/request-map copying and complete-state recovery are a source-backed
+hypothesis for later profiling. Identical control mixed-commit p50 falls 16.8–19.3%
+by paired repetition: one warmup does not establish steady state or host stability.
+More reads change the loop numerator; observed operations/s is not ingestion-only
+throughput. All thirty measured process read_bytes deltas are zero while character
+reads are nonzero; this does not establish zero engine reads or cold storage behavior.
+
+**Audit and planning:** [the original-criteria audit](baseline-audit.md) maps every
+MDB-0012/0083/0087/0089 requirement to evidence and precise limits. Original
+operation-attributed read/write amplification remains unmet: whole-process counters
+include validation/runtime/maintenance and final lengths cannot establish repeated
+I/O. Admit required MDB-0090 under MDB-0083 for actual completed file-work bytes,
+force counts and recomputable named denominators in separate attributed runs.
+Keep all original criteria and all 90 stable IDs; MDB-0083/0012 stay expanded.
+After final delivery, MDB-0089/0087 can close and MDB-0090 becomes ready. Device,
+cold-cache, arrival and production gaps remain MDB-0080. No attribution or layout/
+native implementation is started here. Agent rules now preserve immutable dated
+technical datasets and forbid treating process ratios as attributed amplification.
+
+**Regression and docs:** exact-source Java 42377033009 passes all 1,351 core cases
+/74 suites and 135 Python guards with zero Linux skips/failures. Qualification
+run `ed47c1af7eee4bfea2c0c8e9517eff0e` preserves inventory SHA256
+`6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+Windows retains 374 core skips; optional regression has 762 invocations/platform
+(Linux zero skips, Windows 381), and fourteen examples/platform pass. Java/POM/
+inventory are unchanged. Documentation 42377033252 and Pages 42377033061 pass for
+the protocol source. Final results introduce no runtime code; both local strict
+97-page URL builds, 42 docs fixtures, all 90 queue/card/DAG checks and diff checks
+pass. Desktop light and 390 px mobile dark table scrolling/containment pass, with
+375 px page width and six independent scroll containers. Search finds the guide,
+navigation points to it, and normal light/default viewport is restored. An initial
+theme-radio automation did not toggle the custom input; clicking its visible label
+resolved it. An ignored draft table selector selected LOAD instead of MIXED commits;
+it was corrected before appending public results and all final rows were verified.
+
+**Delivery:** commit/push results, raw evidence, audit, rules and handoff with
+Step-ID MDB-0089 /Step-Result checkpoint. Keep MDB-0089 active until the final
+public results pass exact-source docs/automatic Pages and live readback. Then
+record completion and next MDB-0090, preserving expanded MDB-0083/0012.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

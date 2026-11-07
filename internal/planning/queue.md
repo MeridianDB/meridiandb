@@ -66,11 +66,17 @@ children before implementation rather than treating a whole milestone as one pat
   warmup 1/measured 2 and scaled warmup 0/measured 1 retain separate distributions.
   Seven live pages, 96 sitemap URLs, search and published guide inspection pass.
 - **MDB-0089 — Linux evaluation runs and baseline acceptance** is active, owned
-  by the primary coordinator. Evaluate a bounded sequential Linux workload matrix,
-  retain checked raw observations and audit original baseline criteria. Independent
-  helpers review measurement scope and current Maven versions; queue/Git writes
-  remain serialized. All 89 stable IDs remain; MDB-0012/0083/0087 stay expanded
-  until actual acceptance. No layout/native experiment, S3 continuation or release.
+  by the primary coordinator. All ten sequential observations at source
+  `fa0a26df9455e1d30f4c5bdb873a22436d52514f` pass (40 stores, 30 measured
+  iterations); checked raw inputs/logs and original/compressed hashes are preserved
+  under `evidence/linux-observations/2026-11-07/`. Current work publishes the
+  scoped findings and original-criteria audit, then verifies delivery.
+- **MDB-0090 — Operation-attributed file-work accounting** is a required child
+  of MDB-0083, queued after MDB-0089. Whole-process counters do not satisfy the
+  original attributed amplification criterion. Keep MDB-0012/0083 expanded until
+  this admitted prerequisite passes; MDB-0087 can close with its completed report
+  and audit children. All 90 stable IDs remain. No attribution implementation,
+  layout/native experiment, S3 continuation or release starts in this invocation.
 
 ## Ordered work
 
@@ -117,6 +123,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0088](roadmap.md#mdb-0088-checked-saved-workload-reports) | Recompute and render recorded workload evidence after original files disappear | MDB-0087 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0089](roadmap.md#mdb-0089-linux-evaluation-runs-and-baseline-acceptance) | Run and evaluate reproducible Linux workloads and complete baseline integration | MDB-0087 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088 |
+| [MDB-0090](roadmap.md#mdb-0090-operation-attributed-file-work-accounting) | Measure scoped completed file I/O and recomputable amplification denominators | MDB-0083 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |

@@ -8,8 +8,8 @@ description: Run checked local Java workloads under a bounded Linux supervisor w
 The Linux command supervises the [local operation measurement core](local-measurements.md),
 retains raw results and admits them only after process settlement and consistency
 checks. It binds the requested corpus, source, compiled classes, JVM and filesystem
-placement to one fresh run. It supplies developer observations, with no published
-comparative baseline or production qualification.
+placement to one fresh run. It supplies developer observations, with no
+controlled-device comparison or production qualification.
 
 The [Linux observation protocol](linux-observations.md) defines a separate
 sequential evaluation across temporal profiles and independently varied dimensions.
