@@ -16,6 +16,8 @@ The original schema-one/two workloads and [Linux observations](linux-observation
 retain their formats and data. Attributed timings belong to the instrumented run.
 Evaluated attributed profiles, durable evaluation data and integrated baseline
 acceptance remain separate from this execution/reporting infrastructure.
+The [Linux attributed observation protocol](linux-attributed-observations.md)
+defines bounded profile/dimension contrasts and repeated controls for evaluation.
 
 ## Run on Linux
 

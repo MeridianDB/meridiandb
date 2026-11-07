@@ -601,6 +601,12 @@ so a new session can work correctly without relying on earlier conversations.
   lengths/hashes and an exercised readback command. Whole-process ratios do not
   satisfy operation-attributed amplification; retain an explicit prerequisite
   when the original acceptance criterion remains unmeasured.
+  For attributed evaluation, use `scripts/storage/attributed-evaluation.tsv` and
+  its [protocol](docs/development/linux-attributed-observations.md). Preflight all
+  cases within existing scope/parser/process caps; retain separate instrumented
+  data, per-repetition operation/auxiliary totals and repeated controls. Returned
+  adapter bytes establish scoped file work, not device traffic or a timing gain
+  against ordinary runs. Preserve dated datasets and their original interpretations.
 - For internal file-work counters, follow [ADR 0045](docs/decisions/0045-local-io-counters.md)
   and the [counter guide](docs/development/local-io-counters.md). Count only actual
   returned bytes and force outcomes at one concrete boundary; throwing calls can

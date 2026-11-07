@@ -46,12 +46,15 @@ children before implementation rather than treating a whole milestone as one pat
 - Fresh November 7 Maven research keeps twelve current non-AWS stable pins;
   latest AWS 2.57.11 versus retained 2.57.8 remains explicitly deferred. POM unchanged.
 - MDB-0092's required children MDB-0094 and MDB-0095 and its original integration
-  criteria pass. No executable claim remains. **MDB-0093 — Linux attributed work
-  and baseline acceptance** is next, ready after this completion reaches remote
-  main. It owns useful evaluated Linux profiles/contrasts, durable raw data and
-  the original baseline audit. All 95 stable IDs remain; MDB-0090/0083/0012 stay
-  expanded. Regression smoke does not replace evaluation. Layout/native
-  acceleration, S3 and releases remain separate; no MDB-0093 execution starts here.
+  criteria pass. Completion `141166148f5fc6786b3dc07af4730c95effaf7d6` is verified
+  on remote main. **MDB-0093 — Linux attributed work and baseline acceptance** is
+  active, owned by the primary coordinator. It owns useful evaluated Linux
+  profiles/contrasts, durable raw data and the original baseline audit. All 95
+  stable IDs remain; MDB-0090/0083/0012 stay expanded until evaluated acceptance.
+  Preserve the original ordinary data, distinct instrumented timings and existing
+  scope/parser/process bounds. Layout/native acceleration, S3 and releases remain
+  separate. Helpers own independent version research and read-only protocol review;
+  root owns evaluation, documentation, shared queue and Git operations.
 
 ## Ordered work
 
@@ -103,7 +106,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0092](roadmap.md#mdb-0092-attributed-workload-and-result-integration) | Bind operation scopes, raw counters and named ratios into separate workload results | MDB-0090 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091 |
 | [MDB-0094](roadmap.md#mdb-0094-attributed-local-lifecycle-core) | Capture typed operation and auxiliary file work on separate local lifecycles | MDB-0092 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091 |
 | [MDB-0095](roadmap.md#mdb-0095-attributed-serialized-evidence-integration) | Admit and report bounded attributed worker/supervisor evidence | MDB-0092 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0094 |
-| [MDB-0093](roadmap.md#mdb-0093-linux-attributed-work-and-baseline-acceptance) | Evaluate checked attributed Linux runs and complete original baseline audit | MDB-0090 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0092 |
+| [MDB-0093](roadmap.md#mdb-0093-linux-attributed-work-and-baseline-acceptance) | Evaluate checked attributed Linux runs and complete original baseline audit | MDB-0090 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0092 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |

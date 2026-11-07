@@ -126,6 +126,7 @@ nav:
       - Internal local I/O counters: development/local-io-counters.md
       - Attributed local workload core: development/attributed-local-workloads.md
       - Attributed workload evidence: development/attributed-workload-evidence.md
+      - Linux attributed file-work observations: development/linux-attributed-observations.md
       - Reference checks: development/reference-model.md
       - Embedded engine: development/embedded-engine.md
       - Temporal queries: development/temporal-queries.md

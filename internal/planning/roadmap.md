@@ -2803,6 +2803,15 @@ precise about coverage/instrumentation. Close ancestors only when every required
 child and original integrated criterion passes; admit a concrete remaining required
 prerequisite rather than waiving a missing measurement or claiming a speed gain.
 
+**Protocol checkpoint, November 7, 2026:** add a separate attributed TSV and
+push-triggered sequential Linux workflow with all-case preflight and saved-report
+checks. Ten cases preserve base E16/C128/Q64/W8, four profiles, one-axis C192/E64/
+Q128/W16 variants, seed43 and an identical final control. Uniform warmup1/measured2
+keeps exact reservations 1,424–1,934 within 2,048; earlier ordinary data remains
+immutable. Publish precise protocol/coverage, retain actual raw evidence after
+native execution, then evaluate useful ratios and audit ancestors. No result or
+baseline acceptance is claimed by this protocol checkpoint.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

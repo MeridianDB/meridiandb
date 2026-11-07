@@ -6947,6 +6947,59 @@ No runtime/public/POM/inventory changes follow exact-source acceptance; current
 path filters require no repeat CI/Pages build. No MDB-0093 implementation starts.
 
 
+## 2026-11-07 — MDB-0093 Attributed Linux evaluation protocol checkpoint
+
+**Selection:** clean matching main/origin at completion
+`141166148f5fc6786b3dc07af4730c95effaf7d6`; prior exact-source Java/docs/Pages
+acceptance remains successful. Claim MDB-0093 as the only active executable item,
+with all 95 IDs preserved. Root owns evaluation/docs/queue/Git; independent helpers
+review protocol/original criteria and refresh versions without source/build writes.
+No engine, format, acknowledgement, native acceleration or deferred S3 change.
+
+**Protocol:** separate `scripts/storage/attributed-evaluation.tsv` and
+`.github/workflows/linux-attributed-evaluation.yml` retain the original ordinary
+TSV/workflow/dataset unchanged. Ten ordered cases use fresh JVMs/256 MiB, uniform
+warmup1/measured2 and fresh stores: base E16/C128/Q64/W8 for CORRECTIONS/APPEND/
+RETRACTIONS/HOT_ENTITY, one-axis C192/E64/Q128/W16, seed43 and a final identical
+control. Exact reservations are 1,424–1,934, under unchanged 2,048 cap. All-case
+preflight precedes execution; each supervisor has90 seconds including compilation
+and the job20 minutes. Stop on failure, retain raw/partial/log/report evidence
+90 days and require ten source-bound explicit attributed saved analyses.
+This is30 stores/10warmups/20measured/4,032original commits if all cases succeed.
+Two measured repetitions support deterministic byte-repeatability checks, not
+stable latency tails. An independent review finds this bounded alternative useful
+and no additional original baseline prerequisite apparent if actual evidence passes.
+
+**Local validation:** workflow YAML and all shell blocks pass syntax checks; the
+exact embedded Python preflight verifies every plan row, profile contrast, one-axis
+variant, seed and repeated control. An initial local preflight lacked `python` on
+PATH; rerun using the existing venv PATH succeeds (the hosted workflow sets up
+Python explicitly). All183 Python guards pass with five Linux-only macOS skips;
+42 docs fixtures and strict104-page production build pass. No Java behavior/POM/
+inventory changes require a new local core run; native evaluation will cleanly
+compile the unchanged Java source. Public protocol/navigation, evidence-guide
+caller and agent baseline-evaluation rule are reconciled. Queue/card/DAG checks
+pass with MDB-0093 active; no dependent implementation starts.
+
+**Fresh Maven research:** fourteen Central and sixteen official responses checked
+November7 at15:31:01UTC/10:31:01EST, before evaluation compilation. All twelve
+core/build selections remain current stable; AWS selected2.57.8/latest2.57.11
+stays deferred. POM unchanged. Ignored `.local-qa/mdb-0093/research/` retains exact
+response bytes/checks. SHA256: report
+`f52f1d0ea8b037a79d0dab6f8dc8e8464697a9138329a1db44d812c4c92c46c3`,
+metadata `076cd21354546de1b256693c321edd122a6d6b71e0caacc6e83123eb54998055`,
+compatibility `89e4c49ef74776d7a9acb96c2abe30f92ca9bcbc9f3977891fdadebfe867c50d`,
+manifest `a0f6b125b74813df8413c4b59abe025070b95aaeedd0117e4654a3f12be95fad`.
+
+**Delivery:** commit this protocol with Step-ID MDB-0093 /Step-Result checkpoint,
+normal-push and verify remote ancestry/tips, triggering actual sequential native
+evaluation plus applicable source checks and automatic Pages. Then acquire exact
+artifacts, independently recheck them without original paths, preserve durable
+immutable raw inputs/hashes, evaluate file work and audit all original criteria.
+MDB-0093 stays active; MDB-0090/0083/0012 remain expanded. No performance result
+or ancestor completion is claimed by this checkpoint.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

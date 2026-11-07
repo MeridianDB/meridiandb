@@ -1,0 +1,110 @@
+name: Linux attributed file-work observations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/storage/attributed-evaluation.tsv'
+      - '.github/workflows/linux-attributed-evaluation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: linux-attributed-evaluation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version-file: .java-version
+          check-latest: true
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version-file: '.python-version'
+      - name: Admit all evaluation cases before execution
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          import re
+          import sys
+          sys.path.insert(0, 'scripts/storage')
+          from attributed_workload import request_budget
+          rows = list(csv.reader(Path('scripts/storage/attributed-evaluation.tsv').read_text().splitlines(), delimiter='\t'))
+          assert len(rows) == 10 and all(len(row) == 7 for row in rows)
+          assert len({row[0] for row in rows}) == len(rows)
+          for name, profile, seed, entities, commits, queries, width in rows:
+              assert re.fullmatch('[a-z][a-z0-9-]{0,63}', name)
+              dimensions = dict(zip(('entities', 'commits', 'queries', 'intervalWidth'), map(int, (entities, commits, queries, width))))
+              capacity = request_budget(profile, int(seed), dimensions, 1, 2)
+              print(f'{name}: {capacity} reserved scopes')
+          base = rows[0]
+          assert {row[1] for row in rows[:4]} == {'APPEND', 'CORRECTIONS', 'RETRACTIONS', 'HOT_ENTITY'}
+          assert all(row[2:] == base[2:] for row in rows[:4])
+          for row, changed in zip(rows[4:8], (4, 3, 5, 6)):
+              assert row[1:3] == base[1:3]
+              assert [index for index in range(3, 7) if row[index] != base[index]] == [changed]
+          assert rows[-1][1:] == base[1:]
+          assert rows[-2][1] == base[1] and rows[-2][3:] == base[3:] and rows[-2][2] != base[2]
+          PY
+      - name: Run sequential attributed observations and check saved reports
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/mdb-attributed-evaluation/observations" "$RUNNER_TEMP/mdb-attributed-evaluation/analysis"
+          evaluation_count=0
+          while IFS=$'\t' read -r case_name profile seed entities commits queries width; do
+            scratch="$RUNNER_TEMP/mdb-attributed-evaluation/observations/$case_name"
+            mkdir "$scratch"
+            python scripts/storage/run_workload.py --attributed --scratch-parent "$scratch" --profile "$profile" --seed "$seed" --entities "$entities" --commits "$commits" --queries "$queries" --interval-width "$width" --warmups 1 --repetitions 2 --timeout 90
+            case_run_count=0
+            for case_run in "$scratch"/mdb-measure-*; do
+              python scripts/storage/summarize_workload.py --run-dir "$case_run" --expect-source "$GITHUB_SHA" > "$RUNNER_TEMP/mdb-attributed-evaluation/analysis/$case_name.json"
+              case_run_count=$((case_run_count + 1))
+            done
+            test "$case_run_count" -eq 1
+            evaluation_count=$((evaluation_count + 1))
+          done < scripts/storage/attributed-evaluation.tsv
+          test "$evaluation_count" -eq 10
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          paths = sorted((Path(os.environ['RUNNER_TEMP']) / 'mdb-attributed-evaluation' / 'analysis').glob('*.json'))
+          assert len(paths) == 10
+          for path in paths:
+              result = json.loads(path.read_text())
+              assert result['schemaVersion'] == 2 and result['status'] == 'recorded_consistency_passed'
+              assert result['mode'] == 'CALLER_THREAD_LOCAL_IO_INSTRUMENTED'
+              assert result['request']['schemaVersion'] == 3
+              assert len(result['warmupIterations']) == 1 and len(result['measuredIterations']) == 2
+          PY
+      - name: Retain observations and failure evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: linux-attributed-observations
+          path: |
+            ${{ runner.temp }}/mdb-attributed-evaluation/observations/*/mdb-measure-*/request.json
+            ${{ runner.temp }}/mdb-attributed-evaluation/observations/*/mdb-measure-*/report.json
+            ${{ runner.temp }}/mdb-attributed-evaluation/observations/*/mdb-measure-*/worker.json
+            ${{ runner.temp }}/mdb-attributed-evaluation/observations/*/mdb-measure-*/worker.partial.json
+            ${{ runner.temp }}/mdb-attributed-evaluation/observations/*/mdb-measure-*/build.log
+            ${{ runner.temp }}/mdb-attributed-evaluation/observations/*/mdb-measure-*/worker.log
+            ${{ runner.temp }}/mdb-attributed-evaluation/analysis/*.json
+          retention-days: 90
+          if-no-files-found: warn
