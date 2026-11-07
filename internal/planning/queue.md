@@ -45,11 +45,24 @@ children before implementation rather than treating a whole milestone as one pat
   production target; Windows has basic compatibility. Twelve unfinished S3 rows
   and replication remain deferred. Device/controller/cache, cold-cache, arrival
   and production/power-loss gaps remain MDB-0080.
-- No executable claim remains. **MDB-0013 — Measured layout and index experiments**
-  is next, ready after completion delivery. Refine one bounded experiment from the
-  observed recovery/full-history reconstruction costs; retain integrity, actual
-  prefix verification, ownership, history, acknowledgement and equivalent workload
-  comparisons. All 95 stable IDs remain. No optimization implementation starts here.
+- Baseline completion `4a05319f62619040402bf910fc94561754718917` is verified on
+  remote main. MDB-0013 is expanded into required MDB-0096 bounded local checkpoint
+  history acquisition and MDB-0097 opt-in recovery integration/evaluation/adoption.
+  **MDB-0096** is the only active executable item, owned by the primary coordinator.
+  Reuse decoded records from complete verification under per-call object/journal/
+  record budgets; preserve latest-generation selection, actual prefix, native
+  ownership and cleanup. Ordinary readers/database opens remain unchanged.
+  Root owns production/docs/queue/Git; helpers own independent version/design review
+  and assigned tests. All 97 stable IDs remain. MDB-0097 retains actual comparison
+  and adoption/rejection before MDB-0013 can close; no default optimization yet.
+- MDB-0096 local acceptance passes: bounded newest-graph acquisition retains
+  original immutable records only after full graph and actual-prefix verification.
+  Thirty-eight new checks pass; rooted clean verify passes 1,460 cases/82 suites
+  without skips/failures. Inventory SHA256
+  `908a58cfa1b093323356980d436892c9c13943f3e33e4e5fd46cb1402a4dd785`
+  preserves every prior count. All 183 Python guards (five Linux-only local skips),
+  42 docs fixtures and both strict106-page URL builds pass. Keep MDB-0096 active
+  pending exact-source Linux/Windows regression, native cases and Pages/live checks.
 
 ## Ordered work
 
@@ -102,7 +115,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0094](roadmap.md#mdb-0094-attributed-local-lifecycle-core) | Capture typed operation and auxiliary file work on separate local lifecycles | MDB-0092 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091 |
 | [MDB-0095](roadmap.md#mdb-0095-attributed-serialized-evidence-integration) | Admit and report bounded attributed worker/supervisor evidence | MDB-0092 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0094 |
 | [MDB-0093](roadmap.md#mdb-0093-linux-attributed-work-and-baseline-acceptance) | Evaluate checked attributed Linux runs and complete original baseline audit | MDB-0090 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0092 |
-| [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | ready | MDB-0012 |
+| [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | expanded | MDB-0012 |
+| [MDB-0096](roadmap.md#mdb-0096-bounded-local-checkpoint-history) | Acquire bounded verified local checkpoint records without a second segment fetch | MDB-0013 | active | MDB-0012 |
+| [MDB-0097](roadmap.md#mdb-0097-recovery-history-reuse-evaluation) | Integrate and evaluate opt-in recovery history reuse, then adopt or reject it | MDB-0013 | queued | MDB-0012, MDB-0096 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |
 | [MDB-0011](roadmap.md#mdb-0011-object-storage-backend) | Add an object-storage backend and conformance checks | — | deferred | MDB-0010 |

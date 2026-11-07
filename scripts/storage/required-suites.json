@@ -41,6 +41,8 @@
     "org.meridiandb.storage.manifest.HistoryCompactorTest": 33,
     "org.meridiandb.storage.manifest.LocalBoundedSegmentPreflightTest": 8,
     "org.meridiandb.storage.manifest.LocalCheckpointCrashTest": 9,
+    "org.meridiandb.storage.manifest.LocalCheckpointHistoryIntegrationTest": 11,
+    "org.meridiandb.storage.manifest.LocalCheckpointHistoryTest": 27,
     "org.meridiandb.storage.manifest.LocalCheckpointProcessTest": 5,
     "org.meridiandb.storage.manifest.LocalCheckpointReaderProtectionTest": 7,
     "org.meridiandb.storage.manifest.LocalCheckpointStoreTest": 34,

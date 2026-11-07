@@ -2890,6 +2890,65 @@ rejects the experiment. A well-evidenced rejection is a valid outcome; do not ad
 an optimization merely to satisfy a feature checklist. Split multiple independent
 experiments into separate queue items.
 
+**Required children, November 7, 2026:** the measured checkpoint reopen performs
+two complete selected-segment reads/decodes. MDB-0096 adds bounded, opt-in local
+history acquisition that keeps records from the first verified pass, exposes them
+only after actual owned-journal prefix verification and retains ordinary reader
+behavior. MDB-0097 integrates an explicitly selected recovery experiment, compares
+equivalent ordinary/attributed runs with durable evidence and records an ADR to
+adopt or reject it. Preserve all original parent criteria and the unchanged baseline;
+the first child supplies no default optimization or performance acceptance.
+
+## MDB-0096 Bounded local checkpoint history
+
+**Parent:** MDB-0013. **Outcome:** acquire immutable heap-owned original checkpoint
+records from the same complete local graph verification, avoiding another segment
+fetch/decode for a later private recovery consumer. Keep the existing lazy reader,
+default database opens, storage formats and acknowledgement unchanged.
+
+**Complete when:** explicit per-call object-byte, actual-journal-byte and record-work
+limits admit metadata/dependencies/ranges before body reads/decoding; each segment
+is fetched/decoded once, with complete identity/CRC/range/request/prefix verification
+before result exposure. Preserve strict newest selection, native ownership/alias
+checks, fail-closed late failures, immutable original records and store cleanup/
+poisoning. Independent literal reads/bounds/failure vectors and actual local
+acquisition/reclamation/lifetime checks pass; full correctness/inventory, docs/rules
+and source CI/Pages acceptance are reconciled. Keep helpers out of production
+archives and measured adoption/default engine integration with MDB-0097.
+
+**Source checkpoint, November 7, 2026:** opt-in `loadLatestHistory` implements
+immutable selected metadata/original records and successful encoded-work usage.
+Preflight metadata/dependency/H/2N budgets; decode each exact-length segment with
+expected ranges and keep collection private through actual prefix verification.
+The actual scan is bounded by admitted declared H. Ordinary lazy/default recovery
+behavior remains unchanged. The existing EOF probe can return one extra byte on
+failed growth; docs and two focused traps preserve that distinction.
+
+All38 new cases (27 platform-neutral/11 native) pass, along with rooted clean
+verify1,460/82suites without skips/failures. Inventory SHA256
+`908a58cfa1b093323356980d436892c9c13943f3e33e4e5fd46cb1402a4dd785`
+adds only those two suites. Core165 classes remain JDK-only; classifier ten excludes
+developer helpers. Python183guards (five Linux-only local skips),42docsfixtures,
+both strict106-page builds and desktop/mobile/search/decision navigation pass.
+Keep MDB-0096 active pending exact-source CI/Pages/live acceptance. MDB-0013 stays
+expanded and MDB-0097 queued; no measured recovery adoption starts here.
+
+## MDB-0097 Recovery history reuse evaluation
+
+**Parent:** MDB-0013. **Outcome:** integrate explicitly selected recovery using the
+bounded history value, releasing the transient record list after replay. Compare
+the unchanged baseline with equivalent native workloads for returned bytes,
+allocation, latency and memory, including journal-only/genesis/checkpoint-tail,
+historical/retry identity, writable startup and maintenance regressions.
+
+**Complete when:** strict source-bound bounded evidence and durable raw data support
+an ADR adoption/rejection, all original MDB-0013 criteria pass, and public docs
+explain gains/regressions/limits without changing acknowledgement or omitting
+integrity work. Preserve ordinary schemas and immutable datasets. Adopt a default
+or retain an experiment only with explicit compatibility/resource decisions and
+verified cleanup/reference/recovery/compaction behavior. Refine before execution
+if integration and evaluation require separate independently useful children.
+
 ## MDB-0014 Prototype release candidate
 
 **Prerequisites:** MDB-0013's measured adoption/rejection and MDB-0080's scoped

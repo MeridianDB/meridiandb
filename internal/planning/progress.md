@@ -7130,6 +7130,92 @@ No runtime/public/evidence byte changes follow acceptance; internal-only receipt
 does not trigger repeat source checks, observations or Pages publication.
 
 
+## 2026-11-07 — MDB-0096 Bounded local checkpoint history source checkpoint
+
+**Selection/refinement:** start clean matching main/origin at baseline completion
+`4a05319f62619040402bf910fc94561754718917`. MDB-0013 spans prototype acquisition
+and measured recovery adoption. Preserve its original criteria and split into
+required MDB-0096 bounded local history acquisition and MDB-0097 integration/
+evaluation/adoption or rejection. All97 stable IDs remain;96 is the sole active
+item,13 expanded and97 queued. Root owns production/docs/queue/Git; helpers own
+independent version/design reviews and separate unit/native test files. All helper
+write/build ownership returns before coordinator verification. Keep default engine
+opens, ordinary lazy readers, journal/segment formats and acknowledgement unchanged.
+
+**Implementation:** add `LocalCheckpointHistory` with immutable original records,
+selected metadata/ID, actual prefix and successful encoded Usage. Explicit Limits
+cap object/journal work at64MiB each and record work at262,144. Reserve metadata+
+all declared segment bytes, H and2N before the first segment fetch; exact image
+caps and range-aware complete decode preserve checksums/whole-object identity,
+cross-segment request uniqueness and reconstructed prefix. Collect privately;
+only bounded `journal.prefix(sequence, declaredH)` plus exact actual identity
+acceptance exposes the result. No unbounded fallback: new BoundedJournalAccess
+extends the existing seam without changing old mocks. Shared strict-selection
+helper preserves ordinary native/error order, adding one small metadata value
+allocation; future control/candidate comparisons must use the same revision.
+
+The heap result owns no channels, continuing reader barrier or reclamation
+permission. Store ownership covers acquisition; later source deletion cannot alter
+original immutable records. Fresh calls reselect/reverify, old lazy readers still
+reread/validate. Domain/acquisition failures, including policy exhaustion, poison
+the store with caller-journal ownership separate; invalid/null arguments precede
+effects. Native close uncertainty propagates; no partial record prefix escapes.
+Usage excludes prior journal open/later engine rebuild, is not exact heap and
+separate escaped results accumulate. Independent review identifies existing1byte
+EOF probes: a failed growth probe may return one extra byte beyond its admitted
+image. Keep the native integrity probe, clarify encoded-image vs failure-native
+bounds and add two independent growth traps rather than weakening verification.
+
+**Independent verification:** focused new+existing-store run passes72 cases.
+New suites supply27 platform-neutral fault/budget cases and11 actual local cases:
+literal native acquisition reads manifest266/segments556/journal354, zero writes/
+forces and Usage(822,354,8,3). Ordinary lazy verification+replay still reads1112
+segment bytes. No-op/retraction/request identity, strict newest refusal, exact and
+one-below limits, CRC-valid range/payload traps, actual prefix mismatch, IO/runtime/
+Error cleanup, no continuing cache/protection, hardlink owner safety and actual
+protected reclamation of old files pass. Failed growth probes read264+1 or202+1
+then reject privately. These are correctness vectors, not measured recovery gains.
+
+Full rooted clean verify passes **1,460 cases/82 suites**, zero failures/errors/
+skips, elapsed1:52, Oracle25.0.2+10-LTS-69/aarch64/macOS. Fresh run
+`09596c49e9114a548b08ad3e7a48d669` binds reports/fixtures/runtime; the shared
+qualification parser verifies them. Compare every prior suite count and source
+file; only HistoryTest27/HistoryIntegrationTest11 are added. Inventory SHA256
+`908a58cfa1b093323356980d436892c9c13943f3e33e4e5fd46cb1402a4dd785`,
+prior `dc6edb3b4ce83e2f74f577f3037f92c2b8287c89da803d32e7cf4d05d5191fb9`.
+Core165 classes and classifier ten exclude all developer helpers; jdeps only
+java.base. All183 final Python guards pass locally (five Linux-only skips).
+Optional/Windows/native Linux acceptance remains exact-source CI, not local credit.
+
+**Documentation/rules:** add public guide/ADR0048 and navigation, reconcile README,
+local-checkpoint guide, public roadmap, decisions index, build/qualification/count
+callers and persisted opt-in/budget/EOF/ownership rules. Forty-two docs fixtures
+and both final strict106-page URL builds pass. Desktop limit labels were adjusted
+for readable wrapping;390px mobile dark shows358px table within390px overflow-auto
+wrapper, with no page overflow. Search finds guide+ADR, and decision navigation
+works. Normal light/default viewport restored; local8800 preview remains available
+until final publication inspection. Ignored `.local-qa/mdb-0096/` retains exact
+research, native reports, logs, binding/inventory verification and screenshots.
+
+**Fresh Maven research:**14 Central/16 official responses checked November7,
+metadata15:52:38UTC/10:52:38EST and compatibility15:52:39UTC/10:52:39EST. All12
+core/build selections remain latest stable; optional AWSselected2.57.8/latest2.57.11
+stays deferred. POM unchanged. SHA256 report
+`aedfb236dfa02da75c7513c99e56529297cbda5f20c19da58b4de216fb841cdd`,
+metadata `6853dba8559ad05c167ab34d070503df5a22d5df4f8ac191e9af14a9b435df29`,
+compatibility `7060dbc2831aea3814774705c4d00f1bcc98e2612963e56993cb09978d346d0c`,
+manifest `230b5952e38204ed5ceeded615a776869f3c4525b5e5d573cf227e424c0ff870`.
+
+**Delivery:** validate queue/cards/DAG, staged diff and current callers; commit
+source/tests/docs/rules/inventory/planning with Step-ID MDB-0096 /Step-Result
+checkpoint. Normal-push/fetch/verify matching tips and source ancestry; require
+exact-source Linux/Windows core/optional/examples, all183 guards, ordinary+
+attributed/max workload/readback regression and docs/automatic Pages/live checks.
+Keep96 active until actual acceptance; then record completion and prepare97,
+preserving expanded13 and original baseline data. No recovery integration,
+optimization adoption, deferred S3 work or release starts here.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

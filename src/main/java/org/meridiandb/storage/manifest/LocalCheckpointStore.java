@@ -30,6 +30,7 @@ import org.meridiandb.storage.internal.LocalFileOwnership;
 import org.meridiandb.storage.internal.LocalIo;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.journal.JournalCodec;
+import org.meridiandb.storage.journal.JournalRecord;
 import org.meridiandb.storage.segment.ImmutableSegment;
 import org.meridiandb.storage.segment.SegmentCodec;
 import org.meridiandb.storage.segment.SegmentId;
@@ -110,6 +111,10 @@ public final class LocalCheckpointStore implements AutoCloseable {
         void force() throws IOException;
     }
 
+    interface BoundedJournalAccess extends JournalAccess {
+        LocalJournal.Prefix prefix(long sequence, long maxBytes) throws IOException;
+    }
+
     interface FileAccess extends AutoCloseable {
         int read(ByteBuffer target, long offset) throws IOException;
         int write(ByteBuffer source, long offset) throws IOException;
@@ -119,6 +124,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
     }
 
     private record Generation(String name, long number, ManifestId id) { }
+    private record SelectedManifest(ManifestCodec.DecodedManifest decoded, int byteLength) { }
     private final PublicationProbe probe;
     private final ReclamationProbe reclamationProbe;
     private record Inspection(ReclamationInventory inventory, List<String> retainedFiles) { }
@@ -390,6 +396,66 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
     }
 
+    /**
+     * Acquire original heap-owned records from the same pass that verifies the newest graph.
+     * This opt-in path does not change lazy readers or default database recovery. Store ownership
+     * excludes reclamation throughout acquisition; the returned value needs no continuing barrier.
+     * The supplied journal remains caller-owned. Failure poisons this store, without exposing a prefix.
+     */
+    public synchronized Optional<LocalCheckpointHistory> loadLatestHistory(LocalJournal journal,
+            LocalCheckpointHistory.Limits limits) throws IOException {
+        usable();
+        Objects.requireNonNull(limits, "limits");
+        return loadLatestHistory(access(journal), limits);
+    }
+
+    synchronized Optional<LocalCheckpointHistory> loadLatestHistory(BoundedJournalAccess journal,
+            LocalCheckpointHistory.Limits limits) throws IOException {
+        usable();
+        Objects.requireNonNull(journal, "journal");
+        Objects.requireNonNull(limits, "limits");
+        operating = true;
+        try {
+            int metadataLimit = (int) Math.min(ManifestCodec.MAX_MANIFEST_BYTES, limits.maxObjectBytes());
+            var selected = selectLatest(metadataLimit, null);
+            if (selected.isEmpty()) { return Optional.empty(); }
+            var value = selected.orElseThrow();
+            var decoded = value.decoded();
+            var manifest = decoded.manifest();
+            if (!manifest.databaseId().equals(journal.databaseId())) {
+                throw new IOException("Checkpoint and journal lineage differ");
+            }
+            var prefix = manifest.journalPrefix();
+            // Reserve the complete graph and both record passes before fetching any segment.
+            if (prefix.byteLength() > limits.maxJournalBytes()
+                    || prefix.sequence() > limits.maxRecordWork() / 2) {
+                throw new IOException("Local checkpoint history journal-byte or record-work budget exceeded");
+            }
+            long objectBytes = value.byteLength();
+            var lengths = new LinkedHashMap<SegmentId, Long>();
+            for (var reference : manifest.segments()) {
+                if (reference.byteLength() > limits.maxObjectBytes() - objectBytes) {
+                    throw new IOException("Local checkpoint history object-byte budget exceeded");
+                }
+                objectBytes += reference.byteLength();
+                lengths.put(reference.id(), reference.byteLength());
+            }
+            var records = new ArrayList<JournalRecord>();
+            CheckpointVerifier.verifyBounded(manifest,
+                    id -> namespace.read(segmentName(id), Math.toIntExact(lengths.get(id))), records::add);
+            var actual = journal.prefix(prefix.sequence(), prefix.byteLength());
+            requireJournalPrefix(manifest, actual);
+            var usage = new LocalCheckpointHistory.Usage(objectBytes, actual.byteLength(),
+                    2 * prefix.sequence(), 1 + manifest.segments().size());
+            return Optional.of(new LocalCheckpointHistory(decoded, actual, usage, records));
+        } catch (IOException | RuntimeException | Error failure) {
+            failed = true;
+            throw failure;
+        } finally {
+            operating = false;
+        }
+    }
+
     /** Package-level barrier seam; callers must retain store ownership until protection is released. */
     synchronized Optional<LocalReaderBarrier.Protection> tryReclamationBarrier() throws IOException {
         usable();
@@ -621,16 +687,25 @@ public final class LocalCheckpointStore implements AutoCloseable {
     }
 
     private Optional<ManifestCodec.DecodedManifest> loadLatest(JournalAccess journal, ManifestId expectedSource) throws IOException {
+        var selected = selectLatest(ManifestCodec.MAX_MANIFEST_BYTES, expectedSource);
+        if (selected.isEmpty()) { return Optional.empty(); }
+        var decoded = selected.orElseThrow().decoded();
+        verify(decoded.manifest(), journal); // Fail on damaged newest state; never silently fall back.
+        return Optional.of(decoded);
+    }
+
+    private Optional<SelectedManifest> selectLatest(int maxManifestBytes, ManifestId expectedSource) throws IOException {
         var generations = generations(namespace.entries());
         if (generations.isEmpty()) { return Optional.empty(); }
         var latest = generations.getLast();
         if (expectedSource != null && !latest.id().equals(expectedSource)) {
             throw new IOException("Compaction source is no longer the selected generation");
         }
-        var decoded = ManifestCodec.decode(namespace.read(latest.name(), ManifestCodec.MAX_MANIFEST_BYTES), latest.id());
+        byte[] image = namespace.read(latest.name(), maxManifestBytes);
+        if (image.length > maxManifestBytes) { throw new IOException("Selected manifest exceeds read budget"); }
+        var decoded = ManifestCodec.decode(image, latest.id());
         if (decoded.manifest().generation() != latest.number()) { throw new IOException("Filename generation differs from manifest"); }
-        verify(decoded.manifest(), journal); // Fail on damaged newest state; never silently fall back.
-        return Optional.of(decoded);
+        return Optional.of(new SelectedManifest(decoded, image.length));
     }
 
     private static List<Generation> generations(List<String> entries) throws IOException {
@@ -676,6 +751,10 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     private void verifyJournalPrefix(CheckpointManifest manifest, JournalAccess journal) throws IOException {
         var actual = journal.prefix(manifest.journalPrefix().sequence());
+        requireJournalPrefix(manifest, actual);
+    }
+
+    private static void requireJournalPrefix(CheckpointManifest manifest, LocalJournal.Prefix actual) throws IOException {
         var expected = manifest.journalPrefix();
         if (actual.sequence() != expected.sequence() || actual.byteLength() != expected.byteLength()
                 || !actual.sha256().equals(expected.sha256())) {
@@ -683,15 +762,16 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
     }
 
-    private JournalAccess access(LocalJournal journal) throws IOException {
+    private BoundedJournalAccess access(LocalJournal journal) throws IOException {
         Objects.requireNonNull(journal, "journal");
         if (!journal.path().orElseThrow(() -> new IOException("A real owned local journal is required"))
                 .equals(namespace.directory().resolve(JOURNAL))) {
             throw new IOException("Journal must occupy this store's transactions.journal path");
         }
-        return new JournalAccess() {
+        return new BoundedJournalAccess() {
             @Override public DatabaseId databaseId() { return journal.databaseId(); }
             @Override public LocalJournal.Prefix prefix(long sequence) throws IOException { return journal.prefix(sequence); }
+            @Override public LocalJournal.Prefix prefix(long sequence, long maxBytes) throws IOException { return journal.prefix(sequence, maxBytes); }
             @Override public void force() throws IOException { journal.force(); }
         };
     }

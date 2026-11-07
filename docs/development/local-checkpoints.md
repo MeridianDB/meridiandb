@@ -17,6 +17,9 @@ alone is not an engine commit acknowledgement.
 [ADR 0012](../decisions/0012-local-checkpoint-publication.md) explains the protocol
 and primary evidence. The [manifest specification](../architecture/checkpoint-manifest-format.md)
 owns the byte format and complete-set consistency rules.
+The opt-in [bounded history loader](local-checkpoint-history.md) retains original
+records during verification for a separate recovery experiment. Ordinary lazy
+readers and default database recovery keep their existing paths.
 
 ## Directory and ownership requirements
 

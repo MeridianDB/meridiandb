@@ -33,8 +33,11 @@ adds create-only file writes and verified heap readers. A separate
 check a complete segment set against its reconstructed journal-prefix binding.
 [Local checkpoint publication](docs/development/local-checkpoints.md) now verifies the actual
 owned journal prefix and selects immutable generations through ordered forces and
-atomic rename on supported filesystems. [Local database recovery](docs/development/local-database.md)
-now restores historical queries and request lookup from checkpoint history plus
+atomic rename on supported filesystems. An opt-in
+[bounded checkpoint history loader](docs/development/local-checkpoint-history.md)
+retains verified original records for a separate recovery experiment.
+[Local database recovery](docs/development/local-database.md)
+restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now
 forces each new journal record before atomic query publication and acknowledgement.
 The local protocol is experimental. [Durability conformance](docs/development/durability-conformance.md)
@@ -208,7 +211,8 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,422 JUnit test invocations: 34 [attributed lifecycle/bridge/fault checks](docs/development/attributed-local-workloads.md),
+This runs 1,460 JUnit test invocations: 38 [bounded local checkpoint-history checks](docs/development/local-checkpoint-history.md),
+34 [attributed lifecycle/bridge/fault checks](docs/development/attributed-local-workloads.md),
 28 [internal I/O counter checks](docs/development/local-io-counters.md),
 25 [supervised worker checks](docs/development/supervised-workloads.md),
 26 [local measurement checks](docs/development/local-measurements.md),

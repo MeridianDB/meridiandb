@@ -636,6 +636,20 @@ so a new session can work correctly without relying on earlier conversations.
   auxiliary totals and excluded/uncaptured counters distinct. Preserve failed raw
   output and native source/process/file checks, verify maximum-input parsing/output
   and real Linux attributed/saved readback, and retain evaluation as separate work.
+- For [bounded local checkpoint history](docs/development/local-checkpoint-history.md)
+  and [ADR 0048](docs/decisions/0048-bounded-local-checkpoint-history.md), keep
+  `loadLatestHistory` opt-in and original records private until complete graph and
+  bounded actual-journal prefix verification succeeds. Preflight metadata,
+  dependency bytes/ranges and twice-cutoff record work before segment fetches;
+  preserve newest selection, aliases, native close uncertainty and caller owners.
+  The result is a heap value without reader protection or reclamation authority,
+  not a database-lifetime cache. Test fresh selection, late failure privacy,
+  literal returned bytes, exact limits and owner/lazy-reader lifetimes. Encoded
+  work excludes prior journal open/later engine rebuilding and is not heap usage.
+  Account for one-byte EOF growth probes on failed object reads rather than
+  presenting the admitted image length as a strict failure-path native-byte cap.
+  Keep recovery integration/adoption with equivalent measured evidence, including
+  changed reader-barrier admission work and unchanged startup acknowledgement.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

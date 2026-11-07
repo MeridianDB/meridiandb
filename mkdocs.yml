@@ -112,6 +112,7 @@ nav:
       - Local I/O counters decision: decisions/0045-local-io-counters.md
       - Attributed local lifecycle decision: decisions/0046-attributed-local-lifecycle.md
       - Attributed workload evidence decision: decisions/0047-attributed-workload-evidence.md
+      - Bounded local checkpoint history decision: decisions/0048-bounded-local-checkpoint-history.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -147,6 +148,7 @@ nav:
       - Verified S3 preparation: development/s3-publication-preparation.md
       - Verified S3 publication: development/s3-checkpoint-publication.md
       - Local checkpoints: development/local-checkpoints.md
+      - Bounded local checkpoint history: development/local-checkpoint-history.md
       - Reader protection: development/reader-protection.md
       - Reclamation inventory: development/reclamation-inventory.md
       - Physical reclamation: development/physical-reclamation.md

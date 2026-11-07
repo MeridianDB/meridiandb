@@ -72,6 +72,7 @@ future protocol with local persistence on each participant.
 | [Verified S3 publication](development/s3-checkpoint-publication.md) | Exact durable intent submission, shared complete pre/post graph budgets, original-token retries and durable candidate reconciliation across uncertain/late effects |
 | [Manifest codec and verifier](architecture/checkpoint-manifest-format.md) | Bounded generation metadata, complete history references and exact reconstructed journal-prefix binding |
 | [Local checkpoint publication](development/local-checkpoints.md) | Actual journal-prefix verification, exclusive generation selection, ordered forces and atomic rename on supported filesystems |
+| [Bounded local checkpoint history](development/local-checkpoint-history.md) | Opt-in heap-owned original records from one complete verification pass, with explicit object/journal/record-work limits; default recovery remains unchanged |
 | [Local database](development/local-database.md) | Recovered historical queries, explicit writable startup and append/force before atomic commit publication; process-exit/retry conformance |
 | [Typed temporal queries](development/temporal-queries.md) | Signed numeric predicates, deterministically ordered entity selection, filtered intervals and exact sums at one pinned cutoff |
 | [Pure history compaction](development/history-compaction.md) | Complete graph validation, exact transaction repacking and encoded-space accounting under explicit budgets; no file installation/deletion |
