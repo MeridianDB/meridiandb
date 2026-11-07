@@ -6437,6 +6437,90 @@ CI or Pages build is required for internal-only completion records.
 **Next recommendation:** MDB-0090 — Operation-attributed file-work accounting.
 
 
+## 2026-11-07 — MDB-0091 Internal local I/O counter source checkpoint
+
+**Scope and plan:** resumed clean matching main/origin at
+`6926bab4ef2d2a7c4a38480bc306a85546e3a866`. Expanded MDB-0090 without changing
+its criteria into required MDB-0091 native collection, MDB-0092 attributed workload/
+schema/report integration and MDB-0093 actual Linux attributed evaluation/audit.
+All 93 stable IDs remain. Primary coordinator owns source/queue/Git; independent
+helpers completed version research, boundary review and two explicitly owned test
+files, returning ownership before builds. Keep 0090/0083/0012 expanded. No attributed
+baseline result, layout/native accelerator, cloud continuation or release starts.
+
+**Implementation:** add internal `LocalIo`, package-private capture activation and
+eight fixed roles ×fourteen scalar counters. Track read/write attempts, returns,
+positive bytes, zero/EOF/failures and force attempts/successes/failures. Throwing
+calls retain known earlier completions but have unknown additional effects; hooks
+rethrow original checked/runtime/Error objects. Saturate at the counter limit and
+invalidate telemetry instead of throwing from storage. Unknown roles/invalid
+returns invalidate telemetry. Immutable schema-one snapshots follow owner close.
+
+Captures reject same-thread overlap, wrong-thread close/snapshot and process
+capacity above 64. A volatile immutable bounded owner registry has allocation-free
+lookup, including uncaptured threads while another capture exists. Review found
+that an initial ThreadLocal lookup could allocate a null binding on uncaptured
+threads; replaced it before verification. Registry setup/teardown/snapshots stay
+outside storage calls. Native hooks contain no callback, path lookup, log or
+growing event buffer; normal inactive calls delegate directly after empty lookup.
+
+Wire concrete `FileChannel` sites exactly once: journal positional I/O/force,
+tail-evidence relative output/force, standalone segments, checkpoint namespace
+segments and pending/published manifests, actual default directory-force probes/
+later directory forces, reader-control force and the JDK-only local object adapter.
+Owner roles persist while each call resolves its current capture. Existing file
+ownership, handles, flags, prefix/integrity work and acknowledgement ordering stay
+unchanged. Metadata/locks/open/close/rename/delete/truncate, external hashing/oracle/
+export and cloud/injected non-native seams are outside byte coverage, explicitly.
+
+**Focused and full verification:** all 28 new tests pass (17 deterministic
+short/zero/EOF/failure/overflow/role/lifetime/64-thread cases and 11 actual-native
+create/commit/retry/query/reopen/checkpoint/compaction/tail/object cases).
+Independent literals include header 24, frame 54, segment 158 and genesis manifest
+136 bytes. Create observes journal 96 read/24 write with three journal forces,
+manifest 136 read/write and one force, one control and five directory forces.
+Heap queries/exact retries observe zero file work; a new/no-op commit writes its
+54-byte frame and forces once. Repeated integrity/recovery passes remain visible.
+
+Full `clean verify` on rooted macOS Oracle Java 25.0.2 passes **1,379 tests /76
+suites**, zero failures/errors/skips, run `00d56947efd74c8b9af1094bb6dca793`.
+Reconcile fresh XML against every existing suite/count and current source files;
+only LocalIoTest17 and LocalIoIntegrationTest11 are added. New inventory SHA256
+`c119f1332553d25d24a6d1ffa758afe8a72333d168cbeaba599b1b19d53f735d`,
+prior `6306733a0f8a223f15a24b5c9cc99bcb209eb208c7cd60a7b4155a38620493c3`.
+Shared report-binding parser verifies exact fresh root/run/runtime. Core install
+after that successful run and separate optional loopback `verify` pass 762 cases,
+zero skips/failures/errors. No SDK/provider account or version change. Core JAR 160
+classes, classifier 10; workload/probe/factory/new tests absent from shipped archives
+and observer absent from classifier. `jdeps -s` reports only java.base; javap shows
+capture activation package-private. An initial unsupported jdeps long option was
+corrected to its supported short option before reporting dependency verification.
+
+All 135 Python guards pass locally (five Linux-specific process skips); all 42 docs
+fixtures and both strict 99-page URL builds pass. Guide/ADR0045, README/build/count
+callers, roadmap and agent rules match scope and pending attribution. Independent
+final source/docs review finds no issue. Browser verifies desktop light, 390 px
+mobile dark (343 px table/375 px container/page, no viewport overflow), search
+guide+ADR, decision links and normal light/default viewport restoration. A search
+snapshot initially preceded async results and a heading locator used an unsupported
+level filter; fresh results and an explicit h1 locator verified the actual pages.
+Ignored `.local-qa/mdb-0091/` retains logs, fresh XML/bindings and screenshots.
+
+**Fresh research:** fourteen Central and sixteen official sources checked November 7,
+13:45:55 UTC /08:45:55 EST. Twelve non-AWS pins remain latest stable compatible;
+AWS 2.57.11 latest versus selected 2.57.8 stays deferred. POM unchanged. Research
+report SHA256 `2493c22e42eefa03aa4eeaf3f58b9e492c4eb947c97f19fcdc22f03ba5418cee`;
+metadata `b683092159d4b21858fedaec40d312567d6ef5baa941ade1665f22ffc1658d4d`;
+compatibility `1aaa65b213d9989682999e115404c0c1fe24e423a4641846cd9cd5ff2e96dcb0`;
+manifest `fdebce827cd919fddb8824540f64c624bc7357981249a5ad8c08387e5916d49d`.
+
+**Delivery:** commit task-owned code/tests/docs/rules/planning/inventory with
+Step-ID MDB-0091 /Step-Result checkpoint, push normally and verify remote. Keep
+MDB-0091 active until exact-source Linux suite/native/guard/workload regression,
+Windows/basic adapter/example checks and automatic Pages/live readback pass.
+MDB-0092 remains queued; no dependent implementation starts here.
+
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

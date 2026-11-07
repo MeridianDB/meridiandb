@@ -601,6 +601,15 @@ so a new session can work correctly without relying on earlier conversations.
   lengths/hashes and an exercised readback command. Whole-process ratios do not
   satisfy operation-attributed amplification; retain an explicit prerequisite
   when the original acceptance criterion remains unmeasured.
+- For internal file-work counters, follow [ADR 0045](docs/decisions/0045-local-io-counters.md)
+  and the [counter guide](docs/development/local-io-counters.md). Count only actual
+  returned bytes and force outcomes at one concrete boundary; throwing calls can
+  have unknown effects. Preserve caller-thread/nonoverlap bounds, inactive behavior,
+  immutable snapshots and nonthrowing saturation. Use bounded allocation-free owner
+  lookup on every thread. Cover checkpoint and standalone
+  segment paths, actual directory probes, controls and tail evidence without double
+  counting. Keep activation internal and instrumented workload attribution separate
+  until its raw coverage/denominator/evaluation contracts pass.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

@@ -2591,6 +2591,83 @@ closing MDB-0083/0012. Physical device traffic, cold cache, arrival latency and
 production qualification remain separate MDB-0080 gaps; no paid/privileged or
 remote-backend prerequisite. Refine this card into bounded children if needed.
 
+**Required children, November 7, 2026:** MDB-0091 establishes internal inert native
+counter hooks, caller-thread scope/lifetime bounds and independent literal/failure/
+native tests. MDB-0092 integrates operation/setup/validation/teardown attribution,
+separate instrumented execution, versioned raw-result/supervisor/report contracts
+and exact denominators. MDB-0093 executes useful bounded Linux attributed runs,
+retains durable checked evidence and completes this parent's original criteria
+and the MDB-0083/0012 integration audit. Keep every original criterion above.
+
+## MDB-0091 Internal local I/O counters
+
+**Parent:** MDB-0090. **Outcome:** internal inactive-by-default scalar native
+read/write/force observation for journal, segment, manifest, directory/control,
+tail evidence and the local immutable-object adapter. Fixed roles/counters and
+caller-thread sessions bound retained telemetry; no callbacks, path lookup,
+logging, allocation or throwing arithmetic in per-I/O counter updates.
+
+**Complete when:** actual returned positive byte counts, zero/EOF, attempts,
+returns/failures and successful/failed force calls remain distinct. Preserve
+unknown effects on thrown calls, earlier partial work and original exceptions.
+Scope overlap/wrong-thread/lifetime misuse is rejected outside native operations;
+overflow invalidates telemetry without altering storage. Capture roles at adapter
+construction and resolve the active scope at each I/O. Cover both checkpoint and
+standalone segment paths, actual directory probes, reader controls and tail repair
+without double counting. Independent short/failure/overflow/lifetime and literal
+native lifecycle checks pass with unchanged correctness/ownership/acknowledgement;
+reconcile the complete Linux inventory. Public docs/rules and packaging distinguish
+internal collection from the later attributed runner and baseline. Activation
+remains package-private/test-only. This child does not complete MDB-0090/0083/0012.
+
+**Source checkpoint, November 7, 2026:** internal `LocalIo` wraps the actual native
+transfer/force sites once, including both segment paths, pending manifests,
+directory probes, reader controls, tail evidence and local immutable objects.
+Package-private caller-thread captures use a volatile bounded immutable registry;
+inactive and uncaptured calls allocate no counter/thread-local state. Review
+replaced an initial ThreadLocal design before acceptance. Twenty-eight new tests
+(17 literal/lifetime/fault and 11 native lifecycle) pass; complete rooted macOS
+verification passes all 1,379 invocations /76 suites without skips or failures.
+Inventory preserves every prior suite/count and adds the two new suites, SHA256
+`c119f1332553d25d24a6d1ffa758afe8a72333d168cbeaba599b1b19d53f735d`.
+Optional loopback regression passes all 762 invocations without skips. Core has
+160 classes/JDK-only dependencies; classifier remains ten classes without the
+observer/tests/workload/qualification helpers. All 135 Python guards pass locally
+with five Linux-only skips, 42 docs fixtures and both strict 99-page URL builds pass.
+Keep MDB-0091 active pending exact-source Linux inventory/native tests and Pages.
+
+## MDB-0092 Attributed workload and result integration
+
+**Parent:** MDB-0090. **Outcome:** a separate instrumented workload uses the internal
+collector through test-only support, labels create/commit/retry/query/recovery/
+checkpoint/compaction operations and setup/external validation/hash/export/teardown,
+and preserves engine-required integrity reads within their engine operations.
+Bind source/runtime/config/operation/raw-counter identity in a versioned worker,
+supervisor and saved-reader contract. Keep original latency observations unchanged.
+
+**Complete when:** scoped coverage, missing/unknown/failed data and exact raw sums
+are checked before named ratios. Use original new frame bytes for append and full
+encoded history for explicitly named lifecycle ratios; zero denominators are N/A,
+and heap-only queries can have zero storage work. Bound aggregate evidence/scopes,
+close owners if observation fails after acquisition, and retain failure provenance.
+Independent raw-vector/schema/ratio tests and actual local lifecycles pass; docs,
+agent rules and Linux inventory are reconciled. Actual evaluated Linux attributed
+evidence and original baseline completion remain MDB-0093.
+
+## MDB-0093 Linux attributed work and baseline acceptance
+
+**Parent:** MDB-0090. **Outcome:** execute reproducible bounded attributed Linux
+profiles and independent contrasts, retain exact durable raw data and analyze
+useful repeated file work. Audit every original MDB-0090/0083/0012 criterion and
+justify a next experiment from evidence. Preserve device/cold-cache/arrival and
+production qualification gaps under MDB-0080, without remote or paid prerequisites.
+
+**Complete when:** actual native execution, raw binding/recomputation, literal
+denominators and failure limits pass; public interpretation is reproducible and
+precise about coverage/instrumentation. Close ancestors only when every required
+child and original integrated criterion passes; admit a concrete remaining required
+prerequisite rather than waiving a missing measurement or claiming a speed gain.
+
 ## MDB-0013 Measured layout and index experiments
 
 **Outcome:** select one demonstrated bottleneck and compare a narrowly scoped

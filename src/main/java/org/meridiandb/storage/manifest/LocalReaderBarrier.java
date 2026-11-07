@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.meridiandb.storage.internal.LocalFileOwnership;
+import org.meridiandb.storage.internal.LocalIo;
 
 /** Cooperating live-reader barrier, independent of store lifetime. Never removes its name. */
 final class LocalReaderBarrier {
@@ -237,7 +238,7 @@ final class LocalReaderBarrier {
                 throw new IOException("Unexpected overlapping reader lock; use one loaded adapter copy per JVM", overlap);
             }
             if (lock == null) { return false; }
-            channel.force(true); // Establish the permanent empty file through this sole channel.
+            LocalIo.force(LocalIo.Role.CONTROL, channel, true); // Establish the permanent empty file through this sole channel.
             return true;
         }
         @Override public boolean isShared() { return lock != null && lock.isShared(); }

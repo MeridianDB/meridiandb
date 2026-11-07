@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import org.meridiandb.storage.internal.LocalFileOwnership;
+import org.meridiandb.storage.internal.LocalIo;
 import org.meridiandb.temporal.DatabaseId;
 import org.meridiandb.temporal.RequestId;
 
@@ -336,14 +337,14 @@ public final class LocalJournal implements AutoCloseable {
                 buffer.flip();
                 int zeros = 0;
                 while (buffer.hasRemaining()) {
-                    int n = output.write(buffer);
+                    int n = LocalIo.write(LocalIo.Role.TAIL_EVIDENCE, output, buffer);
                     if (n == 0 && ++zeros >= 16) {
                         throw new IOException("Tail evidence write made no progress");
                     }
                     if (n > 0) { zeros = 0; }
                 }
             }
-            output.force(true);
+            LocalIo.force(LocalIo.Role.TAIL_EVIDENCE, output, true);
         }
         return evidence;
     }
@@ -399,10 +400,10 @@ public final class LocalJournal implements AutoCloseable {
             }
         }
 
-        @Override public int read(ByteBuffer target, long offset) throws IOException { return channel.read(target, offset); }
-        @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
+        @Override public int read(ByteBuffer target, long offset) throws IOException { return LocalIo.read(LocalIo.Role.JOURNAL, channel, target, offset); }
+        @Override public int write(ByteBuffer source, long offset) throws IOException { return LocalIo.write(LocalIo.Role.JOURNAL, channel, source, offset); }
         @Override public long size() throws IOException { return channel.size(); }
-        @Override public void force() throws IOException { channel.force(true); }
+        @Override public void force() throws IOException { LocalIo.force(LocalIo.Role.JOURNAL, channel, true); }
         @Override public void truncate(long size) throws IOException { channel.truncate(size); }
 
         @Override public void close() throws IOException {

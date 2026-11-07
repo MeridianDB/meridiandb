@@ -44,12 +44,15 @@ children before implementation rather than treating a whole milestone as one pat
   device/controller/cache facts preserve MDB-0080 production gaps.
 - Fresh November 7 Maven research keeps twelve current non-AWS stable pins;
   latest AWS 2.57.11 versus retained 2.57.8 remains explicitly deferred. No update.
-- **MDB-0090 — Operation-attributed file-work accounting** is ready and is the
-  next recommendation. The [original-criteria audit](baseline-audit.md) keeps
-  **MDB-0083/0012 expanded**: whole-process I/O ratios cannot satisfy attributed
-  amplification. All 90 stable IDs and original criteria remain. No attribution
-  implementation, layout/native experiment, S3 continuation or release starts
-  here; no active implementation remains.
+- **MDB-0090 — Operation-attributed file-work accounting** is expanded into
+  required MDB-0091 native-counter foundation, MDB-0092 attributed workload/schema
+  integration and MDB-0093 Linux execution/integration acceptance. Its original
+  criteria and the [baseline audit](baseline-audit.md) remain intact.
+- **MDB-0091 — Internal local I/O counters** is active, primary-coordinator owned.
+  Add inert native read/write/force hooks with caller-thread scopes and independent
+  literal/short/failure/native lifecycle tests. Helpers own bounded research/test
+  files; queue/Git remain serialized. All 93 stable IDs remain. MDB-0090/0083/0012
+  stay expanded; no attributed baseline, layout/native accelerator, S3 or release.
 
 ## Ordered work
 
@@ -96,7 +99,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0087](roadmap.md#mdb-0087-linux-baseline-runs-and-integration-audit) | Evaluate repeatable Linux runs and audit all baseline criteria | MDB-0083 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0088](roadmap.md#mdb-0088-checked-saved-workload-reports) | Recompute and render recorded workload evidence after original files disappear | MDB-0087 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086 |
 | [MDB-0089](roadmap.md#mdb-0089-linux-evaluation-runs-and-baseline-acceptance) | Run and evaluate reproducible Linux workloads and complete baseline integration | MDB-0087 | done | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088 |
-| [MDB-0090](roadmap.md#mdb-0090-operation-attributed-file-work-accounting) | Measure scoped completed file I/O and recomputable amplification denominators | MDB-0083 | ready | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
+| [MDB-0090](roadmap.md#mdb-0090-operation-attributed-file-work-accounting) | Measure scoped completed file I/O and recomputable amplification denominators | MDB-0083 | expanded | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
+| [MDB-0091](roadmap.md#mdb-0091-internal-local-io-counters) | Count completed native file work without changing storage behavior | MDB-0090 | active | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089 |
+| [MDB-0092](roadmap.md#mdb-0092-attributed-workload-and-result-integration) | Bind operation scopes, raw counters and named ratios into separate workload results | MDB-0090 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091 |
+| [MDB-0093](roadmap.md#mdb-0093-linux-attributed-work-and-baseline-acceptance) | Evaluate checked attributed Linux runs and complete original baseline audit | MDB-0090 | queued | MDB-0010, MDB-0079, MDB-0081, MDB-0082, MDB-0086, MDB-0088, MDB-0089, MDB-0091, MDB-0092 |
 | [MDB-0013](roadmap.md#mdb-0013-measured-layout-and-index-experiments) | Evaluate layouts and indexes against the baseline | — | queued | MDB-0012 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |
 | [MDB-0014](roadmap.md#mdb-0014-prototype-release-candidate) | Prepare a reproducible prototype release candidate | — | queued | MDB-0013, MDB-0080 |

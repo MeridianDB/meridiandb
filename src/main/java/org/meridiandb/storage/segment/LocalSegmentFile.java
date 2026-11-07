@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 import java.util.Objects;
 import org.meridiandb.storage.internal.LocalFileOwnership;
+import org.meridiandb.storage.internal.LocalIo;
 
 /**
  * Create-only local segment I/O in an existing, trusted, stable directory.
@@ -165,10 +166,10 @@ public final class LocalSegmentFile {
             }
         }
 
-        @Override public int read(ByteBuffer target, long offset) throws IOException { return channel.read(target, offset); }
-        @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
+        @Override public int read(ByteBuffer target, long offset) throws IOException { return LocalIo.read(LocalIo.Role.SEGMENT, channel, target, offset); }
+        @Override public int write(ByteBuffer source, long offset) throws IOException { return LocalIo.write(LocalIo.Role.SEGMENT, channel, source, offset); }
         @Override public long size() throws IOException { return channel.size(); }
-        @Override public void force() throws IOException { channel.force(true); }
+        @Override public void force() throws IOException { LocalIo.force(LocalIo.Role.SEGMENT, channel, true); }
         @Override public void close() throws IOException { owned.close(); }
     }
 }

@@ -26,6 +26,8 @@
     "org.meridiandb.reference.ReferenceFixtureTest": 5,
     "org.meridiandb.reference.ReferencePropertiesTest": 16,
     "org.meridiandb.storage.internal.LocalFileOwnershipTest": 18,
+    "org.meridiandb.storage.internal.LocalIoIntegrationTest": 11,
+    "org.meridiandb.storage.internal.LocalIoTest": 17,
     "org.meridiandb.storage.internal.LocalStorageQualificationTest": 1,
     "org.meridiandb.storage.journal.JournalCodecTest": 29,
     "org.meridiandb.storage.journal.LocalJournalBoundedPrefixTest": 26,

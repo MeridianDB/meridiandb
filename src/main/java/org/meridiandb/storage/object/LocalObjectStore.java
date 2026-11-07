@@ -13,6 +13,7 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
 import org.meridiandb.storage.internal.LocalFileOwnership;
+import org.meridiandb.storage.internal.LocalIo;
 
 /**
  * Flat objects in an existing trusted stable local directory. Each new image is forced and closed;
@@ -137,10 +138,10 @@ public final class LocalObjectStore implements ImmutableObjectStore {
             }
         }
 
-        @Override public int read(ByteBuffer target, long offset) throws IOException { return channel.read(target, offset); }
-        @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
+        @Override public int read(ByteBuffer target, long offset) throws IOException { return LocalIo.read(LocalIo.Role.OBJECT, channel, target, offset); }
+        @Override public int write(ByteBuffer source, long offset) throws IOException { return LocalIo.write(LocalIo.Role.OBJECT, channel, source, offset); }
         @Override public long size() throws IOException { return channel.size(); }
-        @Override public void force() throws IOException { channel.force(true); }
+        @Override public void force() throws IOException { LocalIo.force(LocalIo.Role.OBJECT, channel, true); }
         @Override public void close() throws IOException { owned.close(); }
     }
 }

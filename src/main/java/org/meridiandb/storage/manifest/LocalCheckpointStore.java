@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.meridiandb.storage.internal.LocalFileOwnership;
+import org.meridiandb.storage.internal.LocalIo;
 import org.meridiandb.storage.journal.LocalJournal;
 import org.meridiandb.storage.journal.JournalCodec;
 import org.meridiandb.storage.segment.ImmutableSegment;
@@ -140,7 +141,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     /** Capability is probed before any lock or candidate file is created. */
     public static LocalCheckpointStore open(Path directory) throws IOException {
-        return open(directory, channel -> channel.force(true));
+        return open(directory, channel -> LocalIo.force(LocalIo.Role.DIRECTORY, channel, true));
     }
 
     static LocalCheckpointStore open(Path directory, DirectoryProbe probe) throws IOException {
@@ -149,12 +150,12 @@ public final class LocalCheckpointStore implements AutoCloseable {
 
     static LocalCheckpointStore openObserved(Path directory, PublicationProbe probe) throws IOException {
         Objects.requireNonNull(probe, "probe");
-        return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> channel.force(true)), probe);
+        return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> LocalIo.force(LocalIo.Role.DIRECTORY, channel, true)), probe);
     }
 
     static LocalCheckpointStore openReclamationObserved(Path directory, ReclamationProbe probe) throws IOException {
         Objects.requireNonNull(probe, "probe");
-        return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> channel.force(true)), null, probe);
+        return new LocalCheckpointStore(NioNamespace.acquire(directory, channel -> LocalIo.force(LocalIo.Role.DIRECTORY, channel, true)), null, probe);
     }
 
     private void observe(ReclamationBoundary boundary, String name) throws IOException {
@@ -771,23 +772,26 @@ public final class LocalCheckpointStore implements AutoCloseable {
     private static final class NioFile implements FileAccess {
         private final FileChannel channel;
         private final LocalFileOwnership.OwnedChannel owned;
-        NioFile(LocalFileOwnership.OwnedChannel owned) { this.owned = owned; this.channel = owned.channel(); }
-        static NioFile open(Path path, StandardOpenOption option) throws IOException { return open(path, option, false); }
-        static NioFile create(Path path) throws IOException { return open(path, StandardOpenOption.WRITE, true); }
-        private static NioFile open(Path path, StandardOpenOption option, boolean create) throws IOException {
+        private final LocalIo.Role role;
+        NioFile(LocalFileOwnership.OwnedChannel owned, LocalIo.Role role) {
+            this.owned = owned; this.channel = owned.channel(); this.role = role;
+        }
+        static NioFile open(Path path, StandardOpenOption option, LocalIo.Role role) throws IOException { return open(path, option, false, role); }
+        static NioFile create(Path path, LocalIo.Role role) throws IOException { return open(path, StandardOpenOption.WRITE, true, role); }
+        private static NioFile open(Path path, StandardOpenOption option, boolean create, LocalIo.Role role) throws IOException {
             var owned = create ? LocalFileOwnership.openData(path, option, StandardOpenOption.CREATE_NEW, LinkOption.NOFOLLOW_LINKS)
                     : LocalFileOwnership.openData(path, option, LinkOption.NOFOLLOW_LINKS);
-            try { return new NioFile(owned); }
+            try { return new NioFile(owned, role); }
             catch (RuntimeException | Error failure) {
                 try { owned.close(); }
                 catch (IOException | RuntimeException | Error closeFailure) { failure.addSuppressed(closeFailure); }
                 throw failure;
             }
         }
-        @Override public int read(ByteBuffer target, long offset) throws IOException { return channel.read(target, offset); }
-        @Override public int write(ByteBuffer source, long offset) throws IOException { return channel.write(source, offset); }
+        @Override public int read(ByteBuffer target, long offset) throws IOException { return LocalIo.read(role, channel, target, offset); }
+        @Override public int write(ByteBuffer source, long offset) throws IOException { return LocalIo.write(role, channel, source, offset); }
         @Override public long size() throws IOException { return channel.size(); }
-        @Override public void force() throws IOException { channel.force(true); }
+        @Override public void force() throws IOException { LocalIo.force(role, channel, true); }
         @Override public void close() throws IOException { owned.close(); }
     }
 
@@ -904,14 +908,19 @@ public final class LocalCheckpointStore implements AutoCloseable {
         }
         @Override public byte[] read(String name, int maxBytes) throws IOException {
             Path path = regular(name);
-            return LocalCheckpointStore.read(NioFile.open(path, StandardOpenOption.READ), maxBytes);
+            return LocalCheckpointStore.read(NioFile.open(path, StandardOpenOption.READ, role(name)), maxBytes);
         }
         @Override public void writeNew(String name, byte[] image) throws IOException {
-            LocalCheckpointStore.write(NioFile.create(directory.resolve(name)), image);
+            LocalCheckpointStore.write(NioFile.create(directory.resolve(name), role(name)), image);
         }
         @Override public void forceFile(String name) throws IOException {
             Path path = regular(name);
-            try (var file = NioFile.open(path, StandardOpenOption.WRITE)) { file.force(); }
+            try (var file = NioFile.open(path, StandardOpenOption.WRITE, role(name))) { file.force(); }
+        }
+        private static LocalIo.Role role(String name) {
+            if (name.endsWith(".manifest")) { return LocalIo.Role.MANIFEST; }
+            if (name.endsWith(".segment")) { return LocalIo.Role.SEGMENT; }
+            return LocalIo.Role.UNKNOWN;
         }
         private Path regular(String name) throws IOException {
             Path path = directory.resolve(name);
@@ -935,7 +944,7 @@ public final class LocalCheckpointStore implements AutoCloseable {
                 Files.delete(path); // Missing names and ordinary I/O failures fail closed; no blind retry.
             } finally { reservation.close(); }
         }
-        @Override public void forceDirectory() throws IOException { directoryChannel.force(true); }
+        @Override public void forceDirectory() throws IOException { LocalIo.force(LocalIo.Role.DIRECTORY, directoryChannel, true); }
         @Override public void close() throws IOException {
             Throwable failure = null;
             try { if (lock.isValid()) { lock.release(); } }
