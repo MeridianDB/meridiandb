@@ -100,7 +100,7 @@ To inspect the actual Maven and Java runtime selected by the wrapper:
 ./mvnw -version
 ```
 
-The current 1,567 core test invocations include ten [recovery comparison core checks](recovery-comparison.md),
+The current 1,583 core test invocations include sixteen uninstrumented-control/mode checks, ten [recovery comparison core checks](recovery-comparison.md),
 97 additional explicit-history
 recovery, canonical/seeded and process-exit checks, plus the existing 38
 [bounded local checkpoint-history checks](local-checkpoint-history.md), 34
@@ -186,7 +186,7 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-11-07
+## Artifact research checked on 2026-11-13
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
@@ -194,16 +194,17 @@ wrapper properties own executable configuration. Apache's
 Maven 4 is preview. The [plugin catalog](https://maven.apache.org/plugins/index.html)
 confirms the stable Maven 3 plugin lines. The
 [JUnit guide](https://docs.junit.org/6.1.3/overview.html) identifies JUnit 6.1.3 and
-its Java 17 minimum, compatible with this Java 25 baseline. Jackson 3.2.4 decodes
+its Java 17 minimum, compatible with this Java 25 baseline. Jackson 3.3.0 decodes
 canonical temporal and query test fixtures. The [Jackson project](https://github.com/FasterXML/jackson-databind)
 documents its 3.x `tools.jackson` packages and Java 17 baseline. Its tree model lets
 the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 7: metadata at 10:52:38 EST (15:52:38 UTC) and
-compatibility at 10:52:39 EST (15:52:39 UTC). The listed selections remain unchanged; the adapter
-uses the same Jackson version only in test scope for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
+on November 13 at 11:19 EST (16:19 UTC), with exact-version Jackson release/POM/
+baseline checks. [Jackson 3.3.0](https://github.com/FasterXML/jackson-databind/tree/jackson-databind-3.3.0)
+replaces 3.2.4 in test scope in both artifacts; its Java 17 baseline is unchanged.
+The adapter uses the same version for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
 is Java 8 or later; project tests supply Java 25 compatibility evidence rather
@@ -211,9 +212,8 @@ than an AWS certification claim. The segment/manifest codecs and local adapters
 continue to use JDK SHA-256/CRC32C and file I/O; the SDK stays in the optional
 artifact.
 
-AWS SDK [2.57.11](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.11),
-released November 6, is now the latest stable version of both optional SDK
-artifacts. Their selected version remains 2.57.8 while further S3 work is deferred.
+AWS SDK [2.59.0](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.59.0)
+is the latest stable version of both optional SDK artifacts at this check. Their selected version remains 2.57.8 while further S3 work is deferred.
 A separately scoped adapter update can adopt and verify the newer SDK; the local
 workload runner introduces no cloud dependency or SDK behavior change.
 
@@ -230,9 +230,9 @@ workload runner introduces no cloud dependency or SDK behavior change.
 | `org.apache.maven.plugins:maven-install-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-install-plugin/maven-metadata.xml) |
 | `org.apache.maven.plugins:maven-deploy-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/maven-metadata.xml) |
 | `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.1.3 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
-| `tools.jackson.core:jackson-databind` | 3.2.4 | 3.2.4 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
-| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.57.11 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
-| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.57.11 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
+| `tools.jackson.core:jackson-databind` | 3.3.0 | 3.3.0 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
+| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.59.0 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
+| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.59.0 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
 
 All selected core/build entries are the latest stable releases found. Newer metadata entries
 in the Maven/plugin 4.x series are RC/beta releases, so they are not selected for

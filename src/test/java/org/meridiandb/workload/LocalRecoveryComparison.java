@@ -48,6 +48,14 @@ import org.meridiandb.workload.WorkloadMeasurements.Probe;
 public final class LocalRecoveryComparison {
     public static final int VERSION = 1;
     public static final String MODE = "CALLER_THREAD_RECOVERY_IO_INSTRUMENTED";
+    public static final String UNINSTRUMENTED_MODE = "RECOVERY_UNINSTRUMENTED";
+    public enum MeasurementMode {
+        INSTRUMENTED(MODE), UNINSTRUMENTED(UNINSTRUMENTED_MODE);
+        private final String identifier;
+        MeasurementMode(String identifier) { this.identifier = identifier; }
+        public String identifier() { return identifier; }
+    }
+    public enum IoCoverage { NOT_CAPTURED, ADAPTERS_ONLY }
     public static final long MAX_VALIDATION_ACTIONS = 40_000;
     public static final long MAX_RECOVERY_WORK = 32_000_000;
     public static final long MAX_FIXTURE_BYTES = 256L * 1024 * 1024;
@@ -72,7 +80,16 @@ public final class LocalRecoveryComparison {
         public Fixture { initialFileSha256 = java.util.Collections.unmodifiableMap(new TreeMap<>(initialFileSha256)); }
     }
     public record OperationSample(Operation operation, WorkloadMeasurements.Sample measurement,
-                                  LocalIoObservation.Snapshot counters) { }
+                                  LocalIoObservation.Snapshot counters) {
+        public OperationSample {
+            Objects.requireNonNull(operation, "operation");
+            Objects.requireNonNull(measurement, "measurement");
+            if (counters != null && !counters.complete()) {
+                throw new IllegalArgumentException("Captured comparison counters must be complete");
+            }
+        }
+        public IoCoverage coverage() { return counters == null ? IoCoverage.NOT_CAPTURED : IoCoverage.ADAPTERS_ONLY; }
+    }
     public record Observation(int iteration, boolean warmup, int strategyOrdinal, Shape shape,
                               Access access, Strategy strategy, Path directory, Fixture fixture,
                               List<OperationSample> operations, long validationNanos, long teardownNanos,
@@ -84,7 +101,21 @@ public final class LocalRecoveryComparison {
                          long encodedHistoryBytes, WorkloadOracle.Summary workload,
                          LocalWorkloadRunner.RuntimeInfo runtime, Path runRoot,
                          List<Observation> observations, List<String> gaps) {
-        public Result { observations = List.copyOf(observations); gaps = List.copyOf(gaps); }
+        public Result {
+            Objects.requireNonNull(mode, "mode");
+            if (!MODE.equals(mode) && !UNINSTRUMENTED_MODE.equals(mode)) {
+                throw new IllegalArgumentException("Unknown recovery measurement mode");
+            }
+            observations = List.copyOf(observations); gaps = List.copyOf(gaps);
+            var expected = MODE.equals(mode) ? IoCoverage.ADAPTERS_ONLY : IoCoverage.NOT_CAPTURED;
+            for (var observation : observations) {
+                for (var operation : observation.operations()) {
+                    if (operation.coverage() != expected) {
+                        throw new IllegalArgumentException("Operation counter coverage differs from result mode");
+                    }
+                }
+            }
+        }
     }
     public static final class RunFailedException extends IOException {
         private static final long serialVersionUID = 1L;
@@ -110,11 +141,24 @@ public final class LocalRecoveryComparison {
 
     static Result run(Path scratchParent, WorkloadCorpus corpus, Config config,
                       LocalCheckpointHistory.Limits limits, Probe probe) throws IOException {
+        return run(scratchParent, corpus, config, MeasurementMode.INSTRUMENTED, limits, probe);
+    }
+
+    /** Explicit mode precedes limits to preserve the existing nullable probe overload. */
+    public static Result run(Path scratchParent, WorkloadCorpus corpus, Config config,
+                             MeasurementMode mode, LocalCheckpointHistory.Limits limits) throws IOException {
+        return run(scratchParent, corpus, config, mode, limits, WorkloadMeasurements.systemProbe());
+    }
+
+    static Result run(Path scratchParent, WorkloadCorpus corpus, Config config, MeasurementMode mode,
+                      LocalCheckpointHistory.Limits limits, Probe probe) throws IOException {
         Objects.requireNonNull(scratchParent, "scratchParent");
         Objects.requireNonNull(corpus, "corpus");
         Objects.requireNonNull(config, "config");
         Objects.requireNonNull(limits, "limits");
         Objects.requireNonNull(probe, "probe");
+        Objects.requireNonNull(mode, "mode");
+        if (mode == MeasurementMode.UNINSTRUMENTED) { LocalIoObservation.requireNoCurrentCapture(); }
         long opens = 16L * (config.warmups() + config.repetitions());
         long commits = corpus.spec().commits();
         if (opens * (2L * corpus.actions().size() + commits + 16) > MAX_VALIDATION_ACTIONS
@@ -166,12 +210,12 @@ public final class LocalRecoveryComparison {
                             if (prior != null) { require(prior.equals(fixture), "Strategies started from different file images"); }
                             prior = fixture;
                             observations.add(observe(home, iteration, warmup, ordinal, shape, access, strategy,
-                                    fixture, corpus, inputs, prepared, limits, probe));
+                                    fixture, corpus, inputs, prepared, limits, mode, probe));
                         }
                     }
                 }
             }
-            return new Result(VERSION, MODE, WorkloadCorpus.VERSION, corpus.spec(), config, limits, corpus.fingerprint(),
+            return new Result(VERSION, mode.identifier(), WorkloadCorpus.VERSION, corpus.spec(), config, limits, corpus.fingerprint(),
                     corpus.historyFingerprint(), corpus.encodedHistoryBytes(), prepared.summary(), runtime, root,
                     observations, List.of(
                     "Synchronous core has no process supervision, source binding or serialized-evidence admission",
@@ -180,8 +224,12 @@ public final class LocalRecoveryComparison {
                     "Fresh files do not establish cold cache; setup, JVM compilation and filesystem cache are uncontrolled",
                     "CPU/allocation describe the executing platform thread, not process, GC or other-thread work",
                     "Heap before/after samples include uncollected garbage; they are not peak, retained heap or RSS",
-                    "Native counters bracket recorder/probe work as well as each call; service clocks cover the call only",
-                    "All operation timings include native capture-hook overhead; uninstrumented comparisons remain separate",
+                    mode == MeasurementMode.INSTRUMENTED
+                        ? "Native counters bracket recorder/probe work as well as each call; service clocks cover the call only"
+                        : "Native counters are NOT_CAPTURED, not zero; call clocks include a bounded caller-capture guard",
+                    mode == MeasurementMode.INSTRUMENTED
+                        ? "Operation timings include native capture-hook overhead; compare separately with uninstrumented controls"
+                        : "This mode activates no caller-thread capture; existing inactive hooks, recorder and JVM probes remain",
                     "Fixture creation/forcing, oracle checks, raw hashing, validation and teardown are outside operation counters/clocks",
                     "Compaction is setup for the compacted-tail shape; this core does not time compaction or reclamation",
                     "Reader-admission work differs intentionally; writable journal/name startup and forced commits remain unchanged",
@@ -193,10 +241,10 @@ public final class LocalRecoveryComparison {
 
     private static Observation observe(Path home, int iteration, boolean warmup, int ordinal, Shape shape,
             Access access, Strategy strategy, Fixture fixture, WorkloadCorpus corpus, Inputs inputs,
-            WorkloadOracle.Prepared prepared, LocalCheckpointHistory.Limits limits, Probe probe) throws IOException {
+            WorkloadOracle.Prepared prepared, LocalCheckpointHistory.Limits limits, MeasurementMode mode, Probe probe) throws IOException {
         var operations = new ArrayList<OperationSample>();
         var opened = measured(Operation.OPEN, shape == Shape.JOURNAL_ONLY ? Kind.JOURNAL_REOPEN : Kind.CHECKPOINT_REOPEN,
-                probe, () -> open(home, access, strategy, limits));
+                mode, probe, () -> open(home, access, strategy, limits));
         long validationNanos, closeStart;
         try (var database = opened.value()) {
             operations.add(opened.sample());
@@ -208,13 +256,13 @@ public final class LocalRecoveryComparison {
             }
             validationNanos = elapsed(start, probe.nanoTime());
             if (access == Access.WRITABLE) {
-                var retry = measured(Operation.ORIGINAL_RETRY, Kind.RETRY, probe,
+                var retry = measured(Operation.ORIGINAL_RETRY, Kind.RETRY, mode, probe,
                         () -> database.transact(inputs.records().getFirst().transaction()));
                 operations.add(retry.sample());
                 start = probe.nanoTime();
                 require(retry.value().equals(new CommitResult(position(1), true)), "Recovered original retry differs");
                 validationNanos = Math.addExact(validationNanos, elapsed(start, probe.nanoTime()));
-                var commit = measured(Operation.CONTINUATION, Kind.COMMIT, probe,
+                var commit = measured(Operation.CONTINUATION, Kind.COMMIT, mode, probe,
                         () -> database.transact(inputs.continuation()));
                 operations.add(commit.sample());
                 start = probe.nanoTime();
@@ -222,7 +270,7 @@ public final class LocalRecoveryComparison {
                 require(commit.value().equals(new CommitResult(next, false)), "Forced continuation position differs");
                 verifyContinuation(database, next, inputs);
                 validationNanos = Math.addExact(validationNanos, elapsed(start, probe.nanoTime()));
-                var repeated = measured(Operation.CONTINUATION_RETRY, Kind.RETRY, probe,
+                var repeated = measured(Operation.CONTINUATION_RETRY, Kind.RETRY, mode, probe,
                         () -> database.transact(inputs.continuation()));
                 operations.add(repeated.sample());
                 start = probe.nanoTime();
@@ -252,12 +300,23 @@ public final class LocalRecoveryComparison {
         };
     }
 
-    private static <T> Measured<T> measured(Operation operation, Kind kind, Probe probe,
+    private static <T> Measured<T> measured(Operation operation, Kind kind, MeasurementMode mode, Probe probe,
                                            WorkloadMeasurements.Call<T> call) throws IOException {
         var recorder = new WorkloadMeasurements.Recorder(probe, 1);
-        var capture = LocalIoObservation.open();
         T value = null;
         try {
+            if (mode == MeasurementMode.UNINSTRUMENTED) {
+                LocalIoObservation.requireNoCurrentCapture();
+                value = recorder.measure(Phase.MAINTENANCE, kind, () -> {
+                    // Also reject a capture activated by the injectable pre-call probe.
+                    // This bounded read-only check is included in the call clock.
+                    LocalIoObservation.requireNoCurrentCapture();
+                    return call.invoke();
+                });
+                LocalIoObservation.requireNoCurrentCapture();
+                return new Measured<>(value, new OperationSample(operation, recorder.samples().getFirst(), null));
+            }
+            var capture = LocalIoObservation.open();
             try (capture) { value = recorder.measure(Phase.MAINTENANCE, kind, call); }
             var counters = capture.snapshot();
             require(counters.complete(), "Recovery comparison native counters are incomplete");

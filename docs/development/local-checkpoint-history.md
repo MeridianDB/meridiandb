@@ -224,6 +224,7 @@ allocation and memory tradeoffs.
 
 The [recovery comparison core](recovery-comparison.md) now supplies fresh equivalent
 journal-only, genesis, checkpoint-tail and compacted-tail cohorts for both recovery
-strategies and access modes. It retains raw operation/native work and independent
-checks. Source supervision, separate memory diagnostics and measured adoption
+strategies and access modes. It retains raw operations and independent checks;
+explicit instrumented and uninstrumented modes distinguish captured adapter work
+from absent counters. Source supervision, separate memory diagnostics and measured adoption
 remain pending.

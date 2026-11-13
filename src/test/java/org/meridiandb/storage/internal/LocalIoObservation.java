@@ -21,6 +21,9 @@ public final class LocalIoObservation implements AutoCloseable {
 
     static LocalIoObservation open(long limit) { return new LocalIoObservation(LocalIo.start(limit)); }
 
+    /** Reject ambient caller capture without activation, export or affecting other threads. */
+    public static void requireNoCurrentCapture() { LocalIo.requireNoCurrentCapture(); }
+
     @Override public void close() { capture.close(); }
 
     /** Allocate and validate the export after closing the capture, outside native calls. */

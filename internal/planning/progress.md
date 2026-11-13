@@ -7594,6 +7594,87 @@ Step-Result completed, normal-push/fetch and verify matching tips, source ancest
 and clean tree. Final handoff records actual completion SHA/push; internal-only
 completion requires no repeat source CI or Pages deployment.
 
+## November 13, 2026 — MDB-0103 source checkpoint
+
+**Selection/refinement:** clean main/origin starts at
+`c592c00141998a07f75ef751564b3845d19b0d30`, with0100 delivery accepted. Refine0101
+into required0103 explicit controls,0104 supervised protocol/readback and0105
+isolated memory diagnostics/integration. Preserve every original0101/0099/0097/0013
+criterion, old workload protocols and datasets. Only0103 executes. Root owns queue/
+Git/builds; helpers own fresh research, independent read-only review and a temporary
+test-file handoff. All ownership returns before root's serialized Maven checks.
+
+**Implementation:** explicit MeasurementMode before limits preserves existing
+default/probe overload behavior. INSTRUMENTED keeps the old mode identifier and
+native snapshots; UNINSTRUMENTED uses RECOVERY_UNINSTRUMENTED, null snapshots and
+derived NOT_CAPTURED coverage. Complete captured snapshots are ADAPTERS_ONLY.
+Required sample fields/complete snapshots and known result mode/consistent sample
+coverage are validated; complete tensor/wire admission remains0104. Controls use
+the same fixture/oracle/order/history/forced-continuation/cleanup lifecycle.
+
+A minimal package-private LocalIo read-only guard uses the existing caller lookup;
+only the test-support bridge exposes it to the runner. No activation, reflection,
+temporary capture or second registry. Transfer/force paths remain unchanged.
+Check before namespace effects, before recording, inside the actual call after
+pre-call probes, and after recording. Preserve caller capture ownership/other
+threads. The bounded call guard is timed and documented; inactive hooks, recorder
+and JVM probes remain. A bad probe leaving capture active cannot return successful
+control evidence; returned owners stay inside common cleanup. No arbitrary-probe
+reentrancy guarantee or full-proof constructor claim is added. Formats, startup,
+acknowledgement, production factories and existing wire schemas remain unchanged.
+
+**Independent evidence:**16 new invocations cover all16 control scenarios and
+equivalent cross-mode initial/final bytes, state-changing Put17/forced append and
+original/exact retry positions. Synthetic clocks exclude large snapshot work;
+optional/reset CPU/allocation stays unavailable. Check mode/coverage constructors
+with independent values, immutable lists, null/typed-probe admission, warmup-
+independent AB/BA, caller/preprobe/postprobe capture ownership and Runtime/Error
+cleanup in both modes. Saturate all64 slots with bounded other-thread owners:
+control execution succeeds without capture admission. Preserve all prior literal
+instrumented vectors. Review finds no material remaining bug; no speed/memory gain.
+
+**Fresh dependencies:** November13 16:19UTC/11:19EST refreshes14 Central metadata,
+16 official compatibility and6 supplemental exact Jackson sources. Eleven other
+core/build pins remain latest stable. Jackson3.3.0, released November8, keeps Java17
+baseline and is adopted in test scope in both POMs; no Blackbird module is added.
+Optional AWS stays2.57.8/latest2.59.0 under deferred scope. Research report SHA256
+`c32d119d07d2cee5a06a30a7b30454309fbebebe1943c9eac507c67d1bfe4e96`,
+manifest `45d439ebfb48b1a57bffc34bb0043e90a08f02606db5dd8f574aabd356655337`.
+Preserve raw selected-at-capture3.2.4 evidence, documenting actual adoption separately.
+Both fresh resolved test classpaths contain databind/core3.3.0 and annotations2.23;
+the adapter also retains the SDK's separately shaded third-party-jackson-core2.57.8.
+Exact artifact names/SHA256s are saved in resolved-test-graphs.json. A first local
+graph assertion matched Jackson by name too broadly; distinguish that SDK-private
+artifact rather than dropping or overriding it. Metadata hashes/URLs/check times
+are under ignored research/; executable pins and current build guide agree.
+
+**Local acceptance:** focused71 passes without failures/skips. Fresh rooted clean
+install run5dc4bfe0b4c14c7bb99e23ef8539d015 passes1,583/85suites without failures,
+errors/skips/retries on macOS/aarch64 Oracle25.0.2+10-LTS-69; strict XML readback
+verifies run/root/runtime and complete reviewed inventory. SHA256
+`03333cc3880d5bc6d523da648fd644d6e5209e41b624236241b9efa0dfd60ccb`
+adds only UninstrumentedRecoveryComparisonTest16, preserving all84 prior counts.
+After local install, clean optional verify passes762 without skips/failures using
+the same Jackson graph. Core166 remains JDK-only (`jdeps` java.base); classifier10
+excludes workload/observation/qualification helpers. Unlike0100, JAR bytes change
+for the read-only internal guard and POM metadata: core SHA256
+`a80c0cadff77e916feefb68b868b9d497dc83bff431d4d6cb307bec3a7e4da56`,
+classifier `ad5ee6fe07c7fc200b1ba546c2698ec571593c87127169f8bc59c53c4b53f83a`.
+Python183guards pass with5 Linux-only local skips;42docsfixtures pass. Both strict
+URL builds pass after final public edits:110 sitemap URLs/593 search entries.
+
+**Docs/rules and delivery gate:** ADR0051, comparison/history guides, current
+build/README/count callers, both POMs, navigation and persistent agent rules agree.
+Desktop light/mobile dark tables343px fit390px viewport; search/navigation reaches
+new decision/mode content. Normal light/default viewport restored. Local8800 stays
+running for published QA. Keep0103 active pending normal source push, exact-source
+CI/Linux/legacy workload checks, docs/Pages and live readback.0104/0105 remain
+queued; parents101/99/97/13 stay expanded. No source-supervised protocol, isolated
+memory diagnostics, evaluated performance/default adoption or release starts.
+Validate105 IDs/cards/DAG/parents and task-owned staged diff. Source commit uses
+Step-ID MDB-0103 /Step-Result checkpoint; final internal receipt will record actual
+CI/publication acceptance and completion push.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

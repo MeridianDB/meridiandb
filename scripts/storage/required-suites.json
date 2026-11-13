@@ -80,6 +80,7 @@
     "org.meridiandb.workload.LocalRecoveryComparisonTest": 10,
     "org.meridiandb.workload.LocalWorkloadIoTest": 12,
     "org.meridiandb.workload.LocalWorkloadRunnerTest": 9,
+    "org.meridiandb.workload.UninstrumentedRecoveryComparisonTest": 16,
     "org.meridiandb.workload.WorkloadConformanceTest": 9,
     "org.meridiandb.workload.WorkloadCorpusTest": 14,
     "org.meridiandb.workload.WorkloadMeasurementsTest": 17,

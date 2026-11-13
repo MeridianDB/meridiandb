@@ -172,4 +172,8 @@ public final class LocalIo {
         }
         long value(Role role, Counter counter) { return counts.get(role.ordinal()).get(counter.ordinal()); }
     }
+    // Read-only package bridge for test-support admission; never creates or changes a capture.
+    static void requireNoCurrentCapture() {
+        if (current() != null) { throw new IllegalStateException("Caller-thread I/O capture must be inactive"); }
+    }
 }

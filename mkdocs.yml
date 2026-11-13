@@ -115,6 +115,7 @@ nav:
       - Bounded local checkpoint history decision: decisions/0048-bounded-local-checkpoint-history.md
       - Explicit checkpoint history recovery decision: decisions/0049-explicit-checkpoint-history-recovery.md
       - Recovery comparison core decision: decisions/0050-recovery-comparison-core.md
+      - Uninstrumented recovery controls decision: decisions/0051-uninstrumented-recovery-controls.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md

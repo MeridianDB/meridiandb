@@ -61,6 +61,8 @@ permanent commitment.
 | [0049: Explicit checkpoint history recovery](0049-explicit-checkpoint-history-recovery.md) | Explicit experimental factories implemented; evaluation pending | Private same-pass checkpoint replay, transient-list release and unchanged journal verification/startup acknowledgement |
 | [0050: Recovery comparison core](0050-recovery-comparison-core.md) | Test-only synchronous core implemented; supervision/evaluation pending | Fresh equivalent recovery cohorts, bounded aggregate work, raw operation/native scopes and independent checks |
 
+| [0051: Uninstrumented recovery controls](0051-uninstrumented-recovery-controls.md) | Explicit test-only controls implemented; evaluation pending | Native capture disabled with read-only caller admission, absent counters and equivalent recovery contracts |
+
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.
 

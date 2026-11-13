@@ -668,6 +668,13 @@ so a new session can work correctly without relying on earlier conversations.
   Sampled heap supplies no peak/retained-memory evidence; keep supervised source/
   serialized readback and separately scoped diagnostics with their required work
   before adoption. Verify helpers remain outside both shipped archives.
+  Follow [ADR 0051](docs/decisions/0051-uninstrumented-recovery-controls.md) for
+  control modes: preserve existing captured overloads, use explicit mode IDs and
+  derived NOT_CAPTURED/ADAPTERS_ONLY coverage, and reject mixed results. Query the
+  existing caller capture through the read-only package/test bridge before effects
+  and at control call boundaries; never activate a temporary capture as a guard or
+  modify caller-owned/other-thread captures. Keep control counters absent, not
+  fabricated zeros, and document recorder/JVM/inactive-hook/timed-guard overhead.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

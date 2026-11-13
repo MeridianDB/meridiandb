@@ -27,7 +27,9 @@ var corpus = WorkloadCorpus.generate(
         WorkloadCorpus.Profile.CORRECTIONS.spec(42));
 var config = new LocalRecoveryComparison.Config(1, 2);
 var result = LocalRecoveryComparison.run(
-        scratchParent, corpus, config, LocalCheckpointHistory.Limits.DEFAULT);
+        scratchParent, corpus, config,
+        LocalRecoveryComparison.MeasurementMode.UNINSTRUMENTED,
+        LocalCheckpointHistory.Limits.DEFAULT);
 ```
 
 Imports are `org.meridiandb.workload.WorkloadCorpus`,
@@ -38,12 +40,44 @@ real directory on the filesystem being examined. Run correctness checks from the
 repository root:
 
 ```bash
-./mvnw -B -Dtest=LocalRecoveryComparisonTest test
+./mvnw -B \
+  '-Dtest=LocalRecoveryComparisonTest,UninstrumentedRecoveryComparisonTest' \
+  test
 ```
 
 Every invocation creates a new `mdb-recovery-` root. Every strategy, access mode,
 storage shape and warmup/measured repetition has its own database directory.
 Files are retained after success or failure; no old database is reused or swept.
+
+## Select a measurement mode
+
+The four-argument `run` and existing probe overload keep instrumented behavior.
+The explicit overload places `MeasurementMode` before limits, preserving existing
+nullable probe calls. [ADR 0051](../decisions/0051-uninstrumented-recovery-controls.md)
+records the control boundary.
+
+| Mode | Native counters |
+| --- | --- |
+| Captured | Complete adapter snapshots; coverage `ADAPTERS_ONLY` |
+| Control | Absent (`null`); coverage `NOT_CAPTURED` |
+
+`INSTRUMENTED` selects captured execution; `UNINSTRUMENTED` selects controls.
+Result identifiers are `CALLER_THREAD_RECOVERY_IO_INSTRUMENTED` and
+`RECOVERY_UNINSTRUMENTED`, respectively.
+
+Uninstrumented execution creates no native capture or counter export. It still
+uses the recorder, JVM probes and existing inactive adapter hooks. A bounded
+read-only caller-capture guard runs before filesystem effects, before each
+measurement, at the actual call boundary and after instrumentation. The call
+boundary guard is included in the service clock. This is a control with native
+capture disabled, not a claim of zero measurement overhead.
+
+An ambient capture on the calling thread rejects control admission without
+closing, resetting or exporting that caller-owned capture. Captures on other
+threads remain independent. A probe that leaves caller capture active at a guarded boundary rejects the run;
+acquired database owners are still cleaned up. Result construction rejects unknown mode identifiers or samples whose counter
+coverage disagrees with the selected mode. Missing counters never imply zero I/O.
+Keep modes and cohorts separate when interpreting raw results.
 
 ## Equivalent histories
 
@@ -101,21 +135,22 @@ Raw fixture reads are bounded; unexpected extra bytes or entries fail the run.
 
 Each observation records its repetition, warmup flag, actual strategy ordinal,
 shape/access/strategy, directory and initial image identities. It contains a raw
-open sample and native snapshot. Writable observations additionally contain
+open sample and a native snapshot only in instrumented mode. Writable observations additionally contain
 separate samples for an original retry, one forced new commit and its exact retry.
 The new commit puts value 17 over unbounded valid time for a fresh deterministic
 entity and request ID. Validation checks the new-head value and new request
 position before timing its retry; historical answers remain unchanged. Read-only observations
 perform no continuation writes.
 
-Service clocks bracket only the public API call. Executing-thread CPU/allocation
+Instrumented service clocks bracket the API call; control clocks additionally
+include the bounded call-boundary capture guard. Executing-thread CPU/allocation
 and before/after used-heap gauges follow the existing
 [measurement semantics](local-measurements.md#interpret-clocks-and-counters).
-Native adapter counters bracket the recorder/probe interval around each call.
-They retain returned bytes, force successes and incomplete-coverage checks rather
-than estimating device traffic. All samples use explicit mode
-`CALLER_THREAD_RECOVERY_IO_INSTRUMENTED`; timings include native capture-hook
-overhead. An uninstrumented comparison remains separate. Reader-admission work is an intentional difference;
+In instrumented mode, native adapter counters bracket the recorder/probe interval
+around each call. They retain returned bytes, force successes and coverage checks
+rather than estimating device traffic; timings include active capture-hook work.
+Control samples have no counter snapshot, so these work totals are unavailable.
+Neither mode establishes device traffic or a performance gain. Reader-admission work is an intentional difference;
 writable journal/name startup and forced acknowledgement remain intact.
 
 Outside operation clocks/counters, validation checks every available cutoff
@@ -130,8 +165,8 @@ strategies, modes or shapes.
 ## Results and failures
 
 Typed result version one contains corpus/configuration/limit/runtime identities
-and immutable raw observations. It is a separate developer type, not a new wire
-schema. Optional CPU/allocation stays unavailable when the JVM cannot supply a
+and immutable raw observations. Mode and per-operation coverage must agree.
+It is a separate developer type, not a new wire schema. Optional CPU/allocation stays unavailable when the JVM cannot supply a
 valid delta. Used heap includes uncollected garbage and is neither peak, retained
 heap nor RSS; no forced GC or telemetry enablement occurs. Prepared corpus, oracle
 and graph inputs also remain live during the matrix and contribute to these
@@ -148,7 +183,7 @@ and an adoption/rejection evaluation remain required before a performance decisi
 
 ## Correctness coverage
 
-Ten checks cover the complete sixteen-open matrix, equivalent initial images,
+The original ten instrumented checks cover the complete sixteen-open matrix, equivalent initial images,
 selected versus full-journal identities, raw immutability, measured ordering,
 pre-effect admission and runtime/Error cleanup. A four-commit literal fixture
 uses a 354-byte complete journal and a 198-byte selected prefix. Open read bytes
@@ -168,3 +203,14 @@ respectively. The continuation writes exactly one 156-byte frame and forces the
 journal once; both retry calls perform no counted native work. Independently
 decoded final bytes and fresh ordinary reopen verify the new-head value and
 previous-cutoff absence. These are correctness vectors, not performance results.
+
+
+Sixteen additional checks cover the native-capture-disabled matrix, exact final
+bytes and state-changing continuation, cross-mode fixture/order equivalence,
+synthetic call-clock boundaries with large out-of-clock snapshot work, nullable
+resource counters and Runtime/Error cleanup in both modes. Constructor checks
+reject unknown or mismatched coverage. Caller capture tests verify admission
+rejection and continued caller ownership, including activation by a probe. A
+bounded 64-thread saturation check holds every other-thread capture slot while
+controls succeed, establishing that controls never request capture admission.
+These are correctness checks; they establish no latency or memory advantage.

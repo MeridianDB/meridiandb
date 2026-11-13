@@ -39,7 +39,8 @@ retains verified original records. Explicit read-only/writable recovery factorie
 reuse those records once and release their container before complete journal replay;
 ordinary opens remain unchanged, with measured adoption pending. A separate
 [test-only comparison core](docs/development/recovery-comparison.md) supplies fresh
-equivalent recovery cohorts; supervised evidence and evaluation remain pending.
+equivalent recovery cohorts, with explicit native-capture-disabled controls and
+instrumented work accounting; supervised evidence and evaluation remain pending.
 [Local database recovery](docs/development/local-database.md)
 restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now
@@ -215,7 +216,7 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-This runs 1,567 JUnit test invocations: ten [recovery comparison core checks](docs/development/recovery-comparison.md),
+This runs 1,583 JUnit test invocations: sixteen uninstrumented-control/mode checks, ten [recovery comparison core checks](docs/development/recovery-comparison.md),
 97 additional explicit-history recovery,
 canonical/seeded and process-exit checks, plus the existing 38 [bounded local checkpoint-history checks](docs/development/local-checkpoint-history.md),
 34 [attributed lifecycle/bridge/fault checks](docs/development/attributed-local-workloads.md),

@@ -3104,6 +3104,69 @@ reproducible bounded implementation, or an explicit required prerequisite is
 admitted before evaluation. Run actual Linux smoke and saved readback on clean
 source with docs/rules/CI delivery; no evaluated adoption starts here.
 
+**Required children, November13,2026:**0103 adds explicit uninstrumented controls
+with absence-aware native coverage and caller-capture admission;0104 supervises
+both modes under a separate source-bound protocol and saved readback;0105 adds
+separately isolated scoped memory diagnostics and the original0101 integration.
+Preserve all original criteria, schemas and datasets. Keep0101/0099/0097/0013
+expanded until evidence/diagnostic integration passes; control correctness does
+not close supervision, peak/retained memory or evaluated adoption.
+
+## MDB-0103 Uninstrumented recovery controls
+
+**Parent:** MDB-0101. **Outcome:** explicit uninstrumented recovery matrix beside
+the unchanged default captured core, retaining equivalent fixtures, historical
+oracle, measured order, forced state-changing continuation and owned cleanup.
+
+**Complete when:** no caller capture is activated/exported by control execution;
+absent counters are NOT_CAPTURED rather than zero. Reject null/unknown modes,
+mixed coverage and ambient caller capture before effects; preserve that capture
+and independence of other threads. A narrow nonallocating read-only package
+guard may query existing LocalIo ownership without changing transfer paths or
+introducing a second registry. Document any timed guard overhead and retained
+JVM probes/inactive hooks. Preserve existing overload behavior and unambiguous
+null/probe calls. Independently check every matrix, image/order/final bytes,
+synthetic clock boundaries, unavailable telemetry, caller ownership/saturated
+capture slots and Runtime/Error cleanup. Research current Maven artifacts,
+validate adopted test-only dependency graph, full inventory, docs/rules and actual
+source CI/Pages/live delivery. No serialization, memory diagnostics or adoption.
+
+**Source checkpoint, November13,2026:** explicit uncaptured controls, absence-aware
+coverage and read-only capture admission implemented; old captured overloads and
+transfer paths remain. Focused71 and rooted clean install1,583/85suites pass with
+zero failures/skips; only new16-case suite increases inventory. Clean optional762
+also passes with researched test-only Jackson3.3.0 in both artifacts and resolved
+annotations2.23. Core166 stays JDK-only/classifier10 excludes helpers. Python183
+(5 local Linux-only skips),42docsfixtures, both110-page builds and mobile/light/
+dark/search QA pass. Keep0103 active pending exact-source CI/Pages/live delivery;
+0104/0105 queued, parents expanded. Controls supply no performance adoption.
+
+## MDB-0104 Supervised recovery protocol and readback
+
+**Parent:** MDB-0101. **Outcome:** bounded source-bound comparison workers with
+explicit captured/control modes, exact corpus/runtime/classes/filesystem/results
+and independently recomputed saved reports. Preserve existing protocols/datasets.
+
+**Complete when:** all original0101 supervisor/serialized-admission/raw-scope/
+source/input/denominator/failure/ownership criteria pass, malformed or mixed
+mode/coverage is rejected, balanced measured cohorts remain separate, and real
+Linux smoke/saved readback pass on exact clean source. Preserve failed evidence,
+bounded process groups/output/time and documented native/clock limits. Keep
+memory diagnostic integration with0105 and evaluation/adoption with0102.
+
+## MDB-0105 Recovery memory diagnostics and integration
+
+**Parent:** MDB-0101. **Outcome:** separately isolated, bounded diagnostics for
+scope-defined peak/process/retained memory, reusing0104's source/runtime/result
+bindings and independent readback. Preserve latency runs and public protocols.
+
+**Complete when:** distinguish sampled used heap, pool high-water marks, RSS and
+database-retained objects with explicit root/analyzer/GC/time/output scope;
+retain failures/unavailable evidence honestly. Admit a concrete required child
+before execution if bounded analyzer work is independently substantial. All
+original0101 integration criteria and actual Linux/CI/docs delivery pass before
+closing it. Keep0099/0097/0013 expanded for0102's original measured decision.
+
 ## MDB-0102 Linux recovery evaluation and adoption
 
 **Parent:** MDB-0099. **Outcome:** run same-revision equivalent controls/candidates
