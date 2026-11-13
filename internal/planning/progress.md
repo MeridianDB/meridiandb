@@ -7675,6 +7675,69 @@ Validate105 IDs/cards/DAG/parents and task-owned staged diff. Source commit uses
 Step-ID MDB-0103 /Step-Result checkpoint; final internal receipt will record actual
 CI/publication acceptance and completion push.
 
+## November 13, 2026 — MDB-0103 completion acceptance
+
+**Source delivery:** `c6e89887f260627a889a87524c7b01233b0ea883` is normally pushed
+to origin/main; fetch verifies matching clean tips and source reachability. The
+source checkpoint above owns implementation, fresh dependency research, complete
+local verification and public rule/docs changes. No later source edit is needed.
+
+**Exact-source CI:** [Java43465881997](https://github.com/MeridianDB/meridiandb/actions/runs/43465881997)
+passes Linux132024758275 and Windows132024758861. Qualification run
+0aa5406b38db4c76be0dbd260e09a040 binds clean source and reviewed inventory
+`03333cc3880d5bc6d523da648fd644d6e5209e41b624236241b9efa0dfd60ccb`:
+1,583 cases/85 suites, zero failures/errors/skips/retries. All16 new control
+invocations run natively;183 Python storage guards pass without Linux skips.
+Actual scratch filesystem ext4, kernel7.0.0-1017-azure/x86_64, Eclipse Adoptium
+25.0.5+8-LTS. Run/root/runtime and production capability probes agree. Device/cache/
+controller/block geometry remain unknown; productionQualified=false. Windows
+reports512 core/381 optional typed capability skips, retaining basic compatibility
+scope. Optional762 and all14 Java examples pass on both platforms.
+
+All four unchanged workload branches pass with clean exact-source bindings,
+settled groups and no deadline excess: ordinary bf09814b99824d16b36ca5b9d226892a
+and af585adbffab4788b70d6de15e94d7d1; attributed dd2ca14a2d714e959b11c383c019f17a
+and6a5c0bbc060a4dd39cac4972f909ce61. Schemas2/2/3/3 stay unchanged. Four independent
+saved-report readbacks pass, including scaled/max input checks. Observed unexpired
+artifacts14058072006 (linux-storage-evidence,239528bytes) and14058017679
+(linux-workload-evidence,167244bytes) are transient regression retention; they do
+not replace durable baseline datasets or establish supervised recovery evidence.
+Ignored ci-summary.json retains exact runs/jobs/profile/workload/artifact metadata.
+
+**Publication acceptance:** [docs43465882012](https://github.com/MeridianDB/meridiandb/actions/runs/43465882012)
+passes production132024758815/project132024759442. Automatic
+[Pages43465881967](https://github.com/MeridianDB/meridiandb/actions/runs/43465881967)
+passes build132024757989/deploy132025057028. Nine affected live HTTPS pages pass
+content and canonical checks;110 unique sitemap URLs and593 search entries include
+the guide and ADR0051. Published guide71,668bytes SHA256
+`4dab0ab34642387c6390ee9fc85d9c5e7f488ea99db8d55df08b4f5f1611ebc9`.
+Project URL reaches the same guide through the existing redirect to
+`http://meridiandb.org/development/recovery-comparison/`,200 with correct HTTPS
+canonical. Direct production HTTPS checks pass; hosting remains unchanged.
+The first scratch live checker expected an anchor not present in the history
+guide and the MkDocs search path; correcting these assertions to the actual
+source marker and generated Zensical search.json/items yields complete acceptance.
+No published content repair was necessary. Ignored live/readback.json retains
+responses, check time and hashes. Browser confirms the published mode/coverage
+table; screenshot is embedded in commentary. Prior mobile dark tables343px fit
+390px viewport without horizontal overflow. Normal light/default viewport remains
+restored; local8800 preview stops with exit0. Published screenshot is saved under
+ignored ui/site-published.png.
+
+**Completion and handoff:**0103's explicit mode/coverage/capture-ownership/
+equivalent-history/order/raw-clock/forced-continuation/cleanup contracts pass,
+with independent cases, full reviewed inventory, docs/rules and actual delivery.
+Mark0103 done, clear claim and prepare **MDB-0104 — Supervised recovery protocol
+and readback** ready after this completion push. Keep0105 queued; parents0101/
+0099/0097/0013 stay expanded with every original criterion. Controls retain
+measurement overhead and establish no speed/memory/default-adoption claim.
+No next supervisor, isolated memory diagnostic, Linux evaluation, remote work or
+release starts. Validate105 IDs/cards/DAG/parents, no active row and only0104 ready;
+inspect/stage only these3 internal planning files. Commit Step-ID MDB-0103 /
+Step-Result completed, normal-push/fetch and verify matching tips, source ancestry
+and clean tree. Git owns actual completion SHA/delivery; this internal-only receipt
+requires no repeat source CI or Pages deployment.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

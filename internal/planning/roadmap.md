@@ -3141,6 +3141,19 @@ annotations2.23. Core166 stays JDK-only/classifier10 excludes helpers. Python183
 dark/search QA pass. Keep0103 active pending exact-source CI/Pages/live delivery;
 0104/0105 queued, parents expanded. Controls supply no performance adoption.
 
+**Completion acceptance, November13,2026:** source
+`c6e89887f260627a889a87524c7b01233b0ea883` is pushed and passes Java43465881997,
+docs43465882012 and automatic Pages43465881967. Linux qualification run
+0aa5406b38db4c76be0dbd260e09a040 passes1,583/85suites, zero failures/errors/skips/
+retries, with the reviewed inventory and actual ext4/JDK25.0.5 profile. All16 new
+control invocations run natively. Optional762,183 Linux guards, both platforms'
+14examples and four unchanged workload/saved-report branches pass. Windows512
+core/381optional capability skips remain explicit. Nine affected live pages,
+canonical/search/sitemap and published browser QA pass. Mark0103 done and clear
+its claim; prepare0104 ready, leaving0105 queued and parents expanded. This closes
+control correctness/delivery only; supervision, memory diagnostics and adoption
+retain their original criteria and no next implementation starts.
+
 ## MDB-0104 Supervised recovery protocol and readback
 
 **Parent:** MDB-0101. **Outcome:** bounded source-bound comparison workers with
