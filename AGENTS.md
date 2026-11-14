@@ -690,6 +690,17 @@ so a new session can work correctly without relying on earlier conversations.
   process provenance or independently checked saved evidence. Keep supervision,
   independent admission/readback, memory diagnostics and adoption with their
   required work; keep support outside both shipped archives.
+- For [independent recovery images](docs/development/recovery-images.md) and
+  [ADR 0053](docs/decisions/0053-independent-recovery-image-admission.md), supply
+  expected spec/config/limits from the caller and keep inputs stable during pure
+  validation. Bound all raw copies and unique decode work before binary decoding;
+  check selected graph budgets before dependencies. Preserve exact original frame/
+  lineage/range bindings, full-object IDs, retained compaction sources and fresh
+  continuation. Structural image facts do not establish seeded schedule/oracle,
+  complete outer worker/counter evidence, native file completeness or provenance.
+  Keep the fixed Linux compatibility smoke explicitly image-only, retain known
+  failure receipts plus scoped native fixtures/hidden controls, and preserve later
+  full admission, source-bound supervision, saved readback and evaluation criteria.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

@@ -7923,6 +7923,83 @@ or Pages deployment. After the committed checkpoint, remove only this task's two
 disposable smoke fixture trees; retain envelopes/logs/research/report/UI evidence
 and all other owners' files. No pending work depends on those disposable fixtures.
 
+## November 14, 2026 — MDB-0108 independent recovery image source checkpoint
+
+**Refinement:** expand0107 into required0108 pure binary-image admission,0109
+complete worker/request/schedule/oracle/matrix/native-counter admission and0110
+source-bound Linux supervision/live files/saved reports/integration. Preserve every
+original107/104 criterion, protocol and durable dataset. Execute only0108; all
+ancestors remain expanded. Root owns Git/planning/builds; helpers provide bounded
+research, independent literal tests and read-only code/editorial reviews.
+
+**Source:** add standard-library recovery_images.py with independent CRC32C/v1
+journal/segment/manifest decoders. Preflight exact fields/types/hex/counts, all2MiB
+raw copies,4KiB frames/continuation,4096 unique decode records, conservative matrix
+and selected acquisition budgets before decoding. Bind exact original frame bytes,
+lineage, source/compacted ranges, generation/full-object IDs, reconstructed prefix,
+retained old objects, one-source reuse and exact fresh unbounded Put17. Return
+private fresh facts only after complete graph success; no filesystem/process work.
+No seeded RNG/schedule/oracle/full envelope/matrix/counter/provenance admission is
+claimed. Consistently changed numeric values may pass this structural stage.
+
+Add fixed Linux Java/Python compatibility smoke: control and captured odd7-commit
+histories plus496-commit maximum, fresh private cooperating groups, explicit heap,
+clean environment, bounded output/logs/deadline/retention/create-only summary. Use
+known expected spec/config/limits; do not interpret outer results or timings. Failed
+case retains any returned process receipt. CI retains its native fixtures and
+hidden controls with existing pinned upload action; official v7.0.2 action.yml
+freshly confirms include-hidden-files input. Saved official source under ignored
+upload-action-source.json. This smoke is image-only, not0110's supervisor.
+
+**Tests/review:**20 independently built literal/golden/re-signed/truncation/limit/
+ownership image cases and6 process/reader/smoke-boundary cases pass. Full Python
+storage suite209 passes (5 Linux-only skips locally);42 docs fixtures pass. Initial
+literal test builder accidentally included suffix records in final source chunks;
+parser rejected three fixtures, builder now clips at cutoff. Preserve the first
+failure log. No production defect or accepted data changed. Reviews also added
+early selected byte/record checks and retained nonzero worker receipts/native CI
+fixtures. Final code review has no material findings. All4 editorial findings
+(README placement, ADR table row, command wrapping, cutoff scope) are corrected.
+
+**Fresh Maven context:** fourteen Central responses and eighteen official
+compatibility/release sources refreshed November14 at20:50UTC/15:50EST. All12
+core/build/test pins remain latest stable inclJackson3.3.0. Optional SDKselected
+2.57.8/latest2.59.1 remains explicitly deferred; no POM/wrapper/version adoption.
+All58 manifest entries verify. Research report SHA256
+`7682abcb372399fafb054a049d05cc338022e0fc468be836db907b8b0e8b7424`;
+manifest `895ee30eba02d4698724b99f1f259dbd3aa47524ffd38329257e6bef2b17d528`.
+
+Rooted clean Maven verify run178fd5bb90434caaa1f77ea903ed7618 passes1,602 core
+invocations/86 suites, zero failure/error/skip/retry through strict XML admission.
+Inventory remains `a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4`.
+Actual local Oracle25.0.2+10-LTS-69/aarch64/APFS, not Linux qualification. Fresh
+Java control/captured7 cases each decode14 records; maximum496 decodes993, and
+every observation's fixture facts match independent derived images. Supplied
+source remains a declaration.166 core/10 classifier classes remain JDK-only
+java.base, no helper leak; unchanged archive hashes core
+`a80c0cadff77e916feefb68b868b9d497dc83bff431d4d6cb307bec3a7e4da56`, classifier
+`ad5ee6fe07c7fc200b1ba546c2698ec571593c87127169f8bc59c53c4b53f83a`.
+No Java/POM change; optional adapter and unchanged legacy workload regressions
+will receive exact-source CI acceptance rather than duplicate local Maven work.
+
+**Documentation:** add ADR0053 and recovery-images guide; reconcile README,
+worker/comparison guides, ADR0052/index, public roadmap, build guide/nav and
+persistent AGENTS rules. Correct stale build forty-guard/155-class claims. Full
+affected-page editorial audit, strict production/project URL builds, source/link/
+rendered metadata/search/sitemap checks pass.114 pages and 611 search
+entries. Browser validates guide, nav/search, ADR0053 table row, light desktop and
+actual slate mobile390x844;343px tables/375px document fit viewport. Restore
+default viewport/light. Owned ignored QA holds logs/reports/research/native images
+and preview screenshots; public docs contain no queue or conversation narration.
+
+**Delivery gate:** retain0108 active until normal source push and exact-source
+Java/Linux/Windows/optional/legacy workload acceptance, docs/automatic Pages and
+live checks.0109/0110 remain queued;0107/0104/0101/0099/0097/0013 expanded,
+0105memory/0102evaluation unchanged. No next execution, production default,
+remote work, release, controlled baseline or adoption starts. Validate110 IDs/
+cards/DAG/parents and task-owned staged diff. Commit Step-ID MDB-0108 with
+Step-Result checkpoint; final internal receipt records actual delivery.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -117,6 +117,7 @@ nav:
       - Recovery comparison core decision: decisions/0050-recovery-comparison-core.md
       - Uninstrumented recovery controls decision: decisions/0051-uninstrumented-recovery-controls.md
       - Bounded recovery worker decision: decisions/0052-bounded-recovery-worker.md
+      - Independent recovery image decision: decisions/0053-independent-recovery-image-admission.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -127,6 +128,7 @@ nav:
       - Local operation measurements: development/local-measurements.md
       - Recovery comparison core: development/recovery-comparison.md
       - Recovery comparison worker: development/recovery-worker.md
+      - Independent recovery image checks: development/recovery-images.md
       - Supervised Linux workloads: development/supervised-workloads.md
       - Saved workload reports: development/workload-reports.md
       - Linux workload observations: development/linux-observations.md

@@ -201,7 +201,7 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 14 at 12:49 EST (17:49 UTC), with eighteen official compatibility/
+on November 14 at 15:50 EST (20:50 UTC), with eighteen official compatibility/
 release sources including exact-version Jackson release/POM/baseline checks. [Jackson 3.3.0](https://github.com/FasterXML/jackson-databind/tree/jackson-databind-3.3.0)
 is selected in test scope in both artifacts; its Java 17 baseline is unchanged.
 The adapter uses the same version for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
@@ -298,14 +298,18 @@ explicitly; capability-dependent real-file tests skip on that specific boundary
 while injected checks still run.
 Changes under `examples/` trigger these checks.
 
-The Linux job also runs forty Python evidence/cleanup guard tests, prints the
+The Linux job also runs Python evidence, image and cleanup guards, prints the
 observed profile and suite counts, and retains JSON/XML/log evidence for 14 days.
 Its upload-artifact action is pinned to v7.0.2 commit
 `cf430e030ddbb5b0abf93d22962f4752f3646cd9`, checked against the
 [official release](https://github.com/actions/upload-artifact/releases/tag/v7.0.2)
-and action inputs on November 2, 2026. Neither these test artifacts nor the local
+and action inputs, rechecked on November 14, 2026. The fixed
+[independent recovery image smoke](recovery-images.md#verify-java-compatibility-on-linux)
+also runs on Linux and retains scoped worker output, logs, summaries and fixtures,
+including hidden control files. Its image-only result does not admit complete
+worker or saved comparison evidence. Neither these test artifacts nor the local
 Maven install are library releases. Qualification helpers stay outside both the
-155-class production archive and the ten-class attached contract-support archive.
+166-class production archive and the ten-class attached contract-support archive.
 
 Documentation checks and automatic Pages publication retain their own workflows.
 For website setup and verification, follow the

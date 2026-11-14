@@ -83,6 +83,7 @@ future protocol with local persistence on each participant.
 | [Reclamation inventory](development/reclamation-inventory.md) | Bounded complete graph/owner-prefix checks, explicit retained roots and immutable obsolete-object metadata; no deletion |
 | [Protected physical reclamation](development/physical-reclamation.md) | Fresh owner-bound inventory, durable live roots, metadata retirement before dependency removal and conservative interruption recovery |
 | [Integrated compaction conformance](development/compaction-conformance.md) | Actual fixture/seed publication and removal, historical queries/retries, richer process stops and named-file length accounting |
+| [Independent recovery images](development/recovery-images.md) | Pure bounded original-format and graph checks with fixed Linux worker compatibility; complete worker/supervised saved admission remains planned |
 | [Linux qualification harness](development/linux-storage-qualification.md) | Complete local-core inventory, fresh same-filesystem fixtures/reports and explicit native capability/environment evidence; no production qualification |
 | [Java build](development/build.md) | Java 25, checksum-pinned Maven Wrapper and verification on Linux and Windows |
 

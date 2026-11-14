@@ -62,6 +62,7 @@ permanent commitment.
 | [0050: Recovery comparison core](0050-recovery-comparison-core.md) | Test-only synchronous core implemented; supervision/evaluation pending | Fresh equivalent recovery cohorts, bounded aggregate work, raw operation/native scopes and independent checks |
 | [0051: Uninstrumented recovery controls](0051-uninstrumented-recovery-controls.md) | Explicit test-only controls implemented; evaluation pending | Native capture disabled with read-only caller admission, absent counters and equivalent recovery contracts |
 | [0052: Bounded recovery worker](0052-bounded-recovery-worker.md) | Test-only producer implemented; supervision/readback pending | Separate explicit-mode envelope, bounded raw histories/fixture images, create-only output and producer consistency checks |
+| [0053: Independent recovery image admission](0053-independent-recovery-image-admission.md) | Structural image checks implemented; complete worker admission pending | Independent bounded binary decoders, exact original graph/continuation binding and fixed Linux compatibility checks |
 
 The current project has no stable engine API or storage-format compatibility promise. Read the
 [architecture overview](../architecture/overview.md) for the open design questions.

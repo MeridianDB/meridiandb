@@ -3240,6 +3240,62 @@ before closing0104. Preserve old protocols/datasets, scoped unknowns and separat
 memory diagnostics/adoption. Refine before execution if another concrete required
 prerequisite is substantial; never close the parent by dropping its criteria.
 
+**Required children, November14,2026:** independently substantial binary-image,
+full worker/matrix and Linux supervisor/saved-report consumers become0108,0109
+and0110. Preserve all original outcomes/criteria. Structural image checks do not
+admit a whole worker result, verify its seeded schedule or establish source/process
+provenance. Keep this parent and0104 expanded through actual integration/delivery.
+
+## MDB-0108 Independent recovery image admission
+
+**Parent:** MDB-0107. **Outcome:** a separate bounded Python consumer independently
+decodes the worker's original history, manifests, segments and continuation,
+returning recomputed fixture and original/continued journal summaries.
+
+**Complete when:** exact field/type/count/hex/aggregate/work admission precedes
+decoding; complete CRC32C/header/footer/full-object IDs and nested lineage agree.
+Require exact original frame slices/ranges, original-prefix metadata, source split,
+genesis/compacted generations and retained-source equality; distinguish selected
+acquisition work from retained bytes and preserve one-source compaction reuse.
+Validate the fresh state-changing continuation and derive closed-journal identities.
+Fail without partial output, input mutation, filesystem/process or provenance
+claims. Independent literal/re-signed corruption/truncation/limit/golden/ownership
+checks, actual Java-worker compatibility in both modes (including Linux), fresh
+Maven regression context, unchanged protocols/inventory, docs/rules/CI/Pages/live
+delivery pass. Full seeded schedule/oracle/outer matrix/counter admission stays0109;
+source/process/live/saved report integration stays0110. No memory/adoption work.
+
+## MDB-0109 Complete recovery worker admission
+
+**Parent:** MDB-0107. **Outcome:** independently admit complete recovery protocol
+requests/results with bounded JSON, exact mode/source/input/runtime/path/matrix/
+operation bindings, recomputed logical denominators and raw native scopes.
+
+**Complete when:** every original0107/0104 serialized/input/schedule/matrix/native
+scope requirement passes, including the source corpus/fingerprint and recorded
+workload/oracle metadata within a reviewed independent scope. Reuse0108's decoded
+image facts, reject malformed/duplicate/deep/oversized/stale/partial/mixed/failed
+evidence, and preserve long raw-image strings without broadening old parsers.
+Keep unavailable counters explicit and measured/warmup/order cohorts separate.
+Independent adversarial/boundary and actual clean-source Java/Linux compatibility,
+docs/rules/CI/live delivery pass. Supervision and saved-report integration stay0110;
+admit another concrete required prerequisite if independently substantial.
+
+## MDB-0110 Linux recovery supervision and saved report integration
+
+**Parent:** MDB-0107. **Outcome:** supervised exact-source/class/runtime/filesystem/
+process bindings and independently recomputed saved recovery reports.
+
+**Complete when:** all original0107/0104/0101 source/process/deadline/output/group/
+ownership/failure/live/saved evidence requirements pass under explicit cooperating
+process bounds. Reobserve actual files and preserve failed/raw receipts; require
+successful bounded execution plus0109 admission before any successful report.
+Actual clean Linux captured/control smoke and independent saved readback, old
+protocol regressions, docs/rules/CI/Pages/live and a complete parent-criteria audit
+pass before closing0107/0104. Preserve raw per-repetition cohorts and unknown
+device/cache/diagnostic scope. Keep0101 expanded for0105 and evaluation0102; no
+default or performance adoption follows from infrastructure correctness alone.
+
 ## MDB-0105 Recovery memory diagnostics and integration
 
 **Parent:** MDB-0101. **Outcome:** separately isolated, bounded diagnostics for

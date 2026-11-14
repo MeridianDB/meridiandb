@@ -43,6 +43,9 @@ equivalent recovery cohorts, with explicit native-capture-disabled controls and
 instrumented work accounting. A separate [bounded Java worker](docs/development/recovery-worker.md)
 exports raw comparison envelopes; supervised admission, memory diagnostics and
 evaluation remain pending.
+[Independent recovery image checks](docs/development/recovery-images.md) validate
+recorded binary structure and graph identity. Complete worker evidence and saved
+comparison admission remain planned.
 [Local database recovery](docs/development/local-database.md)
 restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now

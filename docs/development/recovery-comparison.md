@@ -178,8 +178,9 @@ and owner cleanup succeeds. A returned database is closed if later instrumentati
 or export fails, including runtime and Error paths. I/O/runtime run failures report
 the retained root through `RunFailedException`; Errors propagate with files retained.
 No partial successful comparison is returned and no fallback hides a rejected
-checkpoint. The worker adds bounded producer serialization and consistency checks. Source
-supervision, independent serialized admission/readback, memory diagnostics and an
+checkpoint. The worker adds bounded producer serialization and consistency checks. An
+[independent image consumer](recovery-images.md) checks recorded binary structure.
+Source supervision, complete serialized admission/readback, memory diagnostics and an
 adoption/rejection evaluation remain required before a performance decision.
 
 

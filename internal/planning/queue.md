@@ -12,38 +12,24 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0106 — Bounded recovery comparison worker** is complete. Implementation
-  `9e644caf9bdc2e7f8058c1f807125cecad3cc1bf` and Windows test repair
-  `73fe6f675df3580646fda74a5c3e441a338d1626` are pushed to main. Exact repair-source
-  Java CI and implementation-source docs/automatic Pages/live acceptance pass.
-  No active claim remains. **MDB-0107 — Supervised recovery admission and saved
-  readback** is ready; this handoff starts no execution.
-- A separate JDK-only test worker produces bounded explicit-mode request/history/
-  fixture/continuation/raw-observation envelopes. Producer checks bind complete
-  cohorts, actual runtime/paths, independent oracle and retained closed-file bytes.
-  Explicit null checkpoints/native coverage, create-only output, failure privacy
-  and retained roots preserve the comparison contract. Worker declarations alone
-  supply no source/process provenance or independently checked saved evidence.
-- Local clean install and exact-source Linux qualification pass1,602 cases in86
-  suites without failures/errors/skips/retries; optional762 also passes. All19 new
-  worker cases run natively on Linux. Qualification589c97adb29343dd94fd9f1afc01db59
-  binds reviewed inventory
-  `a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4`.
-  Linux183 guards,14 examples on each platform and four unchanged legacy workload/
-  saved-report branches pass. Windows518 core/381 optional capability skips remain
-  explicit. The first Windows test setup failure is preserved and resolved.
-- Ten affected live HTTPS pages/canonicals,112 sitemap URLs and602 search entries
-  pass, including worker/ADR0052. Desktop light/mobile dark/search and published
-  browser checks pass. Normal light/default viewport is restored; preview stopped.
-  The repair changes only tests/internal receipts, so public deployment stays bound
-  to9e644ca without a redundant deployment. Both local shipped archives remain
-  byte-identical; core166 remains JDK-only/classifier10 excludes new support.
-- Fresh November14 research keeps all12 core/build pins at latest stable with no
-  version change; optional AWS remains2.57.8/latest2.59.1 under deferred scope.
-- Preserve all107 IDs, old protocols and original durable datasets. Parents0104/
-  0101/0099/0097/0013 remain expanded with all original criteria. Source/process
-  supervision and independent saved admission stay0107; memory diagnostics stay
-  0105 and Linux evaluation/adoption stay0102. S3 and replication remain deferred.
+- **MDB-0108 — Independent recovery image admission** is active, owned by the
+  primary agent on November 14, 2026. Start from clean matching main/origin
+  `ea55d291bc637eeb3506d17904e2c04462b941da`; MDB-0106 delivery remains accepted.
+- Refine MDB-0107 into required0108 independent binary-image admission,0109 complete
+  request/result/matrix/counter admission and0110 Linux supervision/saved reports/
+  integration. Preserve all original criteria and old protocols/durable datasets.
+  Only0108 executes. Root owns queue/Git/builds; helpers own bounded research,
+  read-only review and an independent temporary Python-test handoff.
+- Source implementation and local acceptance pass; retain0108 active until exact
+  pushed-source CI/automatic Pages/live delivery. Independently decode bounded
+  original journal, manifest, segment and continuation
+  images. Recompute exact original-prefix/reference/full-object identities, retained
+  source objects and selected acquisition budgets. Return derived summaries without
+  filesystem/process work or mutation. Generator schedule/oracle, outer protocol/
+  matrix/native-counter validation remain0109; source/process/live/saved admission
+  remain0110. Structural image checks establish no provenance or performance result.
+- Keep0107/0104/0101/0099/0097/0013 expanded; memory diagnostics remain0105,
+  evaluated adoption0102 and production qualification0080. S3/replication stay deferred.
 
 ## Ordered work
 
@@ -106,7 +92,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0103](roadmap.md#mdb-0103-uninstrumented-recovery-controls) | Add equivalent recovery controls without active caller native capture | MDB-0101 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100 |
 | [MDB-0104](roadmap.md#mdb-0104-supervised-recovery-protocol-and-readback) | Supervise comparison modes with source-bound protocol and independent saved readback | MDB-0101 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
 | [MDB-0106](roadmap.md#mdb-0106-bounded-recovery-comparison-worker) | Produce bounded explicit-mode recovery protocol with raw input/result images | MDB-0104 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
-| [MDB-0107](roadmap.md#mdb-0107-supervised-recovery-admission-and-saved-readback) | Supervise and independently validate live and saved recovery comparisons | MDB-0104 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
+| [MDB-0107](roadmap.md#mdb-0107-supervised-recovery-admission-and-saved-readback) | Supervise and independently validate live and saved recovery comparisons | MDB-0104 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
+| [MDB-0108](roadmap.md#mdb-0108-independent-recovery-image-admission) | Independently decode and bind original recovery history and fixture images | MDB-0107 | active | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
+| [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
+| [MDB-0110](roadmap.md#mdb-0110-linux-recovery-supervision-and-saved-report-integration) | Supervise source-bound recovery runs and independently check saved reports | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0109 |
 | [MDB-0105](roadmap.md#mdb-0105-recovery-memory-diagnostics-and-integration) | Add isolated scoped memory diagnostics and complete comparison-evidence integration | MDB-0101 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0104 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |

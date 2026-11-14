@@ -116,8 +116,10 @@ telemetry retain the [comparison scopes](recovery-comparison.md#operation-and-re
 Export rejects mismatched request/runtime/input identities, incomplete or reordered
 matrices, differing equivalent fixtures, invalid operation kinds/coverage and
 changed retained bytes. These are producer consistency checks. Independent saved
-admission must still decode the original formats and recompute complete inputs,
-matrix and denominators rather than trusting these checks or a success field.
+admission must recompute complete inputs, matrix and denominators rather than
+trusting these checks or a success field. The [independent image consumer](recovery-images.md)
+now validates original binary formats and graph bindings. Complete outer evidence,
+schedule/oracle identity and native counter admission remain separate work.
 
 ## Failure and interpretation
 
