@@ -12,24 +12,21 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0108 — Independent recovery image admission** is active, owned by the
-  primary agent on November 14, 2026. Start from clean matching main/origin
-  `ea55d291bc637eeb3506d17904e2c04462b941da`; MDB-0106 delivery remains accepted.
-- Refine MDB-0107 into required0108 independent binary-image admission,0109 complete
-  request/result/matrix/counter admission and0110 Linux supervision/saved reports/
-  integration. Preserve all original criteria and old protocols/durable datasets.
-  Only0108 executes. Root owns queue/Git/builds; helpers own bounded research,
-  read-only review and an independent temporary Python-test handoff.
-- Source implementation and local acceptance pass; retain0108 active until exact
-  pushed-source CI/automatic Pages/live delivery. Independently decode bounded
-  original journal, manifest, segment and continuation
-  images. Recompute exact original-prefix/reference/full-object identities, retained
-  source objects and selected acquisition budgets. Return derived summaries without
-  filesystem/process work or mutation. Generator schedule/oracle, outer protocol/
-  matrix/native-counter validation remain0109; source/process/live/saved admission
-  remain0110. Structural image checks establish no provenance or performance result.
-- Keep0107/0104/0101/0099/0097/0013 expanded; memory diagnostics remain0105,
-  evaluated adoption0102 and production qualification0080. S3/replication stay deferred.
+- **MDB-0108 — Independent recovery image admission** is done. Source
+  `01d9ea67ab18465f37707f5fa03622da2e3c8c4b` is normally pushed and accepted by
+  exact-source Java/Linux/Windows, docs, automatic Pages and live checks. The
+  completion receipt in progress.md records actual runs, images and artifact IDs.
+- **MDB-0109 — Complete recovery worker admission** is next and ready after this
+  completion push. Admit bounded complete outer request/result, generator/schedule/
+  oracle/input identities, ordered matrices and native counter scopes independently,
+  reusing0108's image facts. No next execution starts in this invocation.
+- Structural image admission and the fixed compatibility smoke establish no full
+  worker/provenance/native-file/saved-report or performance acceptance. Retain0110
+  for source-bound Linux supervision, live files and saved reports/integration.
+- Keep0107/0104/0101/0099/0097/0013 expanded with all original criteria. Memory
+  diagnostics0105, evaluated adoption0102 and production qualification0080 remain.
+  S3/replication stay deferred. Root releases the active execution claim; Git owns
+  the completion SHA/push evidence.
 
 ## Ordered work
 
@@ -93,8 +90,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0104](roadmap.md#mdb-0104-supervised-recovery-protocol-and-readback) | Supervise comparison modes with source-bound protocol and independent saved readback | MDB-0101 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
 | [MDB-0106](roadmap.md#mdb-0106-bounded-recovery-comparison-worker) | Produce bounded explicit-mode recovery protocol with raw input/result images | MDB-0104 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
 | [MDB-0107](roadmap.md#mdb-0107-supervised-recovery-admission-and-saved-readback) | Supervise and independently validate live and saved recovery comparisons | MDB-0104 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
-| [MDB-0108](roadmap.md#mdb-0108-independent-recovery-image-admission) | Independently decode and bind original recovery history and fixture images | MDB-0107 | active | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
-| [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
+| [MDB-0108](roadmap.md#mdb-0108-independent-recovery-image-admission) | Independently decode and bind original recovery history and fixture images | MDB-0107 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
+| [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
 | [MDB-0110](roadmap.md#mdb-0110-linux-recovery-supervision-and-saved-report-integration) | Supervise source-bound recovery runs and independently check saved reports | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0109 |
 | [MDB-0105](roadmap.md#mdb-0105-recovery-memory-diagnostics-and-integration) | Add isolated scoped memory diagnostics and complete comparison-evidence integration | MDB-0101 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0104 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |

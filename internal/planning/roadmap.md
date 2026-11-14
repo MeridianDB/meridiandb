@@ -3265,6 +3265,12 @@ Maven regression context, unchanged protocols/inventory, docs/rules/CI/Pages/liv
 delivery pass. Full seeded schedule/oracle/outer matrix/counter admission stays0109;
 source/process/live/saved report integration stays0110. No memory/adoption work.
 
+**Accepted November 14, 2026:** independent structural image consumer,20 literal/
+adversarial tests plus6 smoke-boundary cases and actual Linux captured/control/
+maximum-history compatibility pass. Source01d9ea6 is accepted by full regressions,
+docs/Pages/live verification; see the dated completion receipt. Full worker
+admission0109 and supervision/saved reports0110 remain required for parent0107.
+
 ## MDB-0109 Complete recovery worker admission
 
 **Parent:** MDB-0107. **Outcome:** independently admit complete recovery protocol

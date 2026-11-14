@@ -8000,6 +8000,79 @@ remote work, release, controlled baseline or adoption starts. Validate110 IDs/
 cards/DAG/parents and task-owned staged diff. Commit Step-ID MDB-0108 with
 Step-Result checkpoint; final internal receipt records actual delivery.
 
+## November 14, 2026 — MDB-0108 completion acceptance
+
+**Delivery:** implementation `01d9ea67ab18465f37707f5fa03622da2e3c8c4b` normally
+pushes to origin/main; fetch verifies matching clean tips and source ancestry.
+Exact-source [Java43642551887](https://github.com/MeridianDB/meridiandb/actions/runs/43642551887)
+passes Linux132593079143 and Windows132593078906. No CI repair was necessary.
+
+Linux qualification run7c7ad8fb1e61425c999f033c77501fae binds clean01d9ea6 to
+unchanged reviewed inventory
+`a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4`:
+1,602 cases/86 suites with zero failures/errors/skips/retries.209 Python guards
+pass with zero Linux skips. Actual ext4, kernel7.0.0-1017-azure/x86_64, Eclipse
+Adoptium25.0.5+8-LTS, fresh run/root/runtime and production capability probes agree.
+Device/controller/cache/power-loss behavior remain unqualified; productionQualified
+is false. Windows passes1,602 core cases with518 typed capability skips and762
+optional cases with381 skips. Linux optional762 has zero skips; both platforms
+pass all14 Java examples. No production/Java/POM/protocol/inventory change.
+
+**New image compatibility:** all3 actual Linux fresh worker cases pass independent
+binary structure/graph checks:7-commit control/captured each14 decoded records,
+496-commit maximum993. Every worker group settles with exit0; no raw timing or
+full outer evidence admission is inferred. Artifact14132548914 is unexpired,
+501286bytes, SHA256
+`55fa2c3a8eae23da6c9f0f3f15428d4b5d194d08f635ae3723072dbe72dda17c`.
+Downloaded ZIP has357 files including48 hidden checkpoint locks; its retained
+summary exactly equals the CI log report. Image status/scope remain structural
+only. Keep original-source/class provenance and complete worker/saved admission
+with0109/0110, despite a successful known CI producer and retained files.
+
+All4 unchanged legacy workload branches pass with clean exact-source/class bindings,
+settled private groups and no deadline excess: ordinary
+5784c551045848dd8e7fb17d7772e673/a85a72f915ff43f8a6d9c39ba9ad80af and attributed
+68dff2272bc944e59ff9b40c34ed6420/8cd8efbf91714e32bbaacefbdb9b3cdd. Schemas2/2/3/3
+and original durable datasets remain unchanged. Four independent saved-report
+readbacks pass including scaled/max inputs. Unexpired regression artifacts
+14132164616 linux-storage-evidence243415bytes and14133100847
+linux-workload-evidence167968bytes retain their existing scopes. Ignored
+ci-summary.json, raw Linux/Windows logs and exact image ZIP save acceptance inputs.
+Temporary artifacts are not a durable recovery evaluation/adoption dataset.
+
+**Publication:** [docs43642551894](https://github.com/MeridianDB/meridiandb/actions/runs/43642551894)
+passes project132593078601/production132593078810, each42 QA fixtures and strict
+source/rendered builds. Automatic
+[Pages43642551889](https://github.com/MeridianDB/meridiandb/actions/runs/43642551889)
+passes build132593078691/deploy132593172402, bound to01d9ea6. All8 affected live
+HTTPS routes/content/canonicals pass,114 unique sitemap URLs and611 search entries
+include the new guide and ADR0053. Published guide66560bytes SHA256
+`dc9c26b920a9d089243b826341aef764752ff7f8aec96f9ec5b3774a3e2121f5`.
+Project URL uses existing redirect to http://meridiandb.org/development/recovery-images/,
+returns200 with the correct HTTPS canonical and identical bytes. Direct HTTPS
+passes; hosting remains unchanged. Ignored live/readback.json retains exact
+response identities/time. Browser confirms published guide; screenshot embedded
+in commentary and retained under ignored ui/site-published.png. Local light/dark,
+narrow tables, nav/search and ADR table QA are recorded above; default light/
+viewport restored and local8800 server stops with exit0.
+
+**Completion:**0108's independently decoded/checksummed/bounded original images,
+exact graph/prefix/continuation bindings, corruption/limit/ownership checks, both
+Java modes/local/Linux maximum compatibility, fresh Maven context and complete
+source/documentation delivery pass. Mark0108 done, clear its claim and prepare
+**MDB-0109 — Complete recovery worker admission** ready after this completion push.
+Keep0110 queued and0107/0104/0101/0099/0097/0013 expanded;0105 memory and0102
+evaluation retain all original criteria. No next execution, default change,
+remote work, release or comparative performance claim starts.
+
+Validate110 IDs/cards/parents/DAG, no active row and only0109 ready; inspect/stage
+only these3 internal planning files. Commit Step-ID MDB-0108 /Step-Result completed,
+normal-push/fetch and verify matching tips, source ancestry and clean tree. Git
+owns this receipt's completion SHA/delivery; internal-only changes need no repeat
+CI or Pages deployment. After committed delivery, remove only this task's4 owned
+disposable fixture trees (3 worker fixtures plus rooted Maven fixtures). Retain
+logs/envelopes/research/reports/CI ZIP/UI evidence and all other owners' files.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
