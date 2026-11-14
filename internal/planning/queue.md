@@ -12,35 +12,33 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0103 — Uninstrumented recovery controls** is complete. Source
-  `c6e89887f260627a889a87524c7b01233b0ea883` is pushed to main and accepted by
-  exact-source Java, documentation and automatic Pages checks. No active claim
-  remains. **MDB-0104 — Supervised recovery protocol and readback** is ready;
-  its recommendation starts no execution. MDB-0105 remains queued after0104.
-- Controls preserve equivalent fixtures, independent historical answers, measured
-  order, forced continuation and cleanup while activating/exporting no native
-  caller capture. NOT_CAPTURED means absent counters. Existing captured overloads,
-  transfer paths, stored formats and default engine behavior remain unchanged.
-  Read-only capture admission preserves caller ownership and other threads.
-- Fresh November13 research adopts compatible test-only Jackson3.3.0 in both
-  POMs; resolved databind/core3.3.0 and annotations2.23 agree. Other11 core/build
-  pins remain latest stable; optional AWS2.57.8/latest2.59.0 stays deferred.
-- Local rooted clean install and exact-source Linux qualification pass1,583 cases
-  in85 suites without failures/errors/skips/retries; optional762 also passes.
-  Qualification run0aa5406b38db4c76be0dbd260e09a040 uses reviewed inventory
-  `03333cc3880d5bc6d523da648fd644d6e5209e41b624236241b9efa0dfd60ccb`.
-  Linux183 guards, all14 examples on each platform and four unchanged legacy
-  workload/saved-report branches pass. Windows reports512 core/381 optional
-  capability skips, retaining basic compatibility scope. Core remains JDK-only.
-- Nine affected live HTTPS pages pass content/canonical checks;110 sitemap URLs
-  and593 search entries include ADR0051 and the updated guide. Desktop/light,
-  mobile/dark, search and published browser QA pass. The local preview is stopped.
-- Preserve all105 IDs, existing protocols and original durable datasets. Parents
-  MDB-0101/0099/0097/0013 stay expanded with their original acceptance criteria.
-  Uninstrumented controls retain recorder/JVM/inactive-hook/timed-guard overhead;
-  they establish no speed, memory, production or default-adoption result. Separate
-  memory diagnostics/integration remain0105; Linux evaluation/adoption remains0102.
-  Production qualification remains0080; S3 and replication stay deferred.
+- **MDB-0106 — Bounded recovery comparison worker** is active, owned by the
+  primary agent on November 14, 2026. Start from clean matching main/origin
+  `dc735d3ab521deab0a0a8bb17d3f0bf41718aabc`; MDB-0103 delivery remains accepted.
+- Refine MDB-0104 into required MDB-0106 worker protocol and MDB-0107 Linux
+  supervision/independent saved readback. Preserve every original parent criterion,
+  existing workload protocols and durable datasets. Only MDB-0106 executes.
+- Implement a separate bounded, test-only Java producer for explicit captured and
+  control modes, complete raw cohorts, original history and fixture/continuation
+  images. Declared source/PID/runtime/hash fields alone establish no provenance.
+  Preserve create-only output, explicit failures and actual owned cleanup.
+- Refresh Maven artifacts and verify focused behavior, full rooted inventory,
+  optional adapter, shipped archive exclusions, docs/rules and exact-source CI/
+  automatic Pages/live publication. Root owns queue, Git and builds; independent
+  helpers own research, read-only review and a temporary test-file handoff.
+- Local acceptance passes all19 new worker cases, the57-case first focused set,
+  rooted clean install1,602/86 suites and clean optional762 without failures or
+  skips. Inventory `a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4`
+  adds only the19-case worker suite. Both shipped archives remain byte-identical;
+  core166 stays JDK-only/classifier10 excludes helpers. Python183 guards (5 local
+  Linux-only skips),42 docs fixtures and both112-page builds pass. Search602 and
+  mobile/light/dark/navigation QA pass; normal viewport/light scheme restored.
+- Fresh November14 research verifies14 Central and18 official responses. All12
+  core/build pins remain latest stable, no version changes; optional AWS remains
+  selected2.57.8/latest2.59.1 while deferred. Keep0106 active pending exact-source
+  CI/Linux/legacy workload regression and automatic Pages/live acceptance.
+- Keep MDB-0104/0101/0099/0097/0013 expanded; memory diagnostics remain MDB-0105
+  and evaluated adoption remains MDB-0102. S3 and replication stay deferred.
 
 ## Ordered work
 
@@ -101,7 +99,9 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0100](roadmap.md#mdb-0100-equivalent-recovery-comparison-core) | Compare fresh equivalent recovery lifecycles with raw clocks and native work | MDB-0099 | done | MDB-0012, MDB-0096, MDB-0098 |
 | [MDB-0101](roadmap.md#mdb-0101-supervised-recovery-comparison-evidence) | Bind recovery comparison and scoped memory diagnostics to supervised exact-source evidence | MDB-0099 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100 |
 | [MDB-0103](roadmap.md#mdb-0103-uninstrumented-recovery-controls) | Add equivalent recovery controls without active caller native capture | MDB-0101 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100 |
-| [MDB-0104](roadmap.md#mdb-0104-supervised-recovery-protocol-and-readback) | Supervise comparison modes with source-bound protocol and independent saved readback | MDB-0101 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
+| [MDB-0104](roadmap.md#mdb-0104-supervised-recovery-protocol-and-readback) | Supervise comparison modes with source-bound protocol and independent saved readback | MDB-0101 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
+| [MDB-0106](roadmap.md#mdb-0106-bounded-recovery-comparison-worker) | Produce bounded explicit-mode recovery protocol with raw input/result images | MDB-0104 | active | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
+| [MDB-0107](roadmap.md#mdb-0107-supervised-recovery-admission-and-saved-readback) | Supervise and independently validate live and saved recovery comparisons | MDB-0104 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
 | [MDB-0105](roadmap.md#mdb-0105-recovery-memory-diagnostics-and-integration) | Add isolated scoped memory diagnostics and complete comparison-evidence integration | MDB-0101 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0104 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |

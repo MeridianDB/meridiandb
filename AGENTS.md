@@ -675,6 +675,21 @@ so a new session can work correctly without relying on earlier conversations.
   and at control call boundaries; never activate a temporary capture as a guard or
   modify caller-owned/other-thread captures. Keep control counters absent, not
   fabricated zeros, and document recorder/JVM/inactive-hook/timed-guard overhead.
+- For the [bounded recovery worker](docs/development/recovery-worker.md) and
+  [ADR 0052](docs/decisions/0052-bounded-recovery-worker.md), preserve a separate
+  explicit-mode protocol and existing worker schemas. Admit conservative matrix
+  work before path effects. Keep the scratch parent trusted, stable and durably
+  named for durability-related runs; canonical paths do not establish ancestor
+  namespace durability. Label temporary examples as capability/correctness checks.
+  Bind complete returned cohorts, runtime, original
+  history, retained fixture images and exact state-changing continuation before
+  producer success. Export nullable checkpoint sequence and native coverage
+  explicitly, with absent counters distinct from zero. Preserve create-only final/
+  partial output, typed capability failures, retained roots and Error uncertainty.
+  Worker-supplied source/PID/hashes and exit zero are declarations, not source/
+  process provenance or independently checked saved evidence. Keep supervision,
+  independent admission/readback, memory diagnostics and adoption with their
+  required work; keep support outside both shipped archives.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

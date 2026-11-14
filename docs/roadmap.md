@@ -44,6 +44,8 @@ future protocol with local persistence on each participant.
 | [Independent reference](development/reference-model.md) | Canonical histories and seeded comparisons against a separate dense-state representation |
 | [Workload corpus](development/workload-corpus.md) | Bounded deterministic append/correction/retraction/hot-entity histories, independent answers and memory/local-reopen conformance; no performance measurements |
 | [Local measurement core](development/local-measurements.md) | Checked operation clocks, fresh warmup/repetitions and scoped JVM telemetry |
+| [Recovery comparison core](development/recovery-comparison.md) | Fresh equivalent storage shapes and access/strategy cohorts, explicit captured/control modes and independent historical checks; evaluated adoption pending |
+| [Recovery comparison worker](development/recovery-worker.md) | Separate bounded producer with raw history/fixture images and complete ordered observations; source supervision and independent saved admission pending |
 | [Supervised Linux workloads](development/supervised-workloads.md) | Independent bounded workload dimensions, clean source/class bindings, strict result admission and scoped process-I/O/allocated-file accounting; controlled evaluation remains pending |
 | [Saved workload reports](development/workload-reports.md) | Checked request/report/worker records with per-iteration latency, resource and recorded-accounting views; original resources are not reobserved |
 | [Linux workload observations](development/linux-observations.md) | Ten sequential profile/dimension/seed/control cases with checked raw evidence and per-repetition metrics; attributed file-work and controlled-device comparisons remain separate |

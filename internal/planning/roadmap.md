@@ -3167,6 +3167,60 @@ Linux smoke/saved readback pass on exact clean source. Preserve failed evidence,
 bounded process groups/output/time and documented native/clock limits. Keep
 memory diagnostic integration with0105 and evaluation/adoption with0102.
 
+**Required children, November 14, 2026:** separate the bounded Java protocol
+producer (MDB-0106) from Linux source/process supervision and independent live/
+saved evidence admission (MDB-0107). All original criteria remain required. A
+worker declaration or exit zero does not establish source provenance, independently
+checked evidence, controlled performance or memory diagnostics. Keep this parent
+expanded until both children and its original integration criteria pass.
+
+## MDB-0106 Bounded recovery comparison worker
+
+**Parent:** MDB-0104. **Outcome:** a separate JDK-only test-support command produces
+bounded explicit-mode recovery envelopes containing the exact request, original
+history frames, retained initial fixture images, continuation frame and complete
+raw ordered observations with explicit native coverage and nullable checkpoints.
+
+**Complete when:** admit arguments/work before path effects, bind returned matrix/
+request/runtime/paths and retained image identities before success, and preserve
+create-only/partial output with typed unsupported versus failed outcomes and
+retained failure roots. Existing schemas and defaults remain unchanged; no helper
+enters either shipped archive. Independent tests cover both actual native modes,
+raw frame/checksum/final-file evidence, absent versus captured counters, malformed
+or mixed/incomplete results, limits, ownership and collision/failure boundaries.
+Exercise the maximum admitted input envelope, fresh Maven research, full rooted
+suite inventory, optional regression, docs/rules and actual source CI/Pages/live
+delivery. Process/source supervision and independent saved readback remain0107;
+memory diagnostics and performance adoption remain0105/0102.
+
+**Source checkpoint, November14,2026:** separate sixteen-argument JDK-only worker
+implements explicit-mode request/raw image/result export and fail-closed producer
+consistency checks, with create-only publication and retained failure evidence.
+Nineteen new cases pass, including actual112-observation/280-operation and496-commit
+admission extremes, independent frame/CRC/final-file checks and malformed results.
+Rooted clean install1,602/86 suites and clean optional762 pass without failures/
+skips; both shipped archives remain byte-identical. Fresh14 Central/18 official
+responses keep all12 core/build pins current; AWS2.57.8/latest2.59.1 stays deferred.
+Python183 (5 local Linux skips),42 docs fixtures, both112-page builds, search602
+and mobile/light/dark QA pass. Preserve0106 active until exact-source CI/Pages/live
+delivery; keep0107 queued and all parents expanded. No supervision, independent
+saved admission, isolated memory diagnostics or evaluated adoption starts here.
+
+## MDB-0107 Supervised recovery admission and saved readback
+
+**Parent:** MDB-0104. **Outcome:** bounded Linux workers with independently checked
+source/classes/runtime/process/request/results and offline saved-report admission.
+
+**Complete when:** satisfy every original0104/0101 supervision, full raw matrix,
+denominator, original-history/fixture/continuation decoding, mode/coverage,
+order/failure/ownership and source-binding criterion. Reject malformed, stale,
+incomplete, mixed, failed and contradictory evidence; preserve bounded process
+groups/deadlines/output and failed raw files. Actual clean-source Linux smoke,
+independent saved readback, docs/rules/CI/live delivery and integration audit pass
+before closing0104. Preserve old protocols/datasets, scoped unknowns and separate
+memory diagnostics/adoption. Refine before execution if another concrete required
+prerequisite is substantial; never close the parent by dropping its criteria.
+
 ## MDB-0105 Recovery memory diagnostics and integration
 
 **Parent:** MDB-0101. **Outcome:** separately isolated, bounded diagnostics for

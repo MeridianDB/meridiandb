@@ -166,7 +166,8 @@ strategies, modes or shapes.
 
 Typed result version one contains corpus/configuration/limit/runtime identities
 and immutable raw observations. Mode and per-operation coverage must agree.
-It is a separate developer type, not a new wire schema. Optional CPU/allocation stays unavailable when the JVM cannot supply a
+It is a separate developer type. The [bounded worker](recovery-worker.md) maps it
+to a separate explicit protocol, preserving existing workload wire schemas. Optional CPU/allocation stays unavailable when the JVM cannot supply a
 valid delta. Used heap includes uncollected garbage and is neither peak, retained
 heap nor RSS; no forced GC or telemetry enablement occurs. Prepared corpus, oracle
 and graph inputs also remain live during the matrix and contribute to these
@@ -177,8 +178,9 @@ and owner cleanup succeeds. A returned database is closed if later instrumentati
 or export fails, including runtime and Error paths. I/O/runtime run failures report
 the retained root through `RunFailedException`; Errors propagate with files retained.
 No partial successful comparison is returned and no fallback hides a rejected
-checkpoint. Source supervision, bounded serialized admission, memory diagnostics
-and an adoption/rejection evaluation remain required before a performance decision.
+checkpoint. The worker adds bounded producer serialization and consistency checks. Source
+supervision, independent serialized admission/readback, memory diagnostics and an
+adoption/rejection evaluation remain required before a performance decision.
 
 
 ## Correctness coverage

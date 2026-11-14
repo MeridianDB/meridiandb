@@ -7738,6 +7738,100 @@ Step-Result completed, normal-push/fetch and verify matching tips, source ancest
 and clean tree. Git owns actual completion SHA/delivery; this internal-only receipt
 requires no repeat source CI or Pages deployment.
 
+## November 14, 2026 — MDB-0106 source checkpoint
+
+**Selection/refinement:** clean main/origin begins at
+`dc735d3ab521deab0a0a8bb17d3f0bf41718aabc`, with0103 delivery accepted.0104
+combines substantial Java production, Linux source/process supervision and
+independent evidence/report admission. Refine it into required0106 bounded worker
+and0107 supervised admission/readback; preserve every original criterion and all
+prior protocols/datasets. Only0106 executes. Root owns queue/Git/builds; helpers
+return fresh research, independent read-only reviews and a temporary test handoff.
+All helper write ownership returns before root's serialized builds and Git work.
+
+**Producer:** separate JDK-only test-support RecoveryComparisonWorker takes exactly
+sixteen bounded arguments with explicit stable mode identifier, run/declared-source,
+profile/seed/configuration/dimensions/limits and canonical paths. Admit conservative
+matrix work before path inspection. Use existing bounded JSON/create-only helpers
+unchanged; reserve actual worker.partial.json. Export separate protocol/version1,
+exact request and raw original history, per-shape nonjournal initial images,
+continuation frame and complete ordered observations. Explicitly map checkpoint
+OptionalLong to number/null and operation coverage to ADAPTERS_ONLY/NOT_CAPTURED;
+record reflection alone would not preserve them.
+
+Bind returned schema/input/config/limits/runtime/oracle, full matrix/order/path/
+operation/coverage and equivalent fixtures before success. Reobserve retained
+initial files and exact closed journals after core owners close. Validate the
+continuation's sequence, fresh request/entity and literal unbounded Put17. Preserve
+failure result privacy, known owned roots, bounded diagnostics and typed directory
+capability versus ordinary failures. Errors may propagate without a final envelope;
+publication cleanup can leave a final file with nonzero exit. No automatic cleanup,
+repair or independent source claim. Existing core/worker, production and format
+files remain unchanged. Root's first review fixes known dot-prefixed control-file
+admission and tightens exact shape/count/object filenames; no shipped change.
+
+**Independent tests:** original helper15 plus root4 invocations total19. Cover
+argument/control/identity/mode/numeric/path/work admission, exact40000 boundary,
+long-min seed and request bindings, zero-trust declared source, cyclic/lookalike/
+typed failures, nested retained roots, Error propagation and create-only races.
+Fourteen altered returned bindings, wrong mode/null result and changed physical
+journal reject without successful partial output. Both actual native modes expose
+all16 opens and raw scopes; independent ByteBuffer/CRC32C decoding checks original
+and156-byte continuation frames, per-shape raw images/IDs and closed final bytes.
+Fresh ordinary reopens verify owner release and current/historical state. Additional
+cases exercise112 observations/280 operations (2 warmups/5 repetitions) and496
+commits at exact40000 conservative work, bounded JSON bytes/nodes, insufficient
+valid checkpoint limits as execution failure and dangling/aliased paths. Ordinary
+I/O errors fail; native skips require explicit typed Windows directory-sync gaps.
+These are producer correctness checks, not independently admitted saved evidence.
+
+**Fresh Maven research:** November14 17:49:53–55UTC/12:49:53–55EST checks14 Central
+metadata and18 official compatibility/release responses, all successful. All12
+core/build/test pins remain latest stable, including Jackson3.3.0; no POM/wrapper
+change. Optional AWS selected2.57.8/latest2.59.1 remains deferred. Verify copied57
+manifest entries; report SHA256
+`1e008d477198349486055e44d7967692ddd1357227c61fcb468dace350f7a1a3`,
+manifest `7677d2d9d2d775f2cb08cac8b62517885b60b37aa8ebbac1f6944aa0dcf00a45`.
+Current public build table matches researched coordinates and runtime minima;
+actual compatibility is established by local/CI tests, not a vendor certification.
+Ignored named workspace .local-qa/recovery-worker/mdb-0106/root retains research,
+focused/full reports, binding, smoke envelopes and visual QA; no other owner's
+files or prior QA trees are touched.
+
+**Local verification:** first focused57 passes, then final19 worker cases pass.
+Fresh rooted clean install run04d93ce99fdd4b09b2733f800bcb9381 passes1,602 cases/
+86 suites without failures/errors/skips/retries on macOS/APFS/aarch64 Oracle
+25.0.2+10-LTS-69. Strict XML readback verifies every run/root/runtime binding.
+Reviewed inventory SHA256
+`a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4`
+adds only RecoveryComparisonWorkerTest19 and preserves all85 prior suite counts.
+Subsequent clean optional verify passes762 without failures/skips against the
+fresh local install. Core166 remains JDK-only (`jdeps` java.base); classifier10
+excludes helpers. Both archives are byte-identical to0103: core SHA256
+`a80c0cadff77e916feefb68b868b9d497dc83bff431d4d6cb307bec3a7e4da56`,
+classifier `ad5ee6fe07c7fc200b1ba546c2698ec571593c87127169f8bc59c53c4b53f83a`.
+Standalone Java with no external classpath passes both small worker modes. Python
+183 storage guards pass with5 local Linux-only skips;42 docs fixtures pass.
+
+**Public docs/rules:** ADR0052, worker guide, comparison guide, current README/
+build/count callers, capability roadmap, navigation and persistent agent rule
+agree. Clarify trusted/stable/durably named scratch/ancestor prerequisites; label
+mktemp/mkdir command capability/correctness-only. Canonical paths do not establish
+ancestor durability. Both final URL builds pass source/HTML/links/search/sitemap:
+112 unique routes/602 search entries. Desktop light and mobile dark tables343px
+fit390px viewport without document overflow; search finds worker/ADR content.
+Restore normal light/default viewport. Local8800 remains for published QA.
+
+**Delivery gate/handoff:** keep0106 active until normal source push, exact-source
+Java/Linux/legacy workload regressions, docs/automatic Pages and live acceptance.
+0107 stays queued;0104/0101/0099/0097/0013 remain expanded. Worker-supplied source/
+PID/hashes and exit zero remain declarations; source/class/process admission and
+independent original-format/saved readback stay0107. Memory diagnostics0105 and
+evaluation/adoption0102 retain all original criteria. No next execution, production
+default, remote work or release starts. Validate107 IDs/cards/DAG/parents and
+task-owned staged diff. Commit Step-ID MDB-0106 /Step-Result checkpoint; final
+internal receipt will record actual CI/publication/completion delivery.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
