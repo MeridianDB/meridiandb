@@ -7856,6 +7856,73 @@ new exact-source CI reruns complete Linux/Windows regression. Keep0106 active an
 normal push/fetch and exact-source delivery checks. Published docs remain bound to
 9e644ca; test/internal-only repair need not create a redundant Pages deployment.
 
+## November 14, 2026 — MDB-0106 completion acceptance
+
+**Delivery:** implementation `9e644caf9bdc2e7f8058c1f807125cecad3cc1bf` and test
+repair `73fe6f675df3580646fda74a5c3e441a338d1626` normally push to origin/main;
+fetch verifies matching clean tips and both source ancestors. The first Java run
+43625627381 failed its Windows test construction and remains historical failure
+evidence. Its cause and focused correction are recorded immediately above.
+No worker/production/POM/public input changed in the repair.
+
+**Exact repair-source acceptance:** [Java43625961071](https://github.com/MeridianDB/meridiandb/actions/runs/43625961071)
+passes Linux132541702821 and Windows132541703009. Qualification run
+589c97adb29343dd94fd9f1afc01db59 binds clean73fe6f6 to reviewed inventory
+`a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4`:
+1,602 cases/86 suites, zero failures/errors/skips/retries. All19 new worker cases
+run natively, including maximum matrix/history inputs. Linux183 Python storage
+guards pass with no skips. Actual filesystem ext4, kernel7.0.0-1017-azure/x86_64,
+Eclipse Adoptium25.0.5+8-LTS; fresh fixture/run/runtime and production capability
+probes agree. Device/cache/controller/block geometry remain unknown and
+productionQualified=false. Windows reports518 core/381 optional typed capability
+skips without failures/errors. Both platforms pass optional762 and14 Java examples.
+
+All four unchanged legacy workload branches pass with exact clean source bindings,
+settled private groups and no deadline excess: ordinary
+ace6eed5bda64bab99d840b5c497efcb/31704689a0664200893077fbe6d479e9 and attributed
+2257f9eaf6584fdf94dedee08af94d80/2166cc0763364d129e4a25a1c7533033. Original
+schemas2/2/3/3 and durable datasets remain unchanged. Four independent saved-report
+readbacks pass, including scaled/max inputs. Observed unexpired artifacts14126081918
+(linux-storage-evidence,243342bytes) and14126052498 (linux-workload-evidence,
+167693bytes) are regression retention, not recovery comparison/adoption datasets.
+Ignored ci-summary.json saves exact runs/jobs/profile/workload/artifact metadata.
+
+**Publication acceptance:** implementation-source
+[docs43625627093](https://github.com/MeridianDB/meridiandb/actions/runs/43625627093)
+passes production132540666954/project132540667182. Automatic
+[Pages43625627213](https://github.com/MeridianDB/meridiandb/actions/runs/43625627213)
+passes build132540667389/deploy132540785444. Public inputs are unchanged between
+9e644ca and73fe6f6 (verified by Git diff), so this deployment remains applicable.
+Ten affected live HTTPS pages pass content/canonical checks;112 unique sitemap
+URLs and602 search entries include worker/ADR0052. Published guide66,727bytes
+SHA256 `9775886742a2d42797348cee58b4d6bbd427f49af503d847394010c8798530fa`.
+Project URL reaches it through the existing redirect to
+`http://meridiandb.org/development/recovery-worker/`,200 with correct HTTPS
+canonical. Direct production HTTPS checks pass; hosting remains unchanged.
+Ignored live/readback.json retains exact response hashes/check time. Browser
+confirms the actual published guide/protocol and the screenshot is embedded in
+commentary. Mobile dark tables343px fit390px viewport without document overflow;
+normal light/default viewport restored. Local8800 stops with exit0. Published
+screenshot is retained under ignored ui/site-published.png.
+
+**Completion and next step:**0106's bounded argument/work/mode/request/matrix/raw
+image/continuation/failure/ownership/export contracts pass with independent cases,
+complete inventory, persistent rules/public docs and actual source delivery.
+Mark0106 done, clear claim and prepare **MDB-0107 — Supervised recovery admission
+and saved readback** ready after this completion push. Keep0104/0101/0099/0097/0013
+expanded with every original integration criterion. Producer declarations are not
+source/class/process provenance or independently admitted saved evidence. Retain
+memory diagnostics0105 and evaluated adoption0102; no next execution, default
+change, remote work, release or comparative performance claim starts.
+
+Validate107 IDs/cards/parents/DAG, no active row and only0107 ready; inspect/stage
+only these3 internal planning files. Commit Step-ID MDB-0106 /Step-Result completed,
+normal-push/fetch and verify matching tips, source ancestry and clean tree. Git
+owns the completion SHA/delivery; this internal-only receipt needs no repeat CI
+or Pages deployment. After the committed checkpoint, remove only this task's two
+disposable smoke fixture trees; retain envelopes/logs/research/report/UI evidence
+and all other owners' files. No pending work depends on those disposable fixtures.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

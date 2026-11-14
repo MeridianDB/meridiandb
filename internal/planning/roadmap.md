@@ -3212,6 +3212,19 @@ can reject it. Pass a raw invalid absolute argument to exercise the worker on bo
 providers; all19 local worker cases pass. No worker/production/inventory/public
 change. Keep0106 active until the repair source passes CI; preserve the failed run.
 
+**Completion acceptance, November14,2026:** repair source
+`73fe6f675df3580646fda74a5c3e441a338d1626` passes Java43625961071. Linux
+qualification589c97adb29343dd94fd9f1afc01db59 passes1,602/86 suites, zero failures/
+errors/skips/retries on ext4/JDK25.0.5; all19 new worker cases run natively. Optional
+762,183 Linux guards, both platforms'14 examples and four unchanged legacy workload/
+saved-report branches pass. Windows518 core/381 optional skips remain explicit.
+Docs43625627093/Pages43625627213 for9e644ca and10 affected live pages/canonicals/
+search/sitemap/browser pass; the repair leaves public inputs unchanged. Preserve
+the first failed Windows test receipt and its resolved cause. Mark0106 done and
+clear claim; prepare0107 ready while all parents remain expanded. This completes
+the producer, not source/process supervision, independent saved admission, memory
+diagnostics or an evaluated adoption decision.
+
 ## MDB-0107 Supervised recovery admission and saved readback
 
 **Parent:** MDB-0104. **Outcome:** bounded Linux workers with independently checked
