@@ -7832,6 +7832,30 @@ default, remote work or release starts. Validate107 IDs/cards/DAG/parents and
 task-owned staged diff. Commit Step-ID MDB-0106 /Step-Result checkpoint; final
 internal receipt will record actual CI/publication/completion delivery.
 
+## November 14, 2026 — MDB-0106 Windows test delivery repair
+
+Source `9e644caf9bdc2e7f8058c1f807125cecad3cc1bf` normally pushes to main; fetch
+verifies matching clean tips. Docs43625627093 passes both URL jobs and automatic
+Pages43625627213 passes build132540667389/deploy132540785444. Ten live affected
+HTTPS pages/canonicals,112 sitemap URLs and602 search entries pass. Guide66,727bytes
+SHA256 `9775886742a2d42797348cee58b4d6bbd427f49af503d847394010c8798530fa`.
+
+Java43625627381 Windows132540668556 reports1 error/518 skips in1,602 cases: the new
+scratch/output test constructs bad:name.json as a Path outside worker execution.
+Windows correctly rejects ':' at that constructor, so the test never reaches its
+assertion. This is test portability, not an unsupported-capability reclassification.
+Pass the raw invalid absolute argument to execute; Windows Path.of then rejects
+inside request admission, and POSIX rejects the unsafe basename. All19 local worker
+cases pass after this narrow correction. Preserve exact first decoded log/metadata
+under ignored first-ci-failure.json; do not claim first Java run passed. Linux job
+was still running at observation; new source CI will establish complete acceptance.
+No worker, production, inventory, dependency or public content changes are needed.
+Previously accepted complete local inventory/adapter/archive checks remain applicable;
+new exact-source CI reruns complete Linux/Windows regression. Keep0106 active and
+0107 queued; source repair commit uses Step-ID MDB-0106 /Step-Result checkpoint,
+normal push/fetch and exact-source delivery checks. Published docs remain bound to
+9e644ca; test/internal-only repair need not create a redundant Pages deployment.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -169,11 +169,13 @@ class RecoveryComparisonWorkerTest {
         for (Path invalidOutput : List.of(Path.of("relative.json"), request.scratch().resolve("nested.json"),
                 request.output().getParent().getParent().resolve("outside.json"),
                 request.output().resolveSibling("worker.partial.json"), request.output().resolveSibling(".hidden"),
-                request.output().resolveSibling("bad name.json"), request.output().resolveSibling("bad:name.json"),
+                request.output().resolveSibling("bad name.json"),
                 request.output().resolveSibling("x".repeat(129)),
                 request.scratch().resolve("..").resolve("unnormalized.json"))) {
             assertInvalid(changed(request.args(), 8, invalidOutput.toString()));
         }
+        // A Windows provider rejects ':' in Path.of itself; pass the raw argument to the worker.
+        assertInvalid(changed(request.args(), 8, request.output().getParent() + java.io.File.separator + "bad:name.json"));
         assertEquals("retained", Files.readString(marker));
         assertNoExecutionFiles(request);
     }

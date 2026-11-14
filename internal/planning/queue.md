@@ -37,6 +37,12 @@ children before implementation rather than treating a whole milestone as one pat
   core/build pins remain latest stable, no version changes; optional AWS remains
   selected2.57.8/latest2.59.1 while deferred. Keep0106 active pending exact-source
   CI/Linux/legacy workload regression and automatic Pages/live acceptance.
+- Source9e644caf9bdc2e7f8058c1f807125cecad3cc1bf reaches main. Docs43625627093
+  and automatic Pages43625627213 pass;10 live pages,112 sitemap URLs and602
+  search entries pass. Java43625627381 catches a Windows-only test construction
+  error: bad:name.json becomes Path before worker rejection. Pass the raw argument
+  instead; all19 local worker checks pass. Product/worker code, inventory and
+  published content are unchanged. Keep0106 active for repair-source CI acceptance.
 - Keep MDB-0104/0101/0099/0097/0013 expanded; memory diagnostics remain MDB-0105
   and evaluated adoption remains MDB-0102. S3 and replication stay deferred.
 

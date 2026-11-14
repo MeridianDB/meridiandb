@@ -3206,6 +3206,12 @@ and mobile/light/dark QA pass. Preserve0106 active until exact-source CI/Pages/l
 delivery; keep0107 queued and all parents expanded. No supervision, independent
 saved admission, isolated memory diagnostics or evaluated adoption starts here.
 
+**Delivery repair, November14,2026:** source9e644ca's docs/Pages/live checks pass.
+Windows CI finds invalid test setup constructing bad:name.json before the worker
+can reject it. Pass a raw invalid absolute argument to exercise the worker on both
+providers; all19 local worker cases pass. No worker/production/inventory/public
+change. Keep0106 active until the repair source passes CI; preserve the failed run.
+
 ## MDB-0107 Supervised recovery admission and saved readback
 
 **Parent:** MDB-0104. **Outcome:** bounded Linux workers with independently checked
