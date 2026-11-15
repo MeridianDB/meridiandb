@@ -179,7 +179,8 @@ or export fails, including runtime and Error paths. I/O/runtime run failures rep
 the retained root through `RunFailedException`; Errors propagate with files retained.
 No partial successful comparison is returned and no fallback hides a rejected
 checkpoint. The worker adds bounded producer serialization and consistency checks. An
-[independent image consumer](recovery-images.md) checks recorded binary structure.
+[independent image consumer](recovery-images.md) checks recorded binary structure; [seeded input checks](recovery-corpus.md)
+reconstruct original bytes, schedule and workload summary.
 Source supervision, complete serialized admission/readback, memory diagnostics and an
 adoption/rejection evaluation remain required before a performance decision.
 

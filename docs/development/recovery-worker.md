@@ -118,8 +118,9 @@ matrices, differing equivalent fixtures, invalid operation kinds/coverage and
 changed retained bytes. These are producer consistency checks. Independent saved
 admission must recompute complete inputs, matrix and denominators rather than
 trusting these checks or a success field. The [independent image consumer](recovery-images.md)
-now validates original binary formats and graph bindings. Complete outer evidence,
-schedule/oracle identity and native counter admission remain separate work.
+now validates original binary formats and graph bindings. The [seeded corpus consumer](recovery-corpus.md) now reconstructs original bytes,
+schedule and oracle-summary identity. Complete outer result/matrix and native
+counter admission remain separate work.
 
 ## Failure and interpretation
 

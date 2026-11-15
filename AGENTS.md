@@ -701,6 +701,16 @@ so a new session can work correctly without relying on earlier conversations.
   Keep the fixed Linux compatibility smoke explicitly image-only, retain known
   failure receipts plus scoped native fixtures/hidden controls, and preserve later
   full admission, source-bound supervision, saved readback and evaluation criteria.
+- For [independent seeded recovery inputs](docs/development/recovery-corpus.md) and
+  [ADR 0054](docs/decisions/0054-independent-seeded-corpus-admission.md), bind exact
+  original bytes and corpus metadata to caller-expected spec using pure bounded
+  reconstruction. Preserve full-seed versus Random48 identity, signed draw/rejection
+  behavior, exact binary fingerprints, retries and realized oracle summaries. Bound
+  reference/encoding work before preparation, retain original history rather than
+  every snapshot, and reject wrong typed claims without mutation/partial output.
+  Keep opt-in input smoke separate from default image-only mode, full worker/matrix/
+  native scopes, source/live/saved admission, memory and evaluation. Preserve all
+  original parent criteria and literal compatibility vectors.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

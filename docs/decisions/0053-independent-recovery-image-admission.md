@@ -40,7 +40,8 @@ A Linux smoke checks the real worker's two modes and maximum history size while
 retaining bounded raw evidence and known failure receipts.
 
 Structural consistency does not certify the seed's generated values, schedule or
-oracle. Complete outer JSON/request/result/matrix/counter admission, actual
+oracle. [Independent seeded reconstruction](0054-independent-seeded-corpus-admission.md)
+adds those input bindings separately. Complete outer JSON/request/result/matrix/counter admission, actual
 source/classes/process/filesystem bindings and independently checked saved reports
 remain required. This consumer reads no native files and proves no prior force,
 acknowledgement, device durability, memory advantage or timing gain. General

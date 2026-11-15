@@ -67,7 +67,7 @@ On Windows PowerShell:
 .\mvnw.cmd -B verify
 ```
 
-The wrapper downloads Maven 3.10.0 on first use, checks the distribution's pinned
+The wrapper downloads Maven 3.10.1 on first use, checks the distribution's pinned
 SHA-256, and caches it. Maven resolves pinned plugins and test dependencies from
 Maven Central, so a cold build needs network access. The POSIX bootstrap needs a
 shell, `unzip` and either `sha256sum` or `shasum`; it can download through `curl`,
@@ -186,12 +186,13 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-11-14
+## Artifact research checked on 2026-11-15
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
-[download page](https://maven.apache.org/download.cgi) recommends Maven 3.10.0;
-Maven 4 is preview. The [plugin catalog](https://maven.apache.org/plugins/index.html)
+[download page](https://maven.apache.org/download.cgi) recommends Maven 3.10.1;
+Maven 4 is preview. The [3.10.1 release notes](https://maven.apache.org/docs/3.10.1/release-notes.html)
+describe a bugfix update to 3.10.0; the Wrapper now selects its verified distribution. The [plugin catalog](https://maven.apache.org/plugins/index.html)
 confirms the stable Maven 3 plugin lines. The
 [JUnit guide](https://docs.junit.org/6.1.3/overview.html) identifies JUnit 6.1.3 and
 its Java 17 minimum, compatible with this Java 25 baseline. Jackson 3.3.0 decodes
@@ -201,9 +202,11 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 14 at 15:50 EST (20:50 UTC), with eighteen official compatibility/
+on November 15 at 12:29 EST (17:29 UTC), with eighteen official compatibility/
 release sources including exact-version Jackson release/POM/baseline checks. [Jackson 3.3.0](https://github.com/FasterXML/jackson-databind/tree/jackson-databind-3.3.0)
 is selected in test scope in both artifacts; its Java 17 baseline is unchanged.
+Maven 3.10.1 distribution and release checks followed at 12:30 EST (17:30 UTC).
+JUnit 6.2.0-M1 remains a prerelease; 6.1.3 is the selected stable release.
 The adapter uses the same version for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
 and both fresh Central metadata sources below. The [SDK baseline](https://github.com/aws/aws-sdk-java-v2/blob/2.57.8/README.md)
@@ -219,7 +222,7 @@ workload runner introduces no cloud dependency or SDK behavior change.
 
 | Artifact | Selected stable version | Metadata latest entry | Evidence |
 | --- | --- | --- | --- |
-| `org.apache.maven:apache-maven` | 3.10.0 | 4.0.0-rc-7 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/maven-metadata.xml) |
+| `org.apache.maven:apache-maven` | 3.10.1 | 4.0.0-rc-7 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/maven-metadata.xml) |
 | `org.apache.maven.wrapper:maven-wrapper-distribution` | 3.3.4 | 3.3.4 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper-distribution/maven-metadata.xml) |
 | `org.apache.maven.plugins:maven-wrapper-plugin` | 3.3.4 | 3.3.4 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-wrapper-plugin/maven-metadata.xml) |
 | `org.apache.maven.plugins:maven-clean-plugin` | 3.5.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-clean-plugin/maven-metadata.xml) |
@@ -229,7 +232,7 @@ workload runner introduces no cloud dependency or SDK behavior change.
 | `org.apache.maven.plugins:maven-jar-plugin` | 3.5.1 | 4.0.0-beta-2 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/maven-metadata.xml) |
 | `org.apache.maven.plugins:maven-install-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-install-plugin/maven-metadata.xml) |
 | `org.apache.maven.plugins:maven-deploy-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/maven-metadata.xml) |
-| `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.1.3 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
+| `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.2.0-M1 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
 | `tools.jackson.core:jackson-databind` | 3.3.0 | 3.3.0 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
 | `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.59.1 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
 | `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.59.1 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
@@ -247,18 +250,19 @@ The scripts were generated with Apache Maven Wrapper Plugin 3.3.4, using its
 LF endings and `mvnw.cmd` uses CRLF on checkout. There is no wrapper JAR to commit.
 
 The Maven ZIP at the wrapper's `distributionUrl` was compared against Apache's
-[published SHA-512](https://downloads.apache.org/maven/maven-3/3.10.0/binaries/apache-maven-3.10.0-bin.zip.sha512).
-Its computed SHA-256 is pinned as `distributionSha256Sum` in
+[published SHA-512](https://downloads.apache.org/maven/maven-3/3.10.1/binaries/apache-maven-3.10.1-bin.zip.sha512).
+The computed ZIP SHA-256 is
+`9c1ef9174ef250a5009ed0dec97cbe8699acf7479add4e62bf7b0ea791c0adb5`, pinned as `distributionSha256Sum` in
 `.mvn/wrapper/maven-wrapper.properties`. A fresh-bootstrap negative check also
 confirmed rejection of an incorrect checksum. This verifies distribution integrity;
 it does not claim independent signature verification of every dependency.
 
 After researching a wrapper/runtime update, generate the scripts using fully
-qualified, exact plugin/version arguments. The initial reproducible generation
-command is:
+qualified, exact plugin/version arguments. The reproducible generation command
+for the selected runtime is:
 
 ```bash
-./mvnw org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.0 -Dtype=only-script
+./mvnw org.apache.maven.plugins:maven-wrapper-plugin:3.3.4:wrapper -Dmaven=3.10.1 -Dtype=only-script
 ```
 
 Generation can rewrite wrapper properties. Verify the selected archive against
@@ -307,7 +311,9 @@ and action inputs, rechecked on November 14, 2026. The fixed
 [independent recovery image smoke](recovery-images.md#verify-java-compatibility-on-linux)
 also runs on Linux and retains scoped worker output, logs, summaries and fixtures,
 including hidden control files. Its image-only result does not admit complete
-worker or saved comparison evidence. Neither these test artifacts nor the local
+worker or saved comparison evidence. An opt-in [seeded input smoke](recovery-corpus.md#linux-compatibility)
+also checks all profiles, extreme seeds and the largest recovery history through
+independent reconstruction, retaining a separate scoped artifact. Neither these test artifacts nor the local
 Maven install are library releases. Qualification helpers stay outside both the
 166-class production archive and the ten-class attached contract-support archive.
 

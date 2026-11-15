@@ -12,8 +12,10 @@ codecs or the older workload-history parser. It returns derived image facts only
 after the complete supplied graph passes. [ADR 0053](../decisions/0053-independent-recovery-image-admission.md)
 records this boundary.
 
-These checks establish recorded structural consistency. Complete outer-request,
-result, schedule, oracle, counter and saved-report admission remain unimplemented.
+These checks establish recorded structural consistency. A separate
+[seeded input consumer](recovery-corpus.md) reconstructs the history, schedule and
+oracle summary. Complete outer-request, result, matrix, counter and saved-report
+admission remain unimplemented.
 A consistently re-encoded history with different numeric values can pass this
 structural stage; it does not establish the declared seed's generated history.
 
@@ -98,6 +100,10 @@ length/hash, continuation and continued-journal identities, raw-image bytes,
 decoded record work, selected per-shape object sizes/counts and initial file
 hashes. These are logical encoded facts, not heap measurements, actual I/O,
 force receipts, source provenance or performance results.
+
+For seeded original history and schedule/summary binding, use the separate
+[corpus validator](recovery-corpus.md); structural image acceptance alone supplies
+none of those additional facts.
 
 ## Verify Java compatibility on Linux
 

@@ -126,6 +126,23 @@ jobs:
           include-hidden-files: true
           retention-days: 14
           if-no-files-found: warn
+      - name: Verify independently seeded recovery inputs
+        if: runner.os == 'Linux'
+        run: python scripts/storage/verify_recovery_images.py --corpus --scratch-parent "$RUNNER_TEMP" --source "$GITHUB_SHA" --timeout 180
+      - name: Retain seeded recovery input evidence
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recovery-corpus-compatibility
+          path: |
+            ${{ runner.temp }}/mdb-recovery-corpus-*/summary.json
+            ${{ runner.temp }}/mdb-recovery-corpus-*/*/worker.json
+            ${{ runner.temp }}/mdb-recovery-corpus-*/*/worker.partial.json
+            ${{ runner.temp }}/mdb-recovery-corpus-*/*/worker.log
+            ${{ runner.temp }}/mdb-recovery-corpus-*/*/fixtures/**
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: warn
       - name: Run the embedded Java example
         run: java --class-path target/classes examples/EmbeddedExample.java
       - name: Run the local journal example

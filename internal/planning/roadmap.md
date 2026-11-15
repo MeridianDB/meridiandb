@@ -3287,6 +3287,46 @@ Independent adversarial/boundary and actual clean-source Java/Linux compatibilit
 docs/rules/CI/live delivery pass. Supervision and saved-report integration stay0110;
 admit another concrete required prerequisite if independently substantial.
 
+**Required children, November 15, 2026:**0111 independent seeded corpus/history/
+schedule/oracle-summary reconstruction and0112 complete outer protocol/result/
+matrix/counter admission. Keep every original criterion and retain0110 for actual
+supervision/live files/saved reports. Input reconstruction alone is no whole-result
+acceptance or source provenance.
+
+## MDB-0111 Independent seeded corpus admission
+
+**Parent:** MDB-0109. **Outcome:** independently reconstruct v1 seeded original
+history, interleaved schedule fingerprints and realized oracle summary, then bind
+recorded corpus declarations to a caller-provided expected specification.
+
+**Complete when:** strict typed field/dimension/probability/aggregate-work/encoded
+admission precedes preparation. Reproduce Java Random48 stream separation,
+rejection/overflow/signed-long behavior, retries, original frames, finite queries
+and binary schedule/history fingerprints without executing Java or importing its
+algorithms. Independently compute realized effects/no-op/presence/overlap/touch/
+intent/query/hit/empty metadata under bounded work without retaining all snapshots.
+Exact source image/summary binding rejects changed seed/values/schedule/counters,
+malformed types and excessive inputs without mutation or partial results. Literal
+goldens, independent semantic/adversarial/boundary cases, all-profile/extreme-seed/
+maximum-history fresh Java and Linux captured/control compatibility pass. Preserve
+old schemas/datasets and image-only mode; fresh Maven regression, docs/rules/queue,
+CI/automatic Pages/live delivery pass. Full outer protocol/result/matrix/native
+counter admission remains0112; source/process/live/saved integration remains0110.
+
+## MDB-0112 Complete recovery protocol and counter admission
+
+**Parent:** MDB-0109. **Outcome:** bounded complete recovery protocol admission,
+reusing0108 image and0111 independently reconstructed corpus facts.
+
+**Complete when:** every original0109/0107/0104 outer request/result/mode/source/
+runtime/path/matrix/operation/native scope criterion passes. Bound JSON duplicate/
+depth/nodes/raw strings, reject malformed/stale/partial/mixed/failed evidence and
+recompute all metadata/denominators/counters independently. Preserve unavailable
+counters, warmup/order/measured cohorts, original protocols/datasets and exact
+recorded requests. Independent adversarial/boundary and clean-source Java/Linux
+compatibility, docs/rules/CI/Pages/live and complete parent-criteria audit pass
+before closing0109. Keep0110 queued for source-bound supervision/saved integration.
+
 ## MDB-0110 Linux recovery supervision and saved report integration
 
 **Parent:** MDB-0107. **Outcome:** supervised exact-source/class/runtime/filesystem/

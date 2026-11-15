@@ -8073,6 +8073,93 @@ CI or Pages deployment. After committed delivery, remove only this task's4 owned
 disposable fixture trees (3 worker fixtures plus rooted Maven fixtures). Retain
 logs/envelopes/research/reports/CI ZIP/UI evidence and all other owners' files.
 
+## November 15, 2026 — MDB-0111 independent seeded corpus source checkpoint
+
+**Refinement:** preserve0109's original complete-worker criteria and expand it into
+required0111 independent seeded history/schedule/oracle-summary reconstruction and
+0112 complete outer protocol/result/matrix/native-counter admission.0110 retains
+source/process/live-file/saved integration. Execute only0111 from clean matching
+0c03d9ac17144266ace5b6c44c345eef8629e3d4. Root owns Git/queue/builds; independent
+helpers own the one pure module, its literal tests and version research/reviews.
+
+**Implementation:** standard-library recovery_corpus.py prepares exact v1 salted
+Random48 writes/reads/retries, signed-half nextLong and signed32 bounded rejection,
+original journal images, full binary schedule/history SHA256 and realized workload
+summary. Independent per-entity original-history lookup/dense finite-window effects
+preserve absence/retraction/filter/sum emptiness, no-op/presence/overlap/touch/intent/
+historical-read counts. Retain O(C) history, not all-cutoff snapshots. Exact11-field
+typed spec/32M reference/action/16MiB encoded admission precedes preparation. Strict
+source/5-field metadata/nested-map types and byte/count bounds precede regeneration.
+validate_corpus binds exact original images/claims and returns fresh derived facts
+without mutation, partial output, FS/process or provenance assertions.
+
+Add opt-in --corpus to existing compatibility smoke; default3-case/schema1/image
+scope remains unchanged. Version2/input_checks_passed checks6 fixed cases covering
+all4profiles, captured/control, negative/min/max signed-long seeds and maximum496
+history. Image facts and reconstructed corpus claims are independent; this consumer
+does not admit whole result/matrix/native counters. Preserve failure receipts and
+new scoped native/hidden-control artifact, unchanged Java/worker schemas/datasets.
+
+**Independent/local checks:**16 corpus tests pass with literal Java goldens, hand-
+derived E1C2 frames/counts, immutable Nov7 histories/summaries, signed/rejection traps,
+repeat/no-op/retract/restore/absence/query effects, upper16-bit seed aliases, strict
+predecode bounds/types, re-signed wrong bytes and nested ownership. Four smoke tests
+verify opt-in wiring/typed selection, exact profiles/seeds and retained failures.
+Initial root smoke mock used wrong CLI profile/seed argument indexes; corrected
+only those mock indexes, preserving first failure log. Module had no native or
+test mismatch. All229 Python guards pass (5 Linux-only local skips);42 docs QA
+fixtures pass. Separate read-only code and entire public/caller reviews have no
+material findings. Helper exact32M C4000/Q0/W1 test passes; C4001 rejects, with
+corpus-only500 proving no hidden recovery-matrix restriction.
+
+All6 freshly compiled Java-worker cases pass exact independent source bytes, both
+fingerprints and complete oracle-summary equality; all original observation fixture
+metadata match image reconstruction. Control/captured7 share schedule4969d642…;
+maximum496 attempts522/schedulefd904ff7…; negativeRETRACTIONS21 attempts24,
+minimumHOT_ENTITY37 attempts46, maximumAPPEND35 attempts36. Local declarations
+are not source/process provenance or complete result admission. Retain exact raw
+envelopes/logs and hashes under ignored named QA with local-native-inputs.json.
+
+**Fresh Maven and adoption:**14 Central+18 official original responses refreshed
+Nov15 at17:29UTC/12:29EST. Six supplemental responses independently verify Maven
+3.10.1 release/baseline and exact ZIP: SHA256
+9c1ef9174ef250a5009ed0dec97cbe8699acf7479add4e62bf7b0ea791c0adb5, SHA512 agrees
+with both Apache and Central. Missing Central SHA256 sidecar404 is recorded; no
+hash was guessed. All75 manifest entries verify. Report
+299b548bc37221b976533c901950b405e055c07f1afee9594abc4bd4d72127be;
+manifest2e55dfe9ca485ddbb9d908960c3e3dcb5fb033968fd3408efa06991a9f7325cf.
+Adopt bugfixMaven3.10.1 from3.10.0 with exact Wrapper URL/SHA256; launchers/POM
+dependencies unchanged. Eleven other core/build/test pins remain latest stable;
+JUnit6.2.0-M1 prerelease does not replace6.1.3. Deferred SDK2.57.8/latest2.59.1
+stays. Fresh actual wrapper bootstrap/runtime and isolated bad-checksum rejection
+pass. Research JSON retains initial selections; Git/properties own adoption.
+
+Rooted clean install run6d6152c0c5dd4250bb2d5f6a9be5ba0d under actual Maven3.10.1 passes
+1,602 core/86suites, zero failures/errors/skips/retries via strict XML. Reviewed
+inventory a2411f6cf9dbd7406524100a8c6f4fcc4002eb3b2ae72ca1e02c32a8e776a3e4 remains.
+Actual local Oracle25.0.2+10-LTS-69/aarch64/APFS, not Linux qualification. Optional
+adapter verify passes762 with zero skips under3.10.1. Core166/classifier10 classes
+remain java.base only, no workload/qualification leak; exact archive identities
+are saved in local-integrity.json. CI must verify fresh Linux/Windows/legacy
+workloads and both image/corpus modes at exact pushed source.
+
+**Public QA:** add ADR0054/corpus guide; reconcile README/image/worker/comparison/
+build guides, ADR53/index, public roadmap/nav and persistent AGENTS rules. Fresh
+Java25 Random primary spec supports48-bit/signed draw rules. Dated Maven guide
+records selected patch/checksum and current metadata/prerelease/deferred reasons.
+Strict production/project URL source/rendered/link/canonical/search/sitemap checks
+pass:116 pages/619 search entries. Browser checks light desktop, mobile390x844
+actual slate, contained table, nav/search and ADR54 table; restore default light/
+viewport. Final mobile header shortens to Derivation for narrow display. Images
+and raw QA remain ignored task-owned evidence; public copy excludes queue/chat.
+
+**Checkpoint:** keep0111 active until normal source push/exact CI/docs/automatic
+Pages/live acceptance.0112 queued;0109/0107/0104/0101/0099/0097/0013 expanded.
+Memory0105/evaluation0102, default recovery and deferred S3/replication stay unchanged.
+Validate112 IDs/cards/DAG/parents, inspect explicit staged diff, commit Step-ID
+MDB-0111/Step-Result checkpoint. No next execution or release starts; final internal
+receipt will record actual remote acceptance and next recommendation.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;
