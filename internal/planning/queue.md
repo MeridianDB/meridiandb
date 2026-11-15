@@ -12,23 +12,22 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0111 — Independent seeded corpus admission** is active, coordinated by
-  the primary agent on November 15, 2026. Begin from clean matching main/origin
-  `0c03d9ac17144266ace5b6c44c345eef8629e3d4`;0108 delivery remains accepted.
-- Refine0109 into required0111 seeded history/schedule/oracle-summary admission
-  and0112 complete protocol/result/matrix/native-counter admission. Preserve every
-  original parent criterion. Execute only0111; root owns Git/planning/builds and
-  helpers own the new pure consumer, independent tests and current version research.
-- Source and local acceptance pass; keep0111 active until exact-source CI/Pages/
-  live delivery. Reconstruct v1 generator streams, exact original bytes, schedule/history hashes
-  and realized workload summary independently. Bind recorded claims to caller's
-  expected spec. Add captured/control Linux compatibility without declaring whole
-  worker/provenance/live-file/saved-report or performance acceptance.
-- Fresh Maven research identifies bugfix3.10.1. Adopt its independently checksum-
-  verified Wrapper distribution and run existing full regression; no POM dependency
-  change. Keep optional S3 selected2.57.8/latest2.59.1 deferred.
-- Keep0109/0107/0104/0101/0099/0097/0013 expanded;0110 supervision/readback,
-  0105 memory and0102 evaluated adoption retain their original criteria.
+- **MDB-0111 — Independent seeded corpus admission** is done. Source
+  `32008411280309aa46b40677f71abc49fd19ab09` is normally pushed and accepted by
+  exact-source Java/Linux/Windows, both input modes, legacy regressions, docs,
+  automatic Pages and live checks. The progress receipt records actual evidence.
+- **MDB-0112 — Complete recovery protocol and counter admission** is next and
+  ready after this completion push. Reuse0108 binary and0111 reconstructed input
+  facts; independently admit bounded full outer requests/results, ordered matrices,
+  operation scopes, denominators and native counter coverage. No next execution
+  starts in this invocation.
+- Keep0109/0107/0104/0101/0099/0097/0013 expanded with every original criterion.
+  Input consistency supplies no complete result/provenance/live-file/saved-report
+  acceptance.0110 supervision/readback,0105 memory and0102 evaluated adoption remain.
+- Maven3.10.1 is selected with verified distribution checksum and full regressions.
+  Production behavior/formats, old protocols/durable datasets and deferred S3/
+  replication remain unchanged. Root clears the execution claim; Git owns the
+  completion SHA/push evidence.
 
 ## Ordered work
 
@@ -94,8 +93,8 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0107](roadmap.md#mdb-0107-supervised-recovery-admission-and-saved-readback) | Supervise and independently validate live and saved recovery comparisons | MDB-0104 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
 | [MDB-0108](roadmap.md#mdb-0108-independent-recovery-image-admission) | Independently decode and bind original recovery history and fixture images | MDB-0107 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
 | [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
-| [MDB-0111](roadmap.md#mdb-0111-independent-seeded-corpus-admission) | Reconstruct and bind seeded original history, schedule and workload summary independently | MDB-0109 | active | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
-| [MDB-0112](roadmap.md#mdb-0112-complete-recovery-protocol-and-counter-admission) | Admit complete recovery requests/results, ordered matrices and raw native counter scopes | MDB-0109 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0111 |
+| [MDB-0111](roadmap.md#mdb-0111-independent-seeded-corpus-admission) | Reconstruct and bind seeded original history, schedule and workload summary independently | MDB-0109 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
+| [MDB-0112](roadmap.md#mdb-0112-complete-recovery-protocol-and-counter-admission) | Admit complete recovery requests/results, ordered matrices and raw native counter scopes | MDB-0109 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0111 |
 | [MDB-0110](roadmap.md#mdb-0110-linux-recovery-supervision-and-saved-report-integration) | Supervise source-bound recovery runs and independently check saved reports | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0109 |
 | [MDB-0105](roadmap.md#mdb-0105-recovery-memory-diagnostics-and-integration) | Add isolated scoped memory diagnostics and complete comparison-evidence integration | MDB-0101 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0104 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |
