@@ -12,15 +12,18 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0112 — Complete recovery protocol and counter admission** is active.
-  Start on matching `main` and `origin/main` at `1f42feefd473459325d3fdfa25b1bdcddc9f1aca`.
-  MDB-0111 delivery is accepted.
-- Validate the complete recorded version-one worker against independent request,
-  PID and runtime expectations. Reuse the image and seeded corpus checks, verify
-  matrix and operation order, and derive input byte denominators and native scope
-  checks. Verify actual Java and Linux compatibility before closing MDB-0109.
-- MDB-0110 owns live source/class/file supervision and saved-report integration.
-  The recovery comparison parents remain expanded for that work and memory diagnostics.
+- **MDB-0112 — Complete recovery protocol and counter admission** is done.
+  Recorded result admission and its four Linux worker cases passed on
+  `0e529c0805887cc43812cd08aecb594c3164d79b`. The preceding documentation source
+  `e50915561aa41237f07af9b739bd26e58168a135` passed Pages and live readback.
+- **MDB-0109 — Complete recovery worker admission** is done. Its seeded corpus
+  and protocol/counter children are accepted. The live supervision and saved
+  report requirements remain with MDB-0110.
+- **MDB-0110 — Linux recovery supervision and saved report integration** is ready.
+  Bind fresh workers to actual source, classes, runtime and files. Integrate
+  complete recorded admission and verify independent saved readback on Linux.
+- Keep MDB-0107, MDB-0104, MDB-0101, MDB-0099, MDB-0097 and MDB-0013 expanded.
+  Memory diagnostics and measured adoption retain their own acceptance criteria.
 
 ## Ordered work
 
@@ -85,10 +88,10 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0106](roadmap.md#mdb-0106-bounded-recovery-comparison-worker) | Produce bounded explicit-mode recovery protocol with raw input/result images | MDB-0104 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103 |
 | [MDB-0107](roadmap.md#mdb-0107-supervised-recovery-admission-and-saved-readback) | Supervise and independently validate live and saved recovery comparisons | MDB-0104 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
 | [MDB-0108](roadmap.md#mdb-0108-independent-recovery-image-admission) | Independently decode and bind original recovery history and fixture images | MDB-0107 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
-| [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
+| [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
 | [MDB-0111](roadmap.md#mdb-0111-independent-seeded-corpus-admission) | Reconstruct and bind seeded original history, schedule and workload summary independently | MDB-0109 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
-| [MDB-0112](roadmap.md#mdb-0112-complete-recovery-protocol-and-counter-admission) | Admit complete recovery requests/results, ordered matrices and raw native counter scopes | MDB-0109 | active | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0111 |
-| [MDB-0110](roadmap.md#mdb-0110-linux-recovery-supervision-and-saved-report-integration) | Supervise source-bound recovery runs and independently check saved reports | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0109 |
+| [MDB-0112](roadmap.md#mdb-0112-complete-recovery-protocol-and-counter-admission) | Admit complete recovery requests/results, ordered matrices and raw native counter scopes | MDB-0109 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0111 |
+| [MDB-0110](roadmap.md#mdb-0110-linux-recovery-supervision-and-saved-report-integration) | Supervise source-bound recovery runs and independently check saved reports | MDB-0107 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0109 |
 | [MDB-0105](roadmap.md#mdb-0105-recovery-memory-diagnostics-and-integration) | Add isolated scoped memory diagnostics and complete comparison-evidence integration | MDB-0101 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0104 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |
 | [MDB-0080](roadmap.md#mdb-0080-linux-operational-hardening-and-qualification-gaps) | Close evidenced Linux resource, lifecycle and operational gaps | — | queued | MDB-0079, MDB-0013 |

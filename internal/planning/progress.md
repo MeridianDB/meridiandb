@@ -8300,6 +8300,56 @@ the syntax reader before complete worker admission rejected their type. Two
 additional cases confirm the syntax reader now rejects both misplaced strings.
 All 22 recorded worker tests pass. This follow-up does not change Pages inputs.
 
+## November 20, 2026 — MDB-0112 completion acceptance
+
+Source `e50915561aa41237f07af9b739bd26e58168a135` and the parser boundary follow-up
+`0e529c0805887cc43812cd08aecb594c3164d79b` reached origin/main. Superseded Java run 44832814333 was cancelled
+by concurrency after the follow-up push. Final
+[Java CI 44832952652](https://github.com/MeridianDB/meridiandb/actions/runs/44832952652)
+passed Linux 136622336248 and Windows 136622335493. Linux qualification run
+`ec4d8621c8e843c286b166ba33f157fb` binds the clean final source to the existing reviewed suite
+inventory. All 1,602 core invocations in 86 suites, 251 Python guards and 762
+optional adapter invocations pass, with zero failures, errors or skips. Windows
+runs the same Java inventory with 518 core and 381 adapter capability skips,
+zero failures or errors. Both pass all 14 examples. Linux environment is
+ext4, 7.0.0-1020-azure/x86_64,
+Eclipse Adoptium 25.0.5.1+2-LTS.
+The qualification profile records no production qualification.
+
+The unchanged image-only and seeded input modes pass. New recorded worker
+compatibility passes 48 control rows, 48 captured rows, 16 rows with the
+496-commit history and 112 rows in the seven-iteration captured matrix. All
+groups settle successfully, request and PID match, and the checked runtime
+fields are architecture, fileStoreType, osName, osVersion. Derived byte denominators, observation order and native
+scopes agree. The raw output is retained with independently supplied
+expectations. Source identity in the smoke is declared, with live source and
+class verification reserved for MDB-0110.
+
+Archive 14677532864 has 1261 ZIP entries and
+224 hidden checkpoint locks. Exact archive SHA-256 is
+`9da3a40440a1f208a4b7c591f72b88f19e8cd10dd6090819633569d40a117717`. Rechecked its four raw worker outputs against the
+scoped receipt and the CI log, including lengths, hashes, runtime bindings and
+recorded validation. Other artifacts include image 14677727364,
+corpus 14677517672, storage 14677946687
+and workload 14676324243. Four legacy workloads
+(a09a9d0b4a964cacb2ba19fd8ece320e, fdf422a7dcac4783bbdf7bd9ca8f62ff, 30910dffdded4e8b8c250c276daadd46, 919056102c0c4bb1993f926fc890b11a) pass on clean final source, with original schema order 2/2/3/3,
+settled groups and successful saved-report readbacks.
+
+[Documentation CI 44832814390](https://github.com/MeridianDB/meridiandb/actions/runs/44832814390)
+passes both URL builds and 42 QA fixtures on `e50915561aa41237f07af9b739bd26e58168a135`.
+[Pages 44832814357](https://github.com/MeridianDB/meridiandb/actions/runs/44832814357)
+passes build and deployment. Parser follow-up changes only the Python consumer,
+its tests and internal notes. Live readback checks all 12 affected HTTPS pages
+and canonicals, 118 sitemap URLs and 627 search entries. Published guide is
+64030 bytes with SHA-256 `a30693785ef002f1b3d15da12ad03a847c72fa0fc047a5a5042d743f5e40e0ea`.
+The GitHub project URL redirects to the existing HTTP apex route and returns
+matching bytes. Direct production HTTPS passes. The rendered guide was also
+checked in Chrome. Local and CI receipts are retained in named ignored QA.
+
+Close MDB-0112 and MDB-0109 after confirmed delivery. MDB-0110 is the sole ready
+step. Source, class, live file and saved-report integration, plus their parent
+acceptance gates, stay queued. Memory and performance adoption remain separate.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

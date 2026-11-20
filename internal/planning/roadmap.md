@@ -3334,6 +3334,13 @@ recorded requests. Independent adversarial/boundary and clean-source Java/Linux
 compatibility, docs/rules/CI/Pages/live and complete parent-criteria audit pass
 before closing0109. Keep0110 queued for source-bound supervision/saved integration.
 
+**Accepted November 20, 2026:** the complete recorded worker reader passes 22
+focused tests using normalized real output and adversarial mutations. Fresh
+Linux checks cover 224 observation rows across both modes and the maximum
+history and iteration cases. Exact-source Java and legacy regressions, both docs
+builds, Pages and live readback pass. Together with MDB-0111 this closes MDB-0109.
+See the progress receipt for exact commits, runs and archive verification.
+
 ## MDB-0110 Linux recovery supervision and saved report integration
 
 **Parent:** MDB-0107. **Outcome:** supervised exact-source/class/runtime/filesystem/
