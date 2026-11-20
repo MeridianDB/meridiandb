@@ -8292,6 +8292,14 @@ Keep MDB-0112 active until exact-source Linux/Windows checks, compatibility
 artifacts, legacy regressions, Pages and live readback pass. MDB-0109 remains
 expanded and MDB-0110 queued pending delivery.
 
+### MDB-0112 parser boundary follow-up
+
+Restrict the long hex exception to actual frame array elements and fixture file
+map values. Malformed containers previously received the wider lexical cap in
+the syntax reader before complete worker admission rejected their type. Two
+additional cases confirm the syntax reader now rejects both misplaced strings.
+All 22 recorded worker tests pass. This follow-up does not change Pages inputs.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

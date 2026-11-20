@@ -117,9 +117,12 @@ def _lexical_limits(text):
 def _raw_limit(path):
     if path == ("sourceHistory", "headerHex"):
         return 2 * 65556
-    if path == ("continuationFrameHex",) or len(path) == 3 and path[:2] == ("sourceHistory", "framesHex"):
+    if path == ("continuationFrameHex",):
         return 8192
-    if len(path) == 4 and path[0] == "fixtureImages" and type(path[1]) is int and path[2] == "files":
+    if len(path) == 3 and path[:2] == ("sourceHistory", "framesHex") and type(path[2]) is int:
+        return 8192
+    if (len(path) == 4 and path[0] == "fixtureImages" and type(path[1]) is int
+            and path[2] == "files" and type(path[3]) is str):
         return 2 * MAX_RAW_BYTES
     return None
 

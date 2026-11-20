@@ -139,8 +139,10 @@ class RecoveryWorkerDocumentTests(unittest.TestCase):
         ordinary = copy.deepcopy(document); ordinary["result"]["gaps"] = [long_image]
         with self.assertRaises(ValueError): evidence.parse_document(encode(ordinary))
         for document in ({"sourceHistory": {"framesHex": ["00" * 4097]}},
+                         {"sourceHistory": {"framesHex": {"misplaced": "00" * 2049}}},
                          {"sourceHistory": {"headerHex": "00" * 65557}},
                          {"continuationFrameHex": "00" * 4097},
+                         {"fixtureImages": [{"files": ["00" * 2049]}]},
                          {"fixtureImages": [{"files": {"image.segment": "GG" * 2300}}]},
                          {"ordinary": "00" * 2049}):
             with self.subTest(keys=list(document)), self.assertRaises(ValueError):
