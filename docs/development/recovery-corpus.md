@@ -15,8 +15,9 @@ Use it alongside the [binary image checks](recovery-images.md). Checksums and
 consistent graph references can accept a differently encoded numeric history;
 seeded reconstruction additionally requires the exact expected original bytes.
 [ADR 0054](../decisions/0054-independent-seeded-corpus-admission.md) records this
-separate input boundary. Complete worker request/result, matrix, native counters,
-live-file/source provenance and saved-report admission remain unimplemented.
+separate input boundary. The [recorded worker consumer](recovery-evidence.md) validates the complete
+request, result matrix and native counters. Live-file and source provenance
+checks and saved-report admission remain planned.
 
 ## Prepare and validate inputs
 
@@ -102,7 +103,7 @@ python3 -m unittest discover -s scripts/storage/tests -p 'test_*recovery_corpus.
 
 Literal vectors, independent expectations and adversarial cases complement fresh
 Java compatibility. Reconstructed inputs and oracle metadata do not prove that
-a measured engine executed the schedule or returned the expected answers. Full
-result admission and source-bound supervision remain required before interpreting
-recovery observations. No memory, device durability or adoption decision follows
-from input consistency.
+a measured engine executed the schedule or returned the expected answers.
+The recorded worker consumer and source-bound supervision supply additional
+checks before interpreting recovery observations. Memory, device durability
+and adoption require separate evidence.

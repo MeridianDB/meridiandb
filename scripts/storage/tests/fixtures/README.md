@@ -21,3 +21,18 @@ Gzip timestamps are fixed at zero. Preserve these bytes when changing validators
 make an explicit fixture/version decision if a producer contract changes. Readback
 requires only Python's standard library; the tests never execute a recorded command
 or open a path declared inside these fixtures.
+
+## Recovery worker fixtures
+
+These gzip fixtures preserve complete Java worker output for recorded-evidence
+tests. Run ID, source, PID and paths have synthetic bindings. Recorded runtime,
+clocks, original images and adapter counts come from macOS/APFS worker runs.
+The captures exercise parser compatibility. Fresh CI separately checks worker
+output on Linux.
+
+| Fixture | Mode and scope | Uncompressed size | Gzip SHA-256 |
+| --- | --- | ---: | --- |
+| `recovery-worker-balanced-v1.json.gz` | Captured, one warmup and two measured iterations | 139,797 | `10cc3d282e9b9a10bfe724994bf11d9f05eaedc6b547bc6df9a4e17a018a92ea` |
+| `recovery-worker-captured-v1.json.gz` | Captured, one measured iteration | 54,377 | `281f6cc20f848ad03a3cd8639fafb373af73f122e8b98823b32718b77fe27b5a` |
+| `recovery-worker-control-v1.json.gz` | Control, one measured iteration | 41,930 | `336694f33e62ba467ae18411cc0c966481e7f2552147a8bef4fcfdb2f70b577a` |
+| `recovery-worker-maximum-v1.json.gz` | Captured, 496 original commits | 281,287 | `116f479d9f94ed66286b0db4fdf161826064455eefe8dd031d7cdaae64d6774f` |

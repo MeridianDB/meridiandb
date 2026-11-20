@@ -145,6 +145,23 @@ jobs:
           if-no-files-found: warn
       - name: Run the embedded Java example
         run: java --class-path target/classes examples/EmbeddedExample.java
+      - name: Verify complete recorded recovery workers
+        if: runner.os == 'Linux'
+        run: python scripts/storage/verify_recovery_images.py --worker --scratch-parent "$RUNNER_TEMP" --source "$GITHUB_SHA" --timeout 180
+      - name: Retain recorded recovery worker evidence
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: recovery-worker-compatibility
+          path: |
+            ${{ runner.temp }}/mdb-recovery-worker-*/summary.json
+            ${{ runner.temp }}/mdb-recovery-worker-*/*/worker.json
+            ${{ runner.temp }}/mdb-recovery-worker-*/*/worker.partial.json
+            ${{ runner.temp }}/mdb-recovery-worker-*/*/worker.log
+            ${{ runner.temp }}/mdb-recovery-worker-*/*/fixtures/**
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: warn
       - name: Run the local journal example
         run: java --class-path target/classes examples/LocalJournalExample.java
       - name: Run the immutable segment example

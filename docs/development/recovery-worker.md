@@ -119,8 +119,9 @@ changed retained bytes. These are producer consistency checks. Independent saved
 admission must recompute complete inputs, matrix and denominators rather than
 trusting these checks or a success field. The [independent image consumer](recovery-images.md)
 now validates original binary formats and graph bindings. The [seeded corpus consumer](recovery-corpus.md) now reconstructs original bytes,
-schedule and oracle-summary identity. Complete outer result/matrix and native
-counter admission remain separate work.
+schedule and oracle-summary identity. The [recorded worker consumer](recovery-evidence.md) checks the complete
+recorded result, matrix and native counter scope against those facts and the
+caller’s expectations.
 
 ## Failure and interpretation
 

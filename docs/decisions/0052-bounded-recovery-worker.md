@@ -41,8 +41,9 @@ The [worker guide](../development/recovery-worker.md) defines invocation and bou
 Worker fields are producer declarations. A supplied source SHA, PID, file hash or
 exit zero does not verify source/classes, process identity or independently admitted
 evidence. [Independent original-format image checks](0053-independent-recovery-image-admission.md)
-are implemented separately. Linux supervision, complete worker admission and
-saved-report readback remain required. This producer adds no deadline, process
+and [complete recorded worker admission](0055-recorded-recovery-worker-admission.md)
+are implemented separately. Linux supervision and saved-report readback remain
+required. This producer adds no deadline, process
 containment, controlled-cache condition, peak/retained-memory result or performance
 adoption decision. Export validation and raw reads remain outside operation clocks.
 

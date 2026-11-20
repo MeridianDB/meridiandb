@@ -186,7 +186,7 @@ an explicit override; inspect the resolved graph when that contract changes.
 Floating `LATEST`, version ranges and snapshot dependencies are not the update
 mechanism. The project's own unreleased `0.1.0-SNAPSHOT` is separate from that rule.
 
-## Artifact research checked on 2026-11-15
+## Artifact research checked on 2026-11-20
 
 These are dated findings, not a promise that the versions remain latest. POM and
 wrapper properties own executable configuration. Apache's
@@ -202,10 +202,11 @@ the adapter reject non-integral or out-of-range values before constructing a
 transaction. The journal codec uses JDK CRC32C and byte buffers, adding no runtime
 dependency. The local adapter also uses only JDK file I/O. All fourteen metadata
 sources and official Maven/SDK/JUnit/Jackson compatibility information were rechecked
-on November 15 at 12:29 EST (17:29 UTC), with eighteen official compatibility/
+on November 20 at 17:45 EST (22:45 UTC), with eighteen official compatibility/
 release sources including exact-version Jackson release/POM/baseline checks. [Jackson 3.3.0](https://github.com/FasterXML/jackson-databind/tree/jackson-databind-3.3.0)
 is selected in test scope in both artifacts; its Java 17 baseline is unchanged.
-Maven 3.10.1 distribution and release checks followed at 12:30 EST (17:30 UTC).
+The Maven 3.10.1 distribution checksum was verified on November 15 and its
+release notes were rechecked on November 20.
 JUnit 6.2.0-M1 remains a prerelease; 6.1.3 is the selected stable release.
 The adapter uses the same version for the shared temporal oracles. The optional adapter adds AWS SDK 2.57.8, released October 30, as
 confirmed by its [official release](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.57.8)
@@ -215,7 +216,7 @@ than an AWS certification claim. The segment/manifest codecs and local adapters
 continue to use JDK SHA-256/CRC32C and file I/O; the SDK stays in the optional
 artifact.
 
-AWS SDK [2.59.1](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.59.1)
+AWS SDK [2.59.6](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.59.6)
 is the latest stable version of both optional SDK artifacts at this check. Their selected version remains 2.57.8 while further S3 work is deferred.
 A separately scoped adapter update can adopt and verify the newer SDK; the local
 workload runner introduces no cloud dependency or SDK behavior change.
@@ -234,8 +235,8 @@ workload runner introduces no cloud dependency or SDK behavior change.
 | `org.apache.maven.plugins:maven-deploy-plugin` | 3.2.0 | 4.0.0-beta-3 | [Central metadata](https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-deploy-plugin/maven-metadata.xml) |
 | `org.junit.jupiter:junit-jupiter` | 6.1.3 | 6.2.0-M1 | [Central metadata](https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/maven-metadata.xml) |
 | `tools.jackson.core:jackson-databind` | 3.3.0 | 3.3.0 | [Central metadata](https://repo.maven.apache.org/maven2/tools/jackson/core/jackson-databind/maven-metadata.xml) |
-| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.59.1 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
-| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.59.1 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
+| `software.amazon.awssdk:s3` (optional adapter) | 2.57.8 | 2.59.6 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/s3/maven-metadata.xml) |
+| `software.amazon.awssdk:url-connection-client` (optional adapter) | 2.57.8 | 2.59.6 | [Central metadata](https://repo.maven.apache.org/maven2/software/amazon/awssdk/url-connection-client/maven-metadata.xml) |
 
 All selected core/build entries are the latest stable releases found. Newer metadata entries
 in the Maven/plugin 4.x series are RC/beta releases, so they are not selected for
@@ -313,7 +314,9 @@ also runs on Linux and retains scoped worker output, logs, summaries and fixture
 including hidden control files. Its image-only result does not admit complete
 worker or saved comparison evidence. An opt-in [seeded input smoke](recovery-corpus.md#linux-compatibility)
 also checks all profiles, extreme seeds and the largest recovery history through
-independent reconstruction, retaining a separate scoped artifact. Neither these test artifacts nor the local
+independent reconstruction, retaining a separate scoped artifact. A third [recorded worker smoke](recovery-evidence.md#run-the-linux-compatibility-checks)
+checks complete captured and control results, including the largest history and
+iteration count supported by the fixed smoke cases. Neither these test artifacts nor the local
 Maven install are library releases. Qualification helpers stay outside both the
 166-class production archive and the ten-class attached contract-support archive.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Linux Java/Python image-compatibility smoke, not complete recovery evidence admission."""
+"""Linux compatibility checks for recorded recovery images, inputs and results."""
 
 import argparse
 import hashlib
@@ -13,7 +13,7 @@ import tempfile
 import time
 import uuid
 
-from qualify_linux import read_bounded
+from qualify_linux import read_bounded, select_mount
 from recovery_images import validate_images
 from run_workload import (CLEANUP_RESERVE, MAX_REPORT_BYTES, SupervisorError, clean_environment,
                           cleanup_handlers, finish_report, interrupt_handlers, remaining,
@@ -33,6 +33,14 @@ CORPUS_CASES = tuple(case + (42,) for case in CASES) + (
 CORPUS_SCOPE = ("Recorded binary images and independently reconstructed seeded corpus only; "
                 "no complete worker, matrix/counter, source/class, native-file or saved-report admission")
 CORPUS_FIELDS = ("corpusVersion", "fingerprint", "historyFingerprint", "encodedHistoryBytes", "workload")
+WORKER_CASES = (
+    ("control-balanced", CONTROL, "CORRECTIONS", 7, 2, 5, 2, 42, 1, 2),
+    ("captured-balanced", CAPTURED, "CORRECTIONS", 7, 2, 5, 2, 42, 1, 2),
+    ("maximum-history", CAPTURED, "APPEND", 496, 1, 2, 1, 42, 0, 1),
+    ("maximum-matrix", CAPTURED, "HOT_ENTITY", 7, 2, 5, 2, -17, 2, 5),
+)
+WORKER_SCOPE = ("Complete recorded recovery worker consistency with an observed PID and Linux placement; "
+                "source/class provenance, live-file inspection and saved-report admission are separate")
 
 
 def _require(condition, message):
@@ -75,9 +83,20 @@ def _produced_document(path):
     return value, dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
 
 
-def verify(repo, parent, declared_source, timeout=120, *, check_corpus=False):
-    """Run fixed correctness cases. Returned zero certifies only the selected input scope."""
+def _linux_runtime(scratch):
+    host = os.uname()
+    device = scratch.stat().st_dev
+    mount = select_mount(read_bounded(Path("/proc/self/mountinfo"), 2 * 1024 * 1024).decode(),
+                         scratch, f"{os.major(device)}:{os.minor(device)}")
+    architecture = {"x86_64": "amd64", "arm64": "aarch64"}.get(host.machine, host.machine)
+    return dict(osName="Linux", osVersion=host.release, architecture=architecture, fileStoreType=mount["fileSystem"])
+
+
+def verify(repo, parent, declared_source, timeout=120, *, check_corpus=False, check_worker=False):
+    """Run fixed correctness cases and report the selected evidence scope."""
     _require(type(check_corpus) is bool, "Require an explicit boolean corpus selection")
+    _require(type(check_worker) is bool and not (check_worker and check_corpus),
+             "Select at most one additional recorded evidence scope")
     _require(sys.platform == "linux", "The compatibility smoke requires Linux process-group facilities")
     _require(type(timeout) is int and 30 <= timeout <= 300, "Smoke timeout must be 30..300 seconds")
     _require(type(declared_source) is str and re.fullmatch(r"[0-9a-f]{40}", declared_source), "Require full declared source SHA")
@@ -89,8 +108,10 @@ def verify(repo, parent, declared_source, timeout=120, *, check_corpus=False):
     _require(worker.is_file() and (repo / "target/classes").is_dir(), "Compile core/test support before the smoke")
     started = time.monotonic()
     deadline = started + timeout
-    root = Path(tempfile.mkdtemp(prefix="mdb-recovery-corpus-" if check_corpus else "mdb-recovery-images-", dir=parent))
-    report = dict(schemaVersion=2 if check_corpus else 1, scope=CORPUS_SCOPE if check_corpus else SCOPE,
+    prefix, version, scope = ("mdb-recovery-worker-", 3, WORKER_SCOPE) if check_worker else (
+        ("mdb-recovery-corpus-", 2, CORPUS_SCOPE) if check_corpus else ("mdb-recovery-images-", 1, SCOPE))
+    root = Path(tempfile.mkdtemp(prefix=prefix, dir=parent))
+    report = dict(schemaVersion=version, scope=scope,
                   productionQualified=False, declaredSource=declared_source,
                   runRoot=str(root), status="failed", cases=[])
     code = 1
@@ -98,10 +119,10 @@ def verify(repo, parent, declared_source, timeout=120, *, check_corpus=False):
     try:
         sync_directory(parent)
         environment = clean_environment(os.environ)
-        config = dict(warmups=0, repetitions=1)
         limits = dict(maxObjectBytes=67108864, maxJournalBytes=67108864, maxRecordWork=262144)
         cases = CORPUS_CASES if check_corpus else tuple(case + (42,) for case in CASES)
-        for name, mode, profile, commits, entities, queries, width, seed in cases:
+        cases = WORKER_CASES if check_worker else tuple(case + (0, 1) for case in cases)
+        for name, mode, profile, commits, entities, queries, width, seed, warmups, repetitions in cases:
             remaining(deadline, CLEANUP_RESERVE)
             home = root / name
             home.mkdir()
@@ -112,20 +133,37 @@ def verify(repo, parent, declared_source, timeout=120, *, check_corpus=False):
             sync_directory(scratch)
             run_id = uuid.uuid4().hex
             output = home / "worker.json"
+            config = dict(warmups=warmups, repetitions=repetitions)
+            spec = _expected_spec(profile, commits, entities, queries, width, seed)
+            if check_worker:
+                runtime = _linux_runtime(scratch)
+                request = dict(schemaVersion=1, runId=run_id, source=declared_source, mode=mode, profile=profile,
+                               seed=seed, spec=spec, config=config, limits=limits, scratch=str(scratch), output=str(output))
             command = ["java", "-Xms32m", "-Xmx256m", "--class-path", "target/test-classes:target/classes",
                        "org.meridiandb.workload.RecoveryComparisonWorker", run_id, declared_source, mode,
-                       profile, str(seed), "0", "1", str(scratch), str(output), str(entities), str(commits), str(queries),
+                       profile, str(seed), str(warmups), str(repetitions), str(scratch), str(output), str(entities), str(commits), str(queries),
                        str(width), "67108864", "67108864", "262144"]
             active_case = dict(name=name, requestedMode=mode, directory=str(home), worker=None)
             process = run_group(command, repo, home / "worker.log", deadline, environment, max_log_bytes=256 * 1024)
             active_case["worker"] = process
             _require(process["exitCode"] == 0 and process["groupSettled"], "Java compatibility worker failed or did not settle")
-            document, identity = _produced_document(output)
-            spec = _expected_spec(profile, commits, entities, queries, width, seed)
-            facts = validate_images(document.get("sourceHistory"), document.get("continuationFrameHex"),
-                                    document.get("fixtureImages"), spec, config, limits)
-            # Deliberately do not admit the outer result or copy/interpret raw timing/counter observations.
-            case = dict(name=name, requestedMode=mode, worker=process, workerOutput=identity, images=facts)
+            if check_worker:
+                from recovery_worker_evidence import MAX_DOCUMENT_BYTES, validate_worker
+                _require(stat.S_ISREG(output.lstat().st_mode), "Worker output is not an ordinary file")
+                admitted = validate_worker(read_bounded(output, MAX_DOCUMENT_BYTES), request,
+                                           worker_pid=process["pid"], expected_runtime=runtime)
+                _require(admitted["result"]["runtime"]["maxHeapBytes"] <= 256 * 1024 * 1024,
+                         "Recorded JVM heap exceeds requested cap")
+                case = dict(name=name, requestedMode=mode, worker=process, images=admitted["images"],
+                            corpus=admitted["corpus"], request=request, expectedRuntime=runtime,
+                            runtimeBindings=admitted["runtimeBindings"],
+                            observations=len(admitted["denominators"]), cohortOrders=admitted["cohortOrders"],
+                            workerOutput=dict(bytes=admitted["workerBytes"], sha256=admitted["workerSha256"]))
+            else:
+                document, identity = _produced_document(output)
+                facts = validate_images(document.get("sourceHistory"), document.get("continuationFrameHex"),
+                                        document.get("fixtureImages"), spec, config, limits)
+                case = dict(name=name, requestedMode=mode, worker=process, workerOutput=identity, images=facts)
             if check_corpus:
                 from recovery_corpus import validate_corpus
                 result = document.get("result")
@@ -138,10 +176,11 @@ def verify(repo, parent, declared_source, timeout=120, *, check_corpus=False):
             retain_size(root, deadline, reserve=2 * MAX_REPORT_BYTES)
         _require(report["cases"][0]["images"] == report["cases"][1]["images"],
                  "Captured/control workers produced different original image facts")
-        if check_corpus:
+        if check_corpus or check_worker:
             _require(report["cases"][0]["corpus"] == report["cases"][1]["corpus"],
                      "Captured/control workers produced different seeded corpus facts")
-        report["status"] = "input_checks_passed" if check_corpus else "image_checks_passed"
+        report["status"] = "worker_checks_passed" if check_worker else (
+            "input_checks_passed" if check_corpus else "image_checks_passed")
         code = 0
     except BaseException as error:
         report["status"] = "failed"
@@ -158,12 +197,14 @@ def main(argv=None):
     parser.add_argument("--scratch-parent", required=True, type=Path)
     parser.add_argument("--source", required=True, help="Declared source SHA; this smoke does not certify source/classes")
     parser.add_argument("--timeout", type=int, default=120)
-    parser.add_argument("--corpus", action="store_true", help="Also independently bind seeded corpus inputs; no full worker admission")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--corpus", action="store_true", help="Also independently bind seeded corpus inputs")
+    scope.add_argument("--worker", action="store_true", help="Admit complete recorded worker evidence")
     args = parser.parse_args(argv)
     try:
         with interrupt_handlers():
             code, report = verify(Path(__file__).resolve().parents[2], args.scratch_parent, args.source, args.timeout,
-                                  check_corpus=args.corpus)
+                                  check_corpus=args.corpus, check_worker=args.worker)
     except (OSError, ValueError) as error:
         print(f"Recovery image smoke could not start/retain evidence: {type(error).__name__}: {str(error)[:1024]}", file=sys.stderr)
         return 1

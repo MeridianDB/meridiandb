@@ -6,7 +6,7 @@ description: Decode bounded recovery comparison images independently before late
 # ADR 0053: Independent recovery image admission
 
 - **Date:** November 14, 2026
-- **Status:** Structural image checks implemented; complete worker admission pending
+- **Status:** Structural image checks implemented
 - **Scope:** Developer evidence consumer; no production or persistence-format change
 
 ## Context
@@ -41,9 +41,9 @@ retaining bounded raw evidence and known failure receipts.
 
 Structural consistency does not certify the seed's generated values, schedule or
 oracle. [Independent seeded reconstruction](0054-independent-seeded-corpus-admission.md)
-adds those input bindings separately. Complete outer JSON/request/result/matrix/counter admission, actual
-source/classes/process/filesystem bindings and independently checked saved reports
-remain required. This consumer reads no native files and proves no prior force,
+adds those input bindings. [Complete recorded result admission](0055-recorded-recovery-worker-admission.md)
+uses both sets of facts. Actual source, class, process and filesystem bindings
+and independently checked saved reports remain required. This consumer reads no native files and proves no prior force,
 acknowledgement, device durability, memory advantage or timing gain. General
 journal inputs exceed this intentionally narrow numeric worker corpus. Existing
 wire schemas, datasets, shipped archives and default recovery behavior remain

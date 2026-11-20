@@ -119,6 +119,7 @@ nav:
       - Bounded recovery worker decision: decisions/0052-bounded-recovery-worker.md
       - Independent recovery image decision: decisions/0053-independent-recovery-image-admission.md
       - Independent seeded corpus decision: decisions/0054-independent-seeded-corpus-admission.md
+      - Recorded recovery worker decision: decisions/0055-recorded-recovery-worker-admission.md
   - Roadmap: roadmap.md
   - Contributing:
       - Working on MeridianDB: contributing/index.md
@@ -131,6 +132,7 @@ nav:
       - Recovery comparison worker: development/recovery-worker.md
       - Independent recovery image checks: development/recovery-images.md
       - Independent seeded recovery inputs: development/recovery-corpus.md
+      - Recorded recovery worker evidence: development/recovery-evidence.md
       - Supervised Linux workloads: development/supervised-workloads.md
       - Saved workload reports: development/workload-reports.md
       - Linux workload observations: development/linux-observations.md

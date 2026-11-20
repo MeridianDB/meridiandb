@@ -14,8 +14,9 @@ records this boundary.
 
 These checks establish recorded structural consistency. A separate
 [seeded input consumer](recovery-corpus.md) reconstructs the history, schedule and
-oracle summary. Complete outer-request, result, matrix, counter and saved-report
-admission remain unimplemented.
+oracle summary. The [recorded worker consumer](recovery-evidence.md) adds complete recorded
+request, result, matrix and counter admission. Saved-report admission remains
+part of the supervised evidence work.
 A consistently re-encoded history with different numeric values can pass this
 structural stage; it does not establish the declared seed's generated history.
 

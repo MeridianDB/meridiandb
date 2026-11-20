@@ -6,7 +6,7 @@ description: Bind recorded recovery history, binary schedule fingerprints and re
 # ADR 0054: Independent seeded corpus admission
 
 - **Date:** November 15, 2026
-- **Status:** Pure input reconstruction implemented; complete worker admission pending
+- **Status:** Pure input reconstruction implemented
 - **Scope:** Developer evidence inputs; no production or persistence-format change
 
 ## Context
@@ -39,7 +39,8 @@ distinct from realized changes, presence and query outcomes.
 
 Input reconstruction does not verify a complete outer request, result matrix,
 native counter scope, measured engine execution, live files or historical source
-provenance. Those consumers remain separate requirements, as do saved-report
-admission, memory diagnostics and evaluated recovery adoption. Existing worker
+provenance. [Recorded worker admission](0055-recorded-recovery-worker-admission.md)
+adds complete recorded result checks. Live provenance and saved-report
+admission, memory diagnostics and evaluated recovery adoption remain separate. Existing worker
 wire schemas, durable datasets, production APIs, formats and recovery defaults
 remain unchanged.

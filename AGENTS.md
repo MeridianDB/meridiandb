@@ -711,6 +711,13 @@ so a new session can work correctly without relying on earlier conversations.
   Keep opt-in input smoke separate from default image-only mode, full worker/matrix/
   native scopes, source/live/saved admission, memory and evaluation. Preserve all
   original parent criteria and literal compatibility vectors.
+- For [recorded worker admission](docs/development/recovery-evidence.md), bind the
+  exact independent request, PID and available runtime fields. Report which
+  runtime fields were compared. Validate each ordered observation and operation,
+  derive the original, selected and continuation byte denominators, and preserve
+  unavailable counters, raw samples and separate warmup/measured cohorts. Keep
+  the legacy parser limits and distinct smoke modes. Require live provenance and
+  saved-report checks for supervised comparison evidence.
 - Use the narrowest checks justified by the change. Install documentation
   dependencies from the hash-checked `requirements-docs.txt` when their inputs
   change, following the website guide, then run

@@ -46,7 +46,9 @@ evaluation remain pending.
 [Independent recovery image checks](docs/development/recovery-images.md) validate
 recorded binary structure and graph identity. [Seeded input checks](docs/development/recovery-corpus.md)
 independently reconstruct original history, schedule fingerprints and workload
-summary. Complete worker evidence and saved comparison admission remain planned.
+summary. [Recorded worker admission](docs/development/recovery-evidence.md) binds
+the complete result, matrix and scoped counters to independently supplied
+expectations. Live and saved report integration remains planned.
 [Local database recovery](docs/development/local-database.md)
 restores historical queries and request lookup from checkpoint history plus
 the journal tail, retaining the stored lineage. Its explicit writable mode now

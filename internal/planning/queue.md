@@ -12,22 +12,15 @@ children before implementation rather than treating a whole milestone as one pat
 
 ## Current checkpoint
 
-- **MDB-0111 — Independent seeded corpus admission** is done. Source
-  `32008411280309aa46b40677f71abc49fd19ab09` is normally pushed and accepted by
-  exact-source Java/Linux/Windows, both input modes, legacy regressions, docs,
-  automatic Pages and live checks. The progress receipt records actual evidence.
-- **MDB-0112 — Complete recovery protocol and counter admission** is next and
-  ready after this completion push. Reuse0108 binary and0111 reconstructed input
-  facts; independently admit bounded full outer requests/results, ordered matrices,
-  operation scopes, denominators and native counter coverage. No next execution
-  starts in this invocation.
-- Keep0109/0107/0104/0101/0099/0097/0013 expanded with every original criterion.
-  Input consistency supplies no complete result/provenance/live-file/saved-report
-  acceptance.0110 supervision/readback,0105 memory and0102 evaluated adoption remain.
-- Maven3.10.1 is selected with verified distribution checksum and full regressions.
-  Production behavior/formats, old protocols/durable datasets and deferred S3/
-  replication remain unchanged. Root clears the execution claim; Git owns the
-  completion SHA/push evidence.
+- **MDB-0112 — Complete recovery protocol and counter admission** is active.
+  Start on matching `main` and `origin/main` at `1f42feefd473459325d3fdfa25b1bdcddc9f1aca`.
+  MDB-0111 delivery is accepted.
+- Validate the complete recorded version-one worker against independent request,
+  PID and runtime expectations. Reuse the image and seeded corpus checks, verify
+  matrix and operation order, and derive input byte denominators and native scope
+  checks. Verify actual Java and Linux compatibility before closing MDB-0109.
+- MDB-0110 owns live source/class/file supervision and saved-report integration.
+  The recovery comparison parents remain expanded for that work and memory diagnostics.
 
 ## Ordered work
 
@@ -94,7 +87,7 @@ children before implementation rather than treating a whole milestone as one pat
 | [MDB-0108](roadmap.md#mdb-0108-independent-recovery-image-admission) | Independently decode and bind original recovery history and fixture images | MDB-0107 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106 |
 | [MDB-0109](roadmap.md#mdb-0109-complete-recovery-worker-admission) | Admit complete recovery requests, ordered matrices and native counter scopes | MDB-0107 | expanded | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
 | [MDB-0111](roadmap.md#mdb-0111-independent-seeded-corpus-admission) | Reconstruct and bind seeded original history, schedule and workload summary independently | MDB-0109 | done | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108 |
-| [MDB-0112](roadmap.md#mdb-0112-complete-recovery-protocol-and-counter-admission) | Admit complete recovery requests/results, ordered matrices and raw native counter scopes | MDB-0109 | ready | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0111 |
+| [MDB-0112](roadmap.md#mdb-0112-complete-recovery-protocol-and-counter-admission) | Admit complete recovery requests/results, ordered matrices and raw native counter scopes | MDB-0109 | active | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0111 |
 | [MDB-0110](roadmap.md#mdb-0110-linux-recovery-supervision-and-saved-report-integration) | Supervise source-bound recovery runs and independently check saved reports | MDB-0107 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0106, MDB-0108, MDB-0109 |
 | [MDB-0105](roadmap.md#mdb-0105-recovery-memory-diagnostics-and-integration) | Add isolated scoped memory diagnostics and complete comparison-evidence integration | MDB-0101 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0103, MDB-0104 |
 | [MDB-0102](roadmap.md#mdb-0102-linux-recovery-evaluation-and-adoption) | Evaluate equivalent Linux recovery tradeoffs and adopt or reject with durable evidence | MDB-0099 | queued | MDB-0012, MDB-0096, MDB-0098, MDB-0100, MDB-0101 |

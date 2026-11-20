@@ -8238,6 +8238,60 @@ After committed delivery, remove only7 owned disposable fixture trees (6 worker
 fixtures plus rooted Maven fixtures); retain reports/logs/envelopes/research/CI ZIP/
 UI and negative-bootstrap inputs/evidence, preserving every other owner's files.
 
+## November 20, 2026 — MDB-0112 recorded worker source checkpoint
+
+Started after reloading repository rules and verifying matching local and remote
+main at `1f42feefd473459325d3fdfa25b1bdcddc9f1aca`. Implemented the recorded
+version-one worker consumer, reusing independent image and corpus admission.
+The decoder bounds UTF-8 bytes, nesting, nodes, integer tokens and ordinary text.
+Image fields use their own hex limits without widening legacy consumers.
+
+Match the exact independently expected request and PID, plus the runtime facts
+the caller can independently supply. Record exactly which runtime fields match.
+Recompute ordered shape/access/strategy rows, distinct warmup and measured
+strategy sequences, lexical path ownership, closed journals and logical byte
+denominators. Check operation order, optional telemetry and complete mode-specific
+counter matrices. Derive deterministic role bytes, EOF and force outcomes while
+allowing bounded short and zero returns. Preserve raw samples and absent values.
+The pure contract leaves live class/source/filesystem and saved-report checks
+with MDB-0110.
+
+The fixed Linux `--worker` compatibility mode uses observed PID and Linux
+placement, independent request arguments and the explicit heap cap. It adds a
+separate schema-three scoped receipt and retains success/failure artifacts.
+Default image and opt-in corpus modes keep their existing receipt contracts.
+The worker protocol and engine code are unchanged.
+
+Local focused admission: 22 tests with four normalized complete Java fixtures,
+covering duplicate/deep/oversized/malformed JSON, stale request/PID/runtime,
+cohort order and paths, binary and corpus mutations, native arithmetic and valid
+short-transfer/nullable telemetry. Full Python guards: 251 with 5 Linux-only
+local skips. Fresh Java 25.0.2 on macOS/APFS: both balanced cases (48 rows each),
+496-commit captured history (16 rows) and the seven-iteration captured matrix
+(112 rows) all pass. The first local driver used native `arm64` for the JVM's
+`aarch64` field. The reader rejected the mismatch, and the driver now maps the
+known alias before admission. The initial attempt remains in named QA.
+
+Core `./mvnw -B clean verify` passes all 1,602 invocations with zero skips or
+failures. Core/test classifier SHA-256 identities match MDB-0111. November 20
+fresh version research at 22:45 UTC verifies 14 Central, 18 official and one
+supplemental official source, with 64 manifest entries. Keep all 12 current
+stable core/build/test pins. Optional AWS SDK remains 2.57.8 versus latest
+stable 2.59.6 under the deferred scope. Research report
+`f0d8c7dce9f518a431e5b3b360892da6fcd79c524cd4b8d5b33b7a45c9cca61b`, manifest
+`27165986c5b7339155e9a318ecbddf68ad279e011bd3c0f3a1e52d54e651b523`.
+No version was changed.
+
+Added ADR 0055, the guide and navigation, and reconciled the earlier worker,
+image and corpus documentation, README, roadmap and agent rules. Both strict
+URL builds and all 42 documentation fixtures pass. Local preview verifies
+search, desktop and 390px dark table layout without page overflow. The builds
+contain 118 sitemap URLs and 627 search entries.
+
+Keep MDB-0112 active until exact-source Linux/Windows checks, compatibility
+artifacts, legacy regressions, Pages and live readback pass. MDB-0109 remains
+expanded and MDB-0110 queued pending delivery.
+
 ## Receipt template
 
 Append a dated entry for the selected ID with: outcome and affected artifacts;

@@ -181,7 +181,8 @@ No partial successful comparison is returned and no fallback hides a rejected
 checkpoint. The worker adds bounded producer serialization and consistency checks. An
 [independent image consumer](recovery-images.md) checks recorded binary structure; [seeded input checks](recovery-corpus.md)
 reconstruct original bytes, schedule and workload summary.
-Source supervision, complete serialized admission/readback, memory diagnostics and an
+[Recorded worker evidence](recovery-evidence.md) binds the complete results and
+raw scopes. Source supervision, live-file and saved-report readback, memory diagnostics and an
 adoption/rejection evaluation remain required before a performance decision.
 
 
